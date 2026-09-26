@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-phase9-v20-private-baseline-v1",
+  "status": "verified-private-v20-ui-parity-baseline",
+  "recordedAt": "2026-09-26",
+  "canonicalMainCommit": "4c6e2040eca666ee90e4c4626a4d8b15e0104abf",
+  "privateRelease": {
+    "releaseId": "starblox-private-step9-canonical-step6-v4",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "placeVersion": 20,
+    "sourceCommit": "874f3fc12f412a594a1903ff728e24346a886600",
+    "workflowRunId": 36249912745,
+    "artifactSha256": "5a6d301f4e455205f55465435a9e76bcd364bf9f72bf9d0e33a48f02684d5232",
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "exactServerBootVerified": true
+  },
+  "worldBoundary": {
+    "exactFrozenBrookhavenWorld": true,
+    "exactBrookhavenInteractiveSystemsClaimed": false,
+    "runtimeSystemsMode": "behavior-matched-starblox-authoritative",
+    "baselineMutationAllowed": false
+  },
+  "learning": {
+    "bankRevision": "phase8-material-first-star-fallback-v1",
+    "questionsPerStation": 20,
+    "materialQuestionsPerStation": 12,
+    "starFallbackQuestionsPerStation": 8,
+    "materialFirst": true,
+    "starFallbackPolicy": "original-grade-2-reading-and-math-practice-only",
+    "metaSightWordListPromptsForbidden": true,
+    "answersServerOnly": true,
+    "correctAnswerCoins": 10,
+    "nonQuestionCoinMintingAllowed": false
+  },
+  "mirrorSystems": {
+    "uiParitySkin": true,
+    "rightRail": [
+      "Avatar",
+      "Inventory",
+      "Emotes",
+      "Vehicles",
+      "Houses",
+      "Bio",
+      "Jobs",
+      "Map",
+      "Shop"
+    ],
+    "homesOnBrookhavenPlots": true,
+    "vehicles": true,
+    "inventoryTools": true,
+    "jobs": true,
+    "filteredRoleplayBio": true,
+    "avatarReset": true,
+    "emotes": true,
+    "mapTravel": true,
+    "learningCoinPurchases": true
+  },
+  "authority": {
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "cleanup": {
+    "phase9OneOffPublisherNeutralized": true,
+    "staleV18FinalizationClosed": true,
+    "staleV19FinalizationClosed": true
+  }
+}
