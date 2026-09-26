@@ -234,12 +234,18 @@ function ClassSessionService.OpenClass(
 		preferredSubject = options.preferredSubject
 	end
 
-	local bundle = ClassQuestionSelector.SelectBundle(
-		classId,
-		cursor,
-		recentQuestions(profileData),
-		preferredSubject
-	)
+	local bundle
+	if classId == "star-lab" then
+		bundle = ClassQuestionSelector.SelectBundleForProfile(classId, cursor, profileData)
+	else
+		bundle = ClassQuestionSelector.SelectBundle(
+			classId,
+			cursor,
+			recentQuestions(profileData),
+			preferredSubject,
+			profileData.Learning and profileData.Learning.SkillStats or {}
+		)
+	end
 	if bundle.ok ~= true then
 		return bundle
 	end
@@ -260,6 +266,12 @@ function ClassSessionService.OpenClass(
 			Difficulty = question.Difficulty,
 			Provenance = question.Provenance,
 			SourceFact = question.SourceFact,
+			Standards = question.Standards,
+			DOK = question.DOK,
+			Hint = question.Hint,
+			Scaffold = question.Scaffold,
+			WrongFeedback = question.WrongFeedback,
+			Misconceptions = question.Misconceptions,
 		})
 	end
 
@@ -355,11 +367,16 @@ function ClassSessionService.SubmitAnswer(
 	end
 
 	if not correct then
+		local feedback = question.Explanation
+		if type(question.WrongFeedback) == "table" and type(question.WrongFeedback[request.choice]) == "string" then
+			feedback = question.WrongFeedback[request.choice]
+		end
 		return {
 			ok = true,
 			correct = false,
 			retry = true,
-			explanation = question.Explanation,
+			explanation = feedback,
+			scaffold = if attempt.Count >= 2 then question.Scaffold else nil,
 			score = period.Score,
 			questionIndex = period.CurrentQuestionIndex,
 			questionCount = period.QuestionCount,
