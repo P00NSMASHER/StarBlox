@@ -59,13 +59,43 @@ local function preferredWordSkill(question, classDef): boolean
 end
 
 local function weaknessScore(question, skillStats)
-	local stats = type(skillStats) == "table" and skillStats[tostring(question.Skill or question.Domain or "unknown")] or nil
+	local stats = type(skillStats) == "table"
+		and skillStats[tostring(question.Skill or question.Domain or "unknown")]
+		or nil
 	if type(stats) ~= "table" then return 1 end
 	local seen = math.max(0, tonumber(stats.Seen) or 0)
 	local correct = math.max(0, tonumber(stats.Correct) or 0)
 	local wrongStreak = math.max(0, tonumber(stats.ConsecutiveWrong) or 0)
 	local accuracy = if seen > 0 then correct / seen else 0.5
 	return (1 - accuracy) + math.min(1, wrongStreak * 0.2)
+end
+
+local function subjectWeakness(subject: string, skillStats)
+	local seenTotal = 0
+	local correctTotal = 0
+	local wrongBoost = 0
+	local visitedSkills = {}
+
+	for _, question in allQuestions() do
+		if question.Tier == "star-fallback" and question.Subject == subject then
+			local skill = tostring(question.Skill or question.Domain or "unknown")
+			if visitedSkills[skill] ~= true then
+				visitedSkills[skill] = true
+				local stats = type(skillStats) == "table" and skillStats[skill] or nil
+				if type(stats) == "table" then
+					local seen = math.max(0, tonumber(stats.Seen) or 0)
+					seenTotal += seen
+					correctTotal += math.max(0, tonumber(stats.Correct) or 0)
+					wrongBoost += math.min(1, math.max(0, tonumber(stats.ConsecutiveWrong) or 0) * 0.2)
+				end
+			end
+		end
+	end
+
+	if seenTotal <= 0 then
+		return 0.5, 0
+	end
+	return (1 - (correctTotal / seenTotal)) + wrongBoost, seenTotal
 end
 
 local function filteredForClass(classId: string, preferredSubject: string?, skillStats: any?)
@@ -172,6 +202,29 @@ local function pinQuestion(question)
 	}
 end
 
+function ClassQuestionSelector.CurrentSnapshotId(): string
+	return CoreQuestionBank.Source.BankSnapshotId or CoreQuestionBank.Source.PackSourceHash or ""
+end
+
+function ClassQuestionSelector.ChooseStarLabSubject(profileData, schoolDayId: string?): string
+	local learning = profileData and profileData.Learning or {}
+	local skillStats = learning.SkillStats or {}
+	local readingScore, readingSeen = subjectWeakness("Reading / ELA", skillStats)
+	local mathScore, mathSeen = subjectWeakness("Math", skillStats)
+
+	if readingSeen == 0 and mathSeen == 0 then
+		local cycle = tonumber(string.match(tostring(schoolDayId or ""), "(%d+)$")) or 0
+		return if cycle % 2 == 0 then "Reading / ELA" else "Math"
+	end
+	if readingSeen == 0 then
+		return if mathScore > 0.5 then "Math" else "Reading / ELA"
+	end
+	if mathSeen == 0 then
+		return if readingScore > 0.5 then "Reading / ELA" else "Math"
+	end
+	return if readingScore >= mathScore then "Reading / ELA" else "Math"
+end
+
 function ClassQuestionSelector.SelectBundle(
 	classId: string,
 	cursor: any,
@@ -209,7 +262,6 @@ function ClassQuestionSelector.SelectBundle(
 		local chosen = nil
 		local chosenPosition = position
 
-		-- Prefer unseen questions while preserving material-before-fallback sequence.
 		for delta = 0, scanLimit do
 			local candidatePosition = position + delta
 			local candidate = logicalCandidate(material, fallback, candidatePosition)
@@ -220,7 +272,6 @@ function ClassQuestionSelector.SelectBundle(
 			end
 		end
 
-		-- If the recent-history window exhausts the eligible pool, repetition is allowed.
 		if chosen == nil then
 			for delta = 0, scanLimit do
 				local candidatePosition = position + delta
@@ -245,21 +296,36 @@ function ClassQuestionSelector.SelectBundle(
 	return {
 		ok = true,
 		classId = classId,
-		bankSnapshotId = CoreQuestionBank.Source.BankSnapshotId or CoreQuestionBank.Source.PackSourceHash or "",
+		bankSnapshotId = ClassQuestionSelector.CurrentSnapshotId(),
 		bankSourceHash = CoreQuestionBank.Source.PackSourceHash or "",
 		questionCount = #selected,
 		questions = selected,
 		nextCursor = position,
+		preferredSubject = preferredSubject,
 	}
 end
 
-function ClassQuestionSelector.SelectBundleForProfile(classId: string, cursor: any, profileData)
+function ClassQuestionSelector.SelectBundleForProfile(
+	classId: string,
+	cursor: any,
+	profileData,
+	schoolDayId: string?
+)
 	local learning = profileData and profileData.Learning or {}
+	local preferredSubject = nil
+	local effectiveCursor = cursor
+	if classId == "star-lab" then
+		preferredSubject = ClassQuestionSelector.ChooseStarLabSubject(profileData, schoolDayId)
+		-- Re-rank from the weakest current skills every STAR Lab session;
+		-- recent-history suppression still prevents immediate repeats.
+		effectiveCursor = 0
+	end
+
 	return ClassQuestionSelector.SelectBundle(
 		classId,
-		cursor,
+		effectiveCursor,
 		learning.RecentQuestionIds or {},
-		nil,
+		preferredSubject,
 		learning.SkillStats or {}
 	)
 end
