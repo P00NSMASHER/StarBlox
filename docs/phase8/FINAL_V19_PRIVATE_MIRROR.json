@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-final-v19-private-mirror-v1",
+  "status": "verified-private-v19",
+  "recordedAt": "2026-09-26",
+  "repository": {
+    "publishedGameplayBaseCommit": "729734301c914249a41b6f163a61ff3bb14921bd",
+    "publishedSourceCommit": "9aa9d07c00b7354f833caa1b69b88b8bd37b1c9a",
+    "currentMainAfterVerifierHardening": "2c1544508c416f6e3c6fb9f997d3e3a664794b64"
+  },
+  "privateRelease": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "placeVersion": 19,
+    "publishRunId": 36246304282,
+    "verifyRunId": 36247078103,
+    "artifactSha256": "3a2112443427d801cfeb51c71b68cc00541063ce32933d2ab8a02ab950de97e8",
+    "artifactBytes": 7525179,
+    "exactProductionServerBootVerified": true,
+    "exactCoreLoopVerified": true
+  },
+  "world": {
+    "exactFrozenBrookhavenWorld": true,
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "serializedInstanceCount": 5493,
+    "runtimeSystemsMayMutateBaseline": false
+  },
+  "mirrorSystems": {
+    "claim": "behavior-matched-starblox-runtime-systems",
+    "exactFullBrookhavenGameplaySourceAvailable": false,
+    "exactFullSystemsMirrorClaimed": false,
+    "homesOnVerifiedBrookhavenPlots": true,
+    "homeTiers": 5,
+    "starterFurnitureAndDecorItems": 7,
+    "vehicles": 8,
+    "backpackTools": 12,
+    "jobs": true,
+    "filteredRoleplayBio": true,
+    "emotes": true,
+    "avatarReset": true,
+    "mapHomeTravel": true,
+    "unifiedMobileSidebar": true
+  },
+  "learningEconomy": {
+    "currency": "Coins",
+    "coinsPerCorrectAnswer": 10,
+    "challengeCoins": 0,
+    "staleAnswerReplayBlocked": true,
+    "crossStationRewardBlocked": true,
+    "purchasesServerAuthoritative": true,
+    "paidGameplayUnlocksRequired": false
+  },
+  "questions": {
+    "bankRevision": "dynamic-abvm-star-sync-v1",
+    "currentSnapshotTotalQuestions": 96,
+    "currentSnapshotQuestionsPerStation": 32,
+    "currentSnapshotMaterialPerStation": 12,
+    "currentSnapshotStarFallbackPerStation": 20,
+    "starReadingQuestions": 30,
+    "starMathQuestions": 30,
+    "materialFirst": true,
+    "strategy": "fresh-material-once-then-current-snapshot-star-fallback-loop",
+    "metaListRecognitionForbidden": true,
+    "dailyAbvmSyncHardeningIncluded": true
+  },
+  "verification": {
+    "productionBootProofVersion": "starblox-production-server-boot-v5",
+    "coreLoopProofVersion": "starblox-core-loop-proof-v4",
+    "dynamicQuestionSyncBank": true,
+    "starReadingAtLeast25": true,
+    "starMathAtLeast25": true,
+    "correctAnswerCoinEconomy": true,
+    "brookhavenMirrorSystemsBooted": true
+  },
+  "authority": {
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  }
+}
