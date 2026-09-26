@@ -1081,20 +1081,20 @@ end
 
 showHomeCams = function()
 	clearCategories()
-	clearGrid()
-	setHeader("Home Cams")
-	tile("⌂", "My Home", "visit", "", UI.blue, 1, function()
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
-		closePanel()
-	end)
-	tile("↺", "Town", "return", "", UI.blue, 2, function()
-		pcall(function()
-			returnWorld:InvokeServer()
-		end)
-		closePanel()
-	end)
+	panel.Visible = false
+	plotSelector.Visible = false
+	setActionLabelsVisible(false)
+
+	local camsGui = playerGui:FindFirstChild("BrookhavenHomeCamsUI")
+	if camsGui == nil then
+		camsGui = playerGui:WaitForChild("BrookhavenHomeCamsUI", 2)
+	end
+	local openCams = camsGui and camsGui:FindFirstChild("OpenHomeCams")
+	if openCams and openCams:IsA("BindableEvent") then
+		openCams:Fire()
+	else
+		setActionLabelsVisible(true)
+	end
 end
 
 showSettings = function()
