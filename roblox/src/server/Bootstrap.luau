@@ -50,6 +50,10 @@ function Bootstrap.start(dependencies)
 	local action = AuthoritativeActionService.new(dependencies.ActionAdapters, dependencies.TelemetrySink)
 	local privatePlaytestTelemetry = PrivatePlaytestTelemetryService.new()
 	local coreLoop = CoreGameLoopService.new(profiles, replicas, privatePlaytestTelemetry)
+	local schoolRuntime = nil
+	if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
+		schoolRuntime = SchoolRuntimeService.new(profiles, replicas, coreLoop)
+	end
 	local family = FamilyService.new()
 	local quickChat = QuickChatService.new()
 	local movement = MovementService.new()
@@ -72,6 +76,9 @@ function Bootstrap.start(dependencies)
 		movement:PlayerReady(player)
 		playerSettings:PlayerReady(player, profile.Data)
 		coreLoop:PlayerReady(player, profile.Data)
+		if schoolRuntime ~= nil then
+			schoolRuntime:PlayerReady(player)
+		end
 		homeEconomy:PlayerReady(player, profile.Data)
 		mirrorLifestyle:PlayerReady(player, profile.Data)
 		roleplay:PlayerReady(player, profile.Data)
@@ -85,6 +92,9 @@ function Bootstrap.start(dependencies)
 		roleplay:PlayerRemoving(player)
 		mirrorLifestyle:PlayerRemoving(player)
 		homeEconomy:PlayerRemoving(player)
+		if schoolRuntime ~= nil then
+			schoolRuntime:PlayerRemoving(player)
+		end
 		coreLoop:PlayerRemoving(player)
 		privatePlaytestTelemetry:PlayerRemoving(player)
 		social:PlayerRemoving(player)
@@ -109,6 +119,9 @@ function Bootstrap.start(dependencies)
 		roleplay:Destroy()
 		mirrorLifestyle:Destroy()
 		homeEconomy:Destroy()
+		if schoolRuntime ~= nil then
+			schoolRuntime:Destroy()
+		end
 		coreLoop:Destroy()
 		privatePlaytestTelemetry:Destroy()
 		worldInteractions:Destroy()
@@ -132,6 +145,7 @@ function Bootstrap.start(dependencies)
 		AiNpc = aiNpc,
 		Action = action,
 		CoreLoop = coreLoop,
+		SchoolRuntime = schoolRuntime,
 		HomeEconomy = homeEconomy,
 		MirrorLifestyle = mirrorLifestyle,
 		Roleplay = roleplay,
