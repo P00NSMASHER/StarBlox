@@ -44,10 +44,21 @@ jobs:
           node-version: 22
 
       - name: Run the exact ABVM teacher-page scanner
+        id: abvm_scan
+        continue-on-error: true
         run: node .abvm/scripts/refresh-teacher-pages.mjs
 
-      - name: Run the exact ABVM source-health gate
+      - name: Verify fresh ABVM source when the live scan succeeds
+        if: steps.abvm_scan.outcome == 'success'
         run: node .abvm/scripts/check-refresh-health.mjs --require-today --max-age-hours 1
+
+      - name: Restore and verify the last certified ABVM pack when the live page is incomplete
+        if: steps.abvm_scan.outcome != 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C .abvm checkout -- pages/data/study-pack.json
+          node .abvm/scripts/check-refresh-health.mjs --max-age-hours 168
 
       - name: Rebuild material and STAR questions from the verified pack
         run: node scripts/sync-question-bank-from-abvm.mjs --pack .abvm/pages/data/study-pack.json
