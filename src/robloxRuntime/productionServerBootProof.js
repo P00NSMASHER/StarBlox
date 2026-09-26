@@ -19,6 +19,7 @@ export function buildProductionServerBootProbeScript({
     : 'assert(game.PlaceVersion == ' + version + ', "unexpected published version: " .. tostring(game.PlaceVersion))\n';
   return `local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
+local ServerStorage = game:GetService("ServerStorage")
 local Workspace = game:GetService("Workspace")
 
 local shared = ReplicatedStorage:WaitForChild("StarBlox")
@@ -50,6 +51,9 @@ local okReplica, Replica = pcall(require, replicaServerModule)
 assert(okReplica and Replica ~= nil, "ReplicaServer failed to require")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
+local witness = ServerStorage:FindFirstChild("BrookhavenWorldBaseline")
+assert(witness ~= nil and witness:IsA("Model"), "immutable Brookhaven witness missing from ServerStorage")
+assert(Workspace:FindFirstChild("BrookhavenWorldBaseline") == nil, "immutable Brookhaven witness leaked into Workspace")
 local coreConfig = require(shared:WaitForChild("CoreLoopConfig"))
 local mirrorConfig = require(shared:WaitForChild("BrookhavenMirrorConfig"))
 assert(mirrorConfig.World.Mode == "exact-frozen-brookhaven-world", "Brookhaven mirror world mode missing")
@@ -91,10 +95,12 @@ local okBootstrap, services = pcall(function()
 end)
 assert(okBootstrap, "production Bootstrap.start failed: " .. tostring(services))
 assert(type(services) == "table", "production Bootstrap did not return services")
+assert(services.WorldProjection ~= nil, "WorldProjection service missing after bootstrap")
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
 assert(services.HomeEconomy ~= nil, "HomeEconomy service missing after bootstrap")
 assert(services.MirrorLifestyle ~= nil, "MirrorLifestyle service missing after bootstrap")
 assert(services.Roleplay ~= nil, "Roleplay service missing after bootstrap")
+assert(services.Family ~= nil, "Family service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
 assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "retention aggregate store missing after bootstrap")
 
@@ -109,6 +115,8 @@ for _, remoteName in {
     "SetPlacement",
     "SetPlacementVisibility",
     "ResetPlacement",
+    "GetPlots",
+    "SelectPlot",
     "VisitHome",
     "ReturnWorld",
 } do
@@ -127,7 +135,7 @@ assert(homeFolder:GetAttribute("BaselineMutationAllowed") == false, "player-home
 
 local mirrorRemotes = ReplicatedStorage:FindFirstChild("StarBloxMirror")
 assert(mirrorRemotes ~= nil and mirrorRemotes:IsA("Folder"), "Brookhaven mirror remotes missing after bootstrap")
-for _, remoteName in {"GetState","PurchaseVehicle","SpawnVehicle","DespawnVehicle","PurchaseTool","EquipTool"} do
+for _, remoteName in {"GetState","PurchaseVehicle","SpawnVehicle","DespawnVehicle","PurchaseTool","EquipTool","VehicleAction"} do
     local remote = mirrorRemotes:FindFirstChild(remoteName)
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "mirror remote missing: " .. remoteName)
 end
@@ -139,13 +147,24 @@ assert(vehicleFolder:GetAttribute("BaselineMutationAllowed") == false, "vehicle 
 
 local roleplayRemotes = ReplicatedStorage:FindFirstChild("StarBloxRoleplay")
 assert(roleplayRemotes ~= nil and roleplayRemotes:IsA("Folder"), "roleplay remotes missing after bootstrap")
-for _, remoteName in {"GetState","SetJob","SaveBio","ResetAvatar"} do
+for _, remoteName in {"GetState","SetJob","SaveBio","ResetAvatar","SaveOutfit","LoadOutfit","DeleteOutfit","ApplyAvatarPreset"} do
     local remote = roleplayRemotes:FindFirstChild(remoteName)
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "roleplay remote missing: " .. remoteName)
 end
 
-local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
-assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
+local brookhaven = Workspace:FindFirstChild("BrookhavenWorldRuntime")
+assert(brookhaven ~= nil and brookhaven:IsA("Model"), "mutable Brookhaven runtime projection missing")
+assert(brookhaven:GetAttribute("StarBloxRuntimeProjection") == true, "Brookhaven runtime projection marker missing")
+assert(brookhaven:GetAttribute("ImmutableWitnessName") == "BrookhavenWorldBaseline", "Brookhaven runtime witness binding missing")
+
+local familyRemotes = ReplicatedStorage:FindFirstChild("StarBloxFamily")
+assert(familyRemotes ~= nil and familyRemotes:IsA("Folder"), "family remotes missing after bootstrap")
+for _, remoteName in {"GetState","Invite","RespondInvite","Leave","RemoveMember"} do
+    local remote = familyRemotes:FindFirstChild(remoteName)
+    assert(remote ~= nil and remote:IsA("RemoteFunction"), "family remote missing: " .. remoteName)
+end
+local familyChanged = familyRemotes:FindFirstChild("StateChanged")
+assert(familyChanged ~= nil and familyChanged:IsA("RemoteEvent"), "family state event missing")
 
 local plotBindings = require(shared:WaitForChild("WorldPlotBindings"))
 assert(#plotBindings.Plots == 8, "Brookhaven house plot binding count mismatch")
@@ -154,15 +173,18 @@ for _, plot in plotBindings.Plots do
     assert(part ~= nil and part:IsA("BasePart"), "Brookhaven house plot source missing: " .. plot.SourcePartName)
 end
 
--- Roblox materializes legacy surface joints when the serialized world is
--- loaded into a live server. The locked artifact contains 5,493 serialized
--- instances including the root; live runtime expansion deterministically
--- adds 23 joints: 3 Glue + 4 Snap + 16 Weld. Verify both layers separately
--- so engine-generated joints do not masquerade as world drift.
-local classCounts = {}
-for _, instance in brookhaven:GetDescendants() do
-    classCounts[instance.ClassName] = (classCounts[instance.ClassName] or 0) + 1
+-- Roblox materializes legacy surface joints when the serialized witness is
+-- loaded. Verify the immutable ServerStorage witness and the mutable runtime
+-- clone independently so interaction work can never masquerade as source drift.
+local function classCountsFor(root)
+    local counts = {}
+    for _, instance in root:GetDescendants() do
+        counts[instance.ClassName] = (counts[instance.ClassName] or 0) + 1
+    end
+    return counts
 end
+local classCounts = classCountsFor(witness)
+local runtimeClassCounts = classCountsFor(brookhaven)
 
 local expectedSerializedClasses = {
     CornerWedgePart = 31,
@@ -197,7 +219,20 @@ assert(
     "Brookhaven serialized-equivalent count mismatch: actual=" ..
     tostring(serializedEquivalentCount) .. " expected=5493"
 )
-assert(liveCount == 5516, "Brookhaven live runtime count mismatch: actual=" .. tostring(liveCount) .. " expected=5516")
+assert(liveCount == 5516, "Brookhaven immutable witness live count mismatch: actual=" .. tostring(liveCount) .. " expected=5516")
+for className, expectedCount in expectedSerializedClasses do
+    assert(
+        (runtimeClassCounts[className] or 0) == expectedCount,
+        "Brookhaven runtime projection class count mismatch for " ..
+        className .. ": actual=" .. tostring(runtimeClassCounts[className] or 0) ..
+        " expected=" .. tostring(expectedCount)
+    )
+end
+assert((runtimeClassCounts.Glue or 0) == 3, "unexpected runtime-projection Glue joint count")
+assert((runtimeClassCounts.Snap or 0) == 4, "unexpected runtime-projection Snap joint count")
+assert((runtimeClassCounts.Weld or 0) == 16, "unexpected runtime-projection Weld joint count")
+local runtimeLiveCount = #brookhaven:GetDescendants() + 1
+assert(runtimeLiveCount == 5516, "Brookhaven runtime projection live count mismatch: actual=" .. tostring(runtimeLiveCount) .. " expected=5516")
 
 local prototypeWorld = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(prototypeWorld == nil, "legacy prototype world must not be generated by production bootstrap")
@@ -209,7 +244,7 @@ for _, anchorName in {"WordPortalAnchor","SpellingForgeAnchor","CultureLabAnchor
     assert(anchor ~= nil and anchor:IsA("BasePart"), "real-world activity anchor missing: " .. anchorName)
     assert(anchor.Transparency == 1, "activity anchor must remain invisible")
     assert(anchor.CanCollide == false, "activity anchor must remain non-colliding")
-    assert(not anchor:IsDescendantOf(brookhaven), "activity anchor was parented into locked Brookhaven baseline")
+    assert(not anchor:IsDescendantOf(witness), "activity anchor was parented into immutable Brookhaven witness")
     assert(type(anchor:GetAttribute("SourceWorldPart")) == "string", "activity anchor source binding missing")
     local prompt = anchor:FindFirstChild("StartActivityPrompt")
     assert(prompt ~= nil and prompt:IsA("ProximityPrompt"), "activity prompt missing: " .. anchorName)
@@ -219,11 +254,13 @@ assert((services.CoreLoop :: any)._spawnCFrame ~= nil, "real-world spawn binding
 local telemetryRemote = ReplicatedStorage:FindFirstChild("StarBloxPrivatePlaytestTelemetry")
 assert(telemetryRemote and telemetryRemote:IsA("RemoteEvent"), "playtest telemetry remote missing after bootstrap")
 
+services.Family:Destroy()
 services.Roleplay:Destroy()
 services.MirrorLifestyle:Destroy()
 services.HomeEconomy:Destroy()
 services.CoreLoop:Destroy()
 services.PrivatePlaytestTelemetry:Destroy()
+services.WorldProjection:Destroy()
 services.Action:Stop()
 services.Replicas:Shutdown()
 services.Profiles:ReleaseAll()
@@ -295,6 +332,8 @@ export async function runProductionServerBootProof({
       productionRuntimeEnabled:true,
       productionBootstrapStarted:true,
       brookhavenWorldMounted:true,
+      immutableBrookhavenWitnessVerified:true,
+      brookhavenRuntimeProjectionCreated:true,
       coreLoopCreated:true,
       prototypeWorldAbsent:true,
       activityAnchorsCreated:true,
@@ -323,6 +362,8 @@ export async function runProductionServerBootProof({
       learningCoinPurchaseEconomy:true,
       roleplayServiceCreated:true,
       roleplayRemotesCreated:true,
+      familyServiceCreated:true,
+      familyRemotesCreated:true,
       brookhavenHousePlotsBound:true
     }),
     publicAccessChangeAttempted:false,
