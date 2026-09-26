@@ -37,6 +37,7 @@
     "roblox:world-source:verify": "node scripts/verify-brookhaven-world-source.mjs",
     "roblox:brookhaven-world:verify": "node scripts/verify-brookhaven-authoritative-world.mjs",
     "roblox:brookhaven-world:deserialize": "node scripts/deserialize-brookhaven-world.mjs",
+    "roblox:brookhaven-interactions:analyze": "node scripts/analyze-brookhaven-interactions.mjs",
     "roblox:brookhaven-world:generate": "node scripts/generate-brookhaven-world.mjs",
     "roblox:brookhaven-world:mount:prepare": "node scripts/prepare-step5-world-mount.mjs",
     "roblox:brookhaven-world:mount:verify": "node scripts/verify-step5-world-mount.mjs",
