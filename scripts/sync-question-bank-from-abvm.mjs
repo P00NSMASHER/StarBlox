@@ -1,4 +1,4 @@
-// Bootstrap trigger for the first certified dynamic curriculum snapshot.
+// Bootstrap trigger for the first certified dynamic curriculum snapshot (retry after fail-closed live scan).
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,writeFileSync} from 'node:fs';
 
