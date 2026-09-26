@@ -116,7 +116,7 @@ describe('Target architecture Step 5 world exactness lock',()=>{
     expect(receipt.verification.verifiedEntryCount).toBe(4936);
     expect(receipt.baseline.adaptationCount).toBe(2);
     expect(receipt.readOnlyPolicy.baselineMutationAllowed).toBe(false);
-    expect(receipt.readOnlyPolicy.mountMode).toBe('workspace-sibling-read-only-world');
+    expect(receipt.readOnlyPolicy.mountMode).toBe('serverstorage-immutable-witness-with-runtime-projection');
     expect(receipt.boundaries.starBloxMounted).toBe(false);
   });
 
