@@ -99,8 +99,18 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     const shop=read('roblox/src/client/Shop.client.luau');
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
     expect(sidebar).toContain('rail.Size = UDim2.fromOffset(54, 326)');
-    for(const name of ['Avatar','Inventory','Emotes','Vehicles','Houses','Bio','Jobs','Map','Shop']){
-      expect(sidebar).toContain('"'+name+'Button"');
+    for(const call of [
+      'railButton("☺", "Avatar", 1)',
+      'railButton("▣", "Inventory", 2)',
+      'railButton("✦", "Emotes", 3)',
+      'railButton("▰", "Vehicles", 4)',
+      'railButton("⌂", "Houses", 5)',
+      'railButton("ID", "Bio", 6)',
+      'railButton("JOB", "Jobs", 7)',
+      'railButton("◇", "Map", 8)',
+      'railButton("$", "Shop", 9)'
+    ]){
+      expect(sidebar).toContain(call);
     }
     expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0.5)');
     expect(sidebar).toContain('panel.Size = UDim2.fromOffset(356, 326)');
