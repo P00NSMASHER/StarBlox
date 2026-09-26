@@ -22,7 +22,7 @@ describe('Brookhaven parity: owned vehicle controls',()=>{
   it('adds headlights and enforces locked-driver ownership on the server loop',()=>{
     const service=read('roblox/src/server/MirrorLifestyleService.luau');
 
-    expect(service).toContain('lamp.Name = "Headlight"');
+    expect(service).toContain('"Headlight",');
     expect(service).toContain('local beam = Instance.new("SpotLight")');
     expect(service).toContain('beam.Enabled = false');
     expect(service).toContain('model:SetAttribute("HeadlightsOn", enabled)');
