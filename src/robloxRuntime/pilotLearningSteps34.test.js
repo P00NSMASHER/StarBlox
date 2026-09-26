@@ -21,6 +21,12 @@ function row(overrides={}){
     firstPilotBucketCounts:{current:3,'star-reading':2,spaced:3},
     pilotResponseTimeBands:{'under-5s':1,'5-15s':5,'15-30s':3,'30s-plus':1},
     pilotMisconceptionCounts:{'unsupported-inference':2},
+    baselinePilotAttempts:10,baselinePilotCorrect:6,baselinePilotWrong:4,
+    baselineFirstAttempts:8,baselineFirstCorrect:5,
+    baselineRubricPoints:14,baselineRubricMaxPoints:20,
+    baselineFirstBucketCounts:{current:3,'star-reading':2,spaced:3},
+    baselineResponseTimeBands:{'under-5s':1,'5-15s':5,'15-30s':3,'30s-plus':1},
+    baselineMisconceptionCounts:{'unsupported-inference':2},
     sumPilotSessionAccuracy:5.4,
     sumPilotSessionAccuracySquared:3.9,
     sumPilotItemSessionProduct:3.6,
@@ -34,7 +40,12 @@ function live({completed=3,items={q1:row(),q2:row(),q3:row()}}={}){
     metricsVersion:'starblox-question-item-metrics-v2-pilot-baseline',
     metricsUpdatedAt:123,
     itemMetrics:items,
-    retention:{pilotSessionsStarted:completed,pilotSessionsCompleted:completed}
+    retention:{
+      pilotSessionsStarted:completed,
+      pilotSessionsCompleted:completed,
+      baselinePilotSessionsStarted:completed,
+      baselinePilotSessionsCompleted:completed
+    }
   };
 }
 
@@ -68,7 +79,10 @@ describe('Steps 3-4 pilot learning evidence',()=>{
 
   it('establishes a baseline only after 54 first attempts and 3 completed sessions',()=>{
     const collecting=buildPilotBaseline({
-      liveMetrics:live({completed:2,items:{q1:row({firstPilotAttempts:20,firstPilotCorrect:12})}}),
+      liveMetrics:live({completed:2,items:{q1:row({
+        firstPilotAttempts:20,firstPilotCorrect:12,
+        baselineFirstAttempts:20,baselineFirstCorrect:12
+      })}}),
       bankSource:bank()
     });
     expect(collecting.status).toBe('collecting-baseline');
@@ -76,9 +90,9 @@ describe('Steps 3-4 pilot learning evidence',()=>{
 
     const established=buildPilotBaseline({
       liveMetrics:live({completed:3,items:{
-        q1:row({firstPilotAttempts:18,firstPilotCorrect:12}),
-        q2:row({firstPilotAttempts:18,firstPilotCorrect:13}),
-        q3:row({firstPilotAttempts:18,firstPilotCorrect:11})
+        q1:row({firstPilotAttempts:18,firstPilotCorrect:12,baselineFirstAttempts:18,baselineFirstCorrect:12}),
+        q2:row({firstPilotAttempts:18,firstPilotCorrect:13,baselineFirstAttempts:18,baselineFirstCorrect:13}),
+        q3:row({firstPilotAttempts:18,firstPilotCorrect:11,baselineFirstAttempts:18,baselineFirstCorrect:11})
       }}),
       bankSource:bank()
     });
@@ -92,9 +106,9 @@ describe('Steps 3-4 pilot learning evidence',()=>{
   it('keeps calibration fail-closed below 100 first attempts / 6 sessions',()=>{
     const baseline=buildPilotBaseline({
       liveMetrics:live({completed:5,items:{
-        q1:row({firstPilotAttempts:30,firstPilotCorrect:18}),
-        q2:row({firstPilotAttempts:30,firstPilotCorrect:20}),
-        q3:row({firstPilotAttempts:30,firstPilotCorrect:17})
+        q1:row({firstPilotAttempts:30,firstPilotCorrect:18,baselineFirstAttempts:18,baselineFirstCorrect:11}),
+        q2:row({firstPilotAttempts:30,firstPilotCorrect:20,baselineFirstAttempts:18,baselineFirstCorrect:12}),
+        q3:row({firstPilotAttempts:30,firstPilotCorrect:17,baselineFirstAttempts:18,baselineFirstCorrect:10})
       }}),
       bankSource:bank()
     });
@@ -111,24 +125,28 @@ describe('Steps 3-4 pilot learning evidence',()=>{
       q1:row({
         pilotAttempts:12,pilotCorrect:2,pilotWrong:10,
         firstPilotAttempts:10,firstPilotCorrect:2,
+        baselineFirstAttempts:18,baselineFirstCorrect:8,
         pilotResponseTimeBands:{'30s-plus':7},
         pilotMisconceptionCounts:{'unsupported-inference':7}
       }),
       q2:row({
         pilotAttempts:10,pilotCorrect:10,pilotWrong:0,
         firstPilotAttempts:10,firstPilotCorrect:10,
+        baselineFirstAttempts:18,baselineFirstCorrect:16,
         pilotResponseTimeBands:{'5-15s':10},
         pilotMisconceptionCounts:{}
       }),
       q3:row({
         pilotAttempts:86,pilotCorrect:61,pilotWrong:25,
         firstPilotAttempts:80,firstPilotCorrect:56,
+        baselineFirstAttempts:18,baselineFirstCorrect:12,
         pilotResponseTimeBands:{'5-15s':70,'15-30s':16},
         pilotMisconceptionCounts:{'off-by-one':10}
       })
     }});
     const baseline=buildPilotBaseline({liveMetrics:metrics,bankSource:bank()});
-    expect(baseline.readiness.firstAttempts).toBe(100);
+    expect(baseline.readiness.firstAttempts).toBe(54);
+    expect(baseline.readiness.calibrationFirstAttempts).toBe(100);
     expect(baseline.readiness.calibrationReady).toBe(true);
     const report=calibratePilotItems({baseline,liveMetrics:metrics,bankSource:bank()});
     expect(report.status).toBe('calibration-ready');

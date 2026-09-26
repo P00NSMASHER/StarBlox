@@ -48,8 +48,14 @@ export function calibratePilotItems({
   const misconceptionShareFloor=Number(thresholds.misconceptionShareFloor)||0.50;
   const minDiscrimination=Number(thresholds.minDiscrimination)||0.10;
 
-  const globalFirstAttempts=Number(baseline?.readiness?.firstAttempts)||0;
-  const completedSessions=Number(baseline?.readiness?.completedSessions)||0;
+  const globalFirstAttempts=
+    Number(baseline?.readiness?.calibrationFirstAttempts)
+    || Number(baseline?.readiness?.firstAttempts)
+    || 0;
+  const completedSessions=
+    Number(baseline?.readiness?.calibrationCompletedSessions)
+    || Number(baseline?.readiness?.completedSessions)
+    || 0;
   const calibrationReady=
     globalFirstAttempts>=minGlobalFirstAttempts &&
     completedSessions>=minCompletedSessions;
