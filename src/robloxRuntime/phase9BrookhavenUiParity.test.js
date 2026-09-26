@@ -94,4 +94,20 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(service).toContain('code = "plot_occupied"');
   });
 
+  it('matches the recorded compact right-rail menu geometry and functional toolbar',()=>{
+    const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+
+    expect(sidebar).toContain('local function configureIconPanel(withCategoryRail: boolean)');
+    expect(sidebar).toContain('panel.Position = UDim2.new(1, -164, 0, 126)');
+    expect(sidebar).toContain('panel.Size = UDim2.fromOffset(258, 264)');
+    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(49, 49)');
+    expect(sidebar).toContain('categoryRail.Position = UDim2.fromOffset(0, 50)');
+    expect(sidebar).toContain('panelToolbar.Name = "PanelToolbar"');
+    expect(sidebar).toContain('toolbarButton("OwnedTools", "✓"');
+    expect(sidebar).toContain('toolbarButton("ClearTools", "×"');
+    expect(sidebar).toContain('toolbarButton("OwnedVehicles", "✓"');
+    expect(sidebar).toContain('toolbarButton("DespawnVehicle", "×"');
+    expect(sidebar).toContain('clearTools:InvokeServer()');
+  });
+
 });
