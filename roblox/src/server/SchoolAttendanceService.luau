@@ -83,6 +83,10 @@ function SchoolAttendanceService.Mark(profileData, schoolDayId: string, periodId
 
 	local attendance = if secondsSinceStart <= Config.Attendance.OnTimeGraceSeconds then "ON_TIME" else "TARDY"
 	period.Attendance = attendance
+	if school.CurrentDay.AttendanceCounted ~= true then
+		school.CurrentDay.AttendanceCounted = true
+		school.Statistics.DaysAttended = (tonumber(school.Statistics.DaysAttended) or 0) + 1
+	end
 	if attendance == "ON_TIME" then
 		school.Statistics.OnTimeClasses = (tonumber(school.Statistics.OnTimeClasses) or 0) + 1
 	end
