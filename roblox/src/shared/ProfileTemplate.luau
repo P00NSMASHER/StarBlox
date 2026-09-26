@@ -35,6 +35,7 @@ local ProfileTemplate = {
 			ResponseCount = 0,
 		},
 		RecentQuestionIds = {},
+		QuestionCursorByStation = {},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
@@ -47,6 +48,7 @@ local ProfileTemplate = {
 
 	Inventory = {
 		Cosmetics = {},
+		OwnedItems = {},
 		Equipped = {},
 	},
 
@@ -68,6 +70,7 @@ local ProfileTemplate = {
 	Social = {
 		Home = {
 			PlotId = "",
+			Tier = 1,
 			Placements = {},
 		},
 		NpcAffinity = {},

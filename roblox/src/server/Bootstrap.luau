@@ -15,6 +15,7 @@ local SocialWorldService = require(script.Parent.SocialWorldService)
 local AiNpcService = require(script.Parent.AiNpcService)
 local AuthoritativeActionService = require(script.Parent.AuthoritativeActionService)
 local CoreGameLoopService = require(script.Parent.CoreGameLoopService)
+local HomeEconomyService = require(script.Parent.HomeEconomyService)
 local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)
 
 local Bootstrap = {}
@@ -37,6 +38,7 @@ function Bootstrap.start(dependencies)
 	local action = AuthoritativeActionService.new(dependencies.ActionAdapters, dependencies.TelemetrySink)
 	local privatePlaytestTelemetry = PrivatePlaytestTelemetryService.new()
 	local coreLoop = CoreGameLoopService.new(profiles, replicas, privatePlaytestTelemetry)
+	local homeEconomy = HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame())
 	action:Start()
 
 	local function playerAdded(player: Player)
@@ -50,10 +52,12 @@ function Bootstrap.start(dependencies)
 		replicas:Attach(player, profile.Data)
 		privatePlaytestTelemetry:PlayerReady(player)
 		coreLoop:PlayerReady(player, profile.Data)
+		homeEconomy:PlayerReady(player, profile.Data)
 		action:PlayerAdded(player)
 	end
 
 	local function playerRemoving(player: Player)
+		homeEconomy:PlayerRemoving(player)
 		coreLoop:PlayerRemoving(player)
 		privatePlaytestTelemetry:PlayerRemoving(player)
 		social:PlayerRemoving(player)
@@ -71,6 +75,7 @@ function Bootstrap.start(dependencies)
 
 	game:BindToClose(function()
 		privatePlaytestTelemetry:FlushAll()
+		homeEconomy:Destroy()
 		coreLoop:Destroy()
 		privatePlaytestTelemetry:Destroy()
 		action:Stop()
@@ -90,6 +95,7 @@ function Bootstrap.start(dependencies)
 		AiNpc = aiNpc,
 		Action = action,
 		CoreLoop = coreLoop,
+		HomeEconomy = homeEconomy,
 		PrivatePlaytestTelemetry = privatePlaytestTelemetry,
 	})
 end

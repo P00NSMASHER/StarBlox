@@ -24,18 +24,20 @@ function questionHash(question){
   return 'sha256:'+createHash('sha256').update(stable(payload)).digest('hex');
 }
 
-describe('Phase 6: certified rotating Grade 2 question bank',()=>{
-  it('pins a source-grounded nine-question bank with three questions per station',()=>{
+describe('Phase 7: material-first rotating Grade 2 question bank',()=>{
+  it('pins 18 source-grounded questions with six questions per station',()=>{
     const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
     expect(source.status).toBe('certified-source-grounded');
-    expect(source.certificationVersion).toBe('phase6-abvm-question-source-v1');
+    expect(source.certificationVersion).toBe('phase7-material-first-question-source-v1');
     expect(source.upstream.repository).toBe('P00NSMASHER/abvmschoolstarworld');
     expect(source.upstream.path).toBe('pages/data/study-pack.json');
     expect(source.upstream.blobSha).toBe('9db898dbdba7208778ec3f61d25a427bb3dd8b60');
     expect(source.upstream.packSourceHash).toBe('teacher-pages-0ca987de6de2d3791e25');
-    expect(source.rules.answersServerOnly).toBe(true);
-    expect(source.rules.noLiveLlm).toBe(true);
-    expect(source.questions).toHaveLength(9);
+    expect(source.qualityPolicy.answersServerOnly).toBe(true);
+    expect(source.qualityPolicy.materialFirst).toBe(true);
+    expect(source.qualityPolicy.noLiveLlm).toBe(true);
+    expect(source.qualityPolicy.rotation).toBe('persistent-per-station-after-correct-answer');
+    expect(source.questions).toHaveLength(18);
 
     const ids=new Set();
     const byStation=new Map();
@@ -49,13 +51,36 @@ describe('Phase 6: certified rotating Grade 2 question bank',()=>{
       byStation.set(question.stationId,(byStation.get(question.stationId)||0)+1);
     }
     expect(Object.fromEntries(byStation)).toEqual({
-      'word-portal-put-v1':3,
-      'spelling-forge-fog-v1':3,
-      'culture-lab-culture-v1':3
+      'word-portal-put-v1':6,
+      'spelling-forge-fog-v1':6,
+      'culture-lab-culture-v1':6
     });
   });
 
-  it('keeps answer keys server-only and binds sessions to the selected question id',()=>{
+  it('forbids meta/list-recognition questions and tests the material itself',()=>{
+    const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
+    const forbidden=[
+      /which .* is a (?:current )?sight word/i,
+      /which .* is on the current .* list/i,
+      /what .* is being practiced this week/i,
+      /which story is on the current .* page/i,
+      /which word is on the current vocabulary list/i,
+      /what phonics skill is being practiced/i
+    ];
+    for(const question of source.questions){
+      for(const pattern of forbidden){
+        expect(question.prompt).not.toMatch(pattern);
+      }
+      expect(question.prompt).not.toMatch(/teacher page|current list|study list/i);
+    }
+
+    expect(source.questions.some(q=>q.prompt.includes('___ is your favorite book?'))).toBe(true);
+    expect(source.questions.some(q=>q.prompt.includes('What kind of sentence is this?'))).toBe(true);
+    expect(source.questions.some(q=>q.prompt.includes('consonant-vowel-consonant'))).toBe(true);
+    expect(source.questions.some(q=>q.prompt.includes('three Persons in the Trinity'))).toBe(true);
+  });
+
+  it('keeps answer keys server-only and binds every question to a station',()=>{
     const bank=read('roblox/src/server/CoreQuestionBank.luau');
     const shared=read('roblox/src/shared/CoreLoopConfig.luau');
     const service=read('roblox/src/server/CoreGameLoopService.luau');
@@ -63,27 +88,30 @@ describe('Phase 6: certified rotating Grade 2 question bank',()=>{
 
     for(const question of source.questions){
       expect(bank).toContain('Id = '+JSON.stringify(question.id));
+      expect(bank).toContain('StationId = '+JSON.stringify(question.stationId));
       expect(bank).toContain('ContentHash = '+JSON.stringify(question.contentHash));
     }
-    expect(bank).toContain('Answer = ');
+    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(18);
     expect(shared).not.toContain('Answer = ');
     expect(shared).not.toContain('Choices = table.freeze');
-    expect(service).toContain('local CoreQuestionBank = require(script.Parent.CoreQuestionBank)');
     expect(service).not.toContain('local ANSWERS = table.freeze');
     expect(service).toContain('questionId = selectedQuestion.Id');
-    expect(service).toContain('function CoreGameLoopService.GradeAnswer');
-    expect(service).toContain('return CoreQuestionBank.Grade(questionId, choice)');
+    expect(service).toContain('question.StationId ~= activityId');
+    expect(service).toContain('expected.Id ~= questionId');
     expect(service).toContain('CoreGameLoopService.GradeAnswer(session.questionId, request.choice)');
-    expect(service).toContain('questionId = session.questionId');
   });
 
-  it('rotates deterministically by run number without a live model dependency',()=>{
+  it('rotates by persistent per-station cursor after a correct answer',()=>{
     const bank=read('roblox/src/server/CoreQuestionBank.luau');
     const config=read('roblox/src/shared/CoreLoopConfig.luau');
-    expect(bank).toContain('local index = ((cleanRun - 1) % #pool) + 1');
-    expect(bank).toContain('function CoreQuestionBank.Select');
-    expect(config).toContain('Strategy = "deterministic-by-run-number"');
-    expect(config).toContain('NoLiveLlm = true');
-    expect(config).toContain('QuestionsPerStation = 3');
+    const service=read('roblox/src/server/CoreGameLoopService.luau');
+    const template=read('roblox/src/shared/ProfileTemplate.luau');
+
+    expect(bank).toContain('local index = (clean % #pool) + 1');
+    expect(config).toContain('Strategy = "persistent-per-station-after-correct-answer"');
+    expect(config).toContain('QuestionsPerStation = 6');
+    expect(template).toContain('QuestionCursorByStation = {}');
+    expect(service).toContain('cursors[activityId] = currentCursor + 1');
+    expect(service).toContain('CoreQuestionBank.Select(activityId, currentCursor + 1)');
   });
 });

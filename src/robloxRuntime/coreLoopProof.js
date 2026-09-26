@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v2';
+export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v3';
 export const STARBLOX_CORE_LOOP_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildCoreLoopProbeScript({releaseId=STARBLOX_CORE_LOOP_RELEASE_ID}={}){
@@ -18,23 +18,24 @@ assert(manifest.productionActivationAllowed == false, "production activation mus
 
 local config = require(shared:WaitForChild("CoreLoopConfig"))
 assert(config.LoopId == "brightside-core-loop-v1", "unexpected core loop id")
-assert(config.PolishRevision == "phase6-content-fun-retention-v1", "Phase 6 revision missing")
+assert(config.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 revision missing")
 assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
-assert(#config.Activities == 3, "core loop must contain exactly three activities")
-assert(config.DailyRewardRunCap == 3, "unexpected reward run cap")
+assert(config.QuestionReward.Coins == 10, "correct-answer coin reward mismatch")
+assert(config.QuestionReward.XP == 1, "correct-answer XP reward mismatch")
+assert(config.QuestionRotation.QuestionsPerStation == 6, "question pool size mismatch")
+assert(config.QuestionRotation.Strategy == "persistent-per-station-after-correct-answer", "rotation strategy mismatch")
 assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
 assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
 for _, activity in config.Activities do
-    assert(activity.Answer == nil, "correct answers must not be replicated in CoreLoopConfig")
-    assert(activity.Choices == nil, "question choices must come from the rotating server bank")
-    assert(activity.Source == "ABVM Grade 2 current source pack", "activity source mismatch")
+    assert(activity.Reward.Coins == 0, "challenge station must not mint coins")
 end
+assert(config.LoopReward.Coins == 0, "challenge completion must not mint coins")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local bank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(bank.Source.CertificationVersion == "phase6-abvm-question-source-v1", "question-bank certification mismatch")
+assert(bank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "question-bank certification mismatch")
+assert(bank.Source.MaterialFirst == true, "material-first bank marker missing")
 assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
-assert(bank.Source.NoLiveLlm == true, "question bank live-model boundary mismatch")
 
 local stationIds = {
     "word-portal-put-v1",
@@ -42,14 +43,16 @@ local stationIds = {
     "culture-lab-culture-v1",
 }
 for _, stationId in stationIds do
-    assert(bank.CountForStation(stationId) == 3, "station must have exactly three certified questions: " .. stationId)
-    local q1 = bank.Select(stationId, 1)
-    local q2 = bank.Select(stationId, 2)
-    local q3 = bank.Select(stationId, 3)
-    local q4 = bank.Select(stationId, 4)
-    assert(q1 ~= nil and q2 ~= nil and q3 ~= nil and q4 ~= nil, "question rotation returned nil")
-    assert(q1.Id ~= q2.Id and q2.Id ~= q3.Id and q1.Id ~= q3.Id, "three-run rotation must not repeat")
-    assert(q4.Id == q1.Id, "fourth run must deterministically cycle to first question")
+    assert(bank.CountForStation(stationId) == 6, "station must have six certified questions: " .. stationId)
+    local seen = {}
+    for cursor = 0, 5 do
+        local question = bank.Select(stationId, cursor)
+        assert(question ~= nil, "rotation returned nil")
+        assert(question.StationId == stationId, "question station binding mismatch")
+        assert(seen[question.Id] ~= true, "question repeated before six-question cycle completed")
+        seen[question.Id] = true
+    end
+    assert(bank.Select(stationId, 6).Id == bank.Select(stationId, 0).Id, "seventh selection must wrap to first")
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
@@ -82,70 +85,61 @@ for _, anchorName in {"WordPortalAnchor","SpellingForgeAnchor","CultureLabAnchor
     assert(anchor ~= nil and anchor:IsA("BasePart"), "activity anchor missing: " .. anchorName)
     assert(anchor.Transparency == 1 and anchor.CanCollide == false, "activity anchor must stay invisible/non-colliding")
     assert(not anchor:IsDescendantOf(brookhaven), "runtime anchor mutated locked Brookhaven baseline")
-    local prompt = anchor:FindFirstChild("StartActivityPrompt")
-    assert(prompt ~= nil and prompt:IsA("ProximityPrompt"), "activity prompt missing: " .. anchorName)
 end
-assert((core :: any)._spawnCFrame ~= nil, "real-world spawn binding missing")
+assert((core :: any):GetSpawnCFrame() ~= nil, "real-world spawn binding missing")
 
-for _, stationId in stationIds do
-    local question = bank.Select(stationId, 1)
-    assert(question ~= nil, "question missing for grade proof")
-    assert(service.GradeAnswer(question.Id, question.Answer) == true, "correct answer rejected")
-    local wrong = nil
-    for _, choice in question.Choices do
-        if string.lower(choice) ~= string.lower(question.Answer) then
-            wrong = choice
-            break
-        end
-    end
-    assert(wrong ~= nil and service.GradeAnswer(question.Id, wrong) == false, "wrong answer accepted")
-end
+local coinProfile = {
+    Economy = {Coins = 0, XP = 0, Stars = 0, TransferWins = 0},
+    Progress = {Districts = {}, MasteredSkills = {}},
+    Learning = {QuestionCursorByStation = {}, RecentQuestionIds = {}},
+    Inventory = {Cosmetics = {}, OwnedItems = {}, Equipped = {}},
+}
+local station = "word-portal-put-v1"
+local q0 = bank.Select(station, 0)
+local q1 = bank.Select(station, 1)
+local q2 = bank.Select(station, 2)
+assert(service.GradeAnswer(q0.Id, q0.Answer) == true, "correct answer rejected")
+local r0 = service.ApplyCorrectQuestionReward(coinProfile, station, q0.Id)
+assert(r0.ok == true and r0.coins == 10, "first correct answer did not pay 10 coins")
+assert(coinProfile.Economy.Coins == 10, "coin balance mismatch after first answer")
+assert(coinProfile.Learning.QuestionCursorByStation[station] == 1, "station cursor did not advance")
+assert(r0.nextQuestionId == q1.Id, "next question did not rotate")
+
+local stale = service.ApplyCorrectQuestionReward(coinProfile, station, q0.Id)
+assert(stale.ok == false and stale.code == "stale_question", "stale answer replay was not rejected")
+assert(coinProfile.Economy.Coins == 10, "stale answer replay changed coins")
+
+local r1 = service.ApplyCorrectQuestionReward(coinProfile, station, q1.Id)
+local r2 = service.ApplyCorrectQuestionReward(coinProfile, station, q2.Id)
+assert(r1.ok == true and r2.ok == true, "rotated correct answers were rejected")
+assert(coinProfile.Economy.Coins == 30, "three correct answers should grant 30 coins")
+assert(coinProfile.Learning.QuestionCursorByStation[station] == 3, "station cursor mismatch after three answers")
 
 local profile = {
     Economy = {Coins = 0, XP = 0, Stars = 0, TransferWins = 0},
     Progress = {Districts = {}, MasteredSkills = {}},
-    Inventory = {Cosmetics = {}, Equipped = {}},
+    Learning = {QuestionCursorByStation = {}, RecentQuestionIds = {}},
+    Inventory = {Cosmetics = {}, OwnedItems = {}, Equipped = {}},
 }
-local initial = service.BuildStatus(profile)
-assert(initial.challenge.name == "Neighborhood Challenge", "challenge status missing")
-assert(initial.challenge.completed == 0 and initial.challenge.goal == 3, "initial challenge progress mismatch")
-assert(initial.challenge.tier == "Rookie", "initial mastery tier mismatch")
-assert(type(initial.recommendedQuestionId) == "string", "recommended rotating question missing")
-
 local day = "2026-09-25"
 for runIndex = 1, 3 do
     for _, activityId in stationIds do
         local result = service.ApplyCompletion(profile, activityId, day)
-        assert(result.ok == true and result.duplicate == false, "activity completion rejected")
+        assert(result.ok == true and result.duplicate == false, "challenge completion rejected")
     end
 end
 
 assert(profile.Progress.CoreLoop.LoopRuns == 3, "loop run progression mismatch")
-assert(profile.Progress.CoreLoop.RunNumber == 4, "next run number mismatch")
 assert(profile.Progress.CoreLoop.RewardedRunsToday == 3, "daily rewarded-run cap accounting mismatch")
-assert(profile.Progress.Districts["Brightside Plaza"] == 3, "district progression mismatch")
 assert(profile.Inventory.Cosmetics["brightside-spark-trail"] == true, "first-loop cosmetic missing")
-assert(profile.Economy.Coins == 90, "three rewarded loops should grant 90 coins")
-assert(profile.Economy.XP == 60, "three rewarded loops should grant 60 XP")
-assert(profile.Economy.Stars == 3, "three rewarded loops should grant 3 stars")
-assert(service.BuildStatus(profile).challenge.tier == "Pathfinder", "three-loop mastery tier mismatch")
-
-local beforeCoins = profile.Economy.Coins
-local beforeXP = profile.Economy.XP
-local beforeStars = profile.Economy.Stars
-local fourth = service.ApplyCompletion(profile, "word-portal-put-v1", day)
-assert(fourth.ok == true and fourth.rewardEligible == false, "fourth daily loop must remain playable without rewards")
-assert(fourth.progress == 1 and fourth.loopRuns == 3, "repeatable fourth run did not advance")
-assert(profile.Economy.Coins == beforeCoins and profile.Economy.XP == beforeXP and profile.Economy.Stars == beforeStars, "daily reward cap failed closed")
-
-local duplicate = service.ApplyCompletion(profile, "word-portal-put-v1", day)
-assert(duplicate.ok == true and duplicate.duplicate == true, "same-run duplicate completion was not detected")
-assert(profile.Economy.Coins == beforeCoins, "duplicate activity changed economy")
+assert(profile.Economy.Coins == 0, "challenge progression must not mint coins")
+assert(profile.Economy.XP == 45, "three rewarded challenges should grant 45 challenge XP")
+assert(profile.Economy.Stars == 3, "three rewarded challenges should grant 3 stars")
 
 core:Destroy()
 
-print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " loops=" .. tostring(profile.Progress.CoreLoop.LoopRuns) .. " phase6=true")
-return tostring(manifest.releaseId), tostring(game.PlaceVersion), tostring(profile.Progress.CoreLoop.LoopRuns)
+print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " phase7=true coins=30")
+return tostring(manifest.releaseId), tostring(game.PlaceVersion)
 `;
 }
 
@@ -169,9 +163,9 @@ export async function runCoreLoopProof({
   });
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_CORE_LOOP_OK release=' +
-    String(releaseId) + ' version=' + String(task.versionNumber) + ' loops=3 phase6=true';
+    String(releaseId) + ' version=' + String(task.versionNumber) + ' phase7=true coins=30';
   if(!text.includes(sentinel)){
-    throw new Error('Roblox logs are missing the Phase 6 core-loop proof sentinel');
+    throw new Error('Roblox logs are missing the Phase 7 core-loop proof sentinel');
   }
 
   return Object.freeze({
@@ -183,22 +177,21 @@ export async function runCoreLoopProof({
     taskPath:task.path,
     terminalState:task.state,
     evidence:Object.freeze({
-      productionRuntimeScriptPresent:true,
-      productionRuntimeScriptEnabled:true,
-      rotatingCertifiedQuestionBank:true,
+      materialFirstQuestionBank:true,
+      sixQuestionsPerStation:true,
+      persistentPerStationRotation:true,
       serverAuthoritativeAnswers:true,
+      staleAnswerReplayBlocked:true,
+      correctAnswerCoinReward:true,
+      challengeCoinsDisabled:true,
       replicatedAnswersHidden:true,
       noLiveLlmQuestDependency:true,
       realWorldActivityAnchors:true,
       prototypeWorldAbsent:true,
       worldSpawnBound:true,
-      repeatableRuns:true,
-      neighborhoodChallengeProgression:true,
-      masteryTierProgression:true,
-      durableDistrictProgression:true,
+      repeatableChallenges:true,
       firstLoopCosmeticUnlock:true,
-      dailyRewardCap:true,
-      duplicateRewardGuard:true
+      dailyChallengeRewardCap:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,

@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "certificationVersion": "phase6-abvm-question-source-v1",
+  "schemaVersion": 2,
+  "certificationVersion": "phase7-material-first-question-source-v1",
   "status": "certified-source-grounded",
   "upstream": {
     "repository": "P00NSMASHER/abvmschoolstarworld",
@@ -10,166 +10,325 @@
     "sourceCapturedAt": "2026-09-24T20:13:58.158Z",
     "weekLabel": "Week of September 21, 2026"
   },
-  "rules": {
+  "qualityPolicy": {
+    "materialFirst": true,
+    "forbiddenMetaPromptPatterns": [
+      "which .* is a sight word",
+      "which .* is on the current .* list",
+      "what .* is being practiced this week",
+      "which story is on the current .* page"
+    ],
     "answersServerOnly": true,
-    "choicesPerQuestion": 3,
-    "minimumQuestionsPerStation": 3,
-    "rotation": "deterministic-by-run-number",
+    "minimumQuestionsPerStation": 6,
+    "rotation": "persistent-per-station-after-correct-answer",
     "noLiveLlm": true
   },
   "questions": [
     {
-      "id": "week-2026-09-22-reading-1",
+      "id": "phase7-sight-what-v1",
       "stationId": "word-portal-put-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-reading-1",
       "subject": "Reading / ELA",
-      "skill": "current-story",
-      "prompt": "Which story is on the current Reading Work page?",
+      "skill": "sight-word-use",
+      "prompt": "___ is your favorite book?",
       "choices": [
-        "Little Flap Learns to Fly",
-        "The Very Hungry Caterpillar",
-        "Charlotte's Web"
+        "Here",
+        "What",
+        "Small"
       ],
-      "answer": "Little Flap Learns to Fly",
-      "explanation": "The current Reading Work page lists “Little Flap Learns to Fly.”",
-      "contentHash": "sha256:5cd1ed38654009065d72ea480d29b68664816328f9db5ffc2dbc332fe3b079a0"
-    },
-    {
-      "id": "week-2026-09-22-reading-2",
-      "stationId": "word-portal-put-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-reading-2",
-      "subject": "Reading / ELA",
-      "skill": "current-sight-words",
-      "prompt": "Which word is a current sight word?",
-      "choices": [
-        "she",
-        "went",
-        "tug"
-      ],
-      "answer": "she",
-      "explanation": "“she” is on the current Reading Work sight-word list.",
-      "contentHash": "sha256:ee905197415dd154080fe532fd8df0e593e15fa011662b4ca4f22eeff86e2557"
-    },
-    {
-      "id": "week-2026-09-22-reading-3",
-      "stationId": "word-portal-put-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-reading-3",
-      "subject": "Reading / ELA",
-      "skill": "current-vocabulary",
-      "prompt": "Which word is on the current vocabulary list?",
-      "choices": [
-        "rescue",
-        "culture",
-        "triangle"
-      ],
-      "answer": "rescue",
-      "explanation": "“rescue” is on the current Reading Work vocabulary list.",
-      "contentHash": "sha256:fa5f378d836281d47d8946edc5d5b2df194bf36bb959e121ed2bbff19f0ccf97"
-    },
-    {
-      "id": "week-2026-09-22-phonics-1",
-      "stationId": "spelling-forge-fog-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-phonics-1",
-      "subject": "Spelling / Handwriting",
-      "skill": "two-letter-consonant-blends",
-      "prompt": "What phonics skill is being practiced this week?",
-      "choices": [
-        "2-letter consonant blends",
-        "silent e only",
-        "vowel teams only"
-      ],
-      "answer": "2-letter consonant blends",
-      "explanation": "The current Reading Work and Sept. 25 spelling-test focus is 2-letter consonant blends.",
-      "contentHash": "sha256:ea5b7e6fe6a11628cdc08052a9bb9bb0ae841007185e60fdb3243e6ff2af25b7"
-    },
-    {
-      "id": "phase6-sightword-here-v1",
-      "stationId": "spelling-forge-fog-v1",
+      "answer": "What",
+      "explanation": "“What” correctly begins a question asking for information.",
       "provenance": "derived-from-published-topic",
       "sourceFact": "Sight words: she, boy, he, small, were, what, girl, here, by, want",
-      "subject": "Reading / ELA",
-      "skill": "current-sight-words",
-      "prompt": "Which word is on the current sight-word list?",
-      "choices": [
-        "here",
-        "went",
-        "tug"
-      ],
-      "answer": "here",
-      "explanation": "“here” is one of the current Grade 2 sight words.",
-      "contentHash": "sha256:f42e713106b4237fdecd9b0ccc7e78afc0c2a4b0799ffd9dcdd46f4fac174611"
+      "contentHash": "sha256:d53a7424486117a2a91165edc272a22dd9415c9d69bf954db3f9a783f5772d40"
     },
     {
-      "id": "phase6-wordstructure-cvc-v1",
-      "stationId": "spelling-forge-fog-v1",
+      "id": "phase7-sight-want-v1",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sight-word-use",
+      "prompt": "I ___ to read one more chapter.",
+      "choices": [
+        "girl",
+        "by",
+        "want"
+      ],
+      "answer": "want",
+      "explanation": "“Want” completes the sentence: “I want to read one more chapter.”",
       "provenance": "derived-from-published-topic",
-      "sourceFact": "Word structure: CVC words",
+      "sourceFact": "Sight words: she, boy, he, small, were, what, girl, here, by, want",
+      "contentHash": "sha256:9b5dd4c9a2f14d4555487add0030fbdb4f1b378293a9a396aa08a77c7a0915bd"
+    },
+    {
+      "id": "phase7-sight-small-v1",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sight-word-use",
+      "prompt": "The ___ puppy curled up in the basket.",
+      "choices": [
+        "what",
+        "small",
+        "were"
+      ],
+      "answer": "small",
+      "explanation": "“Small” describes the puppy and completes the sentence correctly.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Sight words: she, boy, he, small, were, what, girl, here, by, want",
+      "contentHash": "sha256:469799073e50b18f8d0a2d1cc312c403e872409b3bee2678ae748e6d858b59bf"
+    },
+    {
+      "id": "phase7-grammar-command-v1",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sentence-types",
+      "prompt": "“Please put your homework in the folder.” What kind of sentence is this?",
+      "choices": [
+        "question",
+        "statement",
+        "command"
+      ],
+      "answer": "command",
+      "explanation": "It tells someone to do something, so it is a command.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
+      "contentHash": "sha256:f6bebe844d6f1cf8978b6b927d5fc19969cd589154a673e312d6090dd481e75f"
+    },
+    {
+      "id": "phase7-grammar-question-v1",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sentence-types",
+      "prompt": "“Where is my pencil?” What kind of sentence is this?",
+      "choices": [
+        "statement",
+        "question",
+        "command"
+      ],
+      "answer": "question",
+      "explanation": "It asks something and ends with a question mark, so it is a question.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
+      "contentHash": "sha256:06e3d8eef4f0ad5982bef436f0ee00d140d7da0ea1080e1a63ce0bfc51f88c10"
+    },
+    {
+      "id": "phase7-grammar-statement-v1",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sentence-types",
+      "prompt": "“The bird is sitting in the tree.” What kind of sentence is this?",
+      "choices": [
+        "command",
+        "question",
+        "statement"
+      ],
+      "answer": "statement",
+      "explanation": "It tells information, so it is a statement.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
+      "contentHash": "sha256:0016352d07de34589294d3383ca7b4c78124fa8c45723975d888311726bf2c5d"
+    },
+    {
+      "id": "phase7-blend-fly-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Spelling / Handwriting",
+      "skill": "two-letter-consonant-blends",
+      "prompt": "Which word begins with the same two-letter consonant blend as “fly”?",
+      "choices": [
+        "map",
+        "flap",
+        "sun"
+      ],
+      "answer": "flap",
+      "explanation": "“Fly” and “flap” both begin with the blend “fl.”",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Story: Little Flap Learns to Fly; Phonics: 2-letter consonant blends",
+      "contentHash": "sha256:f36861a08fbf29680ad1e2cb49f7ae9f314d155dc311ff654ab93548aee970db"
+    },
+    {
+      "id": "phase7-blend-br-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Spelling / Handwriting",
+      "skill": "two-letter-consonant-blends",
+      "prompt": "Which word begins with the blend “br”?",
+      "choices": [
+        "cup",
+        "brush",
+        "map"
+      ],
+      "answer": "brush",
+      "explanation": "“Brush” begins with the two consonants b and r blended together.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Phonics: 2-letter consonant blends",
+      "contentHash": "sha256:cac7d301973b33c3024b11aed84e12f8ccc2c2fa7a97c39a0d017f2eb8000af6"
+    },
+    {
+      "id": "phase7-blend-cl-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Spelling / Handwriting",
+      "skill": "two-letter-consonant-blends",
+      "prompt": "Which word begins with the blend “cl”?",
+      "choices": [
+        "sun",
+        "top",
+        "clap"
+      ],
+      "answer": "clap",
+      "explanation": "“Clap” begins with the consonant blend “cl.”",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Phonics: 2-letter consonant blends",
+      "contentHash": "sha256:9cc260a3e0141ba208a626b686711dcfb74dff1c464fae5e9faf67330e4189bf"
+    },
+    {
+      "id": "phase7-cvc-map-v1",
+      "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-word-structure",
-      "prompt": "What word structure is being practiced now?",
+      "prompt": "Which word has a consonant-vowel-consonant (CVC) pattern?",
       "choices": [
-        "CVC words",
-        "compound words",
-        "contractions"
+        "fly",
+        "map",
+        "here"
       ],
-      "answer": "CVC words",
-      "explanation": "The current Reading Work page lists CVC words for word structure.",
-      "contentHash": "sha256:2ebbf3b96d80be5ed873ead8a0327ebcbf9d8db3d34f30ae38db9aef68ac0908"
+      "answer": "map",
+      "explanation": "“Map” has consonant m, vowel a, consonant p: CVC.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Word structure: CVC words",
+      "contentHash": "sha256:d74d34cdd409230425191117d686520c5e9c59d450529f6e7eefe0d8103a255d"
     },
     {
-      "id": "week-2026-09-22-religion-1",
-      "stationId": "culture-lab-culture-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-religion-1",
-      "subject": "Religion",
-      "skill": "jesus-savior",
-      "prompt": "Jesus died for our sins and is our Savior.",
+      "id": "phase7-cvc-dog-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "cvc-word-structure",
+      "prompt": "Which word has a consonant-vowel-consonant (CVC) pattern?",
       "choices": [
-        "True",
-        "False",
-        "Not sure"
+        "small",
+        "what",
+        "dog"
       ],
-      "answer": "True",
-      "explanation": "The current Religion page says Jesus died for our sins and is our Savior.",
-      "contentHash": "sha256:b746c9a74222a72f340b1fcd8f4a23eb15c85bbb7e7b59e259a866a1a84d7e6f"
+      "answer": "dog",
+      "explanation": "“Dog” has consonant d, vowel o, consonant g: CVC.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Word structure: CVC words",
+      "contentHash": "sha256:d80238c1ef72199dfd8c87ed9e9bb092e30b5720619dbeb1fe4180e33cdc4656"
     },
     {
-      "id": "week-2026-09-22-religion-2",
+      "id": "phase7-blend-st-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Spelling / Handwriting",
+      "skill": "two-letter-consonant-blends",
+      "prompt": "Which word begins with a two-letter consonant blend?",
+      "choices": [
+        "cat",
+        "stop",
+        "pig"
+      ],
+      "answer": "stop",
+      "explanation": "“Stop” begins with the consonant blend “st.”",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Phonics: 2-letter consonant blends",
+      "contentHash": "sha256:3c85fa8a48058b0ca7ebf6ffaf467ace4f6551163425ceeb9385dbbe35556f8b"
+    },
+    {
+      "id": "phase7-religion-disciples-v1",
       "stationId": "culture-lab-culture-v1",
-      "provenance": "direct-upstream-question",
-      "sourceQuestionId": "week-2026-09-22-religion-2",
       "subject": "Religion",
       "skill": "disciples",
       "prompt": "What are friends of Jesus called?",
       "choices": [
-        "disciples",
         "captions",
+        "disciples",
         "blends"
       ],
       "answer": "disciples",
-      "explanation": "The current Religion page says we are called to be disciples, friends of Jesus.",
-      "contentHash": "sha256:8fbc587632ec0583ccc476f202b94ca4e31989e4c23471e418605c6f5d21e0ee"
+      "explanation": "The lesson says we are called to be disciples, friends of Jesus.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "We are called to be disciples, friends of Jesus.",
+      "contentHash": "sha256:f2141a670457a2dcbb55468a1a33b282fc84d74bed64c8a69c4d471a454a23ac"
     },
     {
-      "id": "phase6-trinity-v1",
+      "id": "phase7-religion-trinity-v1",
       "stationId": "culture-lab-culture-v1",
-      "provenance": "derived-from-published-topic",
-      "sourceFact": "Trinity: 3 persons in one God (Father, Son, Holy Spirit)",
       "subject": "Religion",
       "skill": "trinity",
-      "prompt": "How many persons are in one God in the Trinity?",
+      "prompt": "Which group names the three Persons in the Trinity?",
       "choices": [
-        "3",
-        "2",
-        "5"
+        "Father, Son, and Holy Spirit",
+        "Jesus, Mary, and Joseph",
+        "Peter, Paul, and Mary"
       ],
-      "answer": "3",
-      "explanation": "The Trinity is three persons in one God: Father, Son, and Holy Spirit.",
-      "contentHash": "sha256:c5a9e20bce61e5cca2b6f957e765a12adcd118ef225f551e117fff8c7c419eba"
+      "answer": "Father, Son, and Holy Spirit",
+      "explanation": "The Trinity is one God in three Persons: Father, Son, and Holy Spirit.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Trinity: 3 persons in one God (Father, Son, Holy Spirit)",
+      "contentHash": "sha256:cd35f8b4e22dabfab0770eeedde780db4588a7c102e35e2355197193106c0d90"
+    },
+    {
+      "id": "phase7-religion-grace-v1",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "grace",
+      "prompt": "What is the new life Jesus gives us called?",
+      "choices": [
+        "a trophy",
+        "grace",
+        "a game"
+      ],
+      "answer": "grace",
+      "explanation": "The lesson teaches that Jesus gives us the new life of grace.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Jesus gave us the new life of grace.",
+      "contentHash": "sha256:51e079453856768c4134ed819149ecb1ed5101861055908c19606268231377fc"
+    },
+    {
+      "id": "phase7-religion-savior-v1",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "jesus-savior",
+      "prompt": "Why did Jesus die for us?",
+      "choices": [
+        "To win a prize",
+        "For our sins",
+        "To become famous"
+      ],
+      "answer": "For our sins",
+      "explanation": "The lesson teaches that Jesus died for our sins and is our Savior.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Jesus died for our sins; He is our Savior.",
+      "contentHash": "sha256:f49c9195f4a4ee0194bca1c1c97fb56738250739bc6d31e9ae4d336c056f40e3"
+    },
+    {
+      "id": "phase7-religion-mary-v1",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "mary",
+      "prompt": "Who is Jesus’ mother and also the mother of the Church?",
+      "choices": [
+        "Mary",
+        "Martha",
+        "Elizabeth"
+      ],
+      "answer": "Mary",
+      "explanation": "The lesson says Mary is Jesus’ mother and the mother of the Church.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Mary is Jesus' mother and the mother of the Church so she is our mother too.",
+      "contentHash": "sha256:c72e6d6ed8f8a1c2af5c424cc80bb0e2ebc8b6102d41aad51d02cb8f957dd078"
+    },
+    {
+      "id": "phase7-religion-creation-v1",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "care-for-creation",
+      "prompt": "Which action shows care for God’s gift of creation?",
+      "choices": [
+        "Leave trash on the grass",
+        "Pick up litter and put it in the trash",
+        "Break healthy branches for fun"
+      ],
+      "answer": "Pick up litter and put it in the trash",
+      "explanation": "Taking care of the world around us is one way to care for God’s gift of creation.",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "It is our responsibility to take care of God's gifts of creation.",
+      "contentHash": "sha256:b8978bcf3819055ff99ce030015ef963112badf8ff396d13430c9aa63400f66f"
     }
   ]
 }

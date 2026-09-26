@@ -17,7 +17,7 @@ assert(manifest.releaseId == ${release}, "unexpected release: " .. tostring(mani
 assert(manifest.productionActivationAllowed == false, "production activation must remain disabled")
 
 local config = require(shared:WaitForChild("CoreLoopConfig"))
-assert(config.PolishRevision == "phase6-content-fun-retention-v1", "polish revision mismatch")
+assert(config.PolishRevision == "phase7-questions-coins-homes-v1", "polish revision mismatch")
 assert(config.Onboarding.Title == "Welcome to Brightside!", "onboarding title mismatch")
 assert(#config.Activities == 3, "expected three activities")
 for index, activity in config.Activities do
@@ -143,7 +143,7 @@ export async function runPlayerPolishProof({
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_PLAYER_POLISH_OK release=' +
     String(releaseId) + ' version=' + String(task.versionNumber) +
-    ' revision=phase6-content-fun-retention-v1';
+    ' revision=phase7-questions-coins-homes-v1';
   if(!text.includes(sentinel)){
     throw new Error('Roblox logs are missing the Step 8 player-polish proof sentinel');
   }

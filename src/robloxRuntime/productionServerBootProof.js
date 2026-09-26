@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v2';
+export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v3';
 export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildProductionServerBootProbeScript({
@@ -51,14 +51,17 @@ assert(okReplica and Replica ~= nil, "ReplicaServer failed to require")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local coreConfig = require(shared:WaitForChild("CoreLoopConfig"))
-assert(coreConfig.PolishRevision == "phase6-content-fun-retention-v1", "Phase 6 config revision missing")
-assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 6 answer boundary missing")
-assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 6 live-model boundary missing")
+assert(coreConfig.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 config revision missing")
+assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 7 answer boundary missing")
+assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 7 live-model boundary missing")
+assert(coreConfig.QuestionRotation.Strategy == "persistent-per-station-after-correct-answer", "Phase 7 rotation strategy missing")
+assert(coreConfig.QuestionReward.Coins == 10, "Phase 7 correct-answer coin reward mismatch")
 
 local questionBank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(questionBank.Source.CertificationVersion == "phase6-abvm-question-source-v1", "Phase 6 question bank certification missing")
+assert(questionBank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "Phase 7 question bank certification missing")
+assert(questionBank.Source.MaterialFirst == true, "Phase 7 material-first marker missing")
 for _, stationId in {"word-portal-put-v1","spelling-forge-fog-v1","culture-lab-culture-v1"} do
-    assert(questionBank.CountForStation(stationId) == 3, "Phase 6 station question count mismatch: " .. stationId)
+    assert(questionBank.CountForStation(stationId) == 6, "Phase 7 station question count mismatch: " .. stationId)
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
@@ -76,8 +79,21 @@ end)
 assert(okBootstrap, "production Bootstrap.start failed: " .. tostring(services))
 assert(type(services) == "table", "production Bootstrap did not return services")
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
+assert(services.HomeEconomy ~= nil, "HomeEconomy service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
-assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "Phase 6 retention aggregate store missing after bootstrap")
+assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "retention aggregate store missing after bootstrap")
+
+local shopRemotes = ReplicatedStorage:FindFirstChild("StarBloxShop")
+assert(shopRemotes ~= nil and shopRemotes:IsA("Folder"), "StarBlox shop remotes missing after bootstrap")
+for _, remoteName in {"GetState","PurchaseItem","PurchaseHomeTier","VisitHome","ReturnWorld"} do
+    local remote = shopRemotes:FindFirstChild(remoteName)
+    assert(remote ~= nil and remote:IsA("RemoteFunction"), "shop remote missing: " .. remoteName)
+end
+
+local homeFolder = Workspace:FindFirstChild("StarBloxPlayerHomes")
+assert(homeFolder ~= nil and homeFolder:IsA("Folder"), "player-home runtime folder missing after bootstrap")
+assert(homeFolder:GetAttribute("RuntimeOwned") == true, "player-home folder must be runtime-owned")
+assert(homeFolder:GetAttribute("BaselineMutationAllowed") == false, "player-home folder must not mutate baseline")
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
@@ -147,6 +163,7 @@ assert((services.CoreLoop :: any)._spawnCFrame ~= nil, "real-world spawn binding
 local telemetryRemote = ReplicatedStorage:FindFirstChild("StarBloxPrivatePlaytestTelemetry")
 assert(telemetryRemote and telemetryRemote:IsA("RemoteEvent"), "playtest telemetry remote missing after bootstrap")
 
+services.HomeEconomy:Destroy()
 services.CoreLoop:Destroy()
 services.PrivatePlaytestTelemetry:Destroy()
 services.Action:Stop()
@@ -226,7 +243,13 @@ export async function runProductionServerBootProof({
       worldSpawnBound:true,
       playtestTelemetryCreated:true,
       rotatingQuestionBankCreated:true,
-      phase6RetentionStoreCreated:true
+      materialFirstQuestionBank:true,
+      persistentPerStationRotation:true,
+      correctAnswerCoinEconomy:true,
+      phase6RetentionStoreCreated:true,
+      homeEconomyCreated:true,
+      shopRemotesCreated:true,
+      playerHomeRuntimeFolderCreated:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,

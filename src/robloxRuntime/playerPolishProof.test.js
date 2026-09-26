@@ -20,7 +20,7 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
       'utf8'
     );
 
-    expect(config).toContain('PolishRevision = "phase6-content-fun-retention-v1"');
+    expect(config).toContain('PolishRevision = "phase7-questions-coins-homes-v1"');
     expect(config).toContain('Welcome to Brightside!');
     expect(config).toContain('Direction = "North"');
     expect(config).toContain('Direction = "East"');

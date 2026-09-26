@@ -1,18 +1,19 @@
 --!strict
 
 local CoreLoopConfig = table.freeze({
-	SchemaVersion = 2,
+	SchemaVersion = 3,
 	LoopId = "brightside-core-loop-v1",
 	DistrictName = "Brightside Plaza",
-	PolishRevision = "phase6-content-fun-retention-v1",
+	PolishRevision = "phase7-questions-coins-homes-v1",
 	ChallengeName = "Neighborhood Challenge",
 	DailyRewardRunCap = 3,
 	FirstLoopCosmeticId = "brightside-spark-trail",
+	QuestionReward = table.freeze({Coins = 10, XP = 1}),
 	QuestionRotation = table.freeze({
-		BankRevision = "phase6-abvm-question-source-v1",
+		BankRevision = "phase7-material-first-question-source-v1",
 		UpstreamPackSourceHash = "teacher-pages-0ca987de6de2d3791e25",
-		QuestionsPerStation = 3,
-		Strategy = "deterministic-by-run-number",
+		QuestionsPerStation = 6,
+		Strategy = "persistent-per-station-after-correct-answer",
 		AnswersServerOnly = true,
 		NoLiveLlm = true,
 	}),
@@ -31,7 +32,7 @@ local CoreLoopConfig = table.freeze({
 			Title = "Power the Word Portal",
 			Subject = "Reading / ELA",
 			Source = "ABVM Grade 2 current source pack",
-			Reward = table.freeze({Coins = 6, XP = 4, Stars = 0}),
+			Reward = table.freeze({Coins = 0, XP = 3, Stars = 0}),
 		}),
 		table.freeze({
 			Id = "spelling-forge-fog-v1",
@@ -42,7 +43,7 @@ local CoreLoopConfig = table.freeze({
 			Title = "Light the Spelling Forge",
 			Subject = "Word Skills",
 			Source = "ABVM Grade 2 current source pack",
-			Reward = table.freeze({Coins = 6, XP = 4, Stars = 0}),
+			Reward = table.freeze({Coins = 0, XP = 3, Stars = 0}),
 		}),
 		table.freeze({
 			Id = "culture-lab-culture-v1",
@@ -53,12 +54,12 @@ local CoreLoopConfig = table.freeze({
 			Title = "Tune the Culture Lab",
 			Subject = "Religion / Community",
 			Source = "ABVM Grade 2 current source pack",
-			Reward = table.freeze({Coins = 6, XP = 4, Stars = 0}),
+			Reward = table.freeze({Coins = 0, XP = 3, Stars = 0}),
 		}),
 	}),
 	LoopReward = table.freeze({
-		Coins = 12,
-		XP = 8,
+		Coins = 0,
+		XP = 6,
 		Stars = 1,
 	}),
 })
