@@ -11,7 +11,7 @@ const sourceOut=option('--source-out','docs/phase6/ABVM_GRADE2_ROTATING_QUESTION
 const packOut=option('--pack-out','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const luaOut=option('--lua-out','roblox/src/server/CoreQuestionBank.luau');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v3-research-1-6';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v4-research-7-12';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -97,6 +97,16 @@ const STANDARD_BY_SKILL=Object.freeze({
   'time':['CCSS.2.MD.C.7'],
   'data-interpretation':['CCSS.2.MD.D.10'],
   'probability-language':['STAR.MATH.DATA.PROBABILITY'],
+  'main-idea':['CCSS.RI.2.2'],
+  'compare-contrast':['CCSS.RL.2.9'],
+  'text-structure':['CCSS.RI.2.5'],
+  'synonym-nuance':['CCSS.L.2.5'],
+  'multi-sentence-inference':['CCSS.RL.2.1'],
+  'money':['CCSS.2.MD.C.8'],
+  'number-line':['CCSS.2.MD.B.6'],
+  'fractions-shapes':['CCSS.2.G.A.3'],
+  'fact-family':['CCSS.2.OA.B.2'],
+  'equal-groups':['CCSS.2.OA.C.4'],
   'religion-application':['ABVM.RELIGION.CURRENT']
 });
 
@@ -137,6 +147,16 @@ const DOK_BY_SKILL=Object.freeze({
   'time':2,
   'data-interpretation':2,
   'probability-language':2,
+  'main-idea':3,
+  'compare-contrast':3,
+  'text-structure':2,
+  'synonym-nuance':2,
+  'multi-sentence-inference':3,
+  'money':2,
+  'number-line':2,
+  'fractions-shapes':2,
+  'fact-family':2,
+  'equal-groups':2,
   'religion-application':2
 });
 
@@ -194,6 +214,16 @@ function hintFor(skill){
     'time':'Track how the minute hand moves before changing the hour.',
     'data-interpretation':'Read the labels and compare the values, not the picture size.',
     'probability-language':'More matching objects means a more likely result.',
+    'main-idea':'Ask what most of the details are teaching you about.',
+    'compare-contrast':'Name one way the two texts are alike and one way they differ.',
+    'text-structure':'Look for clue words that show sequence, cause/effect, description, or comparison.',
+    'synonym-nuance':'Try each word in the sentence and choose the one with the closest meaning and feeling.',
+    'multi-sentence-inference':'Use clues from more than one sentence before deciding.',
+    'money':'Name each coin value first, then combine the cents.',
+    'number-line':'Count equal jumps and notice the direction of each jump.',
+    'fractions-shapes':'Check that the whole is split into equal parts before naming the fraction.',
+    'fact-family':'Use the same three numbers to build related addition and subtraction facts.',
+    'equal-groups':'Count the number of groups and how many are in each equal group.',
     'religion-application':'Match the lesson idea to the choice that actually puts it into action.'
   };
   return hints[skill]||'Use the important information in the question and eliminate choices that do not fit.';
@@ -211,7 +241,15 @@ function scaffoldFor(skill){
     'subtraction-within-100':'Break the second number into tens and ones.',
     'unknown-number':'Cover the unknown and ask which inverse operation undoes the equation.',
     'place-value':'Rewrite the number as hundreds + tens + ones.',
-    'measurement':'Draw or imagine the length before and after the change.'
+    'measurement':'Draw or imagine the length before and after the change.',
+    'main-idea':'Group the details. Which idea do most of them support?',
+    'compare-contrast':'Make two columns: same and different.',
+    'text-structure':'Circle clue words such as because, first, unlike, or for example.',
+    'multi-sentence-inference':'Underline one clue in each sentence and combine them.',
+    'money':'Write each coin value in cents before adding.',
+    'number-line':'Mark the starting point, then count each equal jump.',
+    'fractions-shapes':'Count the equal pieces in the whole, then count the shaded pieces.',
+    'fact-family':'Write the two addition facts first, then reverse them into subtraction.'
   };
   return scaffolds[skill]||hintFor(skill);
 }
@@ -261,6 +299,16 @@ function misconceptionFor(skill,choice,answer){
     'time':['clock-hand-confusion','Use the minute hand first, then check the hour hand.'],
     'data-interpretation':['graph-reading-confusion','Read the category label and value before comparing.'],
     'probability-language':['relative-frequency-confusion','Compare how many of each outcome are possible.'],
+    'main-idea':['detail-not-main-idea','A main idea must cover most of the details, not just one sentence.'],
+    'compare-contrast':['one-text-only','Use evidence from both texts before deciding how they are alike or different.'],
+    'text-structure':['structure-signal-confusion','Look for signal words that show how the ideas are organized.'],
+    'synonym-nuance':['near-synonym-tone-confusion','Choose the word that matches both the meaning and the feeling of the sentence.'],
+    'multi-sentence-inference':['single-clue-inference','Use clues from both sentences instead of relying on only one detail.'],
+    'money':['coin-value-confusion','Name each coin value before combining the cents.'],
+    'number-line':['jump-direction-confusion','Check the starting point, jump size, and direction on the number line.'],
+    'fractions-shapes':['unequal-parts-confusion','Fractions name equal parts of one whole. Check that the pieces are equal.'],
+    'fact-family':['fact-family-number-mismatch','A fact family uses the same three numbers in related equations.'],
+    'equal-groups':['unequal-group-confusion','Every group must contain the same number of objects.'],
     'religion-application':['lesson-application-confusion','Choose the action that best demonstrates the lesson in real life.']
   };
   const [tag,feedback]=bySkill[skill]||['unsupported-choice','Recheck the evidence or calculation that supports your choice.'];
