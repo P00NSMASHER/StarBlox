@@ -1,3 +1,4 @@
+// Bootstrap trigger for the first certified dynamic curriculum snapshot.
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,writeFileSync} from 'node:fs';
 
