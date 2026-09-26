@@ -60,7 +60,7 @@ local ProfileTemplate = {
 		},
 		RecentDays = {},
 		QuestionCursorByClass = {},
-		QuestionBankSnapshotId = "",
+		LastQuestionBankSnapshotId = "",
 		Statistics = {
 			DaysAttended = 0,
 			ClassesCompleted = 0,
