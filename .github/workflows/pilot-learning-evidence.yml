@@ -30,6 +30,7 @@ jobs:
         run: |
           npx vitest run \
             src/robloxRuntime/pilotLearningSteps34.test.js \
+            src/robloxRuntime/pilotBaselineIntegrity.test.js \
             src/robloxRuntime/studyPilotMode.test.js \
             src/robloxRuntime/questionItemReview.test.js
 
