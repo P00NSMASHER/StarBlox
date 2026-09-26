@@ -10,6 +10,7 @@ const packPath=option('--pack','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const sourceOut=option('--source-out','docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json');
 const packOut=option('--pack-out','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const luaOut=option('--lua-out','roblox/src/server/CoreQuestionBank.luau');
+const scannerCommit=option('--scanner-commit','unknown');
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -462,6 +463,7 @@ const source={
     repository:'P00NSMASHER/abvmschoolstarworld',
     path:'pages/data/study-pack.json',
     scanner:'scripts/refresh-teacher-pages.mjs',
+    scannerCommit,
     healthCheck:'scripts/check-refresh-health.mjs',
     sourceHash:rawSourceHash,
     sourceCapturedAt:data.sourceCapturedAt||pack.sourceCapturedAt||null,
