@@ -1,16 +1,21 @@
 --!strict
 
 local WorldActivityBindings = table.freeze({
-	SchemaVersion = 1,
+	SchemaVersion = 2,
 	WorldRootName = "BrookhavenWorldRuntime",
 	RuntimeAnchorFolderName = "StarBloxActivityAnchors",
 
 	-- These source parts are immutable BHW_* parts from the verified Brookhaven
 	-- baseline. StarBlox reads their transforms only; gameplay instances remain
 	-- outside BrookhavenWorldBaseline.
+	--
+	-- Brookhaven parity spawn: BHW_1202 is a collidable town-square plaza tile
+	-- immediately beside the fountain water at BHW_2442. The runtime player
+	-- spawn is projected onto the plaza tile and faces the fountain.
 	Spawn = table.freeze({
-		SourcePartName = "BHW_3461",
-		HeightOffset = 4,
+		SourcePartName = "BHW_1202",
+		FacingSourcePartName = "BHW_2442",
+		HeightOffset = 3,
 	}),
 
 	Activities = table.freeze({
