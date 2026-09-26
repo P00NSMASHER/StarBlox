@@ -176,6 +176,8 @@ function PrivatePlaytestTelemetryService:_ensureSession(player)
 			firstLoopSeconds = nil,
 			secondLoopStarted = false,
 			secondLoopCompleted = false,
+			baselinePilotSessionsStarted = 0,
+			baselinePilotSessionsCompleted = 0,
 		},
 		privacy = {
 			storesUsername = false,
@@ -252,6 +254,8 @@ function PrivatePlaytestTelemetryService:_persistRetentionAggregate(report)
 					repeatLoopSessions = 0,
 					pilotSessionsStarted = 0,
 					pilotSessionsCompleted = 0,
+					baselinePilotSessionsStarted = 0,
+					baselinePilotSessionsCompleted = 0,
 					sessionsWithFirstStation = 0,
 					totalFirstStationSeconds = 0,
 					totalDurationSeconds = 0,
@@ -277,12 +281,16 @@ function PrivatePlaytestTelemetryService:_persistRetentionAggregate(report)
 			if snapshot.retention.secondLoopStarted == true then
 				aggregate.repeatLoopSessions = (aggregate.repeatLoopSessions or 0) + 1
 			end
-			if (snapshot.server.pilot_started or 0) > 0 then
-				aggregate.pilotSessionsStarted = (aggregate.pilotSessionsStarted or 0) + 1
-			end
-			if (snapshot.server.pilot_completed or 0) > 0 then
-				aggregate.pilotSessionsCompleted = (aggregate.pilotSessionsCompleted or 0) + 1
-			end
+			aggregate.pilotSessionsStarted =
+				(aggregate.pilotSessionsStarted or 0) + math.max(0, math.floor(snapshot.server.pilot_started or 0))
+			aggregate.pilotSessionsCompleted =
+				(aggregate.pilotSessionsCompleted or 0) + math.max(0, math.floor(snapshot.server.pilot_completed or 0))
+			aggregate.baselinePilotSessionsStarted =
+				(aggregate.baselinePilotSessionsStarted or 0)
+				+ math.max(0, math.floor(snapshot.retention.baselinePilotSessionsStarted or 0))
+			aggregate.baselinePilotSessionsCompleted =
+				(aggregate.baselinePilotSessionsCompleted or 0)
+				+ math.max(0, math.floor(snapshot.retention.baselinePilotSessionsCompleted or 0))
 			if type(snapshot.retention.firstStationSeconds) == "number" then
 				aggregate.sessionsWithFirstStation = (aggregate.sessionsWithFirstStation or 0) + 1
 				aggregate.totalFirstStationSeconds =
@@ -381,6 +389,17 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 							firstPilotBucketCounts = {},
 							pilotResponseTimeBands = {},
 							pilotMisconceptionCounts = {},
+							baselinePilotAttempts = 0,
+							baselinePilotCorrect = 0,
+							baselinePilotWrong = 0,
+							baselineFirstAttempts = 0,
+							baselineFirstCorrect = 0,
+							baselineRubricPoints = 0,
+							baselineRubricMaxPoints = 0,
+							baselineBucketCounts = {},
+							baselineFirstBucketCounts = {},
+							baselineResponseTimeBands = {},
+							baselineMisconceptionCounts = {},
 							sumPilotSessionAccuracy = 0,
 							sumPilotSessionAccuracySquared = 0,
 							sumPilotItemSessionProduct = 0,
@@ -418,10 +437,25 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 					row.firstPilotBucketCounts = type(row.firstPilotBucketCounts) == "table" and row.firstPilotBucketCounts or {}
 					row.pilotResponseTimeBands = type(row.pilotResponseTimeBands) == "table" and row.pilotResponseTimeBands or {}
 					row.pilotMisconceptionCounts = type(row.pilotMisconceptionCounts) == "table" and row.pilotMisconceptionCounts or {}
+					row.baselinePilotAttempts = (row.baselinePilotAttempts or 0) + (item.baselinePilotAttempts or 0)
+					row.baselinePilotCorrect = (row.baselinePilotCorrect or 0) + (item.baselinePilotCorrect or 0)
+					row.baselinePilotWrong = (row.baselinePilotWrong or 0) + (item.baselinePilotWrong or 0)
+					row.baselineFirstAttempts = (row.baselineFirstAttempts or 0) + (item.baselineFirstAttempts or 0)
+					row.baselineFirstCorrect = (row.baselineFirstCorrect or 0) + (item.baselineFirstCorrect or 0)
+					row.baselineRubricPoints = (row.baselineRubricPoints or 0) + (item.baselineRubricPoints or 0)
+					row.baselineRubricMaxPoints = (row.baselineRubricMaxPoints or 0) + (item.baselineRubricMaxPoints or 0)
+					row.baselineBucketCounts = type(row.baselineBucketCounts) == "table" and row.baselineBucketCounts or {}
+					row.baselineFirstBucketCounts = type(row.baselineFirstBucketCounts) == "table" and row.baselineFirstBucketCounts or {}
+					row.baselineResponseTimeBands = type(row.baselineResponseTimeBands) == "table" and row.baselineResponseTimeBands or {}
+					row.baselineMisconceptionCounts = type(row.baselineMisconceptionCounts) == "table" and row.baselineMisconceptionCounts or {}
 					mergeCounters(row.pilotBucketCounts, item.pilotBucketCounts)
 					mergeCounters(row.firstPilotBucketCounts, item.firstPilotBucketCounts)
 					mergeCounters(row.pilotResponseTimeBands, item.pilotResponseTimeBands)
 					mergeCounters(row.pilotMisconceptionCounts, item.pilotMisconceptionCounts)
+					mergeCounters(row.baselineBucketCounts, item.baselineBucketCounts)
+					mergeCounters(row.baselineFirstBucketCounts, item.baselineFirstBucketCounts)
+					mergeCounters(row.baselineResponseTimeBands, item.baselineResponseTimeBands)
+					mergeCounters(row.baselineMisconceptionCounts, item.baselineMisconceptionCounts)
 					if item.firstPilot == true and pilotSessionAccuracy ~= nil then
 						row.sumPilotSessionAccuracy = (row.sumPilotSessionAccuracy or 0) + pilotSessionAccuracy
 						row.sumPilotSessionAccuracySquared =
@@ -553,6 +587,17 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 				firstPilotBucketCounts = {},
 				pilotResponseTimeBands = {},
 				pilotMisconceptionCounts = {},
+				baselinePilotAttempts = 0,
+				baselinePilotCorrect = 0,
+				baselinePilotWrong = 0,
+				baselineFirstAttempts = 0,
+				baselineFirstCorrect = 0,
+				baselineRubricPoints = 0,
+				baselineRubricMaxPoints = 0,
+				baselineBucketCounts = {},
+				baselineFirstBucketCounts = {},
+				baselineResponseTimeBands = {},
+				baselineMisconceptionCounts = {},
 				rubricPoints = 0,
 				rubricMaxPoints = 0,
 				responseTimeBands = {},
@@ -571,7 +616,9 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 		item.attempts += 1
 		local support = cleanBool(source.support)
 		local pilot = cleanBool(source.pilot)
+		local baseline = pilot and cleanBool(source.baseline)
 		local correct = cleanBool(source.correct)
+		local attemptIndex = clampInteger(source.attemptIndex, 1, 100)
 		local pilotBucket = nil
 		if pilot then
 			item.pilotAttempts += 1
@@ -588,12 +635,37 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 			if pilotMisconception ~= nil then
 				ensureCounter(item.pilotMisconceptionCounts, pilotMisconception)
 			end
+
+			if baseline then
+				item.baselinePilotAttempts += 1
+				if correct then item.baselinePilotCorrect += 1 else item.baselinePilotWrong += 1 end
+				if attemptIndex == 1 then
+					item.baselineFirstAttempts += 1
+					if correct then item.baselineFirstCorrect += 1 end
+					if pilotBucket ~= nil then
+						ensureCounter(item.baselineFirstBucketCounts, pilotBucket)
+					end
+				end
+				if pilotBucket ~= nil then
+					ensureCounter(item.baselineBucketCounts, pilotBucket)
+				end
+				if pilotBand ~= nil and ALLOWED_RESPONSE_TIME_BANDS[pilotBand] == true then
+					ensureCounter(item.baselineResponseTimeBands, pilotBand)
+				end
+				if pilotMisconception ~= nil then
+					ensureCounter(item.baselineMisconceptionCounts, pilotMisconception)
+				end
+			end
 		end
 		local rubricPoints = clampInteger(source.rubricPoints, 0, 10)
 		local rubricMaxPoints = math.max(1, clampInteger(source.rubricMaxPoints, 1, 10))
 		if pilot then
 			item.pilotRubricPoints += rubricPoints
 			item.pilotRubricMaxPoints += rubricMaxPoints
+			if baseline then
+				item.baselineRubricPoints += rubricPoints
+				item.baselineRubricMaxPoints += rubricMaxPoints
+			end
 		end
 		item.rubricPoints += rubricPoints
 		item.rubricMaxPoints += rubricMaxPoints
@@ -627,6 +699,14 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 		local misconception = cleanMetricKey(source.misconception, 80)
 		if misconception ~= nil then
 			ensureCounter(item.misconceptionCounts, misconception)
+		end
+	elseif eventName == "pilot_started" then
+		if cleanBool(source.baseline) then
+			report.retention.baselinePilotSessionsStarted += 1
+		end
+	elseif eventName == "pilot_completed" then
+		if cleanBool(source.baseline) then
+			report.retention.baselinePilotSessionsCompleted += 1
 		end
 	elseif eventName == "station_opened" then
 		if report.retention.firstStationSeconds == nil then
