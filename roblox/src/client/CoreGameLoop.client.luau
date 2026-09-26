@@ -417,9 +417,21 @@ local function showToast(message: string, positive: boolean?)
 	end)
 end
 
+local function setLearningOverlayVisible(visible: boolean)
+	player:SetAttribute("StarBloxLearningOverlayVisible", visible)
+	hud.Visible = visible
+	nextHint.Visible = visible
+	if not visible then
+		waypoint.Enabled = false
+		waypoint.Adornee = nil
+		onboarding.Visible = false
+	end
+end
+
 local function hidePanel()
 	currentActivity = nil
 	panel.Visible = false
+	setLearningOverlayVisible(false)
 end
 
 local function showPanel()
@@ -566,6 +578,7 @@ local function refreshStatus(attempt: number?)
 end
 
 local function showActivity(activity)
+	setLearningOverlayVisible(true)
 	currentActivity = activity
 	sendPlaytestTelemetry("activity_panel_opened", {
 		activityId = activity.id,
@@ -702,6 +715,7 @@ activityOpened.OnClientEvent:Connect(function(payload)
 	if payload.status == "ready" and type(payload.activity) == "table" then
 		showActivity(payload.activity)
 	else
+		setLearningOverlayVisible(true)
 		currentActivity = nil
 		showPanel()
 		activityTitle.Text = "StarBlox"
@@ -723,6 +737,7 @@ activityOpened.OnClientEvent:Connect(function(payload)
 end)
 
 task.defer(function()
+	setLearningOverlayVisible(false)
 	task.wait(0.2)
 	local camera = workspace.CurrentCamera
 	local viewport = if camera ~= nil then camera.ViewportSize else Vector2.zero
