@@ -27,6 +27,19 @@ local function finitePositive(value: any, fallback: number): number
 	return parsed
 end
 
+local function nativeSeatCounts(root: Instance): (number, number)
+	local seats = 0
+	local vehicleSeats = 0
+	for _, descendant in root:GetDescendants() do
+		if descendant:IsA("VehicleSeat") then
+			vehicleSeats += 1
+		elseif descendant:IsA("Seat") then
+			seats += 1
+		end
+	end
+	return seats, vehicleSeats
+end
+
 function WorldInteractionService.new(worldProjection)
 	assert(worldProjection ~= nil, "worldProjection is required")
 
@@ -55,6 +68,24 @@ function WorldInteractionService.new(worldProjection)
 	self._lightStates = {}
 	self._connections = {}
 	self._destroyed = false
+
+	local runtimeSeats, runtimeVehicleSeats = nativeSeatCounts(runtime)
+	local witnessSeats, witnessVehicleSeats = nativeSeatCounts(witness)
+	assert(
+		runtimeSeats == WorldInteractionBindings.NativeSeats.ExpectedSeatCount,
+		"Brookhaven runtime Seat count no longer matches the certified witness"
+	)
+	assert(
+		runtimeVehicleSeats == WorldInteractionBindings.NativeSeats.ExpectedVehicleSeatCount,
+		"Brookhaven runtime VehicleSeat count no longer matches the certified witness"
+	)
+	assert(
+		witnessSeats == runtimeSeats and witnessVehicleSeats == runtimeVehicleSeats,
+		"Brookhaven runtime native seat classes diverged from the immutable witness"
+	)
+	runtime:SetAttribute("StarBloxCertifiedSeatCount", runtimeSeats)
+	runtime:SetAttribute("StarBloxCertifiedVehicleSeatCount", runtimeVehicleSeats)
+	runtime:SetAttribute("StarBloxInteractionBindingRevision", WorldInteractionBindings.Revision)
 
 	for _, binding in WorldInteractionBindings.Doors do
 		self:_bindDoor(binding)
@@ -478,6 +509,12 @@ function WorldInteractionService:Destroy()
 		end
 	end
 	self._lightStates = {}
+
+	if self._runtime ~= nil and self._runtime.Parent ~= nil then
+		self._runtime:SetAttribute("StarBloxCertifiedSeatCount", nil)
+		self._runtime:SetAttribute("StarBloxCertifiedVehicleSeatCount", nil)
+		self._runtime:SetAttribute("StarBloxInteractionBindingRevision", nil)
+	end
 end
 
 return WorldInteractionService
