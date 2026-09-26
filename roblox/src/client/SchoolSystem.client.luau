@@ -19,6 +19,7 @@ local submit = root:WaitForChild("SubmitClassAnswer") :: RemoteFunction
 local gui = Instance.new("ScreenGui")
 gui.Name = "StarBloxSchoolGui"
 gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local hud = Instance.new("TextLabel")
@@ -45,6 +46,11 @@ panel.Size = UDim2.fromScale(0.7, 0.58)
 panel.Position = UDim2.fromScale(0.15, 0.22)
 panel.Visible = false
 panel.Parent = gui
+
+local panelConstraint = Instance.new("UISizeConstraint")
+panelConstraint.MinSize = Vector2.new(300, 360)
+panelConstraint.MaxSize = Vector2.new(760, 620)
+panelConstraint.Parent = panel
 
 local questionLabel = Instance.new("TextLabel")
 questionLabel.Name = "Question"
@@ -83,15 +89,29 @@ report.TextScaled = true
 report.Visible = false
 report.Parent = gui
 
+local reportConstraint = Instance.new("UISizeConstraint")
+reportConstraint.MinSize = Vector2.new(300, 360)
+reportConstraint.MaxSize = Vector2.new(760, 680)
+reportConstraint.Parent = report
+
 local state = nil
 local stateReceivedAt = 0
 local session = nil
+local submitting = false
+
+local function setButtonsEnabled(enabled: boolean)
+	for _, choiceButton in buttons do
+		choiceButton.Active = enabled
+		choiceButton.AutoButtonColor = enabled
+	end
+end
 
 local function renderState(payload)
 	state = payload
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
-	hud.Text = string.format("%s\n%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
+	hud.Text = string.format("%s
+%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
 	report.Visible = false
 
 	if payload.report and payload.report.ok then
@@ -112,8 +132,12 @@ local function renderState(payload)
 		))
 		if payload.dismissed then
 			table.insert(lines, "School dismissed — free roam!")
+			if payload.makeupAvailable then
+				table.insert(lines, "Missed work available at the Library.")
+			end
 		end
-		report.Text = table.concat(lines, "\n")
+		report.Text = table.concat(lines, "
+")
 		report.Visible = true
 	end
 end
@@ -123,6 +147,8 @@ local function renderQuestion(nextSession)
 	panel.Visible = true
 	report.Visible = false
 	feedback.Text = ""
+	submitting = false
+	setButtonsEnabled(true)
 
 	local question = nextSession.question
 	if not question then
@@ -130,9 +156,14 @@ local function renderQuestion(nextSession)
 		return
 	end
 
+	local classLabel = tostring(nextSession.classId)
+	if nextSession.makeup then
+		classLabel ..= " • MAKE-UP"
+	end
 	questionLabel.Text = string.format(
-		"%s • %d/%d\n%s",
-		nextSession.classId,
+		"%s • %d/%d
+%s",
+		classLabel,
 		nextSession.questionIndex,
 		nextSession.questionCount,
 		question.prompt
@@ -146,8 +177,10 @@ end
 
 for _, button in buttons do
 	button.Activated:Connect(function()
-		if not session or not session.question then return end
+		if submitting or not session or not session.question then return end
 		local question = session.question
+		submitting = true
+		setButtonsEnabled(false)
 
 		local result = submit:InvokeServer({
 			sessionId = session.sessionId,
@@ -156,20 +189,27 @@ for _, button in buttons do
 			choice = button.Text,
 		})
 
+		submitting = false
+		setButtonsEnabled(true)
+
 		if not result or result.ok ~= true then
-			feedback.Text = "Try again in a moment."
+			feedback.Text = if result and result.code == "rate_limited"
+				then "One answer at a time."
+				else "Try again in a moment."
 			return
 		end
 
 		feedback.Text = result.explanation or ""
 		if result.scaffold then
-			feedback.Text = feedback.Text .. "\nHint: " .. tostring(result.scaffold)
+			feedback.Text = feedback.Text .. "
+Hint: " .. tostring(result.scaffold)
 		end
 
 		if result.correct then
 			if result.classComplete then
 				feedback.Text = feedback.Text .. string.format(
-					"\nClass complete — %s (%d)",
+					"
+Class complete — %s (%d)",
 					result.grade,
 					result.score
 				)
@@ -193,7 +233,8 @@ RunService.Heartbeat:Connect(function()
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
-		hud.Text = string.format("%s\n%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
+		hud.Text = string.format("%s
+%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
 	end
 
 	if not state or not state.targetAnchorName then
@@ -208,9 +249,12 @@ RunService.Heartbeat:Connect(function()
 
 	if target and target:IsA("BasePart") and rootPart and rootPart:IsA("BasePart") then
 		local distance = (target.Position - rootPart.Position).Magnitude
+		local targetName = state.targetDisplayName or state.clock.DisplayName
+		local roomText = if state.targetRoom then " • Room " .. tostring(state.targetRoom) else ""
 		waypoint.Text = string.format(
-			"NEXT → %s  •  %d studs",
-			state.clock.DisplayName,
+			"NEXT → %s%s • %d studs",
+			targetName,
+			roomText,
 			math.floor(distance + 0.5)
 		)
 		waypoint.Visible = true
