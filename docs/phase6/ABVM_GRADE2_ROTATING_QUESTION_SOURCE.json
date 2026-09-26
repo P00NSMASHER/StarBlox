@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "certificationVersion": "phase6-abvm-question-source-v1",
+  "status": "certified-source-grounded",
+  "upstream": {
+    "repository": "P00NSMASHER/abvmschoolstarworld",
+    "path": "pages/data/study-pack.json",
+    "blobSha": "9db898dbdba7208778ec3f61d25a427bb3dd8b60",
+    "packSourceHash": "teacher-pages-0ca987de6de2d3791e25",
+    "sourceCapturedAt": "2026-09-24T20:13:58.158Z",
+    "weekLabel": "Week of September 21, 2026"
+  },
+  "rules": {
+    "answersServerOnly": true,
+    "choicesPerQuestion": 3,
+    "minimumQuestionsPerStation": 3,
+    "rotation": "deterministic-by-run-number",
+    "noLiveLlm": true
+  },
+  "questions": [
+    {
+      "id": "week-2026-09-22-reading-1",
+      "stationId": "word-portal-put-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-reading-1",
+      "subject": "Reading / ELA",
+      "skill": "current-story",
+      "prompt": "Which story is on the current Reading Work page?",
+      "choices": [
+        "Little Flap Learns to Fly",
+        "The Very Hungry Caterpillar",
+        "Charlotte's Web"
+      ],
+      "answer": "Little Flap Learns to Fly",
+      "explanation": "The current Reading Work page lists “Little Flap Learns to Fly.”",
+      "contentHash": "sha256:5cd1ed38654009065d72ea480d29b68664816328f9db5ffc2dbc332fe3b079a0"
+    },
+    {
+      "id": "week-2026-09-22-reading-2",
+      "stationId": "word-portal-put-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-reading-2",
+      "subject": "Reading / ELA",
+      "skill": "current-sight-words",
+      "prompt": "Which word is a current sight word?",
+      "choices": [
+        "she",
+        "went",
+        "tug"
+      ],
+      "answer": "she",
+      "explanation": "“she” is on the current Reading Work sight-word list.",
+      "contentHash": "sha256:ee905197415dd154080fe532fd8df0e593e15fa011662b4ca4f22eeff86e2557"
+    },
+    {
+      "id": "week-2026-09-22-reading-3",
+      "stationId": "word-portal-put-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-reading-3",
+      "subject": "Reading / ELA",
+      "skill": "current-vocabulary",
+      "prompt": "Which word is on the current vocabulary list?",
+      "choices": [
+        "rescue",
+        "culture",
+        "triangle"
+      ],
+      "answer": "rescue",
+      "explanation": "“rescue” is on the current Reading Work vocabulary list.",
+      "contentHash": "sha256:fa5f378d836281d47d8946edc5d5b2df194bf36bb959e121ed2bbff19f0ccf97"
+    },
+    {
+      "id": "week-2026-09-22-phonics-1",
+      "stationId": "spelling-forge-fog-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-phonics-1",
+      "subject": "Spelling / Handwriting",
+      "skill": "two-letter-consonant-blends",
+      "prompt": "What phonics skill is being practiced this week?",
+      "choices": [
+        "2-letter consonant blends",
+        "silent e only",
+        "vowel teams only"
+      ],
+      "answer": "2-letter consonant blends",
+      "explanation": "The current Reading Work and Sept. 25 spelling-test focus is 2-letter consonant blends.",
+      "contentHash": "sha256:ea5b7e6fe6a11628cdc08052a9bb9bb0ae841007185e60fdb3243e6ff2af25b7"
+    },
+    {
+      "id": "phase6-sightword-here-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Sight words: she, boy, he, small, were, what, girl, here, by, want",
+      "subject": "Reading / ELA",
+      "skill": "current-sight-words",
+      "prompt": "Which word is on the current sight-word list?",
+      "choices": [
+        "here",
+        "went",
+        "tug"
+      ],
+      "answer": "here",
+      "explanation": "“here” is one of the current Grade 2 sight words.",
+      "contentHash": "sha256:f42e713106b4237fdecd9b0ccc7e78afc0c2a4b0799ffd9dcdd46f4fac174611"
+    },
+    {
+      "id": "phase6-wordstructure-cvc-v1",
+      "stationId": "spelling-forge-fog-v1",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Word structure: CVC words",
+      "subject": "Reading / ELA",
+      "skill": "cvc-word-structure",
+      "prompt": "What word structure is being practiced now?",
+      "choices": [
+        "CVC words",
+        "compound words",
+        "contractions"
+      ],
+      "answer": "CVC words",
+      "explanation": "The current Reading Work page lists CVC words for word structure.",
+      "contentHash": "sha256:2ebbf3b96d80be5ed873ead8a0327ebcbf9d8db3d34f30ae38db9aef68ac0908"
+    },
+    {
+      "id": "week-2026-09-22-religion-1",
+      "stationId": "culture-lab-culture-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-religion-1",
+      "subject": "Religion",
+      "skill": "jesus-savior",
+      "prompt": "Jesus died for our sins and is our Savior.",
+      "choices": [
+        "True",
+        "False",
+        "Not sure"
+      ],
+      "answer": "True",
+      "explanation": "The current Religion page says Jesus died for our sins and is our Savior.",
+      "contentHash": "sha256:b746c9a74222a72f340b1fcd8f4a23eb15c85bbb7e7b59e259a866a1a84d7e6f"
+    },
+    {
+      "id": "week-2026-09-22-religion-2",
+      "stationId": "culture-lab-culture-v1",
+      "provenance": "direct-upstream-question",
+      "sourceQuestionId": "week-2026-09-22-religion-2",
+      "subject": "Religion",
+      "skill": "disciples",
+      "prompt": "What are friends of Jesus called?",
+      "choices": [
+        "disciples",
+        "captions",
+        "blends"
+      ],
+      "answer": "disciples",
+      "explanation": "The current Religion page says we are called to be disciples, friends of Jesus.",
+      "contentHash": "sha256:8fbc587632ec0583ccc476f202b94ca4e31989e4c23471e418605c6f5d21e0ee"
+    },
+    {
+      "id": "phase6-trinity-v1",
+      "stationId": "culture-lab-culture-v1",
+      "provenance": "derived-from-published-topic",
+      "sourceFact": "Trinity: 3 persons in one God (Father, Son, Holy Spirit)",
+      "subject": "Religion",
+      "skill": "trinity",
+      "prompt": "How many persons are in one God in the Trinity?",
+      "choices": [
+        "3",
+        "2",
+        "5"
+      ],
+      "answer": "3",
+      "explanation": "The Trinity is three persons in one God: Father, Son, and Holy Spirit.",
+      "contentHash": "sha256:c5a9e20bce61e5cca2b6f957e765a12adcd118ef225f551e117fff8c7c419eba"
+    }
+  ]
+}

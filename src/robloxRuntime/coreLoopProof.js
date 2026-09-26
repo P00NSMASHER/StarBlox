@@ -2,8 +2,8 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v1';
-export const STARBLOX_CORE_LOOP_RELEASE_ID='starblox-private-step7-v1';
+export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v2';
+export const STARBLOX_CORE_LOOP_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildCoreLoopProbeScript({releaseId=STARBLOX_CORE_LOOP_RELEASE_ID}={}){
   const release=JSON.stringify(String(releaseId));
@@ -18,23 +18,44 @@ assert(manifest.productionActivationAllowed == false, "production activation mus
 
 local config = require(shared:WaitForChild("CoreLoopConfig"))
 assert(config.LoopId == "brightside-core-loop-v1", "unexpected core loop id")
-assert(config.DistrictName == "Brightside Plaza", "unexpected district")
+assert(config.PolishRevision == "phase6-content-fun-retention-v1", "Phase 6 revision missing")
+assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
 assert(#config.Activities == 3, "core loop must contain exactly three activities")
 assert(config.DailyRewardRunCap == 3, "unexpected reward run cap")
+assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
+assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
 for _, activity in config.Activities do
     assert(activity.Answer == nil, "correct answers must not be replicated in CoreLoopConfig")
+    assert(activity.Choices == nil, "question choices must come from the rotating server bank")
     assert(activity.Source == "ABVM Grade 2 current source pack", "activity source mismatch")
-    assert(#activity.Choices == 3, "each activity must expose exactly three choices")
 end
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
+local bank = require(serverRoot:WaitForChild("CoreQuestionBank"))
+assert(bank.Source.CertificationVersion == "phase6-abvm-question-source-v1", "question-bank certification mismatch")
+assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
+assert(bank.Source.NoLiveLlm == true, "question bank live-model boundary mismatch")
+
+local stationIds = {
+    "word-portal-put-v1",
+    "spelling-forge-fog-v1",
+    "culture-lab-culture-v1",
+}
+for _, stationId in stationIds do
+    assert(bank.CountForStation(stationId) == 3, "station must have exactly three certified questions: " .. stationId)
+    local q1 = bank.Select(stationId, 1)
+    local q2 = bank.Select(stationId, 2)
+    local q3 = bank.Select(stationId, 3)
+    local q4 = bank.Select(stationId, 4)
+    assert(q1 ~= nil and q2 ~= nil and q3 ~= nil and q4 ~= nil, "question rotation returned nil")
+    assert(q1.Id ~= q2.Id and q2.Id ~= q3.Id and q1.Id ~= q3.Id, "three-run rotation must not repeat")
+    assert(q4.Id == q1.Id, "fourth run must deterministically cycle to first question")
+end
+
 local runtime = serverRoot:WaitForChild("Runtime")
 assert(runtime:IsA("Script"), "production Runtime script missing")
 assert((runtime :: any).Disabled == false, "production Runtime script disabled")
 
--- Luau Execution runs a custom script-execution server, so normal Script
--- instances are present but not auto-started. Instantiate the exact
--- production CoreGameLoopService explicitly for engine verification.
 local service = require(serverRoot:WaitForChild("CoreGameLoopService"))
 local proofProfiles = {
     Get = function(_self, _player)
@@ -51,54 +72,49 @@ local proofReplicas = {
 }
 local core = service.new(proofProfiles, proofReplicas)
 
-local world = Workspace:WaitForChild("StarBloxCoreLoop", 5)
-assert(world ~= nil, "core-loop world missing")
-assert(world:GetAttribute("LoopId") == config.LoopId, "world loop id mismatch")
-local spawn = world:FindFirstChild("StarBloxSpawn")
-assert(spawn and spawn:IsA("SpawnLocation"), "StarBlox spawn missing")
-
-local stationNames = {
-    ["word-portal-put-v1"] = "WordPortalStation",
-    ["spelling-forge-fog-v1"] = "SpellingForgeStation",
-    ["culture-lab-culture-v1"] = "CultureLabStation",
-}
-for _, activity in config.Activities do
-    local station = world:FindFirstChild(stationNames[activity.Id])
-    assert(station and station:IsA("BasePart"), "station missing: " .. activity.Id)
-    assert(station:GetAttribute("ActivityId") == activity.Id, "station activity mismatch")
-    local prompt = station:FindFirstChild("StartActivityPrompt")
-    assert(prompt and prompt:IsA("ProximityPrompt"), "station prompt missing: " .. activity.Id)
-    assert(prompt.ActionText == "Start Activity", "station action text mismatch")
+assert(Workspace:FindFirstChild("StarBloxCoreLoop") == nil, "legacy prototype world must remain retired")
+local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
+assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world missing")
+local anchors = Workspace:FindFirstChild("StarBloxActivityAnchors")
+assert(anchors ~= nil and anchors:IsA("Folder"), "real-world activity anchors missing")
+for _, anchorName in {"WordPortalAnchor","SpellingForgeAnchor","CultureLabAnchor"} do
+    local anchor = anchors:FindFirstChild(anchorName)
+    assert(anchor ~= nil and anchor:IsA("BasePart"), "activity anchor missing: " .. anchorName)
+    assert(anchor.Transparency == 1 and anchor.CanCollide == false, "activity anchor must stay invisible/non-colliding")
+    assert(not anchor:IsDescendantOf(brookhaven), "runtime anchor mutated locked Brookhaven baseline")
+    local prompt = anchor:FindFirstChild("StartActivityPrompt")
+    assert(prompt ~= nil and prompt:IsA("ProximityPrompt"), "activity prompt missing: " .. anchorName)
 end
-assert(world:FindFirstChild("NorthPath") ~= nil, "north navigation path missing")
-assert(world:FindFirstChild("EastPath") ~= nil, "east navigation path missing")
-assert(world:FindFirstChild("WestPath") ~= nil, "west navigation path missing")
+assert((core :: any)._spawnCFrame ~= nil, "real-world spawn binding missing")
 
-local remotes = ReplicatedStorage:WaitForChild("StarBloxCoreLoop", 5)
-assert(remotes ~= nil, "core-loop remotes missing")
-assert(remotes:GetAttribute("LoopId") == config.LoopId, "remote loop id mismatch")
-assert(remotes:FindFirstChild("ActivityOpened"):IsA("RemoteEvent"), "ActivityOpened remote missing")
-assert(remotes:FindFirstChild("SubmitAnswer"):IsA("RemoteFunction"), "SubmitAnswer remote missing")
-assert(remotes:FindFirstChild("RequestStatus"):IsA("RemoteFunction"), "RequestStatus remote missing")
-
-assert(service.GradeAnswer("word-portal-put-v1", "put") == true, "word portal correct answer rejected")
-assert(service.GradeAnswer("word-portal-put-v1", "blue") == false, "word portal wrong answer accepted")
-assert(service.GradeAnswer("spelling-forge-fog-v1", "fog") == true, "spelling forge correct answer rejected")
-assert(service.GradeAnswer("culture-lab-culture-v1", "culture") == true, "culture lab correct answer rejected")
+for _, stationId in stationIds do
+    local question = bank.Select(stationId, 1)
+    assert(question ~= nil, "question missing for grade proof")
+    assert(service.GradeAnswer(question.Id, question.Answer) == true, "correct answer rejected")
+    local wrong = nil
+    for _, choice in question.Choices do
+        if string.lower(choice) ~= string.lower(question.Answer) then
+            wrong = choice
+            break
+        end
+    end
+    assert(wrong ~= nil and service.GradeAnswer(question.Id, wrong) == false, "wrong answer accepted")
+end
 
 local profile = {
     Economy = {Coins = 0, XP = 0, Stars = 0, TransferWins = 0},
     Progress = {Districts = {}, MasteredSkills = {}},
     Inventory = {Cosmetics = {}, Equipped = {}},
 }
+local initial = service.BuildStatus(profile)
+assert(initial.challenge.name == "Neighborhood Challenge", "challenge status missing")
+assert(initial.challenge.completed == 0 and initial.challenge.goal == 3, "initial challenge progress mismatch")
+assert(initial.challenge.tier == "Rookie", "initial mastery tier mismatch")
+assert(type(initial.recommendedQuestionId) == "string", "recommended rotating question missing")
+
 local day = "2026-09-25"
-local ids = {
-    "word-portal-put-v1",
-    "spelling-forge-fog-v1",
-    "culture-lab-culture-v1",
-}
 for runIndex = 1, 3 do
-    for _, activityId in ids do
+    for _, activityId in stationIds do
         local result = service.ApplyCompletion(profile, activityId, day)
         assert(result.ok == true and result.duplicate == false, "activity completion rejected")
     end
@@ -112,6 +128,7 @@ assert(profile.Inventory.Cosmetics["brightside-spark-trail"] == true, "first-loo
 assert(profile.Economy.Coins == 90, "three rewarded loops should grant 90 coins")
 assert(profile.Economy.XP == 60, "three rewarded loops should grant 60 XP")
 assert(profile.Economy.Stars == 3, "three rewarded loops should grant 3 stars")
+assert(service.BuildStatus(profile).challenge.tier == "Pathfinder", "three-loop mastery tier mismatch")
 
 local beforeCoins = profile.Economy.Coins
 local beforeXP = profile.Economy.XP
@@ -127,7 +144,7 @@ assert(profile.Economy.Coins == beforeCoins, "duplicate activity changed economy
 
 core:Destroy()
 
-print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " loops=" .. tostring(profile.Progress.CoreLoop.LoopRuns))
+print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " loops=" .. tostring(profile.Progress.CoreLoop.LoopRuns) .. " phase6=true")
 return tostring(manifest.releaseId), tostring(game.PlaceVersion), tostring(profile.Progress.CoreLoop.LoopRuns)
 `;
 }
@@ -152,9 +169,9 @@ export async function runCoreLoopProof({
   });
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_CORE_LOOP_OK release=' +
-    String(releaseId) + ' version=' + String(task.versionNumber) + ' loops=3';
+    String(releaseId) + ' version=' + String(task.versionNumber) + ' loops=3 phase6=true';
   if(!text.includes(sentinel)){
-    throw new Error('Roblox logs are missing the core-loop proof sentinel');
+    throw new Error('Roblox logs are missing the Phase 6 core-loop proof sentinel');
   }
 
   return Object.freeze({
@@ -168,17 +185,20 @@ export async function runCoreLoopProof({
     evidence:Object.freeze({
       productionRuntimeScriptPresent:true,
       productionRuntimeScriptEnabled:true,
-      engineServiceInstantiation:true,
-      threeActivityStations:true,
-      navigationPaths:true,
+      rotatingCertifiedQuestionBank:true,
       serverAuthoritativeAnswers:true,
       replicatedAnswersHidden:true,
+      noLiveLlmQuestDependency:true,
+      realWorldActivityAnchors:true,
+      prototypeWorldAbsent:true,
+      worldSpawnBound:true,
       repeatableRuns:true,
+      neighborhoodChallengeProgression:true,
+      masteryTierProgression:true,
       durableDistrictProgression:true,
       firstLoopCosmeticUnlock:true,
       dailyRewardCap:true,
-      duplicateRewardGuard:true,
-      coreLoopRemotes:true
+      duplicateRewardGuard:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,

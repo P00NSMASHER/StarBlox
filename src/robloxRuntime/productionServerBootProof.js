@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v1';
+export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v2';
 export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildProductionServerBootProbeScript({
@@ -50,6 +50,17 @@ local okReplica, Replica = pcall(require, replicaServerModule)
 assert(okReplica and Replica ~= nil, "ReplicaServer failed to require")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
+local coreConfig = require(shared:WaitForChild("CoreLoopConfig"))
+assert(coreConfig.PolishRevision == "phase6-content-fun-retention-v1", "Phase 6 config revision missing")
+assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 6 answer boundary missing")
+assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 6 live-model boundary missing")
+
+local questionBank = require(serverRoot:WaitForChild("CoreQuestionBank"))
+assert(questionBank.Source.CertificationVersion == "phase6-abvm-question-source-v1", "Phase 6 question bank certification missing")
+for _, stationId in {"word-portal-put-v1","spelling-forge-fog-v1","culture-lab-culture-v1"} do
+    assert(questionBank.CountForStation(stationId) == 3, "Phase 6 station question count mismatch: " .. stationId)
+end
+
 local runtime = serverRoot:WaitForChild("Runtime")
 assert(runtime:IsA("Script"), "production Runtime script missing")
 assert((runtime :: any).Disabled == false, "production Runtime script disabled")
@@ -66,6 +77,7 @@ assert(okBootstrap, "production Bootstrap.start failed: " .. tostring(services))
 assert(type(services) == "table", "production Bootstrap did not return services")
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
+assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "Phase 6 retention aggregate store missing after bootstrap")
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
@@ -212,7 +224,9 @@ export async function runProductionServerBootProof({
       prototypeWorldAbsent:true,
       activityAnchorsCreated:true,
       worldSpawnBound:true,
-      playtestTelemetryCreated:true
+      playtestTelemetryCreated:true,
+      rotatingQuestionBankCreated:true,
+      phase6RetentionStoreCreated:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,

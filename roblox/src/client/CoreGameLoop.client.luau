@@ -170,6 +170,10 @@ panel.Parent = gui
 round(panel, 18)
 outline(panel, 0.25)
 
+local panelScale = Instance.new("UIScale")
+panelScale.Scale = 1
+panelScale.Parent = panel
+
 local panelConstraint = Instance.new("UISizeConstraint")
 panelConstraint.MaxSize = Vector2.new(520, 322)
 panelConstraint.MinSize = Vector2.new(300, 300)
@@ -419,6 +423,24 @@ local function showPanel()
 	):Play()
 end
 
+local function successPulse()
+	panelScale.Scale = 0.985
+	local grow = TweenService:Create(
+		panelScale,
+		TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+		{Scale = 1.025}
+	)
+	local settle = TweenService:Create(
+		panelScale,
+		TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+		{Scale = 1}
+	)
+	grow:Play()
+	grow.Completed:Once(function()
+		settle:Play()
+	end)
+end
+
 local function shakePanel()
 	local center = UDim2.fromScale(0.5, 0.5)
 	local left = UDim2.new(0.5, -8, 0.5, 0)
@@ -466,25 +488,27 @@ local function applyStatus(status)
 
 	local progressCount = tonumber(status.progress) or 0
 	local activityCount = tonumber(status.activityCount) or 3
-	local loops = tonumber(status.loopRuns) or 0
 	updateWaypoint(status.recommendedActivityId, status.recommendedStationName)
-	progress.Text = string.format(
-		"Run %d • %d/%d • %d loops%s",
-		tonumber(status.runNumber) or 1,
-		progressCount,
-		activityCount,
-		loops,
-		status.cosmeticUnlocked == true and " • Spark Trail ✓" or ""
-	)
 
-	if status.rewardCapReached == true then
-		nextHint.Text = "✓ Daily rewards complete"
-		nextHint.TextColor3 = COLORS.success
-	elseif type(status.recommendedStationName) == "string" then
-		nextHint.Text = "→ " .. status.recommendedStationName
-		nextHint.TextColor3 = COLORS.warning
+	if type(status.challenge) == "table" then
+		local challengeCompleted = tonumber(status.challenge.completed) or progressCount
+		local challengeGoal = tonumber(status.challenge.goal) or activityCount
+		local tier = tostring(status.challenge.tier or "Rookie")
+		progress.Text = string.format("Challenge %d/%d • %s", challengeCompleted, challengeGoal, tier)
 	else
-		nextHint.Text = "✓ Run complete — new run ready"
+		progress.Text = string.format(
+			"Run %d • %d/%d",
+			tonumber(status.runNumber) or 1,
+			progressCount,
+			activityCount
+		)
+	end
+
+	if type(status.recommendedStationName) == "string" then
+		nextHint.Text = "→ " .. status.recommendedStationName
+		nextHint.TextColor3 = if status.rewardCapReached == true then COLORS.muted else COLORS.warning
+	else
+		nextHint.Text = "✓ Challenge complete"
 		nextHint.TextColor3 = COLORS.success
 	end
 
@@ -532,8 +556,10 @@ local function showActivity(activity)
 	currentActivity = activity
 	sendPlaytestTelemetry("activity_panel_opened", {
 		activityId = activity.id,
+		questionId = activity.questionId,
 	})
 	activityTitle.Text = activity.title or activity.stationName or "StarBlox Activity"
+	activityTitle.TextColor3 = if typeof(activity.accent) == "Color3" then activity.accent else COLORS.text
 	promptLabel.Text = activity.prompt or ""
 	resultLabel.Text = "Choose the best answer."
 	resultLabel.TextColor3 = COLORS.muted
@@ -586,15 +612,25 @@ for index, button in buttons do
 			shakePanel()
 		elseif response.correct == true then
 			sendPlaytestTelemetry("success_feedback_seen")
-			resultLabel.Text = response.message or "Station complete!"
+			resultLabel.Text = response.explanation or response.message or "Station complete!"
 			resultLabel.TextColor3 = COLORS.success
-			showToast(response.message or "Station powered!", true)
+			successPulse()
+
+			local toastMessage = response.message or "Station powered!"
+			if type(response.rewardSummary) == "string" and response.rewardSummary ~= "" then
+				toastMessage = toastMessage .. "  " .. response.rewardSummary
+			end
+			if response.cosmeticUnlocked == true then
+				toastMessage = "Spark Trail unlocked!  " .. toastMessage
+			end
+			showToast(toastMessage, true)
+
 			if type(response.status) == "table" then
 				applyStatus(response.status)
 			else
 				refreshStatus(1)
 			end
-			task.delay(1.2, hidePanel)
+			task.delay(1.6, hidePanel)
 		else
 			sendPlaytestTelemetry("wrong_feedback_seen")
 			resultLabel.Text = response.message or "Try another answer!"

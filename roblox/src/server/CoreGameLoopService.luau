@@ -5,18 +5,13 @@ local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
+local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 
 local CoreGameLoopService = {}
 CoreGameLoopService.__index = CoreGameLoopService
 
 local WORLD_MODEL_NAME = "StarBloxCoreLoop"
 local REMOTE_ROOT_NAME = "StarBloxCoreLoop"
-
-local ANSWERS = table.freeze({
-	["word-portal-put-v1"] = "put",
-	["spelling-forge-fog-v1"] = "fog",
-	["culture-lab-culture-v1"] = "culture",
-})
 
 local function activityById(activityId: string)
 	for _, activity in Config.Activities do
@@ -137,7 +132,8 @@ local function ensureCoreLoopState(profileData)
 	return state
 end
 
-local function publicActivity(activity)
+local function publicActivity(activity, question)
+	assert(question ~= nil, "question is required for public activity")
 	return {
 		id = activity.Id,
 		stationName = activity.StationName,
@@ -145,11 +141,14 @@ local function publicActivity(activity)
 		direction = activity.Direction,
 		accent = activity.Accent,
 		title = activity.Title,
-		prompt = activity.Prompt,
-		choices = table.clone(activity.Choices),
-		subject = activity.Subject,
-		skill = activity.Skill,
+		questionId = question.Id,
+		questionContentHash = question.ContentHash,
+		prompt = question.Prompt,
+		choices = table.clone(question.Choices),
+		subject = question.Subject,
+		skill = question.Skill,
 		source = activity.Source,
+		sourceWeek = CoreQuestionBank.Source.WeekLabel,
 		reward = {
 			coins = activity.Reward.Coins,
 			xp = activity.Reward.XP,
@@ -158,20 +157,33 @@ local function publicActivity(activity)
 	}
 end
 
-function CoreGameLoopService.GradeAnswer(activityId: any, choice: any): boolean
-	if type(activityId) ~= "string" or type(choice) ~= "string" then
-		return false
-	end
-	local expected = ANSWERS[activityId]
-	return expected ~= nil and string.lower(choice) == expected
+function CoreGameLoopService.GradeAnswer(questionId: any, choice: any): boolean
+	return CoreQuestionBank.Grade(questionId, choice)
 end
 
-function CoreGameLoopService.GetPublicActivity(activityId: string)
+function CoreGameLoopService.GetPublicActivity(activityId: string, runNumber: any?)
 	local activity = activityById(activityId)
 	if activity == nil then
 		return nil
 	end
-	return publicActivity(activity)
+	local question = CoreQuestionBank.Select(activityId, runNumber or 1)
+	if question == nil then
+		return nil
+	end
+	return publicActivity(activity, question)
+end
+
+local function masteryTier(loopRuns: number): (string, number?)
+	if loopRuns >= 10 then
+		return "Brightside Pro", nil
+	elseif loopRuns >= 5 then
+		return "Trailblazer", 10
+	elseif loopRuns >= 3 then
+		return "Pathfinder", 5
+	elseif loopRuns >= 1 then
+		return "Explorer", 3
+	end
+	return "Rookie", 1
 end
 
 function CoreGameLoopService.MarkOnboardingSeen(profileData): boolean
@@ -199,6 +211,11 @@ function CoreGameLoopService.BuildStatus(profileData)
 		end
 	end
 
+	local tier, nextMilestoneLoops = masteryTier(state.LoopRuns)
+	local recommendedQuestion = if recommendedActivityId ~= nil
+		then CoreQuestionBank.Select(recommendedActivityId, state.RunNumber)
+		else nil
+
 	return {
 		ok = true,
 		district = Config.DistrictName,
@@ -209,6 +226,14 @@ function CoreGameLoopService.BuildStatus(profileData)
 		completedActivityIds = completedIds,
 		recommendedActivityId = recommendedActivityId,
 		recommendedStationName = recommendedStationName,
+		recommendedQuestionId = if recommendedQuestion ~= nil then recommendedQuestion.Id else nil,
+		challenge = {
+			name = Config.ChallengeName,
+			completed = #completedIds,
+			goal = #Config.Activities,
+			tier = tier,
+			nextMilestoneLoops = nextMilestoneLoops,
+		},
 		rewardedRunsToday = state.RewardedRunsToday,
 		dailyRewardRunCap = Config.DailyRewardRunCap,
 		rewardCapReached = state.RewardedRunsToday >= Config.DailyRewardRunCap,
@@ -356,18 +381,34 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 				return
 			end
 
+			local activity = activityById(activityId)
+			local selectedQuestion = nil
+			self._profiles:WithProfile(player, function(data)
+				local state = ensureCoreLoopState(data)
+				selectedQuestion = CoreQuestionBank.Select(activityId, state.RunNumber)
+			end)
+			if activity == nil or selectedQuestion == nil then
+				self._activityOpened:FireClient(player, {
+					status = "unavailable",
+					message = "This activity is refreshing. Try again in a moment.",
+				})
+				return
+			end
+
 			self._sessions[player] = {
 				activityId = activityId,
+				questionId = selectedQuestion.Id,
 				openedAt = os.clock(),
 			}
 			if self._telemetry ~= nil then
 				self._telemetry:RecordServerEvent(player, "station_opened", {
 					activityId = activityId,
+					questionId = selectedQuestion.Id,
 				})
 			end
 			self._activityOpened:FireClient(player, {
 				status = "ready",
-				activity = publicActivity(activityById(activityId)),
+				activity = publicActivity(activity, selectedQuestion),
 			})
 		end))
 	end
@@ -454,10 +495,11 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		return {ok = false, code = "invalid_request"}
 	end
 
-	if not CoreGameLoopService.GradeAnswer(session.activityId, request.choice) then
+	if not CoreGameLoopService.GradeAnswer(session.questionId, request.choice) then
 		if self._telemetry ~= nil then
 			self._telemetry:RecordServerEvent(player, "answer_wrong", {
 				activityId = session.activityId,
+				questionId = session.questionId,
 			})
 		end
 		return {
@@ -488,13 +530,18 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		return {ok = false, code = "profile_unavailable"}
 	end
 
+	local answeredQuestion = CoreQuestionBank.GetById(session.questionId)
+	local activity = activityById(session.activityId)
+
 	if self._telemetry ~= nil then
 		self._telemetry:RecordServerEvent(player, "answer_correct", {
 			activityId = session.activityId,
+			questionId = session.questionId,
 		})
 		if completion.loopCompleted == true then
 			self._telemetry:RecordServerEvent(player, "loop_completed", {
 				activityId = session.activityId,
+				questionId = session.questionId,
 			})
 		end
 	end
@@ -509,12 +556,37 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		player:SetAttribute("StarBloxSparkTrailUnlocked", true)
 	end
 
+	local stationName = if activity ~= nil then activity.StationName else "Activity"
+	local explanation = if answeredQuestion ~= nil then answeredQuestion.Explanation else nil
+	local rewardSummary = nil
+	if completion.rewardEligible == true and activity ~= nil then
+		if completion.loopCompleted == true then
+			rewardSummary = string.format(
+				"+%d coins • +%d XP • +%d star",
+				activity.Reward.Coins + Config.LoopReward.Coins,
+				activity.Reward.XP + Config.LoopReward.XP,
+				activity.Reward.Stars + Config.LoopReward.Stars
+			)
+		else
+			rewardSummary = string.format(
+				"+%d coins • +%d XP",
+				activity.Reward.Coins,
+				activity.Reward.XP
+			)
+		end
+	end
+
 	return {
 		ok = true,
 		correct = true,
 		message = completion.loopCompleted
-			and "Brightside loop complete! New run unlocked."
-			or "Station powered! Keep exploring Brightside.",
+			and "Neighborhood Challenge complete! New run unlocked."
+			or stationName .. " cleared! Keep exploring.",
+		explanation = explanation,
+		rewardSummary = rewardSummary,
+		challengeComplete = completion.loopCompleted == true,
+		cosmeticUnlocked = completion.cosmeticUnlocked == true,
+		questionId = session.questionId,
 		completion = completion,
 		status = statusSnapshot,
 		economy = latestEconomy,
