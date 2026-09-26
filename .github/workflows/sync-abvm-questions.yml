@@ -1,0 +1,101 @@
+name: Sync ABVM curriculum questions
+
+on:
+  schedule:
+    - cron: '17 13 * * *'
+      timezone: 'America/New_York'
+    - cron: '47 15 * * *'
+      timezone: 'America/New_York'
+  workflow_dispatch:
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-abvm-question-sync
+  cancel-in-progress: false
+
+jobs:
+  refresh-question-bank:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout StarBlox
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout the ABVM planner source
+        uses: actions/checkout@v4
+        with:
+          repository: P00NSMASHER/abvmschoolstarworld
+          ref: main
+          path: .abvm
+          fetch-depth: 1
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run the exact ABVM teacher-page scanner
+        id: abvm_scan
+        continue-on-error: true
+        run: node .abvm/scripts/refresh-teacher-pages.mjs
+
+      - name: Verify fresh ABVM source when the live scan succeeds
+        if: steps.abvm_scan.outcome == 'success'
+        run: node .abvm/scripts/check-refresh-health.mjs --require-today --max-age-hours 1
+
+      - name: Restore the last certified ABVM pack when the live page is incomplete
+        if: steps.abvm_scan.outcome != 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C .abvm checkout -- pages/data/study-pack.json
+          node --input-type=module - <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const data=JSON.parse(readFileSync('.abvm/pages/data/study-pack.json','utf8'));
+          const pack=data?.pack||{};
+          const titles=['Home','Homework','Reading Work','Weekly Spelling List','Tests','Religion'];
+          if(data?.delivery!=='verified') throw new Error('legacy ABVM fallback is not verified');
+          if(!/^teacher-pages-[a-f0-9]{20}$/i.test(String(pack.sourceHash||''))) throw new Error('legacy ABVM fallback sourceHash is invalid');
+          const pages=Array.isArray(data.sourcePages)?data.sourcePages:[];
+          for(const title of titles){
+            const page=pages.find(item=>item?.title===title);
+            if(!page||!/^[a-f0-9]{64}$/i.test(String(page.contentHash||''))) throw new Error('legacy ABVM fallback missing certified page: '+title);
+          }
+          console.log('legacy ABVM fallback integrity passed:',pack.sourceHash);
+          NODE
+
+      - name: Rebuild material and STAR questions from the verified pack
+        run: node scripts/sync-question-bank-from-abvm.mjs --pack .abvm/pages/data/study-pack.json
+
+      - name: Install StarBlox QA dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate regenerated question bank
+        run: |
+          npx vitest run \
+            src/robloxRuntime/phase6QuestionBank.test.js \
+            src/robloxRuntime/dailyQuestionSync.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/phase7EconomyHomes.test.js \
+            src/robloxRuntime/phase8MirrorSystems.test.js
+
+      - name: Commit only when the verified curriculum snapshot changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add \
+            docs/phase6/ABVM_CURRENT_STUDY_PACK.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            roblox/src/server/CoreQuestionBank.luau
+          if git diff --cached --quiet; then
+            echo "No verified curriculum change; keeping the current StarBlox bank."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git diff --cached --check
+            git commit -m "Refresh StarBlox questions from verified ABVM material"
+            git push
+          fi

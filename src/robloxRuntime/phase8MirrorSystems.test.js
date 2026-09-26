@@ -13,6 +13,9 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(config).toContain('RuntimeSystemsMayMutateBaseline = false');
     expect(config).toContain('CurrencyName = "Coins"');
     expect(config).toContain('CorrectAnswerCoins = 10');
+    expect(config).toContain('EconomyRevision = "long-horizon-v1"');
+    expect(config).toContain('StarMansionCorrectAnswers = 3750');
+    expect(config).toContain('PremiumSportsCarCorrectAnswers = 1200');
     expect(config).toContain('PaidCurrencyRequiredForGameplayUnlocks = false');
     for(const label of ['Avatar','Inventory','Emotes','Vehicles','Houses','Bio','Jobs','Map','Shop']){
       expect(config).toContain('Label = "'+label+'"');
@@ -33,6 +36,9 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     const service=read('roblox/src/server/MirrorLifestyleService.luau');
     expect(catalog.match(/Id = "vehicle-/g)?.length).toBe(8);
     expect(catalog.match(/Id = "tool-/g)?.length).toBe(12);
+    expect(catalog).toContain('Name = "Sports Car", Price = 12000');
+    expect(catalog).toContain('Name = "Motorcycle", Price = 4500');
+    expect(catalog).toContain('Name = "Laptop", Price = 1000');
     expect(service).toContain('PurchaseVehicle');
     expect(service).toContain('SpawnVehicle');
     expect(service).toContain('DespawnVehicle');
