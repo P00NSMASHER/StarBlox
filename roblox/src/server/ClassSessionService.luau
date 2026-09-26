@@ -222,15 +222,21 @@ function ClassSessionService.OpenClass(
 	local school = ensureSchool(profileData)
 	local day = rotateDay(school, schoolDayId)
 	local existing = day.Periods[periodId]
+	local makeup = type(options) == "table" and options.makeup == true
 	if existing ~= nil then
 		if existing.ClassId ~= classId then
 			return {ok = false, code = "period_class_conflict"}
 		end
-		return {
-			ok = true,
-			reusedPinnedBundle = true,
-			session = publicPeriod(existing),
-		}
+		if not (makeup and existing.Status == "missed") then
+			return {
+				ok = true,
+				reusedPinnedBundle = true,
+				session = publicPeriod(existing),
+			}
+		end
+		-- Make-up work replaces only the empty missed placeholder. Attendance
+		-- remains MISSED, preserving the original school-day record.
+		day.Periods[periodId] = nil
 	end
 
 	local cursor = math.max(0, math.floor(tonumber(school.QuestionCursorByClass[classId]) or 0))
@@ -294,7 +300,8 @@ function ClassSessionService.OpenClass(
 		CompletedQuestionCount = 0,
 		Score = 0,
 		Grade = "",
-		Attendance = "UNSET",
+		Attendance = if makeup then "MISSED" else "UNSET",
+		Makeup = makeup,
 		Attempts = {},
 		OpenedAtUnix = os.time(),
 		CompletedAtUnix = 0,
