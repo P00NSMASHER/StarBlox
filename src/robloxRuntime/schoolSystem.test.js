@@ -66,6 +66,8 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('MAKE-UP');
     expect(client).toContain('submitting');
     expect(client).toContain('UISizeConstraint');
+    expect(client).toContain('payload.report.earnings');
+    expect(client).toContain('+%d Coins • +%d XP • +%d Stars');
   });
 
   it('keeps answer authority server-side, freezes active bundles, and resets cursors only for future classes after teacher updates',()=>{
@@ -149,7 +151,12 @@ describe('School system milestones 7-12',()=>{
     expect(progress).toContain('"|full-day"');
     expect(progress).toContain('state.Receipts[key] == true');
     expect(progress).toContain('state.RewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay');
+    expect(progress).toContain('EarnedBySchoolDay');
+    expect(progress).toContain('recordEarnings');
+    expect(progress).toContain('GetDayEarnings');
     expect(report).toContain('SchoolProgressService.ApplyFullDay');
+    expect(report).toContain('SchoolProgressService.GetDayEarnings');
+    expect(report).toContain('earnings = earnings');
   });
 
   it('turns the school flag into a clean learning-loop migration switch',()=>{
