@@ -56,4 +56,34 @@ describe('Brookhaven parity: house access and swap rules',()=>{
     expect(service).toContain('model:SetAttribute("DoorsLocked", self._doorLocked[player] == true)');
     expect(service).toContain('door:SetAttribute("DoorsLocked", locked)');
   });
+  it('supports one roommate plus House Ban while family stays non-bannable',()=>{
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+    const shop=read('roblox/src/client/Shop.client.luau');
+
+    for(const remote of ['GetHouseAccessState','SetRoommate','SetHouseBan']){
+      expect(service).toContain('Name = "'+remote+'"');
+    }
+    expect(service).toContain('function HomeEconomyService:_setRoommate');
+    expect(service).toContain('function HomeEconomyService:_setHouseBan');
+    expect(service).toContain('code = "family_cannot_be_banned"');
+    expect(service).toContain('code = "family_already_has_access"');
+    expect(service).toContain('self._roommateByOwner[owner] == visitor');
+    expect(service).toContain('banned[visitor] == true');
+    expect(shop).toContain('"House Access"');
+    expect(shop).toContain('setRoommate:InvokeServer(userId)');
+    expect(shop).toContain('setHouseBan:InvokeServer(userId,banned)');
+    expect(shop).toContain('"make roommate"');
+    expect(shop).toContain('"ban from house"');
+  });
+
+  it('clears lock roommate and bans together when house access resets',()=>{
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+
+    expect(service).toContain('function HomeEconomyService:_resetAccessSettings');
+    expect(service).toContain('self._doorLocked[player] = false');
+    expect(service).toContain('self._roommateByOwner[player] = nil');
+    expect(service).toContain('self._bannedByOwner[player] = {}');
+    expect((service.match(/self:_resetAccessSettings\(player\)/g)||[]).length).toBeGreaterThanOrEqual(4);
+  });
+
 });
