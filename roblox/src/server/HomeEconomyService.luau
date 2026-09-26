@@ -796,8 +796,11 @@ function HomeEconomyService:_selectPlot(player: Player, plotId: any)
 	self._profiles:WithProfile(player, function(data)
 		local home = ensureHome(data)
 		local oldSlot = self._slots[player]
-		if oldSlot ~= nil and oldSlot ~= targetIndex and self._usedPlots[oldSlot] == player then
-			self._usedPlots[oldSlot] = nil
+		if oldSlot ~= nil and oldSlot ~= targetIndex then
+			self:_destroyHome(player)
+			if self._usedPlots[oldSlot] == player then
+				self._usedPlots[oldSlot] = nil
+			end
 		end
 		self._slots[player] = targetIndex
 		self._usedPlots[targetIndex] = player
