@@ -108,7 +108,7 @@ stroke(panel, 0.2)
 
 local panelConstraint = Instance.new("UISizeConstraint")
 panelConstraint.MinSize = Vector2.new(300, 360)
-panelConstraint.MaxSize = Vector2.new(520, 410)
+panelConstraint.MaxSize = Vector2.new(520, 458)
 panelConstraint.Parent = panel
 
 local closeButton = Instance.new("TextButton")
