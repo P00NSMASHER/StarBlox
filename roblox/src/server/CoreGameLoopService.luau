@@ -816,11 +816,12 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			Config.PilotMode.FreezeAdaptiveDifficultyDuringBaseline == true
 			and pilotState.SessionsCompleted < Config.PilotMode.BaselineMinCompletedSessions
 		pilotState.SessionsStarted += 1
+		local pilotSessionNumber = pilotState.SessionsStarted
 		local queue = PilotQuestionMixer.Build(
 			data,
 			CoreQuestionBank,
 			Config.PilotMode,
-			pilotState.SessionsStarted
+			pilotSessionNumber
 		)
 		local first = queue[1]
 		local question = if first ~= nil then CoreQuestionBank.GetById(first.QuestionId) else nil
@@ -838,6 +839,7 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			experimentId = public.experimentId,
 			variantId = public.variantId,
 			baselinePhase = baselinePhase,
+			pilotSessionNumber = pilotSessionNumber,
 		}
 		self._replicas:Sync(player, data)
 		response = {
@@ -846,6 +848,7 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			pilotIndex = 1,
 			pilotTotal = #queue,
 			baselinePhase = baselinePhase,
+			pilotSessionNumber = pilotSessionNumber,
 		}
 	end)
 
@@ -857,6 +860,7 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			questionId = response.activity.questionId,
 			activityId = response.activity.id,
 			baseline = response.baselinePhase == true,
+			pilotSessionNumber = response.pilotSessionNumber,
 		})
 	end
 	return response
@@ -963,6 +967,7 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 			variantId = attemptVariantId,
 			pilot = true,
 			baseline = session.baselinePhase == true,
+			pilotSessionNumber = session.pilotSessionNumber,
 			pilotBucket = entry.Bucket,
 		})
 	end
@@ -993,6 +998,7 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 				activityId = activity.Id,
 				questionId = question.Id,
 				baseline = session.baselinePhase == true,
+				pilotSessionNumber = session.pilotSessionNumber,
 			})
 		end
 		return {
