@@ -364,6 +364,8 @@ settingsButton.Font = Enum.Font.GothamBold
 settingsButton.TextScaled = true
 settingsButton.ZIndex = 35
 settingsButton.Parent = shell
+settingsButton.Visible = false
+settingsButton.Active = false
 constrain(settingsButton, 20, 26)
 
 -- Context menus float over the world instead of living inside a large StarBlox dashboard.
@@ -1334,7 +1336,6 @@ quickChatBolt.Activated:Connect(showQuickChat)
 quickChatButton.Activated:Connect(showQuickChat)
 familyButton.Activated:Connect(showFamily)
 homeCamsButton.Activated:Connect(showHomeCams)
-settingsButton.Activated:Connect(showSettings)
 shopShortcut.Activated:Connect(function()
 	dismissActionHints()
 	closePanel()
