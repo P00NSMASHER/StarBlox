@@ -321,6 +321,40 @@ function buildChoiceDiagnostics(base){
     return {choice,misconception:diagnostic.tag,feedback:diagnostic.feedback};
   });
 }
+const PARTIAL_CREDIT_MISCONCEPTIONS=new Set([
+  'off-by-one','one-step-only','weak-or-irrelevant-evidence','sequence-order-confusion',
+  'place-value-position-confusion','comparison-place-confusion','wrong-pattern-step',
+  'context-meaning-confusion','single-clue-inference','one-text-only','near-synonym-tone-confusion',
+  'jump-direction-confusion','fact-family-number-mismatch'
+]);
+
+function rubricCriteriaFor(base){
+  if(base.subject==='Reading / ELA'){
+    return [
+      'Uses important words or text evidence from the prompt.',
+      'Applies the stated reading skill accurately.'
+    ];
+  }
+  if(base.subject==='Math'){
+    return [
+      'Chooses the correct mathematical relationship or representation.',
+      'Completes the calculation or reasoning accurately.'
+    ];
+  }
+  return [
+    'Identifies the lesson idea accurately.',
+    'Applies the lesson to the situation in the prompt.'
+  ];
+}
+
+function rubricFor(base,choiceDiagnostics){
+  const partialCredit={};
+  for(const row of choiceDiagnostics){
+    partialCredit[row.choice]=PARTIAL_CREDIT_MISCONCEPTIONS.has(row.misconception)?1:0;
+  }
+  return {maxPoints:2,criteria:rubricCriteriaFor(base),partialCredit};
+}
+
 function makeQuestion(input){
   const base={...input};
   if(!base.id||!base.prompt||!base.answer) throw new Error('Question is missing required fields.');
@@ -346,6 +380,13 @@ function makeQuestion(input){
     if(!row||!row.misconception||!row.feedback) throw new Error('Question '+base.id+' is missing misconception feedback for '+choice);
   }
 
+  const rubric=base.rubric||rubricFor(base,choiceDiagnostics);
+  const alignmentEvidence={
+    ruleVersion:'grade2-alignment-v1',
+    expectedDomain:base.domain,
+    expectedStandards:standards,
+    sourceGrounded:base.tier==='material'
+  };
   const enriched={
     ...base,
     standards,
@@ -353,12 +394,16 @@ function makeQuestion(input){
     cognitiveDemand:dok===1?'recall-and-fluency':dok===2?'skill-and-concept-application':'strategic-reasoning',
     hint,
     scaffold,
-    choiceDiagnostics
+    choiceDiagnostics,
+    rubric,
+    alignmentEvidence,
+    responseType:base.responseType||'multiple-choice'
   };
   const keys=[
     'id','stationId','subject','skill','prompt','choices','answer','explanation',
     'provenance','sourceFact','tier','domain','difficulty','standards','dok',
-    'cognitiveDemand','hint','scaffold','choiceDiagnostics'
+    'cognitiveDemand','hint','scaffold','choiceDiagnostics','rubric','alignmentEvidence',
+    'responseType','richContent','experiment'
   ];
   const material={};
   for(const key of keys) if(enriched[key]!==undefined) material[key]=enriched[key];
