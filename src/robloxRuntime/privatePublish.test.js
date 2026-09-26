@@ -107,6 +107,35 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
     expect(creates).toBe(3);
   });
 
+  it('retries transient Open Cloud 5xx task-creation failures', async () => {
+    let creates=0;
+    const fetchImpl=async (url,options={}) => {
+      if(options.method === 'POST'){
+        creates+=1;
+        if(creates < 3){
+          return response(500,{message:'unknown exception'});
+        }
+        return response(200,{
+          path:'universes/6027194615/places/17602626136/versions/19/luau-execution-sessions/retry/tasks/retry',
+          state:'COMPLETE'
+        });
+      }
+      if(url.endsWith('/logs')) return response(200,{messages:['proof-log']});
+      throw new Error('unexpected request: ' + url);
+    };
+    await expect(runOpenCloudLuauTask({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      script:'print("proof")',
+      fetchImpl,
+      createRetryAttempts:3,
+      createRetryBaseMs:0,
+      createRetryMaxMs:0
+    })).resolves.toMatchObject({versionNumber:19,state:'COMPLETE'});
+    expect(creates).toBe(3);
+  });
+
   it('publishes XML bytes only to the exact StarBlox place endpoint', async () => {
     const calls=[];
     const fetchImpl=async (url,options={}) => {
