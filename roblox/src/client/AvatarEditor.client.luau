@@ -588,7 +588,15 @@ saveCurrentButton.Activated:Connect(function()
 end)
 
 undoButton.Activated:Connect(function()
-	resetButton:Activate()
+	local ok, result = pcall(function()
+		return resetAvatar:InvokeServer()
+	end)
+	if ok and type(result) == "table" and result.ok == true then
+		showStatus("Original avatar restored", true)
+		task.delay(0.2, frameAvatar)
+	else
+		showStatus("Couldn't reset avatar")
+	end
 end)
 
 reloadButton.Activated:Connect(function()
