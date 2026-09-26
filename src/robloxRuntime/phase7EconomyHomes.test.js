@@ -79,7 +79,7 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(service).toContain('addPoster');
     expect(service).toContain('addBooks');
 
-    expect(bootstrap).toContain('HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame())');
+    expect(bootstrap).toContain('HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame(), family)');
     expect(bootstrap).toContain('homeEconomy:PlayerReady');
     expect(bootstrap).toContain('homeEconomy:PlayerRemoving');
     expect(bootstrap).toContain('HomeEconomy = homeEconomy');
