@@ -86,6 +86,6 @@ describe('Phase 11: selectable Brookhaven-style house architectures',()=>{
     expect(client).toContain('state.selectedStyle');
     expect(client).toContain('upgrade your home tier first');
     expect(client).toContain('tile(');
-    expect(client).toContain('grid.CellSize = UDim2.fromOffset(78, 78)');
+    expect(client).toContain('grid.CellSize = UDim2.fromOffset(76,64)');
   });
 });

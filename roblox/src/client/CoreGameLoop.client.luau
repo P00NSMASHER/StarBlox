@@ -71,6 +71,9 @@ hud.Position = UDim2.new(1, -72, 0, 8)
 hud.BackgroundColor3 = COLORS.navy
 hud.BackgroundTransparency = 0.05
 hud.Parent = gui
+-- Brookhaven parity: the normal world view must not carry a StarBlox dashboard.
+-- Learning/economy UI is contextual and appears only when an activity is opened.
+hud.Visible = false
 round(hud, 5)
 outline(hud, 0.15)
 
@@ -129,6 +132,9 @@ nextHint.TextScaled = true
 nextHint.TextXAlignment = Enum.TextXAlignment.Center
 nextHint.Text = "Loading your next station…"
 nextHint.Parent = gui
+-- Keep navigation hints out of the ordinary Brookhaven world view.
+-- School/learning flows can opt into overlays with StarBloxLearningOverlayVisible.
+nextHint.Visible = false
 round(nextHint, 5)
 outline(nextHint, 0.15)
 constrainText(nextHint, 10, 13)
@@ -559,6 +565,9 @@ local anchorFolder = workspace:WaitForChild("StarBloxActivityAnchors", 10)
 local function updateWaypoint(activityId: any, stationName: any)
 	waypoint.Enabled = false
 	waypoint.Adornee = nil
+	if player:GetAttribute("StarBloxLearningOverlayVisible") ~= true then
+		return
+	end
 	if anchorFolder == nil or type(activityId) ~= "string" then
 		return
 	end
@@ -712,12 +721,17 @@ local function applyStatus(status)
 		nextHint.TextColor3 = COLORS.success
 	end
 
-	if status.onboardingSeen ~= true and not onboardingDismissedLocally then
+	if status.onboardingSeen ~= true
+		and not onboardingDismissedLocally
+		and player:GetAttribute("StarBloxLearningOverlayVisible") == true
+	then
 		onboarding.Visible = true
 		if not onboardingShownReported then
 			onboardingShownReported = true
 			sendPlaytestTelemetry("onboarding_shown")
 		end
+	else
+		onboarding.Visible = false
 	end
 
 	return true

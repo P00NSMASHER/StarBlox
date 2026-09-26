@@ -2,7 +2,7 @@
 
 local WorldActivityBindings = table.freeze({
 	SchemaVersion = 1,
-	WorldRootName = "BrookhavenWorldBaseline",
+	WorldRootName = "BrookhavenWorldRuntime",
 	RuntimeAnchorFolderName = "StarBloxActivityAnchors",
 
 	-- These source parts are immutable BHW_* parts from the verified Brookhaven

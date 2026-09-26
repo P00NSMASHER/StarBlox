@@ -1,8 +1,6 @@
-# Target Architecture Step 5 — World Exactness and StarBlox Mount
+# Target Architecture Step 5 — World Exactness and Runtime Projection
 
-Step 5 is **verified**.
-
-The Step-4 Brookhaven native world is now treated as a read-only baseline and StarBlox is mounted alongside it without changing the world subtree.
+The Brookhaven **source exactness** remains verified. This branch upgrades the mount boundary to a v2 architecture so the game can support real Brookhaven-style interactions without ever mutating the exact source witness.
 
 ## Locked world identity
 
@@ -10,32 +8,59 @@ The Step-4 Brookhaven native world is now treated as a read-only baseline and St
 - generated model bytes: **5,303,322**
 - verified source entries: **4,936**
 - approved legacy adaptations: **2** (entries 832 and 844 only)
-- baseline subtree instances after Roblox/Rojo round-trip: **5,493**
-- isolated subtree SHA-256: `d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90`
-- mounted subtree SHA-256: `d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90`
+- canonical subtree instances: **5,493**
+- canonical subtree SHA-256: `d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90`
 
-The equal subtree digests prove the Brookhaven layer did not change during the combined build.
+Those identities continue to bind the immutable Brookhaven source layer.
 
-## Runtime separation
+## v2 witness / projection architecture
 
-StarBlox is mounted only in:
+The release artifact contains exactly one immutable Brookhaven witness:
 
-- `ReplicatedStorage/StarBlox`
-- `ServerScriptService/StarBlox`
-- `StarterPlayer/StarterPlayerScripts/StarBlox`
+- `ServerStorage/BrookhavenWorldBaseline`
 
-No StarBlox script, remote, or gameplay object is parented inside `Workspace/BrookhavenWorldBaseline`.
+It must retain the verified 5,493-instance canonical subtree, contain no gameplay scripts/remotes, and remain byte/subtree bound to the frozen source proof.
 
-The Step-5 verifier also fails closed if the normal StarBlox Rojo project begins owning `Workspace`, preventing runtime development from silently taking control of the world baseline.
+At server boot, StarBlox creates a separate mutable projection:
 
-## Artifact policy
+- `Workspace/BrookhavenWorldRuntime`
 
-The generated Brookhaven model, combined mounted place, and ephemeral Step-5 Rojo project are **not committed**. CI regenerates them from the frozen source and verifies their identities.
+The projection is cloned from the witness before world-bound gameplay services start. Activities, player-house plot bindings, and reviewed world interactions target **only** this runtime projection.
 
-This keeps the world-development layer separate from runtime/integration work while retaining a reproducible exactness gate.
+This makes the responsibilities explicit:
 
-## Next step
+- exactness witness: immutable, hidden in ServerStorage;
+- playable world: mutable clone in Workspace;
+- gameplay code/remotes: mounted outside both world trees;
+- reviewed doors/lights/props may mutate only the runtime clone;
+- the witness can always be rechecked against the frozen source identity.
 
-**Target Architecture Step 6 — integration and release gates.**
+## Static release-artifact rule
 
-Step 6 should consume a verified world version, run StarBlox gameplay/integration tests against it, and require the Step-5 exactness/mount receipts before any private publication or release transition.
+The candidate `.rbxlx` must contain:
+
+- `ServerStorage/BrookhavenWorldBaseline`;
+- `ReplicatedStorage/StarBlox`;
+- `ServerScriptService/StarBlox`;
+- `StarterPlayer/StarterPlayerScripts/StarBlox`.
+
+It must **not** contain `Workspace/BrookhavenWorldRuntime`. That clone is created only by `WorldProjectionService` after the server boots.
+
+## Runtime rule
+
+At boot:
+
+1. verify the immutable witness exists outside Workspace;
+2. reject scripts/remotes inside the witness;
+3. clone witness -> `Workspace/BrookhavenWorldRuntime`;
+4. mark the clone as the StarBlox runtime projection;
+5. start reviewed world interactions and other world-bound services;
+6. on shutdown, restore/destroy interaction state before destroying the projection.
+
+## Verification status on this branch
+
+The historic Step-5 source exactness proof remains the source-of-truth for world identity.
+
+The **v2 witness/projection mount proof is pending the current PR CI run**. The checked-in Step-5 JSON intentionally records this as pending rather than claiming the older Workspace mount run verifies the new architecture.
+
+Once CI regenerates and verifies the v2 receipt, that new exact head/run should replace the pending verification metadata.

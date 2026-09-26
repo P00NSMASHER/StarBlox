@@ -61,6 +61,14 @@ local ProfileTemplate = {
 	Settings = {
 		MusicVolume = 0.6,
 		DiagnosticsEnabled = false,
+		Brookhaven = {
+			SprintButton = true,
+			HideUI = false,
+			BabyCarSeat = "Off",
+			MuteOtherMusic = false,
+			HideHouseSigns = false,
+			HidePropsTool = false,
+		},
 	},
 
 	Rollout = {
@@ -78,6 +86,7 @@ local ProfileTemplate = {
 			DisplayName = "",
 			Age = "",
 			Job = "Citizen",
+			AvatarOutfits = {},
 		},
 		Home = {
 			PlotId = "",

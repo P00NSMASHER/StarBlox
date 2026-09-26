@@ -81,6 +81,8 @@ local function createVehicleModel(definition, spawnCFrame: CFrame): Model
 	model:SetAttribute("RuntimeOwned", true)
 	model:SetAttribute("BaselineMutationAllowed", false)
 	model:SetAttribute("MaxSpeed", definition.Speed)
+	model:SetAttribute("HeadlightsOn", false)
+	model:SetAttribute("Locked", false)
 
 	local primary = Instance.new("VehicleSeat")
 	primary.Name = "DriverSeat"
@@ -105,6 +107,30 @@ local function createVehicleModel(definition, spawnCFrame: CFrame): Model
 		color
 	)
 	weld(primary, chassis)
+
+	local lightSpacing = math.max(0.45, bodyWidth * 0.28)
+	for _, side in {-1, 1} do
+		local lamp = newPart(
+			model,
+			"Headlight",
+			Vector3.new(0.45, 0.45, 0.2),
+			spawnCFrame * CFrame.new(side * lightSpacing, 1.45, -(bodyLength / 2) - 0.12),
+			Color3.fromRGB(244, 244, 225)
+		)
+		lamp.CanCollide = false
+		lamp.Material = Enum.Material.Neon
+		lamp.Transparency = 0.15
+		weld(primary, lamp)
+
+		local beam = Instance.new("SpotLight")
+		beam.Name = "Beam"
+		beam.Angle = 62
+		beam.Brightness = 2.8
+		beam.Range = 42
+		beam.Face = Enum.NormalId.Front
+		beam.Enabled = false
+		beam.Parent = lamp
+	end
 
 	if definition.Kind ~= "bike" then
 		local roof = newPart(
@@ -254,6 +280,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	local equipTool = Instance.new("RemoteFunction")
 	equipTool.Name = "EquipTool"
 	equipTool.Parent = root
+	local vehicleAction = Instance.new("RemoteFunction")
+	vehicleAction.Name = "VehicleAction"
+	vehicleAction.Parent = root
 
 	getState.OnServerInvoke = function(player)
 		return self:_state(player)
@@ -272,6 +301,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	end
 	equipTool.OnServerInvoke = function(player, id)
 		return self:_equipTool(player, id)
+	end
+	vehicleAction.OnServerInvoke = function(player, action)
+		return self:_vehicleAction(player, action)
 	end
 
 	self._heartbeat = RunService.Heartbeat:Connect(function(dt)
@@ -385,6 +417,7 @@ function MirrorLifestyleService:_spawnVehicle(player, id)
 	self:_despawnVehicle(player)
 	local spawnCFrame = root.CFrame * CFrame.new(0, 0, -10)
 	local model = createVehicleModel(definition, spawnCFrame)
+	model:SetAttribute("OwnerUserId", player.UserId)
 	model.Parent = self._vehicleFolder
 	self._activeVehicles[player] = model
 
@@ -396,6 +429,58 @@ function MirrorLifestyleService:_spawnVehicle(player, id)
 	end
 
 	return {ok = true, vehicleId = id}
+end
+
+
+function MirrorLifestyleService:_vehicleAction(player: Player, action: any)
+	if not self:_allow(player) or type(action) ~= "string" then
+		return {ok = false, code = "invalid_request"}
+	end
+	local model = self._activeVehicles[player]
+	if model == nil or model.Parent == nil or model.PrimaryPart == nil then
+		return {ok = false, code = "vehicle_unavailable"}
+	end
+	if model:GetAttribute("OwnerUserId") ~= player.UserId then
+		return {ok = false, code = "not_vehicle_owner"}
+	end
+
+	if action == "headlights" then
+		local enabled = model:GetAttribute("HeadlightsOn") ~= true
+		model:SetAttribute("HeadlightsOn", enabled)
+		for _, descendant in model:GetDescendants() do
+			if descendant:IsA("SpotLight") and descendant.Name == "Beam" then
+				descendant.Enabled = enabled
+			end
+		end
+		return {ok = true, action = action, enabled = enabled}
+	end
+
+	if action == "lock" then
+		local locked = model:GetAttribute("Locked") ~= true
+		model:SetAttribute("Locked", locked)
+		return {ok = true, action = action, enabled = locked}
+	end
+
+	if action == "flip" then
+		local primary = model.PrimaryPart
+		local position = primary.Position + Vector3.new(0, 3, 0)
+		local look = primary.CFrame.LookVector
+		local flatLook = Vector3.new(look.X, 0, look.Z)
+		if flatLook.Magnitude < 0.01 then
+			flatLook = Vector3.new(0, 0, -1)
+		end
+		local upright = CFrame.lookAt(position, position + flatLook.Unit)
+		model:PivotTo(upright)
+		primary.AssemblyLinearVelocity = Vector3.zero
+		primary.AssemblyAngularVelocity = Vector3.zero
+		return {ok = true, action = action}
+	end
+
+	if action == "despawn" then
+		return self:_despawnVehicle(player)
+	end
+
+	return {ok = false, code = "unknown_vehicle_action"}
 end
 
 function MirrorLifestyleService:_equipTool(player, id)
@@ -460,6 +545,9 @@ function MirrorLifestyleService:_stepVehicles(_dt: number)
 		local character = occupant.Parent
 		local seatedPlayer = if character then Players:GetPlayerFromCharacter(character) else nil
 		if seatedPlayer ~= player then
+			if model:GetAttribute("Locked") == true then
+				occupant.Sit = false
+			end
 			continue
 		end
 

@@ -11,6 +11,10 @@ local purchaseItem = remotes:WaitForChild("PurchaseItem") :: RemoteFunction
 local purchaseHome = remotes:WaitForChild("PurchaseHomeTier") :: RemoteFunction
 local purchaseHomeStyle = remotes:WaitForChild("PurchaseHomeStyle") :: RemoteFunction
 local selectHomeStyle = remotes:WaitForChild("SelectHomeStyle") :: RemoteFunction
+local setDoorsLocked = remotes:WaitForChild("SetDoorsLocked") :: RemoteFunction
+local getHouseAccessState = remotes:WaitForChild("GetHouseAccessState") :: RemoteFunction
+local setRoommate = remotes:WaitForChild("SetRoommate") :: RemoteFunction
+local setHouseBan = remotes:WaitForChild("SetHouseBan") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
@@ -71,26 +75,26 @@ homeButton.Parent = gui
 
 local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
-panel.AnchorPoint = Vector2.new(1,0.5)
-panel.Position = UDim2.new(1,-70,0.5,4)
-panel.Size = UDim2.fromOffset(356, 326)
+panel.AnchorPoint = Vector2.new(1,0)
+panel.Position = UDim2.new(1,-83,0,105)
+panel.Size = UDim2.fromOffset(326,309)
 panel.BackgroundColor3 = UI.white
-panel.BackgroundTransparency = 0.06
+panel.BackgroundTransparency = 1
 panel.Visible = false
 panel.ZIndex = 60
 panel.Parent = gui
 round(panel,5)
-stroke(panel)
 
 local constraint = Instance.new("UISizeConstraint")
-constraint.MinSize = Vector2.new(330,300)
-constraint.MaxSize = Vector2.new(390,340)
+constraint.MinSize = Vector2.new(300,286)
+constraint.MaxSize = Vector2.new(340,322)
 constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
-title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(10,8)
-title.Size = UDim2.new(1,-170,0,28)
+title.BackgroundColor3 = UI.white
+title.BackgroundTransparency = 0.14
+title.Position = UDim2.fromOffset(0,2)
+title.Size = UDim2.fromOffset(198,42)
 title.Text = "Houses"
 title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamBold
@@ -102,13 +106,14 @@ constrain(title,14,18)
 
 local balance = Instance.new("TextLabel")
 balance.BackgroundTransparency = 1
-balance.Position = UDim2.fromOffset(10,36)
-balance.Size = UDim2.new(1,-20,0,20)
+balance.Position = UDim2.fromOffset(0,47)
+balance.Size = UDim2.fromOffset(198,20)
 balance.Text = "0 coins"
 balance.TextColor3 = UI.muted
 balance.Font = Enum.Font.GothamMedium
 balance.TextScaled = true
 balance.TextXAlignment = Enum.TextXAlignment.Left
+balance.Visible = false
 balance.ZIndex = 61
 balance.Parent = panel
 constrain(balance,10,13)
@@ -125,6 +130,7 @@ visit.Font = Enum.Font.GothamBold
 visit.TextScaled = true
 visit.ZIndex = 63
 visit.Parent = panel
+visit.Visible = false
 round(visit,4)
 stroke(visit)
 constrain(visit,20,28)
@@ -141,6 +147,7 @@ world.Font = Enum.Font.GothamBold
 world.TextScaled = true
 world.ZIndex = 63
 world.Parent = panel
+world.Visible = false
 round(world,4)
 stroke(world)
 constrain(world,20,28)
@@ -148,8 +155,8 @@ constrain(world,20,28)
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1,0)
-closeButton.Position = UDim2.new(1,-6,0,6)
-closeButton.Size = UDim2.fromOffset(50, 50)
+closeButton.Position = UDim2.new(1,0,0,0)
+closeButton.Size = UDim2.fromOffset(52,48)
 closeButton.BackgroundColor3 = UI.red
 closeButton.Text = "X"
 closeButton.TextColor3 = Color3.new(1,1,1)
@@ -163,8 +170,8 @@ constrain(closeButton,20,28)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Catalog"
-scroller.Position = UDim2.fromOffset(8,62)
-scroller.Size = UDim2.new(1,-16,1,-70)
+scroller.Position = UDim2.fromOffset(0,54)
+scroller.Size = UDim2.new(1,0,1,-58)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -175,12 +182,14 @@ scroller.ZIndex = 61
 scroller.Parent = panel
 
 local grid = Instance.new("UIGridLayout")
-grid.CellPadding = UDim2.fromOffset(5, 5)
-grid.CellSize = UDim2.fromOffset(78, 78)
+grid.CellPadding = UDim2.fromOffset(5,5)
+grid.CellSize = UDim2.fromOffset(76,64)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.Parent = scroller
 
 local state = nil
+local houseAccessState = nil
+local accessMode = false
 local busy = false
 
 local editPlacement = Instance.new("BindableEvent")
@@ -217,8 +226,9 @@ local function tile(
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(78, 78)
+	frame.Size = UDim2.fromOffset(76,64)
 	frame.BackgroundColor3 = UI.tile
+	frame.BackgroundTransparency = 0.12
 	frame.ZIndex = 62
 	frame.Parent = scroller
 	round(frame,4)
@@ -227,7 +237,7 @@ local function tile(
 	local icon = Instance.new("TextLabel")
 	icon.BackgroundTransparency = 1
 	icon.Position = UDim2.fromOffset(3,2)
-	icon.Size = UDim2.new(1,-6,0,33)
+	icon.Size = UDim2.new(1,-6,0,30)
 	icon.Text = symbol
 	icon.TextColor3 = UI.text
 	icon.Font = Enum.Font.GothamBold
@@ -238,8 +248,8 @@ local function tile(
 
 	local label = Instance.new("TextLabel")
 	label.BackgroundTransparency = 1
-	label.Position = UDim2.fromOffset(4,35)
-	label.Size = UDim2.new(1,-8,0,19)
+	label.Position = UDim2.fromOffset(4,30)
+	label.Size = UDim2.new(1,-8,0,18)
 	label.Text = name
 	label.TextColor3 = UI.text
 	label.Font = Enum.Font.GothamBold
@@ -251,8 +261,8 @@ local function tile(
 
 	local d = Instance.new("TextLabel")
 	d.BackgroundTransparency = 1
-	d.Position = UDim2.fromOffset(3,55)
-	d.Size = UDim2.new(1,-6,0,18)
+	d.Position = UDim2.fromOffset(3,48)
+	d.Size = UDim2.new(1,-6,0,13)
 	d.Text = detail
 	d.TextColor3 = UI.muted
 	d.Font = Enum.Font.GothamMedium
@@ -301,6 +311,7 @@ local function fetchState(): boolean
 end
 
 local render
+local renderAccess
 
 local function purchaseItemById(itemId: string)
 	if busy then return end
@@ -352,6 +363,9 @@ local function purchaseStyle(styleId: string)
 		elseif result.code=="home_tier_required" then
 			balance.Text="upgrade your home tier first"
 			balance.TextColor3=UI.red
+		elseif result.code=="house_swap_cooldown" then
+			fetchState()
+			render()
 		end
 	end
 end
@@ -363,17 +377,199 @@ local function selectStyle(styleId: string)
 		return selectHomeStyle:InvokeServer(styleId)
 	end)
 	busy=false
+	if ok and type(result)=="table" then
+		if result.ok==true then
+			fetchState()
+			render()
+		elseif result.code=="house_swap_cooldown" then
+			fetchState()
+			render()
+		end
+	end
+end
+
+local function toggleDoors()
+	if busy or type(state)~="table" then return end
+	busy=true
+	local nextLocked = state.doorsLocked ~= true
+	local ok,result=pcall(function()
+		return setDoorsLocked:InvokeServer(nextLocked)
+	end)
+	busy=false
 	if ok and type(result)=="table" and result.ok==true then
 		fetchState()
 		render()
 	end
 end
 
+local function fetchAccessState(): boolean
+	local ok,result=pcall(function()
+		return getHouseAccessState:InvokeServer()
+	end)
+	if ok and type(result)=="table" and result.ok==true then
+		houseAccessState=result
+		return true
+	end
+	return false
+end
+
+local function setRoommateById(userId: any)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return setRoommate:InvokeServer(userId)
+	end)
+	busy=false
+	if ok and type(result)=="table" and result.ok==true then
+		fetchAccessState()
+		renderAccess()
+	end
+end
+
+local function setBanById(userId: any, banned: boolean)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return setHouseBan:InvokeServer(userId,banned)
+	end)
+	busy=false
+	if ok and type(result)=="table" then
+		fetchAccessState()
+		renderAccess()
+	end
+end
+
+renderAccess=function()
+	if not fetchAccessState() then return end
+	accessMode=true
+	clear()
+	title.Text="House Access"
+	balance.Visible=false
+
+	local order=1
+	local locked=houseAccessState.doorsLocked==true
+	tile(
+		locked and "L" or "U",
+		"Lock Doors",
+		locked and "locked" or "unlocked",
+		locked and "✓" or "",
+		locked and UI.green or UI.blue,
+		order,
+		function()
+			if busy then return end
+			busy=true
+			local ok,result=pcall(function()
+				return setDoorsLocked:InvokeServer(not locked)
+			end)
+			busy=false
+			if ok and type(result)=="table" and result.ok==true then
+				fetchState()
+				renderAccess()
+			end
+		end
+	)
+	order+=1
+
+	if type(houseAccessState.roommate)=="table" then
+		local roommate=houseAccessState.roommate
+		tile(
+			"R",
+			tostring(roommate.DisplayName or roommate.Name or "Roommate"),
+			"roommate • tap to remove",
+			"✓",
+			UI.green,
+			order,
+			function() setRoommateById(0) end
+		)
+		order+=1
+	else
+		tile("R","Roommate","none selected","",UI.blue,order,nil)
+		order+=1
+	end
+
+	for _,candidate in houseAccessState.candidates or {} do
+		local userId=tonumber(candidate.UserId)
+		local display=tostring(candidate.DisplayName or candidate.Name or "Player")
+		if candidate.IsRoommate~=true and candidate.IsBanned~=true then
+			tile(
+				"R",
+				display,
+				"make roommate",
+				"",
+				UI.blue,
+				order,
+				function() setRoommateById(userId) end
+			)
+			order+=1
+		end
+		tile(
+			candidate.IsBanned==true and "✓" or "B",
+			display,
+			candidate.IsBanned==true and "banned • tap to unban" or "ban from house",
+			candidate.IsBanned==true and "B" or "",
+			candidate.IsBanned==true and UI.red or UI.blue,
+			order,
+			function() setBanById(userId,candidate.IsBanned~=true) end
+		)
+		order+=1
+	end
+
+	tile("←","Back","houses","",UI.blue,order,function()
+		accessMode=false
+		fetchState()
+		render()
+	end)
+end
+
+
 render=function()
 	if type(state)~="table" then return end
+	accessMode=false
 	clear()
+	title.Text="Houses"
+	balance.Visible=false
 	balance.TextColor3=UI.muted
 	local order=1
+
+	local locked = state.doorsLocked == true
+	tile(
+		locked and "L" or "U",
+		"Lock Doors",
+		locked and "locked • family access" or "unlocked",
+		locked and "✓" or "",
+		locked and UI.green or UI.blue,
+		order,
+		toggleDoors
+	)
+	order+=1
+
+	tile(
+		"ID",
+		"House Access",
+		"roommate • ban",
+		"",
+		UI.blue,
+		order,
+		renderAccess
+	)
+	order+=1
+
+	local cooldown = math.max(0, math.floor(tonumber(state.houseSwapCooldownRemaining) or 0))
+	if cooldown > 0 then
+		local minutes = math.floor(cooldown / 60)
+		local seconds = cooldown % 60
+		tile(
+			"⌛",
+			"House Cooldown",
+			string.format("%d:%02d", minutes, seconds),
+			"",
+			UI.red,
+			order,
+			nil
+		)
+		order+=1
+	end
+
 	for _,home in state.homes or {} do
 		local tier=tonumber(home.Tier) or 1
 		local current=tonumber(state.homeTier) or 1
@@ -409,19 +605,19 @@ render=function()
 			badge="✓"
 			color=UI.green
 		elseif owned and tierReady then
-			detail="owned"
-			badge="⌂"
-			color=UI.green
-			callback=function() selectStyle(id) end
+			detail= cooldown > 0 and "cooldown" or "owned"
+			badge= cooldown > 0 and "⌛" or "⌂"
+			color= cooldown > 0 and UI.red or UI.green
+			callback= cooldown > 0 and nil or function() selectStyle(id) end
 		elseif not tierReady then
 			detail="tier "..tostring(requiredTier)
 			badge="×"
 			color=UI.red
 		else
-			detail=tostring(style.Price).."¢"
-			badge="$"
-			color=UI.blue
-			callback=function() purchaseStyle(id) end
+			detail= cooldown > 0 and "cooldown" or (tostring(style.Price).."¢")
+			badge= cooldown > 0 and "⌛" or "$"
+			color= cooldown > 0 and UI.red or UI.blue
+			callback= cooldown > 0 and nil or function() purchaseStyle(id) end
 		end
 
 		tile(
@@ -468,6 +664,7 @@ toggleHome.Name="ToggleHome"
 toggleHome.Parent=gui
 
 local function openPanel()
+	accessMode=false
 	if fetchState() then
 		render()
 		panel.Visible=true

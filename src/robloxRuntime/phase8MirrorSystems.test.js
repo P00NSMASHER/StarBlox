@@ -17,7 +17,7 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(config).toContain('StarMansionCorrectAnswers = 3750');
     expect(config).toContain('PremiumSportsCarCorrectAnswers = 1200');
     expect(config).toContain('PaidCurrencyRequiredForGameplayUnlocks = false');
-    for(const label of ['Avatar','Inventory','Emotes','Vehicles','Houses','Bio','Jobs','Map','Shop']){
+    for(const label of ['Quick Chat','Home Cams','Clock','Family','Avatar Editor','Tools','Animations','Vehicle','House']){
       expect(config).toContain('Label = "'+label+'"');
     }
   });
@@ -94,31 +94,29 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(service).not.toContain('HOME_SPACING');
   });
 
-  it('uses one compact Brookhaven-style phone sidebar instead of duplicate shop buttons',()=>{
+  it('uses the five-action Brookhaven recording shell instead of duplicate shop buttons',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
     const shop=read('roblox/src/client/Shop.client.luau');
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(54, 326)');
+    expect(sidebar).toContain('rail.Name = "RightActionRail"');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(64, 306)');
     for(const call of [
-      'railButton("☺", "Avatar", 1)',
-      'railButton("▣", "Inventory", 2)',
-      'railButton("✦", "Emotes", 3)',
-      'railButton("▰", "Vehicles", 4)',
-      'railButton("⌂", "Houses", 5)',
-      'railButton("ID", "Bio", 6)',
-      'railButton("JOB", "Jobs", 7)',
-      'railButton("◇", "Map", 8)',
-      'railButton("$", "Shop", 9)'
+      'actionButton("☺", "Avatar", "Avatar Editor", 1)',
+      'actionButton("♙", "Tools", "Tools", 2)',
+      'actionButton("♟", "Animations", "Animations", 3)',
+      'actionButton("▰", "Vehicle", "Vehicle", 4)',
+      'actionButton("⌂", "House", "House", 5)'
     ]){
       expect(sidebar).toContain(call);
     }
-    expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0.5)');
-    expect(sidebar).toContain('panel.Size = UDim2.fromOffset(356, 326)');
-    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(78, 78)');
+    expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0)');
+    expect(sidebar).toContain('panel.Size = UDim2.fromOffset(326, 309)');
+    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(62, 64)');
+    expect(sidebar).toContain('categoryRail.Name = "CategoryRail"');
     expect(sidebar).toContain('close.BackgroundColor3 = UI.red');
     expect(sidebar).toContain('Humanoid');
     expect(sidebar).toContain('PlayEmote');
-    expect(sidebar).toContain('save.Text = "SAVE"');
+    expect(sidebar).toContain('plotSelector.Name = "HousePlotSelector"');
     expect(shop).toContain('shopButton.Visible = false');
     expect(shop).toContain('homeButton.Visible = false');
     expect(shop).toContain('OpenStore');
