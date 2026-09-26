@@ -132,6 +132,24 @@ local function ensureCoreLoopState(profileData)
 	return state
 end
 
+local function ensureQuestionState(profileData)
+	profileData.Learning = profileData.Learning or {}
+	profileData.Learning.QuestionCursorByStation =
+		type(profileData.Learning.QuestionCursorByStation) == "table"
+		and profileData.Learning.QuestionCursorByStation
+		or {}
+	profileData.Learning.RecentQuestionIds =
+		type(profileData.Learning.RecentQuestionIds) == "table"
+		and profileData.Learning.RecentQuestionIds
+		or {}
+	return profileData.Learning.QuestionCursorByStation
+end
+
+local function questionCursor(profileData, activityId: string): number
+	local cursors = ensureQuestionState(profileData)
+	return math.max(0, math.floor(tonumber(cursors[activityId]) or 0))
+end
+
 local function publicActivity(activity, question)
 	assert(question ~= nil, "question is required for public activity")
 	return {
@@ -150,9 +168,9 @@ local function publicActivity(activity, question)
 		source = activity.Source,
 		sourceWeek = CoreQuestionBank.Source.WeekLabel,
 		reward = {
-			coins = activity.Reward.Coins,
-			xp = activity.Reward.XP,
-			stars = activity.Reward.Stars,
+			coins = Config.QuestionReward.Coins,
+			xp = Config.QuestionReward.XP,
+			stars = 0,
 		},
 	}
 end
@@ -161,12 +179,12 @@ function CoreGameLoopService.GradeAnswer(questionId: any, choice: any): boolean
 	return CoreQuestionBank.Grade(questionId, choice)
 end
 
-function CoreGameLoopService.GetPublicActivity(activityId: string, runNumber: any?)
+function CoreGameLoopService.GetPublicActivity(activityId: string, cursor: any?)
 	local activity = activityById(activityId)
 	if activity == nil then
 		return nil
 	end
-	local question = CoreQuestionBank.Select(activityId, runNumber or 1)
+	local question = CoreQuestionBank.Select(activityId, cursor or 0)
 	if question == nil then
 		return nil
 	end
@@ -213,7 +231,7 @@ function CoreGameLoopService.BuildStatus(profileData)
 
 	local tier, nextMilestoneLoops = masteryTier(state.LoopRuns)
 	local recommendedQuestion = if recommendedActivityId ~= nil
-		then CoreQuestionBank.Select(recommendedActivityId, state.RunNumber)
+		then CoreQuestionBank.Select(recommendedActivityId, questionCursor(profileData, recommendedActivityId))
 		else nil
 
 	return {
@@ -384,8 +402,10 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 			local activity = activityById(activityId)
 			local selectedQuestion = nil
 			self._profiles:WithProfile(player, function(data)
-				local state = ensureCoreLoopState(data)
-				selectedQuestion = CoreQuestionBank.Select(activityId, state.RunNumber)
+				selectedQuestion = CoreQuestionBank.Select(
+					activityId,
+					questionCursor(data, activityId)
+				)
 			end)
 			if activity == nil or selectedQuestion == nil then
 				self._activityOpened:FireClient(player, {
@@ -512,11 +532,25 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 	local completion = nil
 	local latestEconomy = nil
 	local statusSnapshot = nil
+	local nextQuestion = nil
 	local found = self._profiles:WithProfile(player, function(data)
 		completion = CoreGameLoopService.ApplyCompletion(data, session.activityId, utcDayKey())
 		if completion.ok ~= true then
 			return
 		end
+
+		local cursors = ensureQuestionState(data)
+		local currentCursor = questionCursor(data, session.activityId)
+		cursors[session.activityId] = currentCursor + 1
+		table.insert(data.Learning.RecentQuestionIds, session.questionId)
+		while #data.Learning.RecentQuestionIds > 24 do
+			table.remove(data.Learning.RecentQuestionIds, 1)
+		end
+
+		data.Economy.Coins += Config.QuestionReward.Coins
+		data.Economy.XP += Config.QuestionReward.XP
+		nextQuestion = CoreQuestionBank.Select(session.activityId, currentCursor + 1)
+
 		latestEconomy = {
 			Coins = data.Economy.Coins,
 			XP = data.Economy.XP,
@@ -558,21 +592,22 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 
 	local stationName = if activity ~= nil then activity.StationName else "Activity"
 	local explanation = if answeredQuestion ~= nil then answeredQuestion.Explanation else nil
-	local rewardSummary = nil
+	local rewardSummary = string.format(
+		"+%d coins",
+		Config.QuestionReward.Coins
+	)
 	if completion.rewardEligible == true and activity ~= nil then
+		local challengeXp = activity.Reward.XP
+		local challengeStars = activity.Reward.Stars
 		if completion.loopCompleted == true then
-			rewardSummary = string.format(
-				"+%d coins • +%d XP • +%d star",
-				activity.Reward.Coins + Config.LoopReward.Coins,
-				activity.Reward.XP + Config.LoopReward.XP,
-				activity.Reward.Stars + Config.LoopReward.Stars
-			)
-		else
-			rewardSummary = string.format(
-				"+%d coins • +%d XP",
-				activity.Reward.Coins,
-				activity.Reward.XP
-			)
+			challengeXp += Config.LoopReward.XP
+			challengeStars += Config.LoopReward.Stars
+		end
+		if challengeXp > 0 then
+			rewardSummary = rewardSummary .. string.format(" • +%d XP", challengeXp)
+		end
+		if challengeStars > 0 then
+			rewardSummary = rewardSummary .. string.format(" • +%d star", challengeStars)
 		end
 	end
 
@@ -587,10 +622,15 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		challengeComplete = completion.loopCompleted == true,
 		cosmeticUnlocked = completion.cosmeticUnlocked == true,
 		questionId = session.questionId,
+		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
 		completion = completion,
 		status = statusSnapshot,
 		economy = latestEconomy,
 	}
+end
+
+function CoreGameLoopService:GetSpawnCFrame(): CFrame
+	return self._spawnCFrame
 end
 
 function CoreGameLoopService:PlayerRemoving(player: Player)
