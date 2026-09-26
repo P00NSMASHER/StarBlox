@@ -33,9 +33,13 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     ]){
       expect(catalog).toContain(home);
     }
-    expect(catalog.match(/Price = 44/g)?.length).toBe(7);
-    expect(catalog).toContain('Tier = 2, Name = "Cozy Loft", Price = 250');
-    expect(catalog).toContain('Tier = 5, Name = "Star Mansion", Price = 5000');
+    expect(catalog).toContain('CatalogRevision = "phase9-long-horizon-learning-economy-v1"');
+    expect(catalog).toContain('Name = "Starter Bed", Category = "Furniture", Kind = "bed", Price = 180');
+    expect(catalog).toContain('Tier = 2, Name = "Cozy Loft", Price = 1000');
+    expect(catalog).toContain('Tier = 3, Name = "Creator Bedroom", Price = 3500');
+    expect(catalog).toContain('Tier = 4, Name = "Skyline Penthouse", Price = 9000');
+    expect(catalog).toContain('Tier = 5, Name = "Star Mansion", Price = 24000');
+    expect(1000+3500+9000+24000).toBe(37500);
   });
 
   it('persists ownership/home tier and deducts purchases authoritatively',()=>{
