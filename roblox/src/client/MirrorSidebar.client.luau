@@ -370,8 +370,8 @@ constrain(statusText, 9, 12)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Grid"
-scroller.Position = UDim2.fromOffset(0, 54)
-scroller.Size = UDim2.new(1, 0, 1, -58)
+scroller.Position = UDim2.fromOffset(50, 54)
+scroller.Size = UDim2.new(1, -50, 1, -58)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -380,9 +380,24 @@ scroller.ScrollBarThickness = 0
 scroller.ZIndex = 71
 scroller.Parent = panel
 
+local categoryRail = Instance.new("Frame")
+categoryRail.Name = "CategoryRail"
+categoryRail.Position = UDim2.fromOffset(0, 54)
+categoryRail.Size = UDim2.fromOffset(44, 245)
+categoryRail.BackgroundTransparency = 1
+categoryRail.Visible = false
+categoryRail.ZIndex = 72
+categoryRail.Parent = panel
+
+local categoryList = Instance.new("UIListLayout")
+categoryList.Padding = UDim.new(0, 4)
+categoryList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+categoryList.SortOrder = Enum.SortOrder.LayoutOrder
+categoryList.Parent = categoryRail
+
 local grid = Instance.new("UIGridLayout")
 grid.CellPadding = UDim2.fromOffset(5, 5)
-grid.CellSize = UDim2.fromOffset(76, 64)
+grid.CellSize = UDim2.fromOffset(62, 64)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.HorizontalAlignment = Enum.HorizontalAlignment.Right
 grid.Parent = scroller
@@ -390,10 +405,50 @@ grid.Parent = scroller
 local mirrorState = nil
 local roleplayState = nil
 local busy = false
+local activeToolCategory = "all"
+local activeVehicleCategory = "all"
 
 local function setActionLabelsVisible(visible: boolean)
 	for _, item in actionLabels do
 		item.Visible = visible
+	end
+end
+
+local function clearCategories()
+	for _, child in categoryRail:GetChildren() do
+		if child:IsA("GuiObject") then
+			child:Destroy()
+		end
+	end
+	categoryRail.Visible = false
+end
+
+local function setCategories(
+	entries: {{Id: string, Symbol: string}},
+	selectedId: string,
+	onSelect: (string) -> ()
+)
+	clearCategories()
+	categoryRail.Visible = true
+	for order, entry in entries do
+		local button = Instance.new("TextButton")
+		button.Name = "Category_" .. entry.Id
+		button.LayoutOrder = order
+		button.Size = UDim2.fromOffset(42, 42)
+		button.BackgroundColor3 = if entry.Id == selectedId then UI.tileSelected else UI.white
+		button.BackgroundTransparency = 0.12
+		button.Text = entry.Symbol
+		button.TextColor3 = UI.text
+		button.Font = Enum.Font.GothamBold
+		button.TextScaled = true
+		button.ZIndex = 73
+		button.Parent = categoryRail
+		round(button, 6)
+		stroke(button, UI.border, 1, 0.45)
+		constrain(button, 15, 22)
+		button.Activated:Connect(function()
+			onSelect(entry.Id)
+		end)
 	end
 end
 
@@ -545,7 +600,57 @@ end
 local function closePanel()
 	panel.Visible = false
 	statusText.Visible = false
+	clearCategories()
 	setActionLabelsVisible(true)
+end
+
+local function symbolForTool(kind: string): string
+	if kind == "phone" then return "▯" end
+	if kind == "flashlight" then return "◉" end
+	if kind == "laptop" then return "▰" end
+	if kind == "camera" then return "◎" end
+	if kind == "umbrella" then return "☂" end
+	if kind == "book" then return "▥" end
+	if kind == "clipboard" then return "▤" end
+	if kind == "guitar" then return "♫" end
+	if kind == "binoculars" then return "∞" end
+	if kind == "stroller" then return "♙" end
+	if kind == "extinguisher" then return "!" end
+	if kind == "backpack" then return "▣" end
+	return "□"
+end
+
+local function toolMatchesCategory(kind: string, category: string): boolean
+	if category == "all" then return true end
+	if category == "tech" then
+		return kind == "phone" or kind == "flashlight" or kind == "laptop" or kind == "camera" or kind == "binoculars"
+	end
+	if category == "carry" then
+		return kind == "umbrella" or kind == "stroller" or kind == "backpack"
+	end
+	if category == "roleplay" then
+		return kind == "book" or kind == "clipboard" or kind == "extinguisher"
+	end
+	if category == "music" then
+		return kind == "guitar"
+	end
+	return false
+end
+
+local function symbolForVehicle(kind: string): string
+	if kind == "bike" then return "○" end
+	if kind == "truck" then return "▱" end
+	if kind == "van" then return "▰" end
+	if kind == "cart" then return "▭" end
+	return "▰"
+end
+
+local function vehicleMatchesCategory(kind: string, category: string): boolean
+	if category == "all" then return true end
+	if category == "cars" then return kind == "car" end
+	if category == "utility" then return kind == "truck" or kind == "van" or kind == "cart" end
+	if category == "bikes" then return kind == "bike" end
+	return false
 end
 
 local showVehicles
@@ -562,29 +667,42 @@ showVehicles = function()
 	end
 	clearGrid()
 	setHeader("Vehicle")
+	setCategories({
+		{Id = "all", Symbol = "★"},
+		{Id = "cars", Symbol = "▰"},
+		{Id = "utility", Symbol = "▱"},
+		{Id = "bikes", Symbol = "○"},
+	}, activeVehicleCategory, function(category)
+		activeVehicleCategory = category
+		showVehicles()
+	end)
+
 	local order = 1
 	for _, vehicle in mirrorState.vehicles or {} do
-		local id = tostring(vehicle.Id)
-		local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
-		tile(
-			"▰",
-			tostring(vehicle.Name),
-			owned and "spawn" or (tostring(vehicle.Price) .. "¢"),
-			owned and "✓" or "$",
-			owned and UI.green or UI.blue,
-			order,
-			function()
-				if owned then
-					pcall(function()
-						spawnVehicle:InvokeServer(id)
-					end)
-					closePanel()
-				else
-					purchase(purchaseVehicle, id, showVehicles)
+		local kind = tostring(vehicle.Kind or "car")
+		if vehicleMatchesCategory(kind, activeVehicleCategory) then
+			local id = tostring(vehicle.Id)
+			local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
+			tile(
+				symbolForVehicle(kind),
+				tostring(vehicle.Name),
+				owned and "spawn" or (tostring(vehicle.Price) .. "¢"),
+				owned and "✓" or "$",
+				owned and UI.green or UI.blue,
+				order,
+				function()
+					if owned then
+						pcall(function()
+							spawnVehicle:InvokeServer(id)
+						end)
+						closePanel()
+					else
+						purchase(purchaseVehicle, id, showVehicles)
+					end
 				end
-			end
-		)
-		order += 1
+			)
+			order += 1
+		end
 	end
 	tile("×", "Despawn", "current", "", UI.red, order, function()
 		pcall(function()
@@ -600,33 +718,48 @@ showTools = function()
 	end
 	clearGrid()
 	setHeader("Tools")
+	setCategories({
+		{Id = "all", Symbol = "★"},
+		{Id = "tech", Symbol = "▯"},
+		{Id = "carry", Symbol = "▣"},
+		{Id = "roleplay", Symbol = "♙"},
+		{Id = "music", Symbol = "♫"},
+	}, activeToolCategory, function(category)
+		activeToolCategory = category
+		showTools()
+	end)
+
 	local order = 1
 	for _, item in mirrorState.inventory or {} do
-		local id = tostring(item.Id)
-		local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
-		tile(
-			"□",
-			tostring(item.Name),
-			owned and "equip" or (tostring(item.Price) .. "¢"),
-			owned and "✓" or "$",
-			owned and UI.green or UI.blue,
-			order,
-			function()
-				if owned then
-					pcall(function()
-						equipTool:InvokeServer(id)
-					end)
-					closePanel()
-				else
-					purchase(purchaseTool, id, showTools)
+		local kind = tostring(item.Kind or "")
+		if toolMatchesCategory(kind, activeToolCategory) then
+			local id = tostring(item.Id)
+			local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
+			tile(
+				symbolForTool(kind),
+				tostring(item.Name),
+				owned and "equip" or (tostring(item.Price) .. "¢"),
+				owned and "✓" or "$",
+				owned and UI.green or UI.blue,
+				order,
+				function()
+					if owned then
+						pcall(function()
+							equipTool:InvokeServer(id)
+						end)
+						closePanel()
+					else
+						purchase(purchaseTool, id, showTools)
+					end
 				end
-			end
-		)
-		order += 1
+			)
+			order += 1
+		end
 	end
 end
 
 showAnimations = function()
+	clearCategories()
 	clearGrid()
 	setHeader("Animations")
 	local order = 1
@@ -647,6 +780,7 @@ showAnimations = function()
 end
 
 showAvatar = function()
+	clearCategories()
 	clearGrid()
 	setHeader("Avatar Editor")
 	tile("☺", "Reset Avatar", "Roblox look", "", UI.blue, 1, function()
@@ -667,6 +801,7 @@ showAvatar = function()
 end
 
 showFamily = function()
+	clearCategories()
 	if not fetchRoleplayState() then
 		return
 	end
@@ -697,6 +832,7 @@ showFamily = function()
 end
 
 showHomeCams = function()
+	clearCategories()
 	clearGrid()
 	setHeader("Home Cams")
 	tile("⌂", "My Home", "visit", "", UI.blue, 1, function()
@@ -714,6 +850,7 @@ showHomeCams = function()
 end
 
 showSettings = function()
+	clearCategories()
 	clearGrid()
 	setHeader("Settings")
 	tile("☺", "Reset Avatar", "reset", "", UI.blue, 1, function()
@@ -742,6 +879,7 @@ local function sendQuickChat(message: string)
 end
 
 local function showQuickChat()
+	clearCategories()
 	clearGrid()
 	setHeader("Quick Chat")
 	local phrases = {"Hi!", "Let's go!", "Nice!", "Follow me!", "Thanks!", "See you!"}
