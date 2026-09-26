@@ -27,6 +27,11 @@ for _, home in StoreCatalog.Homes do
 	HOME_BY_TIER[home.Tier] = home
 end
 
+local STYLE_BY_ID = {}
+for _, style in StoreCatalog.Styles do
+	STYLE_BY_ID[style.Id] = style
+end
+
 local DEFAULT_PLACEMENTS = {
 	["beds-1"] = {X = -4, Z = -3, Yaw = 0},
 	["seating-1"] = {X = 3, Z = 2, Yaw = 180},
@@ -52,12 +57,23 @@ local function ensureHome(profileData)
 		PlotId = "",
 		Tier = 1,
 		PlacementVersion = PLACEMENT_VERSION,
+		SelectedStyle = "home-starter",
+		OwnedStyles = {["home-starter"] = true},
 		Placements = {},
 	}
 	local home = profileData.Social.Home
 	home.Tier = math.clamp(math.floor(tonumber(home.Tier) or 1), 1, 5)
 	home.PlacementVersion = PLACEMENT_VERSION
 	home.Placements = type(home.Placements) == "table" and home.Placements or {}
+	home.OwnedStyles = type(home.OwnedStyles) == "table" and home.OwnedStyles or {}
+	home.OwnedStyles["home-starter"] = true
+	home.SelectedStyle = type(home.SelectedStyle) == "string" and home.SelectedStyle or "home-starter"
+	local selected = STYLE_BY_ID[home.SelectedStyle]
+	if selected == nil
+		or home.OwnedStyles[home.SelectedStyle] ~= true
+		or home.Tier < selected.RequiredTier then
+		home.SelectedStyle = "home-starter"
+	end
 	return home
 end
 
@@ -106,6 +122,174 @@ local function tierColor(tier: number): Color3
 		Color3.fromRGB(232, 216, 244),
 	}
 	return colors[tier] or colors[1]
+end
+
+
+local function stylePalette(kind: string, tier: number)
+	if kind == "modern" then
+		return Color3.fromRGB(236, 239, 242), Color3.fromRGB(72, 79, 89), Color3.fromRGB(155, 207, 226)
+	elseif kind == "suburban" then
+		return Color3.fromRGB(224, 205, 178), Color3.fromRGB(112, 78, 57), Color3.fromRGB(180, 214, 226)
+	elseif kind == "ranch" then
+		return Color3.fromRGB(204, 183, 154), Color3.fromRGB(92, 69, 54), Color3.fromRGB(182, 212, 221)
+	elseif kind == "townhouse" then
+		return Color3.fromRGB(191, 112, 92), Color3.fromRGB(77, 63, 58), Color3.fromRGB(187, 215, 224)
+	elseif kind == "lakehouse" then
+		return Color3.fromRGB(191, 214, 207), Color3.fromRGB(72, 93, 88), Color3.fromRGB(172, 218, 234)
+	elseif kind == "villa" then
+		return Color3.fromRGB(239, 232, 216), Color3.fromRGB(190, 165, 123), Color3.fromRGB(173, 211, 227)
+	elseif kind == "mansion" then
+		return Color3.fromRGB(232, 226, 214), Color3.fromRGB(74, 71, 68), Color3.fromRGB(170, 207, 223)
+	end
+	return tierColor(tier), Color3.fromRGB(110, 110, 116), Color3.fromRGB(185, 214, 226)
+end
+
+local function windowPane(parent: Instance, cframe: CFrame, size: Vector3, glassColor: Color3)
+	local pane = part(parent, "Window", size, cframe, glassColor, 0.32)
+	pane.Material = Enum.Material.Glass
+	pane.CanCollide = false
+	return pane
+end
+
+local function porchColumn(parent: Instance, cframe: CFrame, height: number, color: Color3)
+	return part(parent, "Column", Vector3.new(0.65, height, 0.65), cframe, color)
+end
+
+local function renderHouseShell(
+	parent: Instance,
+	base: CFrame,
+	tier: number,
+	style
+)
+	local width, depth, height = tierDimensions(tier)
+	local wallColor, trimColor, glassColor = stylePalette(style.Kind, tier)
+	local kind = style.Kind
+
+	part(parent, "Floor", Vector3.new(width, 1, depth), base, Color3.fromRGB(226, 218, 204))
+	part(parent, "BackWall", Vector3.new(width, height, 1), base * CFrame.new(0, height / 2, -(depth / 2)), wallColor)
+	part(parent, "LeftWall", Vector3.new(1, height, depth), base * CFrame.new(-(width / 2), height / 2, 0), wallColor)
+	part(parent, "RightWall", Vector3.new(1, height, depth), base * CFrame.new(width / 2, height / 2, 0), wallColor)
+
+	-- Front facade intentionally leaves a centered doorway opening.
+	local doorWidth = math.min(5, math.max(3.5, width * 0.18))
+	local sideWidth = math.max(1, (width - doorWidth) / 2)
+	part(
+		parent,
+		"FrontWallLeft",
+		Vector3.new(sideWidth, height, 1),
+		base * CFrame.new(-(doorWidth / 2 + sideWidth / 2), height / 2, depth / 2),
+		wallColor
+	)
+	part(
+		parent,
+		"FrontWallRight",
+		Vector3.new(sideWidth, height, 1),
+		base * CFrame.new(doorWidth / 2 + sideWidth / 2, height / 2, depth / 2),
+		wallColor
+	)
+
+	local roofHeight = height
+	if kind == "townhouse" or kind == "mansion" then
+		roofHeight = height + 3.2
+		local upper = part(
+			parent,
+			"UpperFloor",
+			Vector3.new(width * 0.82, 0.7, depth * 0.74),
+			base * CFrame.new(0, height * 0.58, -0.3),
+			trimColor
+		)
+		upper.CanCollide = true
+	end
+
+	local roofTransparency = if kind == "modern" then 0.08 else 0
+	local roof = part(
+		parent,
+		"Roof",
+		Vector3.new(width + 0.8, 0.65, depth + 0.8),
+		base * CFrame.new(0, roofHeight, 0),
+		trimColor,
+		roofTransparency
+	)
+	roof.CanCollide = false
+
+	if kind == "modern" or kind == "villa" then
+		windowPane(
+			parent,
+			base * CFrame.new(-(width / 2) + 0.55, height * 0.58, 0),
+			Vector3.new(0.22, height * 0.52, depth * 0.44),
+			glassColor
+		)
+		windowPane(
+			parent,
+			base * CFrame.new((width / 2) - 0.55, height * 0.58, 0),
+			Vector3.new(0.22, height * 0.52, depth * 0.44),
+			glassColor
+		)
+	end
+
+	if kind == "suburban" or kind == "ranch" or kind == "lakehouse" or kind == "mansion" then
+		local deckDepth = if kind == "lakehouse" then 5 else 3
+		part(
+			parent,
+			"FrontDeck",
+			Vector3.new(width * 0.72, 0.35, deckDepth),
+			base * CFrame.new(0, 0.7, (depth / 2) + (deckDepth / 2)),
+			Color3.fromRGB(152, 111, 73)
+		)
+		for _, x in {-width * 0.28, width * 0.28} do
+			porchColumn(
+				parent,
+				base * CFrame.new(x, math.min(height * 0.42, 4), (depth / 2) + deckDepth - 0.7),
+				math.min(height * 0.72, 8),
+				trimColor
+			)
+		end
+	end
+
+	if kind == "townhouse" then
+		part(
+			parent,
+			"TownhouseBand",
+			Vector3.new(width + 0.35, 0.55, depth + 0.35),
+			base * CFrame.new(0, height * 0.55, 0),
+			trimColor
+		)
+	end
+
+	if kind == "villa" or kind == "mansion" then
+		for _, x in {-width * 0.22, width * 0.22} do
+			porchColumn(
+				parent,
+				base * CFrame.new(x, height * 0.34, (depth / 2) + 1),
+				height * 0.68,
+				trimColor
+			)
+		end
+	end
+
+	if kind == "modern" then
+		local accent = part(
+			parent,
+			"ModernAccent",
+			Vector3.new(width * 0.38, height * 0.78, 0.6),
+			base * CFrame.new(width * 0.24, height * 0.48, (depth / 2) + 0.3),
+			trimColor
+		)
+		accent.CanCollide = false
+	end
+
+	-- Windows are decoration only and do not alter the interior placement bounds.
+	local windowY = math.min(height * 0.55, 5.2)
+	for _, x in {-width * 0.28, width * 0.28} do
+		windowPane(
+			parent,
+			base * CFrame.new(x, windowY, (depth / 2) + 0.51),
+			Vector3.new(math.max(2.2, width * 0.16), math.min(3.6, height * 0.35), 0.16),
+			glassColor
+		)
+	end
+
+	return width, depth, height
 end
 
 local function finiteNumber(value: any): number?
@@ -355,6 +539,7 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	local remoteRoot = Instance.new("Folder")
 	remoteRoot.Name = REMOTE_ROOT_NAME
 	remoteRoot:SetAttribute("CatalogRevision", StoreCatalog.CatalogRevision)
+	remoteRoot:SetAttribute("HouseStyleCount", #StoreCatalog.Styles)
 	remoteRoot:SetAttribute("PlacementVersion", PLACEMENT_VERSION)
 	remoteRoot:SetAttribute("PlacementStep", PLACEMENT_STEP)
 	remoteRoot:SetAttribute("RotationStep", ROTATION_STEP)
@@ -371,6 +556,14 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	local purchaseHome = Instance.new("RemoteFunction")
 	purchaseHome.Name = "PurchaseHomeTier"
 	purchaseHome.Parent = remoteRoot
+
+	local purchaseHomeStyle = Instance.new("RemoteFunction")
+	purchaseHomeStyle.Name = "PurchaseHomeStyle"
+	purchaseHomeStyle.Parent = remoteRoot
+
+	local selectHomeStyle = Instance.new("RemoteFunction")
+	selectHomeStyle.Name = "SelectHomeStyle"
+	selectHomeStyle.Parent = remoteRoot
 
 	local setPlacement = Instance.new("RemoteFunction")
 	setPlacement.Name = "SetPlacement"
@@ -400,6 +593,12 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	end
 	purchaseHome.OnServerInvoke = function(player: Player, tier: any)
 		return self:_purchaseHomeTier(player, tier)
+	end
+	purchaseHomeStyle.OnServerInvoke = function(player: Player, styleId: any)
+		return self:_purchaseHomeStyle(player, styleId)
+	end
+	selectHomeStyle.OnServerInvoke = function(player: Player, styleId: any)
+		return self:_selectHomeStyle(player, styleId)
 	end
 	setPlacement.OnServerInvoke = function(player: Player, itemId: any, payload: any)
 		return self:_setPlacement(player, itemId, payload)
@@ -467,12 +666,15 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	ensurePlacementDefaults(homeState, owned)
 
 	local tier = homeState.Tier
-	local width, depth, height = tierDimensions(tier)
+	local style = STYLE_BY_ID[homeState.SelectedStyle] or STYLE_BY_ID["home-starter"]
 	local base, plotBinding = self:_homeCFrame(player)
 
 	local model = Instance.new("Model")
 	model.Name = "HomeSlot_" .. tostring(self._slots[player])
 	model:SetAttribute("HomeTier", tier)
+	model:SetAttribute("HomeStyleId", style.Id)
+	model:SetAttribute("HomeStyleName", style.Name)
+	model:SetAttribute("HomeStyleKind", style.Kind)
 	model:SetAttribute("PlotId", plotBinding.Id)
 	model:SetAttribute("SourceWorldPart", plotBinding.SourcePartName)
 	model:SetAttribute("PlacementVersion", PLACEMENT_VERSION)
@@ -480,16 +682,7 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	model:SetAttribute("BaselineMutationAllowed", false)
 	model.Parent = self._homeFolder
 
-	local wallColor = tierColor(tier)
-	part(model, "Floor", Vector3.new(width, 1, depth), base, Color3.fromRGB(226, 218, 204))
-	part(model, "BackWall", Vector3.new(width, height, 1), base * CFrame.new(0, height / 2, -(depth / 2)), wallColor)
-	part(model, "LeftWall", Vector3.new(1, height, depth), base * CFrame.new(-(width / 2), height / 2, 0), wallColor)
-	part(model, "RightWall", Vector3.new(1, height, depth), base * CFrame.new(width / 2, height / 2, 0), wallColor)
-
-	if tier >= 2 then
-		local roof = part(model, "Roof", Vector3.new(width, 0.6, depth), base * CFrame.new(0, height, 0), wallColor, 0.22)
-		roof.CanCollide = false
-	end
+	local width, depth, height = renderHouseShell(model, base, tier, style)
 
 	local itemRoot = Instance.new("Folder")
 	itemRoot.Name = "OwnedItems"
@@ -525,6 +718,9 @@ function HomeEconomyService:_state(player: Player)
 			ok = true,
 			coins = data.Economy.Coins,
 			homeTier = home.Tier,
+			selectedStyle = home.SelectedStyle,
+			ownedStyles = table.clone(home.OwnedStyles),
+			styles = StoreCatalog.Styles,
 			placementVersion = PLACEMENT_VERSION,
 			placementStep = PLACEMENT_STEP,
 			rotationStep = ROTATION_STEP,
@@ -634,6 +830,110 @@ function HomeEconomyService:_purchaseHomeTier(player: Player, tierValue: any)
 		self:_rebuildHome(player, data)
 		player:SetAttribute("StarBloxCoins", data.Economy.Coins)
 		outcome = {ok = true, homeTier = tier, coins = data.Economy.Coins}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
+	if not self:_purchaseAllowed(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+	if type(styleId) ~= "string" then
+		return {ok = false, code = "invalid_style"}
+	end
+	local style = STYLE_BY_ID[styleId]
+	if style == nil then
+		return {ok = false, code = "unknown_style"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local home = ensureHome(data)
+		if home.Tier < style.RequiredTier then
+			outcome = {
+				ok = false,
+				code = "home_tier_required",
+				requiredTier = style.RequiredTier,
+				homeTier = home.Tier,
+			}
+			return
+		end
+		if home.OwnedStyles[styleId] == true then
+			home.SelectedStyle = styleId
+			self._replicas:Sync(player, data)
+			self:_rebuildHome(player, data)
+			outcome = {
+				ok = true,
+				duplicate = true,
+				selectedStyle = styleId,
+				coins = data.Economy.Coins,
+			}
+			return
+		end
+		if data.Economy.Coins < style.Price then
+			outcome = {
+				ok = false,
+				code = "not_enough_coins",
+				needed = style.Price,
+				coins = data.Economy.Coins,
+			}
+			return
+		end
+
+		data.Economy.Coins -= style.Price
+		home.OwnedStyles[styleId] = true
+		home.SelectedStyle = styleId
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		player:SetAttribute("StarBloxCoins", data.Economy.Coins)
+		player:SetAttribute("StarBloxHomeStyle", styleId)
+		outcome = {
+			ok = true,
+			selectedStyle = styleId,
+			coins = data.Economy.Coins,
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function HomeEconomyService:_selectHomeStyle(player: Player, styleId: any)
+	if not self:_purchaseAllowed(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+	if type(styleId) ~= "string" then
+		return {ok = false, code = "invalid_style"}
+	end
+	local style = STYLE_BY_ID[styleId]
+	if style == nil then
+		return {ok = false, code = "unknown_style"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local home = ensureHome(data)
+		if home.OwnedStyles[styleId] ~= true then
+			outcome = {ok = false, code = "not_owned"}
+			return
+		end
+		if home.Tier < style.RequiredTier then
+			outcome = {
+				ok = false,
+				code = "home_tier_required",
+				requiredTier = style.RequiredTier,
+				homeTier = home.Tier,
+			}
+			return
+		end
+
+		home.SelectedStyle = styleId
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		player:SetAttribute("StarBloxHomeStyle", styleId)
+		outcome = {
+			ok = true,
+			selectedStyle = styleId,
+			coins = data.Economy.Coins,
+		}
 	end)
 	return outcome or {ok = false, code = "profile_unavailable"}
 end
@@ -788,6 +1088,7 @@ function HomeEconomyService:PlayerReady(player: Player, profileData)
 	local owned = ensureInventory(profileData)
 	local home = ensureHome(profileData)
 	ensurePlacementDefaults(home, owned)
+	player:SetAttribute("StarBloxHomeStyle", home.SelectedStyle)
 	self:_rebuildHome(player, profileData)
 end
 
