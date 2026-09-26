@@ -6,7 +6,7 @@
     "repository": "P00NSMASHER/abvmschoolstarworld",
     "path": "pages/data/study-pack.json",
     "scanner": "scripts/refresh-teacher-pages.mjs",
-    "scannerCommit": "39c205e07f635296bce1722e02f5af0e6f11812f",
+    "scannerCommit": "2416a088e19486f3fa7d0cf242ca978cd4ba1739",
     "generatorVersion": "dynamic-abvm-star-sync-generator-v5-schoolwork-photo",
     "healthCheck": "scripts/check-refresh-health.mjs",
     "sourceHash": "teacher-pages-36ebaede87cba691e51e",
@@ -16,7 +16,7 @@
     "schoolworkPackVersion": "schoolwork-photo-source-v1",
     "schoolworkCatalogVersion": "schoolwork-photo-question-catalog-v1",
     "sourceCapturedAt": "2026-09-26T20:23:53.555Z",
-    "sourceCheckedAt": "2026-09-26T22:12:03.891Z",
+    "sourceCheckedAt": "2026-09-26T23:04:16.717Z",
     "weekLabel": "Week of September 21, 2026",
     "bankSnapshotId": "abvm-b9d55008a7c4-27ba47"
   },
