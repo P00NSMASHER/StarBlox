@@ -49,6 +49,8 @@ local ProfileTemplate = {
 	Inventory = {
 		Cosmetics = {},
 		OwnedItems = {},
+		OwnedVehicles = {},
+		OwnedTools = {["tool-phone"] = true},
 		Equipped = {},
 	},
 
@@ -68,6 +70,11 @@ local ProfileTemplate = {
 	},
 
 	Social = {
+		Roleplay = {
+			DisplayName = "",
+			Age = "",
+			Job = "Citizen",
+		},
 		Home = {
 			PlotId = "",
 			Tier = 1,
