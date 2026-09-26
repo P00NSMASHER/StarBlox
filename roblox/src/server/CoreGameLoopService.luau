@@ -134,6 +134,15 @@ end
 
 local function ensureQuestionState(profileData)
 	profileData.Learning = profileData.Learning or {}
+	local snapshotId = CoreQuestionBank.Source.BankSnapshotId or CoreQuestionBank.Source.PackSourceHash or ""
+	if type(snapshotId) == "string"
+		and snapshotId ~= ""
+		and profileData.Learning.QuestionBankSnapshotId ~= snapshotId
+	then
+		profileData.Learning.QuestionCursorByStation = {}
+		profileData.Learning.RecentQuestionIds = {}
+		profileData.Learning.QuestionBankSnapshotId = snapshotId
+	end
 	profileData.Learning.QuestionCursorByStation =
 		type(profileData.Learning.QuestionCursorByStation) == "table"
 		and profileData.Learning.QuestionCursorByStation
@@ -210,7 +219,7 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		ok = true,
 		coins = Config.QuestionReward.Coins,
 		xp = Config.QuestionReward.XP,
-		nextQuestionId = questionReward.nextQuestionId,
+		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
 	}
 end
 
