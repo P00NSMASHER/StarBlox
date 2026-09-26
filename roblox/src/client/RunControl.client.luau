@@ -19,9 +19,15 @@ pcall(function()
 end)
 gui.Parent = playerGui
 
+local root = Instance.new("Frame")
+root.Name = "Root"
+root.Size = UDim2.fromScale(1, 1)
+root.BackgroundTransparency = 1
+root.Parent = gui
+
 local scale = Instance.new("UIScale")
 scale.Scale = 1
-scale.Parent = gui
+scale.Parent = root
 
 local function updateScale()
 	local camera = Workspace.CurrentCamera
@@ -50,7 +56,7 @@ button.Font = Enum.Font.GothamBold
 button.TextScaled = true
 button.AutoButtonColor = true
 button.ZIndex = 35
-button.Parent = gui
+button.Parent = root
 
 local aspect = Instance.new("UIAspectRatioConstraint")
 aspect.AspectRatio = 1
