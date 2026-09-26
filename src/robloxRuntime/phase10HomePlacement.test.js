@@ -40,8 +40,9 @@ describe('Phase 10: persistent Brookhaven-style home prop placement',()=>{
     expect(service).toContain('placement.Visible ~= false');
     expect(service).toContain('model:SetAttribute("RuntimeOwned", true)');
     expect(service).toContain('model:SetAttribute("BaselineMutationAllowed", false)');
-    expect(service).toContain('base * CFrame.new(placement.X, 0.5, placement.Z)');
+    expect(service).toContain('CFrame.new(placement.X, 0.5, placement.Z)');
     expect(service).toContain('CFrame.Angles(0, math.rad(placement.Yaw), 0)');
+    expect(service).toMatch(/base\s*\*\s*CFrame\.new\(placement\.X, 0\.5, placement\.Z\)\s*\*\s*CFrame\.Angles/);
     expect(service).not.toContain('BrookhavenWorldBaseline');
   });
 
