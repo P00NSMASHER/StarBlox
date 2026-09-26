@@ -36,6 +36,7 @@ local ProfileTemplate = {
 		},
 		RecentQuestionIds = {},
 		QuestionCursorByStation = {},
+		QuestionBankSnapshotId = "",
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
