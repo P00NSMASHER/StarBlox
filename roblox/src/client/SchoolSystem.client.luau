@@ -20,78 +20,180 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "StarBloxSchoolGui"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
+gui.DisplayOrder = 29
+pcall(function()
+	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
+end)
 gui.Parent = player:WaitForChild("PlayerGui")
 
+local COLORS = {
+	white = Color3.fromRGB(240, 240, 240),
+	panel = Color3.fromRGB(245, 245, 245),
+	tile = Color3.fromRGB(222, 222, 222),
+	text = Color3.fromRGB(42, 42, 42),
+	muted = Color3.fromRGB(92, 92, 92),
+	cyan = Color3.fromRGB(30, 203, 216),
+	red = Color3.fromRGB(205, 36, 36),
+	border = Color3.fromRGB(112, 112, 112),
+}
+
+local function round(object: GuiObject, radius: number)
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, radius)
+	corner.Parent = object
+end
+
+local function stroke(object: GuiObject, transparency: number?)
+	local line = Instance.new("UIStroke")
+	line.Color = COLORS.border
+	line.Thickness = 1
+	line.Transparency = transparency or 0.4
+	line.Parent = object
+end
+
+local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
+	local limit = Instance.new("UITextSizeConstraint")
+	limit.MinTextSize = minSize
+	limit.MaxTextSize = maxSize
+	limit.Parent = label
+end
+
 local hud = Instance.new("TextLabel")
-hud.Name = "SchoolHud"
-hud.Size = UDim2.fromOffset(310, 82)
-hud.Position = UDim2.fromOffset(18, 18)
-hud.BackgroundTransparency = 0.12
-hud.TextWrapped = true
+hud.Name = "SchoolScheduleChip"
+hud.AnchorPoint = Vector2.new(0.5, 0)
+hud.Size = UDim2.fromOffset(286, 36)
+hud.Position = UDim2.new(0.5, 0, 0, 10)
+hud.BackgroundColor3 = COLORS.white
+hud.BackgroundTransparency = 0.16
+hud.TextColor3 = COLORS.text
+hud.Font = Enum.Font.GothamMedium
+hud.TextWrapped = false
 hud.TextScaled = true
+hud.Visible = false
+hud.ZIndex = 30
 hud.Parent = gui
+round(hud, 8)
+stroke(hud, 0.5)
+constrain(hud, 10, 14)
 
 local waypoint = Instance.new("TextLabel")
 waypoint.Name = "SchoolWaypoint"
-waypoint.Size = UDim2.fromOffset(310, 42)
-waypoint.Position = UDim2.fromOffset(18, 106)
-waypoint.BackgroundTransparency = 0.18
+waypoint.AnchorPoint = Vector2.new(0.5, 0)
+waypoint.Size = UDim2.fromOffset(286, 28)
+waypoint.Position = UDim2.new(0.5, 0, 0, 50)
+waypoint.BackgroundColor3 = COLORS.white
+waypoint.BackgroundTransparency = 0.2
+waypoint.TextColor3 = COLORS.cyan
+waypoint.Font = Enum.Font.GothamBold
 waypoint.TextScaled = true
 waypoint.Visible = false
+waypoint.ZIndex = 30
 waypoint.Parent = gui
+round(waypoint, 8)
+stroke(waypoint, 0.55)
+constrain(waypoint, 9, 12)
 
 local panel = Instance.new("Frame")
 panel.Name = "ClassroomPanel"
-panel.Size = UDim2.fromScale(0.7, 0.58)
-panel.Position = UDim2.fromScale(0.15, 0.22)
+panel.AnchorPoint = Vector2.new(0.5, 0.5)
+panel.Size = UDim2.new(0.84, 0, 0, 410)
+panel.Position = UDim2.fromScale(0.5, 0.52)
+panel.BackgroundColor3 = COLORS.panel
+panel.BackgroundTransparency = 0.04
 panel.Visible = false
+panel.ZIndex = 40
 panel.Parent = gui
+round(panel, 7)
+stroke(panel, 0.2)
 
 local panelConstraint = Instance.new("UISizeConstraint")
 panelConstraint.MinSize = Vector2.new(300, 360)
-panelConstraint.MaxSize = Vector2.new(760, 620)
+panelConstraint.MaxSize = Vector2.new(520, 410)
 panelConstraint.Parent = panel
+
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "Close"
+closeButton.AnchorPoint = Vector2.new(1, 0)
+closeButton.Position = UDim2.new(1, -8, 0, 8)
+closeButton.Size = UDim2.fromOffset(44, 44)
+closeButton.BackgroundColor3 = COLORS.red
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextScaled = true
+closeButton.ZIndex = 43
+closeButton.Parent = panel
+round(closeButton, 6)
+stroke(closeButton, 0.25)
+constrain(closeButton, 20, 27)
 
 local questionLabel = Instance.new("TextLabel")
 questionLabel.Name = "Question"
-questionLabel.Size = UDim2.new(1, -24, 0.38, -12)
-questionLabel.Position = UDim2.fromOffset(12, 12)
+questionLabel.Size = UDim2.new(1, -72, 0, 134)
+questionLabel.Position = UDim2.fromOffset(16, 12)
+questionLabel.BackgroundTransparency = 1
+questionLabel.TextColor3 = COLORS.text
+questionLabel.Font = Enum.Font.GothamMedium
 questionLabel.TextWrapped = true
 questionLabel.TextScaled = true
+questionLabel.TextXAlignment = Enum.TextXAlignment.Left
+questionLabel.ZIndex = 41
 questionLabel.Parent = panel
+constrain(questionLabel, 12, 18)
 
 local feedback = Instance.new("TextLabel")
 feedback.Name = "Feedback"
-feedback.Size = UDim2.new(1, -24, 0.12, 0)
-feedback.Position = UDim2.new(0, 12, 0.4, 0)
+feedback.Size = UDim2.new(1, -32, 0, 50)
+feedback.Position = UDim2.new(0, 16, 0, 146)
+feedback.BackgroundTransparency = 1
+feedback.TextColor3 = COLORS.muted
+feedback.Font = Enum.Font.GothamMedium
 feedback.TextWrapped = true
 feedback.TextScaled = true
+feedback.ZIndex = 41
 feedback.Parent = panel
+constrain(feedback, 10, 14)
 
 local buttons = {}
 for index = 1, 3 do
 	local button = Instance.new("TextButton")
 	button.Name = "Choice" .. index
-	button.Size = UDim2.new(1, -24, 0.13, 0)
-	button.Position = UDim2.new(0, 12, 0.51 + (index - 1) * 0.145, 0)
+	button.Size = UDim2.new(1, -32, 0, 54)
+	button.Position = UDim2.fromOffset(16, 202 + ((index - 1) * 60))
+	button.BackgroundColor3 = COLORS.tile
+	button.TextColor3 = COLORS.text
+	button.Font = Enum.Font.GothamBold
 	button.TextWrapped = true
 	button.TextScaled = true
+	button.ZIndex = 41
 	button.Parent = panel
+	round(button, 6)
+	stroke(button, 0.45)
+	constrain(button, 11, 16)
 	buttons[index] = button
 end
 
 local report = Instance.new("TextLabel")
 report.Name = "ReportCard"
-report.Size = UDim2.fromScale(0.72, 0.72)
-report.Position = UDim2.fromScale(0.14, 0.14)
+report.AnchorPoint = Vector2.new(0.5, 0.5)
+report.Size = UDim2.new(0.72, 0, 0, 330)
+report.Position = UDim2.fromScale(0.5, 0.52)
+report.BackgroundColor3 = COLORS.panel
+report.BackgroundTransparency = 0.04
+report.TextColor3 = COLORS.text
+report.Font = Enum.Font.GothamMedium
 report.TextWrapped = true
 report.TextScaled = true
 report.Visible = false
+report.ZIndex = 42
 report.Parent = gui
+round(report, 8)
+stroke(report, 0.25)
+constrain(report, 10, 17)
 
 local reportConstraint = Instance.new("UISizeConstraint")
-reportConstraint.MinSize = Vector2.new(300, 360)
-reportConstraint.MaxSize = Vector2.new(760, 680)
+reportConstraint.MinSize = Vector2.new(300, 300)
+reportConstraint.MaxSize = Vector2.new(520, 360)
 reportConstraint.Parent = report
 
 local state = nil
@@ -280,6 +382,10 @@ for _, button in buttons do
 		end
 	end)
 end
+
+closeButton.Activated:Connect(function()
+	panel.Visible = false
+end)
 
 stateEvent.OnClientEvent:Connect(renderState)
 classOpened.OnClientEvent:Connect(renderQuestion)
