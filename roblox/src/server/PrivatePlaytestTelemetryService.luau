@@ -11,6 +11,9 @@ PrivatePlaytestTelemetryService.__index = PrivatePlaytestTelemetryService
 
 local STORE_NAME = "StarBloxPrivatePlaytestTelemetry_v1"
 local LATEST_KEY = "latest"
+local RETENTION_STORE_NAME = "StarBloxPrivateRetention_v1"
+local RETENTION_KEY = "aggregate"
+local RETENTION_VERSION = "starblox-private-retention-v1"
 local REMOTE_NAME = "StarBloxPrivatePlaytestTelemetry"
 
 local ALLOWED_CLIENT_EVENTS = table.freeze({
@@ -70,8 +73,10 @@ function PrivatePlaytestTelemetryService.new(options)
 	local opts = options or {}
 	local self = setmetatable({}, PrivatePlaytestTelemetryService)
 	self._store = opts.Store or DataStoreService:GetDataStore(STORE_NAME)
+	self._retentionStore = opts.RetentionStore or DataStoreService:GetDataStore(RETENTION_STORE_NAME)
 	self._persistEnabled = opts.Persist ~= false
 	self._sessions = {}
+	self._aggregatedSessions = {}
 
 	local existing = ReplicatedStorage:FindFirstChild(REMOTE_NAME)
 	if existing then
@@ -123,11 +128,21 @@ function PrivatePlaytestTelemetryService:_ensureSession(player)
 			loop_completed = 0,
 		},
 		activityIds = {},
+		questionIds = {},
+		retention = {
+			firstStationSeconds = nil,
+			firstActivityId = nil,
+			activityOpenOrder = {},
+			firstLoopSeconds = nil,
+			secondLoopStarted = false,
+			secondLoopCompleted = false,
+		},
 		privacy = {
 			storesUsername = false,
 			storesUserId = false,
 			storesRawAnswers = false,
 			storesChat = false,
+			storesSessionIdInAggregate = false,
 		},
 		endedAt = nil,
 	}
@@ -170,6 +185,74 @@ function PrivatePlaytestTelemetryService:_persist(report)
 	end)
 end
 
+function PrivatePlaytestTelemetryService:_persistRetentionAggregate(report)
+	if not self._persistEnabled or self._aggregatedSessions[report.sessionId] == true then
+		return
+	end
+
+	local snapshot = self:_snapshot(report)
+	self._aggregatedSessions[report.sessionId] = true
+	local ok, reason = pcall(function()
+		self._retentionStore:UpdateAsync(RETENTION_KEY, function(existing)
+			local aggregate = if type(existing) == "table"
+				and existing.retentionVersion == RETENTION_VERSION
+				and existing.releaseId == snapshot.releaseId
+				and existing.placeVersion == snapshot.placeVersion
+				then existing
+				else {
+					schemaVersion = 1,
+					retentionVersion = RETENTION_VERSION,
+					releaseId = snapshot.releaseId,
+					placeVersion = snapshot.placeVersion,
+					sessions = 0,
+					touchSessions = 0,
+					fullLoopSessions = 0,
+					repeatLoopSessions = 0,
+					sessionsWithFirstStation = 0,
+					totalFirstStationSeconds = 0,
+					totalDurationSeconds = 0,
+					firstActivityCounts = {},
+					updatedAt = 0,
+					privacy = {
+						storesUsername = false,
+						storesUserId = false,
+						storesRawAnswers = false,
+						storesChat = false,
+						storesSessionIds = false,
+					},
+				}
+
+			aggregate.sessions = (aggregate.sessions or 0) + 1
+			aggregate.totalDurationSeconds = (aggregate.totalDurationSeconds or 0) + snapshot.durationSeconds
+			if snapshot.client.touchEnabled == true then
+				aggregate.touchSessions = (aggregate.touchSessions or 0) + 1
+			end
+			if (snapshot.server.loop_completed or 0) >= 1 then
+				aggregate.fullLoopSessions = (aggregate.fullLoopSessions or 0) + 1
+			end
+			if snapshot.retention.secondLoopStarted == true then
+				aggregate.repeatLoopSessions = (aggregate.repeatLoopSessions or 0) + 1
+			end
+			if type(snapshot.retention.firstStationSeconds) == "number" then
+				aggregate.sessionsWithFirstStation = (aggregate.sessionsWithFirstStation or 0) + 1
+				aggregate.totalFirstStationSeconds =
+					(aggregate.totalFirstStationSeconds or 0) + snapshot.retention.firstStationSeconds
+			end
+			if type(snapshot.retention.firstActivityId) == "string" then
+				aggregate.firstActivityCounts[snapshot.retention.firstActivityId] =
+					(aggregate.firstActivityCounts[snapshot.retention.firstActivityId] or 0) + 1
+			end
+			aggregate.updatedAt = os.time()
+			return aggregate
+		end)
+	end)
+
+	if not ok then
+		self._aggregatedSessions[report.sessionId] = nil
+		warn("StarBlox private retention aggregate persist failed: " .. tostring(reason))
+	end
+end
+
 function PrivatePlaytestTelemetryService:PlayerReady(player)
 	local report = self:_ensureSession(player)
 	self:_persist(report)
@@ -194,8 +277,12 @@ function PrivatePlaytestTelemetryService:RecordClientEvent(player, eventName: an
 	elseif eventName == "activity_panel_opened" then
 		local source = if type(payload) == "table" then payload else {}
 		local activityId = cleanActivityId(source.activityId)
+		local questionId = cleanActivityId(source.questionId)
 		if activityId ~= nil then
 			report.activityIds[activityId] = true
+		end
+		if questionId ~= nil then
+			report.questionIds[questionId] = true
 		end
 	end
 
@@ -213,8 +300,31 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 
 	local source = if type(payload) == "table" then payload else {}
 	local activityId = cleanActivityId(source.activityId)
+	local questionId = cleanActivityId(source.questionId)
 	if activityId ~= nil then
 		report.activityIds[activityId] = true
+	end
+	if questionId ~= nil then
+		report.questionIds[questionId] = true
+	end
+
+	if eventName == "station_opened" then
+		if report.retention.firstStationSeconds == nil then
+			report.retention.firstStationSeconds = math.max(0, os.time() - report.startedAt)
+			report.retention.firstActivityId = activityId
+		end
+		if activityId ~= nil and #report.retention.activityOpenOrder < 12 then
+			table.insert(report.retention.activityOpenOrder, activityId)
+		end
+		if (report.server.loop_completed or 0) >= 1 then
+			report.retention.secondLoopStarted = true
+		end
+	elseif eventName == "loop_completed" then
+		if report.server.loop_completed == 1 then
+			report.retention.firstLoopSeconds = math.max(0, os.time() - report.startedAt)
+		elseif report.server.loop_completed >= 2 then
+			report.retention.secondLoopCompleted = true
+		end
 	end
 
 	self:_persist(report)
@@ -228,6 +338,7 @@ function PrivatePlaytestTelemetryService:PlayerRemoving(player)
 	end
 	report.endedAt = os.time()
 	self:_persist(report)
+	self:_persistRetentionAggregate(report)
 	self._sessions[player] = nil
 end
 
@@ -247,6 +358,7 @@ function PrivatePlaytestTelemetryService:FlushAll()
 					return snapshot
 				end)
 			end)
+			self:_persistRetentionAggregate(report)
 		end
 	end
 end
