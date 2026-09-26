@@ -72,6 +72,7 @@ local ProfileTemplate = {
 			RewardedSchoolDays = 0,
 			DayEligibility = {},
 			Receipts = {},
+			EarnedBySchoolDay = {},
 		},
 	},
 
