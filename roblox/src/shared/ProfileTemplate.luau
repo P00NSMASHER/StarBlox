@@ -37,6 +37,8 @@ local ProfileTemplate = {
 		RecentQuestionIds = {},
 		QuestionCursorByStation = {},
 		QuestionBankSnapshotId = "",
+		AdaptiveByStation = {},
+		SkillStats = {},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
