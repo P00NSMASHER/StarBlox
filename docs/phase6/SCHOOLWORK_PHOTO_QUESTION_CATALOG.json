@@ -1,0 +1,2291 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "schoolwork-photo-question-catalog-v1",
+  "batchId": "schoolwork-2026-09-26-001",
+  "sourceHash": "sha256:0da2e5346c56eafaf81605e495d1a6ad430be49e4c698101bafbcc72f6d7a329",
+  "questionCount": 36,
+  "questions": [
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "What vowel sound do you hear in the middle of the word “hop”?",
+      "choices": [
+        "short a",
+        "short e",
+        "short o"
+      ],
+      "answer": "short o",
+      "explanation": "Say the word slowly and listen to the middle vowel sound.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-short-vowel-identification-direct",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "short a",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "short e",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "short a": 0,
+          "short e": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a3027e7de31f6dec7fd0a65a7c3e1a4ebabe0a8abd93036813cf1bf60dac84d9",
+      "signalId": "short-vowel-identification",
+      "questionType": "direct",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "Which word has the same middle vowel sound as “hop”?",
+      "choices": [
+        "team",
+        "log",
+        "bike"
+      ],
+      "answer": "log",
+      "explanation": "Both words use the same short middle-vowel sound.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-short-vowel-identification-transfer",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "team",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "bike",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "team": 0,
+          "bike": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:382f0f262de43fdaa54ffeac98644c8e4940a58574470b4f1d666602805981bd",
+      "signalId": "short-vowel-identification",
+      "questionType": "transfer",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "Which pair of words has the same short vowel sound?",
+      "choices": [
+        "log and team",
+        "hop and log",
+        "hop and bike"
+      ],
+      "answer": "hop and log",
+      "explanation": "Listen to the middle sound in both words and compare them.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-short-vowel-identification-reasoning",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "log and team",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "hop and bike",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "log and team": 0,
+          "hop and bike": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:2766eb932d1efda21de9df9d1c1d5bfa9b55aeac8914f4891dbba5fb91831ed9",
+      "signalId": "short-vowel-identification",
+      "questionType": "reasoning",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "cvc-structure",
+      "prompt": "Which vowel completes “c_t” to make the word for a pet that can meow?",
+      "choices": [
+        "e",
+        "o",
+        "a"
+      ],
+      "answer": "a",
+      "explanation": "The completed word is “cat.”",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: cvc-structure; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-cvc-missing-vowel-direct",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for one consonant, one vowel, then one consonant.",
+      "scaffold": "Look for one consonant, one vowel, then one consonant.",
+      "choiceDiagnostics": [
+        {
+          "choice": "e",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        },
+        {
+          "choice": "o",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "e": 0,
+          "o": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:b846194fcb66b6a7000c026dbf9a2498bd1e1ac0464f57b4eae644cf2f194db7",
+      "signalId": "cvc-missing-vowel",
+      "questionType": "direct",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "cvc-structure",
+      "prompt": "Which completed CVC word is spelled correctly?",
+      "choices": [
+        "cet",
+        "cut",
+        "cat"
+      ],
+      "answer": "cat",
+      "explanation": "A consonant-vowel-consonant word needs the vowel that matches the sound you hear.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: cvc-structure; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-cvc-missing-vowel-transfer",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for one consonant, one vowel, then one consonant.",
+      "scaffold": "Look for one consonant, one vowel, then one consonant.",
+      "choiceDiagnostics": [
+        {
+          "choice": "cet",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        },
+        {
+          "choice": "cut",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "cet": 0,
+          "cut": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:3cea436e848354a7f25acb1b60c9bf798db543970ea4d241fab55e1936feee76",
+      "signalId": "cvc-missing-vowel",
+      "questionType": "transfer",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "cvc-structure",
+      "prompt": "Why does “cat” use the letter “a” in the middle?",
+      "choices": [
+        "Every three-letter word uses that vowel.",
+        "The last consonant tells us to choose that vowel.",
+        "It matches the short vowel sound in the word."
+      ],
+      "answer": "It matches the short vowel sound in the word.",
+      "explanation": "The middle letter represents the short vowel sound you hear.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: cvc-structure; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-cvc-missing-vowel-reasoning",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for one consonant, one vowel, then one consonant.",
+      "scaffold": "Look for one consonant, one vowel, then one consonant.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Every three-letter word uses that vowel.",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        },
+        {
+          "choice": "The last consonant tells us to choose that vowel.",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "Every three-letter word uses that vowel.": 0,
+          "The last consonant tells us to choose that vowel.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:ecc097947636fedc4b23195c3ddb0b8d2dd25da957cb4c29eaadeef13a861062",
+      "signalId": "cvc-missing-vowel",
+      "questionType": "reasoning",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "plural-nouns",
+      "prompt": "Which ending makes “box” mean more than one?",
+      "choices": [
+        "-es",
+        "-s",
+        "-ing"
+      ],
+      "answer": "-es",
+      "explanation": "Words ending in x usually add -es to make the plural.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: plural-nouns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-plural-s-es-direct",
+      "standards": [
+        "CCSS.L.2.1.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the noun needs -s or -es to mean more than one.",
+      "scaffold": "Ask whether the noun needs -s or -es to mean more than one.",
+      "choiceDiagnostics": [
+        {
+          "choice": "-s",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        },
+        {
+          "choice": "-ing",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "-s": 0,
+          "-ing": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.1.b"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:0fc8d8e51b13c013ac7d4e450fc05515ac507e934d8556585a7094274523ec9b",
+      "signalId": "plural-s-es",
+      "questionType": "direct",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "plural-nouns",
+      "prompt": "Which plural spelling is correct?",
+      "choices": [
+        "wishes",
+        "wishs",
+        "wishies"
+      ],
+      "answer": "wishes",
+      "explanation": "Words ending in sh usually add -es.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: plural-nouns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-plural-s-es-transfer",
+      "standards": [
+        "CCSS.L.2.1.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the noun needs -s or -es to mean more than one.",
+      "scaffold": "Ask whether the noun needs -s or -es to mean more than one.",
+      "choiceDiagnostics": [
+        {
+          "choice": "wishs",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        },
+        {
+          "choice": "wishies",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "wishs": 0,
+          "wishies": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.1.b"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:ff2d3710594a81539cb9cf302a5107d32a4f8a32fd5330b50fa9b3efe6e87b73",
+      "signalId": "plural-s-es",
+      "questionType": "transfer",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "plural-nouns",
+      "prompt": "Why does “bus” become “buses” instead of “buss”?",
+      "choices": [
+        "The word ends in s, so the plural adds -es.",
+        "All short words double the last letter.",
+        "Plural words always end in -ing."
+      ],
+      "answer": "The word ends in s, so the plural adds -es.",
+      "explanation": "Nouns ending in s commonly add -es to show more than one.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: plural-nouns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-plural-s-es-reasoning",
+      "standards": [
+        "CCSS.L.2.1.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the noun needs -s or -es to mean more than one.",
+      "scaffold": "Ask whether the noun needs -s or -es to mean more than one.",
+      "choiceDiagnostics": [
+        {
+          "choice": "All short words double the last letter.",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        },
+        {
+          "choice": "Plural words always end in -ing.",
+          "misconception": "plural-ending-confusion",
+          "feedback": "Check whether this word needs -s or -es."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "All short words double the last letter.": 0,
+          "Plural words always end in -ing.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.1.b"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:2a7de6730aa1cfda06110c146fc4a2456a525e3ee7972b76040fa91ce4abccee",
+      "signalId": "plural-s-es",
+      "questionType": "reasoning",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "Which word is spelled correctly for the word you hear as “jam”?",
+      "choices": [
+        "jam",
+        "jem",
+        "jom"
+      ],
+      "answer": "jam",
+      "explanation": "The word “jam” uses the short a sound.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-spelling-short-vowel-direct",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "jem",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "jom",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "jem": 0,
+          "jom": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:4b1a499eae3beeab9334dc0a0812a96fd4efd74523350f946f4a34d887ba4916",
+      "signalId": "spelling-short-vowel",
+      "questionType": "direct",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "Which spelling correctly makes the word “leg”?",
+      "choices": [
+        "leg",
+        "lag",
+        "lig"
+      ],
+      "answer": "leg",
+      "explanation": "The middle vowel sound in “leg” is short e.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-spelling-short-vowel-transfer",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "lag",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "lig",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "lag": 0,
+          "lig": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:911da8455e2bf439e76ae7e2d0cdc955b9cd70a9450998b08e8147778a06a454",
+      "signalId": "spelling-short-vowel",
+      "questionType": "transfer",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "vowel-patterns",
+      "prompt": "A student writes “hup” for the word “hop.” What should the student check?",
+      "choices": [
+        "The middle vowel sound.",
+        "Whether the word needs -es.",
+        "Whether the first letter should be silent."
+      ],
+      "answer": "The middle vowel sound.",
+      "explanation": "The difference between “hup” and “hop” is the middle vowel sound.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-spelling-short-vowel-reasoning",
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say each word aloud and listen to the vowel sound.",
+      "scaffold": "Say each word aloud and listen to the vowel sound.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Whether the word needs -es.",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        },
+        {
+          "choice": "Whether the first letter should be silent.",
+          "misconception": "vowel-sound-confusion",
+          "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "Whether the word needs -es.": 0,
+          "Whether the first letter should be silent.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.RF.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a7edb656ac1a7f359ffae82db44199f7cd5f48a54e09cb910a8e5b4ee0f7a195",
+      "signalId": "spelling-short-vowel",
+      "questionType": "reasoning",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "vocabulary-in-context",
+      "prompt": "Which meaning best matches the word “fair” in “The teams took fair turns”?",
+      "choices": [
+        "equal and just",
+        "very fast",
+        "off to one side"
+      ],
+      "answer": "equal and just",
+      "explanation": "Fair means people are treated equally and justly.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vocabulary-in-context; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-vocabulary-definition-direct",
+      "standards": [
+        "CCSS.L.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the rest of the sentence to test the word’s meaning.",
+      "scaffold": "Use the rest of the sentence to test the word’s meaning.",
+      "choiceDiagnostics": [
+        {
+          "choice": "very fast",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        },
+        {
+          "choice": "off to one side",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "very fast": 1,
+          "off to one side": 1
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.4"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:bc067745e372d6b2e10365e4a59dac31f6569a313a68f37520dd7d67182c08cc",
+      "signalId": "vocabulary-definition",
+      "questionType": "direct",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "vocabulary-in-context",
+      "prompt": "In the sentence “Maya invited Leo to join the game,” what does “invited” mean?",
+      "choices": [
+        "asked to come",
+        "moved quickly",
+        "divided and gave away"
+      ],
+      "answer": "asked to come",
+      "explanation": "The sentence shows Maya asked Leo to join.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vocabulary-in-context; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-vocabulary-definition-transfer",
+      "standards": [
+        "CCSS.L.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the rest of the sentence to test the word’s meaning.",
+      "scaffold": "Use the rest of the sentence to test the word’s meaning.",
+      "choiceDiagnostics": [
+        {
+          "choice": "moved quickly",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        },
+        {
+          "choice": "divided and gave away",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "moved quickly": 1,
+          "divided and gave away": 1
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.4"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:99938a1b574262130804954f0cae738f424a0c60c91b7082a9951d102d7bed60",
+      "signalId": "vocabulary-definition",
+      "questionType": "transfer",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "vocabulary-in-context",
+      "prompt": "Which sentence uses “share” to mean divide something and give part to others?",
+      "choices": [
+        "We shared the crayons so everyone could draw.",
+        "We hurried down the hallway.",
+        "We stood quietly by the window."
+      ],
+      "answer": "We shared the crayons so everyone could draw.",
+      "explanation": "Sharing means giving part of something so others can use it too.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: vocabulary-in-context; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-vocabulary-definition-reasoning",
+      "standards": [
+        "CCSS.L.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the rest of the sentence to test the word’s meaning.",
+      "scaffold": "Use the rest of the sentence to test the word’s meaning.",
+      "choiceDiagnostics": [
+        {
+          "choice": "We hurried down the hallway.",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        },
+        {
+          "choice": "We stood quietly by the window.",
+          "misconception": "context-meaning-confusion",
+          "feedback": "Test each meaning in the sentence and keep the one that makes sense."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "We hurried down the hallway.": 1,
+          "We stood quietly by the window.": 1
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Word knowledge and skills",
+        "expectedStandards": [
+          "CCSS.L.2.4"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:713498010631a03757c96ffec52cece7870a84a3114246a2da2f57de3e30abd8",
+      "signalId": "vocabulary-definition",
+      "questionType": "reasoning",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "Read: “Lena packed her library book, walked to school, and returned it before class.” Who is the main character?",
+      "choices": [
+        "Lena",
+        "the librarian",
+        "the teacher"
+      ],
+      "answer": "Lena",
+      "explanation": "Lena is the person whose actions the short passage follows.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-main-character-direct",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "the librarian",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "the teacher",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "the librarian": 0,
+          "the teacher": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:6376e25829362dcb7991333acb6091d05f24432857001208402911b333ab9ddd",
+      "signalId": "reading-main-character",
+      "questionType": "direct",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "Read: “Owen practiced his lines after dinner. The next day, he spoke clearly in the class play.” Who does the passage focus on most?",
+      "choices": [
+        "Owen",
+        "his family",
+        "the audience"
+      ],
+      "answer": "Owen",
+      "explanation": "Most of the actions and details are about Owen.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-main-character-transfer",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "his family",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "the audience",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "his family": 0,
+          "the audience": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:c00e1ed35607755506d209362f7d829bb597e3edb4b3e13518c06a6ea3f83606",
+      "signalId": "reading-main-character",
+      "questionType": "transfer",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "How can you usually identify the main character in a story?",
+      "choices": [
+        "Look for the character the story follows most closely.",
+        "Choose the character with the longest name.",
+        "Choose the first person mentioned even if the story is about someone else."
+      ],
+      "answer": "Look for the character the story follows most closely.",
+      "explanation": "The main character is usually central to the story’s actions and problem.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-main-character-reasoning",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Choose the character with the longest name.",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "Choose the first person mentioned even if the story is about someone else.",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "Choose the character with the longest name.": 0,
+          "Choose the first person mentioned even if the story is about someone else.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:7c4a2b218aed2a43cc7db9f02ee83acedebdc0a8eb85f115433303efdddf4503",
+      "signalId": "reading-main-character",
+      "questionType": "reasoning",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "Read: “Children hung streamers in the gym while families found seats for the school celebration.” What is the setting?",
+      "choices": [
+        "a school gym",
+        "a beach",
+        "a farm"
+      ],
+      "answer": "a school gym",
+      "explanation": "The passage directly says the children are in the gym.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-setting-direct",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "a beach",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "a farm",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "a beach": 0,
+          "a farm": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:d77e8767aa09582e738b1e20f1f6b37ec856a870d464bcb0242242643b53b12d",
+      "signalId": "reading-setting",
+      "questionType": "direct",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "Read: “Rain tapped the windows while Nora curled up on the couch with a book.” Where is Nora most likely?",
+      "choices": [
+        "at home",
+        "on a playground",
+        "inside a bus"
+      ],
+      "answer": "at home",
+      "explanation": "A couch and home-like details support that setting.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-setting-transfer",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "on a playground",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "inside a bus",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "on a playground": 0,
+          "inside a bus": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:da52235c7db92416e7a2dbc44309a51dfe4e1b82044e39a6897d90764300e895",
+      "signalId": "reading-setting",
+      "questionType": "transfer",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "story-elements",
+      "prompt": "Which clue is most useful when figuring out a story’s setting?",
+      "choices": [
+        "Details that tell where or when events happen.",
+        "The number of letters in a character’s name.",
+        "How many sentences are in the story."
+      ],
+      "answer": "Details that tell where or when events happen.",
+      "explanation": "Setting means the time and place of a story.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-setting-reasoning",
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify who the story follows and where or when the events happen.",
+      "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The number of letters in a character’s name.",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        },
+        {
+          "choice": "How many sentences are in the story.",
+          "misconception": "story-element-confusion",
+          "feedback": "Use the passage details to identify the main character, setting, or other story element."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "The number of letters in a character’s name.": 0,
+          "How many sentences are in the story.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.3"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:95fe51b70e695a8a589261d8353c0ae3f9beb62befb2b4bbed711e680a8734e7",
+      "signalId": "reading-setting",
+      "questionType": "reasoning",
+      "coverageWeight": 4,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Mia saw her little brother standing alone, so she moved over and made room for him in the game.” Why did Mia move over?",
+      "choices": [
+        "She wanted to include her brother.",
+        "She wanted the game to end.",
+        "She forgot where she was sitting."
+      ],
+      "answer": "She wanted to include her brother.",
+      "explanation": "Her brother was alone, and Mia made room so he could join.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: inference; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-character-motivation-direct",
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "She wanted the game to end.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "She forgot where she was sitting.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "She wanted the game to end.": 0,
+          "She forgot where she was sitting.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Comprehension strategies and constructing meaning",
+        "expectedStandards": [
+          "CCSS.RL.2.1"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a39121c82a540b6cd6e574e367c3b2946ffacd7134e1c9d9f62c0002f9d95cb8",
+      "signalId": "reading-character-motivation",
+      "questionType": "direct",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Kai checked his backpack twice before leaving because the permission slip was inside.” Why did Kai check twice?",
+      "choices": [
+        "He wanted to make sure the important paper was there.",
+        "He wanted to find a snack.",
+        "He was trying to make the backpack heavier."
+      ],
+      "answer": "He wanted to make sure the important paper was there.",
+      "explanation": "Checking twice shows the permission slip mattered to him.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: inference; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-character-motivation-transfer",
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "He wanted to find a snack.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "He was trying to make the backpack heavier.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "He wanted to find a snack.": 0,
+          "He was trying to make the backpack heavier.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Comprehension strategies and constructing meaning",
+        "expectedStandards": [
+          "CCSS.RL.2.1"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:48eb10dac6901e55a6dbd6ec31fb0c866633ae07babefd6df8f9eba1f67c115a",
+      "signalId": "reading-character-motivation",
+      "questionType": "transfer",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "When a question asks why a character did something, what evidence should you use?",
+      "choices": [
+        "The character’s actions, words, and the situation.",
+        "Only the title of the story.",
+        "Only whether the character is older or younger."
+      ],
+      "answer": "The character’s actions, words, and the situation.",
+      "explanation": "Motivation is supported by clues about what the character does, says, and experiences.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: inference; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-character-motivation-reasoning",
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "Only the title of the story.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "Only whether the character is older or younger.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "Only the title of the story.": 0,
+          "Only whether the character is older or younger.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Comprehension strategies and constructing meaning",
+        "expectedStandards": [
+          "CCSS.RL.2.1"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:d684edd067f1bfa576914942e366f86b1b235d5fe34f1c47968c204134d7ce77",
+      "signalId": "reading-character-motivation",
+      "questionType": "reasoning",
+      "coverageWeight": 5,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "genre",
+      "prompt": "A story tells about a child who loses a mitten at school and finds it under a desk. The events could happen in real life. What genre best fits?",
+      "choices": [
+        "realistic fiction",
+        "fantasy",
+        "biography"
+      ],
+      "answer": "realistic fiction",
+      "explanation": "The events are made up but could realistically happen.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: genre; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-genre-direct",
+      "standards": [
+        "CCSS.RL.2.5"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the text gives facts, tells realistic made-up events, or includes impossible events.",
+      "scaffold": "Look for facts, realistic made-up events, or impossible events.",
+      "choiceDiagnostics": [
+        {
+          "choice": "fantasy",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        },
+        {
+          "choice": "biography",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "fantasy": 0,
+          "biography": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.5"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a6f5cfbff09f3437c86cf8f9f28224cdbd7184d3cf350ab4e8704f39a23d680e",
+      "signalId": "reading-genre",
+      "questionType": "direct",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "genre",
+      "prompt": "A text explains how sea turtles hatch and travel toward the ocean. What genre best fits?",
+      "choices": [
+        "informational",
+        "fantasy",
+        "realistic fiction"
+      ],
+      "answer": "informational",
+      "explanation": "The text gives facts and explanations about a real topic.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: genre; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-genre-transfer",
+      "standards": [
+        "CCSS.RL.2.5"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the text gives facts, tells realistic made-up events, or includes impossible events.",
+      "scaffold": "Look for facts, realistic made-up events, or impossible events.",
+      "choiceDiagnostics": [
+        {
+          "choice": "fantasy",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        },
+        {
+          "choice": "realistic fiction",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "fantasy": 0,
+          "realistic fiction": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.5"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:364aba4033cc6705d01567a1b636904d00c13e6bce07dfdfca6733aab326ad2d",
+      "signalId": "reading-genre",
+      "questionType": "transfer",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "genre",
+      "prompt": "Which clue most strongly suggests a story is fantasy?",
+      "choices": [
+        "An animal speaks in complete sentences.",
+        "A child walks to school.",
+        "A family eats dinner together."
+      ],
+      "answer": "An animal speaks in complete sentences.",
+      "explanation": "An impossible event is a strong clue that a story is fantasy.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: genre; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-genre-reasoning",
+      "standards": [
+        "CCSS.RL.2.5"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask whether the text gives facts, tells realistic made-up events, or includes impossible events.",
+      "scaffold": "Look for facts, realistic made-up events, or impossible events.",
+      "choiceDiagnostics": [
+        {
+          "choice": "A child walks to school.",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        },
+        {
+          "choice": "A family eats dinner together.",
+          "misconception": "genre-feature-confusion",
+          "feedback": "Use the text features and whether events could happen in real life to identify the genre."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Uses important words or text evidence from the prompt.",
+          "Applies the stated reading skill accurately."
+        ],
+        "partialCredit": {
+          "A child walks to school.": 0,
+          "A family eats dinner together.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Analyzing literary text",
+        "expectedStandards": [
+          "CCSS.RL.2.5"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a5bee46509d04e2a988e75770f258c85c9db707e930f274c1f7b3815d6944a3a",
+      "signalId": "reading-genre",
+      "questionType": "reasoning",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement matches the Christian teaching about the Trinity?",
+      "choices": [
+        "There is one God in three Persons: Father, Son, and Holy Spirit.",
+        "There are three separate gods.",
+        "God is only one Person with three unrelated jobs."
+      ],
+      "answer": "There is one God in three Persons: Father, Son, and Holy Spirit.",
+      "explanation": "The Trinity means one God in three divine Persons.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-trinity-direct",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "There are three separate gods.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "God is only one Person with three unrelated jobs.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "There are three separate gods.": 0,
+          "God is only one Person with three unrelated jobs.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:c1104b69f65156f9dea378a6c1f01f768d3a68e9621852ee8ea217d35e25648c",
+      "signalId": "religion-trinity",
+      "questionType": "direct",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which three names belong together when learning about the Trinity?",
+      "choices": [
+        "Father, Son, and Holy Spirit",
+        "Creator, teacher, and student",
+        "Angel, prophet, and king"
+      ],
+      "answer": "Father, Son, and Holy Spirit",
+      "explanation": "Those are the three Persons named in the Trinity.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-trinity-transfer",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Creator, teacher, and student",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Angel, prophet, and king",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Creator, teacher, and student": 0,
+          "Angel, prophet, and king": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:822f85987485f687d1fda1912632a3338f1813de5dfc5d4585106cdcb60d7e03",
+      "signalId": "religion-trinity",
+      "questionType": "transfer",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Why is “three separate gods” not the same as the Trinity?",
+      "choices": [
+        "The Trinity teaches one God, not three gods.",
+        "The Trinity has only two Persons.",
+        "The Trinity means three names for three different religions."
+      ],
+      "answer": "The Trinity teaches one God, not three gods.",
+      "explanation": "Christian teaching describes one God in three Persons.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-trinity-reasoning",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The Trinity has only two Persons.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "The Trinity means three names for three different religions.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "The Trinity has only two Persons.": 0,
+          "The Trinity means three names for three different religions.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:ba44bbb4b179750f86a1c754e3f4fbf900620e948e5d634000bb2612ec085b53",
+      "signalId": "religion-trinity",
+      "questionType": "reasoning",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which choice is an example of using a gift or ability to help someone else?",
+      "choices": [
+        "Using your drawing skill to make a card for someone who is sad.",
+        "Hiding your supplies so nobody else can use them.",
+        "Refusing to help because the task is not yours."
+      ],
+      "answer": "Using your drawing skill to make a card for someone who is sad.",
+      "explanation": "A gift can be used lovingly to help another person.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-gifts-direct",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Hiding your supplies so nobody else can use them.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Refusing to help because the task is not yours.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Hiding your supplies so nobody else can use them.": 0,
+          "Refusing to help because the task is not yours.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:5b10e6fc1279049a17ab8f4844d197503a7216e1f32ee6379016ec034e74d6c2",
+      "signalId": "religion-gifts",
+      "questionType": "direct",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "A child is good at reading. Which action best uses that gift to serve someone?",
+      "choices": [
+        "Reading a story to a younger child.",
+        "Keeping every book hidden.",
+        "Telling others they should never read."
+      ],
+      "answer": "Reading a story to a younger child.",
+      "explanation": "The ability is used to help another person.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-gifts-transfer",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Keeping every book hidden.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Telling others they should never read.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Keeping every book hidden.": 0,
+          "Telling others they should never read.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:a2ea2e7018ef41608fc4b76f90111e1a2d7b948385a5caf4779b9f76f4e4bf25",
+      "signalId": "religion-gifts",
+      "questionType": "transfer",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Why can ordinary talents be called gifts in a religion lesson?",
+      "choices": [
+        "They can be received gratefully and used to love and serve others.",
+        "They make one person more important than everyone else.",
+        "They only matter when they win a prize."
+      ],
+      "answer": "They can be received gratefully and used to love and serve others.",
+      "explanation": "The lesson connects gifts with gratitude, love, and service.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-gifts-reasoning",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "They make one person more important than everyone else.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "They only matter when they win a prize.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "They make one person more important than everyone else.": 0,
+          "They only matter when they win a prize.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:06b4c97bac76ed091bb7bb44596ac6bfc4263b1a9c6dd0c3b3679badbaac4903",
+      "signalId": "religion-gifts",
+      "questionType": "reasoning",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which choice best shows love for another person?",
+      "choices": [
+        "Helping a classmate who dropped a box of crayons.",
+        "Laughing while someone struggles.",
+        "Taking the crayons and walking away."
+      ],
+      "answer": "Helping a classmate who dropped a box of crayons.",
+      "explanation": "Helping someone in need is a loving choice.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-choice-love-direct",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Laughing while someone struggles.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Taking the crayons and walking away.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Laughing while someone struggles.": 0,
+          "Taking the crayons and walking away.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:2447505b1ccc1109416bf08ecf566ba1bd5f1b4963883ab675e9ec5da557b6ee",
+      "signalId": "religion-choice-love",
+      "questionType": "direct",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "A student can choose what to do when a new child is alone. Which choice best shows kindness?",
+      "choices": [
+        "Invite the child to join the game.",
+        "Pretend not to see the child.",
+        "Tell the child to leave."
+      ],
+      "answer": "Invite the child to join the game.",
+      "explanation": "Inviting someone to join is a kind and loving action.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 2,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-choice-love-transfer",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Pretend not to see the child.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Tell the child to leave.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Pretend not to see the child.": 0,
+          "Tell the child to leave.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:385cb57f72d1b3998ca13626a975145e4deeacd610c092b50d49bfee454683f4",
+      "signalId": "religion-choice-love",
+      "questionType": "transfer",
+      "coverageWeight": 3,
+      "photoDerived": true
+    },
+    {
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Why does making a good choice matter in a lesson about loving others?",
+      "choices": [
+        "Choices are one way people put love into action.",
+        "Choices matter only when an adult is watching.",
+        "A loving choice always has to be the easiest choice."
+      ],
+      "answer": "Choices are one way people put love into action.",
+      "explanation": "Love is shown through the actions people choose.",
+      "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
+      "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-choice-love-reasoning",
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Choices matter only when an adult is watching.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "A loving choice always has to be the easiest choice.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "rubric": {
+        "maxPoints": 2,
+        "criteria": [
+          "Identifies the lesson idea accurately.",
+          "Applies the lesson to the situation in the prompt."
+        ],
+        "partialCredit": {
+          "Choices matter only when an adult is watching.": 0,
+          "A loving choice always has to be the easiest choice.": 0
+        }
+      },
+      "alignmentEvidence": {
+        "ruleVersion": "grade2-alignment-v1",
+        "expectedDomain": "Religion: current lesson application",
+        "expectedStandards": [
+          "ABVM.RELIGION.CURRENT"
+        ],
+        "sourceGrounded": true
+      },
+      "responseType": "multiple-choice",
+      "contentHash": "sha256:96450c794935c5fc928943e248a247fb96c14c0f4039b03bb35b1d6bea202ed7",
+      "signalId": "religion-choice-love",
+      "questionType": "reasoning",
+      "coverageWeight": 3,
+      "photoDerived": true
+    }
+  ],
+  "activeQuestionIds": [
+    "abvm-b9d55008a7c4-27ba47-photo-reading-character-motivation-direct",
+    "abvm-b9d55008a7c4-27ba47-photo-reading-main-character-transfer",
+    "abvm-b9d55008a7c4-27ba47-photo-reading-setting-reasoning",
+    "abvm-b9d55008a7c4-27ba47-photo-vocabulary-definition-direct",
+    "abvm-b9d55008a7c4-27ba47-photo-cvc-missing-vowel-direct",
+    "abvm-b9d55008a7c4-27ba47-photo-short-vowel-identification-transfer",
+    "abvm-b9d55008a7c4-27ba47-photo-plural-s-es-reasoning",
+    "abvm-b9d55008a7c4-27ba47-photo-spelling-short-vowel-direct",
+    "abvm-b9d55008a7c4-27ba47-photo-reading-genre-direct",
+    "abvm-b9d55008a7c4-27ba47-photo-religion-choice-love-transfer",
+    "abvm-b9d55008a7c4-27ba47-photo-religion-gifts-reasoning",
+    "abvm-b9d55008a7c4-27ba47-photo-religion-trinity-direct"
+  ]
+}
