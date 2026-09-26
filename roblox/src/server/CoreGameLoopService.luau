@@ -210,7 +210,7 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		ok = true,
 		coins = Config.QuestionReward.Coins,
 		xp = Config.QuestionReward.XP,
-		nextQuestionId = questionReward.nextQuestionId,
+		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
 	}
 end
 
