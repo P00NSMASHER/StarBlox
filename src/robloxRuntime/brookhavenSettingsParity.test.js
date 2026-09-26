@@ -22,17 +22,23 @@ describe('Brookhaven parity: mobile settings and sprint',()=>{
     expect(service).toContain('self._replicas:Sync(player, data)');
   });
 
-  it('uses the existing server-authoritative 16-to-24 sprint toggle',()=>{
+  it('uses one existing server-authoritative 16-to-24 sprint control',()=>{
     const movement=read('roblox/src/server/MovementService.luau');
+    const run=read('roblox/src/client/RunControl.client.luau');
     const settings=read('roblox/src/client/Settings.client.luau');
 
     expect(movement).toContain('local NORMAL_WALK_SPEED = 16');
     expect(movement).toContain('local RUN_WALK_SPEED = 24');
     expect(movement).toContain('toggleRun.Name = "ToggleRun"');
     expect(movement).toContain('humanoid.WalkSpeed = if running then RUN_WALK_SPEED else NORMAL_WALK_SPEED');
-    expect(settings).toContain('toggleRun:InvokeServer()');
-    expect(settings).toContain('sprintButton.Name = "SprintButton"');
-    expect(settings).toContain('UserInputService.TouchEnabled');
+    expect(run).toContain('button.Name = "Run"');
+    expect(run).toContain('toggleRun:InvokeServer()');
+    expect(run).toContain('UserInputService.TouchEnabled');
+    expect(run).toContain('StarBloxSetting_SprintButton');
+    expect(settings).toContain('runGui:FindFirstChild("Root")');
+    expect(settings).toContain('runButton.Visible = UserInputService.TouchEnabled and settings.SprintButton == true');
+    expect(settings).not.toContain('toggleRun:InvokeServer()');
+    expect((settings.match(/Name = "SprintButton"/g)||[]).length).toBe(0);
   });
 
   it('keeps one bottom-left gear and hides gameplay UI while preserving settings access',()=>{
