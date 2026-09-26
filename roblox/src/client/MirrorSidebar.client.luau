@@ -146,11 +146,24 @@ quickChatBolt.BackgroundColor3 = UI.white
 quickChatBolt.TextColor3 = Color3.fromRGB(236, 175, 35)
 constrain(quickChatBolt, 22, 28)
 
+local quickChatArrow = Instance.new("TextLabel")
+quickChatArrow.Name = "QuickChatArrow"
+quickChatArrow.Position = UDim2.fromOffset(365, 17)
+quickChatArrow.Size = UDim2.fromOffset(38, 29)
+quickChatArrow.BackgroundTransparency = 1
+quickChatArrow.Text = "←"
+quickChatArrow.TextColor3 = UI.cyan
+quickChatArrow.Font = Enum.Font.GothamBold
+quickChatArrow.TextScaled = true
+quickChatArrow.ZIndex = 36
+quickChatArrow.Parent = shell
+constrain(quickChatArrow, 18, 24)
+
 local quickChatButton = makeTopButton(
 	"QuickChatButton",
-	"←     Quick Chat",
-	UDim2.fromOffset(360, 17),
-	UDim2.fromOffset(146, 29)
+	"Quick Chat",
+	UDim2.fromOffset(414, 17),
+	UDim2.fromOffset(108, 29)
 )
 quickChatButton.BackgroundTransparency = 0.12
 
@@ -205,6 +218,38 @@ local familyButton = makeTopButton(
 	UDim2.new(1, -340, 0, 57),
 	UDim2.fromOffset(132, 32)
 )
+
+-- The recording keeps a small shop/cart shortcut at the left edge during free play.
+local shopShortcut = Instance.new("TextButton")
+shopShortcut.Name = "ShopShortcut"
+shopShortcut.Position = UDim2.new(0, 80, 0.5, -18)
+shopShortcut.Size = UDim2.fromOffset(54, 36)
+shopShortcut.BackgroundColor3 = UI.white
+shopShortcut.BackgroundTransparency = 0.18
+shopShortcut.Text = "🛒"
+shopShortcut.TextColor3 = UI.text
+shopShortcut.Font = Enum.Font.GothamBold
+shopShortcut.TextScaled = true
+shopShortcut.ZIndex = 35
+shopShortcut.Parent = shell
+round(shopShortcut, 7)
+stroke(shopShortcut, UI.border, 1, 0.45)
+constrain(shopShortcut, 16, 22)
+
+local shopBadge = Instance.new("TextLabel")
+shopBadge.Name = "Badge"
+shopBadge.AnchorPoint = Vector2.new(1, 0)
+shopBadge.Position = UDim2.new(1, -3, 0, 2)
+shopBadge.Size = UDim2.fromOffset(15, 15)
+shopBadge.BackgroundColor3 = UI.blue
+shopBadge.Text = "★"
+shopBadge.TextColor3 = Color3.new(1, 1, 1)
+shopBadge.Font = Enum.Font.GothamBold
+shopBadge.TextScaled = true
+shopBadge.ZIndex = 36
+shopBadge.Parent = shopShortcut
+round(shopBadge, 8)
+constrain(shopBadge, 7, 9)
 
 local function updateClock()
 	local now = DateTime.now()
@@ -556,6 +601,8 @@ local function dismissActionHints()
 	for _, item in actionLabels do
 		item.Visible = false
 	end
+	quickChatArrow.Visible = false
+	quickChatButton.Visible = false
 end
 
 local function clearCategories()
@@ -1225,6 +1272,14 @@ quickChatButton.Activated:Connect(showQuickChat)
 familyButton.Activated:Connect(showFamily)
 homeCamsButton.Activated:Connect(showHomeCams)
 settingsButton.Activated:Connect(showSettings)
+shopShortcut.Activated:Connect(function()
+	dismissActionHints()
+	closePanel()
+	if openStore and openStore:IsA("BindableEvent") then
+		openStore:Fire()
+	end
+end)
+
 close.Activated:Connect(closePanel)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
