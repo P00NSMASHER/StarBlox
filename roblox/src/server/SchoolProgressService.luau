@@ -20,10 +20,12 @@ local function ensureRewardState(profileData)
 		state.RewardedSchoolDays = 0
 		state.DayEligibility = {}
 		state.Receipts = {}
+		state.EarnedBySchoolDay = {}
 	end
 
 	state.DayEligibility = type(state.DayEligibility) == "table" and state.DayEligibility or {}
 	state.Receipts = type(state.Receipts) == "table" and state.Receipts or {}
+	state.EarnedBySchoolDay = type(state.EarnedBySchoolDay) == "table" and state.EarnedBySchoolDay or {}
 	state.RewardedSchoolDays = math.max(0, tonumber(state.RewardedSchoolDays) or 0)
 	return state
 end
@@ -44,6 +46,31 @@ local function claimReceipt(profileData, key: string): boolean
 	if state.Receipts[key] == true then return false end
 	state.Receipts[key] = true
 	return true
+end
+
+local function recordEarnings(profileData, schoolDayId: string, coins: number, xp: number, stars: number)
+	local state = ensureRewardState(profileData)
+	local row = state.EarnedBySchoolDay[schoolDayId]
+	if type(row) ~= "table" then
+		row = {Coins = 0, XP = 0, Stars = 0}
+		state.EarnedBySchoolDay[schoolDayId] = row
+	end
+	row.Coins = math.max(0, tonumber(row.Coins) or 0) + math.max(0, coins)
+	row.XP = math.max(0, tonumber(row.XP) or 0) + math.max(0, xp)
+	row.Stars = math.max(0, tonumber(row.Stars) or 0) + math.max(0, stars)
+end
+
+function SchoolProgressService.GetDayEarnings(profileData, schoolDayId: string)
+	local state = ensureRewardState(profileData)
+	local row = state.EarnedBySchoolDay[schoolDayId]
+	if type(row) ~= "table" then
+		return {Coins = 0, XP = 0, Stars = 0}
+	end
+	return {
+		Coins = math.max(0, tonumber(row.Coins) or 0),
+		XP = math.max(0, tonumber(row.XP) or 0),
+		Stars = math.max(0, tonumber(row.Stars) or 0),
+	}
 end
 
 local function ensureSkillStats(profileData)
@@ -89,6 +116,7 @@ function SchoolProgressService.ApplyCorrectAnswer(profileData, schoolDayId: stri
 
 	profileData.Economy.Coins += Config.Rewards.QuestionCoins
 	profileData.Economy.XP += Config.Rewards.QuestionXP
+	recordEarnings(profileData, schoolDayId, Config.Rewards.QuestionCoins, Config.Rewards.QuestionXP, 0)
 	return {rewarded = true, coins = Config.Rewards.QuestionCoins, xp = Config.Rewards.QuestionXP, stars = 0}
 end
 
@@ -98,6 +126,7 @@ function SchoolProgressService.ApplyClassCompletion(profileData, schoolDayId: st
 	if not dayEligible(profileData, schoolDayId) then return {rewarded = false, capped = true, xp = 0} end
 
 	profileData.Economy.XP += Config.Rewards.ClassCompletionXP
+	recordEarnings(profileData, schoolDayId, 0, Config.Rewards.ClassCompletionXP, 0)
 	return {rewarded = true, xp = Config.Rewards.ClassCompletionXP}
 end
 
@@ -108,6 +137,7 @@ function SchoolProgressService.ApplyFullDay(profileData, schoolDayId: string)
 
 	profileData.Economy.XP += Config.Rewards.FullDayXP
 	profileData.Economy.Stars += Config.Rewards.FullDayStars
+	recordEarnings(profileData, schoolDayId, 0, Config.Rewards.FullDayXP, Config.Rewards.FullDayStars)
 	return {rewarded = true, xp = Config.Rewards.FullDayXP, stars = Config.Rewards.FullDayStars}
 end
 
