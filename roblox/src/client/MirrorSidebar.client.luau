@@ -532,12 +532,24 @@ local roleplayState = nil
 local busy = false
 local activeToolCategory = "all"
 local activeVehicleCategory = "all"
+local actionHintsDismissed = false
 local plotState = nil
 local plotIndex = 1
 
 local function setActionLabelsVisible(visible: boolean)
+	local finalVisible = visible and not actionHintsDismissed
 	for _, item in actionLabels do
-		item.Visible = visible
+		item.Visible = finalVisible
+	end
+end
+
+local function dismissActionHints()
+	if actionHintsDismissed then
+		return
+	end
+	actionHintsDismissed = true
+	for _, item in actionLabels do
+		item.Visible = false
 	end
 end
 
@@ -1138,12 +1150,25 @@ local function showQuickChat()
 	end
 end
 
-avatarBtn.Activated:Connect(showAvatar)
-toolsBtn.Activated:Connect(showTools)
-animationsBtn.Activated:Connect(showAnimations)
-vehicleBtn.Activated:Connect(showVehicles)
+avatarBtn.Activated:Connect(function()
+	dismissActionHints()
+	showAvatar()
+end)
+toolsBtn.Activated:Connect(function()
+	dismissActionHints()
+	showTools()
+end)
+animationsBtn.Activated:Connect(function()
+	dismissActionHints()
+	showAnimations()
+end)
+vehicleBtn.Activated:Connect(function()
+	dismissActionHints()
+	showVehicles()
+end)
 
 houseBtn.Activated:Connect(function()
+	dismissActionHints()
 	if plotSelector.Visible then
 		closePanel()
 	else
