@@ -21,6 +21,7 @@ local HomeEconomyService = require(script.Parent.HomeEconomyService)
 local MirrorLifestyleService = require(script.Parent.MirrorLifestyleService)
 local RoleplayService = require(script.Parent.RoleplayService)
 local FamilyService = require(script.Parent.FamilyService)
+local QuickChatService = require(script.Parent.QuickChatService)
 local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)
 
 local Bootstrap = {}
@@ -46,6 +47,7 @@ function Bootstrap.start(dependencies)
 	local privatePlaytestTelemetry = PrivatePlaytestTelemetryService.new()
 	local coreLoop = CoreGameLoopService.new(profiles, replicas, privatePlaytestTelemetry)
 	local family = FamilyService.new()
+	local quickChat = QuickChatService.new()
 	local homeEconomy = HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame(), family)
 	local mirrorLifestyle = MirrorLifestyleService.new(profiles, replicas)
 	local roleplay = RoleplayService.new(profiles, replicas)
@@ -69,6 +71,7 @@ function Bootstrap.start(dependencies)
 	end
 
 	local function playerRemoving(player: Player)
+		quickChat:PlayerRemoving(player)
 		family:PlayerRemoving(player)
 		roleplay:PlayerRemoving(player)
 		mirrorLifestyle:PlayerRemoving(player)
@@ -90,6 +93,7 @@ function Bootstrap.start(dependencies)
 
 	game:BindToClose(function()
 		privatePlaytestTelemetry:FlushAll()
+		quickChat:Destroy()
 		family:Destroy()
 		roleplay:Destroy()
 		mirrorLifestyle:Destroy()
@@ -121,6 +125,7 @@ function Bootstrap.start(dependencies)
 		MirrorLifestyle = mirrorLifestyle,
 		Roleplay = roleplay,
 		Family = family,
+		QuickChat = quickChat,
 		PrivatePlaytestTelemetry = privatePlaytestTelemetry,
 	})
 end
