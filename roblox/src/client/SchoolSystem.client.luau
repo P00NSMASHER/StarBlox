@@ -129,6 +129,15 @@ local function renderState(payload)
 			payload.report.goal,
 			payload.report.averageScore
 		))
+		local earned = payload.report.earnings
+		if type(earned) == "table" then
+			table.insert(lines, string.format(
+				"+%d Coins • +%d XP • +%d Stars",
+				tonumber(earned.Coins) or 0,
+				tonumber(earned.XP) or 0,
+				tonumber(earned.Stars) or 0
+			))
+		end
 		if payload.dismissed then
 			table.insert(lines, "School dismissed — free roam!")
 			if payload.makeupAvailable then
