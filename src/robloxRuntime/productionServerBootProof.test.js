@@ -55,6 +55,9 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('private playtest telemetry service missing after bootstrap');
     expect(script).toContain('HomeEconomy service missing after bootstrap');
     expect(script).toContain('MirrorLifestyle service missing after bootstrap');
+    expect(script).toContain('Roleplay service missing after bootstrap');
+    expect(script).toContain('roleplay remotes missing after bootstrap');
+    expect(script).toContain('Brookhaven house plot binding count mismatch');
     expect(script).toContain('Brookhaven mirror world mode missing');
     expect(script).toContain('mirror learning-coin reward mismatch');
     expect(script).toContain('Brookhaven mirror remotes missing after bootstrap');
