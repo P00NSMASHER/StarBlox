@@ -72,7 +72,7 @@ describe('Phase 11: selectable Brookhaven-style house architectures',()=>{
     expect(service).toContain('ModernAccent');
 
     // Furniture still uses the same tier-local placement contract independent of style.
-    expect(service).toContain('base * CFrame.new(placement.X, 0.5, placement.Z)');
+    expect(service).toMatch(/base\s*\*\s*CFrame\.new\(placement\.X, 0\.5, placement\.Z\)\s*\*\s*CFrame\.Angles/);
     expect(service).not.toContain('BrookhavenWorldBaseline');
   });
 
