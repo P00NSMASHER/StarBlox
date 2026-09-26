@@ -4,6 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 
@@ -90,17 +91,19 @@ local function buildWorldBindings()
 		anchor:SetAttribute("WorldBindingOnly", true)
 		anchor.Parent = runtimeFolder
 
-		local prompt = Instance.new("ProximityPrompt")
-		prompt.Name = "StartActivityPrompt"
-		prompt.ActionText = "Start Activity"
-		prompt.ObjectText = activity.StationName
-		prompt.HoldDuration = 0
-		prompt.MaxActivationDistance = 16
-		prompt.RequiresLineOfSight = false
-		prompt.KeyboardKeyCode = Enum.KeyCode.E
-		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
-		prompt.Parent = anchor
-		prompts[activity.Id] = prompt
+		if SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true then
+			local prompt = Instance.new("ProximityPrompt")
+			prompt.Name = "StartActivityPrompt"
+			prompt.ActionText = "Start Activity"
+			prompt.ObjectText = activity.StationName
+			prompt.HoldDuration = 0
+			prompt.MaxActivationDistance = 16
+			prompt.RequiresLineOfSight = false
+			prompt.KeyboardKeyCode = Enum.KeyCode.E
+			prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
+			prompt.Parent = anchor
+			prompts[activity.Id] = prompt
+		end
 	end
 
 	local spawnSource = resolveWorldPart(
