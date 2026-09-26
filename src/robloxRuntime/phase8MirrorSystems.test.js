@@ -45,6 +45,8 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(service).toContain('PurchaseTool');
     expect(service).toContain('EquipTool');
     expect(service).toContain('ClearTools');
+    expect(service).toContain('ToolAction');
+    expect(service).toContain('function MirrorLifestyleService:_toolAction');
     expect(service).toContain('function MirrorLifestyleService:_clearTools');
     expect(service).toContain('data.Economy.Coins -= definition.Price');
     expect(service).toContain('VehicleSeat');
