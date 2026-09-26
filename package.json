@@ -49,7 +49,8 @@
     "pilot:baseline": "node scripts/build-pilot-baseline.mjs",
     "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs",
     "learning:automation-state": "node scripts/derive-learning-automation.mjs",
-    "learning:star-checkpoint": "node scripts/evaluate-star-checkpoint.mjs"
+    "learning:star-checkpoint": "node scripts/evaluate-star-checkpoint.mjs",
+    "schoolwork:photos:validate": "node scripts/validate-schoolwork-photo-pack.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

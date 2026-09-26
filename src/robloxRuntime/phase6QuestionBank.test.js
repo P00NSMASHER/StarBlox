@@ -32,14 +32,32 @@ describe('Dynamic material-first Grade 2 bank with regenerated STAR fallback',()
   it('is bound to one verified ABVM curriculum snapshot',()=>{
     const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
     expect(source.schemaVersion).toBe(4);
-    expect(source.status).toBe('certified-daily-abvm-material-plus-regenerated-star-fallback');
+    expect(source.status).toBe('certified-schoolwork-photo-plus-daily-abvm-material-plus-regenerated-star-fallback');
     expect(source.certificationVersion).toBe('dynamic-abvm-star-sync-v1');
     expect(source.generatedFrom.repository).toBe('P00NSMASHER/abvmschoolstarworld');
     expect(source.generatedFrom.path).toBe('pages/data/study-pack.json');
     expect(source.generatedFrom.scanner).toBe('scripts/refresh-teacher-pages.mjs');
     expect(source.generatedFrom.healthCheck).toBe('scripts/check-refresh-health.mjs');
     expect(source.generatedFrom.sourceHash).toMatch(/^teacher-pages-[a-f0-9]{20}$/);
+    expect(source.generatedFrom.schoolworkSourceHash).toMatch(/^sha256:[a-f0-9]{64}$/);
+    expect(source.generatedFrom.schoolworkBatchId).toMatch(/^schoolwork-/);
+    expect(source.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v5-schoolwork-photo');
     expect(source.generatedFrom.bankSnapshotId).toMatch(/^abvm-[a-f0-9]{12}-[a-f0-9]{6}$/);
+  });
+
+  it('places sanitized photo-derived practice first without expanding the 12 material slots',()=>{
+    const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
+    const pools=grouped(source);
+    expect(source.qualityPolicy.schoolworkPhotoMaterialFirst).toBe(true);
+    expect(source.qualityPolicy.schoolworkPhotoMaxPerStation).toBe(4);
+    expect(source.qualityPolicy.schoolworkPhotoActiveQuestionCount).toBe(12);
+    for(const [,pool] of pools){
+      const materialCount=source.qualityPolicy.materialCountByStation[pool[0].stationId]||0;
+      expect(materialCount).toBe(12);
+      const photo=pool.slice(0,4);
+      expect(photo.every(q=>q.provenance==='original-practice-derived-from-sanitized-schoolwork-photos')).toBe(true);
+      expect(photo.every(q=>q.sourceFact.startsWith('Sanitized schoolwork-photo skill evidence:'))).toBe(true);
+    }
   });
 
   it('keeps material first and 40 STAR fallback questions at every station',()=>{

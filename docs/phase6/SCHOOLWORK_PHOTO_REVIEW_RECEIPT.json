@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "receiptVersion": "schoolwork-photo-review-receipt-v1",
+  "batchId": "schoolwork-2026-09-26-001",
+  "sourceHash": "sha256:0da2e5346c56eafaf81605e495d1a6ad430be49e4c698101bafbcc72f6d7a329",
+  "pageCount": 10,
+  "acceptedSkillSignals": 12,
+  "generatedQuestionCandidates": 36,
+  "activeQuestionCount": 12,
+  "activeByStation": {
+    "word-portal-put-v1": 4,
+    "spelling-forge-fog-v1": 4,
+    "culture-lab-culture-v1": 4
+  },
+  "ambiguousObservationsOmitted": true,
+  "parentReviewRequiredOnAmbiguousExtraction": true,
+  "privacy": {
+    "rawImagesIncluded": false,
+    "studentIdentityIncluded": false,
+    "studentResponsesIncluded": false,
+    "teacherMarksIncluded": false,
+    "gradesOrScoresIncluded": false,
+    "rawWorksheetTextIncluded": false
+  }
+}
