@@ -13,7 +13,7 @@ describe('Phase 2: verified Brookhaven world activity bindings',()=>{
       new URL('../../roblox/src/shared/WorldActivityBindings.luau',import.meta.url)
     );
     const ids=[...bindings.matchAll(/BHW_(\d{4})/g)].map(match=>Number(match[1]));
-    expect(ids).toEqual([3461,4879,3191,4654]);
+    expect(ids).toEqual([3461,4879,4876,3405]);
     expect(new Set(ids).size).toBe(4);
 
     const manifest=JSON.parse(readText(
@@ -33,7 +33,7 @@ describe('Phase 2: verified Brookhaven world activity bindings',()=>{
       step2FingerprintHash:step3.source.step2FingerprintHash
     });
 
-    for(const index of ids){
+    const resolved=ids.map(index=>{
       const entry=ir.entries[index-1];
       expect(entry?.index).toBe(index);
       expect(entry.shape).toBe('Block');
@@ -42,6 +42,15 @@ describe('Phase 2: verified Brookhaven world activity bindings',()=>{
       expect(entry.transparency).toBe(0);
       expect(entry.size[1]).toBeLessThanOrEqual(3);
       expect(entry.size[0]*entry.size[2]).toBeGreaterThan(5000);
+      return entry;
+    });
+
+    const spawn=resolved[0].position;
+    for(const entry of resolved.slice(1)){
+      const dx=entry.position[0]-spawn[0];
+      const dy=entry.position[1]-spawn[1];
+      const dz=entry.position[2]-spawn[2];
+      expect(Math.sqrt(dx*dx+dy*dy+dz*dz)).toBeLessThan(150);
     }
   });
 });
