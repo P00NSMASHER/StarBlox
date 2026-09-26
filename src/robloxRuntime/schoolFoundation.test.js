@@ -120,7 +120,7 @@ describe('School foundation milestones 1-6',()=>{
     expect(selector).toContain('ContentHash = question.ContentHash');
     expect(selector).toContain('Answer = question.Answer');
     expect(selector).toContain('bankSnapshotId = ClassQuestionSelector.CurrentSnapshotId()');
-    expect(sessions).toContain('QuestionSnapshots = snapshots');
+    expect(sessions).toContain('QuestionSnapshots = pinBundle(bundle)');
     expect(sessions).toContain('BankSnapshotId = bundle.bankSnapshotId');
     expect(sessions).toContain('reusedPinnedBundle = true');
     expect(sessions).toContain('content_hash_mismatch');
