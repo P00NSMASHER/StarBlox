@@ -20,7 +20,7 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
       'utf8'
     );
 
-    expect(config).toContain('PolishRevision = "step8-release-polish-v1"');
+    expect(config).toContain('PolishRevision = "phase6-content-fun-retention-v1"');
     expect(config).toContain('Welcome to Brightside!');
     expect(config).toContain('Direction = "North"');
     expect(config).toContain('Direction = "East"');
@@ -75,7 +75,7 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(config).toContain('Direction = "North"');
     expect(config).toContain('Direction = "East"');
     expect(config).toContain('Direction = "West"');
-    expect(config).toContain('Explore the neighborhood');
+    expect(config).toContain('Neighborhood Challenge');
   });
 
   it('uses a compact landscape-safe HUD, activity card, onboarding card, and next-activity waypoint', () => {
@@ -118,7 +118,10 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
 
     expect(client).toContain('TweenService');
     expect(client).toContain('showToast');
+    expect(client).toContain('successPulse');
     expect(client).toContain('shakePanel');
+    expect(client).toContain('rewardSummary');
+    expect(client).toContain('Challenge %d/%d • %s');
     expect(client).toContain('friendlyFailure');
     expect(client).toContain('rate_limited');
     expect(client).toContain('profile_unavailable');
