@@ -10,6 +10,33 @@ RoleplayService.__index = RoleplayService
 local REMOTE_ROOT_NAME = "StarBloxRoleplay"
 local TAG_NAME = "StarBloxRoleplayTag"
 
+local OUTFIT_SLOT_COUNT = 4
+local DESCRIPTION_NUMBER_FIELDS = table.freeze({
+	"Shirt", "Pants", "GraphicTShirt", "Face",
+	"Head", "Torso", "LeftArm", "RightArm", "LeftLeg", "RightLeg",
+	"ClimbAnimation", "FallAnimation", "IdleAnimation", "JumpAnimation",
+	"RunAnimation", "SwimAnimation", "WalkAnimation",
+	"BodyTypeScale", "DepthScale", "HeadScale", "HeightScale",
+	"ProportionScale", "WidthScale",
+})
+local DESCRIPTION_STRING_FIELDS = table.freeze({
+	"BackAccessory", "FaceAccessory", "FrontAccessory", "HairAccessory",
+	"HatAccessory", "NeckAccessory", "ShouldersAccessory", "WaistAccessory",
+})
+local DESCRIPTION_COLOR_FIELDS = table.freeze({
+	"HeadColor", "LeftArmColor", "RightArmColor", "LeftLegColor",
+	"RightLegColor", "TorsoColor",
+})
+
+local AVATAR_PRESETS = table.freeze({
+	original = table.freeze({Label = "Original"}),
+	classic = table.freeze({Label = "Classic", BodyTypeScale = 0, ProportionScale = 0, HeightScale = 1, WidthScale = 1, DepthScale = 1, HeadScale = 1}),
+	compact = table.freeze({Label = "Compact", HeightScale = 0.9, WidthScale = 0.9, DepthScale = 0.9, HeadScale = 1}),
+	tall = table.freeze({Label = "Tall", HeightScale = 1.05, WidthScale = 0.94, DepthScale = 0.94, HeadScale = 0.95}),
+	stylized = table.freeze({Label = "Stylized", BodyTypeScale = 1, ProportionScale = 1, HeightScale = 1, WidthScale = 0.9, DepthScale = 0.9, HeadScale = 1}),
+	wide = table.freeze({Label = "Wide", HeightScale = 0.96, WidthScale = 1, DepthScale = 1, HeadScale = 1}),
+})
+
 local JOBS = table.freeze({
 	"Citizen",
 	"Student",
@@ -41,6 +68,7 @@ local function ensureRoleplay(profileData)
 	state.DisplayName = type(state.DisplayName) == "string" and state.DisplayName or ""
 	state.Age = type(state.Age) == "string" and state.Age or ""
 	state.Job = type(state.Job) == "string" and JOB_SET[state.Job] == true and state.Job or "Citizen"
+	state.AvatarOutfits = type(state.AvatarOutfits) == "table" and state.AvatarOutfits or {}
 	return state
 end
 
@@ -82,6 +110,138 @@ local function filterDisplayName(player: Player, value: any): string?
 		return nil
 	end
 	return string.sub(result, 1, 24)
+end
+
+
+local function colorToTable(color: Color3)
+	return {
+		R = math.floor((color.R * 255) + 0.5),
+		G = math.floor((color.G * 255) + 0.5),
+		B = math.floor((color.B * 255) + 0.5),
+	}
+end
+
+local function tableToColor(value: any): Color3?
+	if type(value) ~= "table" then
+		return nil
+	end
+	local r = tonumber(value.R)
+	local g = tonumber(value.G)
+	local b = tonumber(value.B)
+	if r == nil or g == nil or b == nil then
+		return nil
+	end
+	return Color3.fromRGB(
+		math.clamp(math.floor(r + 0.5), 0, 255),
+		math.clamp(math.floor(g + 0.5), 0, 255),
+		math.clamp(math.floor(b + 0.5), 0, 255)
+	)
+end
+
+local function serializeDescription(description: HumanoidDescription)
+	local output = {
+		Numbers = {},
+		Strings = {},
+		Colors = {},
+	}
+	for _, field in DESCRIPTION_NUMBER_FIELDS do
+		local ok, value = pcall(function()
+			return (description :: any)[field]
+		end)
+		if ok and type(value) == "number" and value == value and value ~= math.huge and value ~= -math.huge then
+			output.Numbers[field] = value
+		end
+	end
+	for _, field in DESCRIPTION_STRING_FIELDS do
+		local ok, value = pcall(function()
+			return (description :: any)[field]
+		end)
+		if ok and type(value) == "string" then
+			output.Strings[field] = value
+		end
+	end
+	for _, field in DESCRIPTION_COLOR_FIELDS do
+		local ok, value = pcall(function()
+			return (description :: any)[field]
+		end)
+		if ok and typeof(value) == "Color3" then
+			output.Colors[field] = colorToTable(value)
+		end
+	end
+	return output
+end
+
+local function hydrateDescription(saved: any): HumanoidDescription?
+	if type(saved) ~= "table" then
+		return nil
+	end
+	local description = Instance.new("HumanoidDescription")
+	for field, value in type(saved.Numbers) == "table" and saved.Numbers or {} do
+		if type(value) == "number" and table.find(DESCRIPTION_NUMBER_FIELDS, field) ~= nil then
+			pcall(function()
+				(description :: any)[field] = value
+			end)
+		end
+	end
+	for field, value in type(saved.Strings) == "table" and saved.Strings or {} do
+		if type(value) == "string" and table.find(DESCRIPTION_STRING_FIELDS, field) ~= nil then
+			pcall(function()
+				(description :: any)[field] = value
+			end)
+		end
+	end
+	for field, value in type(saved.Colors) == "table" and saved.Colors or {} do
+		if table.find(DESCRIPTION_COLOR_FIELDS, field) ~= nil then
+			local color = tableToColor(value)
+			if color ~= nil then
+				pcall(function()
+					(description :: any)[field] = color
+				end)
+			end
+		end
+	end
+	return description
+end
+
+local function getHumanoid(player: Player): Humanoid?
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if humanoid and humanoid:IsA("Humanoid") then
+		return humanoid
+	end
+	return nil
+end
+
+local function applyDescription(player: Player, description: HumanoidDescription)
+	local humanoid = getHumanoid(player)
+	if humanoid == nil then
+		description:Destroy()
+		return {ok = false, code = "character_unavailable"}
+	end
+	local applied, reason = pcall(function()
+		humanoid:ApplyDescriptionReset(description)
+	end)
+	description:Destroy()
+	if not applied then
+		return {ok = false, code = "avatar_apply_failed", reason = tostring(reason)}
+	end
+	return {ok = true}
+end
+
+local function validOutfitSlot(value: any): number?
+	local slot = tonumber(value)
+	if slot == nil or slot ~= math.floor(slot) or slot < 1 or slot > OUTFIT_SLOT_COUNT then
+		return nil
+	end
+	return slot
+end
+
+local function publicOutfitSlots(roleplayState)
+	local slots = {}
+	for slot = 1, OUTFIT_SLOT_COUNT do
+		slots[slot] = roleplayState.AvatarOutfits[tostring(slot)] ~= nil
+	end
+	return slots
 end
 
 local function attachTag(player: Player, character: Model, roleplayState)
@@ -159,6 +319,18 @@ function RoleplayService.new(profiles, replicas)
 	local resetAvatar = Instance.new("RemoteFunction")
 	resetAvatar.Name = "ResetAvatar"
 	resetAvatar.Parent = root
+	local saveOutfit = Instance.new("RemoteFunction")
+	saveOutfit.Name = "SaveOutfit"
+	saveOutfit.Parent = root
+	local loadOutfit = Instance.new("RemoteFunction")
+	loadOutfit.Name = "LoadOutfit"
+	loadOutfit.Parent = root
+	local deleteOutfit = Instance.new("RemoteFunction")
+	deleteOutfit.Name = "DeleteOutfit"
+	deleteOutfit.Parent = root
+	local applyAvatarPreset = Instance.new("RemoteFunction")
+	applyAvatarPreset.Name = "ApplyAvatarPreset"
+	applyAvatarPreset.Parent = root
 
 	getState.OnServerInvoke = function(player)
 		return self:_state(player)
@@ -172,6 +344,18 @@ function RoleplayService.new(profiles, replicas)
 	resetAvatar.OnServerInvoke = function(player)
 		return self:_resetAvatar(player)
 	end
+	saveOutfit.OnServerInvoke = function(player, slot)
+		return self:_saveOutfit(player, slot)
+	end
+	loadOutfit.OnServerInvoke = function(player, slot)
+		return self:_loadOutfit(player, slot)
+	end
+	deleteOutfit.OnServerInvoke = function(player, slot)
+		return self:_deleteOutfit(player, slot)
+	end
+	applyAvatarPreset.OnServerInvoke = function(player, presetId)
+		return self:_applyAvatarPreset(player, presetId)
+	end
 
 	return self
 end
@@ -180,12 +364,21 @@ function RoleplayService:_state(player: Player)
 	local result = nil
 	self._profiles:WithProfile(player, function(data)
 		local rp = ensureRoleplay(data)
+		local presets = {}
+		for id, preset in AVATAR_PRESETS do
+			table.insert(presets, {Id = id, Label = preset.Label})
+		end
+		table.sort(presets, function(a, b)
+			return a.Label < b.Label
+		end)
 		result = {
 			ok = true,
 			jobs = JOBS,
 			job = rp.Job,
 			displayName = rp.DisplayName,
 			age = rp.Age,
+			outfitSlots = publicOutfitSlots(rp),
+			avatarPresets = presets,
 		}
 	end)
 	return result or {ok = false, code = "profile_unavailable"}
@@ -245,6 +438,116 @@ function RoleplayService:_saveBio(player: Player, displayName: any, ageValue: an
 	return {ok = true, displayName = filteredName, age = clean}
 end
 
+
+function RoleplayService:_saveOutfit(player: Player, slotValue: any)
+	local slot = validOutfitSlot(slotValue)
+	if slot == nil then
+		return {ok = false, code = "invalid_outfit_slot"}
+	end
+	local humanoid = getHumanoid(player)
+	if humanoid == nil then
+		return {ok = false, code = "character_unavailable"}
+	end
+	local ok, description = pcall(function()
+		return humanoid:GetAppliedDescription()
+	end)
+	if not ok or description == nil then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+	local serialized = serializeDescription(description)
+	description:Destroy()
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local rp = ensureRoleplay(data)
+		rp.AvatarOutfits[tostring(slot)] = serialized
+		self._replicas:Sync(player, data)
+		outcome = {
+			ok = true,
+			slot = slot,
+			outfitSlots = publicOutfitSlots(rp),
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function RoleplayService:_loadOutfit(player: Player, slotValue: any)
+	local slot = validOutfitSlot(slotValue)
+	if slot == nil then
+		return {ok = false, code = "invalid_outfit_slot"}
+	end
+
+	local saved = nil
+	self._profiles:WithProfile(player, function(data)
+		local rp = ensureRoleplay(data)
+		saved = rp.AvatarOutfits[tostring(slot)]
+	end)
+	if saved == nil then
+		return {ok = false, code = "outfit_slot_empty"}
+	end
+
+	local description = hydrateDescription(saved)
+	if description == nil then
+		return {ok = false, code = "outfit_invalid"}
+	end
+	local outcome = applyDescription(player, description)
+	if outcome.ok == true then
+		outcome.slot = slot
+	end
+	return outcome
+end
+
+function RoleplayService:_deleteOutfit(player: Player, slotValue: any)
+	local slot = validOutfitSlot(slotValue)
+	if slot == nil then
+		return {ok = false, code = "invalid_outfit_slot"}
+	end
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local rp = ensureRoleplay(data)
+		rp.AvatarOutfits[tostring(slot)] = nil
+		self._replicas:Sync(player, data)
+		outcome = {
+			ok = true,
+			slot = slot,
+			outfitSlots = publicOutfitSlots(rp),
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function RoleplayService:_applyAvatarPreset(player: Player, presetId: any)
+	if type(presetId) ~= "string" then
+		return {ok = false, code = "invalid_avatar_preset"}
+	end
+	local preset = AVATAR_PRESETS[presetId]
+	if preset == nil then
+		return {ok = false, code = "unknown_avatar_preset"}
+	end
+
+	local baseOk, description = pcall(function()
+		return Players:GetHumanoidDescriptionFromUserId(player.UserId)
+	end)
+	if not baseOk or description == nil then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+
+	if presetId ~= "original" then
+		for field, value in preset do
+			if field ~= "Label" and type(value) == "number" then
+				pcall(function()
+					(description :: any)[field] = value
+				end)
+			end
+		end
+	end
+	local outcome = applyDescription(player, description)
+	if outcome.ok == true then
+		outcome.presetId = presetId
+	end
+	return outcome
+end
+
 function RoleplayService:_resetAvatar(player: Player)
 	local ok, description = pcall(function()
 		return Players:GetHumanoidDescriptionFromUserId(player.UserId)
@@ -252,20 +555,7 @@ function RoleplayService:_resetAvatar(player: Player)
 	if not ok or description == nil then
 		return {ok = false, code = "avatar_unavailable"}
 	end
-
-	local character = player.Character
-	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-	if humanoid == nil then
-		return {ok = false, code = "character_unavailable"}
-	end
-
-	local applied, reason = pcall(function()
-		humanoid:ApplyDescriptionReset(description)
-	end)
-	if not applied then
-		return {ok = false, code = "avatar_apply_failed", reason = tostring(reason)}
-	end
-	return {ok = true}
+	return applyDescription(player, description)
 end
 
 function RoleplayService:PlayerReady(player: Player, profileData)
