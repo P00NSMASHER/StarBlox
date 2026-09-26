@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "status": "implementation-composed-proof-gates-open",
+  "evaluatedOn": "2026-09-26",
+  "architecture": {
+    "immutableWitness": {
+      "name": "BrookhavenWorldBaseline",
+      "location": "ServerStorage",
+      "locked": true
+    },
+    "runtimeProjection": {
+      "name": "BrookhavenWorldRuntime",
+      "location": "Workspace",
+      "verifiedBoundary": true
+    },
+    "currentLiveBrookhavenMapParityProven": false
+  },
+  "shell": {
+    "fiveActionRail": true,
+    "quickChat": true,
+    "homeCams": true,
+    "family": true,
+    "avatarEditor": true,
+    "contextualToolsVehiclesHouses": true
+  },
+  "catalog": {
+    "vehicles": {
+      "target": 188,
+      "runtimePlayable": 8,
+      "verifiedReferenceMetadata": 22,
+      "complete": false
+    },
+    "inventory": {
+      "target": 173,
+      "runtimeItems": 12,
+      "complete": false
+    },
+    "houses": {
+      "target": 83,
+      "parityCatalogComplete": false
+    }
+  },
+  "interactions": {
+    "nativeSeats": {
+      "expected": 271,
+      "certified": 271
+    },
+    "nativeVehicleSeats": {
+      "expected": 2,
+      "certified": 2
+    },
+    "reviewedDoors": 1,
+    "pendingStrictDoors": 13,
+    "reviewedGarageDoors": 0,
+    "pendingGarageDoors": 101,
+    "reviewedLights": 0,
+    "pendingLights": 111,
+    "renderedEvidenceRequired": true,
+    "automaticCandidateActivationAllowed": false
+  },
+  "school": {
+    "implementationIntegrated": true,
+    "systemEnabled": false,
+    "runtimeWorld": "BrookhavenWorldRuntime",
+    "immutableWitnessMutationAllowed": false,
+    "starFallbackReadingCount": 60,
+    "starFallbackMathCount": 60
+  },
+  "qa": {
+    "automatedContractSuiteRequired": true,
+    "finalSideBySideMobileQaPassed": false,
+    "currentLiveMapParityProofPassed": false,
+    "productionIconAssetPassComplete": false
+  },
+  "release": {
+    "privatePublishPathAvailable": true,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false,
+    "exactParityClaimAllowed": false
+  },
+  "blockers": [
+    "Complete the remaining vehicle, inventory, and house parity breadth with verified metadata and parity-safe runtime implementations.",
+    "Review and promote remaining door, garage, light, prop, and other interaction candidates using rendered evidence.",
+    "Finish production icon/image assets and behavior-specific vehicle/tool/house parity.",
+    "Run final side-by-side mobile/Studio visual and behavioral QA.",
+    "Prove or explicitly version-scope the relationship between the pinned world source and the current live Brookhaven map."
+  ]
+}
