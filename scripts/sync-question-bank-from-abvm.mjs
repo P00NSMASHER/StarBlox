@@ -10,6 +10,8 @@ const packPath=option('--pack','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const sourceOut=option('--source-out','docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json');
 const packOut=option('--pack-out','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const luaOut=option('--lua-out','roblox/src/server/CoreQuestionBank.luau');
+const scannerCommit=option('--scanner-commit','unknown');
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v2';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -28,8 +30,12 @@ const sha=value=>'sha256:'+createHash('sha256').update(typeof value==='string'?v
 const rawSourceHash=pack.sourceHash||sha(pack);
 if(existsSync(sourceOut)){
   const previous=JSON.parse(readFileSync(sourceOut,'utf8'));
-  if(previous?.generatedFrom?.sourceHash===rawSourceHash){
-    console.log(JSON.stringify({status:'unchanged',sourceHash:rawSourceHash},null,2));
+  if(
+    previous?.generatedFrom?.sourceHash===rawSourceHash
+    && previous?.generatedFrom?.generatorVersion===GENERATOR_VERSION
+    && (scannerCommit==='unknown'||previous?.generatedFrom?.scannerCommit===scannerCommit)
+  ){
+    console.log(JSON.stringify({status:'unchanged',sourceHash:rawSourceHash,generatorVersion:GENERATOR_VERSION},null,2));
     process.exit(0);
   }
 }
