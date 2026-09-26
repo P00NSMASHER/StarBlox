@@ -13,7 +13,7 @@ function stable(value){
   return JSON.stringify(value);
 }
 function questionHash(question){
-  const keys=['id','stationId','subject','skill','prompt','choices','answer','explanation','provenance','sourceFact','tier','domain','difficulty'];
+  const keys=['id','stationId','subject','skill','prompt','choices','answer','explanation','provenance','sourceFact','tier','domain','difficulty','standards','dok','cognitiveDemand','hint','scaffold','choiceDiagnostics'];
   const payload={};
   for(const key of keys) if(question[key]!==undefined) payload[key]=question[key];
   return 'sha256:'+createHash('sha256').update(stable(payload)).digest('hex');
@@ -39,7 +39,7 @@ describe('Dynamic material-first Grade 2 bank with regenerated STAR fallback',()
     expect(source.generatedFrom.scanner).toBe('scripts/refresh-teacher-pages.mjs');
     expect(source.generatedFrom.healthCheck).toBe('scripts/check-refresh-health.mjs');
     expect(source.generatedFrom.sourceHash).toMatch(/^teacher-pages-[a-f0-9]{20}$/);
-    expect(source.generatedFrom.bankSnapshotId).toMatch(/^abvm-[a-f0-9]{12}$/);
+    expect(source.generatedFrom.bankSnapshotId).toMatch(/^abvm-[a-f0-9]{12}-[a-f0-9]{6}$/);
   });
 
   it('keeps material first and 20 STAR fallback questions at every station',()=>{
@@ -71,9 +71,29 @@ describe('Dynamic material-first Grade 2 bank with regenerated STAR fallback',()
       expect(question.choices).toContain(question.answer);
       expect(question.difficulty).toBeGreaterThanOrEqual(2);
       expect(question.difficulty).toBeLessThanOrEqual(3);
+      expect(question.standards.length).toBeGreaterThan(0);
+      expect([1,2,3]).toContain(question.dok);
+      expect(['recall-and-fluency','skill-and-concept-application','strategic-reasoning']).toContain(question.cognitiveDemand);
+      expect(question.hint.length).toBeGreaterThan(10);
+      expect(question.scaffold.length).toBeGreaterThan(10);
+      const wrongChoices=question.choices.filter(choice=>choice!==question.answer);
+      expect(question.choiceDiagnostics).toHaveLength(wrongChoices.length);
+      for(const choice of wrongChoices){
+        const diagnostic=question.choiceDiagnostics.find(item=>item.choice===choice);
+        expect(diagnostic?.misconception?.length).toBeGreaterThan(2);
+        expect(diagnostic?.feedback?.length).toBeGreaterThan(10);
+      }
       expect(question.contentHash).toBe(questionHash(question));
       for(const pattern of forbidden) expect(question.prompt).not.toMatch(pattern);
     }
+  });
+
+  it('mixes recall, application, and strategic reasoning while including multi-step math',()=>{
+    const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
+    const doks=new Set(source.questions.map(q=>q.dok));
+    expect([...doks].sort()).toEqual([1,2,3]);
+    expect(source.questions.filter(q=>q.dok===3).length).toBeGreaterThanOrEqual(6);
+    expect(source.questions.filter(q=>q.skill==='two-step-word-problem'&&q.subject==='Math').length).toBeGreaterThanOrEqual(3);
   });
 
   it('contains at least 25 original STAR Reading and 25 original STAR Math questions',()=>{
