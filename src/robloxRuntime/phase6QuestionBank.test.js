@@ -95,9 +95,11 @@ describe('Phase 8: challenging material-first Grade 2 bank with STAR-aligned fal
       expect(bank).toContain('ContentHash = '+JSON.stringify(question.contentHash));
     }
     expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(60);
-    expect(bank).toContain('local index = (clean % #pool) + 1');
+    expect(bank).toContain('local MATERIAL_QUESTIONS_PER_STATION = 12');
+    expect(bank).toContain('if clean < MATERIAL_QUESTIONS_PER_STATION then');
+    expect(bank).toContain('fallbackOffset = (clean - MATERIAL_QUESTIONS_PER_STATION) % fallbackCount');
     expect(config).toContain('BankRevision = "phase8-material-first-star-fallback-v1"');
     expect(config).toContain('QuestionsPerStation = 20');
-    expect(config).toContain('Strategy = "persistent-per-station-after-correct-answer"');
+    expect(config).toContain('Strategy = "material-once-then-star-fallback-loop"');
   });
 });
