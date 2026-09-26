@@ -4,6 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 
@@ -99,6 +100,7 @@ local function buildWorldBindings()
 		prompt.RequiresLineOfSight = false
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
+		prompt.Enabled = SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
 		prompt.Parent = anchor
 		prompts[activity.Id] = prompt
 	end
@@ -1025,6 +1027,12 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		status = statusSnapshot,
 		economy = latestEconomy,
 	}
+end
+
+function CoreGameLoopService:SetActivityPromptsEnabled(enabled: boolean)
+	for _, prompt in self._prompts or {} do
+		prompt.Enabled = enabled
+	end
 end
 
 function CoreGameLoopService:GetSpawnCFrame(): CFrame

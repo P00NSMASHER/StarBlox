@@ -11,6 +11,58 @@ local function copyArray(source)
 	return out
 end
 
+local function publicSchoolPeriod(period)
+	if type(period) ~= "table" then
+		return nil
+	end
+	return {
+		PeriodId = period.PeriodId,
+		ClassId = period.ClassId,
+		Status = period.Status,
+		Score = period.Score,
+		Grade = period.Grade,
+		CompletedQuestionCount = period.CompletedQuestionCount,
+		QuestionCount = period.QuestionCount,
+		Attendance = period.Attendance,
+		BankSnapshotId = period.BankSnapshotId,
+	}
+end
+
+local function publicSchoolProjection(profileData)
+	local school = profileData.School
+	if type(school) ~= "table" then
+		return nil
+	end
+
+	local currentDay = type(school.CurrentDay) == "table" and school.CurrentDay or {}
+	local periods = {}
+	for periodId, period in currentDay.Periods or {} do
+		local public = publicSchoolPeriod(period)
+		if public ~= nil then
+			periods[periodId] = public
+		end
+	end
+
+	local statistics = type(school.Statistics) == "table" and school.Statistics or {}
+	return {
+		CurrentDay = {
+			DayId = currentDay.DayId or "",
+			BankSnapshotId = currentDay.BankSnapshotId or "",
+			Periods = periods,
+		},
+		Statistics = {
+			DaysAttended = statistics.DaysAttended or 0,
+			ClassesCompleted = statistics.ClassesCompleted or 0,
+			OnTimeClasses = statistics.OnTimeClasses or 0,
+			ByClass = table.clone(statistics.ByClass or {}),
+		},
+		RewardState = {
+			UtcDay = school.RewardState and school.RewardState.UtcDay or "",
+			RewardedSchoolDays = school.RewardState and school.RewardState.RewardedSchoolDays or 0,
+		},
+	}
+end
+
 local function publicProjection(profileData)
 	return {
 		SchemaVersion = profileData.SchemaVersion,
@@ -35,6 +87,7 @@ local function publicProjection(profileData)
 			LastDailyId = profileData.Daily.LastDailyId,
 			Streak = profileData.Daily.Streak,
 		},
+		School = publicSchoolProjection(profileData),
 		Inventory = {
 			Cosmetics = table.clone(profileData.Inventory.Cosmetics),
 			OwnedItems = table.clone(profileData.Inventory.OwnedItems or {}),

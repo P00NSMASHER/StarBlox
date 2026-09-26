@@ -50,6 +50,32 @@ local ProfileTemplate = {
 		Streak = 0,
 	},
 
+	-- School-system state is additive and reconciled into existing saves.
+	School = {
+		CurrentDay = {
+			DayId = "",
+			BankSnapshotId = "",
+			Periods = {},
+			AttendanceCounted = false,
+		},
+		RecentDays = {},
+		QuestionCursorByClass = {},
+		LastQuestionBankSnapshotId = "",
+		Statistics = {
+			DaysAttended = 0,
+			ClassesCompleted = 0,
+			OnTimeClasses = 0,
+			ByClass = {},
+		},
+		RewardState = {
+			UtcDay = "",
+			RewardedSchoolDays = 0,
+			DayEligibility = {},
+			Receipts = {},
+			EarnedBySchoolDay = {},
+		},
+	},
+
 	Inventory = {
 		Cosmetics = {},
 		OwnedItems = {},
