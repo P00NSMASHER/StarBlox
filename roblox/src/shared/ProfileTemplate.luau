@@ -37,6 +37,8 @@ local ProfileTemplate = {
 		RecentQuestionIds = {},
 		QuestionCursorByStation = {},
 		QuestionBankSnapshotId = "",
+		AdaptiveByStation = {},
+		SkillStats = {},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
@@ -47,8 +49,7 @@ local ProfileTemplate = {
 		Streak = 0,
 	},
 
-	-- Additive school foundation state. ProfileStore:Reconcile() adds these
-	-- defaults to existing player profiles without replacing legacy progress.
+	-- School-system state is additive and reconciled into existing saves.
 	School = {
 		CurrentDay = {
 			DayId = "",
@@ -66,6 +67,7 @@ local ProfileTemplate = {
 		RewardState = {
 			UtcDay = "",
 			RewardedSchoolDays = 0,
+			DayEligibility = {},
 			Receipts = {},
 		},
 	},
