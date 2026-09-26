@@ -1,12 +1,25 @@
 --!strict
 
 local BrookhavenMirrorConfig = table.freeze({
-	SchemaVersion = 1,
-	Revision = "phase9-long-horizon-learning-economy-v1",
+	SchemaVersion = 2,
+	Revision = "post-opening-exact-live-brookhaven-v1",
+	PostOpeningParity = table.freeze({
+		Target = "exact-live-brookhaven",
+		ReferenceCapturedAt = "2026-09-26",
+		OpeningSequenceIsOnlyPlayerFacingException = true,
+		AllowCustomStarBloxHud = false,
+		AllowCustomStarBloxNavigation = false,
+		AllowCustomStarBloxMenus = false,
+		AllowApproximateIconography = false,
+		AllowApproximateLayout = false,
+		AllowApproximateInteractionBehavior = false,
+		RequireCurrentLiveVersionEvidence = true,
+	}),
 	World = table.freeze({
 		Mode = "exact-frozen-brookhaven-world",
 		BrookhavenBaselineLocked = true,
 		RuntimeSystemsMayMutateBaseline = false,
+		CurrentLiveBrookhavenParityProven = false,
 	}),
 	Economy = table.freeze({
 		CurrencyName = "Coins",
@@ -18,6 +31,7 @@ local BrookhavenMirrorConfig = table.freeze({
 		PremiumSportsCarCorrectAnswers = 1200,
 		PaidCurrencyRequiredForGameplayUnlocks = false,
 		LearningCoinsRequiredForPurchases = true,
+		PlayerFacingParityExceptionGranted = false,
 	}),
 	Sidebar = table.freeze({
 		table.freeze({Id = "avatar", Label = "Avatar", Order = 1}),
