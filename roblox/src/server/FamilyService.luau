@@ -349,6 +349,20 @@ function FamilyService:_removeMember(player: Player, targetUserId: any)
 	return {ok = true}
 end
 
+
+function FamilyService:AreFamily(a: Player, b: Player): boolean
+	if a == b then
+		return true
+	end
+	local ownerA = self:_familyOwner(a)
+	local ownerB = self:_familyOwner(b)
+	return ownerA ~= nil and ownerA == ownerB
+end
+
+function FamilyService:CanAccessHome(owner: Player, visitor: Player): boolean
+	return owner == visitor or self:AreFamily(owner, visitor)
+end
+
 function FamilyService:PlayerRemoving(player: Player)
 	for target, pending in self._pendingInvites do
 		pending[player] = nil
