@@ -7,6 +7,11 @@ on:
     - cron: '47 15 * * *'
       timezone: 'America/New_York'
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json
 permissions:
   contents: write
 
@@ -36,6 +41,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Validate sanitized schoolwork photo source
+        run: |
+          node scripts/validate-schoolwork-photo-pack.mjs \
+            docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json \
+            --catalog-out /tmp/schoolwork-photo-catalog.json \
+            --receipt-out /tmp/schoolwork-photo-receipt.json \
+            --snapshot-id preflight
 
       - name: Run the exact ABVM teacher-page scanner
         id: abvm_scan
@@ -92,6 +105,7 @@ jobs:
             src/robloxRuntime/questionAlignmentValidator.test.js \
             src/robloxRuntime/questionItemReview.test.js \
             src/robloxRuntime/researchQuestionImprovements712.test.js \
+            src/schoolworkPhoto/schoolworkPhotoPipeline.test.js \
             src/robloxRuntime/coreLoopProof.test.js \
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js
@@ -103,6 +117,8 @@ jobs:
           git add \
             docs/phase6/ABVM_CURRENT_STUDY_PACK.json \
             docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json \
+            docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json \
             roblox/src/server/CoreQuestionBank.luau
           if git diff --cached --quiet; then
             echo "No verified curriculum change; keeping the current StarBlox bank."
