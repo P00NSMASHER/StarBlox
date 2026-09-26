@@ -9,8 +9,8 @@ describe('Brookhaven reviewed runtime interaction activation',()=>{
   it('activates exactly one reviewed door while broad candidate activation stays disabled',()=>{
     const bindings=read('roblox/src/shared/WorldInteractionBindings.luau');
 
-    expect(bindings).toContain('SchemaVersion = 3');
-    expect(bindings).toContain('Revision = "reviewed-runtime-interactions-v2"');
+    expect(bindings).toContain('SchemaVersion = 4');
+    expect(bindings).toContain('Revision = "reviewed-runtime-interactions-v3"');
     expect(bindings).toContain('WorldRootName = "BrookhavenWorldRuntime"');
     expect(bindings).toContain('ImmutableWitnessName = "BrookhavenWorldBaseline"');
     expect(bindings).toContain('Id = "door-proof-1454"');
@@ -83,6 +83,26 @@ describe('Brookhaven reviewed runtime interaction activation',()=>{
     expect(service).toContain('detector.Name = "StarBloxLightClick"');
     expect(service).toContain('StarBloxLightState');
     expect(service).not.toContain('witnessPart.CFrame =');
+  });
+
+  it('certifies preserved native seat breadth and makes every unresolved interaction explicit',()=>{
+    const bindings=read('roblox/src/shared/WorldInteractionBindings.luau');
+    const service=read('roblox/src/server/WorldInteractionService.luau');
+
+    expect(bindings).toContain('NativeSeats = 271');
+    expect(bindings).toContain('NativeVehicleSeats = 2');
+    expect(bindings).toContain('ReviewedDoors = 1');
+    expect(bindings).toContain('StrictDoors = 13');
+    expect(bindings).toContain('GarageDoors = 101');
+    expect(bindings).toContain('Lights = 111');
+    expect(bindings).toContain('RequiresRenderedEvidence = true');
+
+    expect(service).toContain('local function nativeSeatCounts(root: Instance): (number, number)');
+    expect(service).toContain('runtimeSeats == WorldInteractionBindings.NativeSeats.ExpectedSeatCount');
+    expect(service).toContain('witnessSeats == runtimeSeats and witnessVehicleSeats == runtimeVehicleSeats');
+    expect(service).toContain('StarBloxCertifiedSeatCount');
+    expect(service).toContain('StarBloxCertifiedVehicleSeatCount');
+    expect(service).toContain('StarBloxInteractionBindingRevision');
   });
 
 });
