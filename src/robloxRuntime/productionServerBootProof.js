@@ -100,10 +100,22 @@ assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "reten
 
 local shopRemotes = ReplicatedStorage:FindFirstChild("StarBloxShop")
 assert(shopRemotes ~= nil and shopRemotes:IsA("Folder"), "StarBlox shop remotes missing after bootstrap")
-for _, remoteName in {"GetState","PurchaseItem","PurchaseHomeTier","VisitHome","ReturnWorld"} do
+for _, remoteName in {
+    "GetState",
+    "PurchaseItem",
+    "PurchaseHomeTier",
+    "SetPlacement",
+    "SetPlacementVisibility",
+    "ResetPlacement",
+    "VisitHome",
+    "ReturnWorld",
+} do
     local remote = shopRemotes:FindFirstChild(remoteName)
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "shop remote missing: " .. remoteName)
 end
+assert(shopRemotes:GetAttribute("PlacementVersion") == 1, "home placement version missing")
+assert(shopRemotes:GetAttribute("PlacementStep") == 1, "home placement step mismatch")
+assert(shopRemotes:GetAttribute("RotationStep") == 15, "home placement rotation step mismatch")
 
 local homeFolder = Workspace:FindFirstChild("StarBloxPlayerHomes")
 assert(homeFolder ~= nil and homeFolder:IsA("Folder"), "player-home runtime folder missing after bootstrap")
@@ -297,6 +309,8 @@ export async function runProductionServerBootProof({
       homeEconomyCreated:true,
       shopRemotesCreated:true,
       playerHomeRuntimeFolderCreated:true,
+      homePlacementRemotesCreated:true,
+      homePlacementPolicyVerified:true,
       brookhavenMirrorConfigLoaded:true,
       mirrorLifestyleCreated:true,
       mirrorRemotesCreated:true,

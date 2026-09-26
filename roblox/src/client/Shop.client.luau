@@ -181,6 +181,10 @@ grid.Parent = scroller
 local state = nil
 local busy = false
 
+local editPlacement = Instance.new("BindableEvent")
+editPlacement.Name = "EditPlacement"
+editPlacement.Parent = gui
+
 local function clear()
 	for _, child in scroller:GetChildren() do
 		if child:IsA("GuiObject") and not child:IsA("UIGridLayout") then
@@ -357,11 +361,18 @@ render=function()
 		tile(
 			symbolFor(tostring(item.Kind)),
 			tostring(item.Name),
-			owned and "owned" or (tostring(item.Price).."¢"),
+			owned and "edit" or (tostring(item.Price).."¢"),
 			owned and "✓" or "$",
 			owned and UI.green or UI.blue,
 			order,
-			owned and nil or function() purchaseItemById(id) end
+			owned
+				and function()
+					editPlacement:Fire(id)
+					panel.Visible = false
+				end
+				or function()
+					purchaseItemById(id)
+				end
 		)
 		order+=1
 	end
