@@ -134,7 +134,10 @@ export async function runOpenCloudLuauTask({
         body:JSON.stringify({script,timeout:'30s'})
       }
     );
-    if(createResponse.status !== 429 || attempt === maxCreateAttempts-1) break;
+    const retryableCreateStatus=
+      createResponse.status === 429 ||
+      (createResponse.status >= 500 && createResponse.status <= 599);
+    if(!retryableCreateStatus || attempt === maxCreateAttempts-1) break;
     await delay(retryAfterMs(createResponse,{
       attempt,
       baseMs:Math.max(0,Number(createRetryBaseMs) || 0),
