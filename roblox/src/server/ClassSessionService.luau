@@ -33,12 +33,17 @@ local function ensureSchool(profileData)
 		type(school.CurrentDay.Periods) == "table"
 		and school.CurrentDay.Periods
 		or {}
+	school.CurrentDay.AttendanceCounted = school.CurrentDay.AttendanceCounted == true
 
 	school.RecentDays = type(school.RecentDays) == "table" and school.RecentDays or {}
 	school.QuestionCursorByClass =
 		type(school.QuestionCursorByClass) == "table"
 		and school.QuestionCursorByClass
 		or {}
+	school.LastQuestionBankSnapshotId =
+		type(school.LastQuestionBankSnapshotId) == "string"
+		and school.LastQuestionBankSnapshotId
+		or ""
 	school.Statistics = type(school.Statistics) == "table" and school.Statistics or {
 		DaysAttended = 0,
 		ClassesCompleted = 0,
@@ -55,6 +60,7 @@ local function ensureSchool(profileData)
 	school.RewardState = type(school.RewardState) == "table" and school.RewardState or {
 		UtcDay = "",
 		RewardedSchoolDays = 0,
+		DayEligibility = {},
 		Receipts = {},
 	}
 	school.RewardState.UtcDay =
@@ -63,6 +69,10 @@ local function ensureSchool(profileData)
 		or ""
 	school.RewardState.RewardedSchoolDays =
 		math.max(0, tonumber(school.RewardState.RewardedSchoolDays) or 0)
+	school.RewardState.DayEligibility =
+		type(school.RewardState.DayEligibility) == "table"
+		and school.RewardState.DayEligibility
+		or {}
 	school.RewardState.Receipts =
 		type(school.RewardState.Receipts) == "table"
 		and school.RewardState.Receipts
@@ -83,6 +93,7 @@ local function archivePeriod(period)
 		Attendance = period.Attendance,
 		BankSnapshotId = period.BankSnapshotId,
 		CompletedAtUnix = period.CompletedAtUnix,
+		Makeup = period.Makeup == true,
 	}
 end
 
@@ -110,6 +121,7 @@ local function rotateDay(school, schoolDayId: string)
 		DayId = schoolDayId,
 		BankSnapshotId = "",
 		Periods = {},
+		AttendanceCounted = false,
 	}
 	return school.CurrentDay
 end
@@ -143,14 +155,19 @@ local function publicQuestion(question)
 end
 
 local function publicPeriod(period)
-	local current = period.QuestionSnapshots[period.CurrentQuestionIndex]
+	local snapshots = type(period.QuestionSnapshots) == "table" and period.QuestionSnapshots or {}
+	local currentIndex = math.max(1, math.floor(tonumber(period.CurrentQuestionIndex) or 1))
+	local current = snapshots[currentIndex]
 	return {
 		sessionId = period.SessionId,
 		periodId = period.PeriodId,
 		classId = period.ClassId,
 		status = period.Status,
+		attendance = period.Attendance,
+		makeup = period.Makeup == true,
 		bankSnapshotId = period.BankSnapshotId,
-		questionIndex = period.CurrentQuestionIndex,
+		preferredSubject = period.PreferredSubject,
+		questionIndex = currentIndex,
 		questionCount = period.QuestionCount,
 		completedQuestionCount = period.CompletedQuestionCount,
 		score = period.Score,
@@ -197,6 +214,117 @@ local function incrementClassStats(school, classId: string, grade: string)
 	stats[gradeKey] = math.max(0, tonumber(stats[gradeKey]) or 0) + 1
 end
 
+local function resetClassCursorsForNewSnapshot(school)
+	local snapshotId = ClassQuestionSelector.CurrentSnapshotId()
+	if snapshotId ~= "" and school.LastQuestionBankSnapshotId ~= snapshotId then
+		school.QuestionCursorByClass = {}
+		school.LastQuestionBankSnapshotId = snapshotId
+	end
+	return snapshotId
+end
+
+local function pinBundle(bundle)
+	local snapshots = {}
+	for _, question in bundle.questions do
+		table.insert(snapshots, {
+			Id = question.Id,
+			ContentHash = question.ContentHash,
+			Prompt = question.Prompt,
+			Choices = cloneArray(question.Choices),
+			Answer = question.Answer,
+			Explanation = question.Explanation,
+			Subject = question.Subject,
+			Skill = question.Skill,
+			Tier = question.Tier,
+			Domain = question.Domain,
+			Difficulty = question.Difficulty,
+			Provenance = question.Provenance,
+			SourceFact = question.SourceFact,
+			Standards = question.Standards,
+			DOK = question.DOK,
+			Hint = question.Hint,
+			Scaffold = question.Scaffold,
+			WrongFeedback = question.WrongFeedback,
+			Misconceptions = question.Misconceptions,
+		})
+	end
+	return snapshots
+end
+
+local function selectBundle(profileData, school, classId: string, schoolDayId: string, preferredSubject: string?)
+	resetClassCursorsForNewSnapshot(school)
+	local cursor = math.max(0, math.floor(tonumber(school.QuestionCursorByClass[classId]) or 0))
+	local bundle
+	if classId == "star-lab" then
+		bundle = ClassQuestionSelector.SelectBundleForProfile(classId, cursor, profileData, schoolDayId)
+	else
+		bundle = ClassQuestionSelector.SelectBundle(
+			classId,
+			cursor,
+			recentQuestions(profileData),
+			preferredSubject,
+			profileData.Learning and profileData.Learning.SkillStats or {}
+		)
+	end
+	if bundle.ok == true then
+		school.QuestionCursorByClass[classId] = bundle.nextCursor
+	end
+	return bundle
+end
+
+local function createPeriod(
+	profileData,
+	school,
+	day,
+	schoolDayId: string,
+	periodId: string,
+	classId: string,
+	attendance: string,
+	makeup: boolean,
+	preferredSubject: string?
+)
+	local bundle = selectBundle(profileData, school, classId, schoolDayId, preferredSubject)
+	if bundle.ok ~= true then
+		return bundle
+	end
+
+	local sessionId = schoolDayId .. "|" .. periodId .. "|" .. classId
+	if makeup then
+		sessionId ..= "|makeup"
+	end
+	local period = {
+		SessionId = sessionId,
+		PeriodId = periodId,
+		ClassId = classId,
+		Status = "in-progress",
+		BankSnapshotId = bundle.bankSnapshotId,
+		BankSourceHash = bundle.bankSourceHash,
+		PreferredSubject = bundle.preferredSubject or preferredSubject,
+		QuestionSnapshots = pinBundle(bundle),
+		QuestionCount = bundle.questionCount,
+		CurrentQuestionIndex = 1,
+		CompletedQuestionCount = 0,
+		Score = 0,
+		Grade = "",
+		Attendance = attendance,
+		Attempts = {},
+		OpenedAtUnix = os.time(),
+		CompletedAtUnix = 0,
+		Makeup = makeup,
+		CompletionCounted = false,
+	}
+	day.Periods[periodId] = period
+	if day.BankSnapshotId == "" then
+		day.BankSnapshotId = bundle.bankSnapshotId
+	end
+
+	return {
+		ok = true,
+		reusedPinnedBundle = false,
+		session = publicPeriod(period),
+	}
+end
+
 function ClassSessionService.EnsureDay(profileData, schoolDayId: string)
 	local school = ensureSchool(profileData)
 	return rotateDay(school, schoolDayId)
@@ -222,101 +350,129 @@ function ClassSessionService.OpenClass(
 	local school = ensureSchool(profileData)
 	local day = rotateDay(school, schoolDayId)
 	local existing = day.Periods[periodId]
-	local makeup = type(options) == "table" and options.makeup == true
 	if existing ~= nil then
 		if existing.ClassId ~= classId then
 			return {ok = false, code = "period_class_conflict"}
 		end
-		if not (makeup and existing.Status == "missed") then
+		if existing.Status ~= "missed" then
 			return {
 				ok = true,
 				reusedPinnedBundle = true,
 				session = publicPeriod(existing),
 			}
 		end
-		-- Make-up work replaces only the empty missed placeholder. Attendance
-		-- remains MISSED, preserving the original school-day record.
-		day.Periods[periodId] = nil
 	end
 
-	local cursor = math.max(0, math.floor(tonumber(school.QuestionCursorByClass[classId]) or 0))
 	local preferredSubject = nil
 	if type(options) == "table" and type(options.preferredSubject) == "string" then
 		preferredSubject = options.preferredSubject
 	end
 
-	local bundle
-	if classId == "star-lab" then
-		bundle = ClassQuestionSelector.SelectBundleForProfile(classId, cursor, profileData, schoolDayId)
-	else
-		bundle = ClassQuestionSelector.SelectBundle(
+	return createPeriod(
+		profileData,
+		school,
+		day,
+		schoolDayId,
+		periodId,
+		classId,
+		if existing ~= nil then existing.Attendance or "UNSET" else "UNSET",
+		false,
+		preferredSubject
+	)
+end
+
+function ClassSessionService.FindMakeupPeriod(profileData, schoolDayId: string)
+	local school = ensureSchool(profileData)
+	if school.CurrentDay.DayId ~= schoolDayId then
+		return nil
+	end
+	for _, definition in SchoolConfig.Periods do
+		if definition.Kind == "academic" then
+			local period = school.CurrentDay.Periods[definition.Id]
+			if period == nil or period.Status ~= "completed" then
+				return definition.Id, definition.ClassId
+			end
+		end
+	end
+	return nil
+end
+
+function ClassSessionService.OpenMakeupClass(profileData, schoolDayId: string, periodId: string)
+	local school = ensureSchool(profileData)
+	if school.CurrentDay.DayId ~= schoolDayId then
+		return {ok = false, code = "school_day_mismatch"}
+	end
+
+	local day = school.CurrentDay
+	local existing = day.Periods[periodId]
+	if type(existing) ~= "table" then
+		return {ok = false, code = "makeup_period_missing"}
+	end
+	if existing.Status == "completed" then
+		return {ok = false, code = "class_already_completed"}
+	end
+
+	local snapshots = type(existing.QuestionSnapshots) == "table" and existing.QuestionSnapshots or {}
+	if #snapshots == 0 then
+		local classId = existing.ClassId
+		local attendance = existing.Attendance or "MISSED"
+		day.Periods[periodId] = nil
+		return createPeriod(
+			profileData,
+			school,
+			day,
+			schoolDayId,
+			periodId,
 			classId,
-			cursor,
-			recentQuestions(profileData),
-			preferredSubject,
-			profileData.Learning and profileData.Learning.SkillStats or {}
+			attendance,
+			true,
+			nil
 		)
 	end
-	if bundle.ok ~= true then
-		return bundle
-	end
 
-	local snapshots = {}
-	for _, question in bundle.questions do
-		table.insert(snapshots, {
-			Id = question.Id,
-			ContentHash = question.ContentHash,
-			Prompt = question.Prompt,
-			Choices = cloneArray(question.Choices),
-			Answer = question.Answer,
-			Explanation = question.Explanation,
-			Subject = question.Subject,
-			Skill = question.Skill,
-			Tier = question.Tier,
-			Domain = question.Domain,
-			Difficulty = question.Difficulty,
-			Provenance = question.Provenance,
-			SourceFact = question.SourceFact,
-			Standards = question.Standards,
-			DOK = question.DOK,
-			Hint = question.Hint,
-			Scaffold = question.Scaffold,
-			WrongFeedback = question.WrongFeedback,
-			Misconceptions = question.Misconceptions,
-		})
-	end
-
-	local sessionId = schoolDayId .. "|" .. periodId .. "|" .. classId
-	local period = {
-		SessionId = sessionId,
-		PeriodId = periodId,
-		ClassId = classId,
-		Status = "in-progress",
-		BankSnapshotId = bundle.bankSnapshotId,
-		BankSourceHash = bundle.bankSourceHash,
-		QuestionSnapshots = snapshots,
-		QuestionCount = #snapshots,
-		CurrentQuestionIndex = 1,
-		CompletedQuestionCount = 0,
-		Score = 0,
-		Grade = "",
-		Attendance = if makeup then "MISSED" else "UNSET",
-		Makeup = makeup,
-		Attempts = {},
-		OpenedAtUnix = os.time(),
-		CompletedAtUnix = 0,
-	}
-	day.Periods[periodId] = period
-	if day.BankSnapshotId == "" then
-		day.BankSnapshotId = bundle.bankSnapshotId
-	end
-	school.QuestionCursorByClass[classId] = bundle.nextCursor
-
+	existing.Status = "in-progress"
+	existing.Makeup = true
+	existing.SessionId = schoolDayId .. "|" .. periodId .. "|" .. existing.ClassId .. "|makeup"
+	existing.CurrentQuestionIndex = math.max(
+		1,
+		math.min(
+			tonumber(existing.QuestionCount) or #snapshots,
+			tonumber(existing.CurrentQuestionIndex) or ((tonumber(existing.CompletedQuestionCount) or 0) + 1)
+		)
+	)
 	return {
 		ok = true,
-		reusedPinnedBundle = false,
-		session = publicPeriod(period),
+		reusedPinnedBundle = true,
+		session = publicPeriod(existing),
 	}
+end
+
+function ClassSessionService.FinalizePeriod(profileData, schoolDayId: string, periodId: string)
+	local school = ensureSchool(profileData)
+	if school.CurrentDay.DayId ~= schoolDayId then
+		return false
+	end
+	local period = school.CurrentDay.Periods[periodId]
+	if type(period) ~= "table" or period.Status ~= "in-progress" then
+		return false
+	end
+	period.Status = "incomplete"
+	period.Grade = gradeForScore(math.max(0, tonumber(period.Score) or 0))
+	period.CompletedAtUnix = os.time()
+	return true
+end
+
+function ClassSessionService.ResolvePeriodForSession(profileData, schoolDayId: string, sessionId: string)
+	local school = ensureSchool(profileData)
+	if school.CurrentDay.DayId ~= schoolDayId then
+		return nil
+	end
+	for periodId, period in school.CurrentDay.Periods do
+		if type(period) == "table" and period.SessionId == sessionId then
+			return periodId, period
+		end
+	end
+	return nil
 end
 
 function ClassSessionService.SubmitAnswer(
@@ -408,8 +564,11 @@ function ClassSessionService.SubmitAnswer(
 		period.Status = "completed"
 		period.Grade = gradeForScore(period.Score)
 		period.CompletedAtUnix = os.time()
-		school.Statistics.ClassesCompleted += 1
-		incrementClassStats(school, period.ClassId, period.Grade)
+		if period.CompletionCounted ~= true then
+			period.CompletionCounted = true
+			school.Statistics.ClassesCompleted += 1
+			incrementClassStats(school, period.ClassId, period.Grade)
+		end
 	else
 		period.CurrentQuestionIndex += 1
 	end
