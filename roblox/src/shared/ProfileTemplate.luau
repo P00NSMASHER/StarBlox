@@ -39,6 +39,7 @@ local ProfileTemplate = {
 		QuestionBankSnapshotId = "",
 		AdaptiveByStation = {},
 		SkillStats = {},
+		Experiments = {},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
@@ -59,7 +60,7 @@ local ProfileTemplate = {
 		},
 		RecentDays = {},
 		QuestionCursorByClass = {},
-		LastQuestionBankSnapshotId = "",
+		QuestionBankSnapshotId = "",
 		Statistics = {
 			DaysAttended = 0,
 			ClassesCompleted = 0,
