@@ -11,10 +11,6 @@ local settingsRemotes = ReplicatedStorage:WaitForChild("StarBloxSettings")
 local getSettings = settingsRemotes:WaitForChild("GetState") :: RemoteFunction
 local setSetting = settingsRemotes:WaitForChild("SetSetting") :: RemoteFunction
 
-local movementRemotes = ReplicatedStorage:WaitForChild("StarBloxMovement")
-local toggleRun = movementRemotes:WaitForChild("ToggleRun") :: RemoteFunction
-local getMovementState = movementRemotes:WaitForChild("GetState") :: RemoteFunction
-
 local UI = {
 	white = Color3.fromRGB(239, 239, 239),
 	tile = Color3.fromRGB(215, 215, 215),
@@ -130,26 +126,7 @@ layout.Padding = UDim.new(0, 6)
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = list
 
-local sprintButton = Instance.new("TextButton")
-sprintButton.Name = "SprintButton"
-sprintButton.AnchorPoint = Vector2.new(1, 1)
-sprintButton.Position = UDim2.new(1, -270, 1, -58)
-sprintButton.Size = UDim2.fromOffset(54, 54)
-sprintButton.BackgroundColor3 = Color3.fromRGB(225, 225, 225)
-sprintButton.BackgroundTransparency = 0.22
-sprintButton.Text = "🏃"
-sprintButton.TextColor3 = UI.text
-sprintButton.Font = Enum.Font.GothamBold
-sprintButton.TextScaled = true
-sprintButton.Visible = false
-sprintButton.ZIndex = 124
-sprintButton.Parent = gui
-round(sprintButton, 27)
-stroke(sprintButton, 0.2)
-constrain(sprintButton, 24, 31)
-
 local settings = nil
-local running = false
 local hiddenGuiStates: {[ScreenGui]: boolean} = {}
 local applyingHide = false
 local busy = false
@@ -219,15 +196,6 @@ local function fetchSettings(): boolean
 	return false
 end
 
-local function fetchMovement()
-	local ok, result = pcall(function()
-		return getMovementState:InvokeServer()
-	end)
-	if ok and type(result) == "table" and result.ok == true then
-		running = result.running == true
-	end
-end
-
 local function setKnownGuiHidden(hidden: boolean)
 	if applyingHide then
 		return
@@ -260,12 +228,16 @@ local function applyVisualSettings()
 	end
 	local hideUi = settings.HideUI == true
 	setKnownGuiHidden(hideUi)
-	sprintButton.Visible =
-		UserInputService.TouchEnabled
-		and settings.SprintButton == true
-		and not hideUi
-	sprintButton.BackgroundColor3 =
-		if running then UI.green else Color3.fromRGB(225, 225, 225)
+
+	local runGui = playerGui:FindFirstChild("BrookhavenRunControlUI")
+	if runGui and runGui:IsA("ScreenGui") and not hideUi then
+		runGui.Enabled = true
+		local root = runGui:FindFirstChild("Root")
+		local runButton = root and root:FindFirstChild("Run")
+		if runButton and runButton:IsA("GuiObject") then
+			runButton.Visible = UserInputService.TouchEnabled and settings.SprintButton == true
+		end
+	end
 end
 
 local render
@@ -373,7 +345,6 @@ gear.Activated:Connect(function()
 	if settings == nil then
 		fetchSettings()
 	end
-	fetchMovement()
 	applyVisualSettings()
 	render()
 	panel.Visible = not panel.Visible
@@ -381,26 +352,6 @@ end)
 
 close.Activated:Connect(function()
 	panel.Visible = false
-end)
-
-sprintButton.Activated:Connect(function()
-	if busy then
-		return
-	end
-	busy = true
-	local ok, result = pcall(function()
-		return toggleRun:InvokeServer()
-	end)
-	busy = false
-	if ok and type(result) == "table" and result.ok == true then
-		running = result.running == true
-		applyVisualSettings()
-	end
-end)
-
-player:GetAttributeChangedSignal("StarBloxRunning"):Connect(function()
-	running = player:GetAttribute("StarBloxRunning") == true
-	applyVisualSettings()
 end)
 
 playerGui.ChildAdded:Connect(function(child)
@@ -416,7 +367,6 @@ end)
 
 task.spawn(function()
 	if fetchSettings() then
-		fetchMovement()
 		applyVisualSettings()
 	end
 end)
