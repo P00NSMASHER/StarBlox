@@ -1,0 +1,98 @@
+name: One-shot learning automation state
+
+on:
+  push:
+    branches:
+      - release/private-main-378b0229
+    paths:
+      - .github/workflows/one-shot-learning-automation-state.yml
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact automation main
+        uses: actions/checkout@v4
+        with:
+          ref: 378b02297f5b57fee1d2d1b1d5c5f2d88fb65c74
+          fetch-depth: 0
+
+      - name: Prove exact source commit
+        run: test "$(git rev-parse HEAD)" = "378b02297f5b57fee1d2d1b1d5c5f2d88fb65c74"
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify learning automation analyzers
+        run: |
+          npx vitest run \
+            src/robloxRuntime/pilotBaselineIntegrity.test.js \
+            src/robloxRuntime/pilotLearningSteps34.test.js \
+            src/robloxRuntime/learningAutomation47.test.js \
+            src/robloxRuntime/studyPilotMode.test.js
+
+      - name: Read live private pilot evidence
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          mkdir -p artifacts/learning-private artifacts/learning-summary
+          node scripts/fetch-live-pilot-metrics.mjs \
+            --out artifacts/learning-private/live.json
+          node scripts/build-pilot-baseline.mjs \
+            artifacts/learning-private/live.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --json artifacts/learning-private/baseline.json \
+            --markdown artifacts/learning-private/baseline.md
+          node scripts/calibrate-pilot-items.mjs \
+            artifacts/learning-private/baseline.json \
+            artifacts/learning-private/live.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --json artifacts/learning-private/calibration.json \
+            --markdown artifacts/learning-private/calibration.md
+
+      - name: Evaluate optional STAR checkpoint
+        env:
+          STARBLOX_STAR_CHECKPOINT_JSON: ${{ secrets.STARBLOX_STAR_CHECKPOINT_JSON }}
+        run: |
+          node scripts/evaluate-star-checkpoint.mjs \
+            artifacts/learning-private/baseline.json \
+            --json artifacts/learning-private/star-checkpoint.json
+
+      - name: Derive live Steps 4-7 state
+        run: |
+          node scripts/derive-learning-automation.mjs \
+            artifacts/learning-private/baseline.json \
+            artifacts/learning-private/calibration.json \
+            artifacts/learning-private/star-checkpoint.json \
+            --json artifacts/learning-summary/automation-state.json
+          cp artifacts/learning-private/star-checkpoint.json \
+            artifacts/learning-summary/star-checkpoint-summary.json
+          node --input-type=module - <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const state=JSON.parse(readFileSync('artifacts/learning-summary/automation-state.json','utf8'));
+          console.log('STARBLOX_AUTOMATION_STATE '+JSON.stringify(state));
+          NODE
+
+      - name: Remove detailed private evidence
+        if: ${{ always() }}
+        run: rm -rf artifacts/learning-private
+
+      - name: Upload sanitized automation state
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-live-learning-automation-state
+          path: artifacts/learning-summary
+          if-no-files-found: error
+          retention-days: 30
