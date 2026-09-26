@@ -482,12 +482,15 @@ plotModes.BackgroundTransparency = 1
 plotModes.ZIndex = 69
 plotModes.Parent = plotSelector
 
-for index, text in {"✓  ⌂", "⌂  ⌂", "⌂  ☀"} do
+for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
 	local mode = Instance.new("TextButton")
 	mode.Name = "Mode" .. tostring(index)
 	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
 	mode.Size = UDim2.fromOffset(164, 54)
-	mode.BackgroundColor3 = if index == 1 then Color3.fromRGB(191, 191, 191) else Color3.fromRGB(199, 184, 126)
+	mode.BackgroundColor3 =
+		if index == 1 then Color3.fromRGB(191, 191, 191)
+		elseif index == 2 then Color3.fromRGB(199, 184, 126)
+		else Color3.fromRGB(166, 184, 202)
 	mode.BackgroundTransparency = 0.1
 	mode.Text = text
 	mode.TextColor3 = UI.text
@@ -500,13 +503,28 @@ for index, text in {"✓  ⌂", "⌂  ⌂", "⌂  ☀"} do
 	round(mode, 5)
 	stroke(mode, UI.border, 1, 0.4)
 	constrain(mode, 18, 26)
+
+	if index == 1 then
+		local check = Instance.new("TextLabel")
+		check.Name = "SelectedCheck"
+		check.Position = UDim2.new(0.5, 5, 0.5, -16)
+		check.Size = UDim2.fromOffset(28, 28)
+		check.BackgroundTransparency = 1
+		check.Text = "✓"
+		check.TextColor3 = Color3.fromRGB(44, 210, 65)
+		check.Font = Enum.Font.GothamBold
+		check.TextScaled = true
+		check.ZIndex = 71
+		check.Parent = mode
+		constrain(check, 18, 24)
+	end
 end
 
 local plotCard = Instance.new("Frame")
 plotCard.Name = "PlotCard"
 plotCard.AnchorPoint = Vector2.new(0.5, 0)
 plotCard.Position = UDim2.new(0.5, 0, 0, 88)
-plotCard.Size = UDim2.fromOffset(220, 84)
+plotCard.Size = UDim2.fromOffset(220, 58)
 plotCard.BackgroundColor3 = UI.white
 plotCard.BackgroundTransparency = 0.2
 plotCard.ZIndex = 69
@@ -516,8 +534,8 @@ stroke(plotCard, UI.border, 1, 0.4)
 
 local plotTitle = Instance.new("TextLabel")
 plotTitle.Name = "PlotTitle"
-plotTitle.Position = UDim2.fromOffset(8, 8)
-plotTitle.Size = UDim2.new(1, -16, 0, 30)
+plotTitle.Position = UDim2.fromOffset(8, 4)
+plotTitle.Size = UDim2.new(1, -16, 0, 25)
 plotTitle.BackgroundTransparency = 1
 plotTitle.Text = "House #1"
 plotTitle.TextColor3 = UI.text
@@ -529,8 +547,8 @@ constrain(plotTitle, 14, 19)
 
 local plotStatus = Instance.new("TextLabel")
 plotStatus.Name = "PlotStatus"
-plotStatus.Position = UDim2.fromOffset(8, 43)
-plotStatus.Size = UDim2.new(1, -16, 0, 24)
+plotStatus.Position = UDim2.fromOffset(8, 30)
+plotStatus.Size = UDim2.new(1, -16, 0, 20)
 plotStatus.BackgroundTransparency = 1
 plotStatus.Text = "Vacant"
 plotStatus.TextColor3 = UI.text
@@ -566,8 +584,8 @@ local nextPlot = plotArrow("NextPlot", "→", 178)
 local plotGo = Instance.new("TextButton")
 plotGo.Name = "PlotGo"
 plotGo.AnchorPoint = Vector2.new(0.5, 0)
-plotGo.Position = UDim2.new(0.5, 0, 0, 174)
-plotGo.Size = UDim2.fromOffset(118, 32)
+plotGo.Position = UDim2.new(0.5, -92, 0, 101)
+plotGo.Size = UDim2.fromOffset(90, 40)
 plotGo.BackgroundTransparency = 1
 plotGo.Text = "GO"
 plotGo.TextColor3 = Color3.fromRGB(50, 214, 58)
