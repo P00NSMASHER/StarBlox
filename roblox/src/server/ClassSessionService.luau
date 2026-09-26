@@ -137,6 +137,17 @@ local function gradeForScore(score: number): string
 	return "Practice"
 end
 
+local function rubricScore(question, choice: any, correct: boolean): (number, number)
+	local rubric = if question ~= nil and type(question.Rubric) == "table" then question.Rubric else nil
+	local maxPoints = math.max(1, math.floor(tonumber(rubric and rubric.maxPoints) or 2))
+	if correct then
+		return maxPoints, maxPoints
+	end
+	local partial = if rubric ~= nil and type(rubric.partialCredit) == "table" then rubric.partialCredit else nil
+	local points = if partial ~= nil then tonumber(partial[tostring(choice)]) or 0 else 0
+	return math.clamp(math.floor(points), 0, maxPoints), maxPoints
+end
+
 local function publicQuestion(question)
 	if question == nil then
 		return nil
@@ -151,6 +162,12 @@ local function publicQuestion(question)
 		tier = question.Tier,
 		domain = question.Domain,
 		difficulty = question.Difficulty,
+		dok = question.DOK,
+		cognitiveDemand = question.CognitiveDemand,
+		standards = cloneArray(question.Standards),
+		responseType = question.ResponseType or "multiple-choice",
+		richContent = question.RichContent,
+		rubricMaxPoints = if type(question.Rubric) == "table" then tonumber(question.Rubric.maxPoints) or 2 else 2,
 	}
 end
 
@@ -242,6 +259,11 @@ local function pinBundle(bundle)
 			SourceFact = question.SourceFact,
 			Standards = question.Standards,
 			DOK = question.DOK,
+			CognitiveDemand = question.CognitiveDemand,
+			AlignmentEvidence = question.AlignmentEvidence,
+			Rubric = question.Rubric,
+			ResponseType = question.ResponseType,
+			RichContent = question.RichContent,
 			Hint = question.Hint,
 			Scaffold = question.Scaffold,
 			WrongFeedback = question.WrongFeedback,
@@ -530,6 +552,9 @@ function ClassSessionService.SubmitAnswer(
 
 	attempt.Count += 1
 	local correct = string.lower(request.choice) == string.lower(question.Answer)
+	local rubricPoints, rubricMaxPoints = rubricScore(question, request.choice, correct)
+	attempt.RubricPoints = math.max(tonumber(attempt.RubricPoints) or 0, rubricPoints)
+	attempt.RubricMaxPoints = rubricMaxPoints
 	if attempt.Count == 1 then
 		attempt.FirstTryCorrect = correct
 	end
@@ -548,6 +573,9 @@ function ClassSessionService.SubmitAnswer(
 			score = period.Score,
 			questionIndex = period.CurrentQuestionIndex,
 			questionCount = period.QuestionCount,
+			rubricScore = rubricPoints,
+			rubricMaxPoints = rubricMaxPoints,
+			partialCredit = rubricPoints > 0,
 		}
 	end
 
@@ -578,6 +606,9 @@ function ClassSessionService.SubmitAnswer(
 		correct = true,
 		retry = false,
 		points = attempt.Points,
+		rubricScore = rubricPoints,
+		rubricMaxPoints = rubricMaxPoints,
+		partialCredit = rubricPoints > 0 and not correct,
 		explanation = question.Explanation,
 		classComplete = classComplete,
 		score = period.Score,
