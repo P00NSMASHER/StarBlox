@@ -58,7 +58,8 @@ shopButton.TextColor3 = COLORS.text
 shopButton.Font = Enum.Font.GothamBold
 shopButton.TextScaled = true
 shopButton.Parent = gui
-shopButton.Selectable = true
+shopButton.Selectable = false
+shopButton.Visible = false
 round(shopButton, 10)
 constrainText(shopButton, 12, 15)
 
@@ -73,7 +74,8 @@ homeButton.TextColor3 = COLORS.text
 homeButton.Font = Enum.Font.GothamBold
 homeButton.TextScaled = true
 homeButton.Parent = gui
-homeButton.Selectable = true
+homeButton.Selectable = false
+homeButton.Visible = false
 round(homeButton, 10)
 constrainText(homeButton, 12, 15)
 
@@ -345,22 +347,36 @@ renderState = function()
 	end
 end
 
-shopButton.Activated:Connect(function()
-	if panel.Visible then
-		panel.Visible = false
-		return
-	end
+local openStore = Instance.new("BindableEvent")
+openStore.Name = "OpenStore"
+openStore.Parent = gui
+
+local toggleHome = Instance.new("BindableEvent")
+toggleHome.Name = "ToggleHome"
+toggleHome.Parent = gui
+
+local function openStorePanel()
 	if fetchState() then
 		renderState()
 		panel.Visible = true
 	end
+end
+
+shopButton.Activated:Connect(function()
+	if panel.Visible then
+		panel.Visible = false
+	else
+		openStorePanel()
+	end
 end)
+
+openStore.Event:Connect(openStorePanel)
 
 closeButton.Activated:Connect(function()
 	panel.Visible = false
 end)
 
-homeButton.Activated:Connect(function()
+local function toggleHomeLocation()
 	if busy then
 		return
 	end
@@ -377,7 +393,10 @@ homeButton.Activated:Connect(function()
 		homeButton.Text = if atHome then "World" else "Home"
 		panel.Visible = false
 	end
-end)
+end
+
+homeButton.Activated:Connect(toggleHomeLocation)
+toggleHome.Event:Connect(toggleHomeLocation)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
 	if panel.Visible and fetchState() then
