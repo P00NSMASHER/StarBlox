@@ -118,7 +118,7 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(sidebar).toContain('close.BackgroundColor3 = UI.red');
     expect(sidebar).toContain('Humanoid');
     expect(sidebar).toContain('PlayEmote');
-    expect(sidebar).toContain('Save Bio');
+    expect(sidebar).toContain('save.Text = "SAVE"');
     expect(shop).toContain('shopButton.Visible = false');
     expect(shop).toContain('homeButton.Visible = false');
     expect(shop).toContain('OpenStore');
