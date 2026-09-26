@@ -1,0 +1,192 @@
+name: StarBlox Final Mirror Private Publish
+
+on:
+  push:
+    branches:
+      - release/final-mirror-current-v1
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-final-mirror-private
+  cancel-in-progress: false
+
+jobs:
+  publish-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact current main candidate
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+
+      - name: Run full StarBlox test suite
+        run: |
+          npm test
+          npm run roblox:backbone:verify
+
+      - name: Prepare exact Step 6-gated candidate
+        run: |
+          node scripts/prepare-step9-release-candidate.mjs \
+            --source-commit "${{ github.sha }}" \
+            --out-dir artifacts/final-mirror
+          test -s artifacts/final-mirror/StarBlox-Step9-Step6-Gated.rbxlx
+          test -s artifacts/final-mirror/step6-release-gate.json
+          grep -q '"status": "private-release-gate-open"' artifacts/final-mirror/step6-release-gate.json
+          grep -q '"nativeArtifactWorldVerified": true' artifacts/final-mirror/step6-release-gate.json
+          grep -q '"nativeArtifactRuntimeVerified": true' artifacts/final-mirror/step6-release-gate.json
+          grep -q '"publicAccessChangeAllowed": false' artifacts/final-mirror/step6-release-gate.json
+          grep -q '"productionActivationAllowed": false' artifacts/final-mirror/step6-release-gate.json
+
+      - name: Publish exact gated artifact privately
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.sha }}
+          STARBLOX_RELEASE_GATE_RECEIPT: ${{ github.workspace }}/artifacts/final-mirror/step6-release-gate.json
+          STARBLOX_RELEASE_ARTIFACT: ${{ github.workspace }}/artifacts/final-mirror/StarBlox-Step9-Step6-Gated.rbxlx
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/final-mirror/private-publish-receipt.json
+        run: |
+          npm run roblox:publish-private
+          grep -q '"status": "published-awaiting-runtime-verification"' artifacts/final-mirror/private-publish-receipt.json
+          grep -q '"publicAccessChangeAttempted": false' artifacts/final-mirror/private-publish-receipt.json
+          grep -q '"productionActivationAllowed": false' artifacts/final-mirror/private-publish-receipt.json
+
+      - name: Verify exact published production server
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/final-mirror/private-publish-receipt.json
+        run: |
+          node scripts/verify-roblox-production-server-boot.mjs > artifacts/final-mirror/server-boot-proof.json
+          cat artifacts/final-mirror/server-boot-proof.json
+
+      - name: Verify authoritative question and coin loop on exact published version
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          node scripts/verify-roblox-core-loop.mjs > artifacts/final-mirror/core-loop-proof.json
+          cat artifacts/final-mirror/core-loop-proof.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+
+          const publish=JSON.parse(await readFile('artifacts/final-mirror/private-publish-receipt.json','utf8'));
+          const boot=JSON.parse(await readFile('artifacts/final-mirror/server-boot-proof.json','utf8'));
+          const core=JSON.parse(await readFile('artifacts/final-mirror/core-loop-proof.json','utf8'));
+          const gate=JSON.parse(await readFile('artifacts/final-mirror/step6-release-gate.json','utf8'));
+          const version=Number(publish.versions?.published);
+
+          if(boot.status!=='verified' || Number(boot.versionNumber)!==version){
+            throw new Error('exact published server boot not verified');
+          }
+          if(core.status!=='verified' || Number(core.versionNumber)!==version){
+            throw new Error('core-loop proof did not verify exact published version');
+          }
+
+          for(const key of [
+            'brookhavenWorldMounted',
+            'prototypeWorldAbsent',
+            'activityAnchorsCreated',
+            'worldSpawnBound',
+            'materialFirstQuestionBank',
+            'persistentPerStationRotation',
+            'correctAnswerCoinEconomy',
+            'homeEconomyCreated',
+            'shopRemotesCreated',
+            'brookhavenMirrorConfigLoaded',
+            'mirrorLifestyleCreated',
+            'mirrorRemotesCreated',
+            'vehicleRuntimeFolderCreated',
+            'roleplayServiceCreated',
+            'roleplayRemotesCreated',
+            'brookhavenHousePlotsBound'
+          ]){
+            if(boot.evidence?.[key]!==true) throw new Error('missing final mirror boot evidence: '+key);
+          }
+
+          for(const key of [
+            'materialFirstQuestionBank',
+            'persistentPerStationRotation',
+            'serverAuthoritativeAnswers',
+            'staleAnswerReplayBlocked',
+            'correctAnswerCoinReward',
+            'challengeCoinsDisabled',
+            'realWorldActivityAnchors',
+            'worldSpawnBound'
+          ]){
+            if(core.evidence?.[key]!==true) throw new Error('missing final mirror core-loop evidence: '+key);
+          }
+
+          if(publish.authority?.publicAccessChangeAttempted!==false ||
+             publish.authority?.productionActivationAllowed!==false){
+            throw new Error('private release authority boundary drift');
+          }
+
+          const receipt={
+            schemaVersion:1,
+            status:'final-mirror-private-verified',
+            sourceCommit:publish.sourceCommit,
+            releaseId:publish.releaseId,
+            placeVersion:version,
+            artifactSha256:gate.artifact.sha256,
+            baselineModelSha256:gate.step5.baselineModelSha256,
+            mountedSubtreeSha256:gate.step5.mountedSubtreeSha256,
+            exactFrozenBrookhavenWorld:true,
+            brookhavenStyleRuntimeSystems:true,
+            currentMaterialFirst:true,
+            starFallbackAfterMaterial:true,
+            dailyAbvmSyncIncluded:true,
+            questionOnlyCoinEconomy:true,
+            homesVehiclesItemsRoleplay:true,
+            publicAccessChangeAllowed:false,
+            productionActivationAllowed:false
+          };
+          await writeFile(
+            'artifacts/final-mirror/final-mirror-verification.json',
+            JSON.stringify(receipt,null,2)+'\n'
+          );
+          console.log('STARBLOX_FINAL_MIRROR_PRIVATE_OK version='+version);
+          NODE
+
+      - name: Upload final private mirror evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-final-mirror-private-evidence
+          path: |
+            artifacts/final-mirror/step9-release-candidate.json
+            artifacts/final-mirror/step6-release-gate.json
+            artifacts/final-mirror/private-publish-receipt.json
+            artifacts/final-mirror/server-boot-proof.json
+            artifacts/final-mirror/core-loop-proof.json
+            artifacts/final-mirror/final-mirror-verification.json
+          if-no-files-found: ignore
+          retention-days: 30
