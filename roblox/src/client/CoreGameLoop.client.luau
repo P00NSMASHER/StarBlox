@@ -620,11 +620,13 @@ end
 
 local function setLearningOverlayVisible(visible: boolean)
 	player:SetAttribute("StarBloxLearningOverlayVisible", visible)
-	hud.Visible = visible
-	nextHint.Visible = visible
+	-- Brookhaven remains the visual shell even during school interactions.
+	-- The question card is the only deliberate StarBlox overlay.
+	hud.Visible = false
+	nextHint.Visible = false
+	waypoint.Enabled = false
+	waypoint.Adornee = nil
 	if not visible then
-		waypoint.Enabled = false
-		waypoint.Adornee = nil
 		onboarding.Visible = false
 	end
 end
