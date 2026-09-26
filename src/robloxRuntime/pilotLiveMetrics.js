@@ -30,7 +30,12 @@ local pilotItems = {}
 if type(metrics) == "table" and type(metrics.items) == "table" then
     for questionId, row in metrics.items do
         if type(questionId) == "string" and type(row) == "table"
-            and ((tonumber(row.pilotAttempts) or 0) > 0 or (tonumber(row.firstPilotAttempts) or 0) > 0)
+            and (
+                (tonumber(row.pilotAttempts) or 0) > 0
+                or (tonumber(row.firstPilotAttempts) or 0) > 0
+                or (tonumber(row.baselinePilotAttempts) or 0) > 0
+                or (tonumber(row.baselineFirstAttempts) or 0) > 0
+            )
         then
             pilotItems[questionId] = {
                 pilotAttempts = tonumber(row.pilotAttempts) or 0,
@@ -44,6 +49,17 @@ if type(metrics) == "table" and type(metrics.items) == "table" then
                 firstPilotBucketCounts = row.firstPilotBucketCounts or {},
                 pilotResponseTimeBands = row.pilotResponseTimeBands or {},
                 pilotMisconceptionCounts = row.pilotMisconceptionCounts or {},
+                baselinePilotAttempts = tonumber(row.baselinePilotAttempts) or 0,
+                baselinePilotCorrect = tonumber(row.baselinePilotCorrect) or 0,
+                baselinePilotWrong = tonumber(row.baselinePilotWrong) or 0,
+                baselineFirstAttempts = tonumber(row.baselineFirstAttempts) or 0,
+                baselineFirstCorrect = tonumber(row.baselineFirstCorrect) or 0,
+                baselineRubricPoints = tonumber(row.baselineRubricPoints) or 0,
+                baselineRubricMaxPoints = tonumber(row.baselineRubricMaxPoints) or 0,
+                baselineBucketCounts = row.baselineBucketCounts or {},
+                baselineFirstBucketCounts = row.baselineFirstBucketCounts or {},
+                baselineResponseTimeBands = row.baselineResponseTimeBands or {},
+                baselineMisconceptionCounts = row.baselineMisconceptionCounts or {},
                 sumPilotSessionAccuracy = tonumber(row.sumPilotSessionAccuracy) or 0,
                 sumPilotSessionAccuracySquared = tonumber(row.sumPilotSessionAccuracySquared) or 0,
                 sumPilotItemSessionProduct = tonumber(row.sumPilotItemSessionProduct) or 0,
@@ -65,9 +81,21 @@ local payload = {
     retention = {
         placeVersion = if type(retention) == "table" then retention.placeVersion else nil,
         sessions = if type(retention) == "table" then retention.sessions else 0,
-        pilotSessionsStarted = if type(retention) == "table" then retention.pilotSessionsStarted else 0,
-        pilotSessionsCompleted = if type(retention) == "table" then retention.pilotSessionsCompleted else 0,
-        updatedAt = if type(retention) == "table" then retention.updatedAt else nil,
+        pilotSessionsStarted = if type(metrics) == "table"
+            then metrics.pilotSessionsStarted
+            elseif type(retention) == "table" then retention.pilotSessionsStarted else 0,
+        pilotSessionsCompleted = if type(metrics) == "table"
+            then metrics.pilotSessionsCompleted
+            elseif type(retention) == "table" then retention.pilotSessionsCompleted else 0,
+        baselinePilotSessionsStarted = if type(metrics) == "table"
+            then metrics.baselinePilotSessionsStarted
+            elseif type(retention) == "table" then retention.baselinePilotSessionsStarted else 0,
+        baselinePilotSessionsCompleted = if type(metrics) == "table"
+            then metrics.baselinePilotSessionsCompleted
+            elseif type(retention) == "table" then retention.baselinePilotSessionsCompleted else 0,
+        updatedAt = if type(metrics) == "table"
+            then metrics.updatedAt
+            elseif type(retention) == "table" then retention.updatedAt else nil,
     },
     metricsError = metricsError,
     retentionError = retentionError,

@@ -225,7 +225,8 @@ local function recordLearningAttempt(
 	question,
 	correct: boolean,
 	rubricPoints: number?,
-	rubricMaxPoints: number?
+	rubricMaxPoints: number?,
+	updateAdaptive: boolean?
 )
 	if question == nil then
 		return nil, nil
@@ -263,27 +264,35 @@ local function recordLearningAttempt(
 		stats.Partial += 1
 	end
 
-	local adaptive = ensureAdaptiveState(profileData, question.StationId)
+	local adaptive = nil
+	local mutateAdaptive = updateAdaptive ~= false
+	if mutateAdaptive then
+		adaptive = ensureAdaptiveState(profileData, question.StationId)
+	end
 	if correct then
 		stats.Correct += 1
 		stats.ConsecutiveCorrect += 1
 		stats.ConsecutiveWrong = 0
-		adaptive.CorrectStreak += 1
-		adaptive.WrongStreak = 0
-		profileData.Learning.WrongStreak = 0
-		if adaptive.CorrectStreak >= Config.AdaptiveQuestioning.PromoteAfterCorrect then
-			adaptive.Difficulty = math.min(Config.AdaptiveQuestioning.MaxDifficulty, adaptive.Difficulty + 1)
-			adaptive.CorrectStreak = 0
+		if adaptive ~= nil then
+			adaptive.CorrectStreak += 1
+			adaptive.WrongStreak = 0
+			profileData.Learning.WrongStreak = 0
+			if adaptive.CorrectStreak >= Config.AdaptiveQuestioning.PromoteAfterCorrect then
+				adaptive.Difficulty = math.min(Config.AdaptiveQuestioning.MaxDifficulty, adaptive.Difficulty + 1)
+				adaptive.CorrectStreak = 0
+			end
 		end
 	else
 		stats.Wrong += 1
 		stats.ConsecutiveWrong += 1
 		stats.ConsecutiveCorrect = 0
-		adaptive.WrongStreak += 1
-		adaptive.CorrectStreak = 0
-		profileData.Learning.WrongStreak += 1
-		if adaptive.WrongStreak >= Config.AdaptiveQuestioning.ScaffoldAfterWrong then
-			adaptive.Difficulty = Config.AdaptiveQuestioning.MinDifficulty
+		if adaptive ~= nil then
+			adaptive.WrongStreak += 1
+			adaptive.CorrectStreak = 0
+			profileData.Learning.WrongStreak += 1
+			if adaptive.WrongStreak >= Config.AdaptiveQuestioning.ScaffoldAfterWrong then
+				adaptive.Difficulty = Config.AdaptiveQuestioning.MinDifficulty
+			end
 		end
 	end
 	return adaptive, stats
@@ -803,12 +812,16 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 	local response = nil
 	local found = self._profiles:WithProfile(player, function(data)
 		local pilotState = ensurePilotState(data)
+		local baselinePhase =
+			Config.PilotMode.FreezeAdaptiveDifficultyDuringBaseline == true
+			and pilotState.SessionsCompleted < Config.PilotMode.BaselineMinCompletedSessions
 		pilotState.SessionsStarted += 1
+		local pilotSessionNumber = pilotState.SessionsStarted
 		local queue = PilotQuestionMixer.Build(
 			data,
 			CoreQuestionBank,
 			Config.PilotMode,
-			pilotState.SessionsStarted
+			pilotSessionNumber
 		)
 		local first = queue[1]
 		local question = if first ~= nil then CoreQuestionBank.GetById(first.QuestionId) else nil
@@ -825,6 +838,8 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			questionPresentedAt = os.clock(),
 			experimentId = public.experimentId,
 			variantId = public.variantId,
+			baselinePhase = baselinePhase,
+			pilotSessionNumber = pilotSessionNumber,
 		}
 		self._replicas:Sync(player, data)
 		response = {
@@ -832,6 +847,8 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			activity = public,
 			pilotIndex = 1,
 			pilotTotal = #queue,
+			baselinePhase = baselinePhase,
+			pilotSessionNumber = pilotSessionNumber,
 		}
 	end)
 
@@ -842,6 +859,8 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 		self._telemetry:RecordServerEvent(player, "pilot_started", {
 			questionId = response.activity.questionId,
 			activityId = response.activity.id,
+			baseline = response.baselinePhase == true,
+			pilotSessionNumber = response.pilotSessionNumber,
 		})
 	end
 	return response
@@ -885,8 +904,15 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 	local nextActivity = nil
 	local completed = false
 	local found = self._profiles:WithProfile(player, function(data)
-		recordLearningAttempt(data, question, correct, rubricPoints, rubricMaxPoints)
 		local pilotState = ensurePilotState(data)
+		recordLearningAttempt(
+			data,
+			question,
+			correct,
+			rubricPoints,
+			rubricMaxPoints,
+			not (session.baselinePhase == true)
+		)
 		if correct then
 			pilotState.QuestionsCompleted += 1
 			local nextIndex = session.index + 1
@@ -940,6 +966,8 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 			experimentId = attemptExperimentId,
 			variantId = attemptVariantId,
 			pilot = true,
+			baseline = session.baselinePhase == true,
+			pilotSessionNumber = session.pilotSessionNumber,
 			pilotBucket = entry.Bucket,
 		})
 	end
@@ -969,6 +997,8 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 			self._telemetry:RecordServerEvent(player, "pilot_completed", {
 				activityId = activity.Id,
 				questionId = question.Id,
+				baseline = session.baselinePhase == true,
+				pilotSessionNumber = session.pilotSessionNumber,
 			})
 		end
 		return {
