@@ -7,6 +7,13 @@ on:
     - cron: '47 15 * * *'
       timezone: 'America/New_York'
   workflow_dispatch:
+  push:
+    branches:
+      - questions/daily-abvm-star-sync-economy
+    paths:
+      - scripts/sync-question-bank-from-abvm.mjs
+      - .github/workflows/sync-abvm-questions.yml
+
 permissions:
   contents: write
 
@@ -46,7 +53,7 @@ jobs:
         if: steps.abvm_scan.outcome == 'success'
         run: node .abvm/scripts/check-refresh-health.mjs --require-today --max-age-hours 1
 
-      - name: Restore the last certified ABVM pack when the live page is incomplete
+      - name: Restore the last certified ABVM pack when a live page is incomplete
         if: steps.abvm_scan.outcome != 'success'
         shell: bash
         run: |
@@ -67,13 +74,24 @@ jobs:
           console.log('legacy ABVM fallback integrity passed:',pack.sourceHash);
           NODE
 
-      - name: Rebuild material and STAR questions from the verified pack
-        run: node scripts/sync-question-bank-from-abvm.mjs --pack .abvm/pages/data/study-pack.json
+      - name: Record the exact ABVM scanner revision
+        id: scanner
+        shell: bash
+        run: echo "sha=$(git -C .abvm rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Rebuild school-material and STAR questions as one snapshot
+        run: |
+          node scripts/sync-question-bank-from-abvm.mjs \
+            --pack .abvm/pages/data/study-pack.json \
+            --pack-out docs/phase6/ABVM_CURRENT_STUDY_PACK.json \
+            --source-out docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --lua-out roblox/src/server/CoreQuestionBank.luau \
+            --scanner-commit "${{ steps.scanner.outputs.sha }}"
 
       - name: Install StarBlox QA dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Validate regenerated question bank
+      - name: Validate regenerated question bank and economy
         run: |
           npx vitest run \
             src/robloxRuntime/phase6QuestionBank.test.js \
@@ -82,7 +100,7 @@ jobs:
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js
 
-      - name: Commit only when the verified curriculum snapshot changed
+      - name: Commit only when the certified snapshot changed
         shell: bash
         run: |
           set -euo pipefail
@@ -91,11 +109,11 @@ jobs:
             docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
             roblox/src/server/CoreQuestionBank.luau
           if git diff --cached --quiet; then
-            echo "No verified curriculum change; keeping the current StarBlox bank."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git diff --cached --check
-            git commit -m "Refresh StarBlox questions from verified ABVM material"
-            git push
+            echo "No certified curriculum change; keeping the current StarBlox bank."
+            exit 0
           fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --cached --check
+          git commit -m "Refresh StarBlox questions from verified ABVM material"
+          git push
