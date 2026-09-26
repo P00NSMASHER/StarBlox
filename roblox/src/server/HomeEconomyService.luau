@@ -1,6 +1,7 @@
 --!strict
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
 
 local StoreCatalog = require(ReplicatedStorage.StarBlox.StoreCatalog)
@@ -14,6 +15,7 @@ local HOME_FOLDER_NAME = "StarBloxPlayerHomes"
 local PLACEMENT_VERSION = 1
 local PLACEMENT_STEP = 1
 local ROTATION_STEP = 15
+local HOUSE_SWAP_COOLDOWN_SECONDS = 600
 
 local ITEM_BY_ID = {}
 local ITEM_INDEX_BY_ID = {}
@@ -188,6 +190,17 @@ local function renderHouseShell(
 		wallColor
 	)
 
+	local doorHeight = math.min(7.2, math.max(6.2, height - 0.6))
+	local frontDoor = part(
+		parent,
+		"FrontDoor",
+		Vector3.new(math.max(2.8, doorWidth - 0.35), doorHeight, 0.35),
+		base * CFrame.new(0, doorHeight / 2, (depth / 2) + 0.55),
+		trimColor
+	)
+	frontDoor:SetAttribute("RuntimeOwned", true)
+	frontDoor:SetAttribute("BaselineMutationAllowed", false)
+
 	local roofHeight = height
 	if kind == "townhouse" or kind == "mansion" then
 		roofHeight = height + 3.2
@@ -289,7 +302,7 @@ local function renderHouseShell(
 		)
 	end
 
-	return width, depth, height
+	return width, depth, height, frontDoor
 end
 
 local function finiteNumber(value: any): number?
@@ -499,18 +512,26 @@ local function renderOwnedItem(parent: Instance, item, base: CFrame, placement)
 	end
 end
 
-function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
+function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyService)
 	assert(profiles ~= nil, "profiles dependency is required")
 	assert(replicas ~= nil, "replicas dependency is required")
+	assert(familyService ~= nil, "familyService dependency is required")
 
 	local self = setmetatable({}, HomeEconomyService)
 	self._profiles = profiles
 	self._replicas = replicas
+	self._family = familyService
 	self._spawnCFrame = spawnCFrame
 	self._slots = {}
 	self._usedPlots = {}
+	self._lastHouseSwapAt = {}
+	self._doorLocked = {}
+	self._doorStates = {}
 	self._lastPurchaseAt = {}
 	self._lastPlacementAt = {}
+	self._lastHouseSwapAt = {}
+	self._doorLocked = {}
+	self._doorStates = {}
 
 	local worldRoot = Workspace:FindFirstChild(WorldPlotBindings.WorldRootName)
 	assert(
@@ -565,6 +586,10 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	selectHomeStyle.Name = "SelectHomeStyle"
 	selectHomeStyle.Parent = remoteRoot
 
+	local setDoorsLocked = Instance.new("RemoteFunction")
+	setDoorsLocked.Name = "SetDoorsLocked"
+	setDoorsLocked.Parent = remoteRoot
+
 	local setPlacement = Instance.new("RemoteFunction")
 	setPlacement.Name = "SetPlacement"
 	setPlacement.Parent = remoteRoot
@@ -607,6 +632,9 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	end
 	selectHomeStyle.OnServerInvoke = function(player: Player, styleId: any)
 		return self:_selectHomeStyle(player, styleId)
+	end
+	setDoorsLocked.OnServerInvoke = function(player: Player, locked: any)
+		return self:_setDoorsLocked(player, locked)
 	end
 	setPlacement.OnServerInvoke = function(player: Player, itemId: any, payload: any)
 		return self:_setPlacement(player, itemId, payload)
@@ -691,7 +719,143 @@ function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
 	return base, binding
 end
 
+
+function HomeEconomyService:_houseSwapRemaining(player: Player): number
+	local previous = self._lastHouseSwapAt[player]
+	if previous == nil then
+		return 0
+	end
+	return math.max(0, HOUSE_SWAP_COOLDOWN_SECONDS - (os.clock() - previous))
+end
+
+function HomeEconomyService:_markHouseSwap(player: Player)
+	self._lastHouseSwapAt[player] = os.clock()
+end
+
+function HomeEconomyService:_canUseHomeDoor(owner: Player, visitor: Player): boolean
+	if self._doorLocked[owner] ~= true then
+		return true
+	end
+	return self._family:CanAccessHome(owner, visitor)
+end
+
+function HomeEconomyService:_bindHomeDoor(owner: Player, door: BasePart)
+	local previous = self._doorStates[owner]
+	if previous ~= nil then
+		if previous.connection ~= nil then
+			previous.connection:Disconnect()
+		end
+		if previous.tween ~= nil then
+			pcall(function()
+				previous.tween:Cancel()
+			end)
+		end
+		self._doorStates[owner] = nil
+	end
+
+	local detector = Instance.new("ClickDetector")
+	detector.Name = "StarBloxHomeDoorClick"
+	detector.MaxActivationDistance = 12
+	detector.Parent = door
+
+	local state = {
+		door = door,
+		closedCFrame = door.CFrame,
+		closedCanCollide = door.CanCollide,
+		detector = detector,
+		connection = nil,
+		tween = nil,
+		active = false,
+		token = 0,
+	}
+	self._doorStates[owner] = state
+
+	door:SetAttribute("OwnerUserId", owner.UserId)
+	door:SetAttribute("DoorsLocked", self._doorLocked[owner] == true)
+	door:SetAttribute("DoorState", "closed")
+
+	state.connection = detector.MouseClick:Connect(function(visitor)
+		if state.active or door.Parent == nil then
+			return
+		end
+		if not self:_canUseHomeDoor(owner, visitor) then
+			return
+		end
+
+		local character = visitor.Character
+		local root = character and character:FindFirstChild("HumanoidRootPart")
+		if root == nil or not root:IsA("BasePart") then
+			return
+		end
+
+		state.active = true
+		state.token += 1
+		local token = state.token
+		detector.MaxActivationDistance = 0
+
+		local localPosition = state.closedCFrame:PointToObjectSpace(root.Position)
+		local direction = if localPosition.Z >= 0 then -1 else 1
+		local hinge = state.closedCFrame * CFrame.new(-(door.Size.X / 2), 0, 0)
+		local relative = hinge:ToObjectSpace(state.closedCFrame)
+		local openCFrame = hinge * CFrame.Angles(0, math.rad(88 * direction), 0) * relative
+
+		door.CanCollide = false
+		door:SetAttribute("DoorState", "opening")
+		local opening = TweenService:Create(
+			door,
+			TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			{CFrame = openCFrame}
+		)
+		state.tween = opening
+		opening:Play()
+		opening.Completed:Once(function()
+			if state.token == token and door.Parent ~= nil then
+				door:SetAttribute("DoorState", "open")
+			end
+		end)
+
+		task.delay(1.35, function()
+			if state.token ~= token or door.Parent == nil then
+				return
+			end
+			door:SetAttribute("DoorState", "closing")
+			local closing = TweenService:Create(
+				door,
+				TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+				{CFrame = state.closedCFrame}
+			)
+			state.tween = closing
+			closing:Play()
+			closing.Completed:Once(function()
+				if state.token ~= token or door.Parent == nil then
+					return
+				end
+				door.CFrame = state.closedCFrame
+				door.CanCollide = state.closedCanCollide
+				door:SetAttribute("DoorState", "closed")
+				detector.MaxActivationDistance = 12
+				state.tween = nil
+				state.active = false
+			end)
+		end)
+	end)
+end
+
 function HomeEconomyService:_destroyHome(player: Player)
+	local doorState = self._doorStates[player]
+	if doorState ~= nil then
+		doorState.token += 1
+		if doorState.connection ~= nil then
+			doorState.connection:Disconnect()
+		end
+		if doorState.tween ~= nil then
+			pcall(function()
+				doorState.tween:Cancel()
+			end)
+		end
+		self._doorStates[player] = nil
+	end
+
 	local slot = self._slots[player]
 	if slot == nil then
 		return
@@ -726,7 +890,10 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	model:SetAttribute("BaselineMutationAllowed", false)
 	model.Parent = self._homeFolder
 
-	local width, depth, height = renderHouseShell(model, base, tier, style)
+	local width, depth, height, frontDoor = renderHouseShell(model, base, tier, style)
+	model:SetAttribute("OwnerUserId", player.UserId)
+	model:SetAttribute("DoorsLocked", self._doorLocked[player] == true)
+	self:_bindHomeDoor(player, frontDoor)
 
 	local itemRoot = Instance.new("Folder")
 	itemRoot.Name = "OwnedItems"
@@ -797,6 +964,15 @@ function HomeEconomyService:_selectPlot(player: Player, plotId: any)
 		local home = ensureHome(data)
 		local oldSlot = self._slots[player]
 		if oldSlot ~= nil and oldSlot ~= targetIndex then
+			local remaining = self:_houseSwapRemaining(player)
+			if remaining > 0 then
+				outcome = {
+					ok = false,
+					code = "house_swap_cooldown",
+					remainingSeconds = math.ceil(remaining),
+				}
+				return
+			end
 			self:_destroyHome(player)
 			if self._usedPlots[oldSlot] == player then
 				self._usedPlots[oldSlot] = nil
@@ -805,6 +981,10 @@ function HomeEconomyService:_selectPlot(player: Player, plotId: any)
 		self._slots[player] = targetIndex
 		self._usedPlots[targetIndex] = player
 		home.PlotId = WorldPlotBindings.Plots[targetIndex].Id
+		if oldSlot ~= nil and oldSlot ~= targetIndex then
+			self._doorLocked[player] = false
+			self:_markHouseSwap(player)
+		end
 		player:SetAttribute("StarBloxHomePlotId", home.PlotId)
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
@@ -834,6 +1014,9 @@ function HomeEconomyService:_state(player: Player)
 			placementVersion = PLACEMENT_VERSION,
 			placementStep = PLACEMENT_STEP,
 			rotationStep = ROTATION_STEP,
+			doorsLocked = self._doorLocked[player] == true,
+			houseSwapCooldownSeconds = HOUSE_SWAP_COOLDOWN_SECONDS,
+			houseSwapCooldownRemaining = math.ceil(self:_houseSwapRemaining(player)),
 			ownedItems = table.clone(owned),
 			placements = publicPlacements(home),
 			items = StoreCatalog.Items,
@@ -841,6 +1024,26 @@ function HomeEconomyService:_state(player: Player)
 		}
 	end)
 	return result or {ok = false, code = "profile_unavailable"}
+end
+
+
+function HomeEconomyService:_setDoorsLocked(player: Player, locked: any)
+	if type(locked) ~= "boolean" then
+		return {ok = false, code = "invalid_lock_state"}
+	end
+	self._doorLocked[player] = locked
+	local slot = self._slots[player]
+	if slot ~= nil then
+		local model = self._homeFolder:FindFirstChild("HomeSlot_" .. tostring(slot))
+		if model and model:IsA("Model") then
+			model:SetAttribute("DoorsLocked", locked)
+			local door = model:FindFirstChild("FrontDoor", true)
+			if door and door:IsA("BasePart") then
+				door:SetAttribute("DoorsLocked", locked)
+			end
+		end
+	end
+	return {ok = true, doorsLocked = locked}
 end
 
 function HomeEconomyService:_purchaseAllowed(player: Player): boolean
@@ -959,6 +1162,17 @@ function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
 	local outcome = nil
 	self._profiles:WithProfile(player, function(data)
 		local home = ensureHome(data)
+		if home.SelectedStyle ~= styleId then
+			local remaining = self:_houseSwapRemaining(player)
+			if remaining > 0 then
+				outcome = {
+					ok = false,
+					code = "house_swap_cooldown",
+					remainingSeconds = math.ceil(remaining),
+				}
+				return
+			end
+		end
 		if home.Tier < style.RequiredTier then
 			outcome = {
 				ok = false,
@@ -969,7 +1183,11 @@ function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
 			return
 		end
 		if home.OwnedStyles[styleId] == true then
-			home.SelectedStyle = styleId
+			if home.SelectedStyle ~= styleId then
+				home.SelectedStyle = styleId
+				self._doorLocked[player] = false
+				self:_markHouseSwap(player)
+			end
 			self._replicas:Sync(player, data)
 			self:_rebuildHome(player, data)
 			outcome = {
@@ -993,6 +1211,8 @@ function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
 		data.Economy.Coins -= style.Price
 		home.OwnedStyles[styleId] = true
 		home.SelectedStyle = styleId
+		self._doorLocked[player] = false
+		self:_markHouseSwap(player)
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
 		player:SetAttribute("StarBloxCoins", data.Economy.Coins)
@@ -1034,8 +1254,20 @@ function HomeEconomyService:_selectHomeStyle(player: Player, styleId: any)
 			}
 			return
 		end
-
-		home.SelectedStyle = styleId
+		if home.SelectedStyle ~= styleId then
+			local remaining = self:_houseSwapRemaining(player)
+			if remaining > 0 then
+				outcome = {
+					ok = false,
+					code = "house_swap_cooldown",
+					remainingSeconds = math.ceil(remaining),
+				}
+				return
+			end
+			home.SelectedStyle = styleId
+			self._doorLocked[player] = false
+			self:_markHouseSwap(player)
+		end
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
 		player:SetAttribute("StarBloxHomeStyle", styleId)
@@ -1195,6 +1427,7 @@ function HomeEconomyService:_returnWorld(player: Player)
 end
 
 function HomeEconomyService:PlayerReady(player: Player, profileData)
+	self._doorLocked[player] = false
 	local owned = ensureInventory(profileData)
 	local home = ensureHome(profileData)
 	ensurePlacementDefaults(home, owned)
@@ -1212,6 +1445,9 @@ function HomeEconomyService:PlayerRemoving(player: Player)
 	self._slots[player] = nil
 	self._lastPurchaseAt[player] = nil
 	self._lastPlacementAt[player] = nil
+	self._lastHouseSwapAt[player] = nil
+	self._doorLocked[player] = nil
+	self._doorStates[player] = nil
 end
 
 function HomeEconomyService:Destroy()
