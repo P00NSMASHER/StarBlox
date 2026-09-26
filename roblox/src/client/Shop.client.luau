@@ -11,6 +11,7 @@ local purchaseItem = remotes:WaitForChild("PurchaseItem") :: RemoteFunction
 local purchaseHome = remotes:WaitForChild("PurchaseHomeTier") :: RemoteFunction
 local purchaseHomeStyle = remotes:WaitForChild("PurchaseHomeStyle") :: RemoteFunction
 local selectHomeStyle = remotes:WaitForChild("SelectHomeStyle") :: RemoteFunction
+local setDoorsLocked = remotes:WaitForChild("SetDoorsLocked") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
@@ -356,6 +357,9 @@ local function purchaseStyle(styleId: string)
 		elseif result.code=="home_tier_required" then
 			balance.Text="upgrade your home tier first"
 			balance.TextColor3=UI.red
+		elseif result.code=="house_swap_cooldown" then
+			fetchState()
+			render()
 		end
 	end
 end
@@ -365,6 +369,25 @@ local function selectStyle(styleId: string)
 	busy=true
 	local ok,result=pcall(function()
 		return selectHomeStyle:InvokeServer(styleId)
+	end)
+	busy=false
+	if ok and type(result)=="table" then
+		if result.ok==true then
+			fetchState()
+			render()
+		elseif result.code=="house_swap_cooldown" then
+			fetchState()
+			render()
+		end
+	end
+end
+
+local function toggleDoors()
+	if busy or type(state)~="table" then return end
+	busy=true
+	local nextLocked = state.doorsLocked ~= true
+	local ok,result=pcall(function()
+		return setDoorsLocked:InvokeServer(nextLocked)
 	end)
 	busy=false
 	if ok and type(result)=="table" and result.ok==true then
@@ -378,6 +401,35 @@ render=function()
 	clear()
 	balance.TextColor3=UI.muted
 	local order=1
+
+	local locked = state.doorsLocked == true
+	tile(
+		locked and "L" or "U",
+		"Lock Doors",
+		locked and "locked • family access" or "unlocked",
+		locked and "✓" or "",
+		locked and UI.green or UI.blue,
+		order,
+		toggleDoors
+	)
+	order+=1
+
+	local cooldown = math.max(0, math.floor(tonumber(state.houseSwapCooldownRemaining) or 0))
+	if cooldown > 0 then
+		local minutes = math.floor(cooldown / 60)
+		local seconds = cooldown % 60
+		tile(
+			"⌛",
+			"House Cooldown",
+			string.format("%d:%02d", minutes, seconds),
+			"",
+			UI.red,
+			order,
+			nil
+		)
+		order+=1
+	end
+
 	for _,home in state.homes or {} do
 		local tier=tonumber(home.Tier) or 1
 		local current=tonumber(state.homeTier) or 1
@@ -413,19 +465,19 @@ render=function()
 			badge="✓"
 			color=UI.green
 		elseif owned and tierReady then
-			detail="owned"
-			badge="⌂"
-			color=UI.green
-			callback=function() selectStyle(id) end
+			detail= cooldown > 0 and "cooldown" or "owned"
+			badge= cooldown > 0 and "⌛" or "⌂"
+			color= cooldown > 0 and UI.red or UI.green
+			callback= cooldown > 0 and nil or function() selectStyle(id) end
 		elseif not tierReady then
 			detail="tier "..tostring(requiredTier)
 			badge="×"
 			color=UI.red
 		else
-			detail=tostring(style.Price).."¢"
-			badge="$"
-			color=UI.blue
-			callback=function() purchaseStyle(id) end
+			detail= cooldown > 0 and "cooldown" or (tostring(style.Price).."¢")
+			badge= cooldown > 0 and "⌛" or "$"
+			color= cooldown > 0 and UI.red or UI.blue
+			callback= cooldown > 0 and nil or function() purchaseStyle(id) end
 		end
 
 		tile(
