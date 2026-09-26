@@ -79,4 +79,19 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(config).toContain('{Id = "quick-chat", Label = "Quick Chat", Order = 1}');
     expect(config).toContain('{Id = "houses", Label = "House", Order = 5}');
   });
+  it('uses the Brookhaven vacant-lot selector before the house catalog',()=>{
+    const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+
+    expect(sidebar).toContain('plotSelector.Name = "HousePlotSelector"');
+    expect(sidebar).toContain('previousPlot = plotArrow("PreviousPlot", "←", -178)');
+    expect(sidebar).toContain('nextPlot = plotArrow("NextPlot", "→", 178)');
+    expect(sidebar).toContain('plotGo.Name = "PlotGo"');
+    expect(sidebar).toContain('plotStatus.Text = "Vacant"');
+    expect(sidebar).toContain('selectPlot:InvokeServer(selected.Id)');
+    expect(service).toContain('getPlots.Name = "GetPlots"');
+    expect(service).toContain('selectPlot.Name = "SelectPlot"');
+    expect(service).toContain('code = "plot_occupied"');
+  });
+
 });
