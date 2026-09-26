@@ -1,4 +1,5 @@
 name: One-shot compile schoolwork photo pipeline
+# retry after package fix
 
 on:
   push:
