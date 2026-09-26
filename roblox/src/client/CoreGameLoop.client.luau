@@ -21,15 +21,15 @@ local function sendPlaytestTelemetry(eventName: string, payload: any?)
 end
 
 local COLORS = {
-	navy = Color3.fromRGB(30, 36, 56),
-	panel = Color3.fromRGB(42, 49, 74),
-	panelSoft = Color3.fromRGB(55, 64, 94),
-	text = Color3.fromRGB(248, 250, 255),
-	muted = Color3.fromRGB(194, 202, 225),
-	accent = Color3.fromRGB(109, 104, 255),
-	success = Color3.fromRGB(66, 204, 156),
-	warning = Color3.fromRGB(255, 184, 77),
-	danger = Color3.fromRGB(255, 104, 116),
+	navy = Color3.fromRGB(245, 245, 245),
+	panel = Color3.fromRGB(245, 245, 245),
+	panelSoft = Color3.fromRGB(222, 222, 222),
+	text = Color3.fromRGB(42, 42, 42),
+	muted = Color3.fromRGB(90, 90, 90),
+	accent = Color3.fromRGB(80, 154, 221),
+	success = Color3.fromRGB(68, 173, 92),
+	warning = Color3.fromRGB(205, 137, 35),
+	danger = Color3.fromRGB(210, 49, 49),
 }
 
 local function round(guiObject: GuiObject, radius: number)
@@ -40,9 +40,9 @@ end
 
 local function outline(guiObject: GuiObject, transparency: number?)
 	local stroke = Instance.new("UIStroke")
-	stroke.Thickness = 2
-	stroke.Transparency = transparency or 0.35
-	stroke.Color = Color3.fromRGB(255, 255, 255)
+	stroke.Thickness = 1
+	stroke.Transparency = transparency or 0.15
+	stroke.Color = Color3.fromRGB(115, 115, 115)
 	stroke.Parent = guiObject
 end
 
@@ -66,53 +66,53 @@ gui.Parent = playerGui
 local hud = Instance.new("Frame")
 hud.Name = "HUD"
 hud.AnchorPoint = Vector2.new(1, 0)
-hud.Size = UDim2.fromOffset(286, 58)
-hud.Position = UDim2.new(1, -12, 0, 12)
+hud.Size = UDim2.fromOffset(205, 46)
+hud.Position = UDim2.new(1, -72, 0, 8)
 hud.BackgroundColor3 = COLORS.navy
-hud.BackgroundTransparency = 0.16
+hud.BackgroundTransparency = 0.05
 hud.Parent = gui
-round(hud, 14)
-outline(hud, 0.68)
+round(hud, 5)
+outline(hud, 0.15)
 
 local hudSize = Instance.new("UISizeConstraint")
-hudSize.MinSize = Vector2.new(260, 58)
-hudSize.MaxSize = Vector2.new(300, 58)
+hudSize.MinSize = Vector2.new(190, 46)
+hudSize.MaxSize = Vector2.new(220, 46)
 hudSize.Parent = hud
 
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(12, 6)
-title.Size = UDim2.fromOffset(72, 22)
+title.Position = UDim2.fromOffset(8, 4)
+title.Size = UDim2.fromOffset(92, 20)
 title.Font = Enum.Font.GothamBold
-title.Text = "StarBlox"
+title.Text = "--:--"
 title.TextColor3 = COLORS.text
 title.TextScaled = true
-title.TextXAlignment = Enum.TextXAlignment.Left
+title.TextXAlignment = Enum.TextXAlignment.Center
 title.Parent = hud
 constrainText(title, 13, 17)
 
 local economy = Instance.new("TextLabel")
 economy.Name = "Economy"
 economy.BackgroundTransparency = 1
-economy.Position = UDim2.fromOffset(78, 6)
-economy.Size = UDim2.new(1, -90, 0, 22)
-economy.Font = Enum.Font.GothamMedium
+economy.Position = UDim2.fromOffset(105, 4)
+economy.Size = UDim2.new(1, -112, 0, 20)
+economy.Font = Enum.Font.GothamBold
 economy.TextColor3 = COLORS.text
 economy.TextScaled = true
-economy.TextXAlignment = Enum.TextXAlignment.Right
+economy.TextXAlignment = Enum.TextXAlignment.Center
 economy.Parent = hud
 constrainText(economy, 12, 15)
 
 local progress = Instance.new("TextLabel")
 progress.Name = "Progress"
 progress.BackgroundTransparency = 1
-progress.Position = UDim2.fromOffset(12, 31)
-progress.Size = UDim2.new(1, -24, 0, 19)
+progress.Position = UDim2.fromOffset(8, 25)
+progress.Size = UDim2.new(1, -16, 0, 15)
 progress.Font = Enum.Font.GothamMedium
 progress.TextColor3 = COLORS.muted
 progress.TextScaled = true
-progress.TextXAlignment = Enum.TextXAlignment.Left
+progress.TextXAlignment = Enum.TextXAlignment.Center
 progress.Parent = hud
 constrainText(progress, 11, 14)
 
@@ -121,23 +121,23 @@ nextHint.Name = "NextHint"
 nextHint.AnchorPoint = Vector2.new(1, 0)
 nextHint.BackgroundColor3 = COLORS.navy
 nextHint.BackgroundTransparency = 0.16
-nextHint.Position = UDim2.new(1, -12, 0, 76)
-nextHint.Size = UDim2.fromOffset(220, 28)
+nextHint.Position = UDim2.new(0.5, 76, 0, 8)
+nextHint.Size = UDim2.fromOffset(150, 30)
 nextHint.Font = Enum.Font.GothamBold
 nextHint.TextColor3 = COLORS.warning
 nextHint.TextScaled = true
 nextHint.TextXAlignment = Enum.TextXAlignment.Center
 nextHint.Text = "Loading your next station…"
 nextHint.Parent = gui
-round(nextHint, 12)
-outline(nextHint, 0.72)
+round(nextHint, 5)
+outline(nextHint, 0.15)
 constrainText(nextHint, 10, 13)
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
 toast.AnchorPoint = Vector2.new(0.5, 0)
-toast.Position = UDim2.new(0.5, 0, 0, 120)
-toast.Size = UDim2.new(0.9, 0, 0, 50)
+toast.Position = UDim2.new(0.5, 0, 0, 58)
+toast.Size = UDim2.new(0.76, 0, 0, 42)
 toast.BackgroundColor3 = COLORS.panel
 toast.BackgroundTransparency = 1
 toast.TextTransparency = 1
@@ -148,13 +148,13 @@ toast.Font = Enum.Font.GothamBold
 toast.Visible = false
 toast.ZIndex = 40
 toast.Parent = gui
-round(toast, 14)
-outline(toast, 0.55)
+round(toast, 5)
+outline(toast, 0.15)
 constrainText(toast, 13, 18)
 
 local toastSize = Instance.new("UISizeConstraint")
-toastSize.MaxSize = Vector2.new(560, 50)
-toastSize.MinSize = Vector2.new(280, 50)
+toastSize.MaxSize = Vector2.new(500, 42)
+toastSize.MinSize = Vector2.new(260, 42)
 toastSize.Parent = toast
 
 local panel = Instance.new("Frame")
@@ -163,12 +163,12 @@ panel.AnchorPoint = Vector2.new(0.5, 0.5)
 panel.Position = UDim2.fromScale(0.5, 0.54)
 panel.Size = UDim2.new(0.84, 0, 0, 322)
 panel.BackgroundColor3 = COLORS.panel
-panel.BackgroundTransparency = 0.04
+panel.BackgroundTransparency = 0.03
 panel.Visible = false
 panel.ZIndex = 30
 panel.Parent = gui
-round(panel, 18)
-outline(panel, 0.25)
+round(panel, 5)
+outline(panel, 0.1)
 
 local panelScale = Instance.new("UIScale")
 panelScale.Scale = 1
@@ -184,15 +184,15 @@ closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1, 0)
 closeButton.Position = UDim2.new(1, -10, 0, 10)
 closeButton.Size = UDim2.fromOffset(44, 44)
-closeButton.BackgroundColor3 = COLORS.panelSoft
+closeButton.BackgroundColor3 = COLORS.danger
 closeButton.Text = "×"
-closeButton.TextColor3 = COLORS.text
+closeButton.TextColor3 = Color3.new(1, 1, 1)
 closeButton.TextScaled = true
 closeButton.Font = Enum.Font.GothamBold
 closeButton.AutoButtonColor = true
 closeButton.ZIndex = 32
 closeButton.Parent = panel
-round(closeButton, 12)
+round(closeButton, 4)
 constrainText(closeButton, 20, 26)
 
 local activityTitle = Instance.new("TextLabel")
@@ -251,8 +251,8 @@ for index = 1, 3 do
 	button.Selectable = true
 	button.ZIndex = 31
 	button.Parent = panel
-	round(button, 12)
-	outline(button, 0.65)
+	round(button, 4)
+	outline(button, 0.15)
 	constrainText(button, 13, 18)
 	buttons[index] = button
 end
@@ -267,8 +267,8 @@ onboarding.BackgroundTransparency = 0.03
 onboarding.Visible = false
 onboarding.ZIndex = 50
 onboarding.Parent = gui
-round(onboarding, 18)
-outline(onboarding, 0.22)
+round(onboarding, 5)
+outline(onboarding, 0.1)
 
 local onboardingConstraint = Instance.new("UISizeConstraint")
 onboardingConstraint.MaxSize = Vector2.new(440, 216)
@@ -328,7 +328,7 @@ onboardingButton.AutoButtonColor = true
 onboardingButton.Selectable = true
 onboardingButton.ZIndex = 51
 onboardingButton.Parent = onboarding
-round(onboardingButton, 12)
+round(onboardingButton, 4)
 constrainText(onboardingButton, 14, 18)
 
 local waypoint = Instance.new("BillboardGui")
@@ -344,13 +344,13 @@ local waypointLabel = Instance.new("TextLabel")
 waypointLabel.Name = "Label"
 waypointLabel.Size = UDim2.fromScale(1, 1)
 waypointLabel.BackgroundColor3 = COLORS.navy
-waypointLabel.BackgroundTransparency = 0.38
+waypointLabel.BackgroundTransparency = 0.08
 waypointLabel.TextColor3 = COLORS.text
 waypointLabel.TextScaled = true
 waypointLabel.Font = Enum.Font.GothamBold
 waypointLabel.Parent = waypoint
-round(waypointLabel, 8)
-outline(waypointLabel, 0.86)
+round(waypointLabel, 4)
+outline(waypointLabel, 0.35)
 constrainText(waypointLabel, 9, 11)
 
 local anchorFolder = workspace:WaitForChild("StarBloxActivityAnchors", 10)
@@ -457,16 +457,21 @@ local function shakePanel()
 	end)
 end
 
+local function updateClock()
+	local now = DateTime.now()
+	local okTime, localTime = pcall(function()
+		return now:FormatLocalTime("h:mm A", "en-us")
+	end)
+	local okDay, localDay = pcall(function()
+		return now:FormatLocalTime("dddd", "en-us")
+	end)
+	title.Text = if okTime then localTime else "StarBlox"
+	progress.Text = if okDay then localDay else ""
+end
+
 local function updateHud()
-	economy.Text = string.format(
-		"Coins %d   •   Stars %d",
-		readNumber("StarBloxCoins"),
-		readNumber("StarBloxStars")
-	)
-	local loops = readNumber("StarBloxLoopRuns")
-	local runNumber = math.max(1, readNumber("StarBloxRunNumber"))
-	local trail = player:GetAttribute("StarBloxSparkTrailUnlocked") == true and " • Spark Trail ✓" or ""
-	progress.Text = string.format("Run %d • %d loops%s", runNumber, loops, trail)
+	economy.Text = string.format("%d Coins", readNumber("StarBloxCoins"))
+	updateClock()
 end
 
 for _, attribute in {
@@ -480,6 +485,12 @@ for _, attribute in {
 	player:GetAttributeChangedSignal(attribute):Connect(updateHud)
 end
 updateHud()
+task.spawn(function()
+	while gui.Parent ~= nil do
+		task.wait(30)
+		updateClock()
+	end
+end)
 
 local function applyStatus(status)
 	if type(status) ~= "table" or status.ok ~= true then
@@ -490,19 +501,7 @@ local function applyStatus(status)
 	local activityCount = tonumber(status.activityCount) or 3
 	updateWaypoint(status.recommendedActivityId, status.recommendedStationName)
 
-	if type(status.challenge) == "table" then
-		local challengeCompleted = tonumber(status.challenge.completed) or progressCount
-		local challengeGoal = tonumber(status.challenge.goal) or activityCount
-		local tier = tostring(status.challenge.tier or "Rookie")
-		progress.Text = string.format("Challenge %d/%d • %s", challengeCompleted, challengeGoal, tier)
-	else
-		progress.Text = string.format(
-			"Run %d • %d/%d",
-			tonumber(status.runNumber) or 1,
-			progressCount,
-			activityCount
-		)
-	end
+	updateClock()
 
 	if type(status.recommendedStationName) == "string" then
 		nextHint.Text = "→ " .. status.recommendedStationName
