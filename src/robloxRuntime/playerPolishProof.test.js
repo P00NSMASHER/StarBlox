@@ -85,16 +85,21 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     );
 
     expect(client).toContain('DeviceSafeInsets');
-    expect(client).toContain('hud.Size = UDim2.fromOffset(314, 64)');
-    expect(client).toContain('nextHint.Size = UDim2.fromOffset(260, 30)');
+    expect(client).toContain('hud.AnchorPoint = Vector2.new(1, 0)');
+    expect(client).toContain('hud.Position = UDim2.new(1, -12, 0, 12)');
+    expect(client).toContain('nextHint.AnchorPoint = Vector2.new(1, 0)');
+    expect(client).toContain('nextHint.Position = UDim2.new(1, -12, 0, 76)');
+    expect(client).toContain('hud.Size = UDim2.fromOffset(286, 58)');
+    expect(client).toContain('nextHint.Size = UDim2.fromOffset(220, 28)');
     expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 322)');
     expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 322)');
     expect(client).toContain('button.Size = UDim2.new(1, -32, 0, 44)');
     expect(client).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
     expect(client).toContain('onboarding.Size = UDim2.new(0.78, 0, 0, 216)');
     expect(client).toContain('onboardingButton.Size = UDim2.new(1, -36, 0, 44)');
-    expect(client).toContain('waypoint.Size = UDim2.fromOffset(124, 30)');
-    expect(client).toContain('waypoint.MaxDistance = 350');
+    expect(client).toContain('waypoint.Size = UDim2.fromOffset(96, 24)');
+    expect(client).toContain('waypoint.MaxDistance = 220');
+    expect(client).toContain('waypoint.AlwaysOnTop = false');
     expect(client).toContain('waypoint.Adornee = candidate');
     expect(client).toContain('Selectable = true');
 

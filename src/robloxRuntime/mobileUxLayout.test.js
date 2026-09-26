@@ -8,11 +8,11 @@ const client=readFileSync(
 
 describe('Phase 3: phone-first StarBlox UX',()=>{
   it('keeps primary overlays within the verified 750x402 touch viewport budget',()=>{
-    const hudHeight=Number(client.match(/hud\.Size = UDim2\.fromOffset\(314, (\d+)\)/)?.[1]);
+    const hudHeight=Number(client.match(/hud\.Size = UDim2\.fromOffset\(286, (\d+)\)/)?.[1]);
     const panelHeight=Number(client.match(/panel\.Size = UDim2\.new\(0\.84, 0, 0, (\d+)\)/)?.[1]);
     const onboardingHeight=Number(client.match(/onboarding\.Size = UDim2\.new\(0\.78, 0, 0, (\d+)\)/)?.[1]);
 
-    expect(hudHeight).toBe(64);
+    expect(hudHeight).toBe(58);
     expect(panelHeight).toBe(322);
     expect(onboardingHeight).toBe(216);
     expect(panelHeight).toBeLessThan(402);
@@ -20,6 +20,10 @@ describe('Phase 3: phone-first StarBlox UX',()=>{
   });
 
   it('keeps touch targets at least 44px and removes verbose always-visible HUD content',()=>{
+    expect(client).toContain('hud.AnchorPoint = Vector2.new(1, 0)');
+    expect(client).toContain('hud.Position = UDim2.new(1, -12, 0, 12)');
+    expect(client).toContain('nextHint.AnchorPoint = Vector2.new(1, 0)');
+    expect(client).toContain('nextHint.Position = UDim2.new(1, -12, 0, 76)');
     expect(client).toContain('button.Size = UDim2.new(1, -32, 0, 44)');
     expect(client).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
     expect(client).toContain('onboardingButton.Size = UDim2.new(1, -36, 0, 44)');
@@ -30,7 +34,9 @@ describe('Phase 3: phone-first StarBlox UX',()=>{
 
   it('uses only one small client waypoint instead of restoring world-sized signs',()=>{
     expect(client).toContain('waypoint.Name = "NextActivityWaypoint"');
-    expect(client).toContain('waypoint.Size = UDim2.fromOffset(124, 30)');
+    expect(client).toContain('waypoint.Size = UDim2.fromOffset(96, 24)');
+    expect(client).toContain('waypoint.AlwaysOnTop = false');
+    expect(client).toContain('waypoint.MaxDistance = 220');
     expect(client).toContain('waypoint.Enabled = false');
     expect(client).toContain('waypoint.Adornee = candidate');
     expect(client).not.toContain('GuideBillboard');
