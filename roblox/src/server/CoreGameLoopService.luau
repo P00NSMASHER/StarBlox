@@ -111,7 +111,21 @@ local function buildWorldBindings()
 		WorldBindings.Spawn.SourcePartName,
 		"player spawn"
 	)
+	local fountainSource = resolveWorldPart(
+		worldRoot,
+		WorldBindings.Spawn.FacingSourcePartName,
+		"player spawn facing"
+	)
 	local spawnCFrame = worldTopCFrame(spawnSource, WorldBindings.Spawn.HeightOffset)
+	local spawnPosition = spawnCFrame.Position
+	local fountainLookAt = Vector3.new(
+		fountainSource.Position.X,
+		spawnPosition.Y,
+		fountainSource.Position.Z
+	)
+	if (fountainLookAt - spawnPosition).Magnitude > 0.001 then
+		spawnCFrame = CFrame.lookAt(spawnPosition, fountainLookAt)
+	end
 
 	return runtimeFolder, prompts, spawnCFrame
 end
