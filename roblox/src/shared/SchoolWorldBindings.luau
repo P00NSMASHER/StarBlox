@@ -1,14 +1,17 @@
 --!strict
 
 local SchoolWorldBindings = table.freeze({
-	SchemaVersion = 1,
-	WorldRootName = "BrookhavenWorldBaseline",
+	SchemaVersion = 2,
+	Revision = "brookhaven-runtime-projection-v1",
+	WorldRootName = "BrookhavenWorldRuntime",
+	ImmutableWitnessName = "BrookhavenWorldBaseline",
+	RuntimeProjectionRequired = true,
 	RuntimeAnchorFolderName = "StarBloxSchoolAnchors",
 	BaselineMutationAllowed = false,
 
 	-- Transform-only bindings into one coherent verified Brookhaven building
-	-- cluster. Runtime gameplay objects are always parented outside the locked
-	-- BrookhavenWorldBaseline.
+	-- cluster. Geometry is read from the mutable runtime projection while all
+	-- school gameplay objects remain outside both Brookhaven world trees.
 	Entrance = table.freeze({SourcePartName = "BHW_4876", HeightOffset = 3, Label = "School Entrance"}),
 	Cafeteria = table.freeze({SourcePartName = "BHW_3405", HeightOffset = 3, Label = "Cafeteria"}),
 	Library = table.freeze({SourcePartName = "BHW_4820", HeightOffset = 3, Label = "Library / Make-Up"}),
