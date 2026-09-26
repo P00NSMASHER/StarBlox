@@ -69,8 +69,8 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('Phase 7 material-first marker missing');
     expect(script).toContain('Phase 7 correct-answer coin reward mismatch');
     expect(script).toContain('Phase 7 config revision missing');
-    expect(script).toContain('Phase 7 question bank certification missing');
-    expect(script).toContain('Phase 7 station question count mismatch');
+    expect(script).toContain('Phase 8 question bank certification missing');
+    expect(script).toContain('Phase 8 station question count mismatch');
     expect(script).toContain('retention aggregate store missing after bootstrap');
     expect(script).toContain('verified Brookhaven world mount missing');
     expect(script).toContain('Brookhaven serialized class count mismatch');
