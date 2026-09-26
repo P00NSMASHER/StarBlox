@@ -77,6 +77,7 @@ local ProfileTemplate = {
 			DisplayName = "",
 			Age = "",
 			Job = "Citizen",
+			AvatarOutfits = {},
 		},
 		Home = {
 			PlotId = "",
