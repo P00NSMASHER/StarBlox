@@ -631,9 +631,19 @@ local function setLearningOverlayVisible(visible: boolean)
 	end
 end
 
+local function resetQuestionPresentation()
+	clearRichVisual()
+	panel.Size = UDim2.new(0.84, 0, 0, 322)
+	for index, button in buttons do
+		button.Position = UDim2.new(0, 16, 0, 130 + ((index - 1) * 52))
+	end
+	resultLabel.Position = UDim2.fromOffset(16, 286)
+end
+
 local function hidePanel()
 	currentActivity = nil
 	panel.Visible = false
+	resetQuestionPresentation()
 	setLearningOverlayVisible(false)
 end
 
@@ -932,6 +942,7 @@ activityOpened.OnClientEvent:Connect(function(payload)
 	else
 		setLearningOverlayVisible(true)
 		currentActivity = nil
+		resetQuestionPresentation()
 		showPanel()
 		activityTitle.Text = "StarBlox"
 		promptLabel.Text = payload.message or "Try again in a moment."
