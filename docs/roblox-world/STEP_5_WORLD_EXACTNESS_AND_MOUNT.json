@@ -4,8 +4,9 @@
   "status": "verified-exact-world-with-starblox-mounted-beside-it",
   "verifiedBy": {
     "workflow": "StarBlox CI",
-    "runId": 36189091022,
-    "verifiedHead": "3998f0888d50ee81f74fb0cb911ed59f4ef83c34"
+    "runId": null,
+    "verifiedHead": null,
+    "status": "pending-v2-runtime-projection-verification"
   },
   "exactnessLock": {
     "schemaVersion": 1,
@@ -35,7 +36,7 @@
       "runtimeMayParentGameplayIntoBaseline": false,
       "runtimeMayWriteBaselineProperties": false,
       "runtimeMayReplaceBaseline": false,
-      "mountMode": "workspace-sibling-read-only-world"
+      "mountMode": "serverstorage-immutable-witness-with-runtime-projection"
     },
     "boundaries": {
       "starBloxMounted": false,
@@ -43,11 +44,11 @@
       "publicationStarted": false,
       "liveActivationAllowed": false
     },
-    "nextSubstep": "mount-starblox-runtime-beside-locked-world"
+    "nextSubstep": "mount-immutable-witness-and-bootstrap-runtime-projection"
   },
   "mountReceipt": {
     "schemaVersion": 1,
-    "version": "starblox-world-mount-verification-v1",
+    "version": "starblox-world-mount-verification-v2",
     "status": "starblox-mounted-beside-locked-world",
     "baseline": {
       "modelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
@@ -55,7 +56,8 @@
       "isolatedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
       "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
       "subtreeInstanceCount": 5493,
-      "scriptsOrRemotesAdded": 0
+      "scriptsOrRemotesAdded": 0,
+      "witnessLocation": "ServerStorage/BrookhavenWorldBaseline"
     },
     "runtime": {
       "mounted": true,
@@ -65,7 +67,11 @@
         "ServerScriptService/StarBlox",
         "StarterPlayer/StarterPlayerScripts/StarBlox"
       ],
-      "parentedIntoBaseline": false
+      "parentedIntoBaseline": false,
+      "projectionName": "BrookhavenWorldRuntime",
+      "projectionLocation": "Workspace/BrookhavenWorldRuntime",
+      "projectionCreatedAtBoot": true,
+      "projectionPresentInStaticArtifact": false
     },
     "boundaries": {
       "worldBaselineMutated": false,
@@ -79,6 +85,9 @@
     "generatedWorldModelCommitted": false,
     "mountedPlaceCommitted": false,
     "ephemeralRojoProjectCommitted": false,
-    "baselineRemainsReproducibleFromFrozenSource": true
+    "baselineRemainsReproducibleFromFrozenSource": true,
+    "immutableWitnessLocation": "ServerStorage/BrookhavenWorldBaseline",
+    "runtimeProjectionLocation": "Workspace/BrookhavenWorldRuntime",
+    "runtimeProjectionCreatedAtBoot": true
   }
 }
