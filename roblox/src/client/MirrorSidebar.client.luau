@@ -826,10 +826,20 @@ local function renderPlotSelector()
 		plotGo.Text = "FULL"
 		plotGo.Active = false
 	else
-		plotStatus.Text = "Vacant"
-		plotStatus.TextColor3 = UI.text
-		plotGo.Text = "GO"
-		plotGo.Active = true
+		local cooldown = math.max(0, math.floor(tonumber(plotState.houseSwapCooldownRemaining) or 0))
+		if cooldown > 0 then
+			local minutes = math.floor(cooldown / 60)
+			local seconds = cooldown % 60
+			plotStatus.Text = string.format("Wait %d:%02d", minutes, seconds)
+			plotStatus.TextColor3 = UI.red
+			plotGo.Text = "WAIT"
+			plotGo.Active = false
+		else
+			plotStatus.Text = "Vacant"
+			plotStatus.TextColor3 = UI.text
+			plotGo.Text = "GO"
+			plotGo.Active = true
+		end
 	end
 end
 
