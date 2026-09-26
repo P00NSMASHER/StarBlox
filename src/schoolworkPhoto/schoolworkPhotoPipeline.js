@@ -95,7 +95,10 @@ const FAMILIES=Object.freeze({
     return [
       q(signal,'direct',{
         prompt:'What vowel sound do you hear in the middle of the word “'+row.word+'”?',
-        choices:rotateChoices([row.sound,'short e','short o'],hashInt(signal.id)),
+        choices:rotateChoices([
+          row.sound,
+          ...['short a','short e','short i','short o','short u'].filter(value=>value!==row.sound).slice(0,2)
+        ],hashInt(signal.id)),
         answer:row.sound,
         explanation:'Say the word slowly and listen to the middle vowel sound.'
       }),
