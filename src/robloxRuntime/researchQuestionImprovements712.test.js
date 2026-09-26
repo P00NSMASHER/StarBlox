@@ -71,7 +71,7 @@ describe('Research improvements 7-12: alignment, analytics, experiments, rich it
   it('collects anonymous item-quality aggregates and supports classical review',()=>{
     const telemetry=read('roblox/src/server/PrivatePlaytestTelemetryService.luau');
     const review=read('src/robloxRuntime/questionItemReview.js');
-    expect(telemetry).toContain('StarBloxQuestionItemMetrics_v1');
+    expect(telemetry).toContain('StarBloxQuestionItemMetrics_v2');
     expect(telemetry).toContain('question_attempt = true');
     expect(telemetry).toContain('storesUsername = false');
     expect(telemetry).toContain('storesUserId = false');
