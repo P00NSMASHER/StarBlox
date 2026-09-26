@@ -71,26 +71,26 @@ homeButton.Parent = gui
 
 local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
-panel.AnchorPoint = Vector2.new(1,0.5)
-panel.Position = UDim2.new(1,-70,0.5,4)
-panel.Size = UDim2.fromOffset(356, 326)
+panel.AnchorPoint = Vector2.new(1,0)
+panel.Position = UDim2.new(1,-83,0,105)
+panel.Size = UDim2.fromOffset(326,309)
 panel.BackgroundColor3 = UI.white
-panel.BackgroundTransparency = 0.06
+panel.BackgroundTransparency = 1
 panel.Visible = false
 panel.ZIndex = 60
 panel.Parent = gui
 round(panel,5)
-stroke(panel)
 
 local constraint = Instance.new("UISizeConstraint")
-constraint.MinSize = Vector2.new(330,300)
-constraint.MaxSize = Vector2.new(390,340)
+constraint.MinSize = Vector2.new(300,286)
+constraint.MaxSize = Vector2.new(340,322)
 constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
-title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(10,8)
-title.Size = UDim2.new(1,-170,0,28)
+title.BackgroundColor3 = UI.white
+title.BackgroundTransparency = 0.14
+title.Position = UDim2.fromOffset(0,2)
+title.Size = UDim2.fromOffset(198,42)
 title.Text = "Houses"
 title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamBold
@@ -102,13 +102,14 @@ constrain(title,14,18)
 
 local balance = Instance.new("TextLabel")
 balance.BackgroundTransparency = 1
-balance.Position = UDim2.fromOffset(10,36)
-balance.Size = UDim2.new(1,-20,0,20)
+balance.Position = UDim2.fromOffset(0,47)
+balance.Size = UDim2.fromOffset(198,20)
 balance.Text = "0 coins"
 balance.TextColor3 = UI.muted
 balance.Font = Enum.Font.GothamMedium
 balance.TextScaled = true
 balance.TextXAlignment = Enum.TextXAlignment.Left
+balance.Visible = false
 balance.ZIndex = 61
 balance.Parent = panel
 constrain(balance,10,13)
@@ -125,6 +126,7 @@ visit.Font = Enum.Font.GothamBold
 visit.TextScaled = true
 visit.ZIndex = 63
 visit.Parent = panel
+visit.Visible = false
 round(visit,4)
 stroke(visit)
 constrain(visit,20,28)
@@ -141,6 +143,7 @@ world.Font = Enum.Font.GothamBold
 world.TextScaled = true
 world.ZIndex = 63
 world.Parent = panel
+world.Visible = false
 round(world,4)
 stroke(world)
 constrain(world,20,28)
@@ -148,8 +151,8 @@ constrain(world,20,28)
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1,0)
-closeButton.Position = UDim2.new(1,-6,0,6)
-closeButton.Size = UDim2.fromOffset(50, 50)
+closeButton.Position = UDim2.new(1,0,0,0)
+closeButton.Size = UDim2.fromOffset(52,48)
 closeButton.BackgroundColor3 = UI.red
 closeButton.Text = "X"
 closeButton.TextColor3 = Color3.new(1,1,1)
@@ -163,8 +166,8 @@ constrain(closeButton,20,28)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Catalog"
-scroller.Position = UDim2.fromOffset(8,62)
-scroller.Size = UDim2.new(1,-16,1,-70)
+scroller.Position = UDim2.fromOffset(0,54)
+scroller.Size = UDim2.new(1,0,1,-58)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -175,8 +178,8 @@ scroller.ZIndex = 61
 scroller.Parent = panel
 
 local grid = Instance.new("UIGridLayout")
-grid.CellPadding = UDim2.fromOffset(5, 5)
-grid.CellSize = UDim2.fromOffset(78, 78)
+grid.CellPadding = UDim2.fromOffset(5,5)
+grid.CellSize = UDim2.fromOffset(76,64)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.Parent = scroller
 
@@ -217,8 +220,9 @@ local function tile(
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(78, 78)
+	frame.Size = UDim2.fromOffset(76,64)
 	frame.BackgroundColor3 = UI.tile
+	frame.BackgroundTransparency = 0.12
 	frame.ZIndex = 62
 	frame.Parent = scroller
 	round(frame,4)
@@ -227,7 +231,7 @@ local function tile(
 	local icon = Instance.new("TextLabel")
 	icon.BackgroundTransparency = 1
 	icon.Position = UDim2.fromOffset(3,2)
-	icon.Size = UDim2.new(1,-6,0,33)
+	icon.Size = UDim2.new(1,-6,0,30)
 	icon.Text = symbol
 	icon.TextColor3 = UI.text
 	icon.Font = Enum.Font.GothamBold
@@ -238,8 +242,8 @@ local function tile(
 
 	local label = Instance.new("TextLabel")
 	label.BackgroundTransparency = 1
-	label.Position = UDim2.fromOffset(4,35)
-	label.Size = UDim2.new(1,-8,0,19)
+	label.Position = UDim2.fromOffset(4,30)
+	label.Size = UDim2.new(1,-8,0,18)
 	label.Text = name
 	label.TextColor3 = UI.text
 	label.Font = Enum.Font.GothamBold
@@ -251,8 +255,8 @@ local function tile(
 
 	local d = Instance.new("TextLabel")
 	d.BackgroundTransparency = 1
-	d.Position = UDim2.fromOffset(3,55)
-	d.Size = UDim2.new(1,-6,0,18)
+	d.Position = UDim2.fromOffset(3,48)
+	d.Size = UDim2.new(1,-6,0,13)
 	d.Text = detail
 	d.TextColor3 = UI.muted
 	d.Font = Enum.Font.GothamMedium
