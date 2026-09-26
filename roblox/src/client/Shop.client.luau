@@ -12,6 +12,9 @@ local purchaseHome = remotes:WaitForChild("PurchaseHomeTier") :: RemoteFunction
 local purchaseHomeStyle = remotes:WaitForChild("PurchaseHomeStyle") :: RemoteFunction
 local selectHomeStyle = remotes:WaitForChild("SelectHomeStyle") :: RemoteFunction
 local setDoorsLocked = remotes:WaitForChild("SetDoorsLocked") :: RemoteFunction
+local getHouseAccessState = remotes:WaitForChild("GetHouseAccessState") :: RemoteFunction
+local setRoommate = remotes:WaitForChild("SetRoommate") :: RemoteFunction
+local setHouseBan = remotes:WaitForChild("SetHouseBan") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
@@ -185,6 +188,8 @@ grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.Parent = scroller
 
 local state = nil
+local houseAccessState = nil
+local accessMode = false
 local busy = false
 
 local editPlacement = Instance.new("BindableEvent")
@@ -306,6 +311,7 @@ local function fetchState(): boolean
 end
 
 local render
+local renderAccess
 
 local function purchaseItemById(itemId: string)
 	if busy then return end
@@ -396,9 +402,132 @@ local function toggleDoors()
 	end
 end
 
+local function fetchAccessState(): boolean
+	local ok,result=pcall(function()
+		return getHouseAccessState:InvokeServer()
+	end)
+	if ok and type(result)=="table" and result.ok==true then
+		houseAccessState=result
+		return true
+	end
+	return false
+end
+
+local function setRoommateById(userId: any)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return setRoommate:InvokeServer(userId)
+	end)
+	busy=false
+	if ok and type(result)=="table" and result.ok==true then
+		fetchAccessState()
+		renderAccess()
+	end
+end
+
+local function setBanById(userId: any, banned: boolean)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return setHouseBan:InvokeServer(userId,banned)
+	end)
+	busy=false
+	if ok and type(result)=="table" then
+		fetchAccessState()
+		renderAccess()
+	end
+end
+
+renderAccess=function()
+	if not fetchAccessState() then return end
+	accessMode=true
+	clear()
+	title.Text="House Access"
+	balance.Visible=false
+
+	local order=1
+	local locked=houseAccessState.doorsLocked==true
+	tile(
+		locked and "L" or "U",
+		"Lock Doors",
+		locked and "locked" or "unlocked",
+		locked and "✓" or "",
+		locked and UI.green or UI.blue,
+		order,
+		function()
+			if busy then return end
+			busy=true
+			local ok,result=pcall(function()
+				return setDoorsLocked:InvokeServer(not locked)
+			end)
+			busy=false
+			if ok and type(result)=="table" and result.ok==true then
+				fetchState()
+				renderAccess()
+			end
+		end
+	)
+	order+=1
+
+	if type(houseAccessState.roommate)=="table" then
+		local roommate=houseAccessState.roommate
+		tile(
+			"R",
+			tostring(roommate.DisplayName or roommate.Name or "Roommate"),
+			"roommate • tap to remove",
+			"✓",
+			UI.green,
+			order,
+			function() setRoommateById(0) end
+		)
+		order+=1
+	else
+		tile("R","Roommate","none selected","",UI.blue,order,nil)
+		order+=1
+	end
+
+	for _,candidate in houseAccessState.candidates or {} do
+		local userId=tonumber(candidate.UserId)
+		local display=tostring(candidate.DisplayName or candidate.Name or "Player")
+		if candidate.IsRoommate~=true and candidate.IsBanned~=true then
+			tile(
+				"R",
+				display,
+				"make roommate",
+				"",
+				UI.blue,
+				order,
+				function() setRoommateById(userId) end
+			)
+			order+=1
+		end
+		tile(
+			candidate.IsBanned==true and "✓" or "B",
+			display,
+			candidate.IsBanned==true and "banned • tap to unban" or "ban from house",
+			candidate.IsBanned==true and "B" or "",
+			candidate.IsBanned==true and UI.red or UI.blue,
+			order,
+			function() setBanById(userId,candidate.IsBanned~=true) end
+		)
+		order+=1
+	end
+
+	tile("←","Back","houses","",UI.blue,order,function()
+		accessMode=false
+		fetchState()
+		render()
+	end)
+end
+
+
 render=function()
 	if type(state)~="table" then return end
+	accessMode=false
 	clear()
+	title.Text="Houses"
+	balance.Visible=false
 	balance.TextColor3=UI.muted
 	local order=1
 
@@ -411,6 +540,17 @@ render=function()
 		locked and UI.green or UI.blue,
 		order,
 		toggleDoors
+	)
+	order+=1
+
+	tile(
+		"ID",
+		"House Access",
+		"roommate • ban",
+		"",
+		UI.blue,
+		order,
+		renderAccess
 	)
 	order+=1
 
@@ -524,6 +664,7 @@ toggleHome.Name="ToggleHome"
 toggleHome.Parent=gui
 
 local function openPanel()
+	accessMode=false
 	if fetchState() then
 		render()
 		panel.Visible=true
