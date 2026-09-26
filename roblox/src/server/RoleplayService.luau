@@ -28,6 +28,23 @@ local DESCRIPTION_COLOR_FIELDS = table.freeze({
 	"RightLegColor", "TorsoColor",
 })
 
+local REMOVABLE_AVATAR_NUMBER_FIELDS = table.freeze({
+	Shirt = "Shirt",
+	Pants = "Pants",
+	GraphicTShirt = "T-Shirt",
+	Face = "Face",
+})
+local REMOVABLE_AVATAR_STRING_FIELDS = table.freeze({
+	BackAccessory = "Back",
+	FaceAccessory = "Face Accessory",
+	FrontAccessory = "Front",
+	HairAccessory = "Hair",
+	HatAccessory = "Hat",
+	NeckAccessory = "Neck",
+	ShouldersAccessory = "Shoulders",
+	WaistAccessory = "Waist",
+})
+
 local AVATAR_PRESETS = table.freeze({
 	original = table.freeze({Label = "Original"}),
 	classic = table.freeze({Label = "Classic", BodyTypeScale = 0, ProportionScale = 0, HeightScale = 1, WidthScale = 1, DepthScale = 1, HeadScale = 1}),
@@ -234,6 +251,81 @@ local function applyDescription(player: Player, description: HumanoidDescription
 	return {ok = true}
 end
 
+
+local function splitAssetIds(value: string): {string}
+	local result = {}
+	for token in string.gmatch(value, "[^,%s]+") do
+		local numeric = tonumber(token)
+		if numeric ~= nil and numeric > 0 then
+			table.insert(result, tostring(math.floor(numeric)))
+		end
+	end
+	return result
+end
+
+local function avatarItemSummary(player: Player)
+	local humanoid = getHumanoid(player)
+	if humanoid == nil then
+		return {}
+	end
+	local ok, description = pcall(function()
+		return humanoid:GetAppliedDescription()
+	end)
+	if not ok or description == nil then
+		return {}
+	end
+
+	local items = {}
+	for field, label in REMOVABLE_AVATAR_NUMBER_FIELDS do
+		local propertyOk, value = pcall(function()
+			return (description :: any)[field]
+		end)
+		if propertyOk and type(value) == "number" and value > 0 then
+			table.insert(items, {
+				Key = field,
+				Label = label,
+				AssetId = tostring(math.floor(value)),
+			})
+		end
+	end
+	for field, label in REMOVABLE_AVATAR_STRING_FIELDS do
+		local propertyOk, value = pcall(function()
+			return (description :: any)[field]
+		end)
+		if propertyOk and type(value) == "string" and value ~= "" then
+			for _, assetId in splitAssetIds(value) do
+				table.insert(items, {
+					Key = field,
+					Label = label,
+					AssetId = assetId,
+				})
+			end
+		end
+	end
+	description:Destroy()
+
+	table.sort(items, function(a, b)
+		if a.Key ~= b.Key then
+			return a.Key < b.Key
+		end
+		return a.AssetId < b.AssetId
+	end)
+	while #items > 12 do
+		table.remove(items)
+	end
+	return items
+end
+
+local function removeAssetFromString(value: string, targetAssetId: string): string
+	local kept = {}
+	for _, assetId in splitAssetIds(value) do
+		if assetId ~= targetAssetId then
+			table.insert(kept, assetId)
+		end
+	end
+	return table.concat(kept, ",")
+end
+
 local function validOutfitSlot(value: any): number?
 	local slot = tonumber(value)
 	if slot == nil or slot ~= math.floor(slot) or slot < 1 or slot > OUTFIT_SLOT_COUNT then
@@ -337,6 +429,9 @@ function RoleplayService.new(profiles, replicas)
 	local applyAvatarPreset = Instance.new("RemoteFunction")
 	applyAvatarPreset.Name = "ApplyAvatarPreset"
 	applyAvatarPreset.Parent = root
+	local removeAvatarItem = Instance.new("RemoteFunction")
+	removeAvatarItem.Name = "RemoveAvatarItem"
+	removeAvatarItem.Parent = root
 
 	getState.OnServerInvoke = function(player)
 		return self:_state(player)
@@ -361,6 +456,9 @@ function RoleplayService.new(profiles, replicas)
 	end
 	applyAvatarPreset.OnServerInvoke = function(player, presetId)
 		return self:_applyAvatarPreset(player, presetId)
+	end
+	removeAvatarItem.OnServerInvoke = function(player, key, assetId)
+		return self:_removeAvatarItem(player, key, assetId)
 	end
 
 	return self
@@ -387,6 +485,9 @@ function RoleplayService:_state(player: Player)
 			avatarPresets = presets,
 		}
 	end)
+	if result ~= nil then
+		result.avatarItems = avatarItemSummary(player)
+	end
 	return result or {ok = false, code = "profile_unavailable"}
 end
 
@@ -550,6 +651,76 @@ function RoleplayService:_applyAvatarPreset(player: Player, presetId: any)
 	local outcome = applyDescription(player, description)
 	if outcome.ok == true then
 		outcome.presetId = presetId
+	end
+	return outcome
+end
+
+
+function RoleplayService:_removeAvatarItem(player: Player, key: any, assetIdValue: any)
+	if type(key) ~= "string" then
+		return {ok = false, code = "invalid_avatar_item"}
+	end
+	local isNumberField = REMOVABLE_AVATAR_NUMBER_FIELDS[key] ~= nil
+	local isStringField = REMOVABLE_AVATAR_STRING_FIELDS[key] ~= nil
+	if not isNumberField and not isStringField then
+		return {ok = false, code = "invalid_avatar_item"}
+	end
+
+	local humanoid = getHumanoid(player)
+	if humanoid == nil then
+		return {ok = false, code = "character_unavailable"}
+	end
+	local ok, description = pcall(function()
+		return humanoid:GetAppliedDescription()
+	end)
+	if not ok or description == nil then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+
+	if isNumberField then
+		local current = nil
+		pcall(function()
+			current = (description :: any)[key]
+		end)
+		if type(current) ~= "number" or current <= 0 then
+			description:Destroy()
+			return {ok = false, code = "avatar_item_not_worn"}
+		end
+		local expected = tonumber(assetIdValue)
+		if expected ~= nil and math.floor(current) ~= math.floor(expected) then
+			description:Destroy()
+			return {ok = false, code = "avatar_item_mismatch"}
+		end
+		pcall(function()
+			(description :: any)[key] = 0
+		end)
+	else
+		if type(assetIdValue) ~= "string" and type(assetIdValue) ~= "number" then
+			description:Destroy()
+			return {ok = false, code = "invalid_avatar_item"}
+		end
+		local targetAssetId = tostring(math.floor(tonumber(assetIdValue) or -1))
+		if targetAssetId == "-1" then
+			description:Destroy()
+			return {ok = false, code = "invalid_avatar_item"}
+		end
+		local current = ""
+		pcall(function()
+			current = tostring((description :: any)[key] or "")
+		end)
+		local nextValue = removeAssetFromString(current, targetAssetId)
+		if nextValue == current then
+			description:Destroy()
+			return {ok = false, code = "avatar_item_not_worn"}
+		end
+		pcall(function()
+			(description :: any)[key] = nextValue
+		end)
+	end
+
+	local outcome = applyDescription(player, description)
+	if outcome.ok == true then
+		outcome.avatarItems = avatarItemSummary(player)
 	end
 	return outcome
 end
