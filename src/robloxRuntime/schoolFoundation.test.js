@@ -51,7 +51,7 @@ describe('School foundation milestones 1-6',()=>{
 
     // The complete system is wired but remains dark until the release flag is enabled.
     expect(bootstrap).toContain('SchoolConfig.FeatureFlags.SchoolSystemEnabled == true');
-    expect(bootstrap).toContain('SchoolRuntimeService.new(profiles, replicas)');
+    expect(bootstrap).toContain('SchoolRuntimeService.new(profiles, replicas, coreLoop)');
     expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas');
   });
 
@@ -119,16 +119,16 @@ describe('School foundation milestones 1-6',()=>{
 
     expect(selector).toContain('ContentHash = question.ContentHash');
     expect(selector).toContain('Answer = question.Answer');
-    expect(selector).toContain('bankSnapshotId = CoreQuestionBank.Source.BankSnapshotId');
+    expect(selector).toContain('bankSnapshotId = ClassQuestionSelector.CurrentSnapshotId()');
     expect(sessions).toContain('QuestionSnapshots = snapshots');
     expect(sessions).toContain('BankSnapshotId = bundle.bankSnapshotId');
     expect(sessions).toContain('reusedPinnedBundle = true');
     expect(sessions).toContain('content_hash_mismatch');
 
-    const existingCheck=sessions.indexOf('local existing = day.Periods[periodId]');
-    const selectCall=sessions.indexOf('ClassQuestionSelector.SelectBundle(');
-    expect(existingCheck).toBeGreaterThan(-1);
-    expect(selectCall).toBeGreaterThan(existingCheck);
+    expect(sessions).toContain('local existing = day.Periods[periodId]');
+    expect(sessions).toContain('session = publicPeriod(existing)');
+    expect(sessions).toContain('resetClassCursorsForNewSnapshot');
+    expect(sessions).toContain('LastQuestionBankSnapshotId');
   });
 
   it('adds reconciled school persistence while keeping answer keys and attempts out of Replica state',()=>{
@@ -138,7 +138,7 @@ describe('School foundation milestones 1-6',()=>{
 
     for(const token of [
       'School = {','CurrentDay = {','RecentDays = {}','QuestionCursorByClass = {}',
-      'Statistics = {','RewardState = {','Receipts = {}'
+      'Statistics = {','RewardState = {','Receipts = {}','LastQuestionBankSnapshotId = ""'
     ]){
       expect(template).toContain(token);
     }
