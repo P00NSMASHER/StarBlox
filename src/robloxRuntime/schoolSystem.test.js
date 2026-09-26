@@ -124,6 +124,15 @@ describe('School system milestones 7-12',()=>{
     expect(config).toContain('NoLiveLlm = true');
   });
 
+  it('does not reopen a class after it is already completed',()=>{
+    const sessions=read('roblox/src/server/ClassSessionService.luau');
+    expect(sessions).toContain('if existing.Status == "completed" then');
+    expect(sessions).toContain('code = "class_already_completed"');
+    expect(sessions.indexOf('if existing.Status == "completed" then')).toBeLessThan(
+      sessions.indexOf('if existing.Status ~= "missed" then')
+    );
+  });
+
   it('records on-time/tardy/missed attendance once, reconciles late joins, and resumes missed work after school',()=>{
     const attendance=read('roblox/src/server/SchoolAttendanceService.luau');
     const sessions=read('roblox/src/server/ClassSessionService.luau');
