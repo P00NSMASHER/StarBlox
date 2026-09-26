@@ -932,6 +932,8 @@ function HomeEconomyService:_plotState(player: Player)
 		ok = true,
 		plots = plots,
 		selectedPlotId = if selectedSlot ~= nil then WorldPlotBindings.Plots[selectedSlot].Id else "",
+		houseSwapCooldownSeconds = HOUSE_SWAP_COOLDOWN_SECONDS,
+		houseSwapCooldownRemaining = math.ceil(self:_houseSwapRemaining(player)),
 	}
 end
 
