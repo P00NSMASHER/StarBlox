@@ -52,6 +52,39 @@ describe('independent Grade 2 question alignment validator',()=>{
     expect(types.has('standard-subject-mismatch')).toBe(true);
   });
 
+  it('accepts sanitized photo-derived story-element material with independent alignment checks',()=>{
+    const photo=base({
+      id:'photo-story',
+      subject:'Reading / ELA',
+      skill:'story-elements',
+      prompt:'Read: “Mia sat on the porch and watched the rain.” Where is the story happening?',
+      choices:['on a porch','in a classroom','at a beach'],
+      answer:'on a porch',
+      explanation:'The passage directly says Mia sat on the porch.',
+      provenance:'original-practice-derived-from-sanitized-schoolwork-photos',
+      sourceFact:'Sanitized schoolwork-photo skill evidence: story-elements; batch test',
+      tier:'material',
+      domain:'Analyzing literary text',
+      standards:['CCSS.RL.2.3'],
+      rubric:{maxPoints:2,criteria:['Uses a story detail','Identifies the setting'],partialCredit:{'in a classroom':0,'at a beach':0}}
+    });
+    const source={questions:Array.from({length:60},(_,i)=>base({id:'m'+i})).concat(
+      Array.from({length:59},(_,i)=>base({
+        id:'r'+i,subject:'Reading / ELA',skill:'inference',
+        prompt:'Nora grabbed an umbrella before leaving. What can you infer?',
+        choices:['She expects rain.','She plans to swim.','She forgot the weather.'],
+        answer:'She expects rain.',
+        explanation:'Taking an umbrella is evidence she expects rain.',
+        sourceFact:'STAR Reading comprehension alignment',
+        domain:'Comprehension strategies and constructing meaning',
+        standards:['CCSS.RL.2.1'],
+        rubric:{maxPoints:2,criteria:['Uses a text clue','Makes a supported inference'],partialCredit:{'She plans to swim.':0,'She forgot the weather.':1}}
+      })),
+      photo
+    )};
+    expect(validateQuestionAlignment(source)).toEqual([]);
+  });
+
   it('rejects experiment allocations outside the planned 5-10 percent range',()=>{
     const q=base({experiment:{id:'rich-v1',type:'rich-format',control:'A',treatment:'B',treatmentPercent:20}});
     const source={questions:Array.from({length:120},(_,i)=>({...q,id:'q'+i}))};
