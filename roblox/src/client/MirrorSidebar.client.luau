@@ -13,6 +13,7 @@ local spawnVehicle = mirrorRemotes:WaitForChild("SpawnVehicle") :: RemoteFunctio
 local despawnVehicle = mirrorRemotes:WaitForChild("DespawnVehicle") :: RemoteFunction
 local purchaseTool = mirrorRemotes:WaitForChild("PurchaseTool") :: RemoteFunction
 local equipTool = mirrorRemotes:WaitForChild("EquipTool") :: RemoteFunction
+local clearTools = mirrorRemotes:WaitForChild("ClearTools") :: RemoteFunction
 
 local roleplayRemotes = ReplicatedStorage:WaitForChild("StarBloxRoleplay")
 local roleplayGetState = roleplayRemotes:WaitForChild("GetState") :: RemoteFunction
@@ -411,6 +412,56 @@ round(close, 6)
 stroke(close, Color3.fromRGB(130, 25, 25), 1, 0.35)
 constrain(close, 22, 29)
 
+local panelToolbar = Instance.new("Frame")
+panelToolbar.Name = "PanelToolbar"
+panelToolbar.Position = UDim2.fromOffset(0, 0)
+panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+panelToolbar.BackgroundTransparency = 1
+panelToolbar.Visible = false
+panelToolbar.ZIndex = 73
+panelToolbar.Parent = panel
+
+local toolbarLayout = Instance.new("UIListLayout")
+toolbarLayout.FillDirection = Enum.FillDirection.Horizontal
+toolbarLayout.Padding = UDim.new(0, 3)
+toolbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+toolbarLayout.Parent = panelToolbar
+
+local function clearToolbar()
+	for _, child in panelToolbar:GetChildren() do
+		if child:IsA("GuiObject") then
+			child:Destroy()
+		end
+	end
+	panelToolbar.Visible = false
+end
+
+local function toolbarButton(
+	name: string,
+	symbol: string,
+	selected: boolean,
+	order: number,
+	callback: () -> ()
+)
+	local button = Instance.new("TextButton")
+	button.Name = name
+	button.LayoutOrder = order
+	button.Size = UDim2.fromOffset(46, 44)
+	button.BackgroundColor3 = if selected then UI.tileSelected else UI.white
+	button.BackgroundTransparency = 0.12
+	button.Text = symbol
+	button.TextColor3 = UI.text
+	button.Font = Enum.Font.GothamBold
+	button.TextScaled = true
+	button.ZIndex = 74
+	button.Parent = panelToolbar
+	round(button, 6)
+	stroke(button, UI.border, 1, 0.45)
+	constrain(button, 16, 24)
+	button.Activated:Connect(callback)
+	return button
+end
+
 local statusText = Instance.new("TextLabel")
 statusText.Name = "Status"
 statusText.AnchorPoint = Vector2.new(0, 1)
@@ -600,6 +651,8 @@ local roleplayState = nil
 local busy = false
 local activeToolCategory = "all"
 local activeVehicleCategory = "all"
+local activeToolOwnedOnly = false
+local activeVehicleOwnedOnly = false
 local activeQuickChatCategory = "phrases"
 local quickChatState = nil
 local actionHintsDismissed = false
@@ -669,6 +722,42 @@ local function clearGrid()
 		if child:IsA("GuiObject") and not child:IsA("UIGridLayout") then
 			child:Destroy()
 		end
+	end
+end
+
+
+local function configureTextPanel()
+	panel.Position = UDim2.new(1, -83, 0, 105)
+	panel.Size = UDim2.fromOffset(326, 309)
+	panelTitle.Visible = true
+	scroller.Position = UDim2.fromOffset(50, 54)
+	scroller.Size = UDim2.new(1, -50, 1, -58)
+	categoryRail.Position = UDim2.fromOffset(0, 54)
+	categoryRail.Size = UDim2.fromOffset(44, 245)
+	categoryList.Padding = UDim.new(0, 4)
+	grid.CellPadding = UDim2.fromOffset(5, 5)
+	grid.CellSize = UDim2.fromOffset(76, 64)
+	panelToolbar.Visible = false
+end
+
+local function configureIconPanel(withCategoryRail: boolean)
+	panel.Position = UDim2.new(1, -164, 0, 126)
+	panel.Size = UDim2.fromOffset(258, 264)
+	panelTitle.Visible = false
+	panelToolbar.Position = UDim2.fromOffset(0, 0)
+	panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+	panelToolbar.Visible = true
+	categoryRail.Position = UDim2.fromOffset(0, 50)
+	categoryRail.Size = UDim2.fromOffset(44, 214)
+	categoryList.Padding = UDim.new(0, 1)
+	grid.CellPadding = UDim2.fromOffset(4, 4)
+	grid.CellSize = UDim2.fromOffset(49, 49)
+	if withCategoryRail then
+		scroller.Position = UDim2.fromOffset(50, 50)
+		scroller.Size = UDim2.new(1, -50, 1, -50)
+	else
+		scroller.Position = UDim2.fromOffset(0, 50)
+		scroller.Size = UDim2.new(1, 0, 1, -50)
 	end
 end
 
@@ -877,6 +966,7 @@ local function closePanel()
 	plotSelector.Visible = false
 	statusText.Visible = false
 	clearCategories()
+	clearToolbar()
 	setActionLabelsVisible(true)
 end
 
@@ -1013,8 +1103,23 @@ showVehicles = function()
 		return
 	end
 	clearGrid()
+	clearToolbar()
 	setHeader("Vehicle")
-	panelTitle.Visible = false
+	configureIconPanel(true)
+	toolbarButton("AllVehicles", "▣", not activeVehicleOwnedOnly, 1, function()
+		activeVehicleOwnedOnly = false
+		showVehicles()
+	end)
+	toolbarButton("OwnedVehicles", "✓", activeVehicleOwnedOnly, 2, function()
+		activeVehicleOwnedOnly = true
+		showVehicles()
+	end)
+	toolbarButton("DespawnVehicle", "×", false, 3, function()
+		pcall(function()
+			despawnVehicle:InvokeServer()
+		end)
+		closePanel()
+	end)
 	setCategories({
 		{Id = "all", Symbol = "★"},
 		{Id = "cars", Symbol = "▰"},
@@ -1031,6 +1136,9 @@ showVehicles = function()
 		if vehicleMatchesCategory(kind, activeVehicleCategory) then
 			local id = tostring(vehicle.Id)
 			local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
+			if activeVehicleOwnedOnly and not owned then
+				continue
+			end
 			iconTile(
 				symbolForVehicle(kind),
 				tostring(vehicle.Name),
@@ -1051,12 +1159,6 @@ showVehicles = function()
 			order += 1
 		end
 	end
-	iconTile("×", "Despawn", "", UI.red, order, function()
-		pcall(function()
-			despawnVehicle:InvokeServer()
-		end)
-		closePanel()
-	end)
 end
 
 showTools = function()
@@ -1064,8 +1166,23 @@ showTools = function()
 		return
 	end
 	clearGrid()
+	clearToolbar()
 	setHeader("Tools")
-	panelTitle.Visible = false
+	configureIconPanel(true)
+	toolbarButton("AllTools", "▣", not activeToolOwnedOnly, 1, function()
+		activeToolOwnedOnly = false
+		showTools()
+	end)
+	toolbarButton("OwnedTools", "✓", activeToolOwnedOnly, 2, function()
+		activeToolOwnedOnly = true
+		showTools()
+	end)
+	toolbarButton("ClearTools", "×", false, 3, function()
+		pcall(function()
+			clearTools:InvokeServer()
+		end)
+		closePanel()
+	end)
 	setCategories({
 		{Id = "all", Symbol = "★"},
 		{Id = "tech", Symbol = "▯"},
@@ -1083,6 +1200,9 @@ showTools = function()
 		if toolMatchesCategory(kind, activeToolCategory) then
 			local id = tostring(item.Id)
 			local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
+			if activeToolOwnedOnly and not owned then
+				continue
+			end
 			iconTile(
 				symbolForTool(kind),
 				tostring(item.Name),
@@ -1108,11 +1228,13 @@ end
 showAnimations = function()
 	clearCategories()
 	clearGrid()
+	clearToolbar()
 	setHeader("Animations")
+	configureIconPanel(false)
 	local order = 1
 	for _, emoteName in {"wave", "point", "cheer", "laugh", "dance", "dance2", "dance3"} do
 		local label = string.upper(string.sub(emoteName, 1, 1)) .. string.sub(emoteName, 2)
-		tile("♟", label, "play", "", UI.green, order, function()
+		iconTile("♟", label, "", UI.green, order, function()
 			local character = player.Character
 			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 			if humanoid then
@@ -1185,7 +1307,9 @@ end
 showSettings = function()
 	clearCategories()
 	clearGrid()
+	clearToolbar()
 	setHeader("Settings")
+	configureTextPanel()
 	tile("☺", "Reset Avatar", "reset", "", UI.blue, 1, function()
 		pcall(function()
 			resetAvatar:InvokeServer()
@@ -1237,7 +1361,9 @@ local function showQuickChat()
 		return
 	end
 	clearGrid()
+	clearToolbar()
 	setHeader("Quick Chat")
+	configureTextPanel()
 	setCategories({
 		{Id = "phrases", Symbol = "Aa"},
 		{Id = "emojis", Symbol = "☺"},
