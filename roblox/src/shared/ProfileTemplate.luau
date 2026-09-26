@@ -79,6 +79,7 @@ local ProfileTemplate = {
 		Home = {
 			PlotId = "",
 			Tier = 1,
+			PlacementVersion = 1,
 			Placements = {},
 		},
 		NpcAffinity = {},
