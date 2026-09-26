@@ -13,7 +13,7 @@ local CoreLoopConfig = table.freeze({
 		BankRevision = "phase8-material-first-star-fallback-v1",
 		UpstreamPackSourceHash = "teacher-pages-0ca987de6de2d3791e25",
 		QuestionsPerStation = 20,
-		Strategy = "persistent-per-station-after-correct-answer",
+		Strategy = "material-once-then-star-fallback-loop",
 		AnswersServerOnly = true,
 		NoLiveLlm = true,
 	}),
