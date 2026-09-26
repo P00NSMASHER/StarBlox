@@ -27,11 +27,11 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       new URL('../../roblox/src/server/CoreQuestionBank.luau',import.meta.url),
       'utf8'
     );
-    expect(shared.match(/ABVM Grade 2 current source pack/g)?.length).toBe(3);
+    expect(shared.match(/Grade 2: current ABVM material first, then STAR-aligned practice/g)?.length).toBe(3);
     expect(shared).not.toMatch(/Answer\s*=/);
     expect(shared).not.toContain('Choices = table.freeze');
-    expect(bank).toContain('phase7-material-first-question-source-v1');
-    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(18);
+    expect(bank).toContain('phase8-material-first-star-fallback-v1');
+    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(60);
     expect(server).not.toContain('local ANSWERS = table.freeze');
     expect(server).toContain('CoreQuestionBank.Select');
     expect(server).toContain('function CoreGameLoopService.GradeAnswer');
