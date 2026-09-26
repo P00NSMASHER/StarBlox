@@ -3,7 +3,7 @@ name: Pilot learning evidence
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 23 * * *'
+    - cron: '17 */6 * * *'
 
 permissions:
   contents: read
@@ -31,6 +31,7 @@ jobs:
           npx vitest run \
             src/robloxRuntime/pilotLearningSteps34.test.js \
             src/robloxRuntime/pilotBaselineIntegrity.test.js \
+            src/robloxRuntime/learningAutomation47.test.js \
             src/robloxRuntime/studyPilotMode.test.js \
             src/robloxRuntime/questionItemReview.test.js
 
@@ -60,6 +61,35 @@ jobs:
             docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
             --json artifacts/pilot-private/calibration.json \
             --markdown artifacts/pilot-private/calibration.md
+
+      - name: Evaluate optional external STAR checkpoint
+        env:
+          STARBLOX_STAR_CHECKPOINT_JSON: ${{ secrets.STARBLOX_STAR_CHECKPOINT_JSON }}
+        run: |
+          node scripts/evaluate-star-checkpoint.mjs \
+            artifacts/pilot-private/baseline.json \
+            --json artifacts/pilot-private/star-checkpoint.json
+
+      - name: Derive automated Steps 4-7 state
+        run: |
+          mkdir -p artifacts/learning-summary
+          node scripts/derive-learning-automation.mjs \
+            artifacts/pilot-private/baseline.json \
+            artifacts/pilot-private/calibration.json \
+            artifacts/pilot-private/star-checkpoint.json \
+            --json artifacts/learning-summary/automation-state.json
+          cp artifacts/pilot-private/star-checkpoint.json \
+            artifacts/learning-summary/star-checkpoint-summary.json
+
+      - name: Upload sanitized learning automation summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-learning-automation-summary
+          path: |
+            artifacts/learning-summary/automation-state.json
+            artifacts/learning-summary/star-checkpoint-summary.json
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Remove detailed private evidence before job exit
         if: ${{ always() }}
