@@ -24,6 +24,19 @@ local function periodForOffset(offsetSeconds: number)
 	error("SchoolConfig periods do not cover the configured cycle")
 end
 
+local function upcomingAcademic(periodIndex: number)
+	for index = periodIndex + 1, #SchoolConfig.Periods do
+		local candidate = SchoolConfig.Periods[index]
+		if candidate.Kind == "academic" then
+			return candidate
+		end
+		if candidate.Kind == "report" or candidate.Kind == "after-school" then
+			break
+		end
+	end
+	return nil
+end
+
 function SchoolClockService.Resolve(unixSeconds: any)
 	local now = normalizeUnixSeconds(unixSeconds)
 	local cycleSeconds = SchoolConfig.CycleSeconds
@@ -32,9 +45,11 @@ function SchoolClockService.Resolve(unixSeconds: any)
 	local periodIndex, period = periodForOffset(offsetSeconds)
 	local nextPeriodIndex = if periodIndex < #SchoolConfig.Periods then periodIndex + 1 else 1
 	local nextPeriod = SchoolConfig.Periods[nextPeriodIndex]
+	local nextAcademic = upcomingAcademic(periodIndex)
 	local nextTransitionUnix = now + (period.EndOffsetSeconds - offsetSeconds)
 
 	return table.freeze({
+		ServerUnix = now,
 		SchoolDayId = string.format("school-%d", cycleIndex),
 		CycleIndex = cycleIndex,
 		CycleSeconds = cycleSeconds,
@@ -52,6 +67,9 @@ function SchoolClockService.Resolve(unixSeconds: any)
 		SecondsSincePeriodStart = offsetSeconds - period.StartOffsetSeconds,
 		NextPeriodId = nextPeriod.Id,
 		NextClassId = nextPeriod.ClassId,
+		UpcomingPeriodId = if nextAcademic ~= nil then nextAcademic.Id else nil,
+		UpcomingClassId = if nextAcademic ~= nil then nextAcademic.ClassId else nil,
+		UpcomingClassName = if nextAcademic ~= nil then nextAcademic.DisplayName else nil,
 		SchoolActive = period.Kind ~= "after-school",
 		AcademicPeriod = period.Kind == "academic",
 	})
