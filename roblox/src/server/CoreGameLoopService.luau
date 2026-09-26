@@ -311,7 +311,7 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		coins = Config.QuestionReward.Coins,
 		xp = Config.QuestionReward.XP,
 		targetDifficulty = targetDifficulty(profileData, activityId),
-		nextQuestionId = questionReward.nextQuestionId,
+		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
 	}
 end
 
@@ -833,7 +833,7 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		challengeComplete = completion.loopCompleted == true,
 		cosmeticUnlocked = completion.cosmeticUnlocked == true,
 		questionId = session.questionId,
-		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
+		nextQuestionId = questionReward.nextQuestionId,
 		completion = completion,
 		status = statusSnapshot,
 		economy = latestEconomy,
