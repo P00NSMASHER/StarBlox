@@ -47,6 +47,10 @@ function FamilyService.new()
 	getState.Name = "GetState"
 	getState.Parent = root
 
+	local create = Instance.new("RemoteFunction")
+	create.Name = "Create"
+	create.Parent = root
+
 	local invite = Instance.new("RemoteFunction")
 	invite.Name = "Invite"
 	invite.Parent = root
@@ -71,6 +75,9 @@ function FamilyService.new()
 
 	getState.OnServerInvoke = function(player)
 		return self:_state(player)
+	end
+	create.OnServerInvoke = function(player)
+		return self:_create(player)
 	end
 	invite.OnServerInvoke = function(player, targetUserId)
 		return self:_invite(player, targetUserId)
@@ -239,6 +246,28 @@ function FamilyService:_state(player: Player)
 		pendingInvites = pendingInvites,
 		candidates = candidates,
 		inviteRadius = INVITE_DISTANCE_STUDS,
+	}
+end
+
+function FamilyService:_create(player: Player)
+	local owner = self:_familyOwner(player)
+	if owner ~= nil then
+		return {
+			ok = true,
+			duplicate = true,
+			ownerUserId = owner.UserId,
+			isOwner = owner == player,
+		}
+	end
+	local members = self:_ensureOwner(player)
+	if members == nil then
+		return {ok = false, code = "family_create_failed"}
+	end
+	self:_notify(player)
+	return {
+		ok = true,
+		ownerUserId = player.UserId,
+		isOwner = true,
 	}
 end
 
