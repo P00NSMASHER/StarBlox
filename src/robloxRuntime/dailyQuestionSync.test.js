@@ -63,7 +63,7 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(before.generatedFrom.sourceHash).not.toBe(after.generatedFrom.sourceHash);
     expect(before.generatedFrom.bankSnapshotId).not.toBe(after.generatedFrom.bankSnapshotId);
     expect(after.generatedFrom.scannerCommit).toBe('scanner-after');
-    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v3-research-1-6');
+    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v4-research-7-12');
 
     const beforeMaterial=before.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);
     const afterMaterial=after.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);
@@ -75,10 +75,10 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(after.starAlignment.regenerationPolicy).toBe('regenerate-on-every-verified-ABVM-source-change');
   });
 
-  it('publishes at least 25 STAR Reading and 25 STAR Math questions in every snapshot',()=>{
+  it('publishes at least 60 STAR Reading and 60 STAR Math questions in every snapshot',()=>{
     const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
-    expect(source.starAlignment.readingQuestionCount).toBeGreaterThanOrEqual(25);
-    expect(source.starAlignment.mathQuestionCount).toBeGreaterThanOrEqual(25);
+    expect(source.starAlignment.readingQuestionCount).toBeGreaterThanOrEqual(60);
+    expect(source.starAlignment.mathQuestionCount).toBeGreaterThanOrEqual(60);
     const fallback=source.questions.filter(q=>q.tier==='star-fallback');
     expect(fallback.filter(q=>q.subject==='Reading / ELA')).toHaveLength(source.starAlignment.readingQuestionCount);
     expect(fallback.filter(q=>q.subject==='Math')).toHaveLength(source.starAlignment.mathQuestionCount);
