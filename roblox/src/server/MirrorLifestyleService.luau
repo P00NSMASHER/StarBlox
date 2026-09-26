@@ -406,6 +406,14 @@ function MirrorLifestyleService:_purchase(player, definition, ownedTable)
 	if definition == nil then
 		return {ok = false, code = "unknown_item"}
 	end
+	if definition.RuntimePlayable == false then
+		return {
+			ok = false,
+			code = "reference_only",
+			requirement = tostring(definition.Requirement or "Unavailable"),
+			parityStatus = tostring(definition.ParityStatus or "reference-only"),
+		}
+	end
 	local outcome = nil
 	self._profiles:WithProfile(player, function(data)
 		if ownedTable(data)[definition.Id] == true then
@@ -461,6 +469,13 @@ function MirrorLifestyleService:_spawnVehicle(player, id)
 	local definition = VEHICLE_BY_ID[id]
 	if definition == nil then
 		return {ok = false, code = "unknown_vehicle"}
+	end
+	if definition.RuntimePlayable == false then
+		return {
+			ok = false,
+			code = "reference_only",
+			requirement = tostring(definition.Requirement or "Unavailable"),
+		}
 	end
 
 	local owned = false
