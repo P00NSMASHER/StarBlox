@@ -280,6 +280,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	local equipTool = Instance.new("RemoteFunction")
 	equipTool.Name = "EquipTool"
 	equipTool.Parent = root
+	local clearTools = Instance.new("RemoteFunction")
+	clearTools.Name = "ClearTools"
+	clearTools.Parent = root
 	local vehicleAction = Instance.new("RemoteFunction")
 	vehicleAction.Name = "VehicleAction"
 	vehicleAction.Parent = root
@@ -301,6 +304,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	end
 	equipTool.OnServerInvoke = function(player, id)
 		return self:_equipTool(player, id)
+	end
+	clearTools.OnServerInvoke = function(player)
+		return self:_clearTools(player)
 	end
 	vehicleAction.OnServerInvoke = function(player, action)
 		return self:_vehicleAction(player, action)
@@ -481,6 +487,29 @@ function MirrorLifestyleService:_vehicleAction(player: Player, action: any)
 	end
 
 	return {ok = false, code = "unknown_vehicle_action"}
+end
+
+function MirrorLifestyleService:_clearTools(player)
+	if not self:_allow(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+
+	local removed = 0
+	local function clearFrom(container)
+		if container == nil then
+			return
+		end
+		for _, child in container:GetChildren() do
+			if child:IsA("Tool") and child:GetAttribute("ItemId") ~= nil then
+				child:Destroy()
+				removed += 1
+			end
+		end
+	end
+
+	clearFrom(player:FindFirstChildOfClass("Backpack"))
+	clearFrom(player.Character)
+	return {ok = true, removed = removed}
 end
 
 function MirrorLifestyleService:_equipTool(player, id)
