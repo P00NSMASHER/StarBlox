@@ -38,6 +38,8 @@ local function publicProjection(profileData)
 		Inventory = {
 			Cosmetics = table.clone(profileData.Inventory.Cosmetics),
 			OwnedItems = table.clone(profileData.Inventory.OwnedItems or {}),
+			OwnedVehicles = table.clone(profileData.Inventory.OwnedVehicles or {}),
+			OwnedTools = table.clone(profileData.Inventory.OwnedTools or {}),
 			Equipped = table.clone(profileData.Inventory.Equipped),
 		},
 		Rollout = {
