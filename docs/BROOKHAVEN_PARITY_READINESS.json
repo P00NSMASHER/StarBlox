@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "implementation-composed-proof-gates-open",
+  "status": "legacy-development-complete-private-release-verified-current-live-certification-separate",
   "evaluatedOn": "2026-09-26",
   "architecture": {
     "immutableWitness": {
@@ -128,7 +128,18 @@
     "productionActivationAllowed": false,
     "exactParityClaimAllowed": false,
     "legacyPrivatePlaytestCandidateReady": true,
-    "current2026CertificationStillSeparate": true
+    "current2026CertificationStillSeparate": true,
+    "legacyDevelopmentScopeComplete": true,
+    "legacyPrivatePublishVerified": true,
+    "legacyPrivatePublishedVersion": 27,
+    "legacyPrivateVerifiedVersion": 27,
+    "legacyPrivateArtifactSha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+    "legacyPrivateReleaseReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json",
+    "legacyAutomatedRegressionPassed": true,
+    "legacyServerBootstrapVerified": true,
+    "remainingLegacyAutomatedBlockers": 0,
+    "finalRealDeviceVisualQaPassed": false,
+    "finalRealDeviceVisualQaStatus": "not-run-human-device-pass"
   },
   "blockers": [
     "Replace or independently verify the frozen reference snapshot against the current live Brookhaven world before exact visual parity can be certified.",
@@ -207,6 +218,14 @@
           "everySourceVehicleRuntimePlayable": true,
           "everySourceToolHasRuntimeDefinition": true
         }
+      },
+      "privateRelease": {
+        "verified": true,
+        "version": 27,
+        "artifactSha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+        "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json",
+        "geometryCount": 14459,
+        "currentLiveCertificationSatisfied": false
       }
     }
   },
@@ -228,6 +247,10 @@
     "remainingLegacyDevelopmentP0": 0,
     "remainingLegacyDevelopmentP1": 0,
     "remainingLegacyDevelopmentP2": 0,
-    "legacyDevelopmentCandidateReady": true
+    "legacyDevelopmentCandidateReady": true,
+    "legacyPrivatePublishVerified": true,
+    "legacyPrivatePublishedVersion": 27,
+    "legacyPrivateReleaseReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json",
+    "remainingLegacyAutomatedWork": 0
   }
 }
