@@ -5,12 +5,17 @@ const source=readFileSync(
   new URL('../../roblox/src/client/SchoolSystem.client.luau',import.meta.url),
   'utf8'
 );
+const settingsSource=readFileSync(
+  new URL('../../roblox/src/client/Settings.client.luau',import.meta.url),
+  'utf8'
+);
 
 describe('recorded mobile HUD coordination',()=>{
   it('keeps school actions and answers above the 44px touch minimum',()=>{
     expect(source).toContain('goToSchool.Size = UDim2.fromOffset(100, 44)');
     expect(source).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
     expect(source).toContain('button.Size = UDim2.new(1, -32, 0, 54)');
+    expect(settingsSource).toContain('gear.Size = UDim2.fromOffset(44, 44)');
   });
 
   it('fits both question layouts inside the verified 402px phone budget',()=>{
@@ -26,6 +31,8 @@ describe('recorded mobile HUD coordination',()=>{
   it('yields schedule, waypoint and invitation layers to every town menu',()=>{
     expect(source).toContain('playerGui:FindFirstChild("BrookhavenFamilyUI")');
     expect(source).toContain('family:IsA("ScreenGui") and family.Enabled');
+    expect(source).toContain('playerGui:FindFirstChild("BrookhavenSettingsUI")');
+    expect(source).toContain('settingsPanel:IsA("GuiObject") and settingsPanel.Visible');
     expect(source).toContain('local menuOpen = townMenuOpen()');
     expect(source).toContain('hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen');
     expect(source).toContain('and not panel.Visible and not report.Visible and not menuOpen');

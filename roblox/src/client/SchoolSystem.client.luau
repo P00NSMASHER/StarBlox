@@ -504,12 +504,15 @@ local function townMenuOpen(): boolean
 	local family = playerGui:FindFirstChild("BrookhavenFamilyUI")
 	local shop = playerGui:FindFirstChild("StarBloxShopUI")
 	local shopPanel = shop and shop:FindFirstChild("ShopPanel")
+	local settings = playerGui:FindFirstChild("BrookhavenSettingsUI")
+	local settingsPanel = settings and settings:FindFirstChild("SettingsPanel")
 	return (context ~= nil and context:IsA("GuiObject") and context.Visible)
 		or (house ~= nil and house:IsA("GuiObject") and house.Visible)
 		or (avatar ~= nil and avatar:IsA("ScreenGui") and avatar.Enabled)
 		or (cameras ~= nil and cameras:IsA("ScreenGui") and cameras.Enabled)
 		or (family ~= nil and family:IsA("ScreenGui") and family.Enabled)
 		or (shopPanel ~= nil and shopPanel:IsA("GuiObject") and shopPanel.Visible)
+		or (settingsPanel ~= nil and settingsPanel:IsA("GuiObject") and settingsPanel.Visible)
 end
 
 local function periodCallout(clock): (string, string, string)
