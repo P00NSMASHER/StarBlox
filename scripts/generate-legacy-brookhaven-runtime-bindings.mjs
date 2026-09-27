@@ -264,11 +264,33 @@ const manifest={
     maximumSeparationStuds:schoolBindings.maximumSeparation,
     centroid:schoolBindings.centroid,
     fallbackCampusEnabled:false,
+    cafeteriaAnchor:{
+      generatedName:schoolBindings.cafeteria.generatedName,
+      sourcePath:schoolBindings.cafeteria.sourcePath,
+      physicalRoomId:schoolBindings.cafeteria.physicalRoomId,
+      position:schoolBindings.cafeteria.position,
+      worldOffset:schoolBindings.cafeteria.worldOffset
+    },
+    makeUpAnchor:{
+      generatedName:schoolBindings.library.generatedName,
+      sourcePath:schoolBindings.library.sourcePath,
+      physicalRoomId:schoolBindings.library.physicalRoomId,
+      position:schoolBindings.library.position,
+      label:schoolBindings.library.label
+    },
+    arrivalAnchor:{
+      generatedName:schoolBindings.entrance.generatedName,
+      sourcePath:schoolBindings.entrance.sourcePath,
+      physicalRoomId:schoolBindings.entrance.physicalRoomId,
+      position:schoolBindings.entrance.position,
+      label:schoolBindings.entrance.label
+    },
     classAnchors:Object.fromEntries(Object.entries(schoolBindings.classes).map(([classId,binding])=>[classId,{
       generatedName:binding.generatedName,
       sourcePath:binding.sourcePath,
       sourceName:binding.sourceName,
       physicalRoomId:binding.physicalRoomId,
+      room:binding.room,
       position:binding.position,
       worldOffset:binding.worldOffset
     }]))
