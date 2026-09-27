@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,25 +14,21 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 5,
+  "attempt": 6,
   "priorAttempt": {
-    "publishedVersion": 27,
+    "publishedVersion": 29,
     "publicationSucceeded": true,
-    "verificationSucceeded": false,
-    "failure": "Generic verifier waited for auto-started BrookhavenWorldRuntime in an Open Cloud Luau execution session; diagnostics proved manual Bootstrap.start succeeds."
+    "verificationSucceeded": true,
+    "verificationScope": "production-server-boot",
+    "robloxClientRunObserved": false
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 27,
+    "diagnosticVersion": 29,
     "manualBootstrapProven": true,
-    "ciRun": 36308091988,
+    "ciRun": 36334934462,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish merged iPhone school-HUD overlap hotfix to existing private staging place.",
-  "requestedSourceCommit": "62e85dd0b8d1cb2382864721fb4b8e2b570a502b",
-  "completion": {
-    "publishedVersion": 29,
-    "verifiedVersion": 29,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish the merged Steps 1-6 integration candidate with Brookhaven HUD/menu, Home Cams, house travel, vehicle, action-icon, school, and evidence-boundary repairs to private staging for client parity testing.",
+  "requestedSourceCommit": "966dbca9e5cc622a68c8374d9750620e0388b272"
 }
