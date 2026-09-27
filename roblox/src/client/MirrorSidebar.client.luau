@@ -378,6 +378,12 @@ rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
 
+local railLayout = Instance.new("UIListLayout")
+railLayout.Padding = UDim.new(0, 5)
+railLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+railLayout.SortOrder = Enum.SortOrder.LayoutOrder
+railLayout.Parent = rail
+
 local labelLayer = Instance.new("Frame")
 labelLayer.Name = "ActionLabels"
 labelLayer.Size = UDim2.fromScale(1, 1)
@@ -387,10 +393,8 @@ labelLayer.Parent = shell
 
 local actionLabels: {GuiObject} = {}
 
--- These five controls intentionally use original code-drawn pictograms rather than font glyphs.
--- The current-live reference shows pictorial controls, but neither the checked-in recording nor the
--- pinned licensed legacy inventory exposes reusable image asset IDs for this rail. Keeping the artwork
--- local avoids unsupported-glyph squares and avoids inventing or copying third-party asset mappings.
+-- Persistent rail controls use real image assets. The small primitive helper below
+-- remains only for the house plot-selector artwork, not the world HUD.
 local function iconPart(
 	parent: GuiObject,
 	name: string,
@@ -412,47 +416,11 @@ local function iconPart(
 	return part
 end
 
-local function drawActionIcon(button: TextButton, iconName: string)
-	local icon = Instance.new("Frame")
-	icon.Name = "Pictogram"
-	icon.AnchorPoint = Vector2.new(0.5, 0.5)
-	icon.Position = UDim2.fromScale(0.5, 0.5)
-	icon.Size = UDim2.fromOffset(42, 42)
-	icon.BackgroundTransparency = 1
-	icon.ZIndex = 42
-	icon.Parent = button
-	local iconScale = Instance.new("UIScale")
-	iconScale.Scale = 0.70
-	iconScale.Parent = icon
-
-	if iconName == "avatar" then
-		iconPart(icon, "Head", UDim2.fromOffset(15, 3), UDim2.fromOffset(12, 12), nil, 8)
-		iconPart(icon, "Shoulders", UDim2.fromOffset(7, 20), UDim2.fromOffset(28, 15), nil, 8)
-	elseif iconName == "tools" then
-		iconPart(icon, "Handle", UDim2.fromOffset(19, 11), UDim2.fromOffset(7, 27), -35, 3)
-		iconPart(icon, "Head", UDim2.fromOffset(10, 7), UDim2.fromOffset(23, 8), -35, 3)
-	elseif iconName == "animations" then
-		iconPart(icon, "Head", UDim2.fromOffset(6, 5), UDim2.fromOffset(9, 9), nil, 6)
-		iconPart(icon, "Body", UDim2.fromOffset(9, 15), UDim2.fromOffset(5, 16), -8, 3)
-		iconPart(icon, "Arm", UDim2.fromOffset(13, 16), UDim2.fromOffset(16, 4), -24, 2)
-		iconPart(icon, "LeftLeg", UDim2.fromOffset(5, 29), UDim2.fromOffset(14, 4), 31, 2)
-		iconPart(icon, "RightLeg", UDim2.fromOffset(12, 29), UDim2.fromOffset(14, 4), -31, 2)
-		iconPart(icon, "MotionTop", UDim2.fromOffset(31, 8), UDim2.fromOffset(8, 3), nil, 2)
-		iconPart(icon, "MotionBottom", UDim2.fromOffset(32, 15), UDim2.fromOffset(7, 3), nil, 2)
-	elseif iconName == "vehicle" then
-		iconPart(icon, "Cab", UDim2.fromOffset(11, 10), UDim2.fromOffset(20, 11), nil, 4)
-		iconPart(icon, "Body", UDim2.fromOffset(4, 18), UDim2.fromOffset(34, 13), nil, 5)
-		iconPart(icon, "LeftWheel", UDim2.fromOffset(8, 27), UDim2.fromOffset(9, 9), nil, 6)
-		iconPart(icon, "RightWheel", UDim2.fromOffset(26, 27), UDim2.fromOffset(9, 9), nil, 6)
-	elseif iconName == "house" then
-		iconPart(icon, "LeftRoof", UDim2.fromOffset(5, 13), UDim2.fromOffset(23, 5), -36, 3)
-		iconPart(icon, "RightRoof", UDim2.fromOffset(20, 13), UDim2.fromOffset(23, 5), 36, 3)
-		iconPart(icon, "Walls", UDim2.fromOffset(9, 19), UDim2.fromOffset(25, 19), nil, 2)
-		local door = iconPart(icon, "DoorCutout", UDim2.fromOffset(19, 27), UDim2.fromOffset(7, 11), nil, 1)
-		door.BackgroundColor3 = UI.white
-	else
-		error("Unknown action icon: " .. iconName)
-	end
+local function drawRailIcon(button: GuiObject, iconName: string)
+	local asset = ICONS[iconName]
+	assert(asset ~= nil, "Unknown action icon: " .. iconName)
+	local icon = iconLabel(button, "Icon", asset, 25)
+	icon.ImageColor3 = UI.icon
 end
 
 local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
@@ -485,59 +453,21 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 	end
 end
 
-local function actionButton(iconName: string, name: string, labelText: string, order: number): TextButton
-	local y = (order - 1) * 46
-
-	local label = Instance.new("TextLabel")
-	label.Name = name .. "Label"
-	label.AnchorPoint = Vector2.new(1, 0)
-	label.Position = UDim2.new(1, -64, 0, 82 + y)
-	label.Size = UDim2.fromOffset(132, 23)
-	label.BackgroundColor3 = UI.white
-	label.BackgroundTransparency = 0.19
-	label.Text = labelText .. "      →"
-	label.TextColor3 = UI.text
-	label.Font = Enum.Font.GothamMedium
-	label.TextScaled = true
-	label.TextXAlignment = Enum.TextXAlignment.Center
-	label.ZIndex = 39
-	label.Parent = labelLayer
-	label.Visible = false
-	round(label, 9)
-	constrain(label, 9, 12)
-	table.insert(actionLabels, label)
-
-	local arrow = Instance.new("TextLabel")
-	arrow.Name = name .. "ArrowTint"
-	arrow.AnchorPoint = Vector2.new(1, 0)
-	arrow.Position = UDim2.new(1, -65, 0, 80 + y)
-	arrow.Size = UDim2.fromOffset(25, 27)
-	arrow.BackgroundTransparency = 1
-	arrow.Text = "→"
-	arrow.TextColor3 = UI.cyan
-	arrow.Font = Enum.Font.GothamBold
-	arrow.TextScaled = true
-	arrow.ZIndex = 40
-	arrow.Parent = labelLayer
-	arrow.Visible = false
-	constrain(arrow, 17, 22)
-	table.insert(actionLabels, arrow)
-
-	local b = Instance.new("TextButton")
-	b.Name = name .. "Button"
-	b.Position = UDim2.fromOffset(2, y)
-	b.Size = UDim2.fromOffset(44, 44)
-	b.BackgroundColor3 = UI.white
-	b.BackgroundTransparency = 0.22
-	b.Text = ""
-	b.AutoButtonColor = true
-	b.Selectable = true
-	b.ZIndex = 41
-	b.Parent = rail
-	round(b, 7)
-	stroke(b, UI.border, 1, 0.55)
-	drawActionIcon(b, iconName)
-	return b
+local function actionButton(iconName: string, name: string, _labelText: string, order: number): ImageButton
+	local button = Instance.new("ImageButton")
+	button.Name = name .. "Button"
+	button.LayoutOrder = order
+	button.Size = UDim2.fromOffset(44, 44)
+	button.BackgroundColor3 = UI.white
+	button.BackgroundTransparency = 0.10
+	button.Image = ""
+	button.AutoButtonColor = true
+	button.Selectable = true
+	button.ZIndex = 41
+	button.Parent = rail
+	glass(button, 12)
+	drawRailIcon(button, iconName)
+	return button
 end
 
 local avatarBtn = actionButton("avatar", "Avatar", "Avatar Editor", 1)
@@ -546,21 +476,38 @@ local animationsBtn = actionButton("animations", "Animations", "Animations", 3)
 local vehicleBtn = actionButton("vehicle", "Vehicle", "Vehicle", 4)
 local houseBtn = actionButton("house", "House", "House", 5)
 
-local settingsButton = Instance.new("TextButton")
+local railButtons = {avatarBtn, toolsBtn, animationsBtn, vehicleBtn, houseBtn}
+
+local function setRailSelection(selected: ImageButton?)
+	for _, button in railButtons do
+		local active = button == selected
+		button.BackgroundColor3 = if active then UI.selected else UI.white
+		button.BackgroundTransparency = if active then 0.02 else 0.10
+		local icon = button:FindFirstChild("Icon")
+		if icon ~= nil and icon:IsA("ImageLabel") then
+			icon.ImageColor3 = if active then Color3.fromRGB(20, 79, 107) else UI.icon
+		end
+		local line = button:FindFirstChild("GlassStroke")
+		if line ~= nil and line:IsA("UIStroke") then
+			line.Transparency = if active then 0.08 else 0.38
+		end
+	end
+end
+
+local settingsButton = Instance.new("ImageButton")
 settingsButton.Name = "WorldSettingsButton"
 settingsButton.AnchorPoint = Vector2.new(0, 1)
 settingsButton.Position = UDim2.new(0, 92, 1, -12)
 settingsButton.Size = UDim2.fromOffset(34, 34)
-settingsButton.BackgroundTransparency = 1
-settingsButton.Text = "⚙"
-settingsButton.TextColor3 = UI.dark
-settingsButton.Font = Enum.Font.GothamBold
-settingsButton.TextScaled = true
+settingsButton.BackgroundColor3 = UI.white
+settingsButton.BackgroundTransparency = 0.12
+settingsButton.Image = ""
 settingsButton.ZIndex = 35
 settingsButton.Parent = shell
 settingsButton.Visible = false
 settingsButton.Active = false
-constrain(settingsButton, 20, 26)
+glass(settingsButton, 10)
+iconLabel(settingsButton, "Icon", ICONS.settings, 20)
 
 -- Context menus float over the world instead of living inside a large StarBlox dashboard.
 local panel = Instance.new("Frame")
