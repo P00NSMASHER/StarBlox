@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,12 +14,7 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "completion": {
-    "publishedVersion": 28,
-    "verifiedVersion": 28,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  },
-  "attempt": 4,
+  "attempt": 5,
   "priorAttempt": {
     "publishedVersion": 27,
     "publicationSucceeded": true,
@@ -32,5 +27,7 @@
     "manualBootstrapProven": true,
     "ciRun": 36308091988,
     "ciConclusion": "success"
-  }
+  },
+  "requestReason": "Publish merged iPhone school-HUD overlap hotfix to existing private staging place.",
+  "requestedSourceCommit": "62e85dd0b8d1cb2382864721fb4b8e2b570a502b"
 }
