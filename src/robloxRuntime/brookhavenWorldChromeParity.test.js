@@ -22,8 +22,9 @@ describe('Brookhaven recording parity: persistent world chrome',()=>{
   it('keeps the small free-play shop shortcut visible at the left edge',()=>{
     const shell=read('roblox/src/client/MirrorSidebar.client.luau');
 
-    expect(shell).toContain('shopShortcut.Name = "ShopShortcut"');
-    expect(shell).toContain('shopShortcut.Position = UDim2.new(0, 80, 0.5, -18)');
+    expect(shell).toContain('local shopShortcut = makeSquareIconButton(');
+    expect(shell).toContain('"ShopShortcut"');
+    expect(shell).toContain('UDim2.new(0, 80, 0.5, -18)');
     expect(shell).toContain('ICONS.shop');
     expect(shell).toContain('"ShopShortcut"');
     expect(shell).toContain('openStore:Fire()');
