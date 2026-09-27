@@ -21,7 +21,7 @@ const schoolworkPackPath=option('--schoolwork-pack','docs/phase6/SCHOOLWORK_PHOT
 const schoolworkCatalogOut=option('--schoolwork-catalog-out','docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json');
 const schoolworkReceiptOut=option('--schoolwork-receipt-out','docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v5-schoolwork-photo';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v6-original-equivalent-schoolwork';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -52,6 +52,9 @@ const combinedSourceHash=sha({
   abvmSourceHash:rawSourceHash,
   schoolworkSourceHash:schoolworkSourceHash||'none'
 });
+const schoolworkGenerationVariant=schoolworkSourceHash
+  ? (Number.parseInt(String(schoolworkSourceHash).replace(/^sha256:/,'').slice(0,8),16)%2)+1
+  : 0;
 if(existsSync(sourceOut)&&existsSync(schoolworkCatalogOut)&&existsSync(schoolworkReceiptOut)){
   const previous=JSON.parse(readFileSync(sourceOut,'utf8'));
   if(
@@ -904,12 +907,17 @@ const baseMaterialByStation={
 };
 
 const rawSchoolworkCatalog=schoolworkPack
-  ? buildSchoolworkQuestionCatalog(schoolworkPack,{snapshotId})
+  ? buildSchoolworkQuestionCatalog(schoolworkPack,{
+      snapshotId,
+      generationVariant:schoolworkGenerationVariant
+    })
   : {
       schemaVersion:1,
       catalogVersion:'schoolwork-photo-question-catalog-v1',
       batchId:null,
       sourceHash:null,
+      generationMode:'skill-only-equivalent-item',
+      generationVariant:0,
       questionCount:0,
       questions:[]
     };
