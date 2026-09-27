@@ -361,8 +361,18 @@ local function setWorldHudVisible(visible: boolean)
 	end
 end
 
+local function setRoleplayTagVisible(visible: boolean)
+	local character = player.Character
+	local head = character and character:FindFirstChild("Head")
+	local tag = head and head:FindFirstChild("StarBloxRoleplayTag")
+	if tag ~= nil and tag:IsA("BillboardGui") then
+		tag.Enabled = visible
+	end
+end
+
 local function closePanel()
 	gui.Enabled = false
+	setRoleplayTagVisible(true)
 	setWorldHudVisible(true)
 end
 
@@ -382,6 +392,7 @@ openFamily.Event:Connect(function()
 		render()
 	end
 	setWorldHudVisible(false)
+	setRoleplayTagVisible(false)
 	gui.Enabled = true
 end)
 
