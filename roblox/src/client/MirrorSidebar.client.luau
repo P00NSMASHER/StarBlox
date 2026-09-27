@@ -143,15 +143,15 @@ local function makeTopButton(name: string, text: string, position: UDim2, size: 
 end
 
 -- Brookhaven quick-chat affordance from the reference: a square lightning tile followed by a pill.
-local quickChatBolt = makeTopButton("QuickChatBolt", "⚡", UDim2.fromOffset(304, 8), UDim2.fromOffset(48, 48))
+local quickChatBolt = makeTopButton("QuickChatBolt", "⚡", UDim2.fromOffset(292, 6), UDim2.fromOffset(44, 44))
 quickChatBolt.BackgroundColor3 = UI.white
 quickChatBolt.TextColor3 = Color3.fromRGB(236, 175, 35)
 constrain(quickChatBolt, 22, 28)
 
 local quickChatArrow = Instance.new("TextLabel")
 quickChatArrow.Name = "QuickChatArrow"
-quickChatArrow.Position = UDim2.fromOffset(365, 17)
-quickChatArrow.Size = UDim2.fromOffset(38, 29)
+quickChatArrow.Position = UDim2.fromOffset(346, 14)
+quickChatArrow.Size = UDim2.fromOffset(32, 26)
 quickChatArrow.BackgroundTransparency = 1
 quickChatArrow.Text = "←"
 quickChatArrow.TextColor3 = UI.cyan
@@ -164,23 +164,23 @@ constrain(quickChatArrow, 18, 24)
 local quickChatButton = makeTopButton(
 	"QuickChatButton",
 	"Quick Chat",
-	UDim2.fromOffset(414, 17),
-	UDim2.fromOffset(108, 29)
+	UDim2.fromOffset(382, 14),
+	UDim2.fromOffset(92, 26)
 )
 quickChatButton.BackgroundTransparency = 0.12
 
 local homeCamsButton = makeTopButton(
 	"HomeCamsButton",
 	"⌂  Home\nCams",
-	UDim2.new(1, -340, 0, 8),
-	UDim2.fromOffset(96, 44)
+	UDim2.new(0.5, -88, 0, 6),
+	UDim2.fromOffset(82, 38)
 )
 homeCamsButton.BackgroundColor3 = Color3.fromRGB(179, 220, 236)
 
 local clockBox = Instance.new("Frame")
 clockBox.Name = "Clock"
-clockBox.Position = UDim2.new(1, -232, 0, 8)
-clockBox.Size = UDim2.fromOffset(92, 44)
+clockBox.Position = UDim2.new(0.5, 2, 0, 6)
+clockBox.Size = UDim2.fromOffset(78, 38)
 clockBox.BackgroundColor3 = Color3.fromRGB(179, 220, 236)
 clockBox.BackgroundTransparency = 0.08
 clockBox.ZIndex = 35
@@ -191,7 +191,7 @@ stroke(clockBox, UI.border, 1, 0.5)
 local clockTime = Instance.new("TextLabel")
 clockTime.Name = "Time"
 clockTime.Position = UDim2.fromOffset(4, 3)
-clockTime.Size = UDim2.new(1, -8, 0, 22)
+clockTime.Size = UDim2.new(1, -8, 0, 19)
 clockTime.BackgroundTransparency = 1
 clockTime.Text = "--:-- --"
 clockTime.TextColor3 = UI.text
@@ -203,8 +203,8 @@ constrain(clockTime, 10, 14)
 
 local clockDay = Instance.new("TextLabel")
 clockDay.Name = "Day"
-clockDay.Position = UDim2.fromOffset(4, 24)
-clockDay.Size = UDim2.new(1, -8, 0, 16)
+clockDay.Position = UDim2.fromOffset(4, 20)
+clockDay.Size = UDim2.new(1, -8, 0, 14)
 clockDay.BackgroundTransparency = 1
 clockDay.Text = "Monday"
 clockDay.TextColor3 = UI.text
@@ -217,15 +217,15 @@ constrain(clockDay, 8, 11)
 local familyButton = makeTopButton(
 	"FamilyButton",
 	"♟  Family",
-	UDim2.new(1, -340, 0, 57),
-	UDim2.fromOffset(132, 32)
+	UDim2.new(0.5, -64, 0, 47),
+	UDim2.fromOffset(118, 28)
 )
 
 -- The recording keeps a small shop/cart shortcut at the left edge during free play.
 local shopShortcut = Instance.new("TextButton")
 shopShortcut.Name = "ShopShortcut"
-shopShortcut.Position = UDim2.new(0, 80, 0.5, -18)
-shopShortcut.Size = UDim2.fromOffset(54, 36)
+shopShortcut.Position = UDim2.new(0, 76, 0.5, -16)
+shopShortcut.Size = UDim2.fromOffset(48, 32)
 shopShortcut.BackgroundColor3 = UI.white
 shopShortcut.BackgroundTransparency = 0.18
 shopShortcut.Text = "🛒"
@@ -242,7 +242,7 @@ local shopBadge = Instance.new("TextLabel")
 shopBadge.Name = "Badge"
 shopBadge.AnchorPoint = Vector2.new(1, 0)
 shopBadge.Position = UDim2.new(1, -3, 0, 2)
-shopBadge.Size = UDim2.fromOffset(15, 15)
+shopBadge.Size = UDim2.fromOffset(13, 13)
 shopBadge.BackgroundColor3 = UI.blue
 shopBadge.Text = "★"
 shopBadge.TextColor3 = Color3.new(1, 1, 1)
@@ -276,9 +276,9 @@ end)
 -- Right-side action stack: exactly the five world actions visible in the reference recording.
 local rail = Instance.new("Frame")
 rail.Name = "RightActionRail"
-rail.AnchorPoint = Vector2.new(1, 0)
-rail.Position = UDim2.new(1, -10, 0, 72)
-rail.Size = UDim2.fromOffset(64, 306)
+rail.AnchorPoint = Vector2.new(1, 0.5)
+rail.Position = UDim2.new(1, -12, 0.5, -128)
+rail.Size = UDim2.fromOffset(54, 260)
 rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
@@ -320,7 +320,7 @@ end
 local function drawActionIcon(button: TextButton, iconName: string)
 	local icon = Instance.new("Frame")
 	icon.Name = "Pictogram"
-	icon.Position = UDim2.fromOffset(8, 8)
+	icon.Position = UDim2.fromOffset(4, 4)
 	icon.Size = UDim2.fromOffset(42, 42)
 	icon.BackgroundTransparency = 1
 	icon.ZIndex = 42
@@ -387,13 +387,13 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 end
 
 local function actionButton(iconName: string, name: string, labelText: string, order: number): TextButton
-	local y = (order - 1) * 61
+	local y = (order - 1) * 52
 
 	local label = Instance.new("TextLabel")
 	label.Name = name .. "Label"
 	label.AnchorPoint = Vector2.new(1, 0)
-	label.Position = UDim2.new(1, -74, 0, 86 + y)
-	label.Size = UDim2.fromOffset(132, 23)
+	label.Position = UDim2.new(1, -68, 0.5, -114 + y)
+	label.Size = UDim2.fromOffset(118, 20)
 	label.BackgroundColor3 = UI.white
 	label.BackgroundTransparency = 0.19
 	label.Text = labelText .. "      →"
@@ -410,8 +410,8 @@ local function actionButton(iconName: string, name: string, labelText: string, o
 	local arrow = Instance.new("TextLabel")
 	arrow.Name = name .. "ArrowTint"
 	arrow.AnchorPoint = Vector2.new(1, 0)
-	arrow.Position = UDim2.new(1, -75, 0, 84 + y)
-	arrow.Size = UDim2.fromOffset(25, 27)
+	arrow.Position = UDim2.new(1, -69, 0.5, -116 + y)
+	arrow.Size = UDim2.fromOffset(22, 24)
 	arrow.BackgroundTransparency = 1
 	arrow.Text = "→"
 	arrow.TextColor3 = UI.cyan
@@ -424,8 +424,8 @@ local function actionButton(iconName: string, name: string, labelText: string, o
 
 	local b = Instance.new("TextButton")
 	b.Name = name .. "Button"
-	b.Position = UDim2.fromOffset(4, y)
-	b.Size = UDim2.fromOffset(58, 58)
+	b.Position = UDim2.fromOffset(2, y)
+	b.Size = UDim2.fromOffset(50, 50)
 	b.BackgroundColor3 = UI.white
 	b.BackgroundTransparency = 0.14
 	b.Text = ""
@@ -433,7 +433,7 @@ local function actionButton(iconName: string, name: string, labelText: string, o
 	b.Selectable = true
 	b.ZIndex = 41
 	b.Parent = rail
-	round(b, 8)
+	round(b, 7)
 	stroke(b, UI.border, 1, 0.45)
 	drawActionIcon(b, iconName)
 	return b
@@ -1817,7 +1817,7 @@ end)
 
 close.Activated:Connect(closePanel)
 
-task.delay(4, function()
+task.delay(1.5, function()
 	if gui.Parent ~= nil and panel.Visible ~= true and plotSelector.Visible ~= true then
 		dismissActionHints()
 	end
