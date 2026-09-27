@@ -492,6 +492,24 @@ local session = nil
 local submitting = false
 local traveling = false
 
+local function townMenuOpen(): boolean
+	local playerGui = player:FindFirstChildOfClass("PlayerGui")
+	if playerGui == nil then return false end
+	local sidebar = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
+	local shell = sidebar and sidebar:FindFirstChild("BrookhavenWorldShell")
+	local context = shell and shell:FindFirstChild("BrookhavenContextPanel")
+	local house = shell and shell:FindFirstChild("HousePlotSelector")
+	local avatar = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
+	local cameras = playerGui:FindFirstChild("BrookhavenHomeCamsUI")
+	local shop = playerGui:FindFirstChild("StarBloxShopUI")
+	local shopPanel = shop and shop:FindFirstChild("ShopPanel")
+	return (context ~= nil and context:IsA("GuiObject") and context.Visible)
+		or (house ~= nil and house:IsA("GuiObject") and house.Visible)
+		or (avatar ~= nil and avatar:IsA("ScreenGui") and avatar.Enabled)
+		or (cameras ~= nil and cameras:IsA("ScreenGui") and cameras.Enabled)
+		or (shopPanel ~= nil and shopPanel:IsA("GuiObject") and shopPanel.Visible)
+end
+
 local function periodCallout(clock): (string, string, string)
 	if clock.PeriodKind == "lunch" then
 		return "LUNCH BELL", "Head to the cafeteria before the next class.", "GO TO LUNCH"
@@ -524,7 +542,7 @@ local function renderState(payload)
 	calloutBody.Text = bodyText
 	goToSchool.Text = buttonText
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
-		and payload.currentClassCompleted ~= true and not panel.Visible
+		and payload.currentClassCompleted ~= true and not panel.Visible and not townMenuOpen()
 
 	if payload.report and payload.report.ok then
 		local lines = {"TODAY'S REPORT"}
@@ -772,6 +790,7 @@ RunService.Heartbeat:Connect(function()
 		if state.schoolRequired == true and state.travelEnabled == true then
 			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
 				and state.currentClassCompleted ~= true and report.Visible ~= true
+				and not townMenuOpen()
 		end
 	else
 		waypoint.Visible = false
