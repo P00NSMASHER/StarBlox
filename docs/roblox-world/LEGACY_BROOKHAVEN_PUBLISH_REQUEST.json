@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,9 +14,9 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 7,
+  "attempt": 8,
   "priorAttempt": {
-    "publishedVersion": 30,
+    "publishedVersion": 31,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
@@ -24,16 +24,11 @@
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 30,
+    "diagnosticVersion": 31,
     "manualBootstrapProven": true,
-    "ciRun": 36336735623,
+    "ciRun": 36347866305,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish the merged screenshot-driven iPhone visual parity repair: neutralized town-center checkerboard/glare, tighter Brookhaven mobile chrome, and contextual school prompts.",
-  "requestedSourceCommit": "f2573bbd35af6b9ddbb19724df6e3ad6cbb03182",
-  "completion": {
-    "publishedVersion": 31,
-    "verifiedVersion": 31,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish exact v31 live-diagnostic repair: neutralize LBH_14342..LBH_14376 checkerboard, hide LBH_10677..LBH_10683 skyline cluster, move spawn framing toward the street, and reduce nameplate clutter.",
+  "requestedSourceCommit": "e468bbce1810e42d89f72dbf2070c03e565f2c7f"
 }
