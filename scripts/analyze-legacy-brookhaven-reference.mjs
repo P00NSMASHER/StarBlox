@@ -141,6 +141,14 @@ function interactionDelta(reference,candidate){
   }));
 }
 function pct(n,d){ return d===0 ? 1 : Math.max(0,Math.min(1,n/d)); }
+async function readOptionalJson(path){
+  try{
+    return JSON.parse(await readFile(path,'utf8'));
+  }catch(error){
+    if(error?.code==='ENOENT') return null;
+    throw error;
+  }
+}
 
 const legacyDomPath=resolve(arg('--legacy-dom'));
 const starbloxDomPath=resolve(arg('--starblox-dom'));
@@ -149,16 +157,20 @@ const profilePath=resolve(arg('--profile','docs/roblox-world/LEGACY_BROOKHAVEN_P
 const diffPath=resolve(arg('--diff','docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json'));
 const planPath=resolve(arg('--plan','docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json'));
 const readinessPath=resolve(arg('--readiness','docs/BROOKHAVEN_PARITY_READINESS.json'));
+const sanitizationPath=resolve(arg('--sanitization','docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json'));
+const spawnDecisionPath=resolve(arg('--spawn-decision','docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json'));
 
 if(!legacyDomPath || !starbloxDomPath || !acquisitionPath){
   throw new Error('--legacy-dom, --starblox-dom, and --acquisition are required');
 }
 
-const [legacyDom,starbloxDom,acquisition,readiness]=await Promise.all([
+const [legacyDom,starbloxDom,acquisition,readiness,sanitization,spawnDecision]=await Promise.all([
   readFile(legacyDomPath,'utf8').then(JSON.parse),
   readFile(starbloxDomPath,'utf8').then(JSON.parse),
   readFile(acquisitionPath,'utf8').then(JSON.parse),
-  readFile(readinessPath,'utf8').then(JSON.parse)
+  readFile(readinessPath,'utf8').then(JSON.parse),
+  readOptionalJson(sanitizationPath),
+  readOptionalJson(spawnDecisionPath)
 ]);
 
 const legacyWorkspace=findNamed(legacyDom,'Workspace') || legacyDom;
@@ -225,16 +237,25 @@ const diff={
 
 const catalog=readiness.catalog||{};
 const interactionReadiness=readiness.interactions||{};
+const geometryBreadthClosed=
+  sanitization?.status==='legacy-brookhaven-geometry-sanitized' &&
+  Number(sanitization?.output?.geometryCount)===legacyProfile.geometryCount &&
+  Number(sanitization?.output?.forbiddenGameplayClassCount)===0 &&
+  sanitization?.output?.allGeometryAnchored===true;
+const spawnTownCenterClosed=
+  spawnDecision?.status==='legacy-town-center-spawn-pattern-applied' &&
+  spawnDecision?.implementation?.pattern==='legacy-town-center-3x3-v1' &&
+  Number(spawnDecision?.implementation?.slots)===9;
 const priorities=[];
 function add(priority,area,reason,metrics,nextAction){
   priorities.push({priority,area,reason,metrics,nextAction});
 }
-if(starbloxProfile.geometryCount<legacyProfile.geometryCount){
+if(starbloxProfile.geometryCount<legacyProfile.geometryCount && !geometryBreadthClosed){
   add('P0','world-geometry','StarBlox contains fewer geometry instances than the legacy Brookhaven workspace.',
     {legacy:legacyProfile.geometryCount,starblox:starbloxProfile.geometryCount,coverage:geometryCoverage},
     'Reconstruct highest-impact missing world geometry in isolated development batches and re-run the structural diff.');
 }
-if((interactions.spawn?.legacy||0)>(interactions.spawn?.starblox||0)){
+if((interactions.spawn?.legacy||0)>(interactions.spawn?.starblox||0) && !spawnTownCenterClosed){
   add('P0','spawn-town-center','Legacy source exposes more spawn/town-center named structure than StarBlox.',
     interactions.spawn,
     'Use the legacy spawn/town-center structure as a development reference for StarBlox spawn placement and first-view composition.');
@@ -287,6 +308,24 @@ const plan={
     p2:priorities.filter(x=>x.priority==='P2').length
   },
   priorities,
+  completedP0:{
+    worldGeometry:{
+      closed:geometryBreadthClosed,
+      sanitizedGeometryCount:Number(sanitization?.output?.geometryCount||0),
+      forbiddenGameplayClassCount:Number(sanitization?.output?.forbiddenGameplayClassCount||0),
+      sourceReceipt:geometryBreadthClosed
+        ? 'docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json'
+        : null
+    },
+    spawnTownCenter:{
+      closed:spawnTownCenterClosed,
+      pattern:spawnDecision?.implementation?.pattern||null,
+      slots:Number(spawnDecision?.implementation?.slots||0),
+      sourceReceipt:spawnTownCenterClosed
+        ? 'docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json'
+        : null
+    }
+  },
   measuredBaseline:{
     legacy:{
       instances:legacyProfile.instanceCount,
@@ -297,6 +336,11 @@ const plan={
       instances:starbloxProfile.instanceCount,
       geometry:starbloxProfile.geometryCount,
       assets:starbloxProfile.uniqueAssetIdCount
+    },
+    sanitizedDevelopmentGeometry:{
+      geometry:Number(sanitization?.output?.geometryCount||0),
+      safeVisualChildren:Number(sanitization?.output?.safeVisualChildCount||0),
+      sha256:sanitization?.output?.sha256||null
     }
   },
   releaseBoundary:{
@@ -305,7 +349,9 @@ const plan={
     exactParityClaimAllowed:false,
     productionActivationAllowed:false
   },
-  nextAction:'execute P0/P1 development batches, then re-run this pipeline and final mobile QA'
+  nextAction:priorities.some(x=>x.priority==='P0')
+    ? 'execute remaining P0/P1 development batches, then re-run this pipeline and final mobile QA'
+    : 'P0 development gaps are closed; continue P1 interaction/catalog batches, then final mobile QA'
 };
 
 for(const [path,value] of [[profilePath,profile],[diffPath,diff],[planPath,plan]]){
