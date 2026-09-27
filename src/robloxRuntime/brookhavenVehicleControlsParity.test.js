@@ -41,6 +41,20 @@ describe('Brookhaven parity: owned vehicle controls',()=>{
     expect(service).toContain('local steer = math.clamp(seat.SteerFloat, -1, 1)');
   });
 
+  it('ejects competing players from every seat while the vehicle is locked',()=>{
+    const service=read('roblox/src/server/MirrorLifestyleService.luau');
+    const guardStart=service.indexOf('local function ejectLockedVehicleGuests');
+    const guardEnd=service.indexOf('local function toolHandle',guardStart);
+    const guard=service.slice(guardStart,guardEnd);
+
+    expect(guard).toContain('model:GetAttribute("Locked") ~= true');
+    expect(guard).toContain('for _, descendant in model:GetDescendants() do');
+    expect(service).toContain('instance:IsA("Seat") or instance:IsA("VehicleSeat")');
+    expect(guard).toContain('if seatedPlayer ~= owner then');
+    expect(guard).toContain('occupant.Sit = false');
+    expect((service.match(/ejectLockedVehicleGuests\(player, model\)/g)||[]).length).toBe(2);
+  });
+
   it('shows controls only while the owner is driving their runtime vehicle',()=>{
     const client=read('roblox/src/client/VehicleControls.client.luau');
 
