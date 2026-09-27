@@ -90,7 +90,10 @@ jobs:
           grep -q '"status": "legacy-reference-7b-development-plan-generated"' docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
 
       - name: Verify legacy Brookhaven pipeline receipts
-        run: npx vitest run src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js
+        run: |
+          npx vitest run \
+            src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js \
+            src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
 
       - name: Commit deterministic analysis receipts
         run: |
