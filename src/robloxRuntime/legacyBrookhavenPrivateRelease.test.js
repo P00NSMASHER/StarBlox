@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 import {describe,expect,it} from 'vitest';
 import {
   LEGACY_BROOKHAVEN_PRIVATE_RELEASE_VERSION,
+  buildLegacyPublishedServerProbeScript,
   verifyLegacyCandidateForPrivatePublish
 } from './legacyBrookhavenPrivateRelease.js';
 
@@ -27,7 +28,18 @@ function candidate(bytes){
       releaseChannel:'private-staging',
       productionActivationAllowed:false
     },
+    bindings:{
+      doors:39,
+      garages:5,
+      lights:8,
+      plots:7
+    },
     catalogs:{
+      runtime:{
+        vehicles:19,
+        inventoryRuntimeEntries:51,
+        houses:12
+      },
       completion:{
         vehicleCatalogComplete:true,
         inventoryCatalogComplete:true,
@@ -55,6 +67,17 @@ describe('legacy Brookhaven private release binding',()=>{
     expect(result.artifactSha256).toBe(sha(bytes));
     expect(result.geometryCount).toBe(14459);
     expect(result.subtreeInstanceCount).toBe(16951);
+    expect(result).toMatchObject({
+      seatCount:399,
+      vehicleSeatCount:12,
+      doors:39,
+      garages:5,
+      lights:8,
+      plots:7,
+      catalogVehicles:19,
+      catalogInventory:51,
+      catalogHouses:12
+    });
   });
 
   it('fails closed on artifact, source, catalog, or authority drift',()=>{
@@ -75,4 +98,33 @@ describe('legacy Brookhaven private release binding',()=>{
       artifactBytes:bytes,sourceCommit:'a'.repeat(40)
     })).toThrow(/authority boundary/);
   });
+  it('verifies a published Luau session by explicitly starting the production bootstrap',()=>{
+    const script=buildLegacyPublishedServerProbeScript({
+      releaseId:'starblox-legacy-brookhaven-development-v1',
+      versionNumber:27,
+      geometryCount:14459,
+      seatCount:399,
+      vehicleSeatCount:12,
+      doors:39,
+      garages:5,
+      lights:8,
+      plots:7,
+      catalogVehicles:19,
+      catalogInventory:51,
+      catalogHouses:12
+    });
+    expect(script).toContain('Bootstrap.start({');
+    expect(script).toContain('mirrorConfig.World.Mode == "legacy-reference-safe-world"');
+    expect(script).toContain('assert(geometry == 14459');
+    expect(script).toContain('assert(seats == 399');
+    expect(script).toContain('assert(vehicleSeats == 12');
+    expect(script).toContain('assert(#legacyInteractions.Doors == 39');
+    expect(script).toContain('assert(#legacyPlots.Plots == 7');
+    expect(script).toContain('assert(#legacyMirror.Vehicles == 19');
+    expect(script).toContain('assert(#legacyMirror.Inventory == 51');
+    expect(script).toContain('assert(#legacyStore.Styles == 12');
+    expect(script).toContain('STARBLOX_LEGACY_PRIVATE_BOOT_OK');
+    expect(script).not.toContain('Workspace:WaitForChild("BrookhavenWorldRuntime")');
+  });
+
 });
