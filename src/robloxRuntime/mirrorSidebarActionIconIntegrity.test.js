@@ -39,13 +39,13 @@ describe('Mirror sidebar action icon integrity',()=>{
   it('keeps the repair asset-independent and outside Mobile HUD layout ownership',()=>{
     expect(receipt.implementation).toEqual({
       file:'roblox/src/client/MirrorSidebar.client.luau',
-      approach:'five local Frame-composed pictograms; no Image asset dependency',
+      approach:'five action-rail pictograms plus three plot-mode composites; no Image asset dependency',
       externalAssetIds:[],
       thirdPartyArtCopied:false,
       mobileHudLayoutChanged:false,
       actionBindingsChanged:false
     });
-    expect(receipt.comparison).toHaveLength(5);
+    expect(receipt.comparison).toHaveLength(6);
     expect(receipt.comparison.every(row=>row.legacyAssetId===null)).toBe(true);
     expect(receipt.comparison.every(row=>row.exactCurrentLiveArtParity==='UNVERIFIED')).toBe(true);
   });
