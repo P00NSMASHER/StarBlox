@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,9 +14,9 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 6,
+  "attempt": 7,
   "priorAttempt": {
-    "publishedVersion": 29,
+    "publishedVersion": 30,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
@@ -24,16 +24,11 @@
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 29,
+    "diagnosticVersion": 30,
     "manualBootstrapProven": true,
-    "ciRun": 36334934462,
+    "ciRun": 36336735623,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish the merged Steps 1-6 integration candidate with Brookhaven HUD/menu, Home Cams, house travel, vehicle, action-icon, school, and evidence-boundary repairs to private staging for client parity testing.",
-  "requestedSourceCommit": "966dbca9e5cc622a68c8374d9750620e0388b272",
-  "completion": {
-    "publishedVersion": 30,
-    "verifiedVersion": 30,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish the merged screenshot-driven iPhone visual parity repair: neutralized town-center checkerboard/glare, tighter Brookhaven mobile chrome, and contextual school prompts.",
+  "requestedSourceCommit": "f2573bbd35af6b9ddbb19724df6e3ad6cbb03182"
 }
