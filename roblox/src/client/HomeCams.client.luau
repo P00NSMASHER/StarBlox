@@ -29,9 +29,10 @@ root.Parent = gui
 local controls = Instance.new("Frame")
 controls.Name = "CameraControls"
 controls.AnchorPoint = Vector2.new(0.5, 0)
-controls.Position = UDim2.new(0.5, 0, 0, 10)
-controls.Size = UDim2.fromOffset(330, 44)
-controls.BackgroundTransparency = 1
+controls.Position = UDim2.new(0.5, 0, 0, 12)
+controls.Size = UDim2.fromOffset(292, 42)
+controls.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
+controls.BackgroundTransparency = 0.08
 controls.Parent = root
 
 local function round(object: GuiObject, radius: number)
@@ -48,19 +49,22 @@ local function stroke(object: GuiObject)
 	s.Parent = object
 end
 
+round(controls, 11)
+stroke(controls)
+
 local function button(name: string, text: string, x: number, width: number): TextButton
 	local b = Instance.new("TextButton")
 	b.Name = name
 	b.Position = UDim2.fromOffset(x, 0)
-	b.Size = UDim2.fromOffset(width, 42)
-	b.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
-	b.BackgroundTransparency = 0.12
+	b.Size = UDim2.fromOffset(width, 38)
+	b.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
+	b.BackgroundTransparency = 0.18
 	b.Text = text
 	b.TextColor3 = Color3.fromRGB(38, 38, 38)
 	b.Font = Enum.Font.GothamBold
-	b.TextScaled = true
+	b.TextSize = 17
 	b.Parent = controls
-	round(b, 7)
+	round(b, 9)
 	stroke(b)
 	local limit = Instance.new("UITextSizeConstraint")
 	limit.MinTextSize = 12
@@ -69,22 +73,22 @@ local function button(name: string, text: string, x: number, width: number): Tex
 	return b
 end
 
-local previous = button("Previous", "←", 0, 52)
-local cameraLabel = button("CameraLabel", "Home Cam 1/4", 58, 158)
+local previous = button("Previous", "←", 6, 38)
+local cameraLabel = button("CameraLabel", "Home Cam 1/4", 50, 154)
 cameraLabel.AutoButtonColor = false
 cameraLabel.Active = false
-local nextButton = button("Next", "→", 222, 52)
-local close = button("Close", "X", 280, 50)
+local nextButton = button("Next", "→", 210, 38)
+local close = button("Close", "×", 254, 32)
 close.BackgroundColor3 = Color3.fromRGB(205, 36, 36)
 close.TextColor3 = Color3.new(1, 1, 1)
 
 local footer = Instance.new("TextLabel")
 footer.Name = "Hint"
 footer.AnchorPoint = Vector2.new(0.5, 1)
-footer.Position = UDim2.new(0.5, 0, 1, -16)
-footer.Size = UDim2.fromOffset(250, 26)
+footer.Position = UDim2.new(0.5, 0, 1, -12)
+footer.Size = UDim2.fromOffset(180, 24)
 footer.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
-footer.BackgroundTransparency = 0.22
+footer.BackgroundTransparency = 0.12
 footer.Text = "Home Cams"
 footer.TextColor3 = Color3.fromRGB(45, 45, 45)
 footer.Font = Enum.Font.GothamMedium
@@ -183,9 +187,17 @@ local function setShellLabelsVisible(visible: boolean)
 	end
 end
 
+local function setWorldHudVisible(visible: boolean)
+	local shellGui = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
+	if shellGui ~= nil and shellGui:IsA("ScreenGui") then
+		shellGui.Enabled = visible
+	end
+end
+
 local function closeCams()
 	gui.Enabled = false
 	restoreCamera()
+	setWorldHudVisible(true)
 	setShellLabelsVisible(true)
 end
 
@@ -244,6 +256,7 @@ openHomeCams.Event:Connect(function()
 	activePoints = cameraPointsFor(model)
 	activeIndex = 1
 	footer.Text = "Home Cams"
+	setWorldHudVisible(false)
 	gui.Enabled = true
 	setShellLabelsVisible(false)
 	applyCamera()
