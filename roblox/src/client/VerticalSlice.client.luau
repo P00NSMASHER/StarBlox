@@ -3,6 +3,11 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+if BrookhavenMirrorConfig.LearningPresentation.LegacyVerticalSliceEnabled ~= true then
+	return
+end
+
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local remotes = ReplicatedStorage:WaitForChild("StarBloxVerticalSlice", 3)
