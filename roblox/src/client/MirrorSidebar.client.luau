@@ -570,53 +570,52 @@ settingsButton.Active = false
 glass(settingsButton, 10)
 iconLabel(settingsButton, "Icon", ICONS.settings, 20)
 
--- Context menus float over the world instead of living inside a large StarBlox dashboard.
+-- Context menus use a single compact glass card next to the persistent action rail.
 local panel = Instance.new("Frame")
 panel.Name = "BrookhavenContextPanel"
 panel.AnchorPoint = Vector2.new(1, 0)
-panel.Position = UDim2.new(1, -83, 0, 105)
-panel.Size = UDim2.fromOffset(326, 309)
-panel.BackgroundTransparency = 1
+panel.Position = UDim2.new(1, -70, 0, 96)
+panel.Size = UDim2.fromOffset(288, 300)
+panel.BackgroundColor3 = UI.white
+panel.BackgroundTransparency = 0.06
 panel.Visible = false
 panel.ZIndex = 70
 panel.Parent = shell
+glass(panel, 14)
 
 local panelTitle = Instance.new("TextLabel")
 panelTitle.Name = "PanelTitle"
-panelTitle.Position = UDim2.fromOffset(0, 2)
-panelTitle.Size = UDim2.fromOffset(198, 42)
-panelTitle.BackgroundColor3 = UI.white
-panelTitle.BackgroundTransparency = 0.14
+panelTitle.Position = UDim2.fromOffset(12, 8)
+panelTitle.Size = UDim2.new(1, -58, 0, 34)
+panelTitle.BackgroundTransparency = 1
 panelTitle.Text = ""
 panelTitle.TextColor3 = UI.text
 panelTitle.Font = Enum.Font.GothamBold
-panelTitle.TextScaled = true
+panelTitle.TextSize = 16
+panelTitle.TextXAlignment = Enum.TextXAlignment.Left
 panelTitle.ZIndex = 71
 panelTitle.Parent = panel
-round(panelTitle, 6)
-stroke(panelTitle, UI.border, 1, 0.5)
-constrain(panelTitle, 12, 16)
 
 local close = Instance.new("TextButton")
 close.Name = "Close"
 close.AnchorPoint = Vector2.new(1, 0)
-close.Position = UDim2.new(1, 0, 0, 0)
-close.Size = UDim2.fromOffset(52, 48)
+close.Position = UDim2.new(1, -8, 0, 8)
+close.Size = UDim2.fromOffset(34, 34)
 close.BackgroundColor3 = UI.red
-close.Text = "X"
+close.BackgroundTransparency = 0.02
+close.Text = "×"
 close.TextColor3 = Color3.new(1, 1, 1)
 close.Font = Enum.Font.GothamBold
-close.TextScaled = true
+close.TextSize = 22
 close.ZIndex = 74
 close.Parent = panel
-round(close, 6)
-stroke(close, Color3.fromRGB(130, 25, 25), 1, 0.35)
-constrain(close, 22, 29)
+round(close, 10)
+stroke(close, Color3.fromRGB(160, 35, 35), 1, 0.35)
 
 local panelToolbar = Instance.new("Frame")
 panelToolbar.Name = "PanelToolbar"
-panelToolbar.Position = UDim2.fromOffset(0, 0)
-panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+panelToolbar.Position = UDim2.fromOffset(12, 48)
+panelToolbar.Size = UDim2.new(1, -24, 0, 38)
 panelToolbar.BackgroundTransparency = 1
 panelToolbar.Visible = false
 panelToolbar.ZIndex = 73
@@ -624,7 +623,7 @@ panelToolbar.Parent = panel
 
 local toolbarLayout = Instance.new("UIListLayout")
 toolbarLayout.FillDirection = Enum.FillDirection.Horizontal
-toolbarLayout.Padding = UDim.new(0, 3)
+toolbarLayout.Padding = UDim.new(0, 5)
 toolbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
 toolbarLayout.Parent = panelToolbar
 
@@ -647,18 +646,17 @@ local function toolbarButton(
 	local button = Instance.new("TextButton")
 	button.Name = name
 	button.LayoutOrder = order
-	button.Size = UDim2.fromOffset(46, 44)
-	button.BackgroundColor3 = if selected then UI.tileSelected else UI.white
-	button.BackgroundTransparency = 0.16
+	button.Size = UDim2.fromOffset(38, 38)
+	button.BackgroundColor3 = if selected then UI.selected else UI.white
+	button.BackgroundTransparency = if selected then 0.08 else 0.18
 	button.Text = symbol
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextSize = 18
 	button.ZIndex = 74
 	button.Parent = panelToolbar
-	round(button, 6)
-	stroke(button, UI.border, 1, 0.45)
-	constrain(button, 16, 24)
+	round(button, 10)
+	stroke(button, UI.border, 1, 0.55)
 	button.Activated:Connect(callback)
 	return button
 end
@@ -666,24 +664,23 @@ end
 local statusText = Instance.new("TextLabel")
 statusText.Name = "Status"
 statusText.AnchorPoint = Vector2.new(0, 1)
-statusText.Position = UDim2.new(0, 0, 1, 0)
-statusText.Size = UDim2.new(1, -58, 0, 24)
+statusText.Position = UDim2.new(0, 12, 1, -10)
+statusText.Size = UDim2.new(1, -24, 0, 24)
 statusText.BackgroundColor3 = UI.white
-statusText.BackgroundTransparency = 0.22
+statusText.BackgroundTransparency = 0.10
 statusText.Text = ""
 statusText.TextColor3 = UI.muted
 statusText.Font = Enum.Font.GothamMedium
-statusText.TextScaled = true
+statusText.TextSize = 10
 statusText.Visible = false
 statusText.ZIndex = 72
 statusText.Parent = panel
-round(statusText, 6)
-constrain(statusText, 9, 12)
+round(statusText, 8)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Grid"
-scroller.Position = UDim2.fromOffset(50, 54)
-scroller.Size = UDim2.new(1, -50, 1, -58)
+scroller.Position = UDim2.fromOffset(56, 94)
+scroller.Size = UDim2.new(1, -68, 1, -106)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -694,8 +691,8 @@ scroller.Parent = panel
 
 local categoryRail = Instance.new("Frame")
 categoryRail.Name = "CategoryRail"
-categoryRail.Position = UDim2.fromOffset(0, 54)
-categoryRail.Size = UDim2.fromOffset(44, 245)
+categoryRail.Position = UDim2.fromOffset(12, 94)
+categoryRail.Size = UDim2.fromOffset(38, 194)
 categoryRail.BackgroundTransparency = 1
 categoryRail.Visible = false
 categoryRail.ZIndex = 72
@@ -709,27 +706,28 @@ categoryList.Parent = categoryRail
 
 local grid = Instance.new("UIGridLayout")
 grid.CellPadding = UDim2.fromOffset(5, 5)
-grid.CellSize = UDim2.fromOffset(62, 64)
+grid.CellSize = UDim2.fromOffset(58, 58)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
-grid.HorizontalAlignment = Enum.HorizontalAlignment.Right
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.Parent = scroller
 
--- Brookhaven's House action first chooses a vacant lot with previous/next + GO.
+-- Compact house/plot picker uses the same card language instead of covering the middle of the screen.
 local plotSelector = Instance.new("Frame")
 plotSelector.Name = "HousePlotSelector"
-plotSelector.AnchorPoint = Vector2.new(0.5, 0.5)
-plotSelector.Position = UDim2.fromScale(0.5, 0.43)
-plotSelector.Size = UDim2.fromOffset(520, 206)
-plotSelector.BackgroundTransparency = 1
+plotSelector.AnchorPoint = Vector2.new(1, 0)
+plotSelector.Position = UDim2.new(1, -70, 0, 96)
+plotSelector.Size = UDim2.fromOffset(300, 184)
+plotSelector.BackgroundColor3 = UI.white
+plotSelector.BackgroundTransparency = 0.06
 plotSelector.Visible = false
 plotSelector.ZIndex = 68
 plotSelector.Parent = shell
+glass(plotSelector, 14)
 
 local plotModes = Instance.new("Frame")
 plotModes.Name = "PlotModes"
-plotModes.AnchorPoint = Vector2.new(0.5, 0)
-plotModes.Position = UDim2.new(0.5, 0, 0, 0)
-plotModes.Size = UDim2.fromOffset(510, 58)
+plotModes.Position = UDim2.fromOffset(10, 10)
+plotModes.Size = UDim2.fromOffset(280, 44)
 plotModes.BackgroundTransparency = 1
 plotModes.ZIndex = 69
 plotModes.Parent = plotSelector
@@ -737,53 +735,31 @@ plotModes.Parent = plotSelector
 for index = 1, 3 do
 	local mode = Instance.new("TextButton")
 	mode.Name = "Mode" .. tostring(index)
-	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
-	mode.Size = UDim2.fromOffset(164, 54)
-	mode.BackgroundColor3 =
-		if index == 1 then Color3.fromRGB(191, 191, 191)
-		elseif index == 2 then Color3.fromRGB(199, 184, 126)
-		else Color3.fromRGB(166, 184, 202)
-	mode.BackgroundTransparency = 0.1
+	mode.Position = UDim2.fromOffset((index - 1) * 94, 0)
+	mode.Size = UDim2.fromOffset(88, 44)
+	mode.BackgroundColor3 = if index == 1 then UI.selected else UI.tile
+	mode.BackgroundTransparency = if index == 1 then 0.08 else 0.18
 	mode.Text = ""
-	mode.TextColor3 = UI.text
-	mode.Font = Enum.Font.GothamBold
-	mode.TextScaled = true
 	mode.AutoButtonColor = false
 	mode.Active = false
 	mode.ZIndex = 70
 	mode.Parent = plotModes
-	round(mode, 5)
-	stroke(mode, UI.border, 1, 0.4)
-	constrain(mode, 18, 26)
+	round(mode, 10)
+	stroke(mode, UI.border, 1, 0.55)
 	drawPlotModeIcon(mode, index)
-
-	if index == 1 then
-		local check = Instance.new("TextLabel")
-		check.Name = "SelectedCheck"
-		check.Position = UDim2.new(0.5, 5, 0.5, -16)
-		check.Size = UDim2.fromOffset(28, 28)
-		check.BackgroundTransparency = 1
-		check.Text = "✓"
-		check.TextColor3 = Color3.fromRGB(44, 210, 65)
-		check.Font = Enum.Font.GothamBold
-		check.TextScaled = true
-		check.ZIndex = 71
-		check.Parent = mode
-		constrain(check, 18, 24)
-	end
 end
 
 local plotCard = Instance.new("Frame")
 plotCard.Name = "PlotCard"
 plotCard.AnchorPoint = Vector2.new(0.5, 0)
-plotCard.Position = UDim2.new(0.5, 0, 0, 88)
-plotCard.Size = UDim2.fromOffset(220, 58)
-plotCard.BackgroundColor3 = UI.white
-plotCard.BackgroundTransparency = 0.2
+plotCard.Position = UDim2.new(0.5, 0, 0, 64)
+plotCard.Size = UDim2.fromOffset(180, 56)
+plotCard.BackgroundColor3 = UI.tile
+plotCard.BackgroundTransparency = 0.10
 plotCard.ZIndex = 69
 plotCard.Parent = plotSelector
-round(plotCard, 7)
-stroke(plotCard, UI.border, 1, 0.4)
+round(plotCard, 10)
+stroke(plotCard, UI.border, 1, 0.55)
 
 local plotTitle = Instance.new("TextLabel")
 plotTitle.Name = "PlotTitle"
@@ -793,81 +769,81 @@ plotTitle.BackgroundTransparency = 1
 plotTitle.Text = "House #1"
 plotTitle.TextColor3 = UI.text
 plotTitle.Font = Enum.Font.GothamBold
-plotTitle.TextScaled = true
+plotTitle.TextSize = 15
 plotTitle.ZIndex = 70
 plotTitle.Parent = plotCard
-constrain(plotTitle, 14, 19)
 
 local plotStatus = Instance.new("TextLabel")
 plotStatus.Name = "PlotStatus"
 plotStatus.Position = UDim2.fromOffset(8, 30)
-plotStatus.Size = UDim2.new(1, -16, 0, 20)
+plotStatus.Size = UDim2.new(1, -16, 0, 18)
 plotStatus.BackgroundTransparency = 1
 plotStatus.Text = "Vacant"
-plotStatus.TextColor3 = UI.text
+plotStatus.TextColor3 = UI.muted
 plotStatus.Font = Enum.Font.GothamMedium
-plotStatus.TextScaled = true
+plotStatus.TextSize = 11
 plotStatus.ZIndex = 70
 plotStatus.Parent = plotCard
-constrain(plotStatus, 11, 15)
 
 local function plotArrow(name: string, text: string, x: number): TextButton
 	local button = Instance.new("TextButton")
 	button.Name = name
 	button.AnchorPoint = Vector2.new(0.5, 0)
-	button.Position = UDim2.new(0.5, x, 0, 91)
-	button.Size = UDim2.fromOffset(70, 70)
+	button.Position = UDim2.new(0.5, x, 0, 72)
+	button.Size = UDim2.fromOffset(40, 40)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.24
+	button.BackgroundTransparency = 0.14
 	button.Text = text
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextSize = 22
 	button.ZIndex = 70
 	button.Parent = plotSelector
-	round(button, 35)
-	stroke(button, UI.border, 2, 0.18)
-	constrain(button, 32, 42)
+	round(button, 12)
+	stroke(button, UI.border, 1, 0.5)
 	return button
 end
 
-local previousPlot = plotArrow("PreviousPlot", "←", -178)
-local nextPlot = plotArrow("NextPlot", "→", 178)
+local previousPlot = plotArrow("PreviousPlot", "←", -116)
+local nextPlot = plotArrow("NextPlot", "→", 116)
 
 local plotGo = Instance.new("TextButton")
 plotGo.Name = "PlotGo"
 plotGo.AnchorPoint = Vector2.new(0.5, 0)
-plotGo.Position = UDim2.new(0.5, -82, 0, 154)
-plotGo.Size = UDim2.fromOffset(154, 42)
+plotGo.Position = UDim2.new(0.5, -63, 0, 132)
+plotGo.Size = UDim2.fromOffset(120, 38)
 plotGo.BackgroundColor3 = UI.green
-plotGo.BackgroundTransparency = 0.04
-plotGo.Text = "CLAIM PLOT"
+plotGo.BackgroundTransparency = 0.02
+plotGo.Text = "CLAIM"
 plotGo.TextColor3 = Color3.new(1, 1, 1)
 plotGo.Font = Enum.Font.GothamBold
-plotGo.TextScaled = true
+plotGo.TextSize = 15
 plotGo.ZIndex = 70
 plotGo.Parent = plotSelector
-constrain(plotGo, 25, 32)
 round(plotGo, 10)
 stroke(plotGo, Color3.fromRGB(37, 126, 56), 1, 0.25)
 
 local plotCatalog = Instance.new("TextButton")
 plotCatalog.Name = "HouseCatalog"
 plotCatalog.AnchorPoint = Vector2.new(0.5, 0)
-plotCatalog.Position = UDim2.new(0.5, 82, 0, 154)
-plotCatalog.Size = UDim2.fromOffset(154, 42)
+plotCatalog.Position = UDim2.new(0.5, 63, 0, 132)
+plotCatalog.Size = UDim2.fromOffset(120, 38)
 plotCatalog.BackgroundColor3 = Color3.fromRGB(74, 153, 224)
-plotCatalog.BackgroundTransparency = 0.04
-plotCatalog.Text = "BUY / CHANGE"
+plotCatalog.BackgroundTransparency = 0.02
+plotCatalog.Text = "CHANGE"
 plotCatalog.TextColor3 = Color3.new(1, 1, 1)
 plotCatalog.Font = Enum.Font.GothamBold
-plotCatalog.TextScaled = true
+plotCatalog.TextSize = 13
 plotCatalog.Visible = false
 plotCatalog.ZIndex = 70
 plotCatalog.Parent = plotSelector
 round(plotCatalog, 10)
 stroke(plotCatalog, Color3.fromRGB(41, 99, 153), 1, 0.25)
-constrain(plotCatalog, 12, 16)
+
+local function setSecondaryChromeVisible(visible: boolean)
+	topCluster.Visible = visible
+	shopShortcut.Visible = visible
+end
 
 local mirrorState = nil
 local roleplayState = nil
