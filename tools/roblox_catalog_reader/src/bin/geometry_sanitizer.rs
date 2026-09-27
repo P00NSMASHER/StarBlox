@@ -204,7 +204,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output_root = output.root_ref();
     let model = output.insert(
         output_root,
-        InstanceBuilder::new("Model").with_name("LegacyBrookhavenGeometryBaseline"),
+        InstanceBuilder::new("Model").with_name("BrookhavenWorldBaseline"),
     );
 
     let mut geometry_count = 0usize;
@@ -250,7 +250,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         },
         "output": {
             "path": output_path,
-            "rootName": "LegacyBrookhavenGeometryBaseline",
+            "rootName": "BrookhavenWorldBaseline",
             "format": "rbxmx",
             "bytes": bytes.len(),
             "sha256": digest,
