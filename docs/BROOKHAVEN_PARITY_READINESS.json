@@ -80,7 +80,13 @@
     "behaviorEvidenceIntakeReady": true,
     "behaviorEvidenceGate": "docs/CURRENT_BROOKHAVEN_BEHAVIOR_GATE.json",
     "behaviorComparisonCompleted": false,
-    "behaviorParityVerified": false
+    "behaviorParityVerified": false,
+    "behaviorComparisonToolReady": true,
+    "behaviorComparisonCommand": "npm run roblox:brookhaven-current-source:evaluate-behavior-parity",
+    "combinedParityGateReady": true,
+    "combinedParityGate": "docs/CURRENT_BROOKHAVEN_COMBINED_PARITY_GATE.json",
+    "combinedParityCommand": "npm run roblox:brookhaven-current-source:evaluate-combined-parity",
+    "coreCurrentLiveParityVerified": false
   },
   "release": {
     "privatePublishPathAvailable": true,
