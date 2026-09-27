@@ -80,6 +80,9 @@ jobs:
           grep -q '"status": "legacy-vs-starblox-compared"' docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json
           grep -q '"status": "legacy-reference-7b-development-plan-generated"' docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
 
+      - name: Verify legacy Brookhaven pipeline receipts
+        run: npx vitest run src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js
+
       - name: Commit deterministic analysis receipts
         run: |
           git config user.name "github-actions[bot]"
