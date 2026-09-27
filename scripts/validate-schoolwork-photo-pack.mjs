@@ -20,6 +20,7 @@ function option(name,fallback){
 const catalogOut=option('--catalog-out','docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json');
 const receiptOut=option('--receipt-out','docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json');
 const snapshotId=option('--snapshot-id','schoolwork-preview');
+const generationVariant=Math.max(0,Math.floor(Number(option('--generation-variant','0'))||0));
 
 const rawPack=JSON.parse(readFileSync(sourcePath,'utf8'));
 const sourceIssues=validateSanitizedSchoolworkPack(rawPack);
@@ -45,7 +46,7 @@ if(effectiveIssues.length){
   process.exit(1);
 }
 
-const catalog=buildSchoolworkQuestionCatalog(pack,{snapshotId});
+const catalog=buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant});
 const active=selectActiveSchoolworkQuestions(catalog,{maxPerStation:4});
 const receipt={
   ...makeSchoolworkReviewReceipt(pack,catalog,active),
@@ -66,6 +67,9 @@ console.log(JSON.stringify({
   sourceHash:catalog.sourceHash,
   generatedQuestionCandidates:catalog.questions.length,
   activeQuestionCount:active.length,
+  generationMode:catalog.generationMode,
+  generationVariant:catalog.generationVariant,
+  sourceTransform:receipt.sourceTransform,
   activeByStation:receipt.activeByStation,
   reviewGate:receipt.reviewGate,
   catalogOut,
