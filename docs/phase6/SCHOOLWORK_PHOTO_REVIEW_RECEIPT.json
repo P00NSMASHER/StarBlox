@@ -7,6 +7,10 @@
   "acceptedSkillSignals": 12,
   "generatedQuestionCandidates": 36,
   "activeQuestionCount": 12,
+  "generationMode": "skill-only-equivalent-item",
+  "generationVariant": 1,
+  "sourceTransform": "skill-only-equivalent-item-v1",
+  "originalEquivalentQuestionCount": 36,
   "activeByStation": {
     "word-portal-put-v1": 4,
     "spelling-forge-fog-v1": 4,

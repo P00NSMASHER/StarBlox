@@ -7,24 +7,25 @@
     "path": "pages/data/study-pack.json",
     "scanner": "scripts/refresh-teacher-pages.mjs",
     "scannerCommit": "2416a088e19486f3fa7d0cf242ca978cd4ba1739",
-    "generatorVersion": "dynamic-abvm-star-sync-generator-v5-schoolwork-photo",
+    "generatorVersion": "dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork",
     "healthCheck": "scripts/check-refresh-health.mjs",
     "sourceHash": "teacher-pages-36ebaede87cba691e51e",
     "combinedSourceHash": "sha256:b9d55008a7c42b12f4be7071c2fc7470fbfb754289b2a72302392d45e20a6ee5",
     "schoolworkSourceHash": "sha256:0da2e5346c56eafaf81605e495d1a6ad430be49e4c698101bafbcc72f6d7a329",
+    "schoolworkGenerationVariant": 1,
     "schoolworkBatchId": "schoolwork-2026-09-26-001",
     "schoolworkPackVersion": "schoolwork-photo-source-v1",
     "schoolworkCatalogVersion": "schoolwork-photo-question-catalog-v1",
     "sourceCapturedAt": "2026-09-26T20:23:53.555Z",
-    "sourceCheckedAt": "2026-09-26T23:04:16.717Z",
+    "sourceCheckedAt": "2026-09-27T01:33:15.165Z",
     "weekLabel": "Week of September 21, 2026",
-    "bankSnapshotId": "abvm-b9d55008a7c4-27ba47"
+    "bankSnapshotId": "abvm-b9d55008a7c4-629ea7"
   },
   "starAlignment": {
     "assessment": "Renaissance Star Reading and Star Math",
     "itemPolicy": "original-practice-only-not-copied-test-items",
     "regenerationPolicy": "regenerate-on-every-verified-ABVM-source-change",
-    "schoolworkRegenerationPolicy": "regenerate-on-sanitized-schoolwork-pack-change",
+    "schoolworkRegenerationPolicy": "regenerate-on-sanitized-schoolwork-pack-or-review-decision-change",
     "readingDomains": [
       "Word knowledge and skills",
       "Comprehension strategies and constructing meaning",
@@ -46,6 +47,9 @@
     "schoolworkPhotoMaxPerStation": 4,
     "schoolworkPhotoActiveQuestionCount": 12,
     "schoolworkPhotoCandidateQuestionCount": 36,
+    "schoolworkPhotoGenerationMode": "skill-only-equivalent-item",
+    "schoolworkPhotoGenerationVariant": 1,
+    "schoolworkPhotoSourceTransform": "skill-only-equivalent-item-v1",
     "schoolworkPhotoPrivacyContract": "no-raw-images-no-identity-no-responses-no-marks-no-grades-no-raw-worksheet-text",
     "materialCountByStation": {
       "word-portal-put-v1": 12,
@@ -75,20 +79,23 @@
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "vocabulary-in-context",
-      "prompt": "Which meaning best matches the word “fair” in “The teams took fair turns”?",
+      "prompt": "In “After the storm ended, the lake became calm.” what does “calm” mean?",
       "choices": [
-        "equal and just",
-        "very fast",
-        "off to one side"
+        "quiet and peaceful",
+        "loud and busy",
+        "far away"
       ],
-      "answer": "equal and just",
-      "explanation": "Fair means people are treated equally and justly.",
+      "answer": "quiet and peaceful",
+      "explanation": "Use the surrounding sentence to choose the meaning that makes sense.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: vocabulary-in-context; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-vocabulary-definition-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-vocabulary-definition-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.L.2.4"
       ],
@@ -98,12 +105,12 @@
       "scaffold": "Use the rest of the sentence to test the word’s meaning.",
       "choiceDiagnostics": [
         {
-          "choice": "very fast",
+          "choice": "loud and busy",
           "misconception": "context-meaning-confusion",
           "feedback": "Test each meaning in the sentence and keep the one that makes sense."
         },
         {
-          "choice": "off to one side",
+          "choice": "far away",
           "misconception": "context-meaning-confusion",
           "feedback": "Test each meaning in the sentence and keep the one that makes sense."
         }
@@ -115,8 +122,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "very fast": 1,
-          "off to one side": 1
+          "loud and busy": 1,
+          "far away": 1
         }
       },
       "alignmentEvidence": {
@@ -128,7 +135,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:bc067745e372d6b2e10365e4a59dac31f6569a313a68f37520dd7d67182c08cc",
+      "contentHash": "sha256:b6878b69eb9e7d45d407a22d785c7c1e09803f8dbda0fa0c1c1bf75d6b2f46fa",
       "signalId": "vocabulary-definition",
       "questionType": "direct",
       "coverageWeight": 3,
@@ -138,20 +145,23 @@
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "story-elements",
-      "prompt": "Read: “Owen practiced his lines after dinner. The next day, he spoke clearly in the class play.” Who does the passage focus on most?",
+      "prompt": "Read: “Marcus practiced dribbling after school. At Saturday’s game, he kept control of the ball and helped his team.” Who does the passage focus on most?",
       "choices": [
-        "Owen",
-        "his family",
-        "the audience"
+        "Marcus",
+        "the audience",
+        "a coach"
       ],
-      "answer": "Owen",
-      "explanation": "Most of the actions and details are about Owen.",
+      "answer": "Marcus",
+      "explanation": "Most of the actions and details center on this person.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Analyzing literary text",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-main-character-transfer",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-reading-main-character-transfer-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RL.2.3"
       ],
@@ -161,12 +171,12 @@
       "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
       "choiceDiagnostics": [
         {
-          "choice": "his family",
+          "choice": "the audience",
           "misconception": "story-element-confusion",
           "feedback": "Use the passage details to identify the main character, setting, or other story element."
         },
         {
-          "choice": "the audience",
+          "choice": "a coach",
           "misconception": "story-element-confusion",
           "feedback": "Use the passage details to identify the main character, setting, or other story element."
         }
@@ -178,8 +188,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "his family": 0,
-          "the audience": 0
+          "the audience": 0,
+          "a coach": 0
         }
       },
       "alignmentEvidence": {
@@ -191,7 +201,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c00e1ed35607755506d209362f7d829bb597e3edb4b3e13518c06a6ea3f83606",
+      "contentHash": "sha256:4306838ab7deafa0fd2389902aeb9da0bfb33e7e5d637bdd1cf386c05d75133c",
       "signalId": "reading-main-character",
       "questionType": "transfer",
       "coverageWeight": 4,
@@ -201,20 +211,23 @@
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "story-elements",
-      "prompt": "Which clue is most useful when figuring out a story’s setting?",
+      "prompt": "What evidence should you use to identify a story’s setting?",
       "choices": [
-        "Details that tell where or when events happen.",
-        "The number of letters in a character’s name.",
-        "How many sentences are in the story."
+        "Details that reveal where or when events happen.",
+        "The number of characters.",
+        "The length of the title."
       ],
-      "answer": "Details that tell where or when events happen.",
-      "explanation": "Setting means the time and place of a story.",
+      "answer": "Details that reveal where or when events happen.",
+      "explanation": "Setting is the time and place of the story.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: story-elements; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Analyzing literary text",
       "difficulty": 3,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-setting-reasoning",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-reading-setting-reasoning-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RL.2.3"
       ],
@@ -224,12 +237,12 @@
       "scaffold": "Find the details that tell who the story is mostly about and where it happens.",
       "choiceDiagnostics": [
         {
-          "choice": "The number of letters in a character’s name.",
+          "choice": "The number of characters.",
           "misconception": "story-element-confusion",
           "feedback": "Use the passage details to identify the main character, setting, or other story element."
         },
         {
-          "choice": "How many sentences are in the story.",
+          "choice": "The length of the title.",
           "misconception": "story-element-confusion",
           "feedback": "Use the passage details to identify the main character, setting, or other story element."
         }
@@ -241,8 +254,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "The number of letters in a character’s name.": 0,
-          "How many sentences are in the story.": 0
+          "The number of characters.": 0,
+          "The length of the title.": 0
         }
       },
       "alignmentEvidence": {
@@ -254,7 +267,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:95fe51b70e695a8a589261d8353c0ae3f9beb62befb2b4bbed711e680a8734e7",
+      "contentHash": "sha256:e680c5fe0849146fa0f082d450250f75f6a1b617bd31e2d2f215afe9a518dbd2",
       "signalId": "reading-setting",
       "questionType": "reasoning",
       "coverageWeight": 4,
@@ -264,20 +277,23 @@
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
-      "prompt": "Read: “Mia saw her little brother standing alone, so she moved over and made room for him in the game.” Why did Mia move over?",
+      "prompt": "Read: “Eli found a wallet near the playground and carried it to the school office.” Why did the character act that way?",
       "choices": [
-        "She wanted to include her brother.",
-        "She wanted the game to end.",
-        "She forgot where she was sitting."
+        "He wanted to help return it to its owner.",
+        "The character wanted to make the problem harder.",
+        "The character forgot what was happening."
       ],
-      "answer": "She wanted to include her brother.",
-      "explanation": "Her brother was alone, and Mia made room so he could join.",
+      "answer": "He wanted to help return it to its owner.",
+      "explanation": "Use the situation and action together to infer the reason.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: inference; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-character-motivation-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-reading-character-motivation-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RL.2.1"
       ],
@@ -287,12 +303,12 @@
       "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
       "choiceDiagnostics": [
         {
-          "choice": "She wanted the game to end.",
+          "choice": "The character wanted to make the problem harder.",
           "misconception": "unsupported-inference",
           "feedback": "The best inference must be supported by a specific clue in the text."
         },
         {
-          "choice": "She forgot where she was sitting.",
+          "choice": "The character forgot what was happening.",
           "misconception": "unsupported-inference",
           "feedback": "The best inference must be supported by a specific clue in the text."
         }
@@ -304,8 +320,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "She wanted the game to end.": 0,
-          "She forgot where she was sitting.": 0
+          "The character wanted to make the problem harder.": 0,
+          "The character forgot what was happening.": 0
         }
       },
       "alignmentEvidence": {
@@ -317,14 +333,14 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a39121c82a540b6cd6e574e367c3b2946ffacd7134e1c9d9f62c0002f9d95cb8",
+      "contentHash": "sha256:2e0cdc04110a8a89790e1c75d04dee0cdb9f43e4dc3bdd629f304eaf2e6a1bae",
       "signalId": "reading-character-motivation",
       "questionType": "direct",
       "coverageWeight": 5,
       "photoDerived": true
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-sentence-command",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-sentence-command",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -380,10 +396,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:4becfde26189ae356d231212a90c5ba31a5cc9c37ed4ee7170ea48f911aa09a8"
+      "contentHash": "sha256:3aebb4c915d35c3b4a1f191889439db07abded0049ded73fb1fdc679e59b8876"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-sentence-question",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-sentence-question",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -439,10 +455,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c28d24b9e9ffa0a6b0c2046cb24999ef593cf62c6bcec3586df11f8726287c38"
+      "contentHash": "sha256:f9d9752299f9c14df84f65f50bdfdbb8a711ee41fa3fba57c358f908b5cf676f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-sentence-purpose",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-sentence-purpose",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -498,10 +514,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:74511b53afc60008471b573238feba38f1c9e811554fcde3272af4c1d3436f6e"
+      "contentHash": "sha256:fa415a1ed7cac2c2bb1e6ccc2a4e132f3882783ce7ee162fd3da76c81db8f6c7"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-blend-transfer",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-blend-transfer",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -557,10 +573,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:72ee3ed9cd5ab53b0addd6dcc62b65e39957b9bbe0ae087c02473fc8d63596fb"
+      "contentHash": "sha256:fceb39b073ebcb3bbd9d340d33e018e1bbea266dd3c581cfb736eec0a6e36eb5"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-blend-middle",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-blend-middle",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -616,10 +632,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:f56417071a1cf1d9544d24255e5c4cc0c395049e0bf050ec1a227bb473112fe7"
+      "contentHash": "sha256:0e912463b612e8c998bb38786a6516e96926ee09d4075eeb67edb952c2ec89f1"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-blend-change",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-blend-change",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -675,10 +691,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:496b88097b7547c4782a35133d90593df1c018f83b6cb51c89871162fc20c8d5"
+      "contentHash": "sha256:cb8707fae3bb8b1612fb5e24485b85a335aeeb0fef9def7f6412d502445e9f98"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-cvc-reason",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-cvc-reason",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-structure",
@@ -734,10 +750,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:16384feb02f231e6eba009ee02dc49d2686a4e12a952706bb36098c93dd837f6"
+      "contentHash": "sha256:69831f0d9609f44ec7b5a31e185646fb5ad10fc806f03e49f09e76f3c8670c95"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-read-cvc-build",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-read-cvc-build",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-structure",
@@ -793,10 +809,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:1b05eed627dc9e65313303b02dc46fcd9fb5fa2a19ede7a1ca5e482051308634"
+      "contentHash": "sha256:3a451733d4dff1a29be81bd4f3cff64d203efa1b0d002bdbdde5c2a9459dd285"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-03-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-03-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cause-effect",
@@ -852,10 +868,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:68952ab264ec72efd4798f9df1bfdb14573e4ca3f479d45b4283d8a852ff291d"
+      "contentHash": "sha256:d5b0696982985a5c7e4e1e2ff27a475b18f841b782826a18ad69b16e03219556"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-52-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-52-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
@@ -911,10 +927,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c1a5c36376e055a0a9d91a5dddc6a57c7d6d70fdc4eeda5fecf5da0e3df67bfc"
+      "contentHash": "sha256:e7cb315c660ecb7e2a9d623c3e787c782733c64f846c89ceee9cdae99cf3ecd9"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-13-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-13-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "text-structure",
@@ -970,10 +986,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:7ceb261aa49d79affb3ff1ff2b85b23076bd2735bea9b8d9acd5f2c5d62a3969"
+      "contentHash": "sha256:7aa23411c5d21367b3f2ed69286a15dd23e069005f3bcfb075d6b5a861ec8c2e"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-29-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-29-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "fractions-shapes",
@@ -1034,10 +1050,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:dda8eaa315d34d437b82fcb6057e90269c224227e482c793518233760c3c796c"
+      "contentHash": "sha256:30eee4953459b804fb2e5caad39fe4100cbc3e64d2cb52de291b498ee7de6161"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-49-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-49-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "compare-numbers",
@@ -1093,10 +1109,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ed63f57cc86e31062190e535e6e680fbd2a84d5feff35db9582df604b74399b2"
+      "contentHash": "sha256:17a41921b213f2a9c6164301a10dc4ab5d9d8e9bd2d8d283cec3424069170244"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-21-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-21-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
@@ -1152,10 +1168,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:71e2280e236a43ed960a54ae30b75a56bac7ac7b33785645380105e5016daa2c"
+      "contentHash": "sha256:75e1d7acf85e362c3c3a43915b976c0e976573852434a5f28ad35eb38c9efd40"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-11-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-11-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "time",
@@ -1216,10 +1232,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:8be87bef8bad3b3a0c857ed72c410bd66207824bb09cb9dd884e31ea2c22c576"
+      "contentHash": "sha256:926c92f616c29fe98a9deba40e8c9a364929d2751ba196a9d1dc135b45a96b78"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-02-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-02-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "subtraction-within-100",
@@ -1275,10 +1291,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:0a3b0a842ddfbbe4bda84541a5a8d0fd14c84a482302542b797e0f995b5af7ea"
+      "contentHash": "sha256:63cf7704363a1cee46986109e23e190743cd476c5c82884145e9e92f6d5b3311"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-11-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-11-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "main-idea",
@@ -1334,10 +1350,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:bfdb03245e7512da8caceeaf12ce2f8432aceb3d386d2914500c3a6ed99c91ec"
+      "contentHash": "sha256:8d22fa66e12948b8c87c4f2f29413d0423ce48195be07d36933ed72f18dd9c0f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-55-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-55-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "probability-language",
@@ -1393,10 +1409,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:558bda280116ac41354b78a23ed0fb372101218381c7f4e024811d762169de9c"
+      "contentHash": "sha256:4ce78bed136c9280ad18647aede86581324224305861b94eca54114d499a40b0"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-23-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-23-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "character-development",
@@ -1452,10 +1468,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:aa596dce2039488e7daadaf4c31a7d6554b160e7ba7fd9a4ff4ed8db68d4676d"
+      "contentHash": "sha256:62186e1b46f53a16e2da9c27db7838d25c894056d87bafe4e87334f7569518c1"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-17-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-17-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "subtraction-within-100",
@@ -1511,10 +1527,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:be6e4d5404ce69c62555058877b66bef0b14069d9a61f451f2e6e8118c91e2f0"
+      "contentHash": "sha256:de0b8058a00a64635a5dde44b35cbccda5bb7a0de5207cd9dae95510c3afecd5"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-44-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-44-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "fractions-shapes",
@@ -1575,10 +1591,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ad77fddf51f81a01306f13d405d3e06f3b9b769015b6370ee8043526e700060c"
+      "contentHash": "sha256:5884d46379ced0c30b31fb04709df56980ada422a389c045fa75d1f327a3129a"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-47-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-47-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "word-parts",
@@ -1634,10 +1650,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a76c51bd0106aeb5801eb6d1d2b43897e5a750a2521c050d722e674794a474e5"
+      "contentHash": "sha256:5aebfc43ad32b7a8b9d10753dff052d4e5016fbbab08baf7e62fb29255ff4925"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-32-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-32-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "word-parts",
@@ -1693,10 +1709,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:aa7f73b78ad5ec341342e85c046b2793ce82f29e2f4d26da435d04d77e265f93"
+      "contentHash": "sha256:297b1292f679646defdbf1845f80e3ed5481f78664413c7d8db8730a382202c9"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-01-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-01-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "context-clues",
@@ -1752,10 +1768,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:abf21476b7a7ffde7f91a8921b75cef45e0ca1b5e0f13a9c107b345a1cc769a9"
+      "contentHash": "sha256:dc0909e3b64718dd518a7e21c259435e3530d0d0ca689d1ee4dc551e010689c4"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-26-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-26-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "time",
@@ -1816,10 +1832,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:8ba809c1e84b5b0b9ab619f3bc2e6b92f44c545a74d3d8cedf292fe2fa07fe08"
+      "contentHash": "sha256:9695a40b0c5fc1017fbbdfe7fda836c17a522c787b4416c8b60bbe73b64a79bf"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-45-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-45-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "fact-family",
@@ -1875,10 +1891,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:78c038005d34f30da1bdcbe489a7d63ad7305ae29679938b0bea5656eafcba93"
+      "contentHash": "sha256:bc27dd3640f4e9c444f91aa0c743e8d85c411663d816047af280ff6714f8bc34"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-18-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-18-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "place-value",
@@ -1940,10 +1956,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:6c13197d56b218aa620e4670e53a325f21684c41830e8e2927eb86563f537874"
+      "contentHash": "sha256:ca142c2c83ebdac0914819d5f6dd89ad24384c7a40f819f56f42f1b95a437a4c"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-50-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-50-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "unknown-number",
@@ -1999,10 +2015,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:6ddfc622bf09538d49d1cf9c7be4338446bdb3498d00d76dbadf8a931c56ce0b"
+      "contentHash": "sha256:e45a64e19a0b588b2fabaaee2e5facb4c79b9ece4f6c5a04879b9455c7277894"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-49-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-49-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -2058,10 +2074,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:d9931c8d015d818912aeff24dbf4be4a51ff5d5ddb4abb54dd6e632dd97cd8bb"
+      "contentHash": "sha256:44881a20d6ed8e7082f2489860ef2c9aba86dd3fe15eb8e3477b9ac779047a05"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-16-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-16-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "context-clues",
@@ -2117,10 +2133,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:4bc3e34b05cb8fd4df390068d28b3045d8b5fcbac7dc7fd34320852bf8480180"
+      "contentHash": "sha256:41e225c7479393cd1fbd3aedb86974080443badc04cf55e1b414d2f3531ab025"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-06-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-06-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "patterns",
@@ -2183,10 +2199,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2e5dc0f318548c89d17152f79160dd0b127789738b7c4e8e4f70ace1c040b3cb"
+      "contentHash": "sha256:e0c277f1c60a8303e9921d83b769161abf006cb06802490ac9b19d47f9de6b78"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-48-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-48-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cause-effect",
@@ -2242,10 +2258,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:55d34e5a094e93e75b2ed836db896c8dba6d4aec2d095d32939096158a97f7e1"
+      "contentHash": "sha256:97e00bee486b3d04de656affb8c32a8646dd976957061659ace363472adc5b8f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-19-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-19-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -2301,10 +2317,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ed473959794a7a4f386647d390f9b2e229835a31d82b17245de7b088e5156f3c"
+      "contentHash": "sha256:b74ca30dae53f1eebcf8943efe05b601f550ea40f02ed13dc251a62d32427245"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-22-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-22-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "geometry",
@@ -2360,10 +2376,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:70868eb198d690dbb9977458e957de51b02745d95920613134e44eee2c084456"
+      "contentHash": "sha256:62a881d12e38e8cd762979fcbef8bcddb28736c7a93d13a0b81cd77e52b4af89"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-35-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-35-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
@@ -2419,10 +2435,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:70526e63ed3282edee6c815b2ca7a21267cd99944c23cf8ee5cbe068258d463f"
+      "contentHash": "sha256:aeaf342f5fa1e8bfe84cc2648cd12d16798f16281bfa95d81c25ff223f634785"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-39-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-39-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "data-interpretation",
@@ -2502,10 +2518,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:60de67640f53f1500a7ae6246f81cc3c34868ca601b2c8068696fad04dc707f6"
+      "contentHash": "sha256:3a5a366fc1bdcc4f77d7f4341250b1214e5d5813f642156c23a45b8607f0e9ce"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-60-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-60-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "multi-sentence-inference",
@@ -2561,10 +2577,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a1b92481673c87974edeba019d0ab5a3a69f2480cf6a16a0515bced89da11c43"
+      "contentHash": "sha256:8086c7790d0e96ff958318086cc27515fad217328c2d67404dfc106ae0ed6b4b"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-12-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-12-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "money",
@@ -2620,10 +2636,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:41940268aac52bc3e794bd184a1673c5d7b83531a36766b4faa0859d5c834477"
+      "contentHash": "sha256:2d9514720129b0e3c8d348251f62a8576f1361fad6f7700d5164a16f1657b629"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-42-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-42-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "compare-contrast",
@@ -2679,10 +2695,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:535f91dfde23b5061717ae877046d70a0d3655b0b036ecfbf50be7b2ae4cd787"
+      "contentHash": "sha256:00544be8e5ea0bc73329c33edb64da36477f24f31315a83539b1c7e89db51fa6"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-46-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-46-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "two-step-word-problem",
@@ -2738,10 +2754,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a2a6c1b2576a94252b63e31bc9294a1098fd7e4da90dca164fd67ec36b5e41c3"
+      "contentHash": "sha256:31d447fd4bc6785ddca566a45953975dac1545a9444ee965dfb7ca8ea6ef0bf0"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-15-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-15-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "fact-family",
@@ -2797,10 +2813,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a33ff8abaf0fccfb972d9168e3d5d5b4b928902236ae3ba63ef367b410c2cb67"
+      "contentHash": "sha256:1b1524ef809f0e656cb8a8bc9398722153577b2f320fcb2ef5e38af2cf7f346f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-43-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-43-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "number-line",
@@ -2863,10 +2879,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:6dc6e733641c9a215074ad12698d43459c4fb7699d8d8c73a26647ef4a3d4bc4"
+      "contentHash": "sha256:1a0a5717bf821d937dc55cb2235b479e6f87533fc37db3ac14292eb42b1ea7b7"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-50-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-50-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
@@ -2922,10 +2938,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:aa9137cb3c364d9bb2c186aa7de387e79d6e847fe888eb1ef2b255ad44806910"
+      "contentHash": "sha256:6799db26b3e0f32765d8b1446173b7d32aadc9ab2676d170892734f4b666e473"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-17-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-17-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "word-parts",
@@ -2981,10 +2997,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:223ef0efe3be5ce1a9b97a252877eb2e9c86bec2c17b4890f5b9574aa941cae4"
+      "contentHash": "sha256:d0bd97af7eb38cb116d5d8479f9193fd935975e3250f4c115d12fb79d1276c4d"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-28-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-28-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "number-line",
@@ -3047,10 +3063,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:3e9530990d49e7fec9b1e2054e673aa0e863625343efc7ae73598f71754bede1"
+      "contentHash": "sha256:174fb7c8a70a6f305f2da602f1a30a02b6ab677b0aa5e1aaf88351d43134542c"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-21-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-21-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
       "skill": "patterns",
@@ -3113,10 +3129,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:8a45320cef598e81aab28671e19d24d8384a5dedf8ad35551578b29262e2b696"
+      "contentHash": "sha256:9032eab264dc853a36806e7d34710f9340e1412a377b19a0019bb214f277d1d3"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-34-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-34-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -3172,10 +3188,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:e366fbf343d7bde5a12fccb847cd1fe71608378b33d8212a3c18e7b05d4c5c33"
+      "contentHash": "sha256:7e37f956ad51e3a123179bb8d7e2bc143383bdca8e50f9aaf76fd700156a1888"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-04-word",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-04-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -3231,26 +3247,29 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:23114880fbaeac94c5cefd991fa9ca4ea71a97ab2b8cf17e9e4b8873a16b5244"
+      "contentHash": "sha256:a178c0189d75e6777be07125611b143d9a8d104d838b115d75b9e888d7e80d8d"
     },
     {
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "vowel-patterns",
-      "prompt": "Which word has the same middle vowel sound as “hop”?",
+      "prompt": "Which word has the same middle vowel sound as “bed”?",
       "choices": [
-        "team",
-        "log",
-        "bike"
+        "hen",
+        "boat",
+        "seed"
       ],
-      "answer": "log",
-      "explanation": "Both words use the same short middle-vowel sound.",
+      "answer": "hen",
+      "explanation": "The two words share the same short middle-vowel sound.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-short-vowel-identification-transfer",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-short-vowel-identification-transfer-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RF.2.3"
       ],
@@ -3260,12 +3279,12 @@
       "scaffold": "Say each word aloud and listen to the vowel sound.",
       "choiceDiagnostics": [
         {
-          "choice": "team",
+          "choice": "boat",
           "misconception": "vowel-sound-confusion",
           "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
         },
         {
-          "choice": "bike",
+          "choice": "seed",
           "misconception": "vowel-sound-confusion",
           "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
         }
@@ -3277,8 +3296,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "team": 0,
-          "bike": 0
+          "boat": 0,
+          "seed": 0
         }
       },
       "alignmentEvidence": {
@@ -3290,7 +3309,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:382f0f262de43fdaa54ffeac98644c8e4940a58574470b4f1d666602805981bd",
+      "contentHash": "sha256:b2b7e45ea34e1dcd7a6428468e62e6ec7158bea1eb62042b1a5bd775ebf90c20",
       "signalId": "short-vowel-identification",
       "questionType": "transfer",
       "coverageWeight": 5,
@@ -3300,20 +3319,23 @@
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-structure",
-      "prompt": "Which vowel completes “c_t” to make the word for a pet that can meow?",
+      "prompt": "Which vowel completes “b_g” to make the word for something that can carry books?",
       "choices": [
+        "a",
         "e",
-        "o",
-        "a"
+        "i"
       ],
       "answer": "a",
-      "explanation": "The completed word is “cat.”",
+      "explanation": "The vowel must match the middle sound in “bag.”",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: cvc-structure; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-cvc-missing-vowel-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-cvc-missing-vowel-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RF.2.3"
       ],
@@ -3328,7 +3350,7 @@
           "feedback": "Check the letter pattern one position at a time."
         },
         {
-          "choice": "o",
+          "choice": "i",
           "misconception": "word-structure-confusion",
           "feedback": "Check the letter pattern one position at a time."
         }
@@ -3341,7 +3363,7 @@
         ],
         "partialCredit": {
           "e": 0,
-          "o": 0
+          "i": 0
         }
       },
       "alignmentEvidence": {
@@ -3353,7 +3375,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:b846194fcb66b6a7000c026dbf9a2498bd1e1ac0464f57b4eae644cf2f194db7",
+      "contentHash": "sha256:476c15f5db66fe38886b81b2901385c2de6c80d66c3ecb4ed404f940fa5d40f1",
       "signalId": "cvc-missing-vowel",
       "questionType": "direct",
       "coverageWeight": 5,
@@ -3363,20 +3385,23 @@
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "plural-nouns",
-      "prompt": "Why does “bus” become “buses” instead of “buss”?",
+      "prompt": "Why does “glass” become “glasses”?",
       "choices": [
-        "The word ends in s, so the plural adds -es.",
-        "All short words double the last letter.",
+        "Its ending calls for -es to show more than one.",
+        "Every plural doubles the last letter.",
         "Plural words always end in -ing."
       ],
-      "answer": "The word ends in s, so the plural adds -es.",
-      "explanation": "Nouns ending in s commonly add -es to show more than one.",
+      "answer": "Its ending calls for -es to show more than one.",
+      "explanation": "The word ending determines whether -s or -es is used.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: plural-nouns; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-plural-s-es-reasoning",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-plural-s-es-reasoning-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.L.2.1.b"
       ],
@@ -3386,7 +3411,7 @@
       "scaffold": "Ask whether the noun needs -s or -es to mean more than one.",
       "choiceDiagnostics": [
         {
-          "choice": "All short words double the last letter.",
+          "choice": "Every plural doubles the last letter.",
           "misconception": "plural-ending-confusion",
           "feedback": "Check whether this word needs -s or -es."
         },
@@ -3403,7 +3428,7 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "All short words double the last letter.": 0,
+          "Every plural doubles the last letter.": 0,
           "Plural words always end in -ing.": 0
         }
       },
@@ -3416,7 +3441,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2a7de6730aa1cfda06110c146fc4a2456a525e3ee7972b76040fa91ce4abccee",
+      "contentHash": "sha256:dcd945378a7a176366871930f198af1bda28b68f2825f94a93ef3db5ccabe216",
       "signalId": "plural-s-es",
       "questionType": "reasoning",
       "coverageWeight": 4,
@@ -3426,20 +3451,23 @@
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "vowel-patterns",
-      "prompt": "Which word is spelled correctly for the word you hear as “jam”?",
+      "prompt": "Which spelling correctly shows the word “map”?",
       "choices": [
-        "jam",
-        "jem",
-        "jom"
+        "map",
+        "mep",
+        "mip"
       ],
-      "answer": "jam",
-      "explanation": "The word “jam” uses the short a sound.",
+      "answer": "map",
+      "explanation": "Match the middle letter to the short vowel sound.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: vowel-patterns; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-spelling-short-vowel-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-spelling-short-vowel-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RF.2.3"
       ],
@@ -3449,12 +3477,12 @@
       "scaffold": "Say each word aloud and listen to the vowel sound.",
       "choiceDiagnostics": [
         {
-          "choice": "jem",
+          "choice": "mep",
           "misconception": "vowel-sound-confusion",
           "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
         },
         {
-          "choice": "jom",
+          "choice": "mip",
           "misconception": "vowel-sound-confusion",
           "feedback": "Listen to the vowel sound instead of choosing by spelling alone."
         }
@@ -3466,8 +3494,8 @@
           "Applies the stated reading skill accurately."
         ],
         "partialCredit": {
-          "jem": 0,
-          "jom": 0
+          "mep": 0,
+          "mip": 0
         }
       },
       "alignmentEvidence": {
@@ -3479,14 +3507,14 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:4b1a499eae3beeab9334dc0a0812a96fd4efd74523350f946f4a34d887ba4916",
+      "contentHash": "sha256:2c06b13cacd2e3fdc3cb2afd4eff0f6ee773600e24b0a054345e33034bb49747",
       "signalId": "spelling-short-vowel",
       "questionType": "direct",
       "coverageWeight": 4,
       "photoDerived": true
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-sub-0",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-sub-0",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction",
@@ -3542,10 +3570,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:754023bd55cc0fc8f849174c50eba16d7d83781fb992613e163d7703ed348e69"
+      "contentHash": "sha256:b1c390410afd3577206501ecb5033da9540fad390b83e0388f985d770386a6f1"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-missing-1",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-missing-1",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "missing-number",
@@ -3601,10 +3629,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:4d836d333aaa2cbc759e03c222132f7f13e688435940ef3cd5e12245f4943b87"
+      "contentHash": "sha256:8431c4c385642b7e24f25a0a0803da63001020c72fc7a84238f48bfeec122faa"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-story-2",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-story-2",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-word-problem",
@@ -3660,10 +3688,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:44162821a66d211e8602cc4a2dcba6960a431649fb2f4d0ab3c3af88ec725a53"
+      "contentHash": "sha256:061dc13f720a02fd889392da4b23907f932d7a80edd7284cc91fd40739cc206c"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-compare-3",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-compare-3",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-strategy",
@@ -3719,10 +3747,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:24643789584250899756e83dca783d738d674aba2f34ed0bcd81ae3a797ecdad"
+      "contentHash": "sha256:83d5646c0772ff35b155a98a0d6c2040e2788cffd8e32711a3db4e68d704dd4e"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-sub-4",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-sub-4",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction",
@@ -3778,10 +3806,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:604885c51afd0019b639dd9259d08b59d779041fd8d1427d5e4cca8cfc204412"
+      "contentHash": "sha256:46681223a78ecba4d32b167c424910d95a27859b28af27138d146290c2f2c554"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-missing-5",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-missing-5",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "missing-number",
@@ -3837,10 +3865,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ca8b75985fbd56d260a8d5d535d76e6ca2b3be659d1905e7bfd9702d10bd7e69"
+      "contentHash": "sha256:59f71d72c25ab0313bcea8bdff1eb51597b71e2aa376f1d4978ae381d0ef2b64"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-story-6",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-story-6",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-word-problem",
@@ -3896,10 +3924,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:be78bbbb853bb9ba6ffd0b2b6d8733919bf14067f2f5f4525fbd9cf8b00aaf58"
+      "contentHash": "sha256:4be8969cc699bb1fd9e8a946acffe1f015b27cfaed8566c6decaf6ddf600fdb7"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-math-compare-7",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-math-compare-7",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-strategy",
@@ -3955,10 +3983,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:462daf4aa7f81898408e65b733dea651f97e36149fffb19bdf5b655a78023c1d"
+      "contentHash": "sha256:9966cb741c119e7cfb5a38fd7749ed23e333af5c778173b5f10c8036dca27c72"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-25-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-25-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -4014,10 +4042,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:7fdccd8b389e7486ce38cd8278fb35e3b255067942c2551dc860fa7cf07545cb"
+      "contentHash": "sha256:6b77577c76713d810b19637ce53f3d15209ff9ead167738ec0fc574ddfd93e21"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-20-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-20-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "unknown-number",
@@ -4073,10 +4101,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:6828d3c27eb2aa6cee54d6004e57a4939658b4f4cb0eb42a9b1f8e0872b6630c"
+      "contentHash": "sha256:c57dd070c26b330c5a7f047c2f15e2170385f7cae7501853c0cc698c17662f49"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-52-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-52-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "geometry",
@@ -4132,10 +4160,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:126eff7199a4f90212b7e4e8152aecbbd6bfc44df9277e285ad2f6d754e62327"
+      "contentHash": "sha256:70e30a396587f943bbce24707b2fa86d16c7c5c010e981c7f5a3e9e96f625994"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-54-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-54-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "author-purpose",
@@ -4191,10 +4219,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:da792f3410246f845af8c812d81f46b83004f77d985bc68c7af3abcb2ac76c33"
+      "contentHash": "sha256:0a41c61b09ec3eb7257964dedeca48685ea2f9aba2a21d18db2e7163f4e77f9a"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-48-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-48-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "place-value",
@@ -4256,10 +4284,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2d89ded19aa2af0f01a618d4c8460d5301ab6b57e9b21f4a89b6c7add7391c40"
+      "contentHash": "sha256:9fea95f9401074fdbc046a2e0b822252d8c40c679007dce2ac7cc93d7473c65c"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-41-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-41-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "time",
@@ -4320,10 +4348,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:19014acb22a76b19b5afb31aed555c93e661098fcede04c1739f77b8d8ae5550"
+      "contentHash": "sha256:b38e697b7546b025874a19687c7b7b929dce2197a833df02e9c444d318c122a6"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-45-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-45-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "multi-sentence-inference",
@@ -4379,10 +4407,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c0c20c1c89e8b6f8f1df04dbad33bda3c5870522ef59d1b5a0558712fc59f9c6"
+      "contentHash": "sha256:bee7b04bfb7292dbfc460331deac39aa397724c4091562212b057ab39a7244e5"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-04-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-04-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "compare-numbers",
@@ -4438,10 +4466,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ee360d10ef9cde988d4ddd3333c2099253ac0996eed3566e1cb690a0900b691c"
+      "contentHash": "sha256:840eb7d2ff6500f3c488f8f040bab948abac73d588933a7c96d4e3f4b016a792"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-51-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-51-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
@@ -4497,10 +4525,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:81e79c07db1c7520b1f7db8d447f57fa63aaf89a1c883c21fe3c1ba224cd353d"
+      "contentHash": "sha256:1ab295baca1365d8b0b1ce0979574d71cb4470c741a1278dc098a6124f97a7dc"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-37-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-37-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "geometry",
@@ -4556,10 +4584,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:9e0bc32b69524441093df07509f8ea4b28dedcb8639bacafb970fc65237e55c9"
+      "contentHash": "sha256:3a4d0e1e2dac893f7b9d80643bc212d88f68764a75a3608dc8427752161f5602"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-18-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-18-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "cause-effect",
@@ -4615,10 +4643,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:d48a363451725f816fd3d651b084dbd6b0dad1dc0533ec6b7b7cbc8b99c96e37"
+      "contentHash": "sha256:7efea2e54376cb25031ad41a708eef0289586ebaeb8d126692006d9363ff2866"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-31-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-31-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "context-clues",
@@ -4674,10 +4702,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:02ce450cbf73fc518506091182365c26b4b5680f4d53ff5a2da530f2cbb919db"
+      "contentHash": "sha256:5fdb0520e09db3c1a769ea2b2f9a77083b82f16ae93ea8a94f04585331bed5d5"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-39-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-39-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "author-purpose",
@@ -4733,10 +4761,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:f0666fa5b88316ac6cf98057e12c0277a7e361f6a5c8bbdd3da69f0f88286767"
+      "contentHash": "sha256:295309e284f266b77b5ed6decc433ed9d644a149819333408c4e9cf549997a23"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-24-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-24-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "data-interpretation",
@@ -4816,10 +4844,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:66f4bf4ae5c1965fe29d7dd4cedae36c19421add05a71b0a2f56ee85ad2fedc6"
+      "contentHash": "sha256:dbaa8aad6b58abfd8acd2623a04e3e39d2c1f49e2abff13ad1519580ce21155d"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-15-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-15-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "multi-sentence-inference",
@@ -4875,10 +4903,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:1beac67e1f74c7b464092faed5c0a0da72b2dc605bb1ee3e05bbc12d755cffd9"
+      "contentHash": "sha256:3056db1ff0b48f17d45e88a97529283fe19b7dc948ebf809ae4ec9a28c11c182"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-40-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-40-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "probability-language",
@@ -4934,10 +4962,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:e8d3ab3da603a6e512234310881dec49507ebfaa053d1948264e4349244ab964"
+      "contentHash": "sha256:6987e4514467901eac86993ddbb56721a88d785c1bb44a581742f07c9a6ce338"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-38-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-38-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "measurement",
@@ -4993,10 +5021,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:0e5190ef153de3a237ff8b42a7f39b841c19a0d70bda37950e1a78d1df9f1330"
+      "contentHash": "sha256:86cf2baced3770b24c2b48d8e62b781329addb9a324a18d544caf6c0b95c6821"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-56-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-56-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "time",
@@ -5057,10 +5085,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:552935a88ebe271a43e1aea8c94659196a107f1ae8ebff13da02fb418672e68e"
+      "contentHash": "sha256:3a672b3608433628f2be850fa7f38a005cfd7a2a0b4e6ef6b3bb5ff6b5c1c53b"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-01-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-01-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "two-step-word-problem",
@@ -5116,10 +5144,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:f5a2a9c44c694e7afe89a4367664fe4beaba7dc7927ccbada0610e21415ace34"
+      "contentHash": "sha256:74752288f1c03d767a3fbfca9efe2f8bad7049802af20c3f89b7fe8ecbd82107"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-08-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-08-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "measurement",
@@ -5175,10 +5203,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:42ce1074610b8b467d469855d18f7d769de5d1f44acbb16efc283054bb2f3002"
+      "contentHash": "sha256:d1740dd90b9ebe424cd04451ebaf64bc542102944c21ee9d6a0fe59b789831eb"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-40-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-40-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -5234,10 +5262,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2370050c4441415636d104f19b6c320c844e1ed320818244cb94dd547fed58b9"
+      "contentHash": "sha256:5b6bcff3c0c8f51123c690429d0b891046d0e90088e68dd326ef6a8c5f38572a"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-23-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-23-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "measurement",
@@ -5293,10 +5321,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:3e8a08a5f2c8b2ea06ced03473a413502a1a9fca015395ff348ee88c07b5cdff"
+      "contentHash": "sha256:db880fa977ff45da266a320f2fc5b0f5209882defc9341da56b29bda9e4acb15"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-33-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-33-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "cause-effect",
@@ -5352,10 +5380,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:3a6abdeadbaa61a12cde250843208340a80fec0aabad5deccd4165ad6e7a1137"
+      "contentHash": "sha256:0928d30c4d5049e168f7a7599bc11715e39ad59a0ee9e87ba6dd42920b2ac230"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-12-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-12-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "compare-contrast",
@@ -5411,10 +5439,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:9b8c38f484f543246676c2543efae3f47e6e7db3659dcb969108b130e0291710"
+      "contentHash": "sha256:b1215d7e37f371c750e3cf47ebcea2413f4e53252b4c3e5ddc94c1793d73892f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-58-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-58-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "number-line",
@@ -5477,10 +5505,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c6851291978dc384923c1824f75babf2f7d6e2e76cab338780d0d84fcb4886de"
+      "contentHash": "sha256:6a0ed7638e15ed8cc4edacfc929970a943848e5fb34759ad93a4e4c0af498618"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-29-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-29-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "synonym-nuance",
@@ -5536,10 +5564,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:eff92a43a5e21852a3fc6a296908e6994ede010bd9974931068073f7b03ed355"
+      "contentHash": "sha256:264bf899d6523161039a294ec87a3fd44d650f9d4d28dbac361cac04f5a5d1f2"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-08-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-08-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "character-development",
@@ -5595,10 +5623,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:b3356054ae69479747165beac115d61a8f8a1db09656f4d8b5b76f82f2f07de1"
+      "contentHash": "sha256:9e4b37c2eb4fa7089636aa33d86e1d958e16f4834e251b344cb8cff7ef57d3fa"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-14-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-14-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "fractions-shapes",
@@ -5659,10 +5687,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:05d10fbe5699ba10bf235169dfbff15ee6326675322403f3550f154f304ca493"
+      "contentHash": "sha256:22301974ef545955781e4cc753c936c516bc604b3ebafd2fc0d32e051e2fe269"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-35-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-35-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "unknown-number",
@@ -5718,10 +5746,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:feb59c5b3ebe1f399c13de74520c204c66d58a165369a01463f29b6e13b696a1"
+      "contentHash": "sha256:9bf451b7cc7c1b47eb33336e0c974521f4dd070d6297297962907885d9b9bb89"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-05-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-05-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
@@ -5777,10 +5805,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2ac09d45f7b4b6141c026ff3f51572e2bf09962bd2e1e9b2952710b3b2237f90"
+      "contentHash": "sha256:ea1b99dc5cf241b87124ae976425dc9d1bd7d7707e8aad2ca974c3bb841646b1"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-36-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-36-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
@@ -5836,10 +5864,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c2cdec264a30fcffc2ddf1512e8e35ef4e610bbec20560f5b8d970b1919dea5c"
+      "contentHash": "sha256:d99efc258297dacb03e335b51332c1e127946c62419c6cae5738d942e9d71977"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-56-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-56-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "main-idea",
@@ -5895,10 +5923,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:fb0df0634e7d699c5b4d9a5635216cdfa083f578a3028954115f8d69458f0141"
+      "contentHash": "sha256:85e23709327b802a4b7e0a2b6599e0d8ce5306584c7003ebed95cd28bcc963c1"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-30-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-30-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "multi-sentence-inference",
@@ -5954,10 +5982,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:410ec78c18f774e95be2e918234b99103b0cc58fd0a1c841ea4d8292a1e335ad"
+      "contentHash": "sha256:9471b179a1d7f49432b6fe432aa1ee2be4aa0b5292d2b0b8a54f595c199ed678"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-25-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-25-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "probability-language",
@@ -6013,10 +6041,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:be70d6dd18cb99f7b86d9890e286cc997c1d1104b8a4975cf8516a6f883de54c"
+      "contentHash": "sha256:e0639d6a3b03a2fd41c60915460b6172461a772b9a252093a08d269aaf8b592f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-09-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-09-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "author-purpose",
@@ -6072,10 +6100,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:bf554b189a1cb3d73d9462455a13fbfbbcbeb55887bd540fa6b7433235e5afd7"
+      "contentHash": "sha256:81844c8cb40ac9fe849fa83163d1c53df7d05edacaea81bfdde7fac74d608f65"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-43-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-43-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "text-structure",
@@ -6131,10 +6159,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:80b844e5bf93428c3523e71c7cf29ba78eeca074747bb7c4bfd8e1f5ac12cf2f"
+      "contentHash": "sha256:9b6912cf0efa9b68798777d5b928cd712e59770dc51b6a6805084377735be692"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-36-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-36-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "patterns",
@@ -6197,10 +6225,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c534cb8dda9d6f41ab48c5c74e7f8717c51fe30372c4b58376c125dbe8793cf8"
+      "contentHash": "sha256:00546d6a24d368fc8df6dbd89a056d487694f4a38260c584dba524e03315de51"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-57-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-57-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "money",
@@ -6256,10 +6284,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:558061dd1a6080dd823d8295d45a42127c1cd7136b1e3c274a0e172b4e8b86df"
+      "contentHash": "sha256:7a055580dc5b776a24f9431a6501f28fda405da36ff6ee613819331aa03b8403"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-13-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-13-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "number-line",
@@ -6322,10 +6350,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:45ca3a99c66d9136df46676f245bd9a120d177be471c9d6ad6148a922e6aac4c"
+      "contentHash": "sha256:a6badc286596e3d610d82129c4d842e150e002546e0e702527bf34f513c07d22"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-37-spelling",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-37-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
@@ -6381,26 +6409,29 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:6dc610ce2013e30876d56ad193a51b55fc302745270a8a30c29feab1a9bfda3a"
+      "contentHash": "sha256:a02092c1accb27a498d1924308b7621b80e925db61ccd4995c747a4f3ea05fc9"
     },
     {
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "genre",
-      "prompt": "A story tells about a child who loses a mitten at school and finds it under a desk. The events could happen in real life. What genre best fits?",
+      "prompt": "A made-up story follows a child who forgets a lunchbox and finds it in the classroom later. What genre best fits?",
       "choices": [
         "realistic fiction",
         "fantasy",
         "biography"
       ],
       "answer": "realistic fiction",
-      "explanation": "The events are made up but could realistically happen.",
+      "explanation": "The story is invented but the events could happen in real life.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: genre; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Analyzing literary text",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-reading-genre-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-reading-genre-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "CCSS.RL.2.5"
       ],
@@ -6440,7 +6471,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a6f5cfbff09f3437c86cf8f9f28224cdbd7184d3cf350ab4e8704f39a23d680e",
+      "contentHash": "sha256:670ce7b7b29a0c3defa695cc31ba44ac0e8b1ca32690a89b5829435971e76a91",
       "signalId": "reading-genre",
       "questionType": "direct",
       "coverageWeight": 3,
@@ -6450,20 +6481,23 @@
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
-      "prompt": "Which statement matches the Christian teaching about the Trinity?",
+      "prompt": "Which statement best describes the Trinity?",
       "choices": [
-        "There is one God in three Persons: Father, Son, and Holy Spirit.",
-        "There are three separate gods.",
-        "God is only one Person with three unrelated jobs."
+        "One God in three Persons: Father, Son, and Holy Spirit.",
+        "Three separate gods.",
+        "One Person with three unrelated jobs."
       ],
-      "answer": "There is one God in three Persons: Father, Son, and Holy Spirit.",
-      "explanation": "The Trinity means one God in three divine Persons.",
+      "answer": "One God in three Persons: Father, Son, and Holy Spirit.",
+      "explanation": "The Trinity teaches one God in three divine Persons.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-trinity-direct",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-religion-trinity-direct-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "ABVM.RELIGION.CURRENT"
       ],
@@ -6473,12 +6507,12 @@
       "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
       "choiceDiagnostics": [
         {
-          "choice": "There are three separate gods.",
+          "choice": "Three separate gods.",
           "misconception": "lesson-application-confusion",
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         },
         {
-          "choice": "God is only one Person with three unrelated jobs.",
+          "choice": "One Person with three unrelated jobs.",
           "misconception": "lesson-application-confusion",
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         }
@@ -6490,8 +6524,8 @@
           "Applies the lesson to the situation in the prompt."
         ],
         "partialCredit": {
-          "There are three separate gods.": 0,
-          "God is only one Person with three unrelated jobs.": 0
+          "Three separate gods.": 0,
+          "One Person with three unrelated jobs.": 0
         }
       },
       "alignmentEvidence": {
@@ -6503,7 +6537,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c1104b69f65156f9dea378a6c1f01f768d3a68e9621852ee8ea217d35e25648c",
+      "contentHash": "sha256:6d6d554fc29bae960482245175a002e0bb2e434d1da443a037c5d76c557ff383",
       "signalId": "religion-trinity",
       "questionType": "direct",
       "coverageWeight": 3,
@@ -6513,11 +6547,11 @@
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
-      "prompt": "Why can ordinary talents be called gifts in a religion lesson?",
+      "prompt": "Why can ordinary talents be treated as gifts in a religion lesson?",
       "choices": [
         "They can be received gratefully and used to love and serve others.",
         "They make one person more important than everyone else.",
-        "They only matter when they win a prize."
+        "They matter only when they win a prize."
       ],
       "answer": "They can be received gratefully and used to love and serve others.",
       "explanation": "The lesson connects gifts with gratitude, love, and service.",
@@ -6526,7 +6560,10 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-gifts-reasoning",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-religion-gifts-reasoning-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "ABVM.RELIGION.CURRENT"
       ],
@@ -6541,7 +6578,7 @@
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         },
         {
-          "choice": "They only matter when they win a prize.",
+          "choice": "They matter only when they win a prize.",
           "misconception": "lesson-application-confusion",
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         }
@@ -6554,7 +6591,7 @@
         ],
         "partialCredit": {
           "They make one person more important than everyone else.": 0,
-          "They only matter when they win a prize.": 0
+          "They matter only when they win a prize.": 0
         }
       },
       "alignmentEvidence": {
@@ -6566,7 +6603,7 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:06b4c97bac76ed091bb7bb44596ac6bfc4263b1a9c6dd0c3b3679badbaac4903",
+      "contentHash": "sha256:b84b75174ef0131f71dde92f13193a77cd75c0e53f4211056d46feb86c849306",
       "signalId": "religion-gifts",
       "questionType": "reasoning",
       "coverageWeight": 3,
@@ -6576,20 +6613,23 @@
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
-      "prompt": "A student can choose what to do when a new child is alone. Which choice best shows kindness?",
+      "prompt": "A new student is alone at recess. Which choice best shows kindness?",
       "choices": [
-        "Invite the child to join the game.",
-        "Pretend not to see the child.",
-        "Tell the child to leave."
+        "Invite the student to join the game.",
+        "Ignore the other person completely.",
+        "Tell the other person to leave."
       ],
-      "answer": "Invite the child to join the game.",
-      "explanation": "Inviting someone to join is a kind and loving action.",
+      "answer": "Invite the student to join the game.",
+      "explanation": "Kindness and fairness are shown through choices and actions.",
       "provenance": "original-practice-derived-from-sanitized-schoolwork-photos",
       "sourceFact": "Sanitized schoolwork-photo skill evidence: religion-application; batch schoolwork-2026-09-26-001",
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 2,
-      "id": "abvm-b9d55008a7c4-27ba47-photo-religion-choice-love-transfer",
+      "id": "abvm-b9d55008a7c4-629ea7-photo-religion-choice-love-transfer-ev1",
+      "generationVariant": 1,
+      "sourceTransform": "skill-only-equivalent-item-v1",
+      "originalEquivalent": true,
       "standards": [
         "ABVM.RELIGION.CURRENT"
       ],
@@ -6599,12 +6639,12 @@
       "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
       "choiceDiagnostics": [
         {
-          "choice": "Pretend not to see the child.",
+          "choice": "Ignore the other person completely.",
           "misconception": "lesson-application-confusion",
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         },
         {
-          "choice": "Tell the child to leave.",
+          "choice": "Tell the other person to leave.",
           "misconception": "lesson-application-confusion",
           "feedback": "Choose the action that best demonstrates the lesson in real life."
         }
@@ -6616,8 +6656,8 @@
           "Applies the lesson to the situation in the prompt."
         ],
         "partialCredit": {
-          "Pretend not to see the child.": 0,
-          "Tell the child to leave.": 0
+          "Ignore the other person completely.": 0,
+          "Tell the other person to leave.": 0
         }
       },
       "alignmentEvidence": {
@@ -6629,14 +6669,14 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:385cb57f72d1b3998ca13626a975145e4deeacd610c092b50d49bfee454683f4",
+      "contentHash": "sha256:68fc530b3f3b096418f6314e89065fdf3887717e0f049d01a47735d9ebab133f",
       "signalId": "religion-choice-love",
       "questionType": "transfer",
       "coverageWeight": 3,
       "photoDerived": true
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-0",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-0",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6692,10 +6732,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2ce39a9d0735be04e334103deef03c6dd311759bcbf9f102c35c6fdfdd516282"
+      "contentHash": "sha256:c0a2b5ce72319e6a59be497a1060bef0f4ad69f5eebc7eb67798140a8a25179a"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-1",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-1",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6751,10 +6791,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:2693dc9b1f3ef7c6f11f9fc823eeff664ee33ede2fedc39e112cfa166c0a7a19"
+      "contentHash": "sha256:729bb6b18242a065fe39acd37c60f884e17eb96ce847eca8be69b95cfea121a4"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-2",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-2",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6810,10 +6850,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:0c96ba5da964c07c67619625cbc0a9aec5c465c8ffc7ff87321245595e59e1e4"
+      "contentHash": "sha256:cfc254d85597ca5d95dbf8317da7f95d4c1977a5e1180e19e687d94128d87f36"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-3",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-3",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6869,10 +6909,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c3736bda0562dfde28df63fa67803b2e57b205be0890b1a3282962920e8c11d8"
+      "contentHash": "sha256:bc3613e6280a6ed6b11de27559103f392b8484d0b9ccdf960d858025c063667f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-4",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-4",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6928,10 +6968,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:3df1592ce631038338ffd15ac9d78bb0d30099f3c33b2e83caa5932ad9a37fda"
+      "contentHash": "sha256:4599c64c62f45efec4b77f90d72b3ae52f7bff6b9cf871c15553de5b7f46428f"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-5",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-5",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -6987,10 +7027,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:47078caa06b20aee21a404fe45779425f685fa56367071f5cf0e98dc492bb982"
+      "contentHash": "sha256:6d5ed117097b50e135e7a44916dd77bd1849813faee7095d90f92a6596154136"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-6",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-6",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -7046,10 +7086,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:72266adc6fdb04f506d9ca34b4ba56ebd010b7b099af90bd4ddeb948ac8c3f77"
+      "contentHash": "sha256:6eeaeff6737ba07711be4e9a59adbb4a476f6b44c59733d2f6aac89f30f659b0"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-mat-religion-7",
+      "id": "abvm-b9d55008a7c4-629ea7-mat-religion-7",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -7105,10 +7145,10 @@
         "sourceGrounded": true
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:8e5fb9ff64bb7140100362b6557e06e2c95a7df7c3ca840ee454f47586d6a8a7"
+      "contentHash": "sha256:5d6c495c111627f1746b8ba72e8be10f25e4dd2359f38c3efccd2be9d666fc2d"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-10-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-10-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -7164,10 +7204,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:5c5f7440c9edac4413c6d05fc416367d91d67403053298e6c2f3d4cb032794a8"
+      "contentHash": "sha256:9585f4675167351b5f519c23ded7ccafbfa07ee8bf442dc8ea5ad77756714f0d"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-32-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-32-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "subtraction-within-100",
@@ -7223,10 +7263,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:5c052d3608e130ab9d003735fa100778bf24c0527ce342968b05aafd2abbe7e0"
+      "contentHash": "sha256:987d84cb360adcf016865f11e3f2955d4374698ceb270763d4839d3c2f9d70ef"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-41-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-41-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "main-idea",
@@ -7282,10 +7322,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:8d696ab60e5062bbe58f607983b99dbbd2ad682d6ac6cee58b87892a52882ea8"
+      "contentHash": "sha256:6fd5eea886bca5140d3fd120415e46832c56303ebfeafe6554f97bceb9e7e083"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-53-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-53-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "measurement",
@@ -7341,10 +7381,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:e7a25b6b37f352c84f8a598e0b5b3812d03e5d60e00e5c41ea46872923257c99"
+      "contentHash": "sha256:3d65eb57341fa6179d69034c29f566b8fc41a9e359994c34c493789a6acdf2fa"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-27-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-27-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "money",
@@ -7400,10 +7440,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:90e8eacf9020d4f3fc9f85ec7bbbbbf56a48d2bc95c3453a88d6a74583341139"
+      "contentHash": "sha256:3e29d8634a8aa9c5c16c6c5351df77c14b70e1d106f7fdef5a5ea4167f26f820"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-59-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-59-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "fractions-shapes",
@@ -7464,10 +7504,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:9a61433e5e478b24e3b52544c08e3cb137ca605aee1b1cc0b771c07a4fe01b1a"
+      "contentHash": "sha256:1ba2144e30c6e8f07c74f97c31cd6aa0356ed7ae00ab770d155be66d875dcee4"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-14-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-14-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "synonym-nuance",
@@ -7523,10 +7563,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:fabbb3fba7c580f138c9bf38e40e36e28c163742e8c514840f146892bd53ffb3"
+      "contentHash": "sha256:b02627b3d265c70cbb0ce0c50ca4524be940e925f91a66c9358be635119d38e5"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-02-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-02-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "word-parts",
@@ -7582,10 +7622,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:0ec6b713d19e8f41cd875e1e6fcbc38ac0c4b829528aeb326f0a6ce7569baf60"
+      "contentHash": "sha256:d24797e3f394ad6f58cb4b633f6bff498845bce5fb0acdca6b1a0102b7ef5a9c"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-53-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-53-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "character-development",
@@ -7641,10 +7681,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:0bf14bd5e8f4bd5459f66a48df0e91ded133aa55b0e95fb18d83e519d118bf35"
+      "contentHash": "sha256:4594782cd27237d90ff084472a5994f52e30e1d0242ff49161d5d0a13fd8d921"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-20-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-20-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
@@ -7700,10 +7740,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:42df32beb0280907de588565732fc00496351832ac928fb80c0cecbe4df25fcd"
+      "contentHash": "sha256:5ec6fe3e48210a22554291223aaaef2cd6e4b40fc92e2d2eaded92a50cb6565e"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-55-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-55-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -7759,10 +7799,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:489eeeef15b8fb9baa72bdb5292e033bfaa11a6bdac33523c99ca65c186f8079"
+      "contentHash": "sha256:3cb9ab84f8d4979a4ddd897ff960727ae7b48b00ccd3523cc3fd44de1e169809"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-57-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-57-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "compare-contrast",
@@ -7818,10 +7858,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:4f922279e6939309ed23223bf5160fc8d9f611a156a6824f7a1effef1df5afd5"
+      "contentHash": "sha256:766a494123c13d62e8d65a1ee9542eff7e9ab8bfe35f45f06911dfbf2328f336"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-44-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-44-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "synonym-nuance",
@@ -7877,10 +7917,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:3633bc8d3a27fe618ebca5acee8dd49c47f862f3ec5f1c7f6e274c5515bb5bd0"
+      "contentHash": "sha256:a4c8c5aca462692eb948d6ffe751bf6af1b592b796e62cbb85e5dc83e13a942e"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-46-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-46-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "context-clues",
@@ -7936,10 +7976,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:14c16ce3b2f7aba926c142e20e49798f498dab8968fbfa21b966287617959a67"
+      "contentHash": "sha256:4a8e0c4ed3fbed4ff0bcd38388339561fa58c6f6f48b585617ac09f4a360535d"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-09-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-09-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "data-interpretation",
@@ -8019,10 +8059,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:dc7b2e24b59436cf683beec43d13fb9c5cef7922e4784f1481cad85961bf6aa0"
+      "contentHash": "sha256:eebd7a2ce5cebfc357bfb571b1ef7f0526990eceec375c7868b3e4e924b5c1b4"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-60-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-60-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "fact-family",
@@ -8078,10 +8118,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:c2337ba84b03bec4a6b0ece0fff3a4b4ac17bb747a5c3b8891d192b26bd1acc4"
+      "contentHash": "sha256:b444295fccecbdffdd3780aef3d754c6821e23bb819a2a234baeda6974890025"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-54-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-54-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "data-interpretation",
@@ -8161,10 +8201,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:9a6484c03669e2a8d92fafe4823b4a63b28ba787262a90f538387d520c8e35a8"
+      "contentHash": "sha256:c61ff9417361f388a4cc2f56eeb1431bbccd86b74433d82bd7c0a105446142e2"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-38-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-38-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "character-development",
@@ -8220,10 +8260,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:1d78a50e0241697a1ea4163a38a2d8a4dfd0efa6a561a8adbe63111d407ef40f"
+      "contentHash": "sha256:9c95a725da8f3534a703fed216450cf3327e22e824b463806ed00f594965a0f9"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-19-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-19-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "compare-numbers",
@@ -8279,10 +8319,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:738880013dc02eb940aea9272de2a12840a17fa407c69574018922525cb54f05"
+      "contentHash": "sha256:478d05b3a6e719c7e77cc6d81eb70fdb0c2e174ed3f2f9fde513f72404cb2950"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-07-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-07-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
@@ -8338,10 +8378,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:bbca4a2db3f46ae9147f0a2b471a352cfdac16149f013b480941a7689d589af2"
+      "contentHash": "sha256:e3a8906e008822cb4bf59d41be9e914fae1c72ec98b79c4828a34d545ff79852"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-10-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-10-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "probability-language",
@@ -8397,10 +8437,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ed15db2cff53ac4996f460e6e6ccca0789f3d3852637dfb7c02a1fae54946f0a"
+      "contentHash": "sha256:7dee58aa4fca791909163c2ea94e871dbce47621aa9bac766e7f2238f8fbcfde"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-06-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-06-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
@@ -8456,10 +8496,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:a1fd0f733d1dd288b5451054ca2a6995499c6ad7f5d08ecd2aea486a4c167530"
+      "contentHash": "sha256:a014660d4dca0ebfce843a41bcfedca49e2c4c442d14b4fa7221c2f26c1f7959"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-03-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-03-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "place-value",
@@ -8521,10 +8561,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:d0e3f023fd7991c151dc708dc7a654950929bacde78d4b0e682ce42c55fe02b0"
+      "contentHash": "sha256:25aa4e51837a1f1d26fef9ed24993a55d3e5e33628ef766bfe13b70b7afef1f7"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-22-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-22-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
@@ -8580,10 +8620,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:34d317b203b84f07c4231587619fd206cc712c3137f97260750e11d3cb55ff37"
+      "contentHash": "sha256:434eaf17f6383239acf6332ce4e78a94c8c113fdd656867aa5d6ac523d169af0"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-05-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-05-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "unknown-number",
@@ -8639,10 +8679,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:ca503486cb53ce688175c5e236d45d971bf19a6aefd33ac77d76c3bc4f6f8e87"
+      "contentHash": "sha256:815a8cc2d8a6d1282d25824fe3e5a653ab933c8be40588dcac99a82b3e81b7ba"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-27-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-27-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "compare-contrast",
@@ -8698,10 +8738,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:cf86b12654e50a533fc457e9cacb7dc807819976ee0ebdbe4c882c2ea1cc186d"
+      "contentHash": "sha256:5b43ee7a1751f131d0811c1d815a78dbb2cfa0cb6968dfefbc4e002bcfb7d052"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-58-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-58-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "text-structure",
@@ -8757,10 +8797,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:375f2080abffbfd06616b273c5ab3354fc719445c01d2cc570433721e0555390"
+      "contentHash": "sha256:18c2c405e47420265040ddfc8e9bc84e87fa8d851daaa64ef521cc64b2a56176"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-51-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-51-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "patterns",
@@ -8823,10 +8863,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:b9587a5b69cd44476699fa7c7d44c401a07a592271fb4b4dc10b5054b5264d0c"
+      "contentHash": "sha256:773cf010e2309e297315ea066c82c01bd9e7e409752bbe371bbb1a5221cc4867"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-31-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-31-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "two-step-word-problem",
@@ -8882,10 +8922,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:78260d44b128f99ea62d5afe6bfb57892fc4bdb96bd2e139aaee79bba7c81c50"
+      "contentHash": "sha256:3453b6e55f3ed257ea7b4370f57a0912e675d13d095bb396ef1c2706d6f2a6f3"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-16-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-16-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "two-step-word-problem",
@@ -8941,10 +8981,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:efa69e2391eb711f6f468b2b951b7eda90dd0aee1554132a6be3b46bf5b797c6"
+      "contentHash": "sha256:f49cdb00f0fa852652de3e5bcb8b9843c2a3a0f6561c6dc59d2c19dd90463661"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-30-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-30-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "fact-family",
@@ -9000,10 +9040,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:7c7a8d44b177746043d35b0a28cfb5fcc81650806d4c8c77282f5eb32952f53e"
+      "contentHash": "sha256:124af3aaa5d52c23160db833d93944a9d9a312585eb1a16079c9464c05466281"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-24-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-24-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "author-purpose",
@@ -9059,10 +9099,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:db372373af1b3e66ea6414504eb5712d3f8b82dc87d068c980eeb51045f02fa2"
+      "contentHash": "sha256:928f6a73b6868db972e4893258822f4e2be2860fc56ea2379f3e845def5ea510"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-34-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-34-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "compare-numbers",
@@ -9118,10 +9158,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:e2025b438167e2cc8729bd604d47fc1ccf9bd9da77914ed35522f0b8858fe7c2"
+      "contentHash": "sha256:06ce454cd68a8fe5cdd578074a4e31b9ba37c852f858e4c79e49d472a17bc5ff"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-26-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-26-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "main-idea",
@@ -9177,10 +9217,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:f4f996940be292fb46fdc970b0336c603d265720cc78be30bd39fc110447e7ef"
+      "contentHash": "sha256:0a1e886ec15d64c5c4701eab67ad7575761293e96f05c6fd61a4085c1244a6b0"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-42-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-42-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "money",
@@ -9236,10 +9276,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:88ffe684cbd9b722df0df558f91d43182b6a0d9396a8a133cd456b01c7c5a6ed"
+      "contentHash": "sha256:492a6a2e2aa1959fda36046cbab498b9b2f08eeab3b6427a95822ed7b63cb4c6"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-47-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-47-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "subtraction-within-100",
@@ -9295,10 +9335,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:12ac8394db818fc1ec8398da209ce41e8b6849b4c731cbe788e4a3ee7ad0295d"
+      "contentHash": "sha256:6e00ff84632f62611dfae6ff1f30f8c06e59d5df019611eddccc42d3cbf45295"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-59-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-59-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "synonym-nuance",
@@ -9354,10 +9394,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:1195c990d227db58e55bba2d15bfd652e5e68cde0574471e26326993c847a2fe"
+      "contentHash": "sha256:989df7b5ccfa82122eaba6f55bec7dc4e851c71c00548310f099b6537395e99a"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-33-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-33-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "place-value",
@@ -9419,10 +9459,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:5b6828c3990bd260b960c3a5a14f7424e62d60e4b2b98d53f6452afc58bcce1a"
+      "contentHash": "sha256:16bde3284f7e33b39d7f8cb0c665008cf4cbae8606ef18fccabc15075671ebac"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-math-07-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-math-07-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "geometry",
@@ -9478,10 +9518,10 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:f7d3e303012d4e2b40c6d465fe99fd3c0f468f857b83d29044afa055e0b546fc"
+      "contentHash": "sha256:dddd6dfea78542d890474d69a2e8978f258a51e51278499de9704010f455c4ee"
     },
     {
-      "id": "abvm-b9d55008a7c4-27ba47-star-read-28-culture",
+      "id": "abvm-b9d55008a7c4-629ea7-star-read-28-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "text-structure",
@@ -9537,7 +9577,7 @@
         "sourceGrounded": false
       },
       "responseType": "multiple-choice",
-      "contentHash": "sha256:361b1f57e59bad8f09de93ee4fba269787ca592bed21c0ddf84fbfc82db3a052"
+      "contentHash": "sha256:28f2e40e0f2db799260b15427d27b61c7eed94f768e46ea10bbf60380726a831"
     }
   ]
 }
