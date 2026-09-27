@@ -260,37 +260,24 @@ const manifest={
     status:'verified-real-building-mapping-generated',
     buildingId:schoolBindings.schoolBuildingId,
     selectionBasis:schoolBindings.selectionBasis,
-    candidateDoorCount:schoolBindings.candidateDoorCount,
-    maximumSeparationStuds:schoolBindings.maximumSeparation,
-    centroid:schoolBindings.centroid,
+    schoolCenter:schoolBindings.schoolCenter,
     fallbackCampusEnabled:false,
-    cafeteriaAnchor:{
-      generatedName:schoolBindings.cafeteria.generatedName,
-      sourcePath:schoolBindings.cafeteria.sourcePath,
-      physicalRoomId:schoolBindings.cafeteria.physicalRoomId,
-      position:schoolBindings.cafeteria.position,
-      worldOffset:schoolBindings.cafeteria.worldOffset
-    },
-    makeUpAnchor:{
-      generatedName:schoolBindings.library.generatedName,
-      sourcePath:schoolBindings.library.sourcePath,
-      physicalRoomId:schoolBindings.library.physicalRoomId,
-      position:schoolBindings.library.position,
-      label:schoolBindings.library.label
-    },
-    arrivalAnchor:{
+    entrance:{
       generatedName:schoolBindings.entrance.generatedName,
       sourcePath:schoolBindings.entrance.sourcePath,
-      physicalRoomId:schoolBindings.entrance.physicalRoomId,
-      position:schoolBindings.entrance.position,
-      label:schoolBindings.entrance.label
+      position:schoolBindings.entrance.position
     },
+    cafeteria:{
+      generatedName:schoolBindings.cafeteria.generatedName,
+      sourcePath:schoolBindings.cafeteria.sourcePath,
+      position:schoolBindings.cafeteria.position
+    },
+    evidence:schoolBindings.evidence,
     classAnchors:Object.fromEntries(Object.entries(schoolBindings.classes).map(([classId,binding])=>[classId,{
       generatedName:binding.generatedName,
       sourcePath:binding.sourcePath,
       sourceName:binding.sourceName,
       physicalRoomId:binding.physicalRoomId,
-      room:binding.room,
       position:binding.position,
       worldOffset:binding.worldOffset
     }]))

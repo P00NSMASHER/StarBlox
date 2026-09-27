@@ -116,7 +116,8 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 				self:_sendState(player)
 				return
 			end
-			if library == nil or not Attendance.ValidateProximity(player, library, makeupPrompt.MaxActivationDistance + 3) then
+			if not Attendance.ValidatePhysicalSchoolAnchor(library)
+				or not Attendance.ValidateProximity(player, library, makeupPrompt.MaxActivationDistance + 3) then
 				return
 			end
 
@@ -349,6 +350,9 @@ function SchoolRuntimeService:_travelToSchool(player: Player)
 	if anchor == nil then
 		return {ok = false, code = "school_destination_unavailable"}
 	end
+	if not Attendance.ValidatePhysicalSchoolAnchor(anchor) then
+		return {ok = false, code = "school_destination_unverified"}
+	end
 	if clock.AcademicPeriod and clock.ClassId ~= nil and not Attendance.ValidateClassroomAnchor(anchor, clock.ClassId) then
 		return {ok = false, code = "classroom_unverified"}
 	end
@@ -424,7 +428,7 @@ function SchoolRuntimeService:_stateFor(player)
 				payload.makeupPeriodId = makeupPeriodId
 				payload.makeupClassId = makeupClassId
 				payload.targetAnchorName = "SchoolLibrary"
-				payload.targetDisplayName = "Make-Up Classroom"
+				payload.targetDisplayName = "Study Room / Make-Up"
 				payload.targetRoom = nil
 			end
 		end

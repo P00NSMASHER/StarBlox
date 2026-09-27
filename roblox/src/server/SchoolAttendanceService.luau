@@ -7,7 +7,7 @@ local Config = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local MirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
 
 local function selectedBindings()
-	if MirrorConfig.World.Mode == "exact-frozen-brookhaven-world" then
+	if MirrorConfig.World.Mode == "legacy-reference-safe-world" then
 		local legacyModule = ReplicatedStorage.StarBlox:FindFirstChild("LegacySchoolWorldBindings")
 		assert(legacyModule ~= nil and legacyModule:IsA("ModuleScript"), "legacy school bindings are required")
 		return require(legacyModule)
@@ -34,8 +34,9 @@ local function resolvePart(worldRoot: Model, sourcePartName: string): (BasePart,
 	return fallback :: BasePart, true
 end
 
-local function anchorCFrame(source: BasePart, heightOffset: number, worldOffset: Vector3?, fallbackOffset: Vector3?): CFrame
-	return CFrame.new(source.Position + Vector3.new(0, (source.Size.Y / 2) + heightOffset, 0) + (worldOffset or Vector3.zero) + (fallbackOffset or Vector3.zero))
+local function anchorCFrame(source: BasePart, binding, fallbackOffset: Vector3?): CFrame
+	local sourceHeight = if binding.AnchorFromSourceCenter == true then 0 else source.Size.Y / 2
+	return CFrame.new(source.Position + Vector3.new(0, sourceHeight + binding.HeightOffset, 0) + (binding.WorldOffset or Vector3.zero) + (fallbackOffset or Vector3.zero))
 end
 
 local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, binding, size: Vector3): Part
@@ -43,7 +44,7 @@ local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, bin
 	local anchor = Instance.new("Part")
 	anchor.Name = name
 	anchor.Size = size
-	anchor.CFrame = anchorCFrame(source, binding.HeightOffset, binding.WorldOffset, if usedFallback then binding.FallbackOffset else nil)
+	anchor.CFrame = anchorCFrame(source, binding, if usedFallback then binding.FallbackOffset else nil)
 	anchor.Transparency = 1
 	anchor.Anchored = true
 	anchor.CanCollide = false
@@ -59,90 +60,6 @@ local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, bin
 	anchor:SetAttribute("WorldBindingOnly", true)
 	anchor.Parent = folder
 	return anchor
-end
-
-local function campusPart(parent: Instance, name: string, size: Vector3, cframe: CFrame, color: Color3, material: Enum.Material?): Part
-	local object = Instance.new("Part")
-	object.Name = name
-	object.Size = size
-	object.CFrame = cframe
-	object.Color = color
-	object.Material = material or Enum.Material.SmoothPlastic
-	object.Anchored = true
-	object.CanCollide = true
-	object.CanTouch = true
-	object.CanQuery = true
-	object.Parent = parent
-	return object
-end
-
-local function roomLabel(parent: BasePart, text: string)
-	local surface = Instance.new("SurfaceGui")
-	surface.Face = Enum.NormalId.Front
-	surface.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
-	surface.PixelsPerStud = 28
-	surface.Parent = parent
-	local label = Instance.new("TextLabel")
-	label.Size = UDim2.fromScale(1, 1)
-	label.BackgroundTransparency = 1
-	label.Text = text
-	label.TextColor3 = Color3.new(1, 1, 1)
-	label.Font = Enum.Font.GothamBold
-	label.TextScaled = true
-	label.Parent = surface
-end
-
-local function buildFallbackCampus(folder: Folder, entrance: BasePart)
-	local campus = Instance.new("Model")
-	campus.Name = "StarBloxHighSchool"
-	campus:SetAttribute("RuntimeOwned", true)
-	campus:SetAttribute("BrookhavenWitnessMutated", false)
-	campus.Parent = folder
-
-	local origin = CFrame.new(entrance.Position - Vector3.new(0, 3, 0))
-	local navy = Color3.fromRGB(31, 55, 87)
-	local blue = Color3.fromRGB(74, 166, 224)
-	local white = Color3.fromRGB(238, 244, 249)
-	local glass = Color3.fromRGB(154, 220, 240)
-	local floor = campusPart(campus, "CampusFloor", Vector3.new(76, 1, 88), origin * CFrame.new(0, -0.5, 33), Color3.fromRGB(205, 211, 217), Enum.Material.Concrete)
-	floor:SetAttribute("SchoolCampusFloor", true)
-
-	-- Main shell leaves a wide front entrance and a bright central hallway.
-	campusPart(campus, "LeftWall", Vector3.new(1, 18, 88), origin * CFrame.new(-38, 9, 33), white, nil)
-	campusPart(campus, "RightWall", Vector3.new(1, 18, 88), origin * CFrame.new(38, 9, 33), white, nil)
-	campusPart(campus, "BackWall", Vector3.new(76, 18, 1), origin * CFrame.new(0, 9, 77), white, nil)
-	campusPart(campus, "FrontLeft", Vector3.new(28, 18, 1), origin * CFrame.new(-24, 9, -11), white, nil)
-	campusPart(campus, "FrontRight", Vector3.new(28, 18, 1), origin * CFrame.new(24, 9, -11), white, nil)
-	local sign = campusPart(campus, "SchoolSign", Vector3.new(30, 5, 1), origin * CFrame.new(0, 14, -11.2), navy, nil)
-	roomLabel(sign, "STARBLOX HIGH SCHOOL")
-
-	for _, x in {-34, 34} do
-		campusPart(campus, "FrontGlass", Vector3.new(7, 9, 0.5), origin * CFrame.new(x, 6, -11.4), glass, Enum.Material.Glass).Transparency = 0.18
-	end
-	for _, z in {11, 35, 59} do
-		campusPart(campus, "HallStripe", Vector3.new(10, 0.08, 2), origin * CFrame.new(0, 0.06, z), blue, Enum.Material.Neon)
-	end
-
-	local roomSpecs = {
-		{"READING • 101", -24, 14, Color3.fromRGB(93, 180, 115)},
-		{"MATH • 102", 0, 14, Color3.fromRGB(76, 154, 224)},
-		{"WORD SKILLS • 103", 24, 14, Color3.fromRGB(189, 102, 189)},
-		{"TEACHER'S CHOICE • 104", -14, 38, Color3.fromRGB(235, 157, 67)},
-		{"STAR LAB • 105", 14, 38, Color3.fromRGB(63, 196, 210)},
-		{"CAFETERIA", -25, 65, Color3.fromRGB(220, 116, 86)},
-		{"LIBRARY", 25, 65, Color3.fromRGB(117, 98, 201)},
-	}
-	for _, spec in roomSpecs do
-		local roomFloor = campusPart(campus, "RoomZone", Vector3.new(20, 0.18, 17), origin * CFrame.new(spec[2], 0.12, spec[3]), spec[4], Enum.Material.SmoothPlastic)
-		roomFloor.Transparency = 0.12
-		local roomSign = campusPart(campus, "RoomSign", Vector3.new(17, 2.8, 0.45), origin * CFrame.new(spec[2], 7.5, spec[3] - 8), navy, nil)
-		roomLabel(roomSign, spec[1])
-		for desk = -1, 1 do
-			campusPart(campus, "Desk", Vector3.new(3.8, 1.1, 2), origin * CFrame.new(spec[2] + desk * 5, 1.2, spec[3]), Color3.fromRGB(228, 190, 125), Enum.Material.Wood)
-		end
-	end
-
-	campusPart(campus, "Roof", Vector3.new(76, 1, 88), origin * CFrame.new(0, 18.5, 33), navy, nil).Transparency = 0.08
 end
 
 function SchoolAttendanceService.BuildWorld()
@@ -205,9 +122,7 @@ function SchoolAttendanceService.BuildWorld()
 		Cafeteria = runtimeAnchor(folder, worldRoot, "SchoolCafeteria", Bindings.Cafeteria, Vector3.new(12, 1, 12)),
 		Library = runtimeAnchor(folder, worldRoot, "SchoolLibrary", Bindings.Library, Vector3.new(10, 1, 10)),
 	}
-	if specialAnchors.Entrance:GetAttribute("FallbackSourceUsed") == true and Bindings.FallbackCampusEnabled == true then
-		buildFallbackCampus(folder, specialAnchors.Entrance)
-	end
+	assert(Bindings.FallbackCampusEnabled ~= true, "generic school fallback campus is not permitted")
 
 	local makeupPrompt = Instance.new("ProximityPrompt")
 	makeupPrompt.Name = "MakeUpClassPrompt"
@@ -237,11 +152,8 @@ function SchoolAttendanceService.ValidateProximity(player: Player, anchor: BaseP
 	return (root.Position - anchor.Position).Magnitude <= limit
 end
 
-function SchoolAttendanceService.ValidateClassroomAnchor(anchor: BasePart?, classId: string): boolean
+function SchoolAttendanceService.ValidatePhysicalSchoolAnchor(anchor: BasePart?): boolean
 	if anchor == nil or not anchor:IsA("BasePart") then
-		return false
-	end
-	if anchor:GetAttribute("ClassId") ~= classId then
 		return false
 	end
 	if anchor:GetAttribute("FallbackSourceUsed") == true then
@@ -255,6 +167,11 @@ function SchoolAttendanceService.ValidateClassroomAnchor(anchor: BasePart?, clas
 	end
 	local physicalRoomId = anchor:GetAttribute("PhysicalRoomId")
 	return type(physicalRoomId) == "string" and physicalRoomId ~= ""
+end
+
+function SchoolAttendanceService.ValidateClassroomAnchor(anchor: BasePart?, classId: string): boolean
+	return SchoolAttendanceService.ValidatePhysicalSchoolAnchor(anchor)
+		and (anchor :: BasePart):GetAttribute("ClassId") == classId
 end
 
 function SchoolAttendanceService.Mark(profileData, schoolDayId: string, periodId: string, secondsSinceStart: number)

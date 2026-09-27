@@ -246,8 +246,10 @@ describe('School system milestones 7-12',()=>{
     expect(attendance).not.toContain('anchor.Parent = worldRoot');
     expect(attendance).toContain('anchor.Parent = folder');
     expect(bindings).toContain('Revision = "brookhaven-runtime-school-campus-v2"');
-    expect(bindings).toContain('FallbackSourcePartName = "LBH_14370"');
-    expect(attendance).toContain('buildFallbackCampus');
+    expect(bindings).toContain('FallbackCampusEnabled = false');
+    expect(bindings).toContain('PhysicalClassroomVerified = false');
+    expect(attendance).toContain('generic school fallback campus is not permitted');
+    expect(attendance).not.toContain('buildFallbackCampus(folder, entrance)');
   });
 
   it('keeps the released school UI inside the Brookhaven visual language with clear guidance',()=>{

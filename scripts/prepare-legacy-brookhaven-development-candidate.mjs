@@ -299,9 +299,12 @@ const receipt={
     school:{
       status:bindings.school.status,
       buildingId:bindings.school.buildingId,
-      candidateDoorCount:bindings.school.candidateDoorCount,
-      maximumSeparationStuds:bindings.school.maximumSeparationStuds,
+      selectionBasis:bindings.school.selectionBasis,
+      schoolCenter:bindings.school.schoolCenter,
       fallbackCampusEnabled:bindings.school.fallbackCampusEnabled,
+      entrance:bindings.school.entrance,
+      cafeteria:bindings.school.cafeteria,
+      evidence:bindings.school.evidence,
       classAnchors:bindings.school.classAnchors
     }
   },

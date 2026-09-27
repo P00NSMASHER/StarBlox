@@ -70,15 +70,24 @@ jobs:
           const manifest=JSON.parse(await readFile('/tmp/starblox-legacy-school/runtime-binding-manifest.json','utf8'));
           const school=manifest.school;
           assert.equal(source.school.schoolDoorModels.length,11);
-          assert.equal(source.school.namedSchoolCandidates.filter(x =>
-            x.name === 'Door' && x.path === 'Workspace/Model/SchoolDoorClassroom/Door').length,4);
           assert.equal(school.status,'verified-real-building-mapping-generated');
-          assert.equal(school.candidateDoorCount,4);
-          assert.equal(Object.keys(school.classAnchors).length,5);
-          assert.equal(new Set(Object.values(school.classAnchors).map(x => x.generatedName)).size,4);
-          assert.match(school.cafeteriaAnchor.sourcePath,/SchoolFakeFood/);
-          assert.match(school.makeUpAnchor.label,/Make-Up Classroom/);
-          assert.ok(school.classAnchors.reading.worldOffset[1] < 0);
+          assert.equal(school.selectionBasis,'pinned-legacy-school-fixture-evidence-v2');
+          assert.equal(school.entrance.generatedName,'LBH_08511');
+          assert.equal(school.cafeteria.generatedName,'LBH_11807');
+          assert.deepEqual(
+            Object.fromEntries(Object.entries(school.classAnchors).map(([id,x])=>[id,x.generatedName])),
+            {
+              reading:'LBH_11970',
+              math:'LBH_12380',
+              'word-skills':'LBH_14137',
+              'teacher-choice':'LBH_11970',
+              'star-lab':'LBH_12380'
+            }
+          );
+          assert.equal(new Set(Object.values(school.classAnchors).map(x => x.generatedName)).size,3);
+          assert.ok(school.evidence.classroomRooms.every(x => x.deskCount >= 4));
+          assert.ok(school.evidence.classroomRooms.every(x => x.doorToDeskDistanceStuds <= 35));
+          assert.ok(school.evidence.classroomRooms.every(x => x.nearestBoardDistanceStuds <= 35));
           NODE
       - name: Save pinned legacy school structure evidence
         uses: actions/upload-artifact@v4

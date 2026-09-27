@@ -5,114 +5,89 @@ import {
   renderLegacySchoolBindingsLuau,
 } from '../robloxWorld/legacySchoolBindings.js';
 
-function door(index, x, z) {
+let nextId = 1;
+function part(path, name, x, y, z, size = [4, 4, 1]) {
   return {
-    generatedName: 'LBH_' + String(index).padStart(5, '0'),
-    originalName: 'Door',
-    path: ['Workspace', 'Model', 'SchoolDoorClassroom', 'Door'],
-    cframe: {position: [x, 5.1, z]},
-    size: [6, 9.4, 0.2],
+    generatedName: `LBH_${String(nextId++).padStart(5, '0')}`,
+    originalName: name,
+    path: path.split('/'),
+    cframe: {position: [x, y, z]},
+    size,
   };
 }
 
-const pinnedSchoolFixture = [
-  door(11807, -321, 254),
-  door(11970, -366, 225),
-  door(12380, -363, 174),
-  door(14137, -308, 195),
-  {
-    generatedName: 'LBH_11700',
-    originalName: 'SchoolMat',
-    path: ['Workspace', 'Model', 'SchoolMat'],
-    cframe: {position: [-390, 0.65, 211]},
-    size: [5, 0.1, 12],
-  },
-  {
-    generatedName: 'LBH_12400',
-    originalName: 'Pizza',
-    path: ['Workspace', 'Model', 'SchoolFakeFood', 'FakeFood', 'Pizza'],
-    cframe: {position: [-330, 17, 253]},
-    size: [1, 0.1, 0.4],
-  },
-  {
-    generatedName: 'LBH_12401',
-    originalName: 'Apple',
-    path: ['Workspace', 'Model', 'SchoolFakeFood', 'FakeFood', 'Apple'],
-    cframe: {position: [-320, 17, 253]},
-    size: [0.7, 0.7, 0.7],
-  },
-];
+function fixture() {
+  nextId = 1;
+  const rows = [
+    part('Workspace/WorkspaceCom/001_School/StageLight', 'StageLight', 0, 10, 0),
+    part('Workspace/Model/School sighn', 'School sighn', 0, 12, -20, [1, 8, 30]),
+    part('Workspace/Model/SchoolMat', 'SchoolMat', 0, 0, -14, [8, 0.1, 10]),
+    part('Workspace/Model/SchoolDoorClassroom/Door', 'Door', 70, 5, 0, [6, 9.4, 0.2]),
+    part('Workspace/Model/SchoolFakeFood/FakeFood/Apple', 'Apple', 74, 4, 2),
+    part('Workspace/Model/SchoolFakeFood/FakeFood/Pizza', 'Pizza', 76, 4, -2),
+  ];
+  const rooms = [
+    {door: [-35, 5, 0], desks: [-50, 0, 0], board: [-58, 4, 0]},
+    {door: [0, 5, 35], desks: [0, 0, 50], board: [0, 4, 58]},
+    {door: [35, 5, 0], desks: [50, 0, 0], board: [58, 4, 0]},
+  ];
+  for (const room of rooms) {
+    rows.push(part('Workspace/Model/SchoolDoorClassroom/Door', 'Door', ...room.door, [6, 9.4, 0.2]));
+    for (const [dx, dz] of [[-3, -3], [3, -3], [-3, 3], [3, 3]]) {
+      rows.push(part(
+        'Workspace/Model/SchoolDesks/DeskMesh/Seat',
+        'Seat',
+        room.desks[0] + dx,
+        1.5,
+        room.desks[2] + dz,
+        [2, 0.2, 1.2],
+      ));
+    }
+    rows.push(part('Workspace/Model/SchoolDryBoard/Part', 'Part', ...room.board, [0.2, 5, 20]));
+  }
+  // A horizontally closer upper-floor frame must not bind to a ground-floor
+  // desk cluster merely because its X/Z projection is nearby.
+  rows.push(part('Workspace/Model/SchoolDoorClassroom/Frame', 'Frame', 48, 19, 0, [6, 10, 0.2]));
+  rows.push(part('Workspace/Model/SchoolDoorClassroom/Door', 'Door', 500, 5, 500, [6, 9.4, 0.2]));
+  return rows;
+}
 
 describe('legacy Brookhaven real-school bindings', () => {
-  it('maps five scheduled subjects to four distinct source classroom doors', () => {
-    const result = deriveLegacySchoolBindings(pinnedSchoolFixture);
+  it('derives entrance, cafeteria and three classrooms from exact physical fixtures', () => {
+    const result = deriveLegacySchoolBindings(fixture());
     const classBindings = Object.values(result.classes);
 
-    expect(result.schoolBuildingId).toBe('legacy-brookhaven-school');
-    expect(result.candidateDoorCount).toBe(4);
-    expect(new Set(classBindings.map((binding) => binding.generatedName)).size).toBe(4);
-    expect(classBindings.every((binding) => binding.sourcePath.includes('Workspace/Model/SchoolDoorClassroom/Door'))).toBe(true);
-    expect(classBindings.every((binding) => binding.physicalRoomId.startsWith('legacy-classroom-'))).toBe(true);
-    expect(result.classes['star-lab'].generatedName).toBe(result.classes.reading.generatedName);
-    expect(result.classes.reading.room).toBe('A');
-    expect(result.classes['math'].room).toBe('B');
+    expect(result.schoolBuildingId).toBe('legacy-brookhaven-school-complex');
+    expect(result.entrance.sourcePath).toBe('Workspace/Model/SchoolMat');
+    expect(result.cafeteria.generatedName).toBe('LBH_00004');
+    expect(result.evidence.classroomRooms).toHaveLength(3);
+    expect(result.evidence.classroomRooms.every((room) => room.deskCount === 4)).toBe(true);
+    expect(result.evidence.classroomRooms.every((room) => room.sourcePath.endsWith('/Door'))).toBe(true);
+    expect(new Set(classBindings.map((binding) => binding.generatedName)).size).toBe(3);
+    expect(classBindings.every((binding) => binding.sourcePath.includes('SchoolDoorClassroom/Door'))).toBe(true);
 
     const luau = renderLegacySchoolBindingsLuau(result);
+    expect(luau).toContain('Revision = "legacy-real-school-bindings-v2"');
     expect(luau).toContain('FallbackCampusEnabled = false');
     expect(luau).toContain('AllowFallbackSource = false');
-    expect(luau).toContain('RequireVerifiedPhysicalClassrooms = true');
-    expect(luau).toContain('PhysicalClassroomVerified = true');
-    expect(luau).toContain('School Arrival • Room A');
-    expect(luau).toContain('Make-Up Classroom • Room A');
-    expect(luau).not.toContain('Library / Make-Up');
+    expect(luau).toContain('AnchorFromSourceCenter = true');
   });
 
-  it('grounds the class travel point beside the actual classroom door', () => {
-    const result = deriveLegacySchoolBindings(pinnedSchoolFixture);
-    const binding = result.classes.reading;
-    const row = pinnedSchoolFixture.find((candidate) => candidate.generatedName === binding.generatedName);
-    const anchorY = row.cframe.position[1] + row.size[1] / 2 + 2 + binding.worldOffset[1];
-    expect(anchorY).toBeCloseTo(3.7, 4);
-  });
-
-  it('uses source food props for lunch travel instead of reusing a classroom doorway', () => {
-    const result = deriveLegacySchoolBindings(pinnedSchoolFixture);
-    expect(result.cafeteria.sourcePath).toContain('SchoolFakeFood');
-    expect(result.cafeteria.physicalClassroomVerified).toBe(false);
-    expect(result.cafeteria.physicalRoomId).toBe('legacy-school-lunch-area');
-    expect(result.library.sourcePath).toContain('SchoolDoorClassroom');
-  });
-
-  it('ignores classroom-like geometry outside the real school fixture group', () => {
-    const unrelated = door(999, 500, 500);
-    unrelated.path = ['Workspace', 'WorkspaceCom', '003_SchoolLockers', 'SchoolDoorClassroom', 'Door'];
-    const result = deriveLegacySchoolBindings([...pinnedSchoolFixture, unrelated]);
-    expect(result.candidateDoorCount).toBe(4);
-    expect(Object.values(result.classes).every((binding) => !binding.sourcePath.includes('003_SchoolLockers'))).toBe(true);
-  });
-
-  it('fails closed when source drift removes doors, floor, food, or building coherence', () => {
-    expect(() => deriveLegacySchoolBindings(pinnedSchoolFixture.filter((row) =>
-      row.originalName !== 'Door').concat(pinnedSchoolFixture.filter((row) =>
-      row.originalName === 'Door').slice(0, 3)))).toThrow(/expected at least 4/);
-    expect(() => deriveLegacySchoolBindings(pinnedSchoolFixture.filter((row) => row.originalName !== 'SchoolMat')))
-      .toThrow(/school floor reference geometry missing/);
-    expect(() => deriveLegacySchoolBindings(pinnedSchoolFixture.filter((row) => !row.path.includes('SchoolFakeFood'))))
-      .toThrow(/school food-area source geometry missing/);
-    expect(() => deriveLegacySchoolBindings([
-      ...pinnedSchoolFixture,
-      {...door(14138, 900, 900), generatedName: 'LBH_14138'},
-    ])).toThrow(/cluster is incoherent/);
+  it('fails closed when a required physical role loses its source evidence', () => {
+    const rows = fixture();
+    expect(() => deriveLegacySchoolBindings(rows.filter((row) => !row.path.includes('SchoolFakeFood'))))
+      .toThrow(/cafeteria fixtures/);
+    expect(() => deriveLegacySchoolBindings(rows.filter((row) => !row.path.includes('SchoolDryBoard'))))
+      .toThrow(/expected 3 fixture-backed rooms/);
+    expect(() => deriveLegacySchoolBindings(rows.filter((row) => row.originalName !== 'SchoolMat')))
+      .toThrow(/entrance evidence/);
   });
 
   it('requires verified classroom identity and post-travel proximity before attendance', () => {
     const attendance = readFileSync('roblox/src/server/SchoolAttendanceService.luau', 'utf8');
     const runtime = readFileSync('roblox/src/server/SchoolRuntimeService.luau', 'utf8');
     const generator = readFileSync('scripts/generate-legacy-brookhaven-runtime-bindings.mjs', 'utf8');
-    const worldConfig = readFileSync('roblox/src/shared/BrookhavenMirrorConfig.luau', 'utf8');
 
-    expect(worldConfig).toContain('Mode = "exact-frozen-brookhaven-world"');
-    expect(attendance).toContain('MirrorConfig.World.Mode == "exact-frozen-brookhaven-world"');
     expect(attendance).toContain('LegacySchoolWorldBindings');
     expect(attendance).toContain('verified school source part is missing');
     expect(attendance).toContain('function SchoolAttendanceService.ValidateClassroomAnchor');
