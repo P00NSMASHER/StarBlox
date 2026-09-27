@@ -33,6 +33,9 @@ function luaString(value){
 function freezeTable(rows){
   return 'table.freeze({\\n'+rows.map(x=>'\\t\\t'+x).join(',\\n')+'\\n\\t})';
 }
+function normalizeGeneratedLua(value){
+  return value.replaceAll('\\\\t','\t').replaceAll('\\\\n','\n');
+}
 function area(row){return (row.size?.[0]||0)*(row.size?.[2]||0);}
 function volume(row){return (row.size?.[0]||0)*(row.size?.[1]||0)*(row.size?.[2]||0);}
 function groupBy(rows,keyFn){
@@ -252,10 +255,10 @@ const manifest={
 await mkdir(outDir,{recursive:true});
 await mkdir(dirname(manifestPath),{recursive:true});
 await Promise.all([
-  writeFile(resolve(outDir,'LegacyWorldActivityBindings.luau'),activityLuau),
-  writeFile(resolve(outDir,'LegacyWorldInteractionBindings.luau'),interactionLuau),
-  writeFile(resolve(outDir,'LegacyWorldPlotBindings.luau'),plotLuau),
-  writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\\n')
+  writeFile(resolve(outDir,'LegacyWorldActivityBindings.luau'),normalizeGeneratedLua(activityLuau)),
+  writeFile(resolve(outDir,'LegacyWorldInteractionBindings.luau'),normalizeGeneratedLua(interactionLuau)),
+  writeFile(resolve(outDir,'LegacyWorldPlotBindings.luau'),normalizeGeneratedLua(plotLuau)),
+  writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n')
 ]);
 process.stdout.write(JSON.stringify({
   status:manifest.status,
@@ -263,4 +266,4 @@ process.stdout.write(JSON.stringify({
   interactions:manifest.interactions.counts,
   plots:manifest.plots.count,
   worldCoverage:manifest.worldCoverage
-},null,2)+'\\n');
+},null,2)+'\n');
