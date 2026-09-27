@@ -92,7 +92,9 @@
     "privatePublishPathAvailable": true,
     "publicAccessChangeAllowed": false,
     "productionActivationAllowed": false,
-    "exactParityClaimAllowed": false
+    "exactParityClaimAllowed": false,
+    "legacyPrivatePlaytestCandidateReady": true,
+    "current2026CertificationStillSeparate": true
   },
   "blockers": [
     "Replace or independently verify the frozen reference snapshot against the current live Brookhaven world before exact visual parity can be certified.",
@@ -159,6 +161,12 @@
     "legacyTownCenterSpawnP0Closed": true,
     "legacyWorldGeometryP0Closed": true,
     "remainingP0DevelopmentGaps": 0,
-    "nextPriorityBand": "P1"
+    "nextPriorityBand": "P1",
+    "legacyDevelopmentTrackCompleted": true,
+    "legacyDevelopmentCompletionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json",
+    "remainingLegacyDevelopmentP0": 0,
+    "remainingLegacyDevelopmentP1": 0,
+    "remainingLegacyDevelopmentP2": 0,
+    "legacyDevelopmentCandidateReady": true
   }
 }

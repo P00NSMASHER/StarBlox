@@ -26,8 +26,8 @@
     "sourceCodeEvaluated": false
   },
   "artifact": {
-    "deterministicModelSha256": "ce9cf8aaab82782f4b88b3c88e920d8746368363b71d9692606156dd8b22c4ca",
-    "deterministicModelBytes": 61067553,
+    "deterministicModelSha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283",
+    "deterministicModelBytes": 61067544,
     "generatedNamePattern": "LBH_00001..LBH_14459",
     "workflowArtifactName": "legacy-brookhaven-geometry-baseline",
     "committedBinary": false,

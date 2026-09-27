@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "legacy-reference-7b-development-plan-generated",
+  "status": "legacy-reference-7b-development-complete",
   "source": {
     "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
     "path": "Brookhaven.rbxl",
@@ -10,149 +10,12 @@
     "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
   },
   "summary": {
-    "priorities": 13,
+    "priorities": 0,
     "p0": 0,
-    "p1": 9,
-    "p2": 4
+    "p1": 0,
+    "p2": 0
   },
-  "priorities": [
-    {
-      "priority": "P1",
-      "area": "interaction-door",
-      "reason": "Legacy source contains more named door candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy door candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P1",
-      "area": "interaction-garage",
-      "reason": "Legacy source contains more named garage candidates than StarBlox.",
-      "metrics": {
-        "legacy": 103,
-        "starblox": 0,
-        "delta": -103
-      },
-      "nextAction": "Review legacy garage candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P1",
-      "area": "interaction-light",
-      "reason": "Legacy source contains more named light candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy light candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P2",
-      "area": "interaction-house",
-      "reason": "Legacy source contains more named house candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy house candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P2",
-      "area": "interaction-vehicle",
-      "reason": "Legacy source contains more named vehicle candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy vehicle candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P2",
-      "area": "interaction-lot",
-      "reason": "Legacy source contains more named lot candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy lot candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P2",
-      "area": "interaction-road",
-      "reason": "Legacy source contains more named road candidates than StarBlox.",
-      "metrics": {
-        "legacy": 200,
-        "starblox": 0,
-        "delta": -200
-      },
-      "nextAction": "Review legacy road candidates as development evidence; implement only source-bound, tested StarBlox equivalents."
-    },
-    {
-      "priority": "P1",
-      "area": "vehicle-catalog",
-      "reason": "Vehicle catalog breadth is still below the tracked Brookhaven target.",
-      "metrics": {
-        "target": 188,
-        "runtimePlayable": 8,
-        "remaining": 180
-      },
-      "nextAction": "Use legacy vehicle structures plus verified factual metadata to prioritize original StarBlox implementations; preserve entitlement gates."
-    },
-    {
-      "priority": "P1",
-      "area": "inventory-catalog",
-      "reason": "Inventory breadth is still below the tracked Brookhaven target.",
-      "metrics": {
-        "target": 173,
-        "runtimeItems": 12,
-        "remaining": 161
-      },
-      "nextAction": "Map legacy tool/item structures to original StarBlox runtime implementations and contextual learning economy."
-    },
-    {
-      "priority": "P1",
-      "area": "house-catalog",
-      "reason": "House parity breadth remains incomplete.",
-      "metrics": {
-        "target": 83,
-        "parityCatalogComplete": false
-      },
-      "nextAction": "Use legacy lot/house structure to stage house-selection and lot-placement parity work without claiming 2026 catalog freshness."
-    },
-    {
-      "priority": "P1",
-      "area": "pending-door-review",
-      "reason": "Existing StarBlox readiness still reports unresolved door candidates.",
-      "metrics": {
-        "pending": 13
-      },
-      "nextAction": "Use legacy geometry/behavior as development evidence, then promote only after rendered and behavior review receipts."
-    },
-    {
-      "priority": "P1",
-      "area": "pending-garage-review",
-      "reason": "Existing StarBlox readiness still reports unresolved garage candidates.",
-      "metrics": {
-        "pending": 101
-      },
-      "nextAction": "Use legacy geometry/behavior as development evidence, then promote only after rendered and behavior review receipts."
-    },
-    {
-      "priority": "P1",
-      "area": "pending-light-review",
-      "reason": "Existing StarBlox readiness still reports unresolved light candidates.",
-      "metrics": {
-        "pending": 111
-      },
-      "nextAction": "Use legacy geometry/behavior as development evidence, then promote only after rendered and behavior review receipts."
-    }
-  ],
+  "priorities": [],
   "completedP0": {
     "worldGeometry": {
       "closed": true,
@@ -181,7 +44,7 @@
     "sanitizedDevelopmentGeometry": {
       "geometry": 14459,
       "safeVisualChildren": 2491,
-      "sha256": "ce9cf8aaab82782f4b88b3c88e920d8746368363b71d9692606156dd8b22c4ca"
+      "sha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283"
     }
   },
   "releaseBoundary": {
@@ -190,5 +53,86 @@
     "exactParityClaimAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextAction": "P0 development gaps are closed; continue P1 interaction/catalog batches, then final mobile QA"
+  "nextAction": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track",
+  "completedLegacyDevelopment": {
+    "status": "legacy-brookhaven-development-track-complete",
+    "closedPriorities": [
+      {
+        "priority": "P0",
+        "area": "world-geometry",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json"
+      },
+      {
+        "priority": "P0",
+        "area": "spawn-town-center",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-door",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-garage",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-light",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "vehicle-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "inventory-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "house-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-door-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-garage-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-light-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-house",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-vehicle",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-lot",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-road",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      }
+    ],
+    "completionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json"
+  }
 }

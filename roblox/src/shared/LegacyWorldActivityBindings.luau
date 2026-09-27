@@ -1,1 +1,22 @@
---!strict\n\n-- Generated deterministically from the pinned legacy Brookhaven source.\nlocal LegacyWorldActivityBindings = table.freeze({\n\tSchemaVersion = 1,\n\tRevision = "legacy-source-bindings-v1",\n\tWorldRootName = "BrookhavenWorldRuntime",\n\tRuntimeAnchorFolderName = "StarBloxActivityAnchors",\n\tSpawn = table.freeze({\n\t\tSourcePartName = "LBH_14370",\n\t\tFacingSourcePartName = "LBH_14370",\n\t\tHeightOffset = 3,\n\t\tPattern = "legacy-town-center-3x3-v1",\n\t\tSlots = table.freeze({\n\t\t\ttable.freeze({X = -4, Z = -4}), table.freeze({X = 0, Z = -4}), table.freeze({X = 4, Z = -4}),\n\t\t\ttable.freeze({X = -4, Z = 0}), table.freeze({X = 0, Z = 0}), table.freeze({X = 4, Z = 0}),\n\t\t\ttable.freeze({X = -4, Z = 4}), table.freeze({X = 0, Z = 4}), table.freeze({X = 4, Z = 4}),\n\t\t}),\n\t}),\n\tActivities = table.freeze({}),\n})\nreturn LegacyWorldActivityBindings\n
+--!strict
+
+-- Generated deterministically from the pinned legacy Brookhaven source.
+local LegacyWorldActivityBindings = table.freeze({
+	SchemaVersion = 1,
+	Revision = "legacy-source-bindings-v1",
+	WorldRootName = "BrookhavenWorldRuntime",
+	RuntimeAnchorFolderName = "StarBloxActivityAnchors",
+	Spawn = table.freeze({
+		SourcePartName = "LBH_14370",
+		FacingSourcePartName = "LBH_14370",
+		HeightOffset = 3,
+		Pattern = "legacy-town-center-3x3-v1",
+		Slots = table.freeze({
+			table.freeze({X = -4, Z = -4}), table.freeze({X = 0, Z = -4}), table.freeze({X = 4, Z = -4}),
+			table.freeze({X = -4, Z = 0}), table.freeze({X = 0, Z = 0}), table.freeze({X = 4, Z = 0}),
+			table.freeze({X = -4, Z = 4}), table.freeze({X = 0, Z = 4}), table.freeze({X = 4, Z = 4}),
+		}),
+	}),
+	Activities = table.freeze({}),
+})
+return LegacyWorldActivityBindings

@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "status": "legacy-brookhaven-development-track-complete",
+  "sourceMode": "legacy-reference-safe-world",
+  "closedPriorities": [
+    {
+      "priority": "P0",
+      "area": "world-geometry",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json"
+    },
+    {
+      "priority": "P0",
+      "area": "spawn-town-center",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json"
+    },
+    {
+      "priority": "P1",
+      "area": "interaction-door",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P1",
+      "area": "interaction-garage",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P1",
+      "area": "interaction-light",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P1",
+      "area": "vehicle-catalog",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+    },
+    {
+      "priority": "P1",
+      "area": "inventory-catalog",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+    },
+    {
+      "priority": "P1",
+      "area": "house-catalog",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+    },
+    {
+      "priority": "P1",
+      "area": "pending-door-review",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P1",
+      "area": "pending-garage-review",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P1",
+      "area": "pending-light-review",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P2",
+      "area": "interaction-house",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P2",
+      "area": "interaction-vehicle",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P2",
+      "area": "interaction-lot",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    },
+    {
+      "priority": "P2",
+      "area": "interaction-road",
+      "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+    }
+  ],
+  "summary": {
+    "closed": 15,
+    "remaining": 0,
+    "p0Remaining": 0,
+    "p1Remaining": 0,
+    "p2Remaining": 0
+  },
+  "world": {
+    "geometryCoverage": 1,
+    "geometryCount": 14459,
+    "spawnPattern": "legacy-town-center-3x3-v1",
+    "plots": 7,
+    "houseGeometry": 5074,
+    "vehicleGeometry": 201,
+    "lotGeometry": 5074,
+    "roadGeometry": 470
+  },
+  "interactions": {
+    "doors": 39,
+    "garages": 5,
+    "lights": 8,
+    "pendingReview": {
+      "doors": 0,
+      "garages": 0,
+      "lights": 0
+    }
+  },
+  "catalogs": {
+    "sourceTargets": {
+      "vehicles": 19,
+      "inventoryUnique": 50,
+      "houses": 12
+    },
+    "runtime": {
+      "vehicles": 19,
+      "sourceVehiclesRuntimePlayable": 19,
+      "inventorySourceEntries": 50,
+      "inventoryRuntimeEntries": 51,
+      "compatibilityToolEntries": 1,
+      "houses": 12
+    },
+    "completion": {
+      "vehicleCatalogComplete": true,
+      "inventoryCatalogComplete": true,
+      "houseCatalogComplete": true,
+      "everySourceVehicleRuntimePlayable": true,
+      "everySourceToolHasRuntimeDefinition": true
+    }
+  },
+  "candidate": {
+    "ready": true,
+    "sha256": "c58e8a7f00a090a1b0e223cde0521d34108bbfa719ef69a6f007ef4ca0a3f58a",
+    "bytes": 65654725,
+    "privatePlaytestCandidate": true
+  },
+  "boundaries": {
+    "requestedLegacyDevelopmentScopeComplete": true,
+    "current2026CertificationIsSeparate": true,
+    "currentLiveCertificationSatisfied": false,
+    "exactCurrentParityClaimAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "nextStep": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track"
+}

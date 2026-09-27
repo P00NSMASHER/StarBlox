@@ -92,9 +92,9 @@
     "publicAccessChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextStep": "execute legacy-derived P0/P1 StarBlox development batches, then run final mobile QA; current-live certification remains optional/separate",
+  "nextStep": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track",
   "legacyDevelopmentTrack": {
-    "status": "steps-1-through-5-complete",
+    "status": "complete",
     "sourceClassification": "legacy_reference_source",
     "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json",
     "profileReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json",
@@ -147,6 +147,10 @@
       "retainedWorkflowArtifact": "legacy-brookhaven-geometry-baseline"
     },
     "remainingP0DevelopmentGaps": 0,
-    "nextPriorityBand": "P1"
+    "nextPriorityBand": "P1",
+    "completionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json",
+    "remainingP1DevelopmentGaps": 0,
+    "remainingP2DevelopmentGaps": 0,
+    "candidateReady": true
   }
 }
