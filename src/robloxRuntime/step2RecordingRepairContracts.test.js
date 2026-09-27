@@ -22,20 +22,25 @@ describe('recorded StarBlox repair contracts',()=>{
     const client=read('roblox/src/client/SchoolSystem.client.luau');
     const choiceCount=Number(client.match(/for index = 1, (\d+) do/)?.[1]);
     const buttonHeight=Number(client.match(/button.Size = UDim2.new\(1, -32, 0, (\d+)\)/)?.[1]);
-    const layouts=[...client.matchAll(
-      /panel\.Size = UDim2\.new\(0\.84, 0, 0, (\d+)\)[\s\S]*?for index, button in buttons do\s+button\.Position = UDim2\.fromOffset\(16, (\d+) \+ \(\(index - 1\) \* (\d+)\)\)/g
-    )].map(match=>({
-      panelHeight:Number(match[1]),
-      firstChoiceY:Number(match[2]),
-      choiceStep:Number(match[3]),
-    }));
+    const renderQuestion=client.slice(
+      client.indexOf('local function renderQuestion'),
+      client.indexOf('\nfor _, button in buttons do')
+    );
+    const panelHeights=[...renderQuestion.matchAll(
+      /panel\.Size = UDim2\.new\(0\.84, 0, 0, (\d+)\)/g
+    )].map(match=>Number(match[1]));
+    const choiceLayouts=[...renderQuestion.matchAll(
+      /button\.Position = UDim2\.fromOffset\(16, (\d+) \+ \(\(index - 1\) \* (\d+)\)\)/g
+    )].map(match=>({firstChoiceY:Number(match[1]),choiceStep:Number(match[2])}));
 
     expect(choiceCount).toBeGreaterThan(0);
     expect(buttonHeight).toBeGreaterThanOrEqual(44);
-    expect(layouts).toHaveLength(2);
-    for(const layout of layouts){
+    expect(panelHeights).toHaveLength(2);
+    expect(choiceLayouts).toHaveLength(2);
+    for(let index=0;index<panelHeights.length;index++){
+      const layout=choiceLayouts[index];
       const finalBottom=layout.firstChoiceY+(choiceCount-1)*layout.choiceStep+buttonHeight;
-      expect(finalBottom).toBeLessThanOrEqual(layout.panelHeight);
+      expect(finalBottom).toBeLessThanOrEqual(panelHeights[index]);
     }
   });
 });
