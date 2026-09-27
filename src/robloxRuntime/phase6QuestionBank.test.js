@@ -13,7 +13,7 @@ function stable(value){
   return JSON.stringify(value);
 }
 function questionHash(question){
-  const keys=['id','stationId','subject','skill','prompt','choices','answer','explanation','provenance','sourceFact','tier','domain','difficulty','standards','dok','cognitiveDemand','hint','scaffold','choiceDiagnostics','rubric','alignmentEvidence','responseType','richContent','experiment'];
+  const keys=['id','stationId','subject','skill','prompt','choices','answer','explanation','provenance','sourceFact','tier','domain','difficulty','standards','dok','cognitiveDemand','hint','scaffold','choiceDiagnostics','rubric','alignmentEvidence','responseType','richContent','experiment','generationVariant','sourceTransform','originalEquivalent'];
   const payload={};
   for(const key of keys) if(question[key]!==undefined) payload[key]=question[key];
   return 'sha256:'+createHash('sha256').update(stable(payload)).digest('hex');
@@ -41,7 +41,7 @@ describe('Dynamic material-first Grade 2 bank with regenerated STAR fallback',()
     expect(source.generatedFrom.sourceHash).toMatch(/^teacher-pages-[a-f0-9]{20}$/);
     expect(source.generatedFrom.schoolworkSourceHash).toMatch(/^sha256:[a-f0-9]{64}$/);
     expect(source.generatedFrom.schoolworkBatchId).toMatch(/^schoolwork-/);
-    expect(source.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v5-schoolwork-photo');
+    expect(source.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork');
     expect(source.generatedFrom.bankSnapshotId).toMatch(/^abvm-[a-f0-9]{12}-[a-f0-9]{6}$/);
   });
 
