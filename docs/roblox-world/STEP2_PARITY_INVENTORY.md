@@ -37,6 +37,7 @@ Each scenario below is a pass/fail requirement. A source asset existing or a but
 | P2-13 | School exception | Schedule, destination, class, attendance, question feedback and rewards appear contextually inside the school without permanently obscuring town play. | StarBlox recording visibly shows overlapping school UI; fail for visual presentation, location/flow U. |
 | P2-14 | Audio/effects | Each source sound/effect/animation has a named location, trigger, audible/visible outcome and fallback. | Aggregate counts only; itemized paths and client U. |
 | P2-15 | Responsive/performance | Repeat all flows on the same phone, tablet and computer models as the reference at matching graphics settings; record frame rate, loading and input latency. | Paired phone-style recordings reviewed; hardware/settings, tablet/computer and measured performance U. |
+| P2-16 | School location binding | School entrance, cafeteria, library and each classroom resolve to verified parts inside the actual school building; travel and attendance cannot silently bind to another activity or an arbitrary fallback. | `SchoolWorldBindings.luau` maps Entrance `BHW_4876` and Cafeteria `BHW_3405`, also named as Spelling Forge and Culture Lab in `WorldActivityBindings.luau`; school path/model mapping is unverified. Fallback campus can be generated if entrance resolution falls back. Fail-closed mapping and client proof required. |
 
 ## Recording observations
 
