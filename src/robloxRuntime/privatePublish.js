@@ -379,7 +379,7 @@ export function buildPrivatePublishReceipt({
     status:skipped
       ? 'already-current'
       : verificationComplete
-        ? 'published-and-verified'
+        ? 'published-server-boot-verified'
         : 'published-awaiting-runtime-verification',
     releaseId:String(releaseId),
     sourceCommit:String(sourceCommit || ''),
@@ -399,8 +399,11 @@ export function buildPrivatePublishReceipt({
       verified
     }),
     verification:Object.freeze({
-      status:verificationComplete ? 'verified' : 'pending-production-server-boot',
-      taskPath:verificationTaskPath ? String(verificationTaskPath) : null
+      status:verificationComplete ? 'server-boot-verified' : 'pending-production-server-boot',
+      scope:'production-server-boot',
+      taskPath:verificationTaskPath ? String(verificationTaskPath) : null,
+      robloxClientRunObserved:false,
+      clientStatus:'not-tested'
     }),
     verificationTaskPath:verificationTaskPath ? String(verificationTaskPath) : null,
     releaseGate:releaseGate ? Object.freeze({
