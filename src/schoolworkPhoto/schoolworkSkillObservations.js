@@ -152,12 +152,11 @@ function aggregateBySkill(observations){
 
 function artifactFrom({batchId,capturedDate,intakeSourceHash,observations,mode,reviewSummary}){
   const bySkill=aggregateBySkill(observations);
-  return {
+  const artifact={
     schemaVersion:1,
     observationVersion:SCHOOLWORK_SKILL_OBSERVATION_VERSION,
     batchId,
     capturedDate,
-    intakeSourceHash,
     mode,
     observationCount:observations.length,
     observations,
@@ -173,6 +172,10 @@ function artifactFrom({batchId,capturedDate,intakeSourceHash,observations,mode,r
       sourceImageHashesIncluded:false
     }
   };
+  if(typeof intakeSourceHash==='string'&&intakeSourceHash.length>0){
+    artifact.intakeSourceHash=intakeSourceHash;
+  }
+  return artifact;
 }
 
 export function schoolworkSkillObservationHash(artifact){
@@ -190,19 +193,22 @@ export function schoolworkSkillObservationHash(artifact){
 }
 
 function receiptFor(artifact){
-  return {
+  const receipt={
     schemaVersion:1,
     receiptVersion:SCHOOLWORK_SKILL_OBSERVATION_RECEIPT_VERSION,
     observationVersion:SCHOOLWORK_SKILL_OBSERVATION_VERSION,
     batchId:artifact.batchId,
     capturedDate:artifact.capturedDate,
-    intakeSourceHash:artifact.intakeSourceHash,
     mode:artifact.mode,
     observationCount:artifact.observationCount,
     skillCount:Object.keys(artifact.bySkill).length,
     observationHash:schoolworkSkillObservationHash(artifact),
     privacy:artifact.privacy
   };
+  if(typeof artifact.intakeSourceHash==='string'&&artifact.intakeSourceHash.length>0){
+    receipt.intakeSourceHash=artifact.intakeSourceHash;
+  }
+  return receipt;
 }
 
 export function buildSchoolworkSkillObservations({intake,reviewedPack}){
@@ -357,7 +363,6 @@ export function buildLegacySchoolworkSkillObservations(
   const artifact=artifactFrom({
     batchId:pack.batchId,
     capturedDate:pack.capturedDate||'',
-    intakeSourceHash:schoolworkPackHash(pack),
     observations,
     mode:'legacy-sanitized-skill-signals',
     reviewSummary:{
@@ -384,8 +389,12 @@ export function renderSchoolworkSkillEvidenceLua(artifact){
     '\tSchemaVersion = 1,',
     '\tVersion = '+luaString(artifact.observationVersion)+',',
     '\tBatchId = '+luaString(artifact.batchId)+',',
-    '\tCapturedDate = '+luaString(artifact.capturedDate)+',',
-    '\tIntakeSourceHash = '+luaString(artifact.intakeSourceHash)+',',
+    '\tCapturedDate = '+luaString(artifact.capturedDate)+','
+  ];
+  if(typeof artifact.intakeSourceHash==='string'&&artifact.intakeSourceHash.length>0){
+    lines.push('\tIntakeSourceHash = '+luaString(artifact.intakeSourceHash)+',');
+  }
+  lines.push(
     '\tSkills = table.freeze({'
   ];
   for(const [skill,row] of Object.entries(artifact.bySkill).sort(([a],[b])=>a.localeCompare(b))){
