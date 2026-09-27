@@ -105,7 +105,7 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(sidebar).toContain('rail.Name = "RightActionRail"');
     expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
     expect(sidebar).toContain('railLayout.Padding = UDim.new(0, 5)');
-    expect(sidebar).toContain('button.Size = UDim2.fromOffset(44, 44)');
+    expect(sidebar).toContain('holder.Size = UDim2.fromOffset(44, 44)');
     for(const call of [
       'actionButton("avatar", "Avatar", "Avatar Editor", 1)',
       'actionButton("tools", "Tools", "Tools", 2)',
