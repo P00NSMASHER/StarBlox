@@ -133,6 +133,49 @@ readiness.step7.remainingLegacyDevelopmentP2=0;
 readiness.step7.legacyDevelopmentCandidateReady=Boolean(candidate);
 readiness.release.legacyPrivatePlaytestCandidateReady=Boolean(candidate);
 readiness.release.current2026CertificationStillSeparate=true;
+readiness.catalog.legacyDevelopment={
+  sourceTargets:catalog.sourceTargets,
+  runtime:catalog.runtime,
+  completion:catalog.completion
+};
+readiness.interactions.legacyDevelopment={
+  reviewedDoors:bindings.interactions.counts.doors,
+  reviewedGarageDoors:bindings.interactions.counts.garages,
+  reviewedLights:bindings.interactions.counts.lights,
+  pendingReview:bindings.interactions.pendingReview,
+  plots:bindings.plots.count,
+  sourceBound:true
+};
+readiness.worldSource.legacyReference=readiness.worldSource.legacyReference||{};
+readiness.worldSource.legacyReference.geometryBreadthDevelopmentParity={
+  p0Closed:true,
+  source:geometry.source.repository+'/'+geometry.source.path,
+  sourceCommit:geometry.source.sourceCommit,
+  sourceSha256:geometry.source.sourceSha256,
+  sanitizationReceipt:'docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json',
+  sanitizedModelSha256:geometry.artifact.deterministicModelSha256,
+  legacyGeometryCount:geometry.breadth.legacyWorkspaceGeometry,
+  sanitizedGeometryCount:geometry.breadth.sanitizedDevelopmentGeometry,
+  safeVisualChildCount:geometry.breadth.safeVisualChildren,
+  forbiddenGameplayClassCount:geometry.safety.forbiddenGameplayClasses,
+  allGeometryAnchored:geometry.safety.allGeometryAnchored,
+  sourceCodeExecuted:geometry.safety.sourceCodeExecuted,
+  retainedWorkflowArtifact:geometry.artifact.workflowArtifactName,
+  currentLiveCertificationSatisfied:false
+};
+readiness.worldSource.legacyReference.runtimeBindings={
+  receipt:bindingsPath,
+  doors:bindings.interactions.counts.doors,
+  garages:bindings.interactions.counts.garages,
+  lights:bindings.interactions.counts.lights,
+  plots:bindings.plots.count,
+  pendingReview:bindings.interactions.pendingReview
+};
+readiness.worldSource.legacyReference.catalogCompletion={
+  receipt:catalogPath,
+  sourceTargets:catalog.sourceTargets,
+  completion:catalog.completion
+};
 
 step7.legacyDevelopmentTrack=step7.legacyDevelopmentTrack||{};
 step7.legacyDevelopmentTrack.status='complete';
@@ -141,6 +184,29 @@ step7.legacyDevelopmentTrack.remainingP0DevelopmentGaps=0;
 step7.legacyDevelopmentTrack.remainingP1DevelopmentGaps=0;
 step7.legacyDevelopmentTrack.remainingP2DevelopmentGaps=0;
 step7.legacyDevelopmentTrack.candidateReady=Boolean(candidate);
+step7.legacyDevelopmentTrack.completedPrioritySummary=completion.summary;
+step7.legacyDevelopmentTrack.worldGeometryP0={
+  closed:true,
+  gate:geometryGatePath,
+  legacyGeometryCount:geometry.breadth.legacyWorkspaceGeometry,
+  sanitizedGeometryCount:geometry.breadth.sanitizedDevelopmentGeometry,
+  coverage:geometry.breadth.coverage,
+  sanitizedModelSha256:geometry.artifact.deterministicModelSha256,
+  forbiddenGameplayClassCount:geometry.safety.forbiddenGameplayClasses,
+  retainedWorkflowArtifact:geometry.artifact.workflowArtifactName
+};
+step7.legacyDevelopmentTrack.catalogCompletion={
+  sourceTargets:catalog.sourceTargets,
+  runtime:catalog.runtime,
+  completion:catalog.completion
+};
+step7.legacyDevelopmentTrack.interactionCompletion={
+  doors:bindings.interactions.counts.doors,
+  garages:bindings.interactions.counts.garages,
+  lights:bindings.interactions.counts.lights,
+  pendingReview:bindings.interactions.pendingReview,
+  plots:bindings.plots.count
+};
 step7.nextStep=completion.nextStep;
 
 await Promise.all([
