@@ -10,7 +10,8 @@ function exactness(){
     baseline:{modelSha256:'b'.repeat(64)},
     readOnlyPolicy:{
       baselineMutationAllowed:false,
-      runtimeMayParentGameplayIntoBaseline:false
+      runtimeMayParentGameplayIntoBaseline:false,
+      mountMode:'serverstorage-immutable-witness-with-runtime-projection'
     }
   };
 }
@@ -19,7 +20,8 @@ function inspection(){
     baseline:{
       mountedSubtreeSha256:'c'.repeat(64),
       subtreeInstanceCount:5493,
-      scriptsOrRemotesInsideBaseline:0
+      scriptsOrRemotesInsideBaseline:0,
+      witnessLocation:'ServerStorage/BrookhavenWorldBaseline'
     },
     runtime:{
       mountCount:3,
@@ -28,7 +30,9 @@ function inspection(){
         'ServerScriptService/StarBlox',
         'StarterPlayer/StarterPlayerScripts/StarBlox'
       ],
-      parentedIntoBaseline:false
+      parentedIntoBaseline:false,
+      projectionName:'BrookhavenWorldRuntime',
+      projectionPresentInStaticArtifact:false
     }
   };
 }
@@ -41,9 +45,16 @@ function mount(){
       isolatedSubtreeSha256:'c'.repeat(64),
       mountedSubtreeSha256:'c'.repeat(64),
       subtreeInstanceCount:5493,
-      scriptsOrRemotesAdded:0
+      scriptsOrRemotesAdded:0,
+      witnessLocation:'ServerStorage/BrookhavenWorldBaseline'
     },
-    runtime:{parentedIntoBaseline:false},
+    runtime:{
+      parentedIntoBaseline:false,
+      projectionName:'BrookhavenWorldRuntime',
+      projectionLocation:'Workspace/BrookhavenWorldRuntime',
+      projectionCreatedAtBoot:true,
+      projectionPresentInStaticArtifact:false
+    },
     boundaries:{worldBaselineMutated:false}
   };
 }
@@ -72,6 +83,10 @@ describe('Target Architecture Step 6 release gate',()=>{
     });
     expect(gate.status).toBe('private-release-gate-open');
     expect(gate.step5.subtreeInstanceCount).toBe(5493);
+    expect(gate.step5.witnessLocation).toBe('ServerStorage/BrookhavenWorldBaseline');
+    expect(gate.step5.runtimeProjectionName).toBe('BrookhavenWorldRuntime');
+    expect(gate.gates.immutableWitnessVerified).toBe(true);
+    expect(gate.gates.runtimeProjectionBootOnlyVerified).toBe(true);
     expect(gate.authority.privatePublicationAllowed).toBe(true);
     expect(gate.authority.publicAccessChangeAllowed).toBe(false);
     expect(verifyStep6ReleaseGate({

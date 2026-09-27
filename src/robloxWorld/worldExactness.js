@@ -155,7 +155,7 @@ export function verifyBrookhavenWorldExactness({
       runtimeMayParentGameplayIntoBaseline:false,
       runtimeMayWriteBaselineProperties:false,
       runtimeMayReplaceBaseline:false,
-      mountMode:'workspace-sibling-read-only-world'
+      mountMode:'serverstorage-immutable-witness-with-runtime-projection'
     }),
     boundaries:Object.freeze({
       starBloxMounted:false,
@@ -163,6 +163,6 @@ export function verifyBrookhavenWorldExactness({
       publicationStarted:false,
       liveActivationAllowed:false
     }),
-    nextSubstep:'mount-starblox-runtime-beside-locked-world'
+    nextSubstep:'mount-immutable-witness-and-bootstrap-runtime-projection'
   });
 }

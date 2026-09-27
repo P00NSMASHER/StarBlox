@@ -1,0 +1,186 @@
+name: StarBlox Legacy Brookhaven Private Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Legacy Brookhaven release action
+        required: true
+        default: verify-only
+        type: choice
+        options:
+          - verify-only
+          - publish-private
+  push:
+    branches:
+      - main
+    paths:
+      - docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json
+      - .github/workflows/legacy-brookhaven-private-release.yml
+      - scripts/publish-legacy-brookhaven-private.mjs
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.js
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.test.js
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-legacy-brookhaven-private-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout exact main candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve private-release request
+        id: request
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_ACTION: ${{ inputs.action }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          enabled=false
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$REQUESTED_ACTION" = "publish-private" ]; then
+              enabled=true
+            fi
+          else
+            enabled="$(node --input-type=module - <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const request=JSON.parse(readFileSync('docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json','utf8'));
+          const safe =
+            request?.enabled === true &&
+            request?.action === 'publish-private' &&
+            request?.target?.universeId === '6027194615' &&
+            request?.target?.placeId === '17602626136' &&
+            request?.target?.releaseChannel === 'private-staging' &&
+            request?.authority?.publicAccessChangeAllowed === false &&
+            request?.authority?.experienceVisibilityChangeAllowed === false &&
+            request?.authority?.productionActivationAllowed === false;
+          process.stdout.write(safe ? 'true' : 'false');
+          NODE
+          )"
+          fi
+          echo "enabled=$enabled" >> "$GITHUB_OUTPUT"
+          echo "Private publish requested: $enabled"
+
+      - name: Use Node 22
+        if: steps.request.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        if: steps.request.outputs.enabled == 'true'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup pinned Roblox toolchain
+        if: steps.request.outputs.enabled == 'true'
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+
+      - name: Install dependencies
+        if: steps.request.outputs.enabled == 'true'
+        run: npm install --no-audit --no-fund
+
+      - name: Install pinned Roblox runtime packages
+        if: steps.request.outputs.enabled == 'true'
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+
+      - name: Re-run complete regression suite
+        if: steps.request.outputs.enabled == 'true'
+        run: |
+          npm test
+          npm run build
+          npm run roblox:backbone:verify
+
+      - name: Build exact legacy Brookhaven private candidate
+        if: steps.request.outputs.enabled == 'true'
+        run: |
+          node scripts/prepare-legacy-brookhaven-development-candidate.mjs \
+            --source-commit "${{ github.sha }}" \
+            --out-dir artifacts/legacy-private-release
+          test -s artifacts/legacy-private-release/StarBlox-Legacy-Brookhaven-Development.rbxlx
+          test -s artifacts/legacy-private-release/candidate-receipt.json
+          grep -q '"status": "legacy-brookhaven-development-candidate-ready"' artifacts/legacy-private-release/candidate-receipt.json
+          grep -q '"privatePlaytestCandidate": true' artifacts/legacy-private-release/candidate-receipt.json
+          grep -q '"publicAccessChangeAllowed": false' artifacts/legacy-private-release/candidate-receipt.json
+          grep -q '"productionActivationAllowed": false' artifacts/legacy-private-release/candidate-receipt.json
+
+      - name: Publish and verify exact private Roblox server
+        if: steps.request.outputs.enabled == 'true'
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.sha }}
+          STARBLOX_LEGACY_CANDIDATE_RECEIPT: ${{ github.workspace }}/artifacts/legacy-private-release/candidate-receipt.json
+          STARBLOX_LEGACY_CANDIDATE_ARTIFACT: ${{ github.workspace }}/artifacts/legacy-private-release/StarBlox-Legacy-Brookhaven-Development.rbxlx
+          STARBLOX_LEGACY_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/legacy-private-release/private-publish-receipt.json
+        run: |
+          npm run roblox:brookhaven-legacy:publish-private
+          grep -q '"status": "published-and-verified"' artifacts/legacy-private-release/private-publish-receipt.json
+          grep -q '"publicAccessChangeAttempted": false' artifacts/legacy-private-release/private-publish-receipt.json
+          grep -q '"productionActivationAllowed": false' artifacts/legacy-private-release/private-publish-receipt.json
+          grep -q '"geometryCount": 14459' artifacts/legacy-private-release/private-publish-receipt.json
+
+      - name: Upload private release evidence
+        if: steps.request.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-legacy-brookhaven-private-release
+          path: |
+            artifacts/legacy-private-release/StarBlox-Legacy-Brookhaven-Development.rbxlx
+            artifacts/legacy-private-release/candidate-receipt.json
+            artifacts/legacy-private-release/private-publish-receipt.json
+            artifacts/legacy-private-release/legacy-binding-manifest.json
+            artifacts/legacy-private-release/legacy-catalog-completion.json
+            artifacts/legacy-private-release/legacy-geometry-sanitization.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Record verified release and close one-time request
+        if: steps.request.outputs.enabled == 'true' && github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module - <<'NODE'
+          import {readFileSync,writeFileSync} from 'node:fs';
+          const receipt=JSON.parse(readFileSync('artifacts/legacy-private-release/private-publish-receipt.json','utf8'));
+          if(receipt?.status!=='published-and-verified') throw new Error('verified publish receipt required');
+          writeFileSync(
+            'docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json',
+            JSON.stringify(receipt,null,2)+'\n'
+          );
+          const path='docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json';
+          const request=JSON.parse(readFileSync(path,'utf8'));
+          request.status='completed';
+          request.enabled=false;
+          request.completion={
+            publishedVersion:receipt.versions.published,
+            verifiedVersion:receipt.versions.verified,
+            receipt:'docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json'
+          };
+          writeFileSync(path,JSON.stringify(request,null,2)+'\n');
+          NODE
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json
+          git commit -m "Record verified legacy Brookhaven private release"
+          git pull --rebase origin main
+          git push origin HEAD:main

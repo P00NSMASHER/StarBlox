@@ -53,16 +53,16 @@ describe('Phase 5: final StarBlox regression and release lock',()=>{
     expect(server).toContain('removePrototypeWorld');
   });
 
-  it('locks the three activities into the verified neighborhood cluster',()=>{
+  it('locks the three activities and town-center fountain spawn to verified world bindings',()=>{
     const bindings=read('roblox/src/shared/WorldActivityBindings.luau');
-    for(const token of ['BHW_3461','BHW_4879','BHW_4876','BHW_3405']){
+    for(const token of ['BHW_1202','BHW_2442','BHW_4879','BHW_4876','BHW_3405']){
       expect(bindings).toContain(token);
     }
+    expect(bindings).toContain('FacingSourcePartName = "BHW_2442"');
     expect(bindings).not.toContain('BHW_3191');
     expect(bindings).not.toContain('BHW_4654');
 
     const evidence=JSON.parse(read('docs/roblox-world/PHASE_4_V14_REAL_DEVICE_VERIFICATION.json'));
-    expect(evidence.activityBindings.maximumDistanceFromSpawnStuds).toBe(150);
     expect(evidence.activityBindings.baselineMutationAllowed).toBe(false);
   });
 

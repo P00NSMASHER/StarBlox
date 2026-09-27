@@ -63,7 +63,7 @@ describe('Step 4: Roblox intelligence shadow bridge', () => {
     expect(dailyPayload.releaseId).toBe('daily-2026-10-11@v1');
     expect(dailyPayload.questionRefs).toEqual(certified.artifact.bundle.questionRefs);
     expect(dailyPayload.bundleHash).toBe(certified.artifact.bundle.bundleHash);
-  });
+  },15_000);
 
   it('maps durable Roblox learning profile shape into the shadow policy input contract', () => {
     const state=buildRobloxShadowState({

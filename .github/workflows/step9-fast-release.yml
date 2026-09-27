@@ -64,6 +64,16 @@ jobs:
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js \
             src/robloxRuntime/phase9BrookhavenUiParity.test.js \
+            src/robloxRuntime/brookhavenVehicleCategoryRail.test.js \
+            src/robloxRuntime/brookhavenCatalogReference.test.js \
+            src/robloxRuntime/brookhavenSmallVehicleReference.test.js \
+            src/robloxRuntime/brookhavenWorldInteractionProof.test.js \
+            src/robloxRuntime/brookhavenInteractionReviewReceipt.test.js \
+            src/robloxRuntime/brookhavenSchoolIntegrationSeam.test.js \
+            src/robloxRuntime/schoolFoundation.test.js \
+            src/robloxRuntime/schoolSystem.test.js \
+            src/robloxRuntime/brookhavenParityReadiness.test.js \
+            src/robloxRuntime/brookhavenFinalPrivateHandoff.test.js \
             src/robloxRuntime/phase10HomePlacement.test.js \
             src/robloxRuntime/phase11HouseStyles.test.js \
             src/robloxWorld/worldPlotBindings.test.js \

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const STARBLOX_WORLD_MOUNT_VERSION='starblox-world-mount-verification-v1';
+export const STARBLOX_WORLD_MOUNT_VERSION='starblox-world-mount-verification-v2';
 
 function sha256(data){
   return createHash('sha256').update(data).digest('hex');
@@ -83,11 +83,14 @@ export function createStep5MountProject(baseProject,{baselinePath='.step5-genera
   if(typeof baselinePath !== 'string' || !baselinePath.trim()) fail('baselinePath is required');
 
   const tree=clone(baseProject.tree);
-  tree.Workspace={
-    BrookhavenWorldBaseline:{
-      $path:baselinePath
-    }
-  };
+  const serverStorage=tree.ServerStorage && typeof tree.ServerStorage==='object'
+    ? clone(tree.ServerStorage)
+    : {};
+  if(Object.prototype.hasOwnProperty.call(serverStorage,'BrookhavenWorldBaseline')){
+    fail('base StarBlox Rojo project may not already own ServerStorage/BrookhavenWorldBaseline');
+  }
+  serverStorage.BrookhavenWorldBaseline={$path:baselinePath};
+  tree.ServerStorage=serverStorage;
   return Object.freeze({
     ...clone(baseProject),
     name:'StarBloxStep5MountedWorld',
@@ -117,8 +120,12 @@ export function verifyStep5MountedWorld({
 
   const isolated=findUniqueByName(isolatedDom,'BrookhavenWorldBaseline','isolated world');
   const mounted=findUniqueByName(mountedDom,'BrookhavenWorldBaseline','mounted world');
-  if(!pathEndsWith(mounted.path,['Workspace','BrookhavenWorldBaseline'])){
-    fail('Brookhaven baseline is not mounted directly under Workspace');
+  if(!pathEndsWith(mounted.path,['ServerStorage','BrookhavenWorldBaseline'])){
+    fail('Brookhaven immutable witness is not mounted under ServerStorage');
+  }
+  const runtimeWorlds=walk(mountedDom).filter(row=>nodeName(row.node)==='BrookhavenWorldRuntime');
+  if(runtimeWorlds.length !== 0){
+    fail('mutable Brookhaven runtime projection must be created only at server boot');
   }
 
   const isolatedHash=subtreeHash(isolated.node);
@@ -160,13 +167,18 @@ export function verifyStep5MountedWorld({
       isolatedSubtreeSha256:isolatedHash,
       mountedSubtreeSha256:mountedHash,
       subtreeInstanceCount:mountedCount,
-      scriptsOrRemotesAdded:0
+      scriptsOrRemotesAdded:0,
+      witnessLocation:'ServerStorage/BrookhavenWorldBaseline'
     }),
     runtime:Object.freeze({
       mounted:true,
       mountCount:runtimePaths.length,
       mounts:Object.freeze(runtimePaths.map(path=>path.join('/'))),
-      parentedIntoBaseline:false
+      parentedIntoBaseline:false,
+      projectionName:'BrookhavenWorldRuntime',
+      projectionLocation:'Workspace/BrookhavenWorldRuntime',
+      projectionCreatedAtBoot:true,
+      projectionPresentInStaticArtifact:false
     }),
     boundaries:Object.freeze({
       worldBaselineMutated:false,
@@ -181,8 +193,12 @@ export function verifyStep5MountedWorld({
 
 export function inspectStep6ReleaseArtifact(dom){
   const mounted=findUniqueByName(dom,'BrookhavenWorldBaseline','Step 6 release artifact');
-  if(!pathEndsWith(mounted.path,['Workspace','BrookhavenWorldBaseline'])){
-    fail('Step 6 release artifact baseline is not mounted directly under Workspace');
+  if(!pathEndsWith(mounted.path,['ServerStorage','BrookhavenWorldBaseline'])){
+    fail('Step 6 release artifact witness is not mounted under ServerStorage');
+  }
+  const runtimeWorlds=walk(dom).filter(row=>nodeName(row.node)==='BrookhavenWorldRuntime');
+  if(runtimeWorlds.length !== 0){
+    fail('Step 6 static release artifact must not contain BrookhavenWorldRuntime');
   }
 
   const mountedHash=subtreeHash(mounted.node);
@@ -210,12 +226,15 @@ export function inspectStep6ReleaseArtifact(dom){
     baseline:Object.freeze({
       mountedSubtreeSha256:mountedHash,
       subtreeInstanceCount:mountedCount,
-      scriptsOrRemotesInsideBaseline:forbidden.length
+      scriptsOrRemotesInsideBaseline:forbidden.length,
+      witnessLocation:'ServerStorage/BrookhavenWorldBaseline'
     }),
     runtime:Object.freeze({
       mountCount:runtimePaths.length,
       mounts:Object.freeze(runtimePaths.map(path=>path.join('/'))),
-      parentedIntoBaseline:false
+      parentedIntoBaseline:false,
+      projectionName:'BrookhavenWorldRuntime',
+      projectionPresentInStaticArtifact:false
     })
   });
 }

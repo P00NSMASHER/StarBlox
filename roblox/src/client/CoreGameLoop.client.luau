@@ -2,6 +2,12 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
+	return
+end
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
@@ -73,6 +79,9 @@ hud.Position = UDim2.new(1, -72, 0, 8)
 hud.BackgroundColor3 = COLORS.navy
 hud.BackgroundTransparency = 0.05
 hud.Parent = gui
+-- Brookhaven parity: the normal world view must not carry a StarBlox dashboard.
+-- Learning/economy UI is contextual and appears only when an activity is opened.
+hud.Visible = false
 round(hud, 5)
 outline(hud, 0.15)
 
@@ -131,6 +140,9 @@ nextHint.TextScaled = true
 nextHint.TextXAlignment = Enum.TextXAlignment.Center
 nextHint.Text = "Loading your next station…"
 nextHint.Parent = gui
+-- Keep navigation hints out of the ordinary Brookhaven world view.
+-- School/learning flows can opt into overlays with StarBloxLearningOverlayVisible.
+nextHint.Visible = false
 round(nextHint, 5)
 outline(nextHint, 0.15)
 constrainText(nextHint, 10, 13)
@@ -580,6 +592,9 @@ local anchorFolder = workspace:WaitForChild("StarBloxActivityAnchors", 10)
 local function updateWaypoint(activityId: any, stationName: any)
 	waypoint.Enabled = false
 	waypoint.Adornee = nil
+	if player:GetAttribute("StarBloxLearningOverlayVisible") ~= true then
+		return
+	end
 	if anchorFolder == nil or type(activityId) ~= "string" then
 		return
 	end
@@ -630,9 +645,33 @@ local function showToast(message: string, positive: boolean?)
 	end)
 end
 
+local function setLearningOverlayVisible(visible: boolean)
+	player:SetAttribute("StarBloxLearningOverlayVisible", visible)
+	-- Brookhaven remains the visual shell even during school interactions.
+	-- The question card is the only deliberate StarBlox overlay.
+	hud.Visible = false
+	nextHint.Visible = false
+	waypoint.Enabled = false
+	waypoint.Adornee = nil
+	if not visible then
+		onboarding.Visible = false
+	end
+end
+
+local function resetQuestionPresentation()
+	clearRichVisual()
+	panel.Size = UDim2.new(0.84, 0, 0, 322)
+	for index, button in buttons do
+		button.Position = UDim2.new(0, 16, 0, 130 + ((index - 1) * 52))
+	end
+	resultLabel.Position = UDim2.fromOffset(16, 286)
+end
+
 local function hidePanel()
 	currentActivity = nil
 	panel.Visible = false
+	resetQuestionPresentation()
+	setLearningOverlayVisible(false)
 end
 
 local function showPanel()
@@ -725,7 +764,10 @@ local function applyStatus(status)
 
 	updateClock()
 
-	pilotButton.Visible = type(status.pilot) == "table" and status.pilot.enabled == true
+	pilotButton.Visible = BrookhavenMirrorConfig.LearningPresentation.PersistentStudyPilotButtonEnabled == true
+		and player:GetAttribute("StarBloxLearningOverlayVisible") == true
+		and type(status.pilot) == "table"
+		and status.pilot.enabled == true
 
 	if type(status.recommendedStationName) == "string" then
 		nextHint.Text = "→ " .. status.recommendedStationName
@@ -735,12 +777,17 @@ local function applyStatus(status)
 		nextHint.TextColor3 = COLORS.success
 	end
 
-	if status.onboardingSeen ~= true and not onboardingDismissedLocally then
+	if status.onboardingSeen ~= true
+		and not onboardingDismissedLocally
+		and player:GetAttribute("StarBloxLearningOverlayVisible") == true
+	then
 		onboarding.Visible = true
 		if not onboardingShownReported then
 			onboardingShownReported = true
 			sendPlaytestTelemetry("onboarding_shown")
 		end
+	else
+		onboarding.Visible = false
 	end
 
 	return true
@@ -776,6 +823,7 @@ local function refreshStatus(attempt: number?)
 end
 
 local function showActivity(activity)
+	setLearningOverlayVisible(true)
 	currentActivity = activity
 	sendPlaytestTelemetry("activity_panel_opened", {
 		activityId = activity.id,
@@ -981,7 +1029,9 @@ activityOpened.OnClientEvent:Connect(function(payload)
 	if payload.status == "ready" and type(payload.activity) == "table" then
 		showActivity(payload.activity)
 	else
+		setLearningOverlayVisible(true)
 		currentActivity = nil
+		resetQuestionPresentation()
 		showPanel()
 		activityTitle.Text = "StarBlox"
 		promptLabel.Text = payload.message or "Try again in a moment."
@@ -1002,6 +1052,7 @@ activityOpened.OnClientEvent:Connect(function(payload)
 end)
 
 task.defer(function()
+	setLearningOverlayVisible(false)
 	task.wait(0.2)
 	local camera = workspace.CurrentCamera
 	local viewport = if camera ~= nil then camera.ViewportSize else Vector2.zero

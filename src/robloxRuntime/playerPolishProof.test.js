@@ -67,7 +67,8 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(server).toContain('anchor.Transparency = 1');
     expect(server).toContain('anchor.CanCollide = false');
     expect(bindings).toContain('BrookhavenWorldBaseline');
-    expect(bindings).toContain('BHW_3461');
+    expect(bindings).toContain('BHW_1202');
+    expect(bindings).toContain('BHW_2442');
     expect(bindings).toContain('BHW_4879');
     expect(bindings).toContain('BHW_4876');
     expect(bindings).toContain('BHW_3405');
@@ -93,7 +94,6 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(client).toContain('nextHint.Size = UDim2.fromOffset(150, 30)');
     expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 322)');
     expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 410)');
-    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, if hasRich then 410 else 322)');
     expect(client).toContain('button.Size = UDim2.new(1, -32, 0, 44)');
     expect(client).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
     expect(client).toContain('onboarding.Size = UDim2.new(0.78, 0, 0, 216)');

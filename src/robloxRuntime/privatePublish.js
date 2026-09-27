@@ -279,10 +279,15 @@ function verifiedReleaseScript({releaseId,versionNumber,world=null}){
   const safeRelease=JSON.stringify(String(releaseId));
   const worldChecks=world ? `
 local Workspace = game:GetService("Workspace")
+local ServerStorage = game:GetService("ServerStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local StarterPlayer = game:GetService("StarterPlayer")
-local baseline = Workspace:WaitForChild("BrookhavenWorldBaseline")
-assert(baseline:IsA("Model"), "BrookhavenWorldBaseline must be a Model")
+local baseline = ServerStorage:WaitForChild("BrookhavenWorldBaseline")
+assert(baseline:IsA("Model"), "ServerStorage/BrookhavenWorldBaseline must be a Model")
+local runtimeWorld = Workspace:WaitForChild("BrookhavenWorldRuntime")
+assert(runtimeWorld:IsA("Model"), "Workspace/BrookhavenWorldRuntime must be a Model")
+assert(runtimeWorld:GetAttribute("StarBloxRuntimeProjection") == true, "Brookhaven runtime projection marker missing")
+assert(Workspace:FindFirstChild("BrookhavenWorldBaseline") == nil, "immutable Brookhaven witness leaked into Workspace")
 assert(manifest.worldBaselineSha256 == ${JSON.stringify(String(world.baselineModelSha256 || ''))}, "unexpected world baseline SHA")
 assert(manifest.worldMountedSubtreeSha256 == ${JSON.stringify(String(world.mountedSubtreeSha256 || ''))}, "unexpected mounted world subtree SHA")
 assert(#baseline:GetDescendants() + 1 == ${Number(world.subtreeInstanceCount)}, "unexpected Brookhaven subtree instance count")

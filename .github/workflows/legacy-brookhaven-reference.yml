@@ -1,0 +1,316 @@
+name: Legacy Brookhaven Reference Analysis
+
+on:
+  push:
+    branches:
+      - feature/brookhaven-exact-parity-shell
+    paths:
+      - research-inputs/brookhaven/legacy-reference/SOURCE.json
+      - scripts/fetch-legacy-brookhaven-reference.mjs
+      - scripts/analyze-legacy-brookhaven-reference.mjs
+      - scripts/extract-legacy-brookhaven-source-inventory.mjs
+      - scripts/extract-legacy-brookhaven-catalog-discovery.mjs
+      - scripts/derive-legacy-brookhaven-catalog-baseline.mjs
+      - scripts/generate-legacy-brookhaven-runtime-bindings.mjs
+      - scripts/generate-legacy-brookhaven-catalog-modules.mjs
+      - roblox/src/shared/LegacyMirrorCatalog.luau
+      - roblox/src/shared/LegacyStoreCatalog.luau
+      - scripts/prepare-legacy-brookhaven-development-candidate.mjs
+      - scripts/publish-legacy-brookhaven-private.mjs
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.js
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.test.js
+      - .github/workflows/legacy-brookhaven-private-release.yml
+      - .github/workflows/sync-abvm-questions.yml
+      - docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json
+      - scripts/finalize-legacy-brookhaven-development.mjs
+      - src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
+      - src/robloxRuntime/brookhavenSchoolIntegrationSeam.test.js
+      - roblox/src/server/HomeEconomyService.luau
+      - roblox/src/server/WorldInteractionService.luau
+      - roblox/src/server/MirrorLifestyleService.luau
+      - roblox/src/shared/ProfileTemplate.luau
+      - roblox/src/server/LearningPriority.luau
+      - roblox/src/server/SpacedMastery.luau
+      - src/schoolworkPhoto/**
+      - roblox/src/shared/LegacyWorldActivityBindings.luau
+      - roblox/src/shared/LegacyWorldInteractionBindings.luau
+      - roblox/src/shared/LegacyWorldPlotBindings.luau
+      - scripts/analyze-legacy-brookhaven-geometry-alignment.mjs
+      - tools/roblox_catalog_reader/Cargo.toml
+      - tools/roblox_catalog_reader/src/bin/geometry_sanitizer.rs
+      - scripts/build-legacy-brookhaven-geometry-breadth-gate.mjs
+      - scripts/extract-legacy-brookhaven-spawn-reference.mjs
+      - roblox/src/shared/WorldActivityBindings.luau
+      - roblox/src/server/CoreGameLoopService.luau
+      - src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js
+      - src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
+      - docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json
+      - docs/BROOKHAVEN_PARITY_READINESS.json
+      - package.json
+      - .github/workflows/legacy-brookhaven-reference.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: legacy-brookhaven-reference-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/.cargo-target
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+
+
+      - name: Fetch pinned legacy Brookhaven place
+        run: |
+          npm run roblox:brookhaven-legacy:fetch -- \
+            --out .legacy-brookhaven/Brookhaven-2024-github.rbxl \
+            --receipt docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json
+          test -s .legacy-brookhaven/Brookhaven-2024-github.rbxl
+          test "$(stat -c%s .legacy-brookhaven/Brookhaven-2024-github.rbxl)" = "1276795"
+          test "$(git hash-object .legacy-brookhaven/Brookhaven-2024-github.rbxl)" = "c0f49a326ab670ffe6bd8218e5aff680eb5df863"
+
+      - name: Sanitize full legacy Brookhaven geometry
+        run: |
+          npm run roblox:brookhaven-legacy:sanitize-geometry -- \
+            .legacy-brookhaven/Brookhaven-2024-github.rbxl \
+            .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          test -s .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"status": "legacy-brookhaven-geometry-sanitized"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"geometryCount": 14459' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"forbiddenGameplayClassCount": 0' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+
+      - name: Build legacy geometry breadth gate
+        run: |
+          node scripts/build-legacy-brookhaven-geometry-breadth-gate.mjs \
+            --sanitization docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
+            --source research-inputs/brookhaven/legacy-reference/SOURCE.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json
+          grep -q '"status": "development-geometry-breadth-p0-closed"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json
+
+      - name: Deserialize legacy Brookhaven place
+        run: |
+          cargo run --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet -- \
+            .legacy-brookhaven/Brookhaven-2024-github.rbxl \
+            > .legacy-brookhaven/legacy-dom.json
+          test -s .legacy-brookhaven/legacy-dom.json
+
+      - name: Extract legacy Brookhaven source inventory
+        run: |
+          npm run roblox:brookhaven-legacy:source-inventory -- \
+            --dom .legacy-brookhaven/legacy-dom.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json
+          grep -q '"status": "legacy-source-inventory-extracted"' docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json
+
+      - name: Extract legacy Brookhaven catalog discovery evidence
+        run: |
+          npm run roblox:brookhaven-legacy:catalog-discovery -- \
+            --dom .legacy-brookhaven/legacy-dom.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json
+          grep -q '"status": "legacy-catalog-discovery-extracted"' docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json
+
+      - name: Derive legacy Brookhaven catalog baseline
+        run: |
+          npm run roblox:brookhaven-legacy:catalog-baseline -- \
+            --dom .legacy-brookhaven/legacy-dom.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json
+          grep -q '"status": "legacy-catalog-baseline-derived"' docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json
+
+      - name: Generate complete legacy Brookhaven runtime catalogs
+        run: |
+          npm run roblox:brookhaven-legacy:catalog-modules -- \
+            --baseline docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
+            --out-dir roblox/src/shared \
+            --receipt docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json
+          test -s roblox/src/shared/LegacyMirrorCatalog.luau
+          test -s roblox/src/shared/LegacyStoreCatalog.luau
+          grep -q '"status": "legacy-catalog-runtime-complete"' docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json
+
+      - name: Generate current StarBlox world baseline
+        run: |
+          npm run roblox:brookhaven-world:generate -- \
+            --out .legacy-brookhaven/StarBloxBaseline.rbxmx \
+            --receipt .legacy-brookhaven/starblox-generation.json
+          test -s .legacy-brookhaven/StarBloxBaseline.rbxmx
+          cargo run --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet -- \
+            .legacy-brookhaven/StarBloxBaseline.rbxmx \
+            > .legacy-brookhaven/starblox-dom.json
+          test -s .legacy-brookhaven/starblox-dom.json
+
+      - name: Extract legacy Brookhaven town-center spawn evidence
+        run: |
+          npm run roblox:brookhaven-legacy:spawn-reference -- \
+            --legacy-dom .legacy-brookhaven/legacy-dom.json \
+            --starblox-dom .legacy-brookhaven/starblox-dom.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          grep -q '"status": "legacy-spawn-reference-extracted"' docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+
+      - name: Generate source-bound legacy runtime bindings
+        run: |
+          npm run roblox:brookhaven-legacy:runtime-bindings -- \
+            --dom .legacy-brookhaven/legacy-dom.json \
+            --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            --out-dir roblox/src/shared \
+            --manifest docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json
+          test -s roblox/src/shared/LegacyWorldActivityBindings.luau
+          test -s roblox/src/shared/LegacyWorldInteractionBindings.luau
+          test -s roblox/src/shared/LegacyWorldPlotBindings.luau
+          grep -q '"status": "legacy-runtime-bindings-generated"' docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json
+
+      - name: Measure legacy-to-StarBlox geometry alignment
+        run: |
+          npm run roblox:brookhaven-legacy:geometry-alignment -- \
+            --legacy-dom .legacy-brookhaven/legacy-dom.json \
+            --starblox-dom .legacy-brookhaven/starblox-dom.json \
+            --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json
+          grep -q '"status": "legacy-geometry-alignment-measured"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json
+
+      - name: Build legacy profile, diff, and 7B work plan
+        run: |
+          npm run roblox:brookhaven-legacy:analyze -- \
+            --legacy-dom .legacy-brookhaven/legacy-dom.json \
+            --starblox-dom .legacy-brookhaven/starblox-dom.json \
+            --acquisition docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json \
+            --profile docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
+            --diff docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
+            --plan docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json
+          test -s docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
+          grep -q '"status": "legacy-reference-profiled"' docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json
+          grep -q '"status": "legacy-vs-starblox-compared"' docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json
+          grep -q '"status": "legacy-reference-7b-development-plan-generated"' docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
+
+      - name: Verify legacy Brookhaven pipeline receipts
+        run: |
+          npx vitest run \
+            src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js \
+            src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
+
+      - name: Build full legacy Brookhaven StarBlox development candidate
+        run: |
+          node scripts/prepare-legacy-brookhaven-development-candidate.mjs \
+            --source-commit "${{ github.sha }}" \
+            --out-dir artifacts/legacy-brookhaven-development
+          test -s artifacts/legacy-brookhaven-development/StarBlox-Legacy-Brookhaven-Development.rbxlx
+          test -s artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"status": "legacy-brookhaven-development-candidate-ready"' artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"geometryCount": 14459' artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"forbiddenGameplayClassCount": 0' artifacts/legacy-brookhaven-development/candidate-receipt.json
+
+      - name: Finalize all legacy Brookhaven development priorities
+        run: |
+          node scripts/finalize-legacy-brookhaven-development.mjs \
+            --candidate artifacts/legacy-brookhaven-development/candidate-receipt.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"status": "legacy-brookhaven-development-track-complete"' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"p1Remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"p2Remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+
+      - name: Verify completed legacy Brookhaven development track
+        run: npx vitest run src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
+
+      - name: Run complete StarBlox regression and build gates
+        run: |
+          npm test
+          npm run build
+          npm run roblox:backbone:verify
+
+      - name: Upload full legacy Brookhaven development candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-legacy-brookhaven-development-candidate
+          path: |
+            artifacts/legacy-brookhaven-development/StarBlox-Legacy-Brookhaven-Development.rbxlx
+            artifacts/legacy-brookhaven-development/candidate-receipt.json
+            artifacts/legacy-brookhaven-development/legacy-binding-manifest.json
+            artifacts/legacy-brookhaven-development/legacy-geometry-sanitization.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload sanitized legacy geometry development baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-brookhaven-geometry-baseline
+          path: |
+            .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit deterministic analysis receipts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
+            docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json \
+            docs/BROOKHAVEN_PARITY_READINESS.json \
+            docs/CURRENT_BROOKHAVEN_STEP7_STATUS.json \
+            roblox/src/shared/LegacyWorldActivityBindings.luau \
+            roblox/src/shared/LegacyWorldInteractionBindings.luau \
+            roblox/src/shared/LegacyWorldPlotBindings.luau \
+            roblox/src/shared/LegacyMirrorCatalog.luau \
+            roblox/src/shared/LegacyStoreCatalog.luau
+          if git diff --cached --quiet; then
+            echo "Legacy Brookhaven receipts already current."
+          else
+            git commit -m "Generate legacy Brookhaven analysis receipts [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "requested",
+  "enabled": true,
+  "action": "publish-private",
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "releaseChannel": "private-staging"
+  },
+  "sourceMode": "legacy-reference-safe-world",
+  "authority": {
+    "publicAccessChangeAllowed": false,
+    "experienceVisibilityChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "completion": {
+    "publishedVersion": null,
+    "verifiedVersion": null,
+    "receipt": null
+  }
+}

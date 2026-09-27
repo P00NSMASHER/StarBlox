@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "status": "fail-closed-reviewed-runtime-interactions",
+  "source": {
+    "frozenSourceSha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694",
+    "irHash": "sha256:558cb27979f308a171fc33165bddc5ee078326bd4aed4483a1a46f4f7ba8caba"
+  },
+  "certified": {
+    "nativeSeats": 271,
+    "nativeVehicleSeats": 2,
+    "reviewedDoors": 1,
+    "reviewedGarageDoors": 0,
+    "reviewedLights": 0,
+    "reviewedDoorBindings": [
+      {
+        "id": "door-proof-1454",
+        "sourceEntryIndex": 1454,
+        "helperSourceEntryIndex": 1461,
+        "reviewBasis": "strict-standard-door-plus-nearby-tiny-helper"
+      }
+    ]
+  },
+  "pendingRenderedReview": {
+    "strictDoors": 13,
+    "garageDoors": 101,
+    "lights": 111
+  },
+  "safety": {
+    "automaticCandidateActivationAllowed": false,
+    "immutableWitnessMutationAllowed": false,
+    "runtimeProjectionOnly": true,
+    "renderedEvidenceRequiredForPromotion": true
+  }
+}

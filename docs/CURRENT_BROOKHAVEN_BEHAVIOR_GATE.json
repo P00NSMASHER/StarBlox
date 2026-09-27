@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "status": "behavior-comparison-gate-ready",
+  "purpose": "Lock paired live-Brookhaven and StarBlox behavior traces to the same structurally and visually verified current Brookhaven source before any behavioral-parity verdict.",
+  "prerequisites": [
+    "current source candidate identity locked",
+    "structuralParityVerified=true",
+    "renderedParityVerified=true"
+  ],
+  "traceSchema": {
+    "schemaVersion": 1,
+    "required": [
+      "scenarioId",
+      "deviceProfile",
+      "capturedAt",
+      "sourceBinding",
+      "runtime",
+      "events"
+    ],
+    "eventRequirements": [
+      "contiguous sequence from 1",
+      "actionId",
+      "outcome"
+    ]
+  },
+  "currentState": {
+    "behaviorEvidenceIntakeReady": true,
+    "behaviorComparisonCompleted": false,
+    "behaviorParityVerified": false,
+    "exactParityClaimAllowed": false,
+    "behaviorComparisonToolReady": true,
+    "combinedParityGateReady": true
+  },
+  "authority": {
+    "sourceReplacementAllowed": false,
+    "candidatePublicationAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "intakeCommand": "npm run roblox:brookhaven-current-source:lock-behavior-evidence",
+  "nextHalfStep": "run all gates against the real authorized current Brookhaven source and StarBlox mobile evidence",
+  "requiredCoreScenarios": [
+    "quick-chat",
+    "home-cams",
+    "family",
+    "avatar-editor",
+    "tools",
+    "animations",
+    "vehicle",
+    "house"
+  ],
+  "requiredHumanChecks": [
+    "openCloseFlow",
+    "actionOrder",
+    "resultingState",
+    "mobileControlsUnobstructed",
+    "legacyChromeAbsent"
+  ],
+  "behaviorEvaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-behavior-parity",
+  "combinedEvaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-combined-parity"
+}

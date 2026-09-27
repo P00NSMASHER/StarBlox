@@ -4,7 +4,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
-local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+local DefaultWorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
+local LegacyWorldBindings = require(ReplicatedStorage.StarBlox.LegacyWorldActivityBindings)
+local WorldBindings = if BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world"
+	then LegacyWorldBindings
+	else DefaultWorldBindings
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
 local LearningPriority = require(script.Parent.LearningPriority)
@@ -70,7 +76,9 @@ local function buildWorldBindings()
 	local prompts = {}
 	for _, activity in Config.Activities do
 		local binding = WorldBindings.Activities[activity.Id]
-		assert(binding ~= nil, "missing world binding for activity: " .. activity.Id)
+		if binding == nil then
+			continue
+		end
 
 		local sourcePart = resolveWorldPart(
 			worldRoot,
@@ -100,6 +108,8 @@ local function buildWorldBindings()
 		prompt.HoldDuration = 0
 		prompt.MaxActivationDistance = 16
 		prompt.RequiresLineOfSight = false
+		prompt.Enabled = BrookhavenMirrorConfig.LearningPresentation.LegacyWorldStationsEnabled == true
+			and SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
 		prompt.Parent = anchor
@@ -111,7 +121,21 @@ local function buildWorldBindings()
 		WorldBindings.Spawn.SourcePartName,
 		"player spawn"
 	)
+	local fountainSource = resolveWorldPart(
+		worldRoot,
+		WorldBindings.Spawn.FacingSourcePartName,
+		"player spawn facing"
+	)
 	local spawnCFrame = worldTopCFrame(spawnSource, WorldBindings.Spawn.HeightOffset)
+	local spawnPosition = spawnCFrame.Position
+	local fountainLookAt = Vector3.new(
+		fountainSource.Position.X,
+		spawnPosition.Y,
+		fountainSource.Position.Z
+	)
+	if (fountainLookAt - spawnPosition).Magnitude > 0.001 then
+		spawnCFrame = CFrame.lookAt(spawnPosition, fountainLookAt)
+	end
 
 	return runtimeFolder, prompts, spawnCFrame
 end
@@ -460,6 +484,10 @@ local function publicActivity(activity, question, profileData)
 		variantId = variantId,
 		source = activity.Source,
 		sourceWeek = CoreQuestionBank.Source.WeekLabel,
+		bankSnapshotId = CoreQuestionBank.Source.BankSnapshotId,
+		sourceHash = CoreQuestionBank.Source.PackSourceHash,
+		tier = question.Tier,
+		provenance = question.Provenance,
 		reward = {
 			coins = Config.QuestionReward.Coins,
 			xp = Config.QuestionReward.XP,
@@ -593,6 +621,14 @@ function CoreGameLoopService.BuildStatus(profileData)
 		recommendedActivityId = recommendedActivityId,
 		recommendedStationName = recommendedStationName,
 		recommendedQuestionId = if recommendedQuestion ~= nil then recommendedQuestion.Id else nil,
+		questionBank = {
+			snapshotId = CoreQuestionBank.Source.BankSnapshotId,
+			sourceHash = CoreQuestionBank.Source.PackSourceHash,
+			sourceWeek = CoreQuestionBank.Source.WeekLabel,
+			materialFirst = CoreQuestionBank.Source.MaterialFirst == true,
+			starReadingCount = tonumber(CoreQuestionBank.Source.StarReadingCount) or 0,
+			starMathCount = tonumber(CoreQuestionBank.Source.StarMathCount) or 0,
+		},
 		challenge = {
 			name = Config.ChallengeName,
 			completed = #completedIds,
@@ -726,6 +762,12 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	local remoteRoot = Instance.new("Folder")
 	remoteRoot.Name = REMOTE_ROOT_NAME
 	remoteRoot:SetAttribute("LoopId", Config.LoopId)
+	remoteRoot:SetAttribute("QuestionBankSnapshotId", CoreQuestionBank.Source.BankSnapshotId or "")
+	remoteRoot:SetAttribute("QuestionPackSourceHash", CoreQuestionBank.Source.PackSourceHash or "")
+	remoteRoot:SetAttribute("QuestionSourceWeek", CoreQuestionBank.Source.WeekLabel or "")
+	remoteRoot:SetAttribute("QuestionMaterialFirst", CoreQuestionBank.Source.MaterialFirst == true)
+	remoteRoot:SetAttribute("StarReadingCount", tonumber(CoreQuestionBank.Source.StarReadingCount) or 0)
+	remoteRoot:SetAttribute("StarMathCount", tonumber(CoreQuestionBank.Source.StarMathCount) or 0)
 	remoteRoot.Parent = ReplicatedStorage
 
 	local activityOpened = Instance.new("RemoteEvent")
@@ -848,10 +890,21 @@ function CoreGameLoopService:_status(player: Player)
 	return result or {ok = false, code = "profile_unavailable"}
 end
 
-function CoreGameLoopService:_placeCharacterAtWorldSpawn(character: Model)
+local function playerSpawnCFrame(baseSpawnCFrame: CFrame, player: Player): CFrame
+	local slots = WorldBindings.Spawn.Slots
+	if slots == nil or #slots == 0 then
+		return baseSpawnCFrame
+	end
+
+	local slotIndex = (math.abs(player.UserId) % #slots) + 1
+	local slot = slots[slotIndex]
+	return baseSpawnCFrame * CFrame.new(slot.X, 0, slot.Z)
+end
+
+function CoreGameLoopService:_placeCharacterAtWorldSpawn(player: Player, character: Model)
 	local root = character:WaitForChild("HumanoidRootPart", 5)
 	if root ~= nil and root:IsA("BasePart") then
-		character:PivotTo(self._spawnCFrame)
+		character:PivotTo(playerSpawnCFrame(self._spawnCFrame, player))
 	end
 end
 
@@ -863,6 +916,9 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	player:SetAttribute("StarBloxLoopRuns", state.LoopRuns)
 	player:SetAttribute("StarBloxRunNumber", state.RunNumber)
 	player:SetAttribute("StarBloxOnboardingSeen", state.OnboardingSeen == true)
+	player:SetAttribute("StarBloxQuestionBankSnapshotId", CoreQuestionBank.Source.BankSnapshotId or "")
+	player:SetAttribute("StarBloxQuestionPackSourceHash", CoreQuestionBank.Source.PackSourceHash or "")
+	player:SetAttribute("StarBloxQuestionSourceWeek", CoreQuestionBank.Source.WeekLabel or "")
 	player:SetAttribute(
 		"StarBloxSparkTrailUnlocked",
 		data.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true
@@ -874,14 +930,14 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	end
 	self._playerSpawnConnections[player] = player.CharacterAdded:Connect(function(character: Model)
 		task.defer(function()
-			self:_placeCharacterAtWorldSpawn(character)
+			self:_placeCharacterAtWorldSpawn(player, character)
 		end)
 	end)
 
 	if player.Character ~= nil then
 		local character = player.Character
 		task.defer(function()
-			self:_placeCharacterAtWorldSpawn(character)
+			self:_placeCharacterAtWorldSpawn(player, character)
 		end)
 	end
 end
@@ -1416,6 +1472,14 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		status = statusSnapshot,
 		economy = latestEconomy,
 	}
+end
+
+function CoreGameLoopService:SetActivityPromptsEnabled(enabled: boolean)
+	for _, prompt in self._prompts or {} do
+		prompt.Enabled = enabled
+			and BrookhavenMirrorConfig.LearningPresentation.LegacyWorldStationsEnabled == true
+			and SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
+	end
 end
 
 function CoreGameLoopService:GetSpawnCFrame(): CFrame

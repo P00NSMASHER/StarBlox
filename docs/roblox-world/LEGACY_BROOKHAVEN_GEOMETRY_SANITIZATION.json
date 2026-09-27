@@ -1,0 +1,35 @@
+{
+  "boundary": {
+    "currentLiveCertificationSatisfied": false,
+    "developmentReferenceOnly": true,
+    "exactParityClaimAllowed": false
+  },
+  "output": {
+    "allGeometryAnchored": true,
+    "bytes": 61067544,
+    "forbiddenGameplayClassCount": 0,
+    "format": "rbxmx",
+    "generatedNamePattern": "LBH_00001..LBH_14459",
+    "geometryCount": 14459,
+    "path": ".legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx",
+    "rootName": "BrookhavenWorldBaseline",
+    "safeVisualChildCount": 2491,
+    "sha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283"
+  },
+  "policy": {
+    "clickDetectorsRemoved": true,
+    "geometryClassesOnly": true,
+    "proximityPromptsRemoved": true,
+    "remotesRemoved": true,
+    "safeVisualChildrenOnly": true,
+    "scriptsRemoved": true,
+    "sourceCodeEvaluated": false,
+    "sourceCodeExecuted": false
+  },
+  "schemaVersion": 1,
+  "source": {
+    "expectedGeometryCount": 14459,
+    "input": ".legacy-brookhaven/Brookhaven-2024-github.rbxl"
+  },
+  "status": "legacy-brookhaven-geometry-sanitized"
+}

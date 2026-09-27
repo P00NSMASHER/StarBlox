@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-09-27T02:45:00Z",
+  "step": "7A-7B",
+  "status": "legacy-development-baseline-complete-current-live-certification-still-open",
+  "liveBrookhaven": {
+    "universeId": 1686885941,
+    "rootPlaceId": 4924922222,
+    "creator": "Brookhaven by Voldex",
+    "liveUpdatedAt": "2026-09-25T20:05:44.0629578Z",
+    "copyingAllowed": false,
+    "publicSourceDownloadEligible": false
+  },
+  "sourceDiscovery": {
+    "starBloxRepositoryCurrentPlaceFiles": 0,
+    "chatConversationCurrentPlaceFiles": 0,
+    "chatLibraryCurrentPlaceFiles": 0,
+    "googleDriveCurrentPlaceFilesFound": false,
+    "dropboxCurrentPlaceFilesFound": false,
+    "sourceCandidateAvailable": false,
+    "requiredFormats": [
+      "rbxl",
+      "rbxlx",
+      "rbxm",
+      "rbxmx"
+    ],
+    "fixtureExcluded": "tools/roblox_catalog_reader/fixtures/sample.rbxmx is CI mechanics only and is not Brookhaven source"
+  },
+  "referenceRecording": {
+    "available": true,
+    "fileName": "ScreenRecording_09-26-2026 11-16-30_1.mp4",
+    "sha256": "c9a4481b8e33443eface2b6937020dcae9fcbcc8ffa8f4305d2542b916e11100",
+    "bytes": 29891368,
+    "width": 512,
+    "height": 1112,
+    "fps": 30,
+    "durationSeconds": 49.633333,
+    "userMediaCommittedToRepository": false,
+    "observedFlows": [
+      "Brookhaven loading/welcome presentation",
+      "ordinary world chrome",
+      "Avatar Editor",
+      "Tools/Vehicle-style grid panels",
+      "House vacant-lot selector",
+      "Family panel"
+    ],
+    "notProvenByThisRecording": [
+      "full Quick Chat open/close behavior",
+      "Home Cams full camera cycle",
+      "complete Animations behavior",
+      "door/garage/light interaction breadth",
+      "full vehicle/inventory/house catalog breadth"
+    ]
+  },
+  "step7A": {
+    "requested": "run complete current-source parity pipeline against real authorized current Brookhaven source",
+    "completed": false,
+    "blocker": "No authorized current Brookhaven place/model file is accessible in repository, ChatGPT Library, Google Drive, or Dropbox. The live Roblox universe reports copyingAllowed=false, so public place-source retrieval is not an acceptable substitute.",
+    "failClosed": true,
+    "nextRequiredInput": "authorized current Brookhaven .rbxl/.rbxlx/.rbxm/.rbxmx export with its live place version"
+  },
+  "step7B": {
+    "requested": "close remaining catalog and world-interaction gaps against verified source",
+    "completed": false,
+    "codeInfrastructureReady": {
+      "catalogFailClosedReferenceMode": true,
+      "doorRuntime": true,
+      "garageDoorRuntime": true,
+      "lightRuntime": true,
+      "renderedEvidencePromotionGate": true,
+      "behavioralParityGate": true
+    },
+    "remainingCatalogGap": {
+      "vehiclesTarget": 188,
+      "runtimePlayable": 8,
+      "inventoryTarget": 173,
+      "runtimeItems": 12,
+      "housesTarget": 83,
+      "parityHousesVerified": 0
+    },
+    "remainingInteractionGap": {
+      "strictDoorsPending": 13,
+      "garageDoorsPending": 101,
+      "lightsPending": 111
+    },
+    "blocker": "Catalog/runtime bindings and interaction promotions cannot be certified against the current live world until Step 7A has an authorized current source and matching rendered evidence."
+  },
+  "authority": {
+    "exactParityClaimAllowed": false,
+    "sourceReplacementAllowed": false,
+    "candidatePublicationAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "nextStep": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track",
+  "legacyDevelopmentTrack": {
+    "status": "complete",
+    "sourceClassification": "legacy_reference_source",
+    "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json",
+    "profileReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json",
+    "structuralDiff": "docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json",
+    "workPlan": "docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json",
+    "pipelineWorkflow": ".github/workflows/legacy-brookhaven-reference.yml",
+    "verificationRun": 36293641601,
+    "verificationConclusion": "success",
+    "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
+    "measuredBaseline": {
+      "legacy": {
+        "instances": 24349,
+        "geometry": 14459,
+        "assets": 622,
+        "seats": 399,
+        "vehicleSeats": 12
+      },
+      "starblox": {
+        "instances": 5493,
+        "geometry": 4936,
+        "assets": 154
+      }
+    },
+    "developmentGapSummary": {
+      "priorities": 15,
+      "p0": 2,
+      "p1": 9,
+      "p2": 4
+    },
+    "steps": {
+      "step1BringIntoPipeline": true,
+      "step2ProvenanceReceipt": true,
+      "step3DeserializeAndProfile": true,
+      "step4CompareAgainstStarBlox": true,
+      "step5Generate7BDevelopmentWork": true
+    },
+    "boundaries": {
+      "currentLiveCertificationSatisfied": false,
+      "exactParityClaimAllowed": false,
+      "productionActivationAllowed": false
+    },
+    "worldGeometryP0": {
+      "closed": true,
+      "gate": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json",
+      "legacyGeometryCount": 14459,
+      "sanitizedGeometryCount": 14459,
+      "coverage": 1,
+      "sanitizedModelSha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283",
+      "forbiddenGameplayClassCount": 0,
+      "retainedWorkflowArtifact": "legacy-brookhaven-geometry-baseline"
+    },
+    "remainingP0DevelopmentGaps": 0,
+    "nextPriorityBand": "P1",
+    "completionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json",
+    "remainingP1DevelopmentGaps": 0,
+    "remainingP2DevelopmentGaps": 0,
+    "candidateReady": true,
+    "completedPrioritySummary": {
+      "closed": 15,
+      "remaining": 0,
+      "p0Remaining": 0,
+      "p1Remaining": 0,
+      "p2Remaining": 0
+    },
+    "catalogCompletion": {
+      "sourceTargets": {
+        "vehicles": 19,
+        "inventoryUnique": 50,
+        "houses": 12
+      },
+      "runtime": {
+        "vehicles": 19,
+        "sourceVehiclesRuntimePlayable": 19,
+        "inventorySourceEntries": 50,
+        "inventoryRuntimeEntries": 51,
+        "compatibilityToolEntries": 1,
+        "houses": 12
+      },
+      "completion": {
+        "vehicleCatalogComplete": true,
+        "inventoryCatalogComplete": true,
+        "houseCatalogComplete": true,
+        "everySourceVehicleRuntimePlayable": true,
+        "everySourceToolHasRuntimeDefinition": true
+      }
+    },
+    "interactionCompletion": {
+      "doors": 39,
+      "garages": 5,
+      "lights": 8,
+      "pendingReview": {
+        "doors": 0,
+        "garages": 0,
+        "lights": 0
+      },
+      "plots": 7
+    }
+  }
+}

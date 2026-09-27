@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "status": "pinned-legacy-reference-source",
+  "classification": "legacy_reference_source",
+  "purpose": [
+    "development baseline",
+    "structural comparison",
+    "world reconstruction guidance",
+    "catalog and interaction gap discovery"
+  ],
+  "prohibitedClaims": [
+    "current-live-2026 Brookhaven source verified",
+    "exact current Brookhaven parity certified",
+    "current-live release certification"
+  ],
+  "source": {
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "path": "Brookhaven.rbxl",
+    "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "sourceCommitDate": "2024-11-05T20:52:34Z",
+    "gitBlobSha1": "c0f49a326ab670ffe6bd8218e5aff680eb5df863",
+    "bytes": 1276795,
+    "pinnedRawUrl": "https://raw.githubusercontent.com/IIIStatusIII/Roblox-Uncopylocked-Games/d92b5bf18bec7866356b154b56ffb525e137bd34/Brookhaven.rbxl",
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "authorization": {
+    "basis": "user-confirmed creator permission to copy/use Brookhaven",
+    "repositoryLicenseMetadataPresent": false,
+    "useAuthorizedForStarBloxDevelopment": true
+  },
+  "acquisition": {
+    "mode": "pinned-upstream-fetch",
+    "localWorkingPath": ".legacy-brookhaven/Brookhaven-2024-github.rbxl",
+    "binaryCommittedToStarBloxRepository": false,
+    "reason": "Keep the large binary out of Git history while pinning exact upstream Git object and commit; workflow fetches and verifies it before use.",
+    "sha256Pinned": true
+  },
+  "certification": {
+    "currentLiveParityVerified": false,
+    "exactParityClaimAllowed": false,
+    "productionActivationAllowed": false
+  }
+}

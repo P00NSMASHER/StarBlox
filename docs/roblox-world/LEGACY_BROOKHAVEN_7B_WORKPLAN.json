@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "status": "legacy-reference-7b-development-complete",
+  "source": {
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "path": "Brookhaven.rbxl",
+    "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "gitBlobSha1": "c0f49a326ab670ffe6bd8218e5aff680eb5df863",
+    "bytes": 1276795,
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "summary": {
+    "priorities": 0,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0
+  },
+  "priorities": [],
+  "completedP0": {
+    "worldGeometry": {
+      "closed": true,
+      "sanitizedGeometryCount": 14459,
+      "forbiddenGameplayClassCount": 0,
+      "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json"
+    },
+    "spawnTownCenter": {
+      "closed": true,
+      "pattern": "legacy-town-center-3x3-v1",
+      "slots": 9,
+      "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json"
+    }
+  },
+  "measuredBaseline": {
+    "legacy": {
+      "instances": 24349,
+      "geometry": 14459,
+      "assets": 622
+    },
+    "starblox": {
+      "instances": 5493,
+      "geometry": 4936,
+      "assets": 154
+    },
+    "sanitizedDevelopmentGeometry": {
+      "geometry": 14459,
+      "safeVisualChildren": 2491,
+      "sha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283"
+    }
+  },
+  "releaseBoundary": {
+    "developmentMayUseLegacyReference": true,
+    "currentLiveCertificationSatisfied": false,
+    "exactParityClaimAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "nextAction": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track",
+  "completedLegacyDevelopment": {
+    "status": "legacy-brookhaven-development-track-complete",
+    "closedPriorities": [
+      {
+        "priority": "P0",
+        "area": "world-geometry",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json"
+      },
+      {
+        "priority": "P0",
+        "area": "spawn-town-center",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-door",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-garage",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "interaction-light",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "vehicle-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "inventory-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "house-catalog",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-door-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-garage-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P1",
+        "area": "pending-light-review",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-house",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-vehicle",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-lot",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      },
+      {
+        "priority": "P2",
+        "area": "interaction-road",
+        "proof": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json"
+      }
+    ],
+    "completionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json"
+  }
+}

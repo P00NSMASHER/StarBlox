@@ -42,13 +42,19 @@ function requireStep5(step5Snapshot,liveExactnessLock,liveMountReceipt){
     fail('live Step 5 mount receipt is not verified');
   }
   if(liveExactnessLock?.readOnlyPolicy?.baselineMutationAllowed !== false ||
-     liveExactnessLock?.readOnlyPolicy?.runtimeMayParentGameplayIntoBaseline !== false){
-    fail('Step 5 read-only world policy is not enforced');
+     liveExactnessLock?.readOnlyPolicy?.runtimeMayParentGameplayIntoBaseline !== false ||
+     liveExactnessLock?.readOnlyPolicy?.mountMode !== 'serverstorage-immutable-witness-with-runtime-projection'){
+    fail('Step 5 read-only witness/projection policy is not enforced');
   }
   if(liveMountReceipt?.baseline?.fileBytesUnchanged !== true ||
+     liveMountReceipt?.baseline?.witnessLocation !== 'ServerStorage/BrookhavenWorldBaseline' ||
      liveMountReceipt?.runtime?.parentedIntoBaseline !== false ||
+     liveMountReceipt?.runtime?.projectionName !== 'BrookhavenWorldRuntime' ||
+     liveMountReceipt?.runtime?.projectionLocation !== 'Workspace/BrookhavenWorldRuntime' ||
+     liveMountReceipt?.runtime?.projectionCreatedAtBoot !== true ||
+     liveMountReceipt?.runtime?.projectionPresentInStaticArtifact !== false ||
      liveMountReceipt?.boundaries?.worldBaselineMutated !== false){
-    fail('Step 5 mount receipt does not prove world/runtime separation');
+    fail('Step 5 mount receipt does not prove immutable witness/runtime projection separation');
   }
 
   const modelSha=requireSha(liveExactnessLock?.baseline?.modelSha256,'world baseline model SHA');
@@ -105,7 +111,14 @@ export function buildStep6ReleaseGate({
     fail('release artifact Brookhaven subtree instance count must remain 5493');
   }
   if(Number(artifactInspection?.baseline?.scriptsOrRemotesInsideBaseline) !== 0){
-    fail('release artifact Brookhaven baseline contains gameplay scripts/remotes');
+    fail('release artifact Brookhaven witness contains gameplay scripts/remotes');
+  }
+  if(artifactInspection?.baseline?.witnessLocation !== 'ServerStorage/BrookhavenWorldBaseline'){
+    fail('release artifact Brookhaven witness is not stored in ServerStorage');
+  }
+  if(artifactInspection?.runtime?.projectionName !== 'BrookhavenWorldRuntime' ||
+     artifactInspection?.runtime?.projectionPresentInStaticArtifact !== false){
+    fail('release artifact must defer mutable Brookhaven projection to server boot');
   }
   if(Number(artifactInspection?.runtime?.mountCount) !== 3 ||
      artifactInspection?.runtime?.parentedIntoBaseline !== false){
@@ -131,7 +144,9 @@ export function buildStep6ReleaseGate({
       mountedSubtreeSha256:world.mountedSubtreeSha256,
       subtreeInstanceCount:5493,
       exactnessVerified:true,
-      mountVerified:true
+      mountVerified:true,
+      witnessLocation:'ServerStorage/BrookhavenWorldBaseline',
+      runtimeProjectionName:'BrookhavenWorldRuntime'
     }),
     artifact:Object.freeze({
       format:'rbxlx',
@@ -147,7 +162,9 @@ export function buildStep6ReleaseGate({
       sourceCommitBound:true,
       releaseArtifactBound:true,
       nativeArtifactWorldVerified:true,
-      nativeArtifactRuntimeVerified:true
+      nativeArtifactRuntimeVerified:true,
+      immutableWitnessVerified:true,
+      runtimeProjectionBootOnlyVerified:true
     }),
     authority:Object.freeze({
       studioPlaytestAllowed:true,
@@ -190,7 +207,9 @@ export function verifyStep6ReleaseGate({
      gate?.gates?.sourceCommitBound !== true ||
      gate?.gates?.releaseArtifactBound !== true ||
      gate?.gates?.nativeArtifactWorldVerified !== true ||
-     gate?.gates?.nativeArtifactRuntimeVerified !== true){
+     gate?.gates?.nativeArtifactRuntimeVerified !== true ||
+     gate?.gates?.immutableWitnessVerified !== true ||
+     gate?.gates?.runtimeProjectionBootOnlyVerified !== true){
     fail('release gate is missing required verified conditions');
   }
   if(gate?.authority?.privatePublicationAllowed !== true ||

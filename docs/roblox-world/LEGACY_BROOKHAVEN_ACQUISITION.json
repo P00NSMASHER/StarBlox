@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "status": "legacy-reference-acquired",
+  "classification": "legacy_reference_source",
+  "source": {
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "path": "Brookhaven.rbxl",
+    "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "gitBlobSha1": "c0f49a326ab670ffe6bd8218e5aff680eb5df863",
+    "bytes": 1276795,
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "output": {
+    "path": "/home/runner/work/StarBlox/StarBlox/.legacy-brookhaven/Brookhaven-2024-github.rbxl",
+    "bytes": 1276795,
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "boundaries": {
+    "currentLiveParityVerified": false,
+    "exactParityClaimAllowed": false,
+    "productionActivationAllowed": false
+  }
+}

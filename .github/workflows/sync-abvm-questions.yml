@@ -20,6 +20,7 @@ on:
       - src/robloxRuntime/phase6QuestionBank.test.js
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: starblox-abvm-question-sync
@@ -133,6 +134,7 @@ jobs:
         run: node scripts/certify-schoolwork-photo-pipeline.mjs
 
       - name: Commit only when the verified curriculum snapshot changed
+        id: curriculum_commit
         shell: bash
         run: |
           set -euo pipefail
@@ -148,10 +150,24 @@ jobs:
             roblox/src/server/CoreQuestionBank.luau
           if git diff --cached --quiet; then
             echo "No verified curriculum change; keeping the current StarBlox bank."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git diff --cached --check
             git commit -m "Refresh certified StarBlox schoolwork learning pipeline"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Dispatch the gated private Roblox refresh
+        if: steps.curriculum_commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run legacy-brookhaven-private-release.yml \
+            --ref main \
+            -f action=publish-private
+          echo "Dispatched the fail-closed legacy Brookhaven private release workflow for the refreshed school bank."

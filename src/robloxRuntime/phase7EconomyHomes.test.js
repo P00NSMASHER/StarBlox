@@ -79,7 +79,7 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(service).toContain('addPoster');
     expect(service).toContain('addBooks');
 
-    expect(bootstrap).toContain('HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame())');
+    expect(bootstrap).toContain('HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame(), family)');
     expect(bootstrap).toContain('homeEconomy:PlayerReady');
     expect(bootstrap).toContain('homeEconomy:PlayerRemoving');
     expect(bootstrap).toContain('HomeEconomy = homeEconomy');
@@ -91,12 +91,25 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(client).toContain('homeButton.Size = UDim2.fromOffset(84, 44)');
     expect(client).toContain('shopButton.Visible = false');
     expect(client).toContain('homeButton.Visible = false');
-    expect(client).toContain('closeButton.Size = UDim2.fromOffset(50, 50)');
-    expect(client).toContain('panel.Size = UDim2.fromOffset(356, 326)');
-    expect(client).toContain('grid.CellSize = UDim2.fromOffset(78, 78)');
+    expect(client).toContain('closeButton.Size = UDim2.fromOffset(52,48)');
+    expect(client).toContain('panel.Size = UDim2.fromOffset(326,309)');
+    expect(client).toContain('grid.CellSize = UDim2.fromOffset(76,64)');
     expect(client).toContain('PurchaseItem');
     expect(client).toContain('PurchaseHomeTier');
     expect(client).toContain('VisitHome');
     expect(client).toContain('ReturnWorld');
   });
+  it('lets players choose among the eight verified Brookhaven house plots authoritatively',()=>{
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+
+    expect(service).toContain('getPlots.Name = "GetPlots"');
+    expect(service).toContain('selectPlot.Name = "SelectPlot"');
+    expect(service).toContain('function HomeEconomyService:_plotState');
+    expect(service).toContain('function HomeEconomyService:_selectPlot');
+    expect(service).toContain('code = "plot_occupied"');
+    expect(service).toContain('home.PlotId = WorldPlotBindings.Plots[targetIndex].Id');
+    expect(service).toContain('player:SetAttribute("StarBloxHomePlotId", home.PlotId)');
+    expect(service).toContain('self:_reservePlot(player, home, home.PlotId)');
+  });
+
 });

@@ -116,7 +116,8 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     for(const token of [
       'BrookhavenWorldBaseline',
       'StarBloxActivityAnchors',
-      'BHW_3461',
+      'BHW_1202',
+      'BHW_2442',
       'BHW_4879',
       'BHW_4876',
       'BHW_3405'
