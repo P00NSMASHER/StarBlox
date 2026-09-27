@@ -4,8 +4,7 @@ import {
   SCHOOLWORK_EVIDENCE_CLASSES,
   SCHOOLWORK_SIGNAL_DEFINITIONS,
   adaptSchoolworkPhotoIntake,
-  classifySchoolworkPhotoObservation,
-  validateSchoolworkPhotoIntake
+  classifySchoolworkPhotoObservation
 } from './schoolworkPhotoIntakeAdapter.js';
 import {
   schoolworkPackHash,
