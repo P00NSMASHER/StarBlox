@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,9 +14,9 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 8,
+  "attempt": 9,
   "priorAttempt": {
-    "publishedVersion": 31,
+    "publishedVersion": 32,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
@@ -24,16 +24,11 @@
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 31,
+    "diagnosticVersion": 32,
     "manualBootstrapProven": true,
-    "ciRun": 36347866305,
+    "ciRun": 36352340777,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish exact v31 live-diagnostic repair: neutralize LBH_14342..LBH_14376 checkerboard, hide LBH_10677..LBH_10683 skyline cluster, move spawn framing toward the street, and reduce nameplate clutter.",
-  "requestedSourceCommit": "e468bbce1810e42d89f72dbf2070c03e565f2c7f",
-  "completion": {
-    "publishedVersion": 32,
-    "verifiedVersion": 32,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish HUD art rebuild: real image icons for persistent mobile actions and top utilities, shared glass buttons, explicit typography, rail layout, and selected states.",
+  "requestedSourceCommit": "edfd002f5a17ae67b2a1f6d278e7d090fce6d24b"
 }
