@@ -90,6 +90,8 @@
     "referenceSnapshotOnly": true,
     "currentLiveMapParityProven": false,
     "exactParityProductionEligible": false,
-    "sourceManifest": "research-inputs/brookhaven/world-baseline/AUTHORITATIVE_SOURCE.json"
+    "sourceManifest": "research-inputs/brookhaven/world-baseline/AUTHORITATIVE_SOURCE.json",
+    "currentSourceGate": "docs/CURRENT_BROOKHAVEN_SOURCE_GATE.json",
+    "candidateStatus": "awaiting-current-live-source-candidate"
   }
 }
