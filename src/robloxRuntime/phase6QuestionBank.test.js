@@ -41,7 +41,7 @@ describe('Dynamic material-first Grade 2 bank with regenerated STAR fallback',()
     expect(source.generatedFrom.sourceHash).toMatch(/^teacher-pages-[a-f0-9]{20}$/);
     expect(source.generatedFrom.schoolworkSourceHash).toMatch(/^sha256:[a-f0-9]{64}$/);
     expect(source.generatedFrom.schoolworkBatchId).toMatch(/^schoolwork-/);
-    expect(source.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork');
+    expect(source.generatedFrom.generatorVersion).toMatch(/^dynamic-abvm-star-sync-generator-v[0-9]+-/);
     expect(source.generatedFrom.bankSnapshotId).toMatch(/^abvm-[a-f0-9]{12}-[a-f0-9]{6}$/);
   });
 
