@@ -1,0 +1,47 @@
+name: StarBlox Legacy Brookhaven Boot Diagnostic
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/diagnose-legacy-brookhaven-boot.mjs
+      - .github/workflows/legacy-brookhaven-boot-diagnostic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-legacy-brookhaven-boot-diagnostic
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run live private-server diagnostic
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_BOOT_DIAGNOSTIC_OUT: ${{ github.workspace }}/artifacts/legacy-boot-diagnostic.json
+        run: node scripts/diagnose-legacy-brookhaven-boot.mjs
+
+      - name: Upload diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-legacy-brookhaven-boot-diagnostic
+          path: artifacts/legacy-boot-diagnostic.json
+          if-no-files-found: ignore
+          retention-days: 7
