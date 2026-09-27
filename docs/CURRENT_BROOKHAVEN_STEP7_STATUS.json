@@ -92,9 +92,9 @@
     "publicAccessChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextStep": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track",
+  "nextStep": "optional real-device iPhone side-by-side visual QA; all automated legacy development and private-release work is complete",
   "legacyDevelopmentTrack": {
-    "status": "complete",
+    "status": "complete-private-release-verified",
     "sourceClassification": "legacy_reference_source",
     "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json",
     "profileReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json",
@@ -191,6 +191,20 @@
         "lights": 0
       },
       "plots": 7
+    },
+    "privateRelease": {
+      "verified": true,
+      "publishedVersion": 27,
+      "verifiedVersion": 27,
+      "artifactSha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+      "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json",
+      "serverBootstrapVerified": true
+    },
+    "remainingAutomatedWork": 0,
+    "finalRealDeviceVisualQa": {
+      "status": "not-run-human-device-pass",
+      "requiredForLegacyDevelopmentCompletion": false,
+      "requiredBeforeClaimingCurrentLiveExactVisualParity": true
     }
   }
 }
