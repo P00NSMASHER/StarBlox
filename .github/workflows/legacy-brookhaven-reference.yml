@@ -8,6 +8,13 @@ on:
       - research-inputs/brookhaven/legacy-reference/SOURCE.json
       - scripts/fetch-legacy-brookhaven-reference.mjs
       - scripts/analyze-legacy-brookhaven-reference.mjs
+      - scripts/extract-legacy-brookhaven-spawn-reference.mjs
+      - roblox/src/shared/WorldActivityBindings.luau
+      - roblox/src/server/CoreGameLoopService.luau
+      - src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js
+      - src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
+      - docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json
+      - docs/BROOKHAVEN_PARITY_READINESS.json
       - package.json
       - .github/workflows/legacy-brookhaven-reference.yml
 
