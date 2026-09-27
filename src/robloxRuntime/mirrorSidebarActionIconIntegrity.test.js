@@ -78,7 +78,8 @@ describe('Mirror sidebar action icon integrity',()=>{
 
     expect(source).toContain('local function drawPlotModeIcon(button: TextButton, modeIndex: number)');
     expect(source).toContain('local function drawMiniHouse(parent: GuiObject');
-    expect(source).toContain('part.ZIndex = parent.ZIndex + 1');
+    expect(source).toContain('image.Image = ICONS.house');
+    expect(source).toContain('image.ImageRectOffset = Vector2.new(964, 204)');
     expect(plotModes).toContain('for index = 1, 3 do');
     expect(plotModes).toContain('mode.Text = ""');
     expect(plotModes).toContain('drawPlotModeIcon(mode, index)');
