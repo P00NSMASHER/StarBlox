@@ -57,11 +57,12 @@ describe('Mirror sidebar action icon integrity',()=>{
     expect(receipt.screenEvidence.map(row=>row.result)).toEqual([
       'OBSERVED_PICTORIAL_CONTROLS',
       'FAIL_UNSUPPORTED_SQUARE_LIKE_GLYPHS',
-      'FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER'
+      'FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER',
+      'FAIL_V34_FLOATING_MENU_STACKS_OVERSIZED_HOUSE_PICKER_AND_HOME_CAMERA_CLIP'
     ]);
     expect(receipt.verification).toMatchObject({
-      nativeClientResult:'V33_FAIL_V34_PENDING',
-      fullActionResult:'NOT_RETESTED'
+      nativeClientResult:'V34_FAIL_V35_PENDING',
+      fullActionResult:'V34_NATIVE_FLOW_REVIEWED_V35_PENDING'
     });
     expect(receipt.claims).toEqual({
       unsupportedGlyphDefectRemovedByConstruction:true,
