@@ -280,7 +280,7 @@ local rail = Instance.new("Frame")
 rail.Name = "RightActionRail"
 rail.AnchorPoint = Vector2.new(1, 0)
 rail.Position = UDim2.new(1, -12, 0, 78)
-rail.Size = UDim2.fromOffset(52, 250)
+rail.Size = UDim2.fromOffset(48, 230)
 rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
@@ -329,7 +329,7 @@ local function drawActionIcon(button: TextButton, iconName: string)
 	icon.ZIndex = 42
 	icon.Parent = button
 	local iconScale = Instance.new("UIScale")
-	iconScale.Scale = 0.76
+	iconScale.Scale = 0.70
 	iconScale.Parent = icon
 
 	if iconName == "avatar" then
@@ -393,7 +393,7 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 end
 
 local function actionButton(iconName: string, name: string, labelText: string, order: number): TextButton
-	local y = (order - 1) * 50
+	local y = (order - 1) * 46
 
 	local label = Instance.new("TextLabel")
 	label.Name = name .. "Label"
@@ -433,7 +433,7 @@ local function actionButton(iconName: string, name: string, labelText: string, o
 	local b = Instance.new("TextButton")
 	b.Name = name .. "Button"
 	b.Position = UDim2.fromOffset(2, y)
-	b.Size = UDim2.fromOffset(48, 48)
+	b.Size = UDim2.fromOffset(44, 44)
 	b.BackgroundColor3 = UI.white
 	b.BackgroundTransparency = 0.22
 	b.Text = ""
