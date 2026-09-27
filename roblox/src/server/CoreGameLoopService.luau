@@ -799,10 +799,21 @@ function CoreGameLoopService:_status(player: Player)
 	return result or {ok = false, code = "profile_unavailable"}
 end
 
-function CoreGameLoopService:_placeCharacterAtWorldSpawn(character: Model)
+local function playerSpawnCFrame(baseSpawnCFrame: CFrame, player: Player): CFrame
+	local slots = WorldBindings.Spawn.Slots
+	if slots == nil or #slots == 0 then
+		return baseSpawnCFrame
+	end
+
+	local slotIndex = (math.abs(player.UserId) % #slots) + 1
+	local slot = slots[slotIndex]
+	return baseSpawnCFrame * CFrame.new(slot.X, 0, slot.Z)
+end
+
+function CoreGameLoopService:_placeCharacterAtWorldSpawn(player: Player, character: Model)
 	local root = character:WaitForChild("HumanoidRootPart", 5)
 	if root ~= nil and root:IsA("BasePart") then
-		character:PivotTo(self._spawnCFrame)
+		character:PivotTo(playerSpawnCFrame(self._spawnCFrame, player))
 	end
 end
 
@@ -828,14 +839,14 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	end
 	self._playerSpawnConnections[player] = player.CharacterAdded:Connect(function(character: Model)
 		task.defer(function()
-			self:_placeCharacterAtWorldSpawn(character)
+			self:_placeCharacterAtWorldSpawn(player, character)
 		end)
 	end)
 
 	if player.Character ~= nil then
 		local character = player.Character
 		task.defer(function()
-			self:_placeCharacterAtWorldSpawn(character)
+			self:_placeCharacterAtWorldSpawn(player, character)
 		end)
 	end
 end
