@@ -157,9 +157,14 @@ local function updateScale()
 		return
 	end
 	local viewport = camera.ViewportSize
-	local widthScale = viewport.X / 960
-	local heightScale = viewport.Y / 512
-	shellScale.Scale = math.clamp(math.min(widthScale, heightScale), 0.72, 1)
+	if viewport.X >= viewport.Y then
+		-- Keep landscape iPhone chrome at true safe-area anchors. Scaling the
+		-- full root pulled right-anchored controls inward and made the HUD float
+		-- near mid-screen in the v36 recording.
+		shellScale.Scale = 1
+	else
+		shellScale.Scale = math.clamp(viewport.X / 960, 0.72, 1)
+	end
 end
 
 updateScale()
