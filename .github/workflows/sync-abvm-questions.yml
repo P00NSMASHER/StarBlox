@@ -167,7 +167,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh workflow run step9-fast-release.yml \
+          gh workflow run legacy-brookhaven-private-release.yml \
             --ref main \
             -f action=publish-private
-          echo "Dispatched the existing fail-closed private release workflow for the refreshed school bank."
+          echo "Dispatched the fail-closed legacy Brookhaven private release workflow for the refreshed school bank."
