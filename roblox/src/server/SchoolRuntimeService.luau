@@ -165,6 +165,14 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 		local clock = Clock.Now()
 		local result = nil
 		self._profiles:WithProfile(player, function(data)
+			-- Do not consume an answer or an exactly-once receipt when persisted
+			-- economy state cannot safely accept the corresponding reward.
+			local profileOk, profileCode = Progress.ValidateRewardProfile(data)
+			if not profileOk then
+				result = {ok = false, code = profileCode}
+				return
+			end
+
 			Sessions.EnsureDay(data, clock.SchoolDayId)
 			self:_reconcilePastPeriods(data, clock)
 
