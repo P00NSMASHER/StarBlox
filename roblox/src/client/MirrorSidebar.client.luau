@@ -1276,6 +1276,20 @@ local function fetchPlots(): boolean
 	return true
 end
 
+local function travelHome(): boolean
+	local ok, result = pcall(function()
+		return visitHome:InvokeServer()
+	end)
+	return ok and type(result) == "table" and result.ok == true
+end
+
+local function showTravelFailure()
+	plotStatus.Text = "Travel failed — try again"
+	plotStatus.TextColor3 = UI.red
+	plotGo.Text = "GO HOME"
+	plotGo.Active = true
+end
+
 local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
@@ -1657,10 +1671,11 @@ plotGo.Activated:Connect(function()
 	end
 
 	if selected.Mine == true then
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
-		closePanel()
+		if travelHome() then
+			closePanel()
+		else
+			showTravelFailure()
+		end
 		return
 	end
 
@@ -1668,10 +1683,13 @@ plotGo.Activated:Connect(function()
 		return selectPlot:InvokeServer(selected.Id)
 	end)
 	if ok and type(result) == "table" and result.ok == true then
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
-		closePanel()
+		fetchPlots()
+		renderPlotSelector()
+		if travelHome() then
+			closePanel()
+		else
+			showTravelFailure()
+		end
 	else
 		fetchPlots()
 		renderPlotSelector()
