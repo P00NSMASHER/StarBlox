@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "behavior-evidence-intake-ready",
+  "status": "behavior-comparison-gate-ready",
   "purpose": "Lock paired live-Brookhaven and StarBlox behavior traces to the same structurally and visually verified current Brookhaven source before any behavioral-parity verdict.",
   "prerequisites": [
     "current source candidate identity locked",
@@ -27,7 +27,9 @@
     "behaviorEvidenceIntakeReady": true,
     "behaviorComparisonCompleted": false,
     "behaviorParityVerified": false,
-    "exactParityClaimAllowed": false
+    "exactParityClaimAllowed": false,
+    "behaviorComparisonToolReady": true,
+    "combinedParityGateReady": true
   },
   "authority": {
     "sourceReplacementAllowed": false,
@@ -36,5 +38,24 @@
     "productionActivationAllowed": false
   },
   "intakeCommand": "npm run roblox:brookhaven-current-source:lock-behavior-evidence",
-  "nextHalfStep": "compare locked behavior traces and combine structural/rendered/behavioral proof"
+  "nextHalfStep": "run all gates against the real authorized current Brookhaven source and StarBlox mobile evidence",
+  "requiredCoreScenarios": [
+    "quick-chat",
+    "home-cams",
+    "family",
+    "avatar-editor",
+    "tools",
+    "animations",
+    "vehicle",
+    "house"
+  ],
+  "requiredHumanChecks": [
+    "openCloseFlow",
+    "actionOrder",
+    "resultingState",
+    "mobileControlsUnobstructed",
+    "legacyChromeAbsent"
+  ],
+  "behaviorEvaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-behavior-parity",
+  "combinedEvaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-combined-parity"
 }
