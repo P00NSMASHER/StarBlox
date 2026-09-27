@@ -8,10 +8,10 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     const source=read('roblox/src/client/MirrorSidebar.client.luau');
     expect(source).toContain('topCluster.Name = "TopUtilityCluster"');
     expect(source).toContain('topCluster.Position = UDim2.new(1, -72, 0, 8)');
-    expect(source).toContain('topCluster.Size = UDim2.fromOffset(218, 72)');
+    expect(source).toContain('topCluster.Size = UDim2.fromOffset(282, 38)');
     expect(source).toContain('rail.Position = UDim2.new(1, -12, 0, 86)');
-    expect(source).toContain('rail.Size = UDim2.fromOffset(50, 246)');
-    expect(source).toContain('holder.Size = UDim2.fromOffset(46, 46)');
+    expect(source).toContain('rail.Size = UDim2.fromOffset(48, 236)');
+    expect(source).toContain('holder.Size = UDim2.fromOffset(44, 44)');
     expect(source).toContain('shadow.BackgroundTransparency = 0.90');
   });
 
@@ -40,7 +40,7 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     const family=read('roblox/src/client/FamilyPanel.client.luau');
     const cams=read('roblox/src/client/HomeCams.client.luau');
 
-    expect(avatar).toContain('scrim.BackgroundTransparency = 0.34');
+    expect(avatar).toContain('scrim.BackgroundTransparency = 0.22');
     expect(avatar).toContain('setRoleplayTagVisible(false)');
     expect(avatar).toContain('setWorldHudVisible(false)');
     expect(avatar).toContain('setWorldHudVisible(true)');
