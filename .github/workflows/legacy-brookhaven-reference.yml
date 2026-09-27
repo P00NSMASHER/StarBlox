@@ -239,6 +239,12 @@ jobs:
       - name: Verify completed legacy Brookhaven development track
         run: npx vitest run src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
 
+      - name: Run complete StarBlox regression and build gates
+        run: |
+          npm test
+          npm run build
+          npm run roblox:backbone:verify
+
       - name: Upload full legacy Brookhaven development candidate
         uses: actions/upload-artifact@v4
         with:
