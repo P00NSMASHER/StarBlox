@@ -13,14 +13,16 @@ describe('Mirror sidebar action icon integrity',()=>{
   const source=read('roblox/src/client/MirrorSidebar.client.luau');
   const receipt=json('docs/roblox-world/MENU_ACTION_ICON_REPAIR_RECEIPT.json');
 
-  it('uses five deterministic pictograms instead of unsupported action-button glyphs',()=>{
-    expect(source).toContain('local function drawActionIcon(button: TextButton, iconName: string)');
-    expect(source).toContain('b.Text = ""');
-    expect(source).not.toContain('actionButton("☺"');
-    expect(source).not.toContain('actionButton("♙"');
-    expect(source).not.toContain('actionButton("♟"');
-    expect(source).not.toContain('actionButton("▰"');
-    expect(source).not.toContain('actionButton("⌂"');
+  it('uses five real image icons instead of unsupported glyphs or block silhouettes',()=>{
+    expect(source).toContain('local function drawRailIcon(button: GuiObject, iconName: string)');
+    expect(source).toContain('local ICONS: {[string]: string} = table.freeze({');
+    expect(source).toContain('avatar = "rbxassetid://6022668898"');
+    expect(source).toContain('tools = "rbxassetid://6023426938"');
+    expect(source).toContain('animations = "rbxassetid://6031625150"');
+    expect(source).toContain('vehicle = "rbxassetid://6034754441"');
+    expect(source).toContain('house = "rbxassetid://6026568195"');
+    expect(source).not.toContain('local function drawActionIcon');
+    expect(source).not.toContain('iconScale.Scale = 0.70');
 
     const expected=[
       ['avatar','Avatar','Avatar Editor'],
@@ -31,18 +33,17 @@ describe('Mirror sidebar action icon integrity',()=>{
     ];
     for(const [icon,name,label] of expected){
       expect(source).toContain(`actionButton("${icon}", "${name}", "${label}"`);
-      expect(source).toContain(`iconName == "${icon}"`);
     }
     expect((source.match(/Btn = actionButton\("/g)||[]).length).toBe(5);
   });
 
-  it('keeps the repair asset-independent and outside Mobile HUD layout ownership',()=>{
-    expect(receipt.implementation).toEqual({
-      file:'roblox/src/client/MirrorSidebar.client.luau',
-      approach:'five action-rail pictograms plus three plot-mode composites; no Image asset dependency',
-      externalAssetIds:[],
+  it('records the image-asset HUD rebuild without changing action bindings',()=>{
+    expect(receipt.implementation.file).toBe('roblox/src/client/MirrorSidebar.client.luau');
+    expect(receipt.implementation.approach).toContain('image-asset action rail icons');
+    expect(receipt.implementation.externalAssetIds).toHaveLength(10);
+    expect(receipt.implementation).toMatchObject({
       thirdPartyArtCopied:false,
-      mobileHudLayoutChanged:false,
+      mobileHudLayoutChanged:true,
       actionBindingsChanged:false
     });
     expect(receipt.comparison).toHaveLength(6);
@@ -57,7 +58,7 @@ describe('Mirror sidebar action icon integrity',()=>{
       'UNKNOWN_NATIVE_CLIENT_UNAVAILABLE'
     ]);
     expect(receipt.verification).toMatchObject({
-      nativeClientResult:'UNKNOWN',
+      nativeClientResult:'PENDING_V33_IPHONE_CHECK',
       fullActionResult:'NOT_RETESTED'
     });
     expect(receipt.claims).toEqual({

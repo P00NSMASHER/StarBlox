@@ -104,6 +104,8 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
     expect(sidebar).toContain('rail.Name = "RightActionRail"');
     expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
+    expect(sidebar).toContain('railLayout.Padding = UDim.new(0, 5)');
+    expect(sidebar).toContain('button.Size = UDim2.fromOffset(44, 44)');
     for(const call of [
       'actionButton("avatar", "Avatar", "Avatar Editor", 1)',
       'actionButton("tools", "Tools", "Tools", 2)',
@@ -113,8 +115,8 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     ]){
       expect(sidebar).toContain(call);
     }
-    expect(sidebar).toContain('local function drawActionIcon(button: TextButton, iconName: string)');
-    expect(sidebar).toContain('drawActionIcon(b, iconName)');
+    expect(sidebar).toContain('local function drawRailIcon(button: GuiObject, iconName: string)');
+    expect(sidebar).toContain('drawRailIcon(button, iconName)');
     expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0)');
     expect(sidebar).toContain('panel.Size = UDim2.fromOffset(326, 309)');
     expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(62, 64)');

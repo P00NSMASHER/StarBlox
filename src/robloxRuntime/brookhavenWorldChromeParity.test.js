@@ -9,7 +9,8 @@ describe('Brookhaven recording parity: persistent world chrome',()=>{
   it('collapses tutorial labels but leaves the Quick Chat lightning tile',()=>{
     const shell=read('roblox/src/client/MirrorSidebar.client.luau');
 
-    expect(shell).toContain('quickChatBolt = makeTopButton("QuickChatBolt", "⚡"');
+    expect(shell).toContain('local quickChatBolt = makeSquareIconButton(');
+    expect(shell).toContain('ICONS.quickChat');
     expect(shell).toContain('quickChatArrow.Name = "QuickChatArrow"');
     expect(shell).toContain('quickChatButton');
     expect(shell).toContain('quickChatArrow.Visible = false');
@@ -21,9 +22,11 @@ describe('Brookhaven recording parity: persistent world chrome',()=>{
   it('keeps the small free-play shop shortcut visible at the left edge',()=>{
     const shell=read('roblox/src/client/MirrorSidebar.client.luau');
 
-    expect(shell).toContain('shopShortcut.Name = "ShopShortcut"');
-    expect(shell).toContain('shopShortcut.Position = UDim2.new(0, 80, 0.5, -18)');
-    expect(shell).toContain('shopShortcut.Text = "🛒"');
+    expect(shell).toContain('local shopShortcut = makeSquareIconButton(');
+    expect(shell).toContain('"ShopShortcut"');
+    expect(shell).toContain('UDim2.new(0, 80, 0.5, -18)');
+    expect(shell).toContain('ICONS.shop');
+    expect(shell).toContain('"ShopShortcut"');
     expect(shell).toContain('openStore:Fire()');
   });
 
