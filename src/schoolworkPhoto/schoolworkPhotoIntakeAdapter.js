@@ -19,7 +19,7 @@ const SOURCE_CATEGORIES=new Set([
   'religion'
 ]);
 
-const SIGNAL_DEFINITIONS=Object.freeze({
+export const SCHOOLWORK_SIGNAL_DEFINITIONS=Object.freeze({
   'short-vowel-identification':Object.freeze({
     stationId:'spelling-forge-fog-v1',
     subject:'Reading / ELA',
@@ -106,7 +106,7 @@ const REASON_CODES=new Set([
 const ALLOWED_TOP_FIELDS=new Set(['schemaVersion','intakeVersion','batchId','capturedDate','pages']);
 const ALLOWED_PAGE_FIELDS=new Set(['pageRef','sourceCategories','observations']);
 const ALLOWED_OBSERVATION_FIELDS=new Set([
-  'generatorKey','confidence','coverageWeight','candidates','reasonCode'
+  'generatorKey','confidence','coverageWeight','candidates','reasonCode','attempted','likelyCorrect'
 ]);
 const ALLOWED_CANDIDATE_FIELDS=new Set(['generatorKey','confidence','coverageWeight']);
 
@@ -133,7 +133,7 @@ function coverageWeight(candidate){
 }
 
 function canonicalSignal(generatorKey,{id=generatorKey,weight=4}={}){
-  const definition=SIGNAL_DEFINITIONS[generatorKey];
+  const definition=SCHOOLWORK_SIGNAL_DEFINITIONS[generatorKey];
   if(!definition) return null;
   return {
     id,
@@ -156,6 +156,18 @@ function normalizeObservationCandidates(observation){
     }];
   }
   return [];
+}
+
+export function classifySchoolworkPhotoObservation(observation){
+  const candidates=normalizeObservationCandidates(observation)
+    .map(candidate=>({...candidate}))
+    .sort((a,b)=>b.confidence-a.confidence||String(a.generatorKey).localeCompare(String(b.generatorKey)));
+  const plausible=candidates.filter(candidate=>candidate.confidence>=REVIEW_CONFIDENCE_FLOOR);
+  if(plausible.length===0) return {kind:'omit',candidates:[]};
+  const autoAccept=plausible.length===1&&
+    plausible[0].confidence>=AUTO_ACCEPT_CONFIDENCE&&
+    observation.reasonCode===undefined;
+  return {kind:autoAccept?'accepted':'review',candidates:plausible};
 }
 
 export function validateSchoolworkPhotoIntake(intake){
@@ -218,6 +230,18 @@ export function validateSchoolworkPhotoIntake(intake){
       if(observation.reasonCode!==undefined&&!REASON_CODES.has(observation.reasonCode)){
         issues.push({type:'intake-reason-code-invalid',pageRef:page.pageRef,observationIndex});
       }
+      if(observation.attempted!==undefined&&typeof observation.attempted!=='boolean'){
+        issues.push({type:'intake-attempted-invalid',pageRef:page.pageRef,observationIndex});
+      }
+      if(observation.likelyCorrect!==undefined&&
+        observation.likelyCorrect!==null&&
+        typeof observation.likelyCorrect!=='boolean'
+      ){
+        issues.push({type:'intake-likely-correct-invalid',pageRef:page.pageRef,observationIndex});
+      }
+      if(observation.attempted===false&&typeof observation.likelyCorrect==='boolean'){
+        issues.push({type:'intake-correctness-without-attempt',pageRef:page.pageRef,observationIndex});
+      }
       const candidates=normalizeObservationCandidates(observation);
       if(candidates.length<1||candidates.length>3){
         issues.push({type:'intake-candidates-invalid',pageRef:page.pageRef,observationIndex});
@@ -230,7 +254,7 @@ export function validateSchoolworkPhotoIntake(intake){
           continue;
         }
         unexpectedFields(candidate,ALLOWED_CANDIDATE_FIELDS,candidatePath,issues);
-        if(!SIGNAL_DEFINITIONS[candidate.generatorKey]){
+        if(!SCHOOLWORK_SIGNAL_DEFINITIONS[candidate.generatorKey]){
           issues.push({
             type:'intake-generator-key-unsupported',
             pageRef:page.pageRef,
@@ -269,21 +293,15 @@ export function adaptSchoolworkPhotoIntake(intake){
     for(const category of page.sourceCategories) sourceCategories.add(category);
     for(const observation of page.observations){
       observationCount+=1;
-      const candidates=normalizeObservationCandidates(observation)
-        .map(candidate=>({...candidate}))
-        .sort((a,b)=>b.confidence-a.confidence||String(a.generatorKey).localeCompare(String(b.generatorKey)));
-      const plausible=candidates.filter(candidate=>candidate.confidence>=REVIEW_CONFIDENCE_FLOOR);
+      const classification=classifySchoolworkPhotoObservation(observation);
+      const plausible=classification.candidates;
 
-      if(plausible.length===0){
+      if(classification.kind==='omit'){
         lowConfidenceOmitted+=1;
         continue;
       }
 
-      const autoAccept=plausible.length===1&&
-        plausible[0].confidence>=AUTO_ACCEPT_CONFIDENCE&&
-        observation.reasonCode===undefined;
-
-      if(autoAccept){
+      if(classification.kind==='accepted'){
         const candidate=plausible[0];
         const weight=coverageWeight(candidate);
         const existing=acceptedByGenerator.get(candidate.generatorKey);
@@ -374,5 +392,5 @@ export function adaptSchoolworkPhotoIntake(intake){
 }
 
 export function supportedSchoolworkPhotoGenerators(){
-  return Object.keys(SIGNAL_DEFINITIONS).sort();
+  return Object.keys(SCHOOLWORK_SIGNAL_DEFINITIONS).sort();
 }
