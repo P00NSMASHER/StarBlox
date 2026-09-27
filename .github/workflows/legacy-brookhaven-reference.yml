@@ -12,6 +12,9 @@ on:
       - scripts/extract-legacy-brookhaven-catalog-discovery.mjs
       - scripts/derive-legacy-brookhaven-catalog-baseline.mjs
       - scripts/generate-legacy-brookhaven-runtime-bindings.mjs
+      - scripts/prepare-legacy-brookhaven-development-candidate.mjs
+      - roblox/src/server/HomeEconomyService.luau
+      - roblox/src/server/WorldInteractionService.luau
       - roblox/src/shared/LegacyWorldActivityBindings.luau
       - roblox/src/shared/LegacyWorldInteractionBindings.luau
       - roblox/src/shared/LegacyWorldPlotBindings.luau
@@ -55,9 +58,22 @@ jobs:
 
       - name: Use Rust stable
         uses: dtolnay/rust-toolchain@stable
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+
 
       - name: Fetch pinned legacy Brookhaven place
         run: |
@@ -182,6 +198,29 @@ jobs:
           npx vitest run \
             src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js \
             src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
+
+      - name: Build full legacy Brookhaven StarBlox development candidate
+        run: |
+          node scripts/prepare-legacy-brookhaven-development-candidate.mjs \
+            --source-commit "${{ github.sha }}" \
+            --out-dir artifacts/legacy-brookhaven-development
+          test -s artifacts/legacy-brookhaven-development/StarBlox-Legacy-Brookhaven-Development.rbxlx
+          test -s artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"status": "legacy-brookhaven-development-candidate-ready"' artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"geometryCount": 14459' artifacts/legacy-brookhaven-development/candidate-receipt.json
+          grep -q '"forbiddenGameplayClassCount": 0' artifacts/legacy-brookhaven-development/candidate-receipt.json
+
+      - name: Upload full legacy Brookhaven development candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-legacy-brookhaven-development-candidate
+          path: |
+            artifacts/legacy-brookhaven-development/StarBlox-Legacy-Brookhaven-Development.rbxlx
+            artifacts/legacy-brookhaven-development/candidate-receipt.json
+            artifacts/legacy-brookhaven-development/legacy-binding-manifest.json
+            artifacts/legacy-brookhaven-development/legacy-geometry-sanitization.json
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Upload sanitized legacy geometry development baseline
         uses: actions/upload-artifact@v4
