@@ -5,7 +5,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
 
-local WorldInteractionBindings = require(ReplicatedStorage.StarBlox.WorldInteractionBindings)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+local DefaultWorldInteractionBindings = require(ReplicatedStorage.StarBlox.WorldInteractionBindings)
+local LegacyWorldInteractionBindings = require(ReplicatedStorage.StarBlox.LegacyWorldInteractionBindings)
+local WorldInteractionBindings = if BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world"
+	then LegacyWorldInteractionBindings
+	else DefaultWorldInteractionBindings
 
 local WorldInteractionService = {}
 WorldInteractionService.__index = WorldInteractionService
