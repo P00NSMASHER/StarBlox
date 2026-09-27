@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -31,5 +31,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish v35 recording-driven iPhone mobile UI cleanup: one-row top utilities, lighter 44px rail, compact glass context cards, compact house picker, clearer avatar editor, clean modal HUD ownership, and collision-aware post-home third-person camera handoff.",
-  "requestedSourceCommit": "98d551f18071269e87c85601fed03f86d2b10335"
+  "requestedSourceCommit": "98d551f18071269e87c85601fed03f86d2b10335",
+  "completion": {
+    "publishedVersion": 36,
+    "verifiedVersion": 36,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
