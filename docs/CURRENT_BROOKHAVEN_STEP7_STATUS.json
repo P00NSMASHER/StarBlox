@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "evaluatedAt": "2026-09-27T02:45:00Z",
   "step": "7A-7B",
-  "status": "blocked-on-authorized-current-place-source",
+  "status": "legacy-development-baseline-complete-current-live-certification-still-open",
   "liveBrookhaven": {
     "universeId": 1686885941,
     "rootPlaceId": 4924922222,
@@ -92,5 +92,49 @@
     "publicAccessChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextStep": "attach authorized current Brookhaven source; rerun 7A; then execute source-bound 7B promotions"
+  "nextStep": "execute legacy-derived P0/P1 StarBlox development batches, then run final mobile QA; current-live certification remains optional/separate",
+  "legacyDevelopmentTrack": {
+    "status": "steps-1-through-5-complete",
+    "sourceClassification": "legacy_reference_source",
+    "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json",
+    "profileReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json",
+    "structuralDiff": "docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json",
+    "workPlan": "docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json",
+    "pipelineWorkflow": ".github/workflows/legacy-brookhaven-reference.yml",
+    "verificationRun": 36293641601,
+    "verificationConclusion": "success",
+    "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
+    "measuredBaseline": {
+      "legacy": {
+        "instances": 24349,
+        "geometry": 14459,
+        "assets": 622,
+        "seats": 399,
+        "vehicleSeats": 12
+      },
+      "starblox": {
+        "instances": 5493,
+        "geometry": 4936,
+        "assets": 154
+      }
+    },
+    "developmentGapSummary": {
+      "priorities": 15,
+      "p0": 2,
+      "p1": 9,
+      "p2": 4
+    },
+    "steps": {
+      "step1BringIntoPipeline": true,
+      "step2ProvenanceReceipt": true,
+      "step3DeserializeAndProfile": true,
+      "step4CompareAgainstStarBlox": true,
+      "step5Generate7BDevelopmentWork": true
+    },
+    "boundaries": {
+      "currentLiveCertificationSatisfied": false,
+      "exactParityClaimAllowed": false,
+      "productionActivationAllowed": false
+    }
+  }
 }
