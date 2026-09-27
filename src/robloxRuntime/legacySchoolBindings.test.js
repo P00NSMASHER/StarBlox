@@ -67,6 +67,22 @@ describe('legacy Brookhaven real-school bindings', () => {
     expect(luau).not.toContain('Library / Make-Up');
   });
 
+  it('binds the checked-in receipt to the generated distinct-room count', () => {
+    const receipt = JSON.parse(readFileSync(
+      'docs/roblox-world/LEGACY_BROOKHAVEN_SCHOOL_MAPPING_RECEIPT.json',
+      'utf8'
+    ));
+    const generated = readFileSync('roblox/src/shared/LegacySchoolWorldBindings.luau', 'utf8');
+    const physicalClassrooms = new Set(
+      [...generated.matchAll(/PhysicalRoomId = "(legacy-classroom-[a-z]+)"/g)]
+        .map((match) => match[1])
+    );
+
+    expect(physicalClassrooms.size).toBe(4);
+    expect(receipt.mappingContract.minimumDistinctPhysicalClassrooms).toBe(physicalClassrooms.size);
+    expect(receipt.mappingContract.classAssignments).toBe(5);
+  });
+
   it('grounds the class travel point beside the actual classroom door', () => {
     const result = deriveLegacySchoolBindings(pinnedSchoolFixture);
     const binding = result.classes.reading;
