@@ -35,6 +35,20 @@ local spawn = runtimeWorld:FindFirstChild("LBH_14370", true)
 assert(spawn and spawn:IsA("BasePart"), "LBH_14370 spawn geometry missing")
 
 local spawnTop = spawn.Position.Y + spawn.Size.Y / 2
+print(string.format("DIAG_ATTR ground=%s hidden=%s neon=%s lights=%s",
+    tostring(runtimeWorld:GetAttribute("TownCenterGroundTilesRecolored")),
+    tostring(runtimeWorld:GetAttribute("TownCenterHolidayMeshesHidden")),
+    tostring(runtimeWorld:GetAttribute("TownCenterNeonPartsSoftened")),
+    tostring(runtimeWorld:GetAttribute("TownCenterLightsSoftened"))))
+for index = 10677, 10683 do
+    local exact = runtimeWorld:FindFirstChild(string.format("LBH_%05d", index), true)
+    if exact and exact:IsA("BasePart") then
+        print(string.format("DIAG_HOLIDAY name=%s trans=%.2f collide=%s query=%s touch=%s",
+            exact.Name, exact.Transparency, tostring(exact.CanCollide), tostring(exact.CanQuery), tostring(exact.CanTouch)))
+    else
+        print("DIAG_HOLIDAY missing=" .. string.format("LBH_%05d", index))
+    end
+end
 print(string.format("DIAG_SPAWN name=%s class=%s pos=%.3f,%.3f,%.3f size=%.3f,%.3f,%.3f top=%.3f",
     spawn.Name, spawn.ClassName, spawn.Position.X, spawn.Position.Y, spawn.Position.Z,
     spawn.Size.X, spawn.Size.Y, spawn.Size.Z, spawnTop))
