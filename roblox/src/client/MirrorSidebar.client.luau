@@ -1459,11 +1459,46 @@ local function fetchPlots(): boolean
 	return true
 end
 
+local function stabilizeThirdPersonCamera()
+	local camera = workspace.CurrentCamera
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if camera == nil or root == nil or not root:IsA("BasePart") or humanoid == nil then
+		return
+	end
+
+	local target = root.Position + Vector3.new(0, 2, 0)
+	local desired = target - (root.CFrame.LookVector * 11) + Vector3.new(0, 3.5, 0)
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = {character}
+	params.IgnoreWater = true
+	local hit = workspace:Raycast(target, desired - target, params)
+	if hit ~= nil then
+		desired = hit.Position + ((target - hit.Position).Unit * 1.5)
+	end
+
+	camera.CameraType = Enum.CameraType.Scriptable
+	camera.CFrame = CFrame.lookAt(desired, target)
+	task.delay(0.18, function()
+		local current = workspace.CurrentCamera
+		if current ~= nil and humanoid.Parent ~= nil then
+			current.CameraSubject = humanoid
+			current.CameraType = Enum.CameraType.Custom
+		end
+	end)
+end
+
 local function travelHome(): boolean
 	local ok, result = pcall(function()
 		return visitHome:InvokeServer()
 	end)
-	return ok and type(result) == "table" and result.ok == true
+	local success = ok and type(result) == "table" and result.ok == true
+	if success then
+		task.defer(stabilizeThirdPersonCamera)
+	end
+	return success
 end
 
 local function showTravelFailure()
