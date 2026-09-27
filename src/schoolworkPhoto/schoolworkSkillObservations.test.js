@@ -1,6 +1,7 @@
 import {describe,expect,it} from 'vitest';
 
 import {
+  SCHOOLWORK_PHOTO_CONSENT,
   SCHOOLWORK_PHOTO_INTAKE_VERSION,
   adaptSchoolworkPhotoIntake
 } from './schoolworkPhotoIntakeAdapter.js';
@@ -16,6 +17,7 @@ function intakeFixture(){
     intakeVersion:SCHOOLWORK_PHOTO_INTAKE_VERSION,
     batchId:'schoolwork-2026-09-27-002',
     capturedDate:'2026-09-27',
+    consent:{...SCHOOLWORK_PHOTO_CONSENT},
     pages:[
       {
         pageRef:'page-01',
