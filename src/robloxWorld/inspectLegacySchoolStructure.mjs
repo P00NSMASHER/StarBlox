@@ -112,11 +112,11 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
   const schoolDoorModels = workspaceRows
     .filter(row => className(row.node) === 'Model' && nodeName(row.node) === 'SchoolDoorClassroom')
     .map((modelRow, modelIndex) => {
-      const modelPath = modelRow.path;
-      const modelParts = workspaceRows
-        .filter(row => row.path.length > modelPath.length
-          && modelPath.every((segment, index) => row.path[index] === segment)
-          && geometryClasses.has(className(row.node)))
+      // Names in this source are duplicated siblings, so use the model node's
+      // identity to enumerate its subtree instead of matching name-only paths.
+      const modelRows = walk(modelRow.node, modelRow.path.slice(0, -1));
+      const modelParts = modelRows
+        .filter(row => row.node !== modelRow.node && geometryClasses.has(className(row.node)))
         .map(row => {
           const indexed = geometryByNode.get(row.node);
           return {
@@ -131,7 +131,7 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
         });
       return {
         sourceOrder: modelIndex + 1,
-        path: modelPath.join('/'),
+        path: modelRow.path.join('/'),
         parts: modelParts
       };
     });
