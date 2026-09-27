@@ -58,7 +58,7 @@ describe('Mirror sidebar action icon integrity',()=>{
       'UNKNOWN_NATIVE_CLIENT_UNAVAILABLE'
     ]);
     expect(receipt.verification).toMatchObject({
-      nativeClientResult:'UNKNOWN',
+      nativeClientResult:'PENDING_V33_IPHONE_CHECK',
       fullActionResult:'NOT_RETESTED'
     });
     expect(receipt.claims).toEqual({
