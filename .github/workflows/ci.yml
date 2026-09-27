@@ -38,7 +38,15 @@ jobs:
         run: npm run roblox:world-source:verify
       - name: Prove current-live Brookhaven source intake gate
         run: |
-          npx vitest run             src/robloxWorld/currentBrookhavenSourceGate.test.js             src/robloxRuntime/brookhavenCurrentWorldSourceGate.test.js
+          npx vitest run \
+            src/robloxWorld/currentBrookhavenSourceGate.test.js \
+            src/robloxWorld/currentBrookhavenStructureCompare.test.js \
+            src/robloxWorld/currentBrookhavenRenderedEvidence.test.js \
+            src/robloxWorld/currentBrookhavenRenderedParity.test.js \
+            src/robloxWorld/currentBrookhavenBehaviorEvidence.test.js \
+            src/robloxWorld/currentBrookhavenBehaviorParity.test.js \
+            src/robloxWorld/currentBrookhavenCombinedParityGate.test.js \
+            src/robloxRuntime/brookhavenCurrentWorldSourceGate.test.js
           rm -f /tmp/current-brookhaven-source-receipt.json
           npm run roblox:brookhaven-current-source:verify --             --candidate tools/roblox_catalog_reader/fixtures/sample.rbxmx             --place-id 4924922222             --place-version 1             --captured-at 2026-09-26T21:30:00-04:00             --capture-method ci-mechanics-fixture             --out /tmp/current-brookhaven-source-receipt.json
           test -f /tmp/current-brookhaven-source-receipt.json
