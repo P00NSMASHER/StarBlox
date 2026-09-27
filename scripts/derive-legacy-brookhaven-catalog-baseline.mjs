@@ -92,13 +92,25 @@ for(const v of vehicles){
 }
 const uniqueVehicles=[...vehicleKey.values()].sort((a,b)=>a.name.localeCompare(b.name));
 
-const tools=kids(giveTools||{}).map(c=>({
+const toolsRaw=kids(giveTools||{}).map(c=>({
   name:name(c),
   className:cls(c),
   descendantCount:walk(c).length
 })).sort((a,b)=>a.name.localeCompare(b.name));
+const toolByName=new Map();
+for(const entry of toolsRaw){
+  const key=entry.name.trim().toLowerCase();
+  if(key && !toolByName.has(key)) toolByName.set(key,entry);
+}
+const tools=[...toolByName.values()].sort((a,b)=>a.name.localeCompare(b.name));
 
-const houseBest=housePanels[0]||null;
+const exactHousePanel=housePanels.find(panel=>/MainHouseMenu\/Catalog$/.test(panel.path))
+  || housePanels.find(panel=>/MainHouseMenu$/.test(panel.path))
+  || null;
+const houseButtons=(exactHousePanel?.buttons||[])
+  .filter(button=>/^\d{3}_House$/.test(button.name))
+  .sort((a,b)=>a.name.localeCompare(b.name));
+const houseBest=exactHousePanel;
 const receipt={
   schemaVersion:1,
   status:'legacy-catalog-baseline-derived',
@@ -111,13 +123,17 @@ const receipt={
   tools:{
     source:'Workspace/WorkspaceCom/001_GiveTools',
     present:Boolean(giveTools),
+    rawEntryCount:toolsRaw.length,
+    uniqueEntryCount:tools.length,
     entries:tools,
     entryCount:tools.length
   },
   houseUi:{
     candidatePanels:housePanels,
     bestPanel:houseBest,
-    bestPanelButtonCount:houseBest?.buttonCount||0
+    bestPanelButtonCount:houseButtons.length,
+    catalogButtons:houseButtons,
+    catalogCount:houseButtons.length
   },
   vehicleUi:{candidatePanels:vehiclePanels},
   toolUi:{candidatePanels:toolPanels},
