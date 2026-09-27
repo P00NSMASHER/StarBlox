@@ -55,7 +55,6 @@ function canonicalNode(node){
 function subtreeHash(node){
   return sha256(Buffer.from(JSON.stringify(canonicalNode(node)),'utf8'));
 }
-function kids(n){return Array.isArray(n?.children)?n.children:[];}
 
 const here=dirname(fileURLToPath(import.meta.url));
 const root=resolve(here,'..');
