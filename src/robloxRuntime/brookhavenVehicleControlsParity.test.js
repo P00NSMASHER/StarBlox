@@ -84,4 +84,24 @@ describe('Brookhaven parity: owned vehicle controls',()=>{
     expect(sidebar).toContain('return spawnVehicle:InvokeServer(id)');
     expect(sidebar).toContain('showStatus("Couldn\'t spawn vehicle")');
   });
+
+  it('keeps the tool catalog open after rejected equip or clear requests',()=>{
+    const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+    const clearStart=sidebar.indexOf('toolbarButton("ClearTools"');
+    const clearEnd=sidebar.indexOf('\n\tsetCategories({',clearStart);
+    const clearBlock=sidebar.slice(clearStart,clearEnd);
+    const equipStart=sidebar.indexOf('\n\t\t\t\tfunction()\n\t\t\t\t\tif owned then',clearEnd);
+    const equipEnd=sidebar.indexOf('\n\t\t\t\telse\n\t\t\t\t\tpurchase(purchaseTool',equipStart);
+    const equipBlock=sidebar.slice(equipStart,equipEnd);
+
+    expect(clearBlock).toContain('return clearTools:InvokeServer()');
+    expect(clearBlock).toContain('if ok and type(result) == "table" and result.ok == true then');
+    expect(clearBlock).toContain('showStatus("Couldn\'t clear tools")');
+    expect(clearBlock.indexOf('closePanel()')).toBeGreaterThan(clearBlock.indexOf('result.ok == true'));
+
+    expect(equipBlock).toContain('return equipTool:InvokeServer(id)');
+    expect(equipBlock).toContain('if ok and type(result) == "table" and result.ok == true then');
+    expect(equipBlock).toContain('showStatus("Couldn\'t equip tool")');
+    expect(equipBlock.indexOf('closePanel()')).toBeGreaterThan(equipBlock.indexOf('result.ok == true'));
+  });
 });
