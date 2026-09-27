@@ -57,16 +57,16 @@ describe('Mirror sidebar action icon integrity',()=>{
     expect(receipt.screenEvidence.map(row=>row.result)).toEqual([
       'OBSERVED_PICTORIAL_CONTROLS',
       'FAIL_UNSUPPORTED_SQUARE_LIKE_GLYPHS',
-      'UNKNOWN_NATIVE_CLIENT_UNAVAILABLE'
+      'FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER'
     ]);
     expect(receipt.verification).toMatchObject({
-      nativeClientResult:'PENDING_V33_IPHONE_CHECK',
+      nativeClientResult:'V33_FAIL_V34_PENDING',
       fullActionResult:'NOT_RETESTED'
     });
     expect(receipt.claims).toEqual({
       unsupportedGlyphDefectRemovedByConstruction:true,
       currentLiveVisualParityCertified:false,
-      nativeClientProofAvailable:false,
+      nativeClientProofAvailable:true,
       releaseReady:false
     });
   });
