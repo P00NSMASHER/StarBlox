@@ -54,33 +54,47 @@ local function worldTopCFrame(sourcePart: BasePart, heightOffset: number): CFram
 	)
 end
 
-local function looksLikeHolidayPlazaColor(color: Color3): boolean
-	local redTile = color.R >= 0.48 and color.G <= 0.34 and color.B <= 0.34
-	local greenTile = color.G >= 0.42 and color.R <= 0.38 and color.B <= 0.34
-	return redTile or greenTile
-end
-
 local function applyTownCenterVisualPolish(worldRoot: Model, spawnSource: BasePart)
 	local center = spawnSource.Position
 	local recoloredGround = 0
+	local hiddenHolidayMeshes = 0
 	local softenedNeon = 0
 	local softenedLights = 0
+
+	-- v31 diagnostics identified the exact checkerboard grid in the published
+	-- legacy staging place. It is LBH_14342..LBH_14376: thirty-five 15x7x15
+	-- tiles alternating dark red/green at the spawn elevation. Targeting these
+	-- exact generated IDs avoids another color-heuristic miss.
+	for index = 14342, 14376 do
+		local part = worldRoot:FindFirstChild(string.format("LBH_%05d", index), true)
+		if part ~= nil and part:IsA("BasePart") then
+			part.Color = Color3.fromRGB(194, 194, 190)
+			part.Material = Enum.Material.Concrete
+			part.Reflectance = 0
+			recoloredGround += 1
+		end
+	end
+
+	-- The giant saturated holiday cluster directly behind the town-center spawn
+	-- was also isolated live on v31 as LBH_10677..LBH_10683. These meshes are
+	-- presentation-only and dominate the skyline; hide the whole exact cluster.
+	for index = 10677, 10683 do
+		local part = worldRoot:FindFirstChild(string.format("LBH_%05d", index), true)
+		if part ~= nil and part:IsA("BasePart") then
+			part.Transparency = 1
+			part.CanCollide = false
+			part.CanTouch = false
+			part.CanQuery = false
+			part.CastShadow = false
+			hiddenHolidayMeshes += 1
+		end
+	end
 
 	for _, descendant in worldRoot:GetDescendants() do
 		if descendant:IsA("BasePart") then
 			local delta = descendant.Position - center
 			local horizontalDistance = Vector3.new(delta.X, 0, delta.Z).Magnitude
-			local flatGround =
-				descendant.Size.Y <= 5
-				and descendant.Size.X >= 3
-				and descendant.Size.Z >= 3
-
-			if horizontalDistance <= 58 and flatGround and looksLikeHolidayPlazaColor(descendant.Color) then
-				descendant.Color = Color3.fromRGB(190, 191, 187)
-				descendant.Material = Enum.Material.Concrete
-				descendant.Reflectance = math.min(descendant.Reflectance, 0.04)
-				recoloredGround += 1
-			elseif horizontalDistance <= 36 and descendant.Material == Enum.Material.Neon then
+			if horizontalDistance <= 38 and descendant.Material == Enum.Material.Neon then
 				descendant.Material = Enum.Material.SmoothPlastic
 				descendant.Reflectance = 0
 				softenedNeon += 1
@@ -92,8 +106,8 @@ local function applyTownCenterVisualPolish(worldRoot: Model, spawnSource: BasePa
 				local horizontalDistance = Vector3.new(delta.X, 0, delta.Z).Magnitude
 				if horizontalDistance <= 42 then
 					local light = descendant :: any
-					light.Brightness = math.min(tonumber(light.Brightness) or 1, 0.85)
-					light.Range = math.min(tonumber(light.Range) or 12, 14)
+					light.Brightness = math.min(tonumber(light.Brightness) or 1, 0.7)
+					light.Range = math.min(tonumber(light.Range) or 12, 12)
 					softenedLights += 1
 				end
 			end
@@ -102,6 +116,7 @@ local function applyTownCenterVisualPolish(worldRoot: Model, spawnSource: BasePa
 
 	worldRoot:SetAttribute("TownCenterVisualPolishApplied", true)
 	worldRoot:SetAttribute("TownCenterGroundTilesRecolored", recoloredGround)
+	worldRoot:SetAttribute("TownCenterHolidayMeshesHidden", hiddenHolidayMeshes)
 	worldRoot:SetAttribute("TownCenterNeonPartsSoftened", softenedNeon)
 	worldRoot:SetAttribute("TownCenterLightsSoftened", softenedLights)
 end
