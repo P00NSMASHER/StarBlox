@@ -36,16 +36,18 @@ Each scenario below is a pass/fail requirement. A source asset existing or a but
 | P2-12 | Movement/camera | Walking, jumping, seats, vehicles, interiors, respawn and teleport keep a usable third-person camera with no clipping. | StarBlox recording shows suspected occlusion; root cause U. |
 | P2-13 | School exception | Schedule, destination, class, attendance, question feedback and rewards appear contextually inside the school without permanently obscuring town play. | StarBlox recording visibly shows overlapping school UI; fail for visual presentation, location/flow U. |
 | P2-14 | Audio/effects | Each source sound/effect/animation has a named location, trigger, audible/visible outcome and fallback. | Aggregate counts only; itemized paths and client U. |
-| P2-15 | Responsive/performance | Repeat all flows on the same phone, tablet and computer models as the reference at matching graphics settings; record frame rate, loading and input latency. | One 1112x512 StarBlox recording only; device/reference U. |
+| P2-15 | Responsive/performance | Repeat all flows on the same phone, tablet and computer models as the reference at matching graphics settings; record frame rate, loading and input latency. | Paired phone-style recordings reviewed; hardware/settings, tablet/computer and measured performance U. |
 
-## Recording observations (StarBlox only)
+## Recording observations
+
+The new paired uploads show Brookhaven reference gameplay (83.67 seconds) and StarBlox playtest gameplay (69.63 seconds). See `STEP2_RECORDING_DEFECTS.md` for timestamped observations and acceptance tests. They provide partial phone-flow comparison, not complete same-device certification: exact hardware, graphics settings, build versions and complete catalog coverage remain unverified. The StarBlox file stores sideways landscape content; its stored portrait dimensions are not evidence of a portrait-layout bug.
 
 The 13.83-second `ScreenRecording_09-27-2026 06-00-38_1.mp4` shows a house carousel and school prompt competing for space, two translucent information bands at the top, a large central `JOIN CLASS` card, a mostly gray/occluded scene after travel, and avatar customization opening while the school card remains. This establishes presentation defects; it does **not** prove why the gray scene occurs or prove that house purchase/travel completes.
 
 ## Evidence needed to close Step 2
 
-1. A version-provenanced, authorized current-target Brookhaven `.rbxl/.rbxlx` export, or an explicit decision to target the pinned legacy `.rbxl` instead of the current live game. The current-source gate in `docs/CURRENT_BROOKHAVEN_SOURCE_GATE.json` remains awaiting a candidate.
-2. Brookhaven and StarBlox captures from the **same device(s)** at the same resolution/orientation and graphics setting, showing the complete fresh-join, house, vehicle, avatar, tools, building, and school journeys. The cloud browser can read the Roblox experience page, but cannot run the native Roblox client or capture these journeys.
+1. Preserve the user's chosen pinned legacy source as the implementation baseline. Record differences between that source and the newly supplied live reference as explicit scope gaps; do not imply that the legacy file contains every modern asset. Exact current-live certification additionally needs version-provenanced reference evidence; the current-source gate remains awaiting a candidate.
+2. Extend the supplied paired recordings to complete fresh-join, house, vehicle, avatar, tools, building, and school journeys on matching phone, tablet and computer configurations. Confirm hardware and graphics settings. The cloud browser cannot run the native Roblox client or capture these journeys.
 3. An uncapped DOM inventory of the pinned binary, including every instance path, mesh/decal/texture/image/audio/animation reference and building/interior grouping. Existing name-match categories stop at 500 rows and the UI extraction omits image properties. The checked-in Rust reader is available in source but Rust is not installed in this workspace; no completeness claim is made from the capped receipts.
 4. A mapping from each source ledger item and scenario to the current StarBlox runtime instance or control, with a side-by-side result: pass, fail, intentionally changed for school, or not present.
 
