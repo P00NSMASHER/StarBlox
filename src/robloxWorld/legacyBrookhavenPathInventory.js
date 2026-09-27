@@ -140,6 +140,16 @@ export function buildLegacyBrookhavenPathInventory(root) {
     .sort().map(domain => [domain, pathRows.filter(row => row.domain === domain).length]));
   const countsByAssetKind = Object.fromEntries([...new Set(assetRows.map(row => row.assetKind))]
     .sort().map(kind => [kind, assetRows.filter(row => row.assetKind === kind).length]));
+  const assetPropertyKeysByClass = {};
+  for (const row of walked) {
+    if (!ASSET_PROPERTIES[row.className]) continue;
+    const properties = row.node?.properties && typeof row.node.properties === 'object'
+      ? row.node.properties
+      : {};
+    const keys = assetPropertyKeysByClass[row.className] ?? new Set();
+    for (const key of Object.keys(properties)) keys.add(key);
+    assetPropertyKeysByClass[row.className] = keys;
+  }
 
   return {
     pathRows,
@@ -150,6 +160,9 @@ export function buildLegacyBrookhavenPathInventory(root) {
       assetReferenceCount: assetRows.length,
       countsByDomain,
       countsByAssetKind,
+      assetPropertyKeysByClass: Object.fromEntries(Object.entries(assetPropertyKeysByClass)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([className, keys]) => [className, [...keys].sort()])),
       sourceScriptsExecuted: false,
       sourceScriptsEvaluated: false,
       currentLiveBrookhavenVersionPinned: false,

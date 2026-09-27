@@ -66,6 +66,7 @@ jobs:
           console.log('STEP2_UNCAPPED_INVENTORY='+JSON.stringify(meta));
           NODE
       - name: Upload exact uncapped inventory evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: step2-uncapped-legacy-inventory

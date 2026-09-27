@@ -77,5 +77,11 @@ describe('legacy Brookhaven uncapped path inventory', () => {
       image: 1,
       mesh: 2
     });
+    expect(inventory.summary.assetPropertyKeysByClass).toEqual({
+      Animation: ['AnimationId'],
+      Decal: ['Texture'],
+      MeshPart: ['MeshId', 'TextureID'],
+      Sound: ['SoundId']
+    });
   });
 });
