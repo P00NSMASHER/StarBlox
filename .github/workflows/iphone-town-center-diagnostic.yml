@@ -1,0 +1,28 @@
+name: Diagnose iPhone town center
+
+on:
+  push:
+    branches:
+      - diag/iphone-town-center-v31
+    paths:
+      - scripts/diagnose-town-center-v31.mjs
+      - .github/workflows/iphone-town-center-diagnostic.yml
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect live private staging town center
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/diagnose-town-center-v31.mjs
