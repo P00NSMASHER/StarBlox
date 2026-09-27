@@ -537,17 +537,18 @@ local function renderState(payload)
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
 	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
-	report.Visible = false
 	local menuOpen = townMenuOpen()
+	local reportAvailable = type(payload.report) == "table" and payload.report.ok == true
+	report.Visible = reportAvailable and not panel.Visible and not menuOpen
 	hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen
 	local titleText, bodyText, buttonText = periodCallout(clock)
 	calloutTitle.Text = titleText
 	calloutBody.Text = bodyText
 	goToSchool.Text = buttonText
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
-		and payload.currentClassCompleted ~= true and not panel.Visible and not menuOpen
+		and payload.currentClassCompleted ~= true and not panel.Visible and not reportAvailable and not menuOpen
 
-	if payload.report and payload.report.ok then
+	if reportAvailable then
 		local lines = {"TODAY'S REPORT"}
 		for _, row in payload.report.classes do
 			table.insert(lines, string.format(
@@ -579,7 +580,6 @@ local function renderState(payload)
 			end
 		end
 		report.Text = table.concat(lines, "\n")
-		report.Visible = true
 	end
 end
 
@@ -765,6 +765,8 @@ classOpened.OnClientEvent:Connect(renderQuestion)
 
 RunService.Heartbeat:Connect(function()
 	local menuOpen = townMenuOpen()
+	local reportAvailable = state ~= nil and type(state.report) == "table" and state.report.ok == true
+	report.Visible = reportAvailable and not panel.Visible and not menuOpen
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
