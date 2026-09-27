@@ -20,10 +20,10 @@ describe('recorded StarBlox repair contracts',()=>{
   });
   it('keeps every answer button inside both compact question panels',()=>{
     const client=read('roblox/src/client/SchoolSystem.client.luau');
-    const choiceCount=Number(client.match(/for index = 1, (\\d+) do/)?.[1]);
-    const buttonHeight=Number(client.match(/button.Size = UDim2.new\\(1, -32, 0, (\\d+)\\)/)?.[1]);
+    const choiceCount=Number(client.match(/for index = 1, (\d+) do/)?.[1]);
+    const buttonHeight=Number(client.match(/button.Size = UDim2.new\(1, -32, 0, (\d+)\)/)?.[1]);
     const layouts=[...client.matchAll(
-      /panel\\.Size = UDim2\\.new\\(0\\.84, 0, 0, (\\d+)\\)[\\s\\S]*?for index, button in buttons do\\s+button\\.Position = UDim2\\.fromOffset\\(16, (\\d+) \\+ \\(\\(index - 1\\) \\* (\\d+)\\)\\)/g
+      /panel\.Size = UDim2\.new\(0\.84, 0, 0, (\d+)\)[\s\S]*?for index, button in buttons do\s+button\.Position = UDim2\.fromOffset\(16, (\d+) \+ \(\(index - 1\) \* (\d+)\)\)/g
     )].map(match=>({
       panelHeight:Number(match[1]),
       firstChoiceY:Number(match[2]),
@@ -38,5 +38,4 @@ describe('recorded StarBlox repair contracts',()=>{
       expect(finalBottom).toBeLessThanOrEqual(layout.panelHeight);
     }
   });
-
 });
