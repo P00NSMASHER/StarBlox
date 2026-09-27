@@ -1229,18 +1229,21 @@ local function iconTile(
 	local frame = Instance.new("Frame")
 	frame.Name = accessibleName
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(62, 64)
+	frame.Size = UDim2.fromOffset(58, 58)
 	frame.BackgroundColor3 = UI.white
-	frame.BackgroundTransparency = 0.12
+	frame.BackgroundTransparency = 0.08
 	frame.ZIndex = 72
 	frame.Parent = scroller
-	round(frame, 6)
-	stroke(frame, UI.border, 1, 0.45)
+	round(frame, 10)
+	stroke(frame, UI.border, 1, 0.58)
 
 	if previewType == "vehicle" then
 		renderVehiclePreview(frame, tostring(previewKind or "car"))
 	elseif previewType == "tool" then
 		renderToolPreview(frame, tostring(previewKind or ""))
+	elseif previewType == "animation" then
+		local animationIcon = iconLabel(frame, "AnimationIcon", ICONS.animations, 27)
+		animationIcon.ImageColor3 = UI.icon
 	else
 		local icon = Instance.new("TextLabel")
 		icon.Name = "Icon"
@@ -1335,6 +1338,7 @@ local function closePanel()
 	clearCategories()
 	clearToolbar()
 	setRailSelection(nil)
+	setSecondaryChromeVisible(true)
 	setActionLabelsVisible(true)
 end
 
@@ -1430,7 +1434,7 @@ local function renderPlotSelector()
 		else
 			plotStatus.Text = "Vacant"
 			plotStatus.TextColor3 = UI.text
-			plotGo.Text = "CLAIM PLOT"
+			plotGo.Text = "CLAIM"
 			plotGo.Active = true
 		end
 	end
@@ -1472,9 +1476,11 @@ local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
 	if not fetchPlots() then
+		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 		return
 	end
+	setSecondaryChromeVisible(false)
 	plotSelector.Visible = true
 	setActionLabelsVisible(false)
 	renderPlotSelector()
@@ -1636,7 +1642,7 @@ showAnimations = function()
 	local order = 1
 	for _, emoteName in {"wave", "point", "cheer", "laugh", "dance", "dance2", "dance3"} do
 		local label = string.upper(string.sub(emoteName, 1, 1)) .. string.sub(emoteName, 2)
-		iconTile("♟", label, "", UI.green, order, function()
+		iconTile("", label, "", UI.green, order, function()
 			local character = player.Character
 			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 			if humanoid then
@@ -1645,7 +1651,7 @@ showAnimations = function()
 				end)
 			end
 			closePanel()
-		end)
+		end, "animation", emoteName)
 		order += 1
 	end
 end
@@ -1654,6 +1660,7 @@ showAvatar = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
+	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 
 	local editorGui = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
@@ -1676,6 +1683,7 @@ showFamily = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
+	setSecondaryChromeVisible(false)
 	dismissActionHints()
 
 	local familyGui = playerGui:FindFirstChild("BrookhavenFamilyUI")
@@ -1692,6 +1700,7 @@ showHomeCams = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
+	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 
 	local camsGui = playerGui:FindFirstChild("BrookhavenHomeCamsUI")
