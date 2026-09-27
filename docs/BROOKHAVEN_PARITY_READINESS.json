@@ -79,10 +79,17 @@
     "exactParityClaimAllowed": false
   },
   "blockers": [
+    "Replace or independently verify the frozen reference snapshot against the current live Brookhaven world before exact visual parity can be certified.",
     "Complete the remaining vehicle, inventory, and house parity breadth with verified metadata and parity-safe runtime implementations.",
     "Review and promote remaining door, garage, light, prop, and other interaction candidates using rendered evidence.",
     "Finish production icon/image assets and behavior-specific vehicle/tool/house parity.",
     "Run final side-by-side mobile/Studio visual and behavioral QA.",
     "Prove or explicitly version-scope the relationship between the pinned world source and the current live Brookhaven map."
-  ]
+  ],
+  "worldSource": {
+    "referenceSnapshotOnly": true,
+    "currentLiveMapParityProven": false,
+    "exactParityProductionEligible": false,
+    "sourceManifest": "research-inputs/brookhaven/world-baseline/AUTHORITATIVE_SOURCE.json"
+  }
 }
