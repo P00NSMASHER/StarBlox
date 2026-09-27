@@ -61,6 +61,7 @@ describe('legacy Brookhaven completed development track',()=>{
     const home=text('roblox/src/server/HomeEconomyService.luau');
     const interactions=text('roblox/src/server/WorldInteractionService.luau');
     const lifestyle=text('roblox/src/server/MirrorLifestyleService.luau');
+    const attendance=text('roblox/src/server/SchoolAttendanceService.luau');
     const config=text('roblox/src/shared/BrookhavenMirrorConfig.luau');
 
     expect(config).toContain('Mode = "exact-frozen-brookhaven-world"');
@@ -72,5 +73,7 @@ describe('legacy Brookhaven completed development track',()=>{
     expect(home).toContain('LegacyStoreCatalog');
     expect(interactions).toContain('LegacyWorldInteractionBindings');
     expect(lifestyle).toContain('LegacyMirrorCatalog');
+    expect(attendance).toContain('LegacySchoolWorldBindings');
+    expect(attendance).toContain('verified school source part is missing');
   });
 });

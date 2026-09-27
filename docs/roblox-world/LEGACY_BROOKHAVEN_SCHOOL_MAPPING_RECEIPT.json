@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "status": "generator-and-runtime-contract-implemented-native-proof-pending",
+  "implementationBaseline": {
+    "kind": "pinned-licensed-legacy-rbxl",
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "commit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "visualReference": {
+    "kind": "current-brookhaven-recording",
+    "relationship": "reference-only-not-the-licensed-implementation-baseline"
+  },
+  "sourceEvidence": {
+    "buildingPath": "Workspace/WorkspaceCom/001_School",
+    "lockersPath": "Workspace/WorkspaceCom/003_SchoolLockers",
+    "classroomDoorModel": "SchoolDoorClassroom",
+    "inventoryModelCount": 11
+  },
+  "mappingContract": {
+    "selector": "pinned-legacy-SchoolDoorClassroom-geometry-v1",
+    "minimumDistinctPhysicalClassrooms": 7,
+    "maximumBuildingClusterSeparationStuds": 300,
+    "classAssignments": 5,
+    "fallbackCampusEnabled": false,
+    "missingOrDriftedMappingBehavior": "fail-closed"
+  },
+  "attendanceContract": {
+    "requiresExactClassId": true,
+    "requiresPhysicalRoomId": true,
+    "requiresVerifiedBuildingId": true,
+    "rejectsFallbackSource": true,
+    "requiresPostTravelProximity": true
+  },
+  "proof": {
+    "deterministicSelectorTests": "available",
+    "sourceDriftTests": "available",
+    "nativeRobloxClient": "unavailable-in-this-environment",
+    "generatedExactLbhMapping": "pending-next-toolchain-capable-candidate-build"
+  }
+}

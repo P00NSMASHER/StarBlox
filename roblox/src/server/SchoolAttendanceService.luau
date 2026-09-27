@@ -4,7 +4,18 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.SchoolConfig)
-local Bindings = require(ReplicatedStorage.StarBlox.SchoolWorldBindings)
+local MirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+
+local function selectedBindings()
+	if MirrorConfig.World.Mode == "legacy-reference-safe-world" then
+		local legacyModule = ReplicatedStorage.StarBlox:FindFirstChild("LegacySchoolWorldBindings")
+		assert(legacyModule ~= nil and legacyModule:IsA("ModuleScript"), "legacy school bindings are required")
+		return require(legacyModule)
+	end
+	return require(ReplicatedStorage.StarBlox.SchoolWorldBindings)
+end
+
+local Bindings = selectedBindings()
 
 local SchoolAttendanceService = {}
 SchoolAttendanceService.__index = SchoolAttendanceService
@@ -14,6 +25,7 @@ local function resolvePart(worldRoot: Model, sourcePartName: string): (BasePart,
 	if part ~= nil and part:IsA("BasePart") then
 		return part :: BasePart, false
 	end
+	assert(Bindings.AllowFallbackSource == true, "verified school source part is missing: " .. sourcePartName)
 	local fallback = worldRoot:FindFirstChild(Bindings.FallbackSourcePartName, true)
 	assert(
 		fallback ~= nil and fallback:IsA("BasePart"),
@@ -22,8 +34,8 @@ local function resolvePart(worldRoot: Model, sourcePartName: string): (BasePart,
 	return fallback :: BasePart, true
 end
 
-local function anchorCFrame(source: BasePart, heightOffset: number, fallbackOffset: Vector3?): CFrame
-	return CFrame.new(source.Position + Vector3.new(0, (source.Size.Y / 2) + heightOffset, 0) + (fallbackOffset or Vector3.zero))
+local function anchorCFrame(source: BasePart, heightOffset: number, worldOffset: Vector3?, fallbackOffset: Vector3?): CFrame
+	return CFrame.new(source.Position + Vector3.new(0, (source.Size.Y / 2) + heightOffset, 0) + (worldOffset or Vector3.zero) + (fallbackOffset or Vector3.zero))
 end
 
 local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, binding, size: Vector3): Part
@@ -31,7 +43,7 @@ local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, bin
 	local anchor = Instance.new("Part")
 	anchor.Name = name
 	anchor.Size = size
-	anchor.CFrame = anchorCFrame(source, binding.HeightOffset, if usedFallback then binding.FallbackOffset else nil)
+	anchor.CFrame = anchorCFrame(source, binding.HeightOffset, binding.WorldOffset, if usedFallback then binding.FallbackOffset else nil)
 	anchor.Transparency = 1
 	anchor.Anchored = true
 	anchor.CanCollide = false
@@ -40,6 +52,10 @@ local function runtimeAnchor(folder: Folder, worldRoot: Model, name: string, bin
 	anchor.CastShadow = false
 	anchor:SetAttribute("SourceWorldPart", binding.SourcePartName)
 	anchor:SetAttribute("FallbackSourceUsed", usedFallback)
+	anchor:SetAttribute("SchoolBuildingId", Bindings.SchoolBuildingId)
+	anchor:SetAttribute("PhysicalRoomId", binding.PhysicalRoomId)
+	anchor:SetAttribute("PhysicalClassroomVerified", binding.PhysicalClassroomVerified == true)
+	anchor:SetAttribute("SourceWorldPath", binding.SourceWorldPath)
 	anchor:SetAttribute("WorldBindingOnly", true)
 	anchor.Parent = folder
 	return anchor
@@ -219,6 +235,26 @@ function SchoolAttendanceService.ValidateProximity(player: Player, anchor: BaseP
 	end
 	local limit = math.max(1, tonumber(maxDistance) or 20)
 	return (root.Position - anchor.Position).Magnitude <= limit
+end
+
+function SchoolAttendanceService.ValidateClassroomAnchor(anchor: BasePart?, classId: string): boolean
+	if anchor == nil or not anchor:IsA("BasePart") then
+		return false
+	end
+	if anchor:GetAttribute("ClassId") ~= classId then
+		return false
+	end
+	if anchor:GetAttribute("FallbackSourceUsed") == true then
+		return false
+	end
+	if anchor:GetAttribute("PhysicalClassroomVerified") ~= true then
+		return false
+	end
+	if anchor:GetAttribute("SchoolBuildingId") ~= Bindings.SchoolBuildingId then
+		return false
+	end
+	local physicalRoomId = anchor:GetAttribute("PhysicalRoomId")
+	return type(physicalRoomId) == "string" and physicalRoomId ~= ""
 end
 
 function SchoolAttendanceService.Mark(profileData, schoolDayId: string, periodId: string, secondsSinceStart: number)

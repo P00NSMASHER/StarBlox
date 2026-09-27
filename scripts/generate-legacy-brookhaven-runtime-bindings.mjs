@@ -1,5 +1,6 @@
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
+import {deriveLegacySchoolBindings,renderLegacySchoolBindingsLuau} from '../src/robloxWorld/legacySchoolBindings.js';
 
 function arg(name,def=null){
   const inline=process.argv.find(v=>v.startsWith(name+'='));
@@ -89,6 +90,12 @@ const spawnSource=geometry
     return {row:r,score:Math.hypot(dx,dz)*20+Math.abs(top-spawnCentroid[1])};
   }).sort((a,b)=>a.score-b.score)[0]?.row;
 if(!spawnSource) throw new Error('legacy spawn source geometry not found');
+
+// School attendance must bind to the pinned source's real classroom geometry.
+// This selector fails closed if distinct classroom doors no longer form one
+// coherent physical building cluster.
+const schoolBindings=deriveLegacySchoolBindings(geometry);
+const schoolLuau=renderLegacySchoolBindingsLuau(schoolBindings);
 
 const garageGroups=groupBy(geometry,r=>{
   const m=segmentMatch(r.path,/^001_GarageDoor$|^GarageDoor$/i);
@@ -249,6 +256,23 @@ const manifest={
     pendingReview:{doors:0,garages:0,lights:0}
   },
   plots:{count:plots.length,entries:plots},
+  school:{
+    status:'verified-real-building-mapping-generated',
+    buildingId:schoolBindings.schoolBuildingId,
+    selectionBasis:schoolBindings.selectionBasis,
+    candidateDoorCount:schoolBindings.candidateDoorCount,
+    maximumSeparationStuds:schoolBindings.maximumSeparation,
+    centroid:schoolBindings.centroid,
+    fallbackCampusEnabled:false,
+    classAnchors:Object.fromEntries(Object.entries(schoolBindings.classes).map(([classId,binding])=>[classId,{
+      generatedName:binding.generatedName,
+      sourcePath:binding.sourcePath,
+      sourceName:binding.sourceName,
+      physicalRoomId:binding.physicalRoomId,
+      position:binding.position,
+      worldOffset:binding.worldOffset
+    }]))
+  },
   worldCoverage:counts,
   boundary:{legacyDevelopmentOnly:true,currentLiveCertificationSatisfied:false,exactParityClaimAllowed:false}
 };
@@ -258,6 +282,7 @@ await Promise.all([
   writeFile(resolve(outDir,'LegacyWorldActivityBindings.luau'),normalizeGeneratedLua(activityLuau)),
   writeFile(resolve(outDir,'LegacyWorldInteractionBindings.luau'),normalizeGeneratedLua(interactionLuau)),
   writeFile(resolve(outDir,'LegacyWorldPlotBindings.luau'),normalizeGeneratedLua(plotLuau)),
+  writeFile(resolve(outDir,'LegacySchoolWorldBindings.luau'),schoolLuau),
   writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n')
 ]);
 process.stdout.write(JSON.stringify({

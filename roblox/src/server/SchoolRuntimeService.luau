@@ -77,7 +77,8 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 		table.insert(self._connections, prompt.Triggered:Connect(function(player)
 			local clock = Clock.Now()
 			local anchor = self._anchors[classId]
-			if anchor == nil or not Attendance.ValidateProximity(player, anchor, prompt.MaxActivationDistance + 3) then
+			if not Attendance.ValidateClassroomAnchor(anchor, classId)
+				or not Attendance.ValidateProximity(player, anchor, prompt.MaxActivationDistance + 3) then
 				return
 			end
 			if not clock.AcademicPeriod or clock.ClassId ~= classId then
@@ -348,8 +349,14 @@ function SchoolRuntimeService:_travelToSchool(player: Player)
 	if anchor == nil then
 		return {ok = false, code = "school_destination_unavailable"}
 	end
+	if clock.AcademicPeriod and clock.ClassId ~= nil and not Attendance.ValidateClassroomAnchor(anchor, clock.ClassId) then
+		return {ok = false, code = "classroom_unverified"}
+	end
 	if not self:_teleportPlayer(player, anchor) then
 		return {ok = false, code = "character_unavailable"}
+	end
+	if not Attendance.ValidateProximity(player, anchor, 12) then
+		return {ok = false, code = "school_travel_incomplete"}
 	end
 
 	local opened = nil
