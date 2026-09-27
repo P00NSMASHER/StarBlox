@@ -33,7 +33,7 @@ describe('Brookhaven final private-playtest handoff',()=>{
     expect(readiness.release.exactParityClaimAllowed).toBe(false);
     expect(readiness.release.publicAccessChangeAllowed).toBe(false);
     expect(readiness.release.productionActivationAllowed).toBe(false);
-    expect(school).toContain('SchoolSystemEnabled = false');
+    expect(school).toContain('SchoolSystemEnabled = true');
   });
 
   it('preserves the immutable witness during the final handoff',()=>{

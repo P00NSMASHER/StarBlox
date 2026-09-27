@@ -41,15 +41,17 @@ function classPool(source,classId){
 }
 
 describe('School foundation milestones 1-6',()=>{
-  it('keeps the new school system disabled and completely outside the current gameplay bootstrap',()=>{
+  it('enables the school system as the primary gameplay loop',()=>{
     const config=read('roblox/src/shared/SchoolConfig.luau');
     const bootstrap=read('roblox/src/server/Bootstrap.luau');
 
-    expect(config).toContain('SchoolSystemEnabled = false');
+    expect(config).toContain('SchoolSystemEnabled = true');
+    expect(config).toContain('SchoolRequiredDuringAcademicPeriods = true');
+    expect(config).toContain('SchoolTravelEnabled = true');
     expect(config).toContain('CycleSeconds = 30 * 60');
     expect(config).toContain('QuestionsPerAcademicPeriod = 4');
 
-    // The complete system is wired but remains dark until the release flag is enabled.
+    // Bootstrap remains flag-gated while the released configuration turns it on.
     expect(bootstrap).toContain('SchoolConfig.FeatureFlags.SchoolSystemEnabled == true');
     expect(bootstrap).toContain('SchoolRuntimeService.new(profiles, replicas, coreLoop)');
     expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas');

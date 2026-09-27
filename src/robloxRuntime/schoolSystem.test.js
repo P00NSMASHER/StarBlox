@@ -51,6 +51,9 @@ describe('School system milestones 7-12',()=>{
     expect(runtime).toContain('SchoolCafeteria');
     expect(runtime).toContain('targetDisplayName');
     expect(runtime).toContain('targetRoom');
+    expect(runtime).toContain('requestTravel.Name = "RequestSchoolTravel"');
+    expect(runtime).toContain('function SchoolRuntimeService:_travelToSchool');
+    expect(runtime).toContain('character:PivotTo(anchor.CFrame * CFrame.new(0, 4, 6))');
 
     expect(client).toContain('stateReceivedAt = os.clock()');
     expect(client).toContain('state.clock.SecondsRemaining - elapsed');
@@ -195,11 +198,12 @@ describe('School system milestones 7-12',()=>{
     expect(runtime).toContain('_syncLegacyPrompts');
   });
 
-  it('keeps the completed system dark until an explicit release decision',()=>{
+  it('ships the completed school system enabled after the release decision',()=>{
     const config=read('roblox/src/shared/SchoolConfig.luau');
     const bootstrap=read('roblox/src/server/Bootstrap.luau');
 
-    expect(config).toContain('SchoolSystemEnabled = false');
+    expect(config).toContain('SchoolSystemEnabled = true');
+    expect(config).toContain('SchoolRequiredDuringAcademicPeriods = true');
     expect(bootstrap).toContain('if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then');
     expect(bootstrap).toContain('schoolRuntime = SchoolRuntimeService.new(profiles, replicas, coreLoop)');
   });
@@ -234,27 +238,32 @@ describe('School system milestones 7-12',()=>{
     const bindings=read('roblox/src/shared/SchoolWorldBindings.luau');
     const attendance=read('roblox/src/server/SchoolAttendanceService.luau');
 
-    expect(config).toContain('SchemaVersion = 3');
-    expect(config).toContain('IntegrationRevision = "brookhaven-runtime-projection-v1"');
+    expect(config).toContain('SchemaVersion = 4');
+    expect(config).toContain('IntegrationRevision = "brookhaven-school-day-rescue-v1"');
     expect(config).toContain('WorldRootName = "BrookhavenWorldRuntime"');
     expect(config).toContain('ImmutableWitnessName = "BrookhavenWorldBaseline"');
     expect(config).toContain('RuntimeProjectionRequired = true');
     expect(attendance).not.toContain('anchor.Parent = worldRoot');
     expect(attendance).toContain('anchor.Parent = folder');
-    expect(bindings).toContain('Revision = "brookhaven-runtime-projection-v1"');
+    expect(bindings).toContain('Revision = "brookhaven-runtime-school-campus-v2"');
+    expect(bindings).toContain('FallbackSourcePartName = "LBH_14370"');
+    expect(attendance).toContain('buildFallbackCampus');
   });
 
-  it('keeps the future school UI inside the Brookhaven visual language without enabling it',()=>{
+  it('keeps the released school UI inside the Brookhaven visual language with clear guidance',()=>{
     const client=read('roblox/src/client/SchoolSystem.client.luau');
     const config=read('roblox/src/shared/SchoolConfig.luau');
 
-    expect(config).toContain('SchoolSystemEnabled = false');
+    expect(config).toContain('SchoolSystemEnabled = true');
     expect(client).toContain('hud.Name = "SchoolScheduleChip"');
     expect(client).toContain('hud.BackgroundTransparency = 0.16');
     expect(client).toContain('waypoint.BackgroundTransparency = 0.2');
     expect(client).toContain('panel.BackgroundTransparency = 0.04');
     expect(client).toContain('report.BackgroundTransparency = 0.04');
     expect(client).toContain('closeButton.Text = "X"');
+    expect(client).toContain('schoolCallout.Name = "RequiredSchoolCallout"');
+    expect(client).toContain('goToSchool.Name = "GoToSchool"');
+    expect(client).toContain('requestTravel:InvokeServer()');
   });
 
   it('renders structured Grade 2 visual models inside school classes',()=>{
