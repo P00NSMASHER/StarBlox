@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "legacy-brookhaven-development-track-complete",
+  "status": "legacy-brookhaven-development-and-private-release-complete",
   "sourceMode": "legacy-reference-safe-world",
   "closedPriorities": [
     {
@@ -84,7 +84,8 @@
     "remaining": 0,
     "p0Remaining": 0,
     "p1Remaining": 0,
-    "p2Remaining": 0
+    "p2Remaining": 0,
+    "remainingAutomated": 0
   },
   "world": {
     "geometryCoverage": 1,
@@ -140,7 +141,17 @@
     "currentLiveCertificationSatisfied": false,
     "exactCurrentParityClaimAllowed": false,
     "publicAccessChangeAllowed": false,
-    "productionActivationAllowed": false
+    "productionActivationAllowed": false,
+    "legacyPrivateReleaseVerified": true,
+    "finalRealDeviceVisualQaPassed": false
   },
-  "nextStep": "final iPhone/Studio playtest of the generated legacy development candidate; current-live 2026 certification remains an optional separate track"
+  "nextStep": "optional human iPhone side-by-side visual pass; no automated legacy development/release work remains",
+  "privateRelease": {
+    "verified": true,
+    "publishedVersion": 27,
+    "verifiedVersion": 27,
+    "artifactSha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json",
+    "serverBootstrapVerified": true
+  }
 }
