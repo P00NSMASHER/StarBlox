@@ -21,6 +21,10 @@ on:
       - roblox/src/server/HomeEconomyService.luau
       - roblox/src/server/WorldInteractionService.luau
       - roblox/src/server/MirrorLifestyleService.luau
+      - roblox/src/shared/ProfileTemplate.luau
+      - roblox/src/server/LearningPriority.luau
+      - roblox/src/server/SpacedMastery.luau
+      - src/schoolworkPhoto/**
       - roblox/src/shared/LegacyWorldActivityBindings.luau
       - roblox/src/shared/LegacyWorldInteractionBindings.luau
       - roblox/src/shared/LegacyWorldPlotBindings.luau
