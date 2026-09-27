@@ -79,6 +79,21 @@ await writeFile(
 );
 
 await cp(resolve(robloxRoot,'src/shared'),tempShared,{recursive:true});
+
+const catalogBaselinePath=resolve(outDir,'legacy-catalog-baseline.json');
+const catalogCompletionPath=resolve(outDir,'legacy-catalog-completion.json');
+run(process.execPath,[
+  resolve(root,'scripts/derive-legacy-brookhaven-catalog-baseline.mjs'),
+  '--dom',legacyDomPath,
+  '--out',catalogBaselinePath
+],'derive legacy catalog baseline');
+run(process.execPath,[
+  resolve(root,'scripts/generate-legacy-brookhaven-catalog-modules.mjs'),
+  '--baseline',catalogBaselinePath,
+  '--out-dir',tempShared,
+  '--receipt',catalogCompletionPath
+],'generate legacy catalog modules');
+
 run(process.execPath,[
   resolve(root,'scripts/generate-legacy-brookhaven-runtime-bindings.mjs'),
   '--dom',legacyDomPath,
@@ -145,11 +160,12 @@ if(rows.some(r=>nodeName(r.node)==='BrookhavenWorldRuntime')){
   throw new Error('runtime projection must not exist in the static candidate');
 }
 
-const [artifactBytes,baselineBytes,sanitization,bindings]=await Promise.all([
+const [artifactBytes,baselineBytes,sanitization,bindings,catalogCompletion]=await Promise.all([
   readFile(placePath),
   readFile(baselinePath),
   readFile(sanitizationPath,'utf8').then(JSON.parse),
-  readFile(resolve(outDir,'legacy-binding-manifest.json'),'utf8').then(JSON.parse)
+  readFile(resolve(outDir,'legacy-binding-manifest.json'),'utf8').then(JSON.parse),
+  readFile(catalogCompletionPath,'utf8').then(JSON.parse)
 ]);
 if(sanitization.output.sha256!==sha256(baselineBytes)) throw new Error('baseline SHA drift after candidate build');
 if(bindings.status!=='legacy-runtime-bindings-generated') throw new Error('legacy bindings did not generate');
@@ -182,6 +198,11 @@ const receipt={
     lights:bindings.interactions.counts.lights,
     plots:bindings.plots.count,
     spawnSource:bindings.spawn.generatedName
+  },
+  catalogs:{
+    sourceTargets:catalogCompletion.sourceTargets,
+    runtime:catalogCompletion.runtime,
+    completion:catalogCompletion.completion
   },
   runtime:{
     mounts:runtimePaths.map(x=>x.join('/')),
