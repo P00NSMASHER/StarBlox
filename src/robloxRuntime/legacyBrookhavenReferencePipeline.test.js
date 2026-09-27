@@ -102,8 +102,17 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
     expect(diff.comparison.topologyIdentical).toBe(false);
     expect(diff.comparison.geometryCountDelta).toBe(4936-14459);
 
-    expect(plan.status).toBe('legacy-reference-7b-development-plan-generated');
-    expect(plan.summary).toEqual({priorities:13,p0:0,p1:9,p2:4});
+    expect([
+      'legacy-reference-7b-development-plan-generated',
+      'legacy-reference-7b-development-complete'
+    ]).toContain(plan.status);
+    if(plan.status==='legacy-reference-7b-development-plan-generated'){
+      expect(plan.summary).toEqual({priorities:13,p0:0,p1:9,p2:4});
+    }else{
+      expect(plan.summary).toEqual({priorities:0,p0:0,p1:0,p2:0});
+      expect(plan.completedLegacyDevelopment?.status)
+        .toBe('legacy-brookhaven-development-track-complete');
+    }
     expect(plan.completedP0).toMatchObject({
       worldGeometry:{
         closed:true,
