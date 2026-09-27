@@ -24,6 +24,7 @@ on:
       - docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json
       - scripts/finalize-legacy-brookhaven-development.mjs
       - src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
+      - src/robloxRuntime/brookhavenSchoolIntegrationSeam.test.js
       - roblox/src/server/HomeEconomyService.luau
       - roblox/src/server/WorldInteractionService.luau
       - roblox/src/server/MirrorLifestyleService.luau
