@@ -424,7 +424,7 @@ function SchoolRuntimeService:_stateFor(player)
 				payload.makeupPeriodId = makeupPeriodId
 				payload.makeupClassId = makeupClassId
 				payload.targetAnchorName = "SchoolLibrary"
-				payload.targetDisplayName = "Library Make-Up"
+				payload.targetDisplayName = "Make-Up Classroom"
 				payload.targetRoom = nil
 			end
 		end
