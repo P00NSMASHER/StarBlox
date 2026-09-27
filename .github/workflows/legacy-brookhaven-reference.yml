@@ -64,6 +64,15 @@ jobs:
             > .legacy-brookhaven/starblox-dom.json
           test -s .legacy-brookhaven/starblox-dom.json
 
+      - name: Extract legacy Brookhaven town-center spawn evidence
+        run: |
+          npm run roblox:brookhaven-legacy:spawn-reference -- \
+            --legacy-dom .legacy-brookhaven/legacy-dom.json \
+            --starblox-dom .legacy-brookhaven/starblox-dom.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          grep -q '"status": "legacy-spawn-reference-extracted"' docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+
       - name: Build legacy profile, diff, and 7B work plan
         run: |
           npm run roblox:brookhaven-legacy:analyze -- \
@@ -89,6 +98,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
             docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
             docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
