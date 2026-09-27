@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,27 +14,22 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 11,
+  "attempt": 12,
   "priorAttempt": {
-    "publishedVersion": 34,
+    "publishedVersion": 36,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
     "robloxClientRunObserved": true,
-    "nativeClientFinding": "latest iPhone recording showed remaining chunky rail/top chrome, fragmented context menus, avatar-editor clutter, and post-home camera clipping"
+    "nativeClientFinding": "v36 iPhone recording showed right/top HUD and modal panels pulled inward because the full-screen GUI roots were globally scaled in landscape"
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 34,
+    "diagnosticVersion": 36,
     "manualBootstrapProven": true,
-    "ciRun": 36357691223,
+    "ciRun": 36360084268,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish v35 recording-driven iPhone mobile UI cleanup: one-row top utilities, lighter 44px rail, compact glass context cards, compact house picker, clearer avatar editor, clean modal HUD ownership, and collision-aware post-home third-person camera handoff.",
-  "requestedSourceCommit": "98d551f18071269e87c85601fed03f86d2b10335",
-  "completion": {
-    "publishedVersion": 36,
-    "verifiedVersion": 36,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish v37 landscape anchor repair: keep persistent HUD, Avatar Editor, and Family full-screen roots at scale 1 in landscape so right/top safe-area anchors and full-screen scrims render at true iPhone device coordinates.",
+  "requestedSourceCommit": "76a2a9e5a7cbfd6e94332b82b7db37fef286de12"
 }
