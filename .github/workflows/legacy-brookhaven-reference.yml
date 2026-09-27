@@ -16,6 +16,8 @@ on:
       - roblox/src/shared/LegacyMirrorCatalog.luau
       - roblox/src/shared/LegacyStoreCatalog.luau
       - scripts/prepare-legacy-brookhaven-development-candidate.mjs
+      - scripts/finalize-legacy-brookhaven-development.mjs
+      - src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
       - roblox/src/server/HomeEconomyService.luau
       - roblox/src/server/WorldInteractionService.luau
       - roblox/src/server/MirrorLifestyleService.luau
@@ -224,6 +226,19 @@ jobs:
           grep -q '"geometryCount": 14459' artifacts/legacy-brookhaven-development/candidate-receipt.json
           grep -q '"forbiddenGameplayClassCount": 0' artifacts/legacy-brookhaven-development/candidate-receipt.json
 
+      - name: Finalize all legacy Brookhaven development priorities
+        run: |
+          node scripts/finalize-legacy-brookhaven-development.mjs \
+            --candidate artifacts/legacy-brookhaven-development/candidate-receipt.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"status": "legacy-brookhaven-development-track-complete"' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"p1Remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+          grep -q '"p2Remaining": 0' docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
+
+      - name: Verify completed legacy Brookhaven development track
+        run: npx vitest run src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
+
       - name: Upload full legacy Brookhaven development candidate
         uses: actions/upload-artifact@v4
         with:
@@ -233,6 +248,7 @@ jobs:
             artifacts/legacy-brookhaven-development/candidate-receipt.json
             artifacts/legacy-brookhaven-development/legacy-binding-manifest.json
             artifacts/legacy-brookhaven-development/legacy-geometry-sanitization.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json
           if-no-files-found: error
           retention-days: 30
 
@@ -266,6 +282,9 @@ jobs:
             docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
             docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json \
+            docs/BROOKHAVEN_PARITY_READINESS.json \
+            docs/CURRENT_BROOKHAVEN_STEP7_STATUS.json \
             roblox/src/shared/LegacyWorldActivityBindings.luau \
             roblox/src/shared/LegacyWorldInteractionBindings.luau \
             roblox/src/shared/LegacyWorldPlotBindings.luau \
