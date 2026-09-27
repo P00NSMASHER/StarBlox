@@ -1596,7 +1596,7 @@ function HomeEconomyService:_homeArrivalCFrame(player: Player): CFrame?
 
 	local boxCFrame, size = home:GetBoundingBox()
 	local center = boxCFrame.Position
-	local candidates = {
+	local candidates: {{Direction: Vector3, Distance: number}} = {
 		{Direction = -boxCFrame.LookVector, Distance = (size.Z / 2) + 12},
 		{Direction = boxCFrame.LookVector, Distance = (size.Z / 2) + 12},
 		{Direction = boxCFrame.RightVector, Distance = (size.X / 2) + 12},
