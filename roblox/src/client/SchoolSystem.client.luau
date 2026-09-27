@@ -99,14 +99,17 @@ constrain(waypoint, 9, 12)
 local schoolCallout = Instance.new("Frame")
 schoolCallout.Name = "RequiredSchoolCallout"
 schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
-schoolCallout.Position = UDim2.new(0.5, 0, 0, 86)
-schoolCallout.Size = UDim2.fromOffset(430, 104)
+schoolCallout.Position = UDim2.new(0.5, 0, 0, 84)
+schoolCallout.Size = UDim2.new(0.82, 0, 0, 60)
 schoolCallout.BackgroundColor3 = COLORS.navy
 schoolCallout.BackgroundTransparency = 0.04
 schoolCallout.Visible = false
 schoolCallout.ZIndex = 34
 schoolCallout.Parent = gui
 round(schoolCallout, 14)
+local calloutConstraint = Instance.new("UISizeConstraint")
+calloutConstraint.MaxSize = Vector2.new(330, 60)
+calloutConstraint.Parent = schoolCallout
 
 local calloutStroke = Instance.new("UIStroke")
 calloutStroke.Color = Color3.fromRGB(125, 221, 255)
@@ -116,8 +119,8 @@ calloutStroke.Parent = schoolCallout
 
 local calloutTitle = Instance.new("TextLabel")
 calloutTitle.Name = "Title"
-calloutTitle.Position = UDim2.fromOffset(16, 10)
-calloutTitle.Size = UDim2.new(1, -156, 0, 31)
+calloutTitle.Position = UDim2.fromOffset(12, 7)
+calloutTitle.Size = UDim2.new(1, -120, 0, 20)
 calloutTitle.BackgroundTransparency = 1
 calloutTitle.Text = "SCHOOL STARTS NOW"
 calloutTitle.TextColor3 = Color3.new(1, 1, 1)
@@ -126,12 +129,12 @@ calloutTitle.TextScaled = true
 calloutTitle.TextXAlignment = Enum.TextXAlignment.Left
 calloutTitle.ZIndex = 35
 calloutTitle.Parent = schoolCallout
-constrain(calloutTitle, 15, 21)
+constrain(calloutTitle, 10, 14)
 
 local calloutBody = Instance.new("TextLabel")
 calloutBody.Name = "Body"
-calloutBody.Position = UDim2.fromOffset(16, 43)
-calloutBody.Size = UDim2.new(1, -156, 0, 48)
+calloutBody.Position = UDim2.fromOffset(12, 27)
+calloutBody.Size = UDim2.new(1, -120, 0, 20)
 calloutBody.BackgroundTransparency = 1
 calloutBody.Text = "Go to class, answer four questions, and earn coins."
 calloutBody.TextColor3 = Color3.fromRGB(224, 241, 255)
@@ -141,13 +144,13 @@ calloutBody.TextScaled = true
 calloutBody.TextXAlignment = Enum.TextXAlignment.Left
 calloutBody.ZIndex = 35
 calloutBody.Parent = schoolCallout
-constrain(calloutBody, 10, 14)
+constrain(calloutBody, 9, 11)
 
 local goToSchool = Instance.new("TextButton")
 goToSchool.Name = "GoToSchool"
 goToSchool.AnchorPoint = Vector2.new(1, 0.5)
-goToSchool.Position = UDim2.new(1, -12, 0.5, 0)
-goToSchool.Size = UDim2.fromOffset(128, 64)
+goToSchool.Position = UDim2.new(1, -8, 0.5, 0)
+goToSchool.Size = UDim2.fromOffset(100, 44)
 goToSchool.BackgroundColor3 = COLORS.green
 goToSchool.Text = "GO NOW"
 goToSchool.TextColor3 = Color3.new(1, 1, 1)
@@ -157,13 +160,13 @@ goToSchool.ZIndex = 36
 goToSchool.Parent = schoolCallout
 round(goToSchool, 12)
 stroke(goToSchool, 0.25)
-constrain(goToSchool, 16, 22)
+constrain(goToSchool, 10, 14)
 
 local panel = Instance.new("Frame")
 panel.Name = "ClassroomPanel"
 panel.AnchorPoint = Vector2.new(0.5, 0.5)
-panel.Size = UDim2.new(0.84, 0, 0, 410)
-panel.Position = UDim2.fromScale(0.5, 0.52)
+panel.Size = UDim2.new(0.84, 0, 0, 350)
+panel.Position = UDim2.fromScale(0.5, 0.5)
 panel.BackgroundColor3 = COLORS.panel
 panel.BackgroundTransparency = 0.04
 panel.Visible = false
@@ -173,8 +176,8 @@ round(panel, 7)
 stroke(panel, 0.2)
 
 local panelConstraint = Instance.new("UISizeConstraint")
-panelConstraint.MinSize = Vector2.new(300, 360)
-panelConstraint.MaxSize = Vector2.new(520, 458)
+panelConstraint.MinSize = Vector2.new(300, 350)
+panelConstraint.MaxSize = Vector2.new(520, 382)
 panelConstraint.Parent = panel
 
 local closeButton = Instance.new("TextButton")
@@ -489,6 +492,29 @@ local session = nil
 local submitting = false
 local traveling = false
 
+local function townMenuOpen(): boolean
+	local playerGui = player:FindFirstChildOfClass("PlayerGui")
+	if playerGui == nil then return false end
+	local sidebar = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
+	local shell = sidebar and sidebar:FindFirstChild("BrookhavenWorldShell")
+	local context = shell and shell:FindFirstChild("BrookhavenContextPanel")
+	local house = shell and shell:FindFirstChild("HousePlotSelector")
+	local avatar = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
+	local cameras = playerGui:FindFirstChild("BrookhavenHomeCamsUI")
+	local family = playerGui:FindFirstChild("BrookhavenFamilyUI")
+	local shop = playerGui:FindFirstChild("StarBloxShopUI")
+	local shopPanel = shop and shop:FindFirstChild("ShopPanel")
+	local settings = playerGui:FindFirstChild("BrookhavenSettingsUI")
+	local settingsPanel = settings and settings:FindFirstChild("SettingsPanel")
+	return (context ~= nil and context:IsA("GuiObject") and context.Visible)
+		or (house ~= nil and house:IsA("GuiObject") and house.Visible)
+		or (avatar ~= nil and avatar:IsA("ScreenGui") and avatar.Enabled)
+		or (cameras ~= nil and cameras:IsA("ScreenGui") and cameras.Enabled)
+		or (family ~= nil and family:IsA("ScreenGui") and family.Enabled)
+		or (shopPanel ~= nil and shopPanel:IsA("GuiObject") and shopPanel.Visible)
+		or (settingsPanel ~= nil and settingsPanel:IsA("GuiObject") and settingsPanel.Visible)
+end
+
 local function periodCallout(clock): (string, string, string)
 	if clock.PeriodKind == "lunch" then
 		return "LUNCH BELL", "Head to the cafeteria before the next class.", "GO TO LUNCH"
@@ -514,15 +540,18 @@ local function renderState(payload)
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
 	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
-	hud.Visible = payload.dismissed ~= true
-	report.Visible = false
+	local menuOpen = townMenuOpen()
+	local reportAvailable = type(payload.report) == "table" and payload.report.ok == true
+	report.Visible = reportAvailable and not panel.Visible and not menuOpen
+	hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen
 	local titleText, bodyText, buttonText = periodCallout(clock)
 	calloutTitle.Text = titleText
 	calloutBody.Text = bodyText
 	goToSchool.Text = buttonText
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
+		and payload.currentClassCompleted ~= true and not panel.Visible and not reportAvailable and not menuOpen
 
-	if payload.report and payload.report.ok then
+	if reportAvailable then
 		local lines = {"TODAY'S REPORT"}
 		for _, row in payload.report.classes do
 			table.insert(lines, string.format(
@@ -554,7 +583,6 @@ local function renderState(payload)
 			end
 		end
 		report.Text = table.concat(lines, "\n")
-		report.Visible = true
 	end
 end
 
@@ -644,18 +672,20 @@ local function renderQuestion(nextSession)
 	local promptText = tostring(question.prompt or "")
 	local hasRich = renderRichContent(question.richContent)
 	if hasRich then
-		panel.Size = UDim2.new(0.84, 0, 0, 458)
-		questionLabel.Size = UDim2.new(1, -72, 0, 90)
-		feedback.Position = UDim2.fromOffset(16, 194)
+		panel.Size = UDim2.new(0.84, 0, 0, 382)
+		questionLabel.Size = UDim2.new(1, -72, 0, 76)
+		richFrame.Position = UDim2.fromOffset(16, 88)
+		richFrame.Size = UDim2.new(1, -32, 0, 70)
+		feedback.Position = UDim2.fromOffset(16, 162)
 		for index, button in buttons do
-			button.Position = UDim2.fromOffset(16, 248 + ((index - 1) * 60))
+			button.Position = UDim2.fromOffset(16, 208 + ((index - 1) * 54))
 		end
 	else
-		panel.Size = UDim2.new(0.84, 0, 0, 410)
-		questionLabel.Size = UDim2.new(1, -72, 0, 134)
-		feedback.Position = UDim2.fromOffset(16, 146)
+		panel.Size = UDim2.new(0.84, 0, 0, 350)
+		questionLabel.Size = UDim2.new(1, -72, 0, 96)
+		feedback.Position = UDim2.fromOffset(16, 112)
 		for index, button in buttons do
-			button.Position = UDim2.fromOffset(16, 202 + ((index - 1) * 60))
+			button.Position = UDim2.fromOffset(16, 162 + ((index - 1) * 54))
 		end
 		local visualText = richSummary(question.richContent)
 		if visualText ~= "" then
@@ -737,11 +767,15 @@ stateEvent.OnClientEvent:Connect(renderState)
 classOpened.OnClientEvent:Connect(renderQuestion)
 
 RunService.Heartbeat:Connect(function()
+	local menuOpen = townMenuOpen()
+	local reportAvailable = state ~= nil and type(state.report) == "table" and state.report.ok == true
+	report.Visible = reportAvailable and not panel.Visible and not menuOpen
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
 		hud.Text = string.format("%s  •  %s  •  %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
 		hud.Visible = state.dismissed ~= true
+			and not panel.Visible and not report.Visible and not menuOpen
 	end
 
 	if not state or not state.targetAnchorName then
@@ -764,9 +798,11 @@ RunService.Heartbeat:Connect(function()
 			roomText,
 			math.floor(distance + 0.5)
 		)
-		waypoint.Visible = true
+		waypoint.Visible = not panel.Visible and not report.Visible and not menuOpen
 		if state.schoolRequired == true and state.travelEnabled == true then
 			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
+				and state.currentClassCompleted ~= true and report.Visible ~= true
+				and not menuOpen
 		end
 	else
 		waypoint.Visible = false

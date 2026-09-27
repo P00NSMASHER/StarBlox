@@ -29,9 +29,10 @@ describe('Brookhaven recording parity: Home Cams',()=>{
     expect(cams).toContain('Workspace:FindFirstChild("StarBloxPlayerHomes")');
     expect(cams).toContain('child:GetAttribute("PlotId") == plotId');
     expect(cams).toContain('savedCameraType = camera.CameraType');
-    expect(cams).toContain('savedCFrame = camera.CFrame');
-    expect(cams).toContain('camera.CameraType = savedCameraType');
-    expect(cams).toContain('camera.CFrame = savedCFrame');
+    expect(cams).toContain('savedCameraSubject = camera.CameraSubject');
+    expect(cams).toContain('camera.CameraSubject = humanoid or savedCameraSubject or camera.CameraSubject');
+    expect(cams).toContain('else savedCameraType');
+    expect(cams).not.toContain('camera.CFrame = savedCFrame');
   });
 
   it('hands camera ownership cleanly between Avatar Editor and Home Cams',()=>{
