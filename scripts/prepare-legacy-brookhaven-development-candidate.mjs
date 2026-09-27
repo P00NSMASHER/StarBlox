@@ -20,6 +20,13 @@ function run(command,args,label,{capture=false}={}){
   return capture?String(result.stdout||''):'';
 }
 function sha256(bytes){return createHash('sha256').update(bytes).digest('hex');}
+function canonicalValue(value){
+  if(Array.isArray(value)) return value.map(canonicalValue);
+  if(value&&typeof value==='object'){
+    return Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonicalValue(value[key])]));
+  }
+  return value;
+}
 function nodeClass(n){return String(n?.class??n?.className??'Unknown');}
 function nodeName(n){return String(n?.name??nodeClass(n));}
 function kids(n){return Array.isArray(n?.children)?n.children:[];}
@@ -33,6 +40,22 @@ function walk(n,path=[],rows=[]){
 function pathEndsWith(path,suffix){
   return path.length>=suffix.length&&suffix.every((v,i)=>path[path.length-suffix.length+i]===v);
 }
+function canonicalNode(node){
+  return {
+    className:nodeClass(node),
+    name:nodeName(node),
+    properties:canonicalValue(node?.properties&&typeof node.properties==='object'?node.properties:{}),
+    children:kids(node).map(canonicalNode).sort((a,b)=>
+      a.name.localeCompare(b.name)||
+      a.className.localeCompare(b.className)||
+      JSON.stringify(a).localeCompare(JSON.stringify(b))
+    )
+  };
+}
+function subtreeHash(node){
+  return sha256(Buffer.from(JSON.stringify(canonicalNode(node)),'utf8'));
+}
+function kids(n){return Array.isArray(n?.children)?n.children:[];}
 
 const here=dirname(fileURLToPath(import.meta.url));
 const root=resolve(here,'..');
@@ -112,6 +135,29 @@ config=config
   .replace('Revision = "recording-parity-shell-catalog-reference-v3"','Revision = "legacy-reference-safe-world-candidate-v1"');
 await writeFile(mirrorConfigPath,config);
 
+const sanitizationForManifest=JSON.parse(await readFile(sanitizationPath,'utf8'));
+const legacyReleaseId='starblox-legacy-brookhaven-development-v1';
+const deploymentManifestPath=resolve(tempShared,'DeploymentManifest.luau');
+let deploymentManifest=await readFile(deploymentManifestPath,'utf8');
+deploymentManifest=deploymentManifest
+  .replace(
+    /releaseId = "[^"]+"/,
+    'releaseId = "'+legacyReleaseId+'"'
+  )
+  .replace(
+    /worldBaselineSha256 = "[^"]+"/,
+    'worldBaselineSha256 = "'+sanitizationForManifest.output.sha256+'"'
+  )
+  .replace(
+    /worldMountedSubtreeSha256 = "[^"]+"/,
+    'worldMountedSubtreeSha256 = "'+'0'.repeat(64)+'"'
+  )
+  .replace(
+    /targetArchitecture = "[^"]+"/,
+    'targetArchitecture = "legacy-reference-safe-world"'
+  );
+await writeFile(deploymentManifestPath,deploymentManifest);
+
 const baseProject=JSON.parse(await readFile(resolve(robloxRoot,'default.project.json'),'utf8'));
 baseProject.name='StarBloxLegacyBrookhavenDevelopmentCandidate';
 baseProject.tree.ReplicatedStorage.StarBlox={$path:'.legacy-candidate-shared'};
@@ -159,6 +205,46 @@ for(const suffix of runtimePaths){
 if(rows.some(r=>nodeName(r.node)==='BrookhavenWorldRuntime')){
   throw new Error('runtime projection must not exist in the static candidate');
 }
+const witnessSubtreeSha256=subtreeHash(witness.node);
+const witnessSubtreeInstanceCount=witnessRowsAll.length;
+
+deploymentManifest=await readFile(deploymentManifestPath,'utf8');
+if(!deploymentManifest.includes('worldMountedSubtreeSha256 = "'+'0'.repeat(64)+'"')){
+  throw new Error('legacy DeploymentManifest subtree placeholder missing');
+}
+deploymentManifest=deploymentManifest.replace(
+  'worldMountedSubtreeSha256 = "'+'0'.repeat(64)+'"',
+  'worldMountedSubtreeSha256 = "'+witnessSubtreeSha256+'"'
+);
+await writeFile(deploymentManifestPath,deploymentManifest);
+
+// Rebuild after binding DeploymentManifest to the exact sanitized witness subtree.
+run(rojo,['build',projectPath,'--output',placePath],'rebuild legacy candidate with deployment manifest');
+await writeFile(
+  candidateDomPath,
+  run('cargo',[
+    'run','--quiet','--manifest-path','tools/roblox_catalog_reader/Cargo.toml',
+    '--bin','starblox-roblox-catalog-reader','--',placePath
+  ],'read final candidate Roblox DOM',{capture:true})
+);
+const finalDom=JSON.parse(await readFile(candidateDomPath,'utf8'));
+const finalRows=walk(finalDom);
+const finalWitnessRows=finalRows.filter(r=>nodeName(r.node)==='BrookhavenWorldBaseline');
+if(finalWitnessRows.length!==1) throw new Error('final candidate expected exactly one BrookhavenWorldBaseline');
+const finalWitness=finalWitnessRows[0];
+const finalWitnessAll=walk(finalWitness.node);
+if(subtreeHash(finalWitness.node)!==witnessSubtreeSha256){
+  throw new Error('legacy witness subtree changed after deployment-manifest binding');
+}
+if(finalWitnessAll.length!==witnessSubtreeInstanceCount){
+  throw new Error('legacy witness subtree instance count drift after final rebuild');
+}
+if(finalWitnessAll.filter(r=>forbiddenClasses.has(nodeClass(r.node))).length!==0){
+  throw new Error('final legacy witness contains forbidden gameplay classes');
+}
+for(const suffix of runtimePaths){
+  if(!finalRows.some(r=>pathEndsWith(r.path,suffix))) throw new Error('final candidate missing runtime mount '+suffix.join('/'));
+}
 
 const [artifactBytes,baselineBytes,sanitization,bindings,catalogCompletion]=await Promise.all([
   readFile(placePath),
@@ -186,10 +272,17 @@ const receipt={
   world:{
     witnessLocation:'ServerStorage/BrookhavenWorldBaseline',
     sanitizedBaselineSha256:sha256(baselineBytes),
+    witnessSubtreeSha256,
+    subtreeInstanceCount:witnessSubtreeInstanceCount,
     geometryCount,
     forbiddenGameplayClassCount:forbiddenCount,
     runtimeProjectionCreatedAtBoot:true,
     runtimeProjectionPresentInStaticArtifact:false
+  },
+  release:{
+    releaseId:legacyReleaseId,
+    releaseChannel:'private-staging',
+    productionActivationAllowed:false
   },
   bindings:{
     mode:'legacy-reference-safe-world',
