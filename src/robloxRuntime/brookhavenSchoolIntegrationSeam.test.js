@@ -71,19 +71,20 @@ describe('Brookhaven parity x school integration seam',()=>{
 
   it('publishes a changed school bank only through the existing private fail-closed release workflow',()=>{
     const sync=read('.github/workflows/sync-abvm-questions.yml');
-    const release=read('.github/workflows/step9-fast-release.yml');
+    const release=read('.github/workflows/legacy-brookhaven-private-release.yml');
 
     expect(sync).toContain('actions: write');
     expect(sync).toContain("if: steps.curriculum_commit.outputs.changed == 'true'");
-    expect(sync).toContain('gh workflow run step9-fast-release.yml');
+    expect(sync).toContain('gh workflow run legacy-brookhaven-private-release.yml');
     expect(sync).toContain('--ref main');
     expect(sync).toContain('-f action=publish-private');
 
     expect(release).toContain('publish-private');
     expect(release).toContain('"publicAccessChangeAllowed": false');
     expect(release).toContain('"productionActivationAllowed": false');
-    expect(release).toContain('Prepare exact native-inspected release candidate');
-    expect(release).toContain('Verify exact published server boot');
+    expect(release).toContain('Build exact legacy Brookhaven private candidate');
+    expect(release).toContain('Publish and verify exact private Roblox server');
+    expect(release).toContain('LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json');
   });
   it('preserves the merged Grade 2 rich-question, rubric, and alignment upgrades',()=>{
     const client=read('roblox/src/client/CoreGameLoop.client.luau');
