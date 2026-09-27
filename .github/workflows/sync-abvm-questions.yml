@@ -12,6 +12,11 @@ on:
       - main
     paths:
       - docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json
+      - .github/workflows/sync-abvm-questions.yml
+      - scripts/sync-question-bank-from-abvm.mjs
+      - scripts/build-schoolwork-skill-observations.mjs
+      - scripts/certify-schoolwork-photo-pipeline.mjs
+      - src/schoolworkPhoto/**
 permissions:
   contents: write
 
@@ -49,6 +54,11 @@ jobs:
             --catalog-out /tmp/schoolwork-photo-catalog.json \
             --receipt-out /tmp/schoolwork-photo-receipt.json \
             --snapshot-id preflight
+
+      - name: Rebuild privacy-safe schoolwork skill evidence
+        run: |
+          node scripts/build-schoolwork-skill-observations.mjs \
+            --source docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json
 
       - name: Run the exact ABVM teacher-page scanner
         id: abvm_scan
@@ -107,9 +117,19 @@ jobs:
             src/robloxRuntime/researchQuestionImprovements712.test.js \
             src/schoolworkPhoto/schoolworkPhotoPipeline.test.js \
             src/schoolworkPhoto/schoolworkPhotoReviewGate.test.js \
+            src/schoolworkPhoto/schoolworkSkillObservations.test.js \
+            src/schoolworkPhoto/schoolworkEvidenceHierarchy.test.js \
+            src/schoolworkPhoto/schoolworkEquivalentItemFactory.test.js \
+            src/schoolworkPhoto/schoolworkEndToEndCertification.test.js \
+            src/robloxRuntime/schoolworkSkillEvidencePriority.test.js \
+            src/robloxRuntime/schoolworkEvidenceHierarchyRuntime.test.js \
+            src/robloxRuntime/schoolworkOriginalQuestionGeneration.test.js \
             src/robloxRuntime/coreLoopProof.test.js \
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js
+
+      - name: Certify complete schoolwork photo transaction
+        run: node scripts/certify-schoolwork-photo-pipeline.mjs
 
       - name: Commit only when the verified curriculum snapshot changed
         shell: bash
@@ -120,6 +140,10 @@ jobs:
             docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
             docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json \
             docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json \
+            docs/phase6/SCHOOLWORK_SKILL_OBSERVATIONS.json \
+            docs/phase6/SCHOOLWORK_SKILL_OBSERVATION_RECEIPT.json \
+            docs/phase6/SCHOOLWORK_PIPELINE_CERTIFICATION.json \
+            roblox/src/shared/SchoolworkSkillEvidence.luau \
             roblox/src/server/CoreQuestionBank.luau
           if git diff --cached --quiet; then
             echo "No verified curriculum change; keeping the current StarBlox bank."
@@ -127,6 +151,6 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git diff --cached --check
-            git commit -m "Refresh StarBlox questions from verified ABVM material"
+            git commit -m "Refresh certified StarBlox schoolwork learning pipeline"
             git push
           fi

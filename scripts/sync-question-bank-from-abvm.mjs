@@ -7,6 +7,10 @@ import {
   selectActiveSchoolworkQuestions,
   validateSanitizedSchoolworkPack
 } from '../src/schoolworkPhoto/schoolworkPhotoPipeline.js';
+import {
+  applySchoolworkReviewGate,
+  validateSchoolworkReviewQueue
+} from '../src/schoolworkPhoto/schoolworkPhotoReviewGate.js';
 
 const argv=process.argv.slice(2);
 function option(name,fallback){
@@ -21,7 +25,7 @@ const schoolworkPackPath=option('--schoolwork-pack','docs/phase6/SCHOOLWORK_PHOT
 const schoolworkCatalogOut=option('--schoolwork-catalog-out','docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json');
 const schoolworkReceiptOut=option('--schoolwork-receipt-out','docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v6-original-equivalent-schoolwork';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -40,13 +44,23 @@ const sha=value=>'sha256:'+createHash('sha256').update(typeof value==='string'?v
 const rawSourceHash=pack.sourceHash||sha(pack);
 let schoolworkPack=null;
 let schoolworkSourceHash=null;
+let schoolworkReviewSummary=null;
 if(existsSync(schoolworkPackPath)){
-  schoolworkPack=JSON.parse(readFileSync(schoolworkPackPath,'utf8'));
-  const schoolworkIssues=validateSanitizedSchoolworkPack(schoolworkPack);
+  const rawSchoolworkPack=JSON.parse(readFileSync(schoolworkPackPath,'utf8'));
+  const schoolworkIssues=[
+    ...validateSanitizedSchoolworkPack(rawSchoolworkPack),
+    ...validateSchoolworkReviewQueue(rawSchoolworkPack)
+  ];
   if(schoolworkIssues.length){
     throw new Error('Sanitized schoolwork-photo pack failed validation: '+JSON.stringify(schoolworkIssues));
   }
-  schoolworkSourceHash=schoolworkPackHash(schoolworkPack);
+  const gated=applySchoolworkReviewGate(rawSchoolworkPack);
+  if(gated.issues.length){
+    throw new Error('Schoolwork-photo review gate failed: '+JSON.stringify(gated.issues));
+  }
+  schoolworkPack=gated.effectivePack;
+  schoolworkReviewSummary=gated.summary;
+  schoolworkSourceHash=schoolworkPackHash(rawSchoolworkPack);
 }
 const combinedSourceHash=sha({
   abvmSourceHash:rawSourceHash,
@@ -909,7 +923,8 @@ const baseMaterialByStation={
 const rawSchoolworkCatalog=schoolworkPack
   ? buildSchoolworkQuestionCatalog(schoolworkPack,{
       snapshotId,
-      generationVariant:schoolworkGenerationVariant
+      generationVariant:schoolworkGenerationVariant,
+      sourceHashOverride:schoolworkSourceHash
     })
   : {
       schemaVersion:1,
@@ -935,7 +950,10 @@ const schoolworkCatalogQuestions=rawSchoolworkCatalog.questions.map(item=>{
 });
 const activeSchoolworkQuestions=schoolworkCatalogQuestions.filter(question=>activeSchoolworkIds.has(question.id));
 const schoolworkReceipt=schoolworkPack
-  ? makeSchoolworkReviewReceipt(schoolworkPack,rawSchoolworkCatalog,activeSchoolworkRaw)
+  ? {
+      ...makeSchoolworkReviewReceipt(schoolworkPack,rawSchoolworkCatalog,activeSchoolworkRaw),
+      reviewGate:schoolworkReviewSummary
+    }
   : {
       schemaVersion:1,
       receiptVersion:'schoolwork-photo-review-receipt-v1',
@@ -1023,7 +1041,7 @@ const source={
     assessment:'Renaissance Star Reading and Star Math',
     itemPolicy:'original-practice-only-not-copied-test-items',
     regenerationPolicy:'regenerate-on-every-verified-ABVM-source-change',
-    schoolworkRegenerationPolicy:'regenerate-on-sanitized-schoolwork-pack-change',
+    schoolworkRegenerationPolicy:'regenerate-on-sanitized-schoolwork-pack-or-review-decision-change',
     readingDomains:READ_DOMAINS,
     mathDomains:MATH_DOMAINS,
     readingQuestionCount:starRead.length,

@@ -4,6 +4,7 @@ import {
   buildSchoolworkQuestionCatalog,
   makeSchoolworkReviewReceipt,
   selectActiveSchoolworkQuestions,
+  schoolworkPackHash,
   validateSanitizedSchoolworkPack
 } from '../src/schoolworkPhoto/schoolworkPhotoPipeline.js';
 import {
@@ -23,6 +24,7 @@ const snapshotId=option('--snapshot-id','schoolwork-preview');
 const generationVariant=Math.max(0,Math.floor(Number(option('--generation-variant','0'))||0));
 
 const rawPack=JSON.parse(readFileSync(sourcePath,'utf8'));
+const reviewedSourceHash=schoolworkPackHash(rawPack);
 const sourceIssues=validateSanitizedSchoolworkPack(rawPack);
 const reviewIssues=validateSchoolworkReviewQueue(rawPack);
 if(sourceIssues.length||reviewIssues.length){
@@ -46,7 +48,7 @@ if(effectiveIssues.length){
   process.exit(1);
 }
 
-const catalog=buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant});
+const catalog=buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant,sourceHashOverride:reviewedSourceHash});
 const active=selectActiveSchoolworkQuestions(catalog,{maxPerStation:4});
 const receipt={
   ...makeSchoolworkReviewReceipt(pack,catalog,active),

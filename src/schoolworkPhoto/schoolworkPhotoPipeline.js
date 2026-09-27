@@ -454,13 +454,17 @@ const FAMILIES=Object.freeze({
 });
 
 export function schoolworkPackHash(pack){
-  return sha({
+  const payload={
     packVersion:pack?.packVersion,
     batchId:pack?.batchId,
     pageCount:pack?.pageCount,
     sourceCategories:pack?.sourceCategories,
     skillSignals:pack?.skillSignals
-  });
+  };
+  if(Array.isArray(pack?.reviewQueue)&&pack.reviewQueue.length>0){
+    payload.reviewQueue=pack.reviewQueue;
+  }
+  return sha(payload);
 }
 
 export function validateSanitizedSchoolworkPack(pack){
@@ -497,7 +501,7 @@ export function validateSanitizedSchoolworkPack(pack){
   return issues;
 }
 
-export function buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant=0}={}){
+export function buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant=0,sourceHashOverride=null}={}){
   const issues=validateSanitizedSchoolworkPack(pack);
   if(issues.length) throw new Error('schoolwork photo pack validation failed: '+JSON.stringify(issues));
   const cleanSnapshot=String(snapshotId||'schoolwork').replace(/[^a-zA-Z0-9_-]+/g,'-');
@@ -533,7 +537,7 @@ export function buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVarian
     schemaVersion:1,
     catalogVersion:SCHOOLWORK_QUESTION_CATALOG_VERSION,
     batchId:pack.batchId,
-    sourceHash:schoolworkPackHash(pack),
+    sourceHash:sourceHashOverride||schoolworkPackHash(pack),
     generationMode:variant>0?'skill-only-equivalent-item':'baseline-original-practice',
     generationVariant:variant,
     questionCount:questions.length,

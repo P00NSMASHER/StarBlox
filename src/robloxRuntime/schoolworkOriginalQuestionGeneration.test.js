@@ -10,7 +10,7 @@ describe('Block 5: production original-equivalent schoolwork generation',()=>{
     const sync=read('scripts/sync-question-bank-from-abvm.mjs');
 
     expect(sync).toContain(
-      "dynamic-abvm-star-sync-generator-v6-original-equivalent-schoolwork"
+      "dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork"
     );
     expect(sync).toContain('const schoolworkGenerationVariant=schoolworkSourceHash');
     expect(sync).toContain("slice(0,8),16)%2)+1");
