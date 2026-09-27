@@ -58,12 +58,12 @@ for _, instance in runtimeWorld:GetDescendants() do
     if instance:IsA("BasePart") then
         local delta = instance.Position - spawn.Position
         local horizontal = Vector3.new(delta.X, 0, delta.Z).Magnitude
-        if horizontal <= 90 then
+        if horizontal <= 260 then
             local top = instance.Position.Y + instance.Size.Y / 2
             local topDelta = top - spawnTop
             local h, s, v = instance.Color:ToHSV()
             local area = instance.Size.X * instance.Size.Z
-            if math.abs(topDelta) <= 7 or (s >= 0.30 and horizontal <= 70) then
+            if math.abs(topDelta) <= 7 or (s >= 0.30 and horizontal <= 260) then
                 table.insert(rows, {
                     instance = instance,
                     horizontal = horizontal,
@@ -88,7 +88,7 @@ end)
 
 print("DIAG_COUNT " .. tostring(#rows))
 for index, row in ipairs(rows) do
-    if index > 240 then break end
+    if index > 500 then break end
     local p = row.instance
     local c = p.Color
     print(string.format(
