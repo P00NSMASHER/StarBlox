@@ -60,7 +60,8 @@
     "roblox:brookhaven-legacy:spawn-reference": "node scripts/extract-legacy-brookhaven-spawn-reference.mjs",
     "roblox:brookhaven-legacy:geometry-alignment": "node scripts/analyze-legacy-brookhaven-geometry-alignment.mjs",
     "roblox:brookhaven-legacy:sanitize-geometry": "cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml --bin geometry_sanitizer --",
-    "roblox:brookhaven-legacy:source-inventory": "node scripts/extract-legacy-brookhaven-source-inventory.mjs"
+    "roblox:brookhaven-legacy:source-inventory": "node scripts/extract-legacy-brookhaven-source-inventory.mjs",
+    "roblox:brookhaven-legacy:catalog-discovery": "node scripts/extract-legacy-brookhaven-catalog-discovery.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
