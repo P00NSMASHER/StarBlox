@@ -3,7 +3,7 @@
   "status": "STATIC_REPAIR_COMPLETE_NATIVE_VISUAL_PROOF_PENDING",
   "recordedAt": "2026-09-27T12:35:00Z",
   "defectId": "REC-06",
-  "scope": "right-side world action rail only",
+  "scope": "right-side world action rail and house plot mode strip",
   "sourceBoundary": {
     "currentLiveReference": {
       "kind": "user-supplied-current-brookhaven-recording",
@@ -71,6 +71,16 @@
       "preRepairStarBlox": "font glyph",
       "repairedStarBlox": "original code-drawn pictogram",
       "exactCurrentLiveArtParity": "UNVERIFIED"
+    },
+    {
+      "action": "house-plot-mode-strip",
+      "currentLivePresentation": "pictorial plot controls observed",
+      "legacySourcePath": "DataModel/StarterGui/MainGUIHandler/MainButtons/Buttons/House/Icon",
+      "legacyAssetId": null,
+      "legacyInventoryNote": "source extractor recorded the House ImageLabel path but no reusable Image property",
+      "preRepairStarBlox": "font glyphs reused the unsupported house symbol and a tree symbol",
+      "repairedStarBlox": "three original code-drawn plot-mode composites",
+      "exactCurrentLiveArtParity": "UNVERIFIED"
     }
   ],
   "screenEvidence": [
@@ -98,7 +108,7 @@
   ],
   "implementation": {
     "file": "roblox/src/client/MirrorSidebar.client.luau",
-    "approach": "five local Frame-composed pictograms; no Image asset dependency",
+    "approach": "five action-rail pictograms plus three plot-mode composites; no Image asset dependency",
     "externalAssetIds": [],
     "thirdPartyArtCopied": false,
     "mobileHudLayoutChanged": false,
