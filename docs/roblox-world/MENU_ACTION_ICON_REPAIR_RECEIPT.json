@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "HUD_IMAGE_ASSET_REBUILD_STATIC_COMPLETE_NATIVE_VISUAL_PROOF_PENDING",
-  "recordedAt": "2026-09-27T21:35:00Z",
+  "status": "V33_NATIVE_RECORDING_REVIEWED_V34_REPAIR_PENDING",
+  "recordedAt": "2026-09-27T21:49:00Z",
   "defectId": "REC-06",
   "scope": "right-side world action rail and house plot mode strip",
   "sourceBoundary": {
@@ -99,11 +99,11 @@
       "limitation": "recording is documented in STEP2_RECORDING_DEFECTS.md; per-frame screenshot is not checked into the repository"
     },
     {
-      "screen": "StarBlox world action rail after repair",
-      "source": "native Roblox client",
+      "screen": "StarBlox world action rail after v33 image-asset rebuild",
+      "source": "user-supplied iPhone recording ScreenRecording_09-27-2026 17-47-29_1.mp4",
       "checkedInScreenshot": null,
-      "result": "UNKNOWN_NATIVE_CLIENT_UNAVAILABLE",
-      "limitation": "static source and CI can prove glyph removal and icon construction, not rendered phone legibility or end-to-end button behavior"
+      "result": "FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER",
+      "limitation": "The recording proves image assets load for most rail/top controls, but the house icon is blank and the avatar editor leaves persistent world HUD chrome visible."
     }
   ],
   "implementation": {
@@ -112,9 +112,9 @@
     "externalAssetIds": [
       "6022668898",
       "6023426938",
-      "6031625150",
+      "6034754445",
       "6034754441",
-      "6026568195",
+      "3926305904",
       "6031572307",
       "6035121916",
       "6034333271",
@@ -129,18 +129,18 @@
     "deterministicTest": "src/robloxRuntime/mirrorSidebarActionIconIntegrity.test.js",
     "staticResult": "PASS_LOCAL",
     "githubCiPolicy": "VERIFY_EXACT_HEAD",
-    "nativeClientResult": "PENDING_V33_IPHONE_CHECK",
+    "nativeClientResult": "V33_FAIL_V34_PENDING",
     "fullActionResult": "NOT_RETESTED"
   },
   "rollback": {
-    "method": "revert the HUD art rebuild commit or restore the previous private-staging version",
+    "method": "restore private-staging v33 if v34 regresses behavior",
     "mainChanged": false,
     "publicPlaceChanged": false
   },
   "claims": {
     "unsupportedGlyphDefectRemovedByConstruction": true,
     "currentLiveVisualParityCertified": false,
-    "nativeClientProofAvailable": false,
+    "nativeClientProofAvailable": true,
     "releaseReady": false
   }
 }

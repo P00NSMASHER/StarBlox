@@ -64,9 +64,9 @@ local UI = {
 local ICONS: {[string]: string} = table.freeze({
 	avatar = "rbxassetid://6022668898",
 	tools = "rbxassetid://6023426938",
-	animations = "rbxassetid://6031625150",
+	animations = "rbxassetid://6034754445",
 	vehicle = "rbxassetid://6034754441",
-	house = "rbxassetid://6026568195",
+	house = "rbxassetid://3926305904",
 	camera = "rbxassetid://6031572307",
 	family = "rbxassetid://6035121916",
 	quickChat = "rbxassetid://6034333271",
@@ -421,6 +421,10 @@ local function drawRailIcon(button: GuiObject, iconName: string)
 	assert(asset ~= nil, "Unknown action icon: " .. iconName)
 	local icon = iconLabel(button, "Icon", asset, 25)
 	icon.ImageColor3 = UI.icon
+	if iconName == "house" then
+		icon.ImageRectOffset = Vector2.new(964, 204)
+		icon.ImageRectSize = Vector2.new(36, 36)
+	end
 end
 
 local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
@@ -454,18 +458,35 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 end
 
 local function actionButton(iconName: string, name: string, _labelText: string, order: number): ImageButton
+	local holder = Instance.new("Frame")
+	holder.Name = name .. "Holder"
+	holder.LayoutOrder = order
+	holder.Size = UDim2.fromOffset(44, 44)
+	holder.BackgroundTransparency = 1
+	holder.Parent = rail
+
+	local shadow = Instance.new("Frame")
+	shadow.Name = "Shadow"
+	shadow.Position = UDim2.fromOffset(1, 2)
+	shadow.Size = UDim2.fromScale(1, 1)
+	shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	shadow.BackgroundTransparency = 0.78
+	shadow.BorderSizePixel = 0
+	shadow.ZIndex = 40
+	shadow.Parent = holder
+	round(shadow, 13)
+
 	local button = Instance.new("ImageButton")
 	button.Name = name .. "Button"
-	button.LayoutOrder = order
-	button.Size = UDim2.fromOffset(44, 44)
+	button.Size = UDim2.fromScale(1, 1)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.10
+	button.BackgroundTransparency = 0.08
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
 	button.ZIndex = 41
-	button.Parent = rail
-	glass(button, 12)
+	button.Parent = holder
+	glass(button, 13)
 	drawRailIcon(button, iconName)
 	return button
 end
@@ -482,7 +503,7 @@ local function setRailSelection(selected: ImageButton?)
 	for _, button in railButtons do
 		local active = button == selected
 		button.BackgroundColor3 = if active then UI.selected else UI.white
-		button.BackgroundTransparency = if active then 0.02 else 0.10
+		button.BackgroundTransparency = if active then 0.10 else 0.08
 		local icon = button:FindFirstChild("Icon")
 		if icon ~= nil and icon:IsA("ImageLabel") then
 			icon.ImageColor3 = if active then Color3.fromRGB(20, 79, 107) else UI.icon

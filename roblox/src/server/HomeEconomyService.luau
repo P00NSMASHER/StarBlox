@@ -1587,8 +1587,17 @@ function HomeEconomyService:_visitHome(player: Player)
 	if self._slots[player] == nil then
 		return {ok = false, code = "plot_unavailable"}
 	end
+
 	local base = self:_homeCFrame(player)
-	local ok, code = self:_teleport(player, base * CFrame.new(0, 3.5, 4))
+	local tier = math.clamp(math.floor(tonumber(player:GetAttribute("StarBloxHomeTier")) or 1), 1, 5)
+	local _, depth = tierDimensions(tier)
+
+	-- The v33 iPhone recording proved the old fixed +4 stud offset could place
+	-- the character inside the generated house shell. Travel to a guaranteed
+	-- exterior point beyond the front facade/deck for every supported tier.
+	local exteriorOffset = (depth / 2) + 6
+	local target = base * CFrame.new(0, 3.5, exteriorOffset)
+	local ok, code = self:_teleport(player, target)
 	return {ok = ok, code = code}
 end
 

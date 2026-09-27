@@ -14,7 +14,10 @@ describe('house travel confirmation',()=>{
     expect(service).toContain('if (root.Position - target.Position).Magnitude > 12 then');
     expect(service).toContain('return false, "travel_not_confirmed"');
     expect(service).toContain('return {ok = false, code = "plot_unavailable"}');
-    expect(service).toContain('local ok, code = self:_teleport(player, base * CFrame.new(0, 3.5, 4))');
+    expect(service).toContain('local _, depth = tierDimensions(tier)');
+    expect(service).toContain('local exteriorOffset = (depth / 2) + 6');
+    expect(service).toContain('local target = base * CFrame.new(0, 3.5, exteriorOffset)');
+    expect(service).toContain('local ok, code = self:_teleport(player, target)');
     expect(service).toContain('return {ok = ok, code = code}');
   });
 

@@ -25,6 +25,11 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
     const editor=read('roblox/src/client/AvatarEditor.client.luau');
 
     expect(editor).toContain('gui.Name = "BrookhavenAvatarEditorUI"');
+    expect(editor).toContain('scrim.Name = "EditorScrim"');
+    expect(editor).toContain('scrim.BackgroundTransparency = 0.46');
+    expect(editor).toContain('local function setWorldHudVisible(visible: boolean)');
+    expect(editor).toContain('setWorldHudVisible(false)');
+    expect(editor).toContain('setWorldHudVisible(true)');
     expect(editor).toContain('outfitsPanel.Name = "MyOutfits"');
     expect(editor).toContain('outfitsTitle.Text = "My Outfits"');
     expect(editor).toContain('presetsPanel.Name = "PresetPanel"');
