@@ -7,7 +7,7 @@ import {
   validateSchoolworkPhotoIntake
 } from './schoolworkPhotoIntakeAdapter.js';
 import {validateSanitizedSchoolworkPack} from './schoolworkPhotoPipeline.js';
-import {validateSchoolworkReviewQueue} from './schoolworkPhotoReviewGate.js';
+import {applySchoolworkReviewGate,validateSchoolworkReviewQueue} from './schoolworkPhotoReviewGate.js';
 
 export const SCHOOLWORK_SKILL_OBSERVATION_VERSION='schoolwork-skill-observations-v1';
 export const SCHOOLWORK_SKILL_OBSERVATION_RECEIPT_VERSION='schoolwork-skill-observation-receipt-v1';
@@ -158,6 +158,16 @@ function artifactFrom({batchId,capturedDate,observations,mode,reviewSummary}){
   };
 }
 
+export function schoolworkSkillObservationHash(artifact){
+  return sha({
+    observationVersion:artifact?.observationVersion,
+    batchId:artifact?.batchId,
+    capturedDate:artifact?.capturedDate,
+    observations:artifact?.observations,
+    bySkill:artifact?.bySkill
+  });
+}
+
 function receiptFor(artifact){
   return {
     schemaVersion:1,
@@ -168,13 +178,7 @@ function receiptFor(artifact){
     mode:artifact.mode,
     observationCount:artifact.observationCount,
     skillCount:Object.keys(artifact.bySkill).length,
-    observationHash:sha({
-      observationVersion:artifact.observationVersion,
-      batchId:artifact.batchId,
-      capturedDate:artifact.capturedDate,
-      observations:artifact.observations,
-      bySkill:artifact.bySkill
-    }),
+    observationHash:schoolworkSkillObservationHash(artifact),
     privacy:artifact.privacy
   };
 }
@@ -292,7 +296,11 @@ export function buildLegacySchoolworkSkillObservations(
   }
   if(issues.length) return {issues,artifact:null,receipt:null};
 
-  const observations=(pack.skillSignals||[])
+  const gated=applySchoolworkReviewGate(pack);
+  if(gated.issues.length) return {issues:gated.issues,artifact:null,receipt:null};
+
+  const originalSignalIds=new Set((pack.skillSignals||[]).map(signal=>signal.id));
+  const observations=(gated.effectivePack.skillSignals||[])
     .map((signal,index)=>({
       id:safeId(pack.batchId+'-legacy-'+String(index+1).padStart(3,'0')+'-'+signal.id),
       batchId:pack.batchId,
@@ -307,7 +315,9 @@ export function buildLegacySchoolworkSkillObservations(
       confidence:0.5,
       evidenceClass,
       sourceType:'legacy-sanitized-schoolwork-photo-signal',
-      reviewStatus:'legacy-skill-only'
+      reviewStatus:originalSignalIds.has(signal.id)
+        ? 'legacy-skill-only'
+        : 'parent-accepted-skill-only'
     }))
     .sort((a,b)=>a.id.localeCompare(b.id));
 
@@ -317,9 +327,9 @@ export function buildLegacySchoolworkSkillObservations(
     observations,
     mode:'legacy-sanitized-skill-signals',
     reviewSummary:{
-      pendingReviewItems:(pack.reviewQueue||[]).filter(item=>item.status==='needs-review').length,
-      acceptedReviewItems:(pack.reviewQueue||[]).filter(item=>item.status==='accepted').length,
-      rejectedReviewItems:(pack.reviewQueue||[]).filter(item=>item.status==='rejected').length,
+      pendingReviewItems:gated.summary.pendingReviewItems,
+      acceptedReviewItems:gated.summary.acceptedReviewItems,
+      rejectedReviewItems:gated.summary.rejectedReviewItems,
       omittedLowConfidence:0
     }
   });
