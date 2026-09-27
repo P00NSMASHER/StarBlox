@@ -16,6 +16,21 @@ local WorldActivityBindings = table.freeze({
 		SourcePartName = "BHW_1202",
 		FacingSourcePartName = "BHW_2442",
 		HeightOffset = 3,
+		-- The legacy Brookhaven place exposes town-center SpawnLocations in 3x3
+		-- grids at 4-stud spacing. Keep StarBlox on the verified plaza tile,
+		-- but mirror that spacing so players do not stack at one point.
+		Pattern = "legacy-town-center-3x3-v1",
+		Slots = table.freeze({
+			table.freeze({X = -4, Z = -4}),
+			table.freeze({X = 0, Z = -4}),
+			table.freeze({X = 4, Z = -4}),
+			table.freeze({X = -4, Z = 0}),
+			table.freeze({X = 0, Z = 0}),
+			table.freeze({X = 4, Z = 0}),
+			table.freeze({X = -4, Z = 4}),
+			table.freeze({X = 0, Z = 4}),
+			table.freeze({X = 4, Z = 4}),
+		}),
 	}),
 
 	Activities = table.freeze({
