@@ -75,6 +75,15 @@ root.Size = UDim2.fromScale(1, 1)
 root.BackgroundTransparency = 1
 root.Parent = gui
 
+local scrim = Instance.new("Frame")
+scrim.Name = "EditorScrim"
+scrim.Size = UDim2.fromScale(1, 1)
+scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
+scrim.BackgroundTransparency = 0.46
+scrim.BorderSizePixel = 0
+scrim.ZIndex = 85
+scrim.Parent = root
+
 local scale = Instance.new("UIScale")
 scale.Scale = 1
 scale.Parent = root
@@ -99,7 +108,7 @@ outfitsPanel.Name = "MyOutfits"
 outfitsPanel.Position = UDim2.new(0, 83, 0.5, -103)
 outfitsPanel.Size = UDim2.fromOffset(108, 210)
 outfitsPanel.BackgroundColor3 = COLORS.white
-outfitsPanel.BackgroundTransparency = 0.22
+outfitsPanel.BackgroundTransparency = 0.06
 outfitsPanel.ZIndex = 86
 outfitsPanel.Parent = root
 round(outfitsPanel, 8)
@@ -212,7 +221,7 @@ equippedTray.Name = "EquippedItems"
 equippedTray.Position = UDim2.fromOffset(84, 431)
 equippedTray.Size = UDim2.fromOffset(378, 58)
 equippedTray.BackgroundColor3 = COLORS.white
-equippedTray.BackgroundTransparency = 0.18
+equippedTray.BackgroundTransparency = 0.06
 equippedTray.ZIndex = 86
 equippedTray.Parent = root
 round(equippedTray, 7)
@@ -248,9 +257,12 @@ presetsPanel.Name = "PresetPanel"
 presetsPanel.AnchorPoint = Vector2.new(1, 0)
 presetsPanel.Position = UDim2.new(1, -88, 0, 72)
 presetsPanel.Size = UDim2.fromOffset(362, 405)
-presetsPanel.BackgroundTransparency = 1
+presetsPanel.BackgroundColor3 = COLORS.white
+presetsPanel.BackgroundTransparency = 0.08
 presetsPanel.ZIndex = 86
 presetsPanel.Parent = root
+round(presetsPanel, 10)
+stroke(presetsPanel, COLORS.border, 1, 0.45)
 
 local tabs = Instance.new("Frame")
 tabs.Name = "Tabs"
@@ -363,6 +375,13 @@ local function setShellLabelsVisible(visible: boolean)
 	local labels = shellFrame and shellFrame:FindFirstChild("ActionLabels")
 	if labels and labels:IsA("GuiObject") then
 		labels.Visible = visible
+	end
+end
+
+local function setWorldHudVisible(visible: boolean)
+	local shellGui = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
+	if shellGui ~= nil and shellGui:IsA("ScreenGui") then
+		shellGui.Enabled = visible
 	end
 end
 
@@ -722,6 +741,7 @@ end
 local function closeEditor()
 	gui.Enabled = false
 	restoreCamera()
+	setWorldHudVisible(true)
 	setShellLabelsVisible(true)
 end
 
@@ -872,6 +892,7 @@ openAvatarEditor.Event:Connect(function()
 			end
 		end
 	end
+	setWorldHudVisible(false)
 	gui.Enabled = true
 	setShellLabelsVisible(false)
 	updateOutfitSlots()
