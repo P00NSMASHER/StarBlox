@@ -1512,7 +1512,6 @@ local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
 	if not fetchPlots() then
-		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 		return
 	end
@@ -1696,7 +1695,6 @@ showAvatar = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
-	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 
 	local editorGui = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
@@ -1711,7 +1709,6 @@ showAvatar = function()
 		pcall(function()
 			resetAvatar:InvokeServer()
 		end)
-		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 	end
 end
@@ -1720,7 +1717,6 @@ showFamily = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
-	setSecondaryChromeVisible(false)
 	dismissActionHints()
 
 	local familyGui = playerGui:FindFirstChild("BrookhavenFamilyUI")
@@ -1731,7 +1727,6 @@ showFamily = function()
 	if openPanel and openPanel:IsA("BindableEvent") then
 		openPanel:Fire()
 	else
-		setSecondaryChromeVisible(true)
 	end
 end
 
@@ -1739,7 +1734,6 @@ showHomeCams = function()
 	clearCategories()
 	panel.Visible = false
 	plotSelector.Visible = false
-	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 
 	local camsGui = playerGui:FindFirstChild("BrookhavenHomeCamsUI")
@@ -1750,7 +1744,6 @@ showHomeCams = function()
 	if openCams and openCams:IsA("BindableEvent") then
 		openCams:Fire()
 	else
-		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 	end
 end
