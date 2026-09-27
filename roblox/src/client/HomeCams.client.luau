@@ -194,9 +194,19 @@ local function setWorldHudVisible(visible: boolean)
 	end
 end
 
+local function setRoleplayTagVisible(visible: boolean)
+	local character = player.Character
+	local head = character and character:FindFirstChild("Head")
+	local tag = head and head:FindFirstChild("StarBloxRoleplayTag")
+	if tag ~= nil and tag:IsA("BillboardGui") then
+		tag.Enabled = visible
+	end
+end
+
 local function closeCams()
 	gui.Enabled = false
 	restoreCamera()
+	setRoleplayTagVisible(true)
 	setWorldHudVisible(true)
 	setShellLabelsVisible(true)
 end
@@ -230,11 +240,13 @@ openHomeCams.Event:Connect(function()
 	if model == nil then
 		footer.Text = "No home camera available"
 		setWorldHudVisible(false)
+		setRoleplayTagVisible(false)
 		gui.Enabled = true
 		task.delay(1.3, function()
 			if gui.Enabled and #activePoints == 0 then
 				gui.Enabled = false
 				footer.Text = "Home Cams"
+				setRoleplayTagVisible(true)
 				setWorldHudVisible(true)
 				setShellLabelsVisible(true)
 			end
@@ -259,6 +271,7 @@ openHomeCams.Event:Connect(function()
 	activeIndex = 1
 	footer.Text = "Home Cams"
 	setWorldHudVisible(false)
+	setRoleplayTagVisible(false)
 	gui.Enabled = true
 	setShellLabelsVisible(false)
 	applyCamera()
