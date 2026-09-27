@@ -44,6 +44,14 @@ describe('legacy Brookhaven real-school bindings', () => {
     expect(luau).toContain('PhysicalClassroomVerified = true');
   });
 
+  it('ignores similarly named geometry outside the school model', () => {
+    const unrelated = door(999, 500, 500);
+    unrelated.path = ['Workspace', 'WorkspaceCom', '003_SchoolLockers', 'SchoolDoorClassroom'];
+    const result = deriveLegacySchoolBindings([...coherentDoors, unrelated]);
+    expect(result.candidateDoorCount).toBe(8);
+    expect(Object.values(result.classes).every((binding) => binding.sourcePath.includes('001_School/SchoolDoorClassroom'))).toBe(true);
+  });
+
   it('fails closed when source drift removes or spatially splits the classroom building', () => {
     expect(() => deriveLegacySchoolBindings(coherentDoors.slice(0, 6))).toThrow(/expected at least 7/);
     expect(() => deriveLegacySchoolBindings([

@@ -42,7 +42,8 @@ export function deriveLegacySchoolBindings(geometry) {
 
   const doorRows = geometry.filter((row) => {
     const path = Array.isArray(row?.path) ? row.path : [];
-    return path.some((segment) => /^SchoolDoorClassroom$/i.test(String(segment)))
+    return path.some((segment) => /^001_School$/i.test(String(segment)))
+      && path.some((segment) => /^SchoolDoorClassroom$/i.test(String(segment)))
       && /door/i.test(String(row?.originalName ?? ''))
       && typeof row?.generatedName === 'string'
       && finiteVector(row?.cframe?.position)
