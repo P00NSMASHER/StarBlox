@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-09-27T02:45:00Z",
+  "step": "7A-7B",
+  "status": "blocked-on-authorized-current-place-source",
+  "liveBrookhaven": {
+    "universeId": 1686885941,
+    "rootPlaceId": 4924922222,
+    "creator": "Brookhaven by Voldex",
+    "liveUpdatedAt": "2026-09-25T20:05:44.0629578Z",
+    "copyingAllowed": false,
+    "publicSourceDownloadEligible": false
+  },
+  "sourceDiscovery": {
+    "starBloxRepositoryCurrentPlaceFiles": 0,
+    "chatConversationCurrentPlaceFiles": 0,
+    "chatLibraryCurrentPlaceFiles": 0,
+    "googleDriveCurrentPlaceFilesFound": false,
+    "dropboxCurrentPlaceFilesFound": false,
+    "sourceCandidateAvailable": false,
+    "requiredFormats": [
+      "rbxl",
+      "rbxlx",
+      "rbxm",
+      "rbxmx"
+    ],
+    "fixtureExcluded": "tools/roblox_catalog_reader/fixtures/sample.rbxmx is CI mechanics only and is not Brookhaven source"
+  },
+  "referenceRecording": {
+    "available": true,
+    "fileName": "ScreenRecording_09-26-2026 11-16-30_1.mp4",
+    "sha256": "c9a4481b8e33443eface2b6937020dcae9fcbcc8ffa8f4305d2542b916e11100",
+    "bytes": 29891368,
+    "width": 512,
+    "height": 1112,
+    "fps": 30,
+    "durationSeconds": 49.633333,
+    "userMediaCommittedToRepository": false,
+    "observedFlows": [
+      "Brookhaven loading/welcome presentation",
+      "ordinary world chrome",
+      "Avatar Editor",
+      "Tools/Vehicle-style grid panels",
+      "House vacant-lot selector",
+      "Family panel"
+    ],
+    "notProvenByThisRecording": [
+      "full Quick Chat open/close behavior",
+      "Home Cams full camera cycle",
+      "complete Animations behavior",
+      "door/garage/light interaction breadth",
+      "full vehicle/inventory/house catalog breadth"
+    ]
+  },
+  "step7A": {
+    "requested": "run complete current-source parity pipeline against real authorized current Brookhaven source",
+    "completed": false,
+    "blocker": "No authorized current Brookhaven place/model file is accessible in repository, ChatGPT Library, Google Drive, or Dropbox. The live Roblox universe reports copyingAllowed=false, so public place-source retrieval is not an acceptable substitute.",
+    "failClosed": true,
+    "nextRequiredInput": "authorized current Brookhaven .rbxl/.rbxlx/.rbxm/.rbxmx export with its live place version"
+  },
+  "step7B": {
+    "requested": "close remaining catalog and world-interaction gaps against verified source",
+    "completed": false,
+    "codeInfrastructureReady": {
+      "catalogFailClosedReferenceMode": true,
+      "doorRuntime": true,
+      "garageDoorRuntime": true,
+      "lightRuntime": true,
+      "renderedEvidencePromotionGate": true,
+      "behavioralParityGate": true
+    },
+    "remainingCatalogGap": {
+      "vehiclesTarget": 188,
+      "runtimePlayable": 8,
+      "inventoryTarget": 173,
+      "runtimeItems": 12,
+      "housesTarget": 83,
+      "parityHousesVerified": 0
+    },
+    "remainingInteractionGap": {
+      "strictDoorsPending": 13,
+      "garageDoorsPending": 101,
+      "lightsPending": 111
+    },
+    "blocker": "Catalog/runtime bindings and interaction promotions cannot be certified against the current live world until Step 7A has an authorized current source and matching rendered evidence."
+  },
+  "authority": {
+    "exactParityClaimAllowed": false,
+    "sourceReplacementAllowed": false,
+    "candidatePublicationAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "nextStep": "attach authorized current Brookhaven source; rerun 7A; then execute source-bound 7B promotions"
+}
