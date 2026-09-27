@@ -32,7 +32,31 @@ local function finitePositive(value: any, fallback: number): number
 	return parsed
 end
 
-local function nativeSeatCounts(root: Instance): (number, number)
+type WorldIndex = {
+	partsByName: {[string]: BasePart},
+	seats: number,
+	vehicleSeats: number,
+}
+
+local function requiredPartNames(): {[string]: boolean}
+	local names: {[string]: boolean} = {}
+	for _, binding in WorldInteractionBindings.Doors do
+		names[binding.PartName] = true
+		if binding.HelperPartName ~= nil then
+			names[binding.HelperPartName] = true
+		end
+	end
+	for _, binding in WorldInteractionBindings.GarageDoors do
+		names[binding.PartName] = true
+	end
+	for _, binding in WorldInteractionBindings.Lights do
+		names[binding.PartName] = true
+	end
+	return names
+end
+
+local function indexWorld(root: Instance, requiredNames: {[string]: boolean}): WorldIndex
+	local partsByName: {[string]: BasePart} = {}
 	local seats = 0
 	local vehicleSeats = 0
 	for _, descendant in root:GetDescendants() do
@@ -41,8 +65,17 @@ local function nativeSeatCounts(root: Instance): (number, number)
 		elseif descendant:IsA("Seat") then
 			seats += 1
 		end
+		if requiredNames[descendant.Name] == true
+			and descendant:IsA("BasePart")
+			and partsByName[descendant.Name] == nil then
+			partsByName[descendant.Name] = descendant
+		end
 	end
-	return seats, vehicleSeats
+	return {
+		partsByName = partsByName,
+		seats = seats,
+		vehicleSeats = vehicleSeats,
+	}
 end
 
 function WorldInteractionService.new(worldProjection)
@@ -74,8 +107,13 @@ function WorldInteractionService.new(worldProjection)
 	self._connections = {}
 	self._destroyed = false
 
-	local runtimeSeats, runtimeVehicleSeats = nativeSeatCounts(runtime)
-	local witnessSeats, witnessVehicleSeats = nativeSeatCounts(witness)
+	local requiredNames = requiredPartNames()
+	local runtimeIndex = indexWorld(runtime, requiredNames)
+	local witnessIndex = indexWorld(witness, requiredNames)
+	local runtimeSeats = runtimeIndex.seats
+	local runtimeVehicleSeats = runtimeIndex.vehicleSeats
+	local witnessSeats = witnessIndex.seats
+	local witnessVehicleSeats = witnessIndex.vehicleSeats
 	assert(
 		runtimeSeats == WorldInteractionBindings.NativeSeats.ExpectedSeatCount,
 		"Brookhaven runtime Seat count no longer matches the certified witness"
@@ -93,29 +131,33 @@ function WorldInteractionService.new(worldProjection)
 	runtime:SetAttribute("StarBloxInteractionBindingRevision", WorldInteractionBindings.Revision)
 
 	for _, binding in WorldInteractionBindings.Doors do
-		self:_bindDoor(binding)
+		self:_bindDoor(binding, runtimeIndex.partsByName, witnessIndex.partsByName)
 	end
 	for _, binding in WorldInteractionBindings.GarageDoors do
-		self:_bindGarageDoor(binding)
+		self:_bindGarageDoor(binding, runtimeIndex.partsByName, witnessIndex.partsByName)
 	end
 	for _, binding in WorldInteractionBindings.Lights do
-		self:_bindLight(binding)
+		self:_bindLight(binding, runtimeIndex.partsByName, witnessIndex.partsByName)
 	end
 
 	return self
 end
 
-function WorldInteractionService:_bindDoor(binding)
+function WorldInteractionService:_bindDoor(
+	binding,
+	runtimeParts: {[string]: BasePart},
+	witnessParts: {[string]: BasePart}
+)
 	assert(type(binding.Id) == "string" and binding.Id ~= "", "door binding Id is required")
 	assert(type(binding.PartName) == "string" and binding.PartName ~= "", "door binding PartName is required")
 
-	local runtimeDoor = self._runtime:FindFirstChild(binding.PartName, true)
+	local runtimeDoor = runtimeParts[binding.PartName]
 	assert(
 		runtimeDoor ~= nil and runtimeDoor:IsA("BasePart"),
 		"reviewed Brookhaven runtime door missing: " .. binding.PartName
 	)
 
-	local witnessDoor = self._witness:FindFirstChild(binding.PartName, true)
+	local witnessDoor = witnessParts[binding.PartName]
 	assert(
 		witnessDoor ~= nil and witnessDoor:IsA("BasePart"),
 		"reviewed Brookhaven witness door missing: " .. binding.PartName
@@ -128,8 +170,8 @@ function WorldInteractionService:_bindDoor(binding)
 	)
 
 	if binding.HelperPartName ~= nil then
-		local runtimeHelper = self._runtime:FindFirstChild(binding.HelperPartName, true)
-		local witnessHelper = self._witness:FindFirstChild(binding.HelperPartName, true)
+		local runtimeHelper = runtimeParts[binding.HelperPartName]
+		local witnessHelper = witnessParts[binding.HelperPartName]
 		assert(
 			runtimeHelper ~= nil and runtimeHelper:IsA("BasePart"),
 			"reviewed Brookhaven runtime helper missing: " .. tostring(binding.HelperPartName)
@@ -257,12 +299,16 @@ function WorldInteractionService:_toggleDoor(bindingId: string, player: Player)
 end
 
 
-function WorldInteractionService:_bindGarageDoor(binding)
+function WorldInteractionService:_bindGarageDoor(
+	binding,
+	runtimeParts: {[string]: BasePart},
+	witnessParts: {[string]: BasePart}
+)
 	assert(type(binding.Id) == "string" and binding.Id ~= "", "garage binding Id is required")
 	assert(type(binding.PartName) == "string" and binding.PartName ~= "", "garage binding PartName is required")
 
-	local runtimePart = self._runtime:FindFirstChild(binding.PartName, true)
-	local witnessPart = self._witness:FindFirstChild(binding.PartName, true)
+	local runtimePart = runtimeParts[binding.PartName]
+	local witnessPart = witnessParts[binding.PartName]
 	assert(
 		runtimePart ~= nil and runtimePart:IsA("BasePart"),
 		"reviewed Brookhaven runtime garage door missing: " .. binding.PartName
@@ -375,12 +421,16 @@ function WorldInteractionService:_toggleGarageDoor(bindingId: string, player: Pl
 	end)
 end
 
-function WorldInteractionService:_bindLight(binding)
+function WorldInteractionService:_bindLight(
+	binding,
+	runtimeParts: {[string]: BasePart},
+	witnessParts: {[string]: BasePart}
+)
 	assert(type(binding.Id) == "string" and binding.Id ~= "", "light binding Id is required")
 	assert(type(binding.PartName) == "string" and binding.PartName ~= "", "light binding PartName is required")
 
-	local runtimePart = self._runtime:FindFirstChild(binding.PartName, true)
-	local witnessPart = self._witness:FindFirstChild(binding.PartName, true)
+	local runtimePart = runtimeParts[binding.PartName]
+	local witnessPart = witnessParts[binding.PartName]
 	assert(
 		runtimePart ~= nil and runtimePart:IsA("BasePart"),
 		"reviewed Brookhaven runtime light fixture missing: " .. binding.PartName

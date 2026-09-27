@@ -105,14 +105,16 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(sidebar).toContain('rail.Name = "RightActionRail"');
     expect(sidebar).toContain('rail.Size = UDim2.fromOffset(64, 306)');
     for(const call of [
-      'actionButton("☺", "Avatar", "Avatar Editor", 1)',
-      'actionButton("♙", "Tools", "Tools", 2)',
-      'actionButton("♟", "Animations", "Animations", 3)',
-      'actionButton("▰", "Vehicle", "Vehicle", 4)',
-      'actionButton("⌂", "House", "House", 5)'
+      'actionButton("avatar", "Avatar", "Avatar Editor", 1)',
+      'actionButton("tools", "Tools", "Tools", 2)',
+      'actionButton("animations", "Animations", "Animations", 3)',
+      'actionButton("vehicle", "Vehicle", "Vehicle", 4)',
+      'actionButton("house", "House", "House", 5)'
     ]){
       expect(sidebar).toContain(call);
     }
+    expect(sidebar).toContain('local function drawActionIcon(button: TextButton, iconName: string)');
+    expect(sidebar).toContain('drawActionIcon(b, iconName)');
     expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0)');
     expect(sidebar).toContain('panel.Size = UDim2.fromOffset(326, 309)');
     expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(62, 64)');

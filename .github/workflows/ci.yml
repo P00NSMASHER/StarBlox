@@ -34,6 +34,71 @@ jobs:
           wally install
           test -e Packages/Matter.lua
           test -e ServerPackages/ProfileStore.lua
+      - name: Inspect pinned legacy school structure
+        run: |
+          mkdir -p /tmp/starblox-legacy-school
+          npm run roblox:brookhaven-legacy:fetch -- \
+            --out /tmp/starblox-legacy-school/Brookhaven.rbxl \
+            --receipt /tmp/starblox-legacy-school/acquisition.json
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            /tmp/starblox-legacy-school/Brookhaven.rbxl \
+            > /tmp/starblox-legacy-school/dom.json
+          node src/robloxWorld/inspectLegacySchoolStructure.mjs \
+            --dom /tmp/starblox-legacy-school/dom.json \
+            --acquisition /tmp/starblox-legacy-school/acquisition.json \
+            --out /tmp/starblox-legacy-school/structure.json
+          node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile} from 'node:fs/promises';
+          const report=JSON.parse(await readFile('/tmp/starblox-legacy-school/structure.json','utf8'));
+          assert.equal(report.status,'pinned-legacy-school-structure-inspected');
+          assert.equal(report.school.path,'Workspace/WorkspaceCom/001_School');
+          assert.ok(report.school.geometryCount > 0);
+          assert.equal(report.interpretation.roomRoleAssignmentsVerified,false);
+          NODE
+          npm run roblox:brookhaven-legacy:runtime-bindings -- \
+            --dom /tmp/starblox-legacy-school/dom.json \
+            --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            --out-dir /tmp/starblox-legacy-school/runtime-bindings \
+            --manifest /tmp/starblox-legacy-school/runtime-binding-manifest.json
+          cmp --silent /tmp/starblox-legacy-school/runtime-bindings/LegacySchoolWorldBindings.luau \
+            roblox/src/shared/LegacySchoolWorldBindings.luau
+          node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile} from 'node:fs/promises';
+          const source=JSON.parse(await readFile('/tmp/starblox-legacy-school/structure.json','utf8'));
+          const manifest=JSON.parse(await readFile('/tmp/starblox-legacy-school/runtime-binding-manifest.json','utf8'));
+          const school=manifest.school;
+          assert.equal(source.school.schoolDoorModels.length,11);
+          assert.equal(school.status,'verified-real-building-mapping-generated');
+          assert.equal(school.selectionBasis,'pinned-legacy-school-fixture-evidence-v2');
+          assert.equal(school.entrance.generatedName,'LBH_08511');
+          assert.equal(school.cafeteria.generatedName,'LBH_11807');
+          assert.deepEqual(
+            Object.fromEntries(Object.entries(school.classAnchors).map(([id,x])=>[id,x.generatedName])),
+            {
+              reading:'LBH_11970',
+              math:'LBH_12380',
+              'word-skills':'LBH_14137',
+              'teacher-choice':'LBH_11970',
+              'star-lab':'LBH_12380'
+            }
+          );
+          assert.equal(new Set(Object.values(school.classAnchors).map(x => x.generatedName)).size,3);
+          assert.ok(school.evidence.classroomRooms.every(x => x.deskCount >= 4));
+          assert.ok(school.evidence.classroomRooms.every(x => x.doorToDeskDistanceStuds <= 35));
+          assert.ok(school.evidence.classroomRooms.every(x => x.nearestBoardDistanceStuds <= 35));
+          NODE
+      - name: Save pinned legacy school structure evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-legacy-school-structure
+          path: |
+            /tmp/starblox-legacy-school/structure.json
+            /tmp/starblox-legacy-school/runtime-binding-manifest.json
+            /tmp/starblox-legacy-school/runtime-bindings/LegacySchoolWorldBindings.luau
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify frozen Brookhaven world source
         run: npm run roblox:world-source:verify
       - name: Prove current-live Brookhaven source intake gate

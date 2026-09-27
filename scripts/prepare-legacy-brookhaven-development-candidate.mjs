@@ -244,6 +244,9 @@ if(finalWitnessAll.filter(r=>forbiddenClasses.has(nodeClass(r.node))).length!==0
 for(const suffix of runtimePaths){
   if(!finalRows.some(r=>pathEndsWith(r.path,suffix))) throw new Error('final candidate missing runtime mount '+suffix.join('/'));
 }
+if(!finalRows.some(r=>nodeName(r.node)==='LegacySchoolWorldBindings' && nodeClass(r.node)==='ModuleScript')){
+  throw new Error('final candidate missing generated real-school bindings');
+}
 
 const [artifactBytes,baselineBytes,sanitization,bindings,catalogCompletion]=await Promise.all([
   readFile(placePath),
@@ -254,6 +257,9 @@ const [artifactBytes,baselineBytes,sanitization,bindings,catalogCompletion]=awai
 ]);
 if(sanitization.output.sha256!==sha256(baselineBytes)) throw new Error('baseline SHA drift after candidate build');
 if(bindings.status!=='legacy-runtime-bindings-generated') throw new Error('legacy bindings did not generate');
+if(bindings.school?.status!=='verified-real-building-mapping-generated' || bindings.school?.fallbackCampusEnabled!==false){
+  throw new Error('legacy real-school mapping did not generate fail-closed');
+}
 
 const receipt={
   schemaVersion:1,
@@ -289,7 +295,18 @@ const receipt={
     garages:bindings.interactions.counts.garages,
     lights:bindings.interactions.counts.lights,
     plots:bindings.plots.count,
-    spawnSource:bindings.spawn.generatedName
+    spawnSource:bindings.spawn.generatedName,
+    school:{
+      status:bindings.school.status,
+      buildingId:bindings.school.buildingId,
+      selectionBasis:bindings.school.selectionBasis,
+      schoolCenter:bindings.school.schoolCenter,
+      fallbackCampusEnabled:bindings.school.fallbackCampusEnabled,
+      entrance:bindings.school.entrance,
+      cafeteria:bindings.school.cafeteria,
+      evidence:bindings.school.evidence,
+      classAnchors:bindings.school.classAnchors
+    }
   },
   catalogs:{
     sourceTargets:catalogCompletion.sourceTargets,

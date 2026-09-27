@@ -292,7 +292,101 @@ labelLayer.Parent = shell
 
 local actionLabels: {GuiObject} = {}
 
-local function actionButton(symbol: string, name: string, labelText: string, order: number): TextButton
+-- These five controls intentionally use original code-drawn pictograms rather than font glyphs.
+-- The current-live reference shows pictorial controls, but neither the checked-in recording nor the
+-- pinned licensed legacy inventory exposes reusable image asset IDs for this rail. Keeping the artwork
+-- local avoids unsupported-glyph squares and avoids inventing or copying third-party asset mappings.
+local function iconPart(
+	parent: GuiObject,
+	name: string,
+	position: UDim2,
+	size: UDim2,
+	rotation: number?,
+	radius: number?
+): Frame
+	local part = Instance.new("Frame")
+	part.Name = name
+	part.Position = position
+	part.Size = size
+	part.Rotation = rotation or 0
+	part.BackgroundColor3 = UI.dark
+	part.BorderSizePixel = 0
+	part.ZIndex = parent.ZIndex + 1
+	part.Parent = parent
+	round(part, radius or 2)
+	return part
+end
+
+local function drawActionIcon(button: TextButton, iconName: string)
+	local icon = Instance.new("Frame")
+	icon.Name = "Pictogram"
+	icon.Position = UDim2.fromOffset(8, 8)
+	icon.Size = UDim2.fromOffset(42, 42)
+	icon.BackgroundTransparency = 1
+	icon.ZIndex = 42
+	icon.Parent = button
+
+	if iconName == "avatar" then
+		iconPart(icon, "Head", UDim2.fromOffset(15, 3), UDim2.fromOffset(12, 12), nil, 8)
+		iconPart(icon, "Shoulders", UDim2.fromOffset(7, 20), UDim2.fromOffset(28, 15), nil, 8)
+	elseif iconName == "tools" then
+		iconPart(icon, "Handle", UDim2.fromOffset(19, 11), UDim2.fromOffset(7, 27), -35, 3)
+		iconPart(icon, "Head", UDim2.fromOffset(10, 7), UDim2.fromOffset(23, 8), -35, 3)
+	elseif iconName == "animations" then
+		iconPart(icon, "Head", UDim2.fromOffset(6, 5), UDim2.fromOffset(9, 9), nil, 6)
+		iconPart(icon, "Body", UDim2.fromOffset(9, 15), UDim2.fromOffset(5, 16), -8, 3)
+		iconPart(icon, "Arm", UDim2.fromOffset(13, 16), UDim2.fromOffset(16, 4), -24, 2)
+		iconPart(icon, "LeftLeg", UDim2.fromOffset(5, 29), UDim2.fromOffset(14, 4), 31, 2)
+		iconPart(icon, "RightLeg", UDim2.fromOffset(12, 29), UDim2.fromOffset(14, 4), -31, 2)
+		iconPart(icon, "MotionTop", UDim2.fromOffset(31, 8), UDim2.fromOffset(8, 3), nil, 2)
+		iconPart(icon, "MotionBottom", UDim2.fromOffset(32, 15), UDim2.fromOffset(7, 3), nil, 2)
+	elseif iconName == "vehicle" then
+		iconPart(icon, "Cab", UDim2.fromOffset(11, 10), UDim2.fromOffset(20, 11), nil, 4)
+		iconPart(icon, "Body", UDim2.fromOffset(4, 18), UDim2.fromOffset(34, 13), nil, 5)
+		iconPart(icon, "LeftWheel", UDim2.fromOffset(8, 27), UDim2.fromOffset(9, 9), nil, 6)
+		iconPart(icon, "RightWheel", UDim2.fromOffset(26, 27), UDim2.fromOffset(9, 9), nil, 6)
+	elseif iconName == "house" then
+		iconPart(icon, "LeftRoof", UDim2.fromOffset(5, 13), UDim2.fromOffset(23, 5), -36, 3)
+		iconPart(icon, "RightRoof", UDim2.fromOffset(20, 13), UDim2.fromOffset(23, 5), 36, 3)
+		iconPart(icon, "Walls", UDim2.fromOffset(9, 19), UDim2.fromOffset(25, 19), nil, 2)
+		local door = iconPart(icon, "DoorCutout", UDim2.fromOffset(19, 27), UDim2.fromOffset(7, 11), nil, 1)
+		door.BackgroundColor3 = UI.white
+	else
+		error("Unknown action icon: " .. iconName)
+	end
+end
+
+local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
+	iconPart(parent, prefix .. "LeftRoof", UDim2.fromOffset(x, y + 6), UDim2.fromOffset(18, 4), -34, 2)
+	iconPart(parent, prefix .. "RightRoof", UDim2.fromOffset(x + 12, y + 6), UDim2.fromOffset(18, 4), 34, 2)
+	iconPart(parent, prefix .. "Walls", UDim2.fromOffset(x + 4, y + 11), UDim2.fromOffset(22, 16), nil, 2)
+	local door = iconPart(parent, prefix .. "DoorCutout", UDim2.fromOffset(x + 13, y + 18), UDim2.fromOffset(6, 9), nil, 1)
+	door.BackgroundColor3 = UI.white
+end
+
+local function drawPlotModeIcon(button: TextButton, modeIndex: number)
+	local icon = Instance.new("Frame")
+	icon.Name = "PlotModePictogram"
+	icon.Size = UDim2.fromScale(1, 1)
+	icon.BackgroundTransparency = 1
+	icon.ZIndex = button.ZIndex + 1
+	icon.Parent = button
+
+	if modeIndex == 1 then
+		drawMiniHouse(icon, "Owned", 48, 12)
+		iconPart(icon, "CheckLeft", UDim2.fromOffset(91, 27), UDim2.fromOffset(12, 4), 42, 2)
+		iconPart(icon, "CheckRight", UDim2.fromOffset(99, 21), UDim2.fromOffset(19, 4), -43, 2)
+	elseif modeIndex == 2 then
+		drawMiniHouse(icon, "First", 38, 12)
+		drawMiniHouse(icon, "Second", 88, 12)
+	else
+		iconPart(icon, "TreeTrunk", UDim2.fromOffset(49, 25), UDim2.fromOffset(7, 15), nil, 2)
+		iconPart(icon, "TreeCanopy", UDim2.fromOffset(38, 10), UDim2.fromOffset(29, 24), nil, 14)
+		drawMiniHouse(icon, "House", 91, 12)
+	end
+end
+
+local function actionButton(iconName: string, name: string, labelText: string, order: number): TextButton
 	local y = (order - 1) * 61
 
 	local label = Instance.new("TextLabel")
@@ -334,25 +428,22 @@ local function actionButton(symbol: string, name: string, labelText: string, ord
 	b.Size = UDim2.fromOffset(58, 58)
 	b.BackgroundColor3 = UI.white
 	b.BackgroundTransparency = 0.14
-	b.Text = symbol
-	b.TextColor3 = UI.text
-	b.Font = Enum.Font.GothamBold
-	b.TextScaled = true
+	b.Text = ""
 	b.AutoButtonColor = true
 	b.Selectable = true
 	b.ZIndex = 41
 	b.Parent = rail
 	round(b, 8)
 	stroke(b, UI.border, 1, 0.45)
-	constrain(b, 20, 32)
+	drawActionIcon(b, iconName)
 	return b
 end
 
-local avatarBtn = actionButton("☺", "Avatar", "Avatar Editor", 1)
-local toolsBtn = actionButton("♙", "Tools", "Tools", 2)
-local animationsBtn = actionButton("♟", "Animations", "Animations", 3)
-local vehicleBtn = actionButton("▰", "Vehicle", "Vehicle", 4)
-local houseBtn = actionButton("⌂", "House", "House", 5)
+local avatarBtn = actionButton("avatar", "Avatar", "Avatar Editor", 1)
+local toolsBtn = actionButton("tools", "Tools", "Tools", 2)
+local animationsBtn = actionButton("animations", "Animations", "Animations", 3)
+local vehicleBtn = actionButton("vehicle", "Vehicle", "Vehicle", 4)
+local houseBtn = actionButton("house", "House", "House", 5)
 
 local settingsButton = Instance.new("TextButton")
 settingsButton.Name = "WorldSettingsButton"
@@ -534,7 +625,7 @@ plotModes.BackgroundTransparency = 1
 plotModes.ZIndex = 69
 plotModes.Parent = plotSelector
 
-for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
+for index = 1, 3 do
 	local mode = Instance.new("TextButton")
 	mode.Name = "Mode" .. tostring(index)
 	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
@@ -544,7 +635,7 @@ for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
 		elseif index == 2 then Color3.fromRGB(199, 184, 126)
 		else Color3.fromRGB(166, 184, 202)
 	mode.BackgroundTransparency = 0.1
-	mode.Text = text
+	mode.Text = ""
 	mode.TextColor3 = UI.text
 	mode.Font = Enum.Font.GothamBold
 	mode.TextScaled = true
@@ -555,6 +646,7 @@ for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
 	round(mode, 5)
 	stroke(mode, UI.border, 1, 0.4)
 	constrain(mode, 18, 26)
+	drawPlotModeIcon(mode, index)
 
 	if index == 1 then
 		local check = Instance.new("TextLabel")
@@ -1276,6 +1368,20 @@ local function fetchPlots(): boolean
 	return true
 end
 
+local function travelHome(): boolean
+	local ok, result = pcall(function()
+		return visitHome:InvokeServer()
+	end)
+	return ok and type(result) == "table" and result.ok == true
+end
+
+local function showTravelFailure()
+	plotStatus.Text = "Travel failed — try again"
+	plotStatus.TextColor3 = UI.red
+	plotGo.Text = "GO HOME"
+	plotGo.Active = true
+end
+
 local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
@@ -1305,10 +1411,14 @@ showVehicles = function()
 		showVehicles()
 	end)
 	toolbarButton("DespawnVehicle", "×", false, 3, function()
-		pcall(function()
-			despawnVehicle:InvokeServer()
+		local ok, result = pcall(function()
+			return despawnVehicle:InvokeServer()
 		end)
-		closePanel()
+		if ok and type(result) == "table" and result.ok == true then
+			closePanel()
+		else
+			showStatus("Couldn't despawn vehicle")
+		end
 	end)
 	setCategories({
 		{Id = "small", Symbol = "○"},
@@ -1345,10 +1455,14 @@ showVehicles = function()
 					if not runtimePlayable then
 						showStatus("Reference only • " .. tostring(vehicle.Requirement or "Unavailable"))
 					elseif owned then
-						pcall(function()
-							spawnVehicle:InvokeServer(id)
+						local ok, result = pcall(function()
+							return spawnVehicle:InvokeServer(id)
 						end)
-						closePanel()
+						if ok and type(result) == "table" and result.ok == true then
+							closePanel()
+						else
+							showStatus("Couldn't spawn vehicle")
+						end
 					else
 						purchase(purchaseVehicle, id, showVehicles)
 					end
@@ -1657,10 +1771,11 @@ plotGo.Activated:Connect(function()
 	end
 
 	if selected.Mine == true then
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
-		closePanel()
+		if travelHome() then
+			closePanel()
+		else
+			showTravelFailure()
+		end
 		return
 	end
 
@@ -1668,10 +1783,13 @@ plotGo.Activated:Connect(function()
 		return selectPlot:InvokeServer(selected.Id)
 	end)
 	if ok and type(result) == "table" and result.ok == true then
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
-		closePanel()
+		fetchPlots()
+		renderPlotSelector()
+		if travelHome() then
+			closePanel()
+		else
+			showTravelFailure()
+		end
 	else
 		fetchPlots()
 		renderPlotSelector()

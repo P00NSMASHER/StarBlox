@@ -97,12 +97,24 @@ describe('Brookhaven reviewed runtime interaction activation',()=>{
     expect(bindings).toContain('Lights = 111');
     expect(bindings).toContain('RequiresRenderedEvidence = true');
 
-    expect(service).toContain('local function nativeSeatCounts(root: Instance): (number, number)');
+    expect(service).toContain('local function indexWorld(root: Instance');
     expect(service).toContain('runtimeSeats == WorldInteractionBindings.NativeSeats.ExpectedSeatCount');
     expect(service).toContain('witnessSeats == runtimeSeats and witnessVehicleSeats == runtimeVehicleSeats');
     expect(service).toContain('StarBloxCertifiedSeatCount');
     expect(service).toContain('StarBloxCertifiedVehicleSeatCount');
     expect(service).toContain('StarBloxInteractionBindingRevision');
+  });
+
+  it('indexes reviewed parts and seat counts with one traversal per world at boot',()=>{
+    const service=read('roblox/src/server/WorldInteractionService.luau');
+
+    expect(service).toContain('local function requiredPartNames()');
+    expect(service).toContain('local runtimeIndex = indexWorld(runtime, requiredNames)');
+    expect(service).toContain('local witnessIndex = indexWorld(witness, requiredNames)');
+    expect(service).toContain('runtimeIndex.partsByName, witnessIndex.partsByName');
+    expect((service.match(/root:GetDescendants\(\)/g)||[]).length).toBe(1);
+    expect(service).not.toContain('FindFirstChild(binding.PartName, true)');
+    expect(service).not.toContain('FindFirstChild(binding.HelperPartName, true)');
   });
 
 });

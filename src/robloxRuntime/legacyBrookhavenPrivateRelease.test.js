@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 import {describe,expect,it} from 'vitest';
 import {
   LEGACY_BROOKHAVEN_PRIVATE_RELEASE_VERSION,
@@ -56,6 +57,45 @@ function candidate(bytes){
 }
 
 describe('legacy Brookhaven private release binding',()=>{
+  it('records the release evidence audit with sourced, timestamped pass/fail/unknown states',()=>{
+    const audit=JSON.parse(readFileSync(
+      new URL('../../docs/roblox-release/CURRENT_RELEASE_EVIDENCE_AUDIT_2026-09-27.json',import.meta.url),
+      'utf8'
+    ));
+    expect(audit.auditedAt).toMatch(/^2026-09-27T\d{2}:\d{2}:\d{2}Z$/);
+    expect(audit.inspectedMainCommit).toBe('50767e642a89013b40ff7caa5ce92cb34da72b15');
+    expect(new Set(audit.findings.map(({status})=>status))).toEqual(new Set(['PASS','FAIL','UNKNOWN']));
+    for(const finding of audit.findings){
+      expect(finding.source).toBeTruthy();
+      expect(finding.observedAt).toMatch(/^2026-09-27T\d{2}:\d{2}:\d{2}Z$/);
+    }
+    expect(audit.findings.find(({id})=>id==='roblox-client-gameplay')).toMatchObject({
+      status:'UNKNOWN'
+    });
+    expect(audit.authority).toEqual({
+      mergeAttempted:false,
+      deployAttempted:false,
+      publishAttempted:false,
+      publicAccessChangeAttempted:false,
+      permissionChangeAttempted:false
+    });
+  });
+
+  it('records server boot separately from unobserved Roblox client evidence',()=>{
+    const receipt=JSON.parse(readFileSync(
+      new URL('../../docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json',import.meta.url),
+      'utf8'
+    ));
+    expect(receipt.status).toBe('published-server-boot-verified');
+    expect(receipt.verification).toMatchObject({
+      status:'server-boot-verified',
+      scope:'production-server-boot',
+      robloxClientRunObserved:false,
+      clientStatus:'not-tested'
+    });
+    expect(receipt.authority.productionActivationAllowed).toBe(false);
+  });
+
   it('binds the exact private candidate while preserving all public/production stops',()=>{
     const bytes=Buffer.from('<roblox>BrookhavenWorldBaseline StarBlox DeploymentManifest</roblox>');
     const result=verifyLegacyCandidateForPrivatePublish({
