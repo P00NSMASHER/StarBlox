@@ -454,13 +454,17 @@ const FAMILIES=Object.freeze({
 });
 
 export function schoolworkPackHash(pack){
-  return sha({
+  const payload={
     packVersion:pack?.packVersion,
     batchId:pack?.batchId,
     pageCount:pack?.pageCount,
     sourceCategories:pack?.sourceCategories,
     skillSignals:pack?.skillSignals
-  });
+  };
+  if(Array.isArray(pack?.reviewQueue)&&pack.reviewQueue.length>0){
+    payload.reviewQueue=pack.reviewQueue;
+  }
+  return sha(payload);
 }
 
 export function validateSanitizedSchoolworkPack(pack){
