@@ -1305,10 +1305,14 @@ showVehicles = function()
 		showVehicles()
 	end)
 	toolbarButton("DespawnVehicle", "×", false, 3, function()
-		pcall(function()
-			despawnVehicle:InvokeServer()
+		local ok, result = pcall(function()
+			return despawnVehicle:InvokeServer()
 		end)
-		closePanel()
+		if ok and type(result) == "table" and result.ok == true then
+			closePanel()
+		else
+			showStatus("Couldn't despawn vehicle")
+		end
 	end)
 	setCategories({
 		{Id = "small", Symbol = "○"},
@@ -1345,10 +1349,14 @@ showVehicles = function()
 					if not runtimePlayable then
 						showStatus("Reference only • " .. tostring(vehicle.Requirement or "Unavailable"))
 					elseif owned then
-						pcall(function()
-							spawnVehicle:InvokeServer(id)
+						local ok, result = pcall(function()
+							return spawnVehicle:InvokeServer(id)
 						end)
-						closePanel()
+						if ok and type(result) == "table" and result.ok == true then
+							closePanel()
+						else
+							showStatus("Couldn't spawn vehicle")
+						end
 					else
 						purchase(purchaseVehicle, id, showVehicles)
 					end

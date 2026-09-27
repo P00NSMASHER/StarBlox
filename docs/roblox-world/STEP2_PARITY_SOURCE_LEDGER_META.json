@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "status": "source-indexed-client-parity-unverified",
+  "source": {
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "path": "Brookhaven.rbxl",
+    "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "gitBlobSha1": "c0f49a326ab670ffe6bd8218e5aff680eb5df863",
+    "bytes": 1276795,
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "sourceIndex": {
+    "recordCount": 5474,
+    "counts": {
+      "house-catalog-button": 12,
+      "lot-model": 1158,
+      "named-door": 497,
+      "named-garage": 29,
+      "named-house": 456,
+      "named-light": 500,
+      "named-lot": 80,
+      "named-road": 378,
+      "named-tool": 173,
+      "named-vehicle": 500,
+      "tool-catalog": 50,
+      "ui-candidate": 1543,
+      "vehicle-catalog": 19,
+      "vehicle-model": 69,
+      "world-root": 10
+    },
+    "note": "Candidate-name lists were capped at 500 per category by the prior extractor; rows may overlap and do not enumerate every source instance."
+  },
+  "coverageLimits": {
+    "currentLiveBrookhavenVersionPinned": false,
+    "sameDeviceBrookhavenCapturePresent": false,
+    "sameDeviceStarBloxCapturePresent": true,
+    "comprehensiveWorldInstancePathsPresent": false,
+    "individualSoundAndAnimationPathsPresent": false,
+    "uiImagePropertiesCaptured": false,
+    "automatedComparisonComplete": false,
+    "exactParityClaimAllowed": false
+  }
+}

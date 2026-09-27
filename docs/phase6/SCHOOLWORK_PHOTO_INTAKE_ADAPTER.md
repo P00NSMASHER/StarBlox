@@ -19,14 +19,22 @@ Do not place any of the following in an intake payload:
 
 The generated source pack also retains the existing all-false privacy contract.
 
+Every new intake must carry a sanitized consent assertion. It records no name, email, account, consent document, or child identifier. The only accepted authority is `parent-or-guardian`; the scope is limited to sanitized skill and performance signals; and raw-image retention must be `none`. Missing, denied, broader, or identity-bearing consent fails closed before a source pack or receipt is created.
+
 ## Intake schema
 
 ```json
 {
   "schemaVersion": 1,
-  "intakeVersion": "schoolwork-photo-intake-v1",
+  "intakeVersion": "schoolwork-photo-intake-v2",
   "batchId": "schoolwork-YYYY-MM-DD-001",
   "capturedDate": "YYYY-MM-DD",
+  "consent": {
+    "authority": "parent-or-guardian",
+    "granted": true,
+    "scope": "sanitized-skill-and-performance-signals",
+    "rawImageRetention": "none"
+  },
   "pages": [
     {
       "pageRef": "page-01",
@@ -109,6 +117,7 @@ That second gate applies parent-review decisions, validates the effective source
 The adapter returns a non-zero exit status and writes no output when:
 
 - the input schema/version is wrong;
+- parent/guardian consent is missing, denied, out of scope, retains raw images, or contains unexpected identity fields;
 - page references are invalid or duplicated;
 - a source category or generator key is unsupported;
 - confidence or coverage values are invalid;

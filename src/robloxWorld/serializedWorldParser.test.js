@@ -59,4 +59,19 @@ describe('Target architecture Step 3 restricted serialized-world parser', () => 
     expect(source).not.toMatch(/\bnew\s+Function\s*\(/);
     expect(source).not.toMatch(/from\s+['"]node:vm['"]/);
   });
+
+  it('scans large inputs with sticky cursors instead of slicing the remaining source', () => {
+    const source=readFileSync(new URL('./serializedWorldParser.js',import.meta.url),'utf8');
+    expect(source).not.toContain('this.source.slice(start)');
+    expect(source).toContain('this.numberPattern.lastIndex=start');
+    expect(source).toContain('this.identifierPattern.lastIndex=start');
+
+    const fieldCount=25000;
+    const serialized='return {'+
+      Array.from({length:fieldCount},(_,index)=>'['+(index+1)+']='+(index+1)+';').join('')+
+      '}';
+    const root=parseRestrictedSerializedWorldForTest(serialized);
+    expect(root.fields).toHaveLength(fieldCount);
+    expect(root.fields.at(-1)).toMatchObject({key:fieldCount,value:fieldCount});
+  });
 });

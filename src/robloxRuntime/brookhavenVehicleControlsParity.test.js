@@ -44,4 +44,19 @@ describe('Brookhaven parity: owned vehicle controls',()=>{
     expect(client).toContain('invoke("flip")');
     expect(client).toContain('invoke("despawn")');
   });
+
+  it('does not report a completed spawn or despawn after a rejected server request',()=>{
+    const controls=read('roblox/src/client/VehicleControls.client.luau');
+    const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+
+    expect(controls).toContain('local function invoke(action: string): boolean');
+    expect(controls).toContain('local succeeded = ok and type(result) == "table" and result.ok == true');
+    expect(controls).toContain('if invoke("despawn") then');
+    expect(controls).toContain('return succeeded');
+
+    expect(sidebar).toContain('return despawnVehicle:InvokeServer()');
+    expect(sidebar).toContain('showStatus("Couldn\'t despawn vehicle")');
+    expect(sidebar).toContain('return spawnVehicle:InvokeServer(id)');
+    expect(sidebar).toContain('showStatus("Couldn\'t spawn vehicle")');
+  });
 });

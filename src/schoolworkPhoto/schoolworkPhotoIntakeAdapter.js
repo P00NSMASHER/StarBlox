@@ -5,10 +5,16 @@ import {
 } from './schoolworkPhotoPipeline.js';
 import {validateSchoolworkReviewQueue} from './schoolworkPhotoReviewGate.js';
 
-export const SCHOOLWORK_PHOTO_INTAKE_VERSION='schoolwork-photo-intake-v1';
+export const SCHOOLWORK_PHOTO_INTAKE_VERSION='schoolwork-photo-intake-v2';
 export const SCHOOLWORK_PHOTO_INTAKE_RECEIPT_VERSION='schoolwork-photo-intake-receipt-v1';
 export const AUTO_ACCEPT_CONFIDENCE=0.85;
 export const REVIEW_CONFIDENCE_FLOOR=0.55;
+export const SCHOOLWORK_PHOTO_CONSENT=Object.freeze({
+  authority:'parent-or-guardian',
+  granted:true,
+  scope:'sanitized-skill-and-performance-signals',
+  rawImageRetention:'none'
+});
 export const SCHOOLWORK_EVIDENCE_CLASSES=Object.freeze([
   'teacher-marked-schoolwork',
   'completed-schoolwork',
@@ -109,7 +115,8 @@ const REASON_CODES=new Set([
   'other'
 ]);
 
-const ALLOWED_TOP_FIELDS=new Set(['schemaVersion','intakeVersion','batchId','capturedDate','pages']);
+const ALLOWED_TOP_FIELDS=new Set(['schemaVersion','intakeVersion','batchId','capturedDate','consent','pages']);
+const ALLOWED_CONSENT_FIELDS=new Set(['authority','granted','scope','rawImageRetention']);
 const ALLOWED_PAGE_FIELDS=new Set(['pageRef','sourceCategories','observations']);
 const ALLOWED_OBSERVATION_FIELDS=new Set([
   'generatorKey','confidence','coverageWeight','candidates','reasonCode','attempted','likelyCorrect','evidenceClass'
@@ -189,6 +196,23 @@ export function validateSchoolworkPhotoIntake(intake){
   if(!safeToken(intake.batchId,80)) issues.push({type:'intake-batch-id-invalid'});
   if(typeof intake.capturedDate!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(intake.capturedDate)){
     issues.push({type:'intake-captured-date-invalid'});
+  }
+  if(!intake.consent||typeof intake.consent!=='object'||Array.isArray(intake.consent)){
+    issues.push({type:'intake-consent-missing'});
+  }else{
+    unexpectedFields(intake.consent,ALLOWED_CONSENT_FIELDS,'consent',issues);
+    if(intake.consent.authority!==SCHOOLWORK_PHOTO_CONSENT.authority){
+      issues.push({type:'intake-consent-authority-invalid'});
+    }
+    if(intake.consent.granted!==SCHOOLWORK_PHOTO_CONSENT.granted){
+      issues.push({type:'intake-consent-not-granted'});
+    }
+    if(intake.consent.scope!==SCHOOLWORK_PHOTO_CONSENT.scope){
+      issues.push({type:'intake-consent-scope-invalid'});
+    }
+    if(intake.consent.rawImageRetention!==SCHOOLWORK_PHOTO_CONSENT.rawImageRetention){
+      issues.push({type:'intake-raw-image-retention-invalid'});
+    }
   }
   if(!Array.isArray(intake.pages)||intake.pages.length===0){
     issues.push({type:'intake-pages-missing'});
@@ -386,6 +410,12 @@ export function adaptSchoolworkPhotoIntake(intake){
     lowConfidenceOmitted,
     sourceCategories:pack.sourceCategories,
     sourcePackHash:schoolworkPackHash(pack),
+    consent:{
+      gated:true,
+      authority:intake.consent.authority,
+      scope:intake.consent.scope,
+      rawImageRetention:intake.consent.rawImageRetention
+    },
     privacy:{
       rawImagesPersisted:false,
       rawTextPersisted:false,
