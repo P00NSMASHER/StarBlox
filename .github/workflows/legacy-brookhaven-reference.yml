@@ -16,6 +16,12 @@ on:
       - roblox/src/shared/LegacyMirrorCatalog.luau
       - roblox/src/shared/LegacyStoreCatalog.luau
       - scripts/prepare-legacy-brookhaven-development-candidate.mjs
+      - scripts/publish-legacy-brookhaven-private.mjs
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.js
+      - src/robloxRuntime/legacyBrookhavenPrivateRelease.test.js
+      - .github/workflows/legacy-brookhaven-private-release.yml
+      - .github/workflows/sync-abvm-questions.yml
+      - docs/roblox-world/LEGACY_BROOKHAVEN_PUBLISH_REQUEST.json
       - scripts/finalize-legacy-brookhaven-development.mjs
       - src/robloxRuntime/legacyBrookhavenDevelopmentComplete.test.js
       - roblox/src/server/HomeEconomyService.luau
