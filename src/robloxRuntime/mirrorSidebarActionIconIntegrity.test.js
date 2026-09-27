@@ -41,7 +41,7 @@ describe('Mirror sidebar action icon integrity',()=>{
 
   it('records the image-asset HUD rebuild without changing action bindings',()=>{
     expect(receipt.implementation.file).toBe('roblox/src/client/MirrorSidebar.client.luau');
-    expect(receipt.implementation.approach).toContain('image-asset action rail icons');
+    expect(receipt.implementation.approach).toContain('image-asset rail actions');
     expect(receipt.implementation.externalAssetIds).toHaveLength(10);
     expect(receipt.implementation).toMatchObject({
       thirdPartyArtCopied:false,
@@ -57,11 +57,12 @@ describe('Mirror sidebar action icon integrity',()=>{
     expect(receipt.screenEvidence.map(row=>row.result)).toEqual([
       'OBSERVED_PICTORIAL_CONTROLS',
       'FAIL_UNSUPPORTED_SQUARE_LIKE_GLYPHS',
-      'FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER'
+      'FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER',
+      'FAIL_V34_FLOATING_MENU_STACKS_OVERSIZED_HOUSE_PICKER_AND_HOME_CAMERA_CLIP'
     ]);
     expect(receipt.verification).toMatchObject({
-      nativeClientResult:'V33_FAIL_V34_PENDING',
-      fullActionResult:'NOT_RETESTED'
+      nativeClientResult:'V34_FAIL_V35_PENDING',
+      fullActionResult:'V34_NATIVE_FLOW_REVIEWED_V35_PENDING'
     });
     expect(receipt.claims).toEqual({
       unsupportedGlyphDefectRemovedByConstruction:true,
@@ -78,7 +79,8 @@ describe('Mirror sidebar action icon integrity',()=>{
 
     expect(source).toContain('local function drawPlotModeIcon(button: TextButton, modeIndex: number)');
     expect(source).toContain('local function drawMiniHouse(parent: GuiObject');
-    expect(source).toContain('part.ZIndex = parent.ZIndex + 1');
+    expect(source).toContain('image.Image = ICONS.house');
+    expect(source).toContain('image.ImageRectOffset = Vector2.new(964, 204)');
     expect(plotModes).toContain('for index = 1, 3 do');
     expect(plotModes).toContain('mode.Text = ""');
     expect(plotModes).toContain('drawPlotModeIcon(mode, index)');

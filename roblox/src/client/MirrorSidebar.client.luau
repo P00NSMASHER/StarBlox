@@ -43,10 +43,10 @@ local shopGui = playerGui:WaitForChild("StarBloxShopUI", 10)
 local openStore = if shopGui then shopGui:FindFirstChild("OpenStore") else nil
 
 local UI = {
-	white = Color3.fromRGB(240, 240, 240),
-	tile = Color3.fromRGB(224, 224, 224),
-	tileSelected = Color3.fromRGB(201, 201, 201),
-	border = Color3.fromRGB(116, 116, 116),
+	white = Color3.fromRGB(248, 249, 250),
+	tile = Color3.fromRGB(237, 240, 243),
+	tileSelected = Color3.fromRGB(218, 235, 244),
+	border = Color3.fromRGB(164, 174, 184),
 	text = Color3.fromRGB(40, 40, 40),
 	muted = Color3.fromRGB(90, 90, 90),
 	red = Color3.fromRGB(205, 36, 36),
@@ -55,9 +55,9 @@ local UI = {
 	blue = Color3.fromRGB(132, 211, 238),
 	dark = Color3.fromRGB(25, 30, 35),
 	glassTop = Color3.fromRGB(255, 255, 255),
-	glassBottom = Color3.fromRGB(226, 233, 239),
+	glassBottom = Color3.fromRGB(237, 241, 245),
 	glassStroke = Color3.fromRGB(255, 255, 255),
-	selected = Color3.fromRGB(184, 226, 246),
+	selected = Color3.fromRGB(210, 235, 248),
 	icon = Color3.fromRGB(31, 38, 45),
 } 
 
@@ -94,7 +94,7 @@ local function glass(guiObject: GuiObject, radius: number)
 	line.Name = "GlassStroke"
 	line.Color = UI.glassStroke
 	line.Thickness = 1
-	line.Transparency = 0.38
+	line.Transparency = 0.52
 	line.Parent = guiObject
 
 	local gradient = Instance.new("UIGradient")
@@ -173,6 +173,15 @@ workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	end
 end)
 
+local topCluster = Instance.new("Frame")
+topCluster.Name = "TopUtilityCluster"
+topCluster.AnchorPoint = Vector2.new(1, 0)
+topCluster.Position = UDim2.new(1, -72, 0, 8)
+topCluster.Size = UDim2.fromOffset(282, 38)
+topCluster.BackgroundTransparency = 1
+topCluster.ZIndex = 34
+topCluster.Parent = shell
+
 local function makeTopUtilityButton(
 	name: string,
 	iconAsset: string,
@@ -185,7 +194,7 @@ local function makeTopUtilityButton(
 	button.Position = position
 	button.Size = size
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.12
+	button.BackgroundTransparency = 0.16
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
@@ -196,8 +205,8 @@ local function makeTopUtilityButton(
 	local icon = Instance.new("ImageLabel")
 	icon.Name = "Icon"
 	icon.AnchorPoint = Vector2.new(0, 0.5)
-	icon.Position = UDim2.new(0, 8, 0.5, 0)
-	icon.Size = UDim2.fromOffset(20, 20)
+	icon.Position = UDim2.new(0, 7, 0.5, 0)
+	icon.Size = UDim2.fromOffset(18, 18)
 	icon.BackgroundTransparency = 1
 	icon.Image = iconAsset
 	icon.ImageColor3 = UI.icon
@@ -207,13 +216,13 @@ local function makeTopUtilityButton(
 
 	local label = Instance.new("TextLabel")
 	label.Name = "Label"
-	label.Position = UDim2.new(0, 31, 0, 0)
-	label.Size = UDim2.new(1, -36, 1, 0)
+	label.Position = UDim2.new(0, 28, 0, 0)
+	label.Size = UDim2.new(1, -32, 1, 0)
 	label.BackgroundTransparency = 1
 	label.Text = labelText
 	label.TextColor3 = UI.text
 	label.Font = Enum.Font.GothamMedium
-	label.TextSize = 13
+	label.TextSize = 12
 	label.TextXAlignment = Enum.TextXAlignment.Left
 	label.ZIndex = 36
 	label.Parent = button
@@ -232,7 +241,7 @@ local function makeSquareIconButton(
 	button.Position = position
 	button.Size = UDim2.fromOffset(size, size)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.12
+	button.BackgroundTransparency = 0.16
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
@@ -325,6 +334,22 @@ local familyButton = makeTopUtilityButton(
 	UDim2.fromOffset(112, 30)
 )
 
+quickChatBolt.Parent = topCluster
+quickChatBolt.Position = UDim2.fromOffset(0, 1)
+quickChatBolt.Size = UDim2.fromOffset(36, 36)
+
+homeCamsButton.Parent = topCluster
+homeCamsButton.Position = UDim2.fromOffset(42, 1)
+homeCamsButton.Size = UDim2.fromOffset(70, 36)
+
+clockBox.Parent = topCluster
+clockBox.Position = UDim2.fromOffset(202, 1)
+clockBox.Size = UDim2.fromOffset(80, 36)
+
+familyButton.Parent = topCluster
+familyButton.Position = UDim2.fromOffset(118, 1)
+familyButton.Size = UDim2.fromOffset(78, 36)
+
 -- The small shop shortcut uses the same visual system and a real icon asset.
 local shopShortcut = makeSquareIconButton(
 	"ShopShortcut",
@@ -372,14 +397,14 @@ end)
 local rail = Instance.new("Frame")
 rail.Name = "RightActionRail"
 rail.AnchorPoint = Vector2.new(1, 0)
-rail.Position = UDim2.new(1, -12, 0, 78)
-rail.Size = UDim2.fromOffset(48, 230)
+rail.Position = UDim2.new(1, -12, 0, 86)
+rail.Size = UDim2.fromOffset(48, 236)
 rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
 
 local railLayout = Instance.new("UIListLayout")
-railLayout.Padding = UDim.new(0, 5)
+railLayout.Padding = UDim.new(0, 4)
 railLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 railLayout.SortOrder = Enum.SortOrder.LayoutOrder
 railLayout.Parent = rail
@@ -419,7 +444,7 @@ end
 local function drawRailIcon(button: GuiObject, iconName: string)
 	local asset = ICONS[iconName]
 	assert(asset ~= nil, "Unknown action icon: " .. iconName)
-	local icon = iconLabel(button, "Icon", asset, 25)
+	local icon = iconLabel(button, "Icon", asset, 24)
 	icon.ImageColor3 = UI.icon
 	if iconName == "house" then
 		icon.ImageRectOffset = Vector2.new(964, 204)
@@ -428,11 +453,19 @@ local function drawRailIcon(button: GuiObject, iconName: string)
 end
 
 local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
-	iconPart(parent, prefix .. "LeftRoof", UDim2.fromOffset(x, y + 6), UDim2.fromOffset(18, 4), -34, 2)
-	iconPart(parent, prefix .. "RightRoof", UDim2.fromOffset(x + 12, y + 6), UDim2.fromOffset(18, 4), 34, 2)
-	iconPart(parent, prefix .. "Walls", UDim2.fromOffset(x + 4, y + 11), UDim2.fromOffset(22, 16), nil, 2)
-	local door = iconPart(parent, prefix .. "DoorCutout", UDim2.fromOffset(x + 13, y + 18), UDim2.fromOffset(6, 9), nil, 1)
-	door.BackgroundColor3 = UI.white
+	local image = Instance.new("ImageLabel")
+	image.Name = prefix .. "House"
+	image.Position = UDim2.fromOffset(x, y)
+	image.Size = UDim2.fromOffset(22, 22)
+	image.BackgroundTransparency = 1
+	image.Image = ICONS.house
+	image.ImageRectOffset = Vector2.new(964, 204)
+	image.ImageRectSize = Vector2.new(36, 36)
+	image.ImageColor3 = UI.icon
+	image.ScaleType = Enum.ScaleType.Fit
+	image.ZIndex = parent.ZIndex + 1
+	image.Parent = parent
+	return image
 end
 
 local function drawPlotModeIcon(button: TextButton, modeIndex: number)
@@ -444,16 +477,23 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 	icon.Parent = button
 
 	if modeIndex == 1 then
-		drawMiniHouse(icon, "Owned", 48, 12)
-		iconPart(icon, "CheckLeft", UDim2.fromOffset(91, 27), UDim2.fromOffset(12, 4), 42, 2)
-		iconPart(icon, "CheckRight", UDim2.fromOffset(99, 21), UDim2.fromOffset(19, 4), -43, 2)
+		drawMiniHouse(icon, "Owned", 31, 11)
+		local check = Instance.new("TextLabel")
+		check.Name = "Check"
+		check.Position = UDim2.fromOffset(52, 7)
+		check.Size = UDim2.fromOffset(18, 18)
+		check.BackgroundTransparency = 1
+		check.Text = "✓"
+		check.TextColor3 = UI.green
+		check.Font = Enum.Font.GothamBold
+		check.TextSize = 14
+		check.ZIndex = icon.ZIndex + 2
+		check.Parent = icon
 	elseif modeIndex == 2 then
-		drawMiniHouse(icon, "First", 38, 12)
-		drawMiniHouse(icon, "Second", 88, 12)
+		drawMiniHouse(icon, "First", 20, 11)
+		drawMiniHouse(icon, "Second", 46, 11)
 	else
-		iconPart(icon, "TreeTrunk", UDim2.fromOffset(49, 25), UDim2.fromOffset(7, 15), nil, 2)
-		iconPart(icon, "TreeCanopy", UDim2.fromOffset(38, 10), UDim2.fromOffset(29, 24), nil, 14)
-		drawMiniHouse(icon, "House", 91, 12)
+		drawMiniHouse(icon, "Town", 31, 11)
 	end
 end
 
@@ -470,23 +510,23 @@ local function actionButton(iconName: string, name: string, _labelText: string, 
 	shadow.Position = UDim2.fromOffset(1, 2)
 	shadow.Size = UDim2.fromScale(1, 1)
 	shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	shadow.BackgroundTransparency = 0.78
+	shadow.BackgroundTransparency = 0.90
 	shadow.BorderSizePixel = 0
 	shadow.ZIndex = 40
 	shadow.Parent = holder
-	round(shadow, 13)
+	round(shadow, 14)
 
 	local button = Instance.new("ImageButton")
 	button.Name = name .. "Button"
 	button.Size = UDim2.fromScale(1, 1)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.08
+	button.BackgroundTransparency = 0.15
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
 	button.ZIndex = 41
 	button.Parent = holder
-	glass(button, 13)
+	glass(button, 14)
 	drawRailIcon(button, iconName)
 	return button
 end
@@ -503,14 +543,14 @@ local function setRailSelection(selected: ImageButton?)
 	for _, button in railButtons do
 		local active = button == selected
 		button.BackgroundColor3 = if active then UI.selected else UI.white
-		button.BackgroundTransparency = if active then 0.10 else 0.08
+		button.BackgroundTransparency = if active then 0.13 else 0.15
 		local icon = button:FindFirstChild("Icon")
 		if icon ~= nil and icon:IsA("ImageLabel") then
 			icon.ImageColor3 = if active then Color3.fromRGB(20, 79, 107) else UI.icon
 		end
 		local line = button:FindFirstChild("GlassStroke")
 		if line ~= nil and line:IsA("UIStroke") then
-			line.Transparency = if active then 0.08 else 0.38
+			line.Transparency = if active then 0.20 else 0.52
 		end
 	end
 end
@@ -530,53 +570,52 @@ settingsButton.Active = false
 glass(settingsButton, 10)
 iconLabel(settingsButton, "Icon", ICONS.settings, 20)
 
--- Context menus float over the world instead of living inside a large StarBlox dashboard.
+-- Context menus use a single compact glass card next to the persistent action rail.
 local panel = Instance.new("Frame")
 panel.Name = "BrookhavenContextPanel"
 panel.AnchorPoint = Vector2.new(1, 0)
-panel.Position = UDim2.new(1, -83, 0, 105)
-panel.Size = UDim2.fromOffset(326, 309)
-panel.BackgroundTransparency = 1
+panel.Position = UDim2.new(1, -70, 0, 96)
+panel.Size = UDim2.fromOffset(288, 300)
+panel.BackgroundColor3 = UI.white
+panel.BackgroundTransparency = 0.06
 panel.Visible = false
 panel.ZIndex = 70
 panel.Parent = shell
+glass(panel, 14)
 
 local panelTitle = Instance.new("TextLabel")
 panelTitle.Name = "PanelTitle"
-panelTitle.Position = UDim2.fromOffset(0, 2)
-panelTitle.Size = UDim2.fromOffset(198, 42)
-panelTitle.BackgroundColor3 = UI.white
-panelTitle.BackgroundTransparency = 0.14
+panelTitle.Position = UDim2.fromOffset(12, 8)
+panelTitle.Size = UDim2.new(1, -58, 0, 34)
+panelTitle.BackgroundTransparency = 1
 panelTitle.Text = ""
 panelTitle.TextColor3 = UI.text
 panelTitle.Font = Enum.Font.GothamBold
-panelTitle.TextScaled = true
+panelTitle.TextSize = 16
+panelTitle.TextXAlignment = Enum.TextXAlignment.Left
 panelTitle.ZIndex = 71
 panelTitle.Parent = panel
-round(panelTitle, 6)
-stroke(panelTitle, UI.border, 1, 0.5)
-constrain(panelTitle, 12, 16)
 
 local close = Instance.new("TextButton")
 close.Name = "Close"
 close.AnchorPoint = Vector2.new(1, 0)
-close.Position = UDim2.new(1, 0, 0, 0)
-close.Size = UDim2.fromOffset(52, 48)
+close.Position = UDim2.new(1, -8, 0, 8)
+close.Size = UDim2.fromOffset(30, 30)
 close.BackgroundColor3 = UI.red
-close.Text = "X"
+close.BackgroundTransparency = 0.02
+close.Text = "×"
 close.TextColor3 = Color3.new(1, 1, 1)
 close.Font = Enum.Font.GothamBold
-close.TextScaled = true
+close.TextSize = 20
 close.ZIndex = 74
 close.Parent = panel
-round(close, 6)
-stroke(close, Color3.fromRGB(130, 25, 25), 1, 0.35)
-constrain(close, 22, 29)
+round(close, 10)
+stroke(close, Color3.fromRGB(160, 35, 35), 1, 0.35)
 
 local panelToolbar = Instance.new("Frame")
 panelToolbar.Name = "PanelToolbar"
-panelToolbar.Position = UDim2.fromOffset(0, 0)
-panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+panelToolbar.Position = UDim2.fromOffset(12, 48)
+panelToolbar.Size = UDim2.new(1, -24, 0, 38)
 panelToolbar.BackgroundTransparency = 1
 panelToolbar.Visible = false
 panelToolbar.ZIndex = 73
@@ -584,7 +623,7 @@ panelToolbar.Parent = panel
 
 local toolbarLayout = Instance.new("UIListLayout")
 toolbarLayout.FillDirection = Enum.FillDirection.Horizontal
-toolbarLayout.Padding = UDim.new(0, 3)
+toolbarLayout.Padding = UDim.new(0, 5)
 toolbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
 toolbarLayout.Parent = panelToolbar
 
@@ -607,18 +646,17 @@ local function toolbarButton(
 	local button = Instance.new("TextButton")
 	button.Name = name
 	button.LayoutOrder = order
-	button.Size = UDim2.fromOffset(46, 44)
-	button.BackgroundColor3 = if selected then UI.tileSelected else UI.white
-	button.BackgroundTransparency = 0.12
+	button.Size = UDim2.fromOffset(36, 36)
+	button.BackgroundColor3 = if selected then UI.selected else UI.white
+	button.BackgroundTransparency = if selected then 0.08 else 0.18
 	button.Text = symbol
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextSize = 16
 	button.ZIndex = 74
 	button.Parent = panelToolbar
-	round(button, 6)
-	stroke(button, UI.border, 1, 0.45)
-	constrain(button, 16, 24)
+	round(button, 10)
+	stroke(button, UI.border, 1, 0.55)
 	button.Activated:Connect(callback)
 	return button
 end
@@ -626,24 +664,23 @@ end
 local statusText = Instance.new("TextLabel")
 statusText.Name = "Status"
 statusText.AnchorPoint = Vector2.new(0, 1)
-statusText.Position = UDim2.new(0, 0, 1, 0)
-statusText.Size = UDim2.new(1, -58, 0, 24)
+statusText.Position = UDim2.new(0, 12, 1, -10)
+statusText.Size = UDim2.new(1, -24, 0, 24)
 statusText.BackgroundColor3 = UI.white
-statusText.BackgroundTransparency = 0.22
+statusText.BackgroundTransparency = 0.10
 statusText.Text = ""
 statusText.TextColor3 = UI.muted
 statusText.Font = Enum.Font.GothamMedium
-statusText.TextScaled = true
+statusText.TextSize = 10
 statusText.Visible = false
 statusText.ZIndex = 72
 statusText.Parent = panel
-round(statusText, 6)
-constrain(statusText, 9, 12)
+round(statusText, 8)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Grid"
-scroller.Position = UDim2.fromOffset(50, 54)
-scroller.Size = UDim2.new(1, -50, 1, -58)
+scroller.Position = UDim2.fromOffset(56, 94)
+scroller.Size = UDim2.new(1, -68, 1, -106)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -654,8 +691,8 @@ scroller.Parent = panel
 
 local categoryRail = Instance.new("Frame")
 categoryRail.Name = "CategoryRail"
-categoryRail.Position = UDim2.fromOffset(0, 54)
-categoryRail.Size = UDim2.fromOffset(44, 245)
+categoryRail.Position = UDim2.fromOffset(12, 94)
+categoryRail.Size = UDim2.fromOffset(38, 194)
 categoryRail.BackgroundTransparency = 1
 categoryRail.Visible = false
 categoryRail.ZIndex = 72
@@ -669,27 +706,28 @@ categoryList.Parent = categoryRail
 
 local grid = Instance.new("UIGridLayout")
 grid.CellPadding = UDim2.fromOffset(5, 5)
-grid.CellSize = UDim2.fromOffset(62, 64)
+grid.CellSize = UDim2.fromOffset(58, 58)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
-grid.HorizontalAlignment = Enum.HorizontalAlignment.Right
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Center
 grid.Parent = scroller
 
--- Brookhaven's House action first chooses a vacant lot with previous/next + GO.
+-- Compact house/plot picker uses the same card language instead of covering the middle of the screen.
 local plotSelector = Instance.new("Frame")
 plotSelector.Name = "HousePlotSelector"
-plotSelector.AnchorPoint = Vector2.new(0.5, 0.5)
-plotSelector.Position = UDim2.fromScale(0.5, 0.43)
-plotSelector.Size = UDim2.fromOffset(520, 206)
-plotSelector.BackgroundTransparency = 1
+plotSelector.AnchorPoint = Vector2.new(1, 0)
+plotSelector.Position = UDim2.new(1, -70, 0, 96)
+plotSelector.Size = UDim2.fromOffset(300, 184)
+plotSelector.BackgroundColor3 = UI.white
+plotSelector.BackgroundTransparency = 0.06
 plotSelector.Visible = false
 plotSelector.ZIndex = 68
 plotSelector.Parent = shell
+glass(plotSelector, 14)
 
 local plotModes = Instance.new("Frame")
 plotModes.Name = "PlotModes"
-plotModes.AnchorPoint = Vector2.new(0.5, 0)
-plotModes.Position = UDim2.new(0.5, 0, 0, 0)
-plotModes.Size = UDim2.fromOffset(510, 58)
+plotModes.Position = UDim2.fromOffset(10, 10)
+plotModes.Size = UDim2.fromOffset(280, 44)
 plotModes.BackgroundTransparency = 1
 plotModes.ZIndex = 69
 plotModes.Parent = plotSelector
@@ -697,53 +735,31 @@ plotModes.Parent = plotSelector
 for index = 1, 3 do
 	local mode = Instance.new("TextButton")
 	mode.Name = "Mode" .. tostring(index)
-	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
-	mode.Size = UDim2.fromOffset(164, 54)
-	mode.BackgroundColor3 =
-		if index == 1 then Color3.fromRGB(191, 191, 191)
-		elseif index == 2 then Color3.fromRGB(199, 184, 126)
-		else Color3.fromRGB(166, 184, 202)
-	mode.BackgroundTransparency = 0.1
+	mode.Position = UDim2.fromOffset((index - 1) * 94, 0)
+	mode.Size = UDim2.fromOffset(88, 44)
+	mode.BackgroundColor3 = if index == 1 then UI.selected else UI.tile
+	mode.BackgroundTransparency = if index == 1 then 0.08 else 0.18
 	mode.Text = ""
-	mode.TextColor3 = UI.text
-	mode.Font = Enum.Font.GothamBold
-	mode.TextScaled = true
 	mode.AutoButtonColor = false
 	mode.Active = false
 	mode.ZIndex = 70
 	mode.Parent = plotModes
-	round(mode, 5)
-	stroke(mode, UI.border, 1, 0.4)
-	constrain(mode, 18, 26)
+	round(mode, 10)
+	stroke(mode, UI.border, 1, 0.55)
 	drawPlotModeIcon(mode, index)
-
-	if index == 1 then
-		local check = Instance.new("TextLabel")
-		check.Name = "SelectedCheck"
-		check.Position = UDim2.new(0.5, 5, 0.5, -16)
-		check.Size = UDim2.fromOffset(28, 28)
-		check.BackgroundTransparency = 1
-		check.Text = "✓"
-		check.TextColor3 = Color3.fromRGB(44, 210, 65)
-		check.Font = Enum.Font.GothamBold
-		check.TextScaled = true
-		check.ZIndex = 71
-		check.Parent = mode
-		constrain(check, 18, 24)
-	end
 end
 
 local plotCard = Instance.new("Frame")
 plotCard.Name = "PlotCard"
 plotCard.AnchorPoint = Vector2.new(0.5, 0)
-plotCard.Position = UDim2.new(0.5, 0, 0, 88)
-plotCard.Size = UDim2.fromOffset(220, 58)
-plotCard.BackgroundColor3 = UI.white
-plotCard.BackgroundTransparency = 0.2
+plotCard.Position = UDim2.new(0.5, 0, 0, 64)
+plotCard.Size = UDim2.fromOffset(180, 56)
+plotCard.BackgroundColor3 = UI.tile
+plotCard.BackgroundTransparency = 0.10
 plotCard.ZIndex = 69
 plotCard.Parent = plotSelector
-round(plotCard, 7)
-stroke(plotCard, UI.border, 1, 0.4)
+round(plotCard, 10)
+stroke(plotCard, UI.border, 1, 0.55)
 
 local plotTitle = Instance.new("TextLabel")
 plotTitle.Name = "PlotTitle"
@@ -753,81 +769,82 @@ plotTitle.BackgroundTransparency = 1
 plotTitle.Text = "House #1"
 plotTitle.TextColor3 = UI.text
 plotTitle.Font = Enum.Font.GothamBold
-plotTitle.TextScaled = true
+plotTitle.TextSize = 15
 plotTitle.ZIndex = 70
 plotTitle.Parent = plotCard
-constrain(plotTitle, 14, 19)
 
 local plotStatus = Instance.new("TextLabel")
 plotStatus.Name = "PlotStatus"
 plotStatus.Position = UDim2.fromOffset(8, 30)
-plotStatus.Size = UDim2.new(1, -16, 0, 20)
+plotStatus.Size = UDim2.new(1, -16, 0, 18)
 plotStatus.BackgroundTransparency = 1
 plotStatus.Text = "Vacant"
-plotStatus.TextColor3 = UI.text
+plotStatus.TextColor3 = UI.muted
 plotStatus.Font = Enum.Font.GothamMedium
-plotStatus.TextScaled = true
+plotStatus.TextSize = 11
 plotStatus.ZIndex = 70
 plotStatus.Parent = plotCard
-constrain(plotStatus, 11, 15)
 
 local function plotArrow(name: string, text: string, x: number): TextButton
 	local button = Instance.new("TextButton")
 	button.Name = name
 	button.AnchorPoint = Vector2.new(0.5, 0)
-	button.Position = UDim2.new(0.5, x, 0, 91)
-	button.Size = UDim2.fromOffset(70, 70)
+	button.Position = UDim2.new(0.5, x, 0, 72)
+	button.Size = UDim2.fromOffset(40, 40)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.24
+	button.BackgroundTransparency = 0.14
 	button.Text = text
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextSize = 22
 	button.ZIndex = 70
 	button.Parent = plotSelector
-	round(button, 35)
-	stroke(button, UI.border, 2, 0.18)
-	constrain(button, 32, 42)
+	round(button, 12)
+	stroke(button, UI.border, 1, 0.5)
 	return button
 end
 
-local previousPlot = plotArrow("PreviousPlot", "←", -178)
-local nextPlot = plotArrow("NextPlot", "→", 178)
+local previousPlot = plotArrow("PreviousPlot", "←", -116)
+local nextPlot = plotArrow("NextPlot", "→", 116)
 
 local plotGo = Instance.new("TextButton")
 plotGo.Name = "PlotGo"
 plotGo.AnchorPoint = Vector2.new(0.5, 0)
-plotGo.Position = UDim2.new(0.5, -82, 0, 154)
-plotGo.Size = UDim2.fromOffset(154, 42)
+plotGo.Position = UDim2.new(0.5, -63, 0, 132)
+plotGo.Size = UDim2.fromOffset(120, 38)
 plotGo.BackgroundColor3 = UI.green
-plotGo.BackgroundTransparency = 0.04
-plotGo.Text = "CLAIM PLOT"
+plotGo.BackgroundTransparency = 0.02
+plotGo.Text = "CLAIM"
 plotGo.TextColor3 = Color3.new(1, 1, 1)
 plotGo.Font = Enum.Font.GothamBold
-plotGo.TextScaled = true
+plotGo.TextSize = 15
 plotGo.ZIndex = 70
 plotGo.Parent = plotSelector
-constrain(plotGo, 25, 32)
 round(plotGo, 10)
 stroke(plotGo, Color3.fromRGB(37, 126, 56), 1, 0.25)
 
 local plotCatalog = Instance.new("TextButton")
 plotCatalog.Name = "HouseCatalog"
 plotCatalog.AnchorPoint = Vector2.new(0.5, 0)
-plotCatalog.Position = UDim2.new(0.5, 82, 0, 154)
-plotCatalog.Size = UDim2.fromOffset(154, 42)
+plotCatalog.Position = UDim2.new(0.5, 63, 0, 132)
+plotCatalog.Size = UDim2.fromOffset(120, 38)
 plotCatalog.BackgroundColor3 = Color3.fromRGB(74, 153, 224)
-plotCatalog.BackgroundTransparency = 0.04
-plotCatalog.Text = "BUY / CHANGE"
+plotCatalog.BackgroundTransparency = 0.02
+plotCatalog.Text = "CHANGE"
 plotCatalog.TextColor3 = Color3.new(1, 1, 1)
 plotCatalog.Font = Enum.Font.GothamBold
-plotCatalog.TextScaled = true
+plotCatalog.TextSize = 13
 plotCatalog.Visible = false
 plotCatalog.ZIndex = 70
 plotCatalog.Parent = plotSelector
 round(plotCatalog, 10)
 stroke(plotCatalog, Color3.fromRGB(41, 99, 153), 1, 0.25)
-constrain(plotCatalog, 12, 16)
+
+local function setSecondaryChromeVisible(visible: boolean)
+	topCluster.Visible = visible
+	shopShortcut.Visible = visible
+	rail.Visible = visible
+end
 
 local mirrorState = nil
 local roleplayState = nil
@@ -881,18 +898,17 @@ local function setCategories(
 		local button = Instance.new("TextButton")
 		button.Name = "Category_" .. entry.Id
 		button.LayoutOrder = order
-		button.Size = UDim2.fromOffset(42, 42)
+		button.Size = UDim2.fromOffset(36, 36)
 		button.BackgroundColor3 = if entry.Id == selectedId then UI.tileSelected else UI.white
-		button.BackgroundTransparency = 0.12
+		button.BackgroundTransparency = 0.16
 		button.Text = entry.Symbol
 		button.TextColor3 = UI.text
 		button.Font = Enum.Font.GothamBold
-		button.TextScaled = true
+		button.TextSize = 17
 		button.ZIndex = 73
 		button.Parent = categoryRail
-		round(button, 6)
-		stroke(button, UI.border, 1, 0.45)
-		constrain(button, 15, 22)
+		round(button, 10)
+		stroke(button, UI.border, 1, 0.55)
 		button.Activated:Connect(function()
 			onSelect(entry.Id)
 		end)
@@ -910,37 +926,37 @@ end
 
 
 local function configureTextPanel()
-	panel.Position = UDim2.new(1, -83, 0, 105)
-	panel.Size = UDim2.fromOffset(326, 309)
+	panel.Position = UDim2.new(1, -70, 0, 96)
+	panel.Size = UDim2.fromOffset(288, 300)
 	panelTitle.Visible = true
-	scroller.Position = UDim2.fromOffset(50, 54)
-	scroller.Size = UDim2.new(1, -50, 1, -58)
-	categoryRail.Position = UDim2.fromOffset(0, 54)
-	categoryRail.Size = UDim2.fromOffset(44, 245)
+	panelToolbar.Visible = false
+	categoryRail.Position = UDim2.fromOffset(12, 50)
+	categoryRail.Size = UDim2.fromOffset(38, 238)
 	categoryList.Padding = UDim.new(0, 4)
 	grid.CellPadding = UDim2.fromOffset(5, 5)
-	grid.CellSize = UDim2.fromOffset(76, 64)
-	panelToolbar.Visible = false
+	grid.CellSize = UDim2.fromOffset(70, 62)
+	scroller.Position = UDim2.fromOffset(56, 50)
+	scroller.Size = UDim2.new(1, -68, 1, -62)
 end
 
 local function configureIconPanel(withCategoryRail: boolean)
-	panel.Position = UDim2.new(1, -164, 0, 126)
-	panel.Size = UDim2.fromOffset(258, 264)
-	panelTitle.Visible = false
-	panelToolbar.Position = UDim2.fromOffset(0, 0)
-	panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+	panel.Position = UDim2.new(1, -70, 0, 96)
+	panel.Size = UDim2.fromOffset(288, 300)
+	panelTitle.Visible = true
+	panelToolbar.Position = UDim2.fromOffset(12, 48)
+	panelToolbar.Size = UDim2.new(1, -58, 0, 38)
 	panelToolbar.Visible = true
-	categoryRail.Position = UDim2.fromOffset(0, 50)
-	categoryRail.Size = UDim2.fromOffset(44, 214)
-	categoryList.Padding = UDim.new(0, 1)
-	grid.CellPadding = UDim2.fromOffset(4, 4)
-	grid.CellSize = UDim2.fromOffset(49, 49)
+	categoryRail.Position = UDim2.fromOffset(12, 94)
+	categoryRail.Size = UDim2.fromOffset(38, 194)
+	categoryList.Padding = UDim.new(0, 4)
+	grid.CellPadding = UDim2.fromOffset(5, 5)
+	grid.CellSize = UDim2.fromOffset(58, 58)
 	if withCategoryRail then
-		scroller.Position = UDim2.fromOffset(50, 50)
-		scroller.Size = UDim2.new(1, -50, 1, -50)
+		scroller.Position = UDim2.fromOffset(56, 94)
+		scroller.Size = UDim2.new(1, -68, 1, -106)
 	else
-		scroller.Position = UDim2.fromOffset(0, 50)
-		scroller.Size = UDim2.new(1, 0, 1, -50)
+		scroller.Position = UDim2.fromOffset(12, 94)
+		scroller.Size = UDim2.new(1, -24, 1, -106)
 	end
 end
 
@@ -949,6 +965,7 @@ local function setHeader(nextTitle: string)
 	panelTitle.Text = nextTitle
 	panelTitle.Visible = true
 	panel.Visible = true
+	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 end
 
@@ -971,11 +988,11 @@ local function tile(
 	frame.LayoutOrder = order
 	frame.Size = UDim2.fromOffset(76, 64)
 	frame.BackgroundColor3 = UI.tile
-	frame.BackgroundTransparency = 0.12
+	frame.BackgroundTransparency = 0.08
 	frame.ZIndex = 72
 	frame.Parent = scroller
-	round(frame, 6)
-	stroke(frame, UI.border, 1, 0.45)
+	round(frame, 10)
+	stroke(frame, UI.border, 1, 0.58)
 
 	local icon = Instance.new("TextLabel")
 	icon.BackgroundTransparency = 1
@@ -1213,18 +1230,21 @@ local function iconTile(
 	local frame = Instance.new("Frame")
 	frame.Name = accessibleName
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(62, 64)
+	frame.Size = UDim2.fromOffset(58, 58)
 	frame.BackgroundColor3 = UI.white
-	frame.BackgroundTransparency = 0.12
+	frame.BackgroundTransparency = 0.08
 	frame.ZIndex = 72
 	frame.Parent = scroller
-	round(frame, 6)
-	stroke(frame, UI.border, 1, 0.45)
+	round(frame, 10)
+	stroke(frame, UI.border, 1, 0.58)
 
 	if previewType == "vehicle" then
 		renderVehiclePreview(frame, tostring(previewKind or "car"))
 	elseif previewType == "tool" then
 		renderToolPreview(frame, tostring(previewKind or ""))
+	elseif previewType == "animation" then
+		local animationIcon = iconLabel(frame, "AnimationIcon", ICONS.animations, 27)
+		animationIcon.ImageColor3 = UI.icon
 	else
 		local icon = Instance.new("TextLabel")
 		icon.Name = "Icon"
@@ -1319,6 +1339,7 @@ local function closePanel()
 	clearCategories()
 	clearToolbar()
 	setRailSelection(nil)
+	setSecondaryChromeVisible(true)
 	setActionLabelsVisible(true)
 end
 
@@ -1414,7 +1435,7 @@ local function renderPlotSelector()
 		else
 			plotStatus.Text = "Vacant"
 			plotStatus.TextColor3 = UI.text
-			plotGo.Text = "CLAIM PLOT"
+			plotGo.Text = "CLAIM"
 			plotGo.Active = true
 		end
 	end
@@ -1438,11 +1459,46 @@ local function fetchPlots(): boolean
 	return true
 end
 
+local function stabilizeThirdPersonCamera()
+	local camera = workspace.CurrentCamera
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if camera == nil or root == nil or not root:IsA("BasePart") or humanoid == nil then
+		return
+	end
+
+	local target = root.Position + Vector3.new(0, 2, 0)
+	local desired = target - (root.CFrame.LookVector * 11) + Vector3.new(0, 3.5, 0)
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = {character}
+	params.IgnoreWater = true
+	local hit = workspace:Raycast(target, desired - target, params)
+	if hit ~= nil then
+		desired = hit.Position + ((target - hit.Position).Unit * 1.5)
+	end
+
+	camera.CameraType = Enum.CameraType.Scriptable
+	camera.CFrame = CFrame.lookAt(desired, target)
+	task.delay(0.18, function()
+		local current = workspace.CurrentCamera
+		if current ~= nil and humanoid.Parent ~= nil then
+			current.CameraSubject = humanoid
+			current.CameraType = Enum.CameraType.Custom
+		end
+	end)
+end
+
 local function travelHome(): boolean
 	local ok, result = pcall(function()
 		return visitHome:InvokeServer()
 	end)
-	return ok and type(result) == "table" and result.ok == true
+	local success = ok and type(result) == "table" and result.ok == true
+	if success then
+		task.defer(stabilizeThirdPersonCamera)
+	end
+	return success
 end
 
 local function showTravelFailure()
@@ -1456,9 +1512,12 @@ local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
 	if not fetchPlots() then
+		setRailSelection(nil)
+		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 		return
 	end
+	setSecondaryChromeVisible(false)
 	plotSelector.Visible = true
 	setActionLabelsVisible(false)
 	renderPlotSelector()
@@ -1620,7 +1679,7 @@ showAnimations = function()
 	local order = 1
 	for _, emoteName in {"wave", "point", "cheer", "laugh", "dance", "dance2", "dance3"} do
 		local label = string.upper(string.sub(emoteName, 1, 1)) .. string.sub(emoteName, 2)
-		iconTile("♟", label, "", UI.green, order, function()
+		iconTile("", label, "", UI.green, order, function()
 			local character = player.Character
 			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 			if humanoid then
@@ -1629,7 +1688,7 @@ showAnimations = function()
 				end)
 			end
 			closePanel()
-		end)
+		end, "animation", emoteName)
 		order += 1
 	end
 end
@@ -1669,6 +1728,7 @@ showFamily = function()
 	local openPanel = familyGui and familyGui:FindFirstChild("OpenFamilyPanel")
 	if openPanel and openPanel:IsA("BindableEvent") then
 		openPanel:Fire()
+	else
 	end
 end
 

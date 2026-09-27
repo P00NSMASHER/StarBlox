@@ -17,14 +17,14 @@ local removeMember = familyRemotes:WaitForChild("RemoveMember") :: RemoteFunctio
 local stateChanged = familyRemotes:WaitForChild("StateChanged") :: RemoteEvent
 
 local UI = {
-	white = Color3.fromRGB(239, 239, 239),
-	panel = Color3.fromRGB(63, 63, 63),
-	panelSoft = Color3.fromRGB(102, 102, 102),
-	text = Color3.fromRGB(34, 34, 34),
-	muted = Color3.fromRGB(220, 220, 220),
+	white = Color3.fromRGB(248, 249, 250),
+	panel = Color3.fromRGB(233, 236, 240),
+	panelSoft = Color3.fromRGB(218, 223, 228),
+	text = Color3.fromRGB(35, 40, 46),
+	muted = Color3.fromRGB(98, 106, 114),
 	red = Color3.fromRGB(205, 37, 37),
 	green = Color3.fromRGB(61, 183, 79),
-	border = Color3.fromRGB(105, 105, 105),
+	border = Color3.fromRGB(160, 170, 180),
 }
 
 local function round(object: GuiObject, radius: number)
@@ -68,6 +68,15 @@ root.Size = UDim2.fromScale(1, 1)
 root.BackgroundTransparency = 1
 root.Parent = gui
 
+local scrim = Instance.new("Frame")
+scrim.Name = "FamilyScrim"
+scrim.Size = UDim2.fromScale(1, 1)
+scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
+scrim.BackgroundTransparency = 0.36
+scrim.BorderSizePixel = 0
+scrim.ZIndex = 81
+scrim.Parent = root
+
 local scale = Instance.new("UIScale")
 scale.Scale = 1
 scale.Parent = root
@@ -89,10 +98,10 @@ end
 local panel = Instance.new("Frame")
 panel.Name = "MyFamilyPanel"
 panel.AnchorPoint = Vector2.new(1, 0)
-panel.Position = UDim2.new(1, -198, 0, 160)
-panel.Size = UDim2.fromOffset(205, 264)
+panel.Position = UDim2.new(1, -72, 0, 96)
+panel.Size = UDim2.fromOffset(220, 252)
 panel.BackgroundColor3 = UI.white
-panel.BackgroundTransparency = 0.08
+panel.BackgroundTransparency = 0.02
 panel.ZIndex = 83
 panel.Parent = root
 round(panel, 9)
@@ -101,13 +110,13 @@ stroke(panel, 0.35)
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.Position = UDim2.fromOffset(4, 2)
-title.Size = UDim2.new(1, -8, 0, 35)
+title.Size = UDim2.new(1, -50, 0, 36)
 title.BackgroundColor3 = UI.white
 title.BackgroundTransparency = 0.05
 title.Text = "My Family"
 title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamMedium
-title.TextScaled = true
+title.TextSize = 18
 title.ZIndex = 84
 title.Parent = panel
 round(title, 7)
@@ -115,14 +124,14 @@ constrain(title, 18, 24)
 
 local close = Instance.new("TextButton")
 close.Name = "Close"
-close.AnchorPoint = Vector2.new(0.5, 1)
-close.Position = UDim2.new(1, 15, 0, -3)
-close.Size = UDim2.fromOffset(44, 44)
+close.AnchorPoint = Vector2.new(1, 0)
+close.Position = UDim2.new(1, -7, 0, 7)
+close.Size = UDim2.fromOffset(30, 30)
 close.BackgroundColor3 = UI.red
-close.Text = "X"
+close.Text = "×"
 close.TextColor3 = Color3.new(1, 1, 1)
 close.Font = Enum.Font.GothamBold
-close.TextScaled = true
+close.TextSize = 20
 close.ZIndex = 88
 close.Parent = panel
 round(close, 7)
@@ -131,10 +140,10 @@ constrain(close, 22, 29)
 
 local list = Instance.new("ScrollingFrame")
 list.Name = "FamilyList"
-list.Position = UDim2.fromOffset(6, 42)
-list.Size = UDim2.new(1, -12, 1, -70)
+list.Position = UDim2.fromOffset(8, 48)
+list.Size = UDim2.new(1, -16, 1, -76)
 list.BackgroundColor3 = UI.panel
-list.BackgroundTransparency = 0.18
+list.BackgroundTransparency = 0.10
 list.BorderSizePixel = 0
 list.ScrollBarThickness = 3
 list.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -165,7 +174,8 @@ hideButton.Size = UDim2.new(1, -14, 0, 20)
 hideButton.BackgroundTransparency = 1
 hideButton.TextColor3 = UI.text
 hideButton.Font = Enum.Font.GothamMedium
-hideButton.TextScaled = true
+hideButton.TextScaled = false
+hideButton.TextSize = 11
 hideButton.TextXAlignment = Enum.TextXAlignment.Left
 hideButton.ZIndex = 85
 hideButton.Parent = panel
@@ -197,13 +207,13 @@ local function row(
 	local b = Instance.new("TextButton")
 	b.Name = name
 	b.LayoutOrder = order
-	b.Size = UDim2.new(1, 0, 0, 39)
+	b.Size = UDim2.new(1, 0, 0, 36)
 	b.BackgroundColor3 = UI.white
 	b.BackgroundTransparency = 0.06
 	b.Text = text
 	b.TextColor3 = UI.text
 	b.Font = Enum.Font.GothamMedium
-	b.TextScaled = true
+	b.TextSize = 13
 	b.TextWrapped = true
 	b.AutoButtonColor = callback ~= nil
 	b.Active = callback ~= nil
@@ -344,8 +354,26 @@ render = function()
 	end)
 end
 
+local function setWorldHudVisible(visible: boolean)
+	local shellGui = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
+	if shellGui ~= nil and shellGui:IsA("ScreenGui") then
+		shellGui.Enabled = visible
+	end
+end
+
+local function setRoleplayTagVisible(visible: boolean)
+	local character = player.Character
+	local head = character and character:FindFirstChild("Head")
+	local tag = head and head:FindFirstChild("StarBloxRoleplayTag")
+	if tag ~= nil and tag:IsA("BillboardGui") then
+		tag.Enabled = visible
+	end
+end
+
 local function closePanel()
 	gui.Enabled = false
+	setRoleplayTagVisible(true)
+	setWorldHudVisible(true)
 end
 
 close.Activated:Connect(closePanel)
@@ -363,6 +391,8 @@ openFamily.Event:Connect(function()
 		state = nil
 		render()
 	end
+	setWorldHudVisible(false)
+	setRoleplayTagVisible(false)
 	gui.Enabled = true
 end)
 

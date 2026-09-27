@@ -26,15 +26,17 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
 
     expect(editor).toContain('gui.Name = "BrookhavenAvatarEditorUI"');
     expect(editor).toContain('scrim.Name = "EditorScrim"');
-    expect(editor).toContain('scrim.BackgroundTransparency = 0.46');
+    expect(editor).toContain('scrim.BackgroundTransparency = 0.22');
     expect(editor).toContain('local function setWorldHudVisible(visible: boolean)');
     expect(editor).toContain('setWorldHudVisible(false)');
     expect(editor).toContain('setWorldHudVisible(true)');
+    expect(editor).toContain('setRoleplayTagVisible(false)');
+    expect(editor).toContain('setRoleplayTagVisible(true)');
     expect(editor).toContain('outfitsPanel.Name = "MyOutfits"');
     expect(editor).toContain('outfitsTitle.Text = "My Outfits"');
     expect(editor).toContain('presetsPanel.Name = "PresetPanel"');
     expect(editor).toContain('presetGrid.FillDirectionMaxCells = 4');
-    expect(editor).toContain('presetGrid.CellSize = UDim2.fromOffset(84, 84)');
+    expect(editor).toContain('presetGrid.CellSize = UDim2.fromOffset(78, 78)');
     expect(editor).toContain('camera.CameraType = Enum.CameraType.Scriptable');
     expect(editor).toContain('camera.CFrame = CFrame.lookAt(cameraPosition, target)');
     expect(editor).toContain('local viewport = Instance.new("ViewportFrame")');
@@ -72,7 +74,8 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
     const service=read('roblox/src/server/RoleplayService.luau');
 
     expect(editor).toContain('equippedTray.Name = "EquippedItems"');
-    expect(editor).toContain('equippedTray.Size = UDim2.fromOffset(378, 58)');
+    expect(editor).toContain('equippedTray.Size = UDim2.fromOffset(348, 54)');
+    expect(editor).toContain('label.Text = string.gsub(key, "Accessory", "")');
     expect(editor).toContain('for slot = 1, 7 do');
     expect(editor).toContain('remove.BackgroundColor3 = COLORS.red');
     expect(editor).toContain('removeAvatarItem:InvokeServer(key, assetId)');

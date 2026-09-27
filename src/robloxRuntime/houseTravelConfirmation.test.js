@@ -14,9 +14,13 @@ describe('house travel confirmation',()=>{
     expect(service).toContain('if (root.Position - target.Position).Magnitude > 12 then');
     expect(service).toContain('return false, "travel_not_confirmed"');
     expect(service).toContain('return {ok = false, code = "plot_unavailable"}');
-    expect(service).toContain('local _, depth = tierDimensions(tier)');
-    expect(service).toContain('local exteriorOffset = (depth / 2) + 6');
-    expect(service).toContain('local target = base * CFrame.new(0, 3.5, exteriorOffset)');
+    expect(service).toContain('function HomeEconomyService:_homeArrivalCFrame(player: Player): CFrame?');
+    expect(service).toContain('Workspace:Raycast(rayOrigin, Vector3.new(0, -90, 0), rayParams)');
+    expect(service).toContain('Workspace:GetPartBoundsInBox(');
+    expect(service).toContain('if not blocked then');
+    expect(service).toContain('return CFrame.lookAt(rootPosition, lookAt)');
+    expect(service).toContain('local target = self:_homeArrivalCFrame(player)');
+    expect(service).toContain('code = "safe_home_arrival_unavailable"');
     expect(service).toContain('local ok, code = self:_teleport(player, target)');
     expect(service).toContain('return {ok = ok, code = code}');
   });
@@ -25,7 +29,9 @@ describe('house travel confirmation',()=>{
     const client=read('roblox/src/client/MirrorSidebar.client.luau');
 
     expect(client).toContain('local function travelHome(): boolean');
-    expect(client).toContain('return ok and type(result) == "table" and result.ok == true');
+    expect(client).toContain('local success = ok and type(result) == "table" and result.ok == true');
+    expect(client).toContain('task.defer(stabilizeThirdPersonCamera)');
+    expect(client).toContain('current.CameraType = Enum.CameraType.Custom');
     expect(client).toContain('plotStatus.Text = "Travel failed — try again"');
     expect(client).toContain('if travelHome() then');
     expect((client.match(/if travelHome\(\) then/g)||[]).length).toBe(2);
