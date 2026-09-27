@@ -259,7 +259,10 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
     expect(receipt.versions).toEqual({previous:8,published:9,verified:null});
     expect(receipt.verification).toEqual({
       status:'pending-production-server-boot',
-      taskPath:null
+      scope:'production-server-boot',
+      taskPath:null,
+      robloxClientRunObserved:false,
+      clientStatus:'not-tested'
     });
     expect(receipt.releaseGate?.version).toBe('starblox-step6-release-gate-v1');
   });
@@ -284,13 +287,20 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
       }
     });
 
-    expect(receipt.status).toBe('published-and-verified');
+    expect(receipt.status).toBe('published-server-boot-verified');
     expect(receipt.versions).toEqual({
       previous:1,
       published:2,
       verified:2
     });
     expect(receipt.rollback.preservedPreviousVersion).toBe(1);
+    expect(receipt.verification).toEqual({
+      status:'server-boot-verified',
+      scope:'production-server-boot',
+      taskPath:'task/path',
+      robloxClientRunObserved:false,
+      clientStatus:'not-tested'
+    });
     expect(receipt.releaseGate).toEqual({
       version:'starblox-step6-release-gate-v1',
       artifactSha256:'b'.repeat(64),
