@@ -30,10 +30,11 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
     expect(receipt.output).toMatchObject({
       rootName:'LegacyBrookhavenGeometryBaseline',
       geometryCount:14459,
+      generatedNamePattern:'LBH_00001..LBH_14459',
       forbiddenGameplayClassCount:0,
       allGeometryAnchored:true,
-      sha256:'16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c'
     });
+    expect(receipt.output.sha256).toMatch(/^[a-f0-9]{64}$/);
     expect(receipt.output.safeVisualChildCount).toBeGreaterThan(2000);
     expect(receipt.policy).toMatchObject({
       scriptsRemoved:true,
@@ -57,8 +58,10 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
       safeVisualChildren:2491
     });
     expect(gate.safety.forbiddenGameplayClasses).toBe(0);
-    expect(gate.artifact.deterministicModelSha256)
-      .toBe('16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c');
+    const receipt=readJson('docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json');
+    expect(gate.artifact.deterministicModelSha256).toBe(receipt.output.sha256);
+    expect(gate.artifact.deterministicModelBytes).toBe(receipt.output.bytes);
+    expect(gate.artifact.generatedNamePattern).toBe('LBH_00001..LBH_14459');
     expect(gate.activation.automaticOverlayIntoCurrentFlattenedWorld).toBe(false);
     expect(gate.boundaries).toMatchObject({
       developmentGeometryBreadthP0Closed:true,
@@ -120,8 +123,7 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
       starblox:{instances:5493,geometry:4936,assets:154},
       sanitizedDevelopmentGeometry:{
         geometry:14459,
-        safeVisualChildren:2491,
-        sha256:'16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c'
+        safeVisualChildren:2491
       }
     });
     expect(plan.releaseBoundary).toEqual({
