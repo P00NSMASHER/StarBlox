@@ -61,7 +61,7 @@ local UI = {
 	icon = Color3.fromRGB(31, 38, 45),
 } 
 
-local ICONS = table.freeze({
+local ICONS: {[string]: string} = table.freeze({
 	avatar = "rbxassetid://6022668898",
 	tools = "rbxassetid://6023426938",
 	animations = "rbxassetid://6031625150",
