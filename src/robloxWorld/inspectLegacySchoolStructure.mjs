@@ -1,5 +1,6 @@
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
 function arg(name, fallback = null) {
   const inline = process.argv.find(value => value.startsWith(name + '='));
@@ -77,6 +78,15 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
   const structure = schoolRows
     .filter(row => ['Model', 'Folder', 'Configuration'].includes(className(row.node)))
     .map(row => ({className: className(row.node), name: nodeName(row.node), path: row.path.join('/')}));
+  const instances = schoolRows.map(row => {
+    const isGeometry = geometryClasses.has(className(row.node));
+    return {
+      className: className(row.node),
+      name: nodeName(row.node),
+      path: row.path.join('/'),
+      ...(isGeometry ? {position: position(row.node), size: vector(row.node, 'Size')} : {})
+    };
+  });
 
   return {
     schemaVersion: 1,
@@ -95,7 +105,8 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       instanceCount: schoolRows.length,
       geometryCount: geometry.length,
       structure,
-      candidateGeometry
+      candidateGeometry,
+      instances
     },
     interpretation: {
       roomRoleAssignmentsVerified: false,
@@ -104,24 +115,30 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
   };
 }
 
-const domPath = arg('--dom');
-const acquisitionPath = arg('--acquisition');
-const outPath = resolve(arg('--out', '/tmp/legacy-school-structure.json'));
-if (!domPath || !acquisitionPath) throw new Error('--dom and --acquisition are required');
-const [dom, acquisition] = await Promise.all([
-  readFile(resolve(domPath), 'utf8').then(JSON.parse),
-  readFile(resolve(acquisitionPath), 'utf8').then(JSON.parse)
-]);
-const report = inspectLegacySchoolStructure(dom, acquisition);
-await mkdir(dirname(outPath), {recursive: true});
-await writeFile(outPath, JSON.stringify(report, null, 2) + '\n');
-process.stdout.write(JSON.stringify({
-  status: report.status,
-  sourceCommit: report.source.sourceCommit,
-  schoolPath: report.school.path,
-  instanceCount: report.school.instanceCount,
-  geometryCount: report.school.geometryCount,
-  structure: report.school.structure,
-  candidateGeometry: report.school.candidateGeometry,
-  roomRoleAssignmentsVerified: false
-}, null, 2) + '\n');
+async function main() {
+  const domPath = arg('--dom');
+  const acquisitionPath = arg('--acquisition');
+  const outPath = resolve(arg('--out', '/tmp/legacy-school-structure.json'));
+  if (!domPath || !acquisitionPath) throw new Error('--dom and --acquisition are required');
+  const [dom, acquisition] = await Promise.all([
+    readFile(resolve(domPath), 'utf8').then(JSON.parse),
+    readFile(resolve(acquisitionPath), 'utf8').then(JSON.parse)
+  ]);
+  const report = inspectLegacySchoolStructure(dom, acquisition);
+  await mkdir(dirname(outPath), {recursive: true});
+  await writeFile(outPath, JSON.stringify(report, null, 2) + '\n');
+  process.stdout.write(JSON.stringify({
+    status: report.status,
+    sourceCommit: report.source.sourceCommit,
+    schoolPath: report.school.path,
+    instanceCount: report.school.instanceCount,
+    geometryCount: report.school.geometryCount,
+    structure: report.school.structure,
+    instances: report.school.instances,
+    roomRoleAssignmentsVerified: false
+  }, null, 2) + '\n');
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await main();
+}
