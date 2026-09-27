@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -30,5 +30,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish exact v31 live-diagnostic repair: neutralize LBH_14342..LBH_14376 checkerboard, hide LBH_10677..LBH_10683 skyline cluster, move spawn framing toward the street, and reduce nameplate clutter.",
-  "requestedSourceCommit": "e468bbce1810e42d89f72dbf2070c03e565f2c7f"
+  "requestedSourceCommit": "e468bbce1810e42d89f72dbf2070c03e565f2c7f",
+  "completion": {
+    "publishedVersion": 32,
+    "verifiedVersion": 32,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
