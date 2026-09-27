@@ -1583,20 +1583,71 @@ function HomeEconomyService:_teleport(player: Player, target: CFrame): (boolean,
 	return true, nil
 end
 
+function HomeEconomyService:_homeArrivalCFrame(player: Player): CFrame?
+	local slot = self._slots[player]
+	if slot == nil then
+		return nil
+	end
+	local home = self._homeFolder:FindFirstChild("HomeSlot_" .. tostring(slot))
+	local character = player.Character
+	if home == nil or not home:IsA("Model") or character == nil then
+		return nil
+	end
+
+	local boxCFrame, size = home:GetBoundingBox()
+	local center = boxCFrame.Position
+	local candidates = {
+		{Direction = -boxCFrame.LookVector, Distance = (size.Z / 2) + 12},
+		{Direction = boxCFrame.LookVector, Distance = (size.Z / 2) + 12},
+		{Direction = boxCFrame.RightVector, Distance = (size.X / 2) + 12},
+		{Direction = -boxCFrame.RightVector, Distance = (size.X / 2) + 12},
+	}
+
+	local rayParams = RaycastParams.new()
+	rayParams.FilterType = Enum.RaycastFilterType.Exclude
+	rayParams.FilterDescendantsInstances = {character, home}
+	rayParams.IgnoreWater = true
+
+	local overlapParams = OverlapParams.new()
+	overlapParams.FilterType = Enum.RaycastFilterType.Exclude
+	overlapParams.FilterDescendantsInstances = {character}
+	overlapParams.MaxParts = 32
+
+	for _, candidate in candidates do
+		local horizontal = center + (candidate.Direction * candidate.Distance)
+		local rayOrigin = horizontal + Vector3.new(0, math.max(24, size.Y + 14), 0)
+		local hit = Workspace:Raycast(rayOrigin, Vector3.new(0, -90, 0), rayParams)
+		if hit ~= nil then
+			local rootPosition = hit.Position + Vector3.new(0, 3.5, 0)
+			local blockers = Workspace:GetPartBoundsInBox(
+				CFrame.new(rootPosition),
+				Vector3.new(4, 6, 4),
+				overlapParams
+			)
+			local blocked = false
+			for _, part in blockers do
+				if part:IsA("BasePart") and part.CanCollide and part.Transparency < 0.95 then
+					blocked = true
+					break
+				end
+			end
+			if not blocked then
+				local lookAt = Vector3.new(center.X, rootPosition.Y, center.Z)
+				return CFrame.lookAt(rootPosition, lookAt)
+			end
+		end
+	end
+	return nil
+end
+
 function HomeEconomyService:_visitHome(player: Player)
 	if self._slots[player] == nil then
 		return {ok = false, code = "plot_unavailable"}
 	end
-
-	local base = self:_homeCFrame(player)
-	local tier = math.clamp(math.floor(tonumber(player:GetAttribute("StarBloxHomeTier")) or 1), 1, 5)
-	local _, depth = tierDimensions(tier)
-
-	-- The v33 iPhone recording proved the old fixed +4 stud offset could place
-	-- the character inside the generated house shell. Travel to a guaranteed
-	-- exterior point beyond the front facade/deck for every supported tier.
-	local exteriorOffset = (depth / 2) + 6
-	local target = base * CFrame.new(0, 3.5, exteriorOffset)
+	local target = self:_homeArrivalCFrame(player)
+	if target == nil then
+		return {ok = false, code = "safe_home_arrival_unavailable"}
+	end
 	local ok, code = self:_teleport(player, target)
 	return {ok = ok, code = code}
 end
