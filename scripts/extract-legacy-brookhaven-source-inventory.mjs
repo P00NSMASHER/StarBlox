@@ -1,5 +1,6 @@
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
+import {buildLegacyBrookhavenPathInventory,csvFromRows} from '../src/robloxWorld/legacyBrookhavenPathInventory.js';
 
 function arg(name,def=null){
   const inline=process.argv.find(value=>value.startsWith(name+'='));
@@ -34,9 +35,9 @@ function summarizeChildren(node){
     descendantCount:walk(child).length
   }));
 }
-function modelsUnder(node,limit=1000){
+function modelsUnder(node){
   if(!node) return [];
-  return walk(node).filter(row=>cls(row.node)==='Model').slice(0,limit).map(row=>({
+  return walk(node).filter(row=>cls(row.node)==='Model').map(row=>({
     name:name(row.node),
     path:row.path.join('/'),
     directChildren:kids(row.node).length
@@ -47,8 +48,13 @@ function uniqueNames(rows){
 }
 const domPath=resolve(arg('--dom'));
 const outPath=resolve(arg('--out','docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json'));
+const pathLedgerPath=resolve(arg('--path-ledger','docs/roblox-world/LEGACY_BROOKHAVEN_UNCAPPED_PATH_LEDGER.csv'));
+const assetLedgerPath=resolve(arg('--asset-ledger','docs/roblox-world/LEGACY_BROOKHAVEN_UNCAPPED_ASSET_LEDGER.csv'));
+const runtimeMappingPath=resolve(arg('--runtime-mapping','docs/roblox-world/LEGACY_BROOKHAVEN_RUNTIME_MAPPING_TEMPLATE.csv'));
+const pathMetaPath=resolve(arg('--path-meta','docs/roblox-world/LEGACY_BROOKHAVEN_UNCAPPED_PATH_META.json'));
 if(!domPath) throw new Error('--dom is required');
 const dom=JSON.parse(await readFile(domPath,'utf8'));
+const pathInventory=buildLegacyBrookhavenPathInventory(dom);
 
 const workspace=findPath(dom,['Workspace']) || walk(dom).find(row=>cls(row.node)==='Workspace')?.node;
 const replicatedStorage=findPath(dom,['ReplicatedStorage']) || walk(dom).find(row=>cls(row.node)==='ReplicatedStorage')?.node;
@@ -73,15 +79,14 @@ for(const [key,re] of Object.entries({
 })){
   namedCandidates[key]=allRows
     .filter(row=>re.test(name(row.node)))
-    .slice(0,500)
     .map(row=>({name:name(row.node),className:cls(row.node),path:row.path.join('/')}));
 }
 
-const vehicleModels=modelsUnder(vehicles,2000);
-const lotModels=modelsUnder(lots,2000);
+const vehicleModels=modelsUnder(vehicles);
+const lotModels=modelsUnder(lots);
 const receipt={
-  schemaVersion:1,
-  status:'legacy-source-inventory-extracted',
+  schemaVersion:2,
+  status:'legacy-source-inventory-extracted-uncapped',
   services:{
     rootChildren:summarizeChildren(dom),
     workspaceChildren:summarizeChildren(workspace),
@@ -110,19 +115,48 @@ const receipt={
     }
   },
   namedCandidates,
+  uncappedPathIndex:{
+    ...pathInventory.summary,
+    artifacts:{
+      pathLedger:pathLedgerPath,
+      assetLedger:assetLedgerPath,
+      runtimeMapping:runtimeMappingPath,
+      metadata:pathMetaPath
+    }
+  },
   boundary:{
+    sourceScriptsExecuted:false,
+    sourceScriptsEvaluated:false,
     developmentReferenceOnly:true,
     currentLiveCertificationSatisfied:false,
     exactParityClaimAllowed:false
   }
 };
-await mkdir(dirname(outPath),{recursive:true});
+for(const file of [outPath,pathLedgerPath,assetLedgerPath,runtimeMappingPath,pathMetaPath]){
+  await mkdir(dirname(file),{recursive:true});
+}
 await writeFile(outPath,JSON.stringify(receipt,null,2)+'\n');
+await writeFile(pathLedgerPath,csvFromRows(pathInventory.pathRows,[
+  'id','sourcePath','parentPath','name','className','domain','assetReferenceCount'
+]));
+await writeFile(assetLedgerPath,csvFromRows(pathInventory.assetRows,[
+  'id','sourcePath','name','className','domain','assetKind','property','reference'
+]));
+await writeFile(runtimeMappingPath,csvFromRows(pathInventory.runtimeRows,[
+  'id','sourcePath','domain','runtimePath','status','gapReason'
+]));
+await writeFile(pathMetaPath,JSON.stringify({
+  schemaVersion:1,
+  status:'uncapped-path-ledger-generated-client-parity-unverified',
+  ...pathInventory.summary,
+  boundary:receipt.boundary
+},null,2)+'\n');
 process.stdout.write(JSON.stringify({
   status:receipt.status,
   vehicleModels:receipt.keySubtrees.vehicles.modelCount,
   vehicleUniqueNames:receipt.keySubtrees.vehicles.uniqueModelNames.length,
   lotModels:receipt.keySubtrees.lots.modelCount,
   lotUniqueNames:receipt.keySubtrees.lots.uniqueModelNames.length,
-  rootChildren:receipt.services.rootChildren.length
+  rootChildren:receipt.services.rootChildren.length,
+  uncappedPathIndex:pathInventory.summary
 },null,2)+'\n');
