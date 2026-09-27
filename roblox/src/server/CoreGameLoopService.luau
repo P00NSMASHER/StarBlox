@@ -6,7 +6,11 @@ local Workspace = game:GetService("Workspace")
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
 local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
-local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
+local DefaultWorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
+local LegacyWorldBindings = require(ReplicatedStorage.StarBlox.LegacyWorldActivityBindings)
+local WorldBindings = if BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world"
+	then LegacyWorldBindings
+	else DefaultWorldBindings
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
 
@@ -70,7 +74,9 @@ local function buildWorldBindings()
 	local prompts = {}
 	for _, activity in Config.Activities do
 		local binding = WorldBindings.Activities[activity.Id]
-		assert(binding ~= nil, "missing world binding for activity: " .. activity.Id)
+		if binding == nil then
+			continue
+		end
 
 		local sourcePart = resolveWorldPart(
 			worldRoot,
