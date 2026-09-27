@@ -17,12 +17,12 @@ local applyAvatarPreset = roleplayRemotes:WaitForChild("ApplyAvatarPreset") :: R
 local removeAvatarItem = roleplayRemotes:WaitForChild("RemoveAvatarItem") :: RemoteFunction
 
 local COLORS = {
-	white = Color3.fromRGB(239, 239, 239),
-	tile = Color3.fromRGB(223, 223, 223),
-	tileSelected = Color3.fromRGB(193, 193, 193),
+	white = Color3.fromRGB(248, 249, 250),
+	tile = Color3.fromRGB(235, 238, 242),
+	tileSelected = Color3.fromRGB(211, 232, 244),
 	text = Color3.fromRGB(35, 35, 35),
 	muted = Color3.fromRGB(82, 82, 82),
-	border = Color3.fromRGB(104, 104, 104),
+	border = Color3.fromRGB(158, 168, 178),
 	red = Color3.fromRGB(207, 36, 36),
 	green = Color3.fromRGB(70, 178, 88),
 	blue = Color3.fromRGB(113, 196, 231),
@@ -79,7 +79,7 @@ local scrim = Instance.new("Frame")
 scrim.Name = "EditorScrim"
 scrim.Size = UDim2.fromScale(1, 1)
 scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
-scrim.BackgroundTransparency = 0.46
+scrim.BackgroundTransparency = 0.34
 scrim.BorderSizePixel = 0
 scrim.ZIndex = 85
 scrim.Parent = root
@@ -105,8 +105,8 @@ end
 -- Left side mirrors the recorded "My Outfits" column.
 local outfitsPanel = Instance.new("Frame")
 outfitsPanel.Name = "MyOutfits"
-outfitsPanel.Position = UDim2.new(0, 83, 0.5, -103)
-outfitsPanel.Size = UDim2.fromOffset(108, 210)
+outfitsPanel.Position = UDim2.new(0, 72, 0.5, -110)
+outfitsPanel.Size = UDim2.fromOffset(112, 220)
 outfitsPanel.BackgroundColor3 = COLORS.white
 outfitsPanel.BackgroundTransparency = 0.06
 outfitsPanel.ZIndex = 86
@@ -184,8 +184,8 @@ constrain(resetButton, 10, 13)
 -- Small utility row visible under My Outfits in the Brookhaven recording.
 local utilityBar = Instance.new("Frame")
 utilityBar.Name = "OutfitUtilities"
-utilityBar.Position = UDim2.new(0, 194, 0.5, 68)
-utilityBar.Size = UDim2.fromOffset(194, 42)
+utilityBar.Position = UDim2.new(0, 72, 0.5, 116)
+utilityBar.Size = UDim2.fromOffset(200, 42)
 utilityBar.BackgroundTransparency = 1
 utilityBar.ZIndex = 86
 utilityBar.Parent = root
@@ -218,8 +218,9 @@ local profileButton = utilityButton("Profile", "◎", 160)
 -- Equipped-item strip visible beneath My Outfits in the reference recording.
 local equippedTray = Instance.new("Frame")
 equippedTray.Name = "EquippedItems"
-equippedTray.Position = UDim2.fromOffset(84, 431)
-equippedTray.Size = UDim2.fromOffset(378, 58)
+equippedTray.AnchorPoint = Vector2.new(0.5, 1)
+equippedTray.Position = UDim2.new(0.5, 0, 1, -14)
+equippedTray.Size = UDim2.fromOffset(348, 54)
 equippedTray.BackgroundColor3 = COLORS.white
 equippedTray.BackgroundTransparency = 0.06
 equippedTray.ZIndex = 86
@@ -255,8 +256,8 @@ end
 local presetsPanel = Instance.new("Frame")
 presetsPanel.Name = "PresetPanel"
 presetsPanel.AnchorPoint = Vector2.new(1, 0)
-presetsPanel.Position = UDim2.new(1, -88, 0, 72)
-presetsPanel.Size = UDim2.fromOffset(362, 405)
+presetsPanel.Position = UDim2.new(1, -72, 0, 64)
+presetsPanel.Size = UDim2.fromOffset(342, 370)
 presetsPanel.BackgroundColor3 = COLORS.white
 presetsPanel.BackgroundTransparency = 0.08
 presetsPanel.ZIndex = 86
@@ -266,7 +267,7 @@ stroke(presetsPanel, COLORS.border, 1, 0.45)
 
 local tabs = Instance.new("Frame")
 tabs.Name = "Tabs"
-tabs.Size = UDim2.new(1, 0, 0, 45)
+tabs.Size = UDim2.new(1, -48, 0, 42)
 tabs.BackgroundTransparency = 1
 tabs.ZIndex = 87
 tabs.Parent = presetsPanel
@@ -277,39 +278,38 @@ local tabButtons: {[string]: TextButton} = {}
 local function makeTab(id: string, symbol: string, order: number)
 	local button = Instance.new("TextButton")
 	button.Name = "Tab_" .. id
-	button.Position = UDim2.fromOffset((order - 1) * 61, 0)
-	button.Size = UDim2.fromOffset(58, 42)
+	button.Position = UDim2.fromOffset((order - 1) * 57, 0)
+	button.Size = UDim2.fromOffset(54, 38)
 	button.BackgroundColor3 = COLORS.white
 	button.BackgroundTransparency = 0.12
 	button.Text = symbol
 	button.TextColor3 = COLORS.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextSize = 9
 	button.ZIndex = 88
 	button.Parent = tabs
-	round(button, 7)
-	stroke(button, COLORS.border, 1, 0.4)
-	constrain(button, 17, 24)
+	round(button, 9)
+	stroke(button, COLORS.border, 1, 0.5)
 	tabButtons[id] = button
 	return button
 end
 
-makeTab("all", "♟♟", 1)
-makeTab("classic", "▣", 2)
-makeTab("body", "T", 3)
-makeTab("style", "♨", 4)
-makeTab("saved", "♙", 5)
+makeTab("all", "ALL", 1)
+makeTab("classic", "CLASSIC", 2)
+makeTab("body", "BODY", 3)
+makeTab("style", "STYLE", 4)
+makeTab("saved", "SAVED", 5)
 
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "Close"
 closeButton.AnchorPoint = Vector2.new(1, 0)
 closeButton.Position = UDim2.new(1, 0, 0, 0)
-closeButton.Size = UDim2.fromOffset(56, 45)
+closeButton.Size = UDim2.fromOffset(42, 40)
 closeButton.BackgroundColor3 = COLORS.red
-closeButton.Text = "X"
+closeButton.Text = "×"
 closeButton.TextColor3 = Color3.new(1, 1, 1)
 closeButton.Font = Enum.Font.GothamBold
-closeButton.TextScaled = true
+closeButton.TextSize = 24
 closeButton.ZIndex = 90
 closeButton.Parent = presetsPanel
 round(closeButton, 7)
@@ -318,8 +318,8 @@ constrain(closeButton, 24, 30)
 
 local presetsScroll = Instance.new("ScrollingFrame")
 presetsScroll.Name = "Looks"
-presetsScroll.Position = UDim2.fromOffset(0, 49)
-presetsScroll.Size = UDim2.new(1, 0, 1, -49)
+presetsScroll.Position = UDim2.fromOffset(8, 48)
+presetsScroll.Size = UDim2.new(1, -16, 1, -56)
 presetsScroll.BackgroundTransparency = 1
 presetsScroll.BorderSizePixel = 0
 presetsScroll.ScrollBarThickness = 0
@@ -329,8 +329,8 @@ presetsScroll.ZIndex = 87
 presetsScroll.Parent = presetsPanel
 
 local presetGrid = Instance.new("UIGridLayout")
-presetGrid.CellPadding = UDim2.fromOffset(5, 5)
-presetGrid.CellSize = UDim2.fromOffset(84, 84)
+presetGrid.CellPadding = UDim2.fromOffset(4, 4)
+presetGrid.CellSize = UDim2.fromOffset(78, 78)
 presetGrid.FillDirectionMaxCells = 4
 presetGrid.SortOrder = Enum.SortOrder.LayoutOrder
 presetGrid.Parent = presetsScroll
@@ -382,6 +382,15 @@ local function setWorldHudVisible(visible: boolean)
 	local shellGui = playerGui:FindFirstChild("BrookhavenMirrorSidebar")
 	if shellGui ~= nil and shellGui:IsA("ScreenGui") then
 		shellGui.Enabled = visible
+	end
+end
+
+local function setRoleplayTagVisible(visible: boolean)
+	local character = player.Character
+	local head = character and character:FindFirstChild("Head")
+	local tag = head and head:FindFirstChild("StarBloxRoleplayTag")
+	if tag ~= nil and tag:IsA("BillboardGui") then
+		tag.Enabled = visible
 	end
 end
 
@@ -598,7 +607,7 @@ local function buildPresetPreview(parent: GuiObject, preset): boolean
 	local viewport = Instance.new("ViewportFrame")
 	viewport.Name = "AvatarPreview"
 	viewport.Position = UDim2.fromOffset(4, 3)
-	viewport.Size = UDim2.new(1, -8, 0, 55)
+	viewport.Size = UDim2.new(1, -8, 0, 50)
 	viewport.BackgroundTransparency = 1
 	viewport.Ambient = Color3.fromRGB(205, 205, 205)
 	viewport.LightColor = Color3.fromRGB(255, 255, 255)
@@ -652,7 +661,7 @@ local function renderPresets()
 			local card = Instance.new("TextButton")
 			card.Name = "Preset_" .. id
 			card.LayoutOrder = order
-			card.Size = UDim2.fromOffset(84, 84)
+			card.Size = UDim2.fromOffset(78, 78)
 			card.BackgroundColor3 = COLORS.white
 			card.BackgroundTransparency = 0.14
 			card.Text = ""
@@ -678,8 +687,8 @@ local function renderPresets()
 
 			local label = Instance.new("TextLabel")
 			label.Name = "Label"
-			label.Position = UDim2.fromOffset(4, 58)
-			label.Size = UDim2.new(1, -8, 0, 20)
+			label.Position = UDim2.fromOffset(4, 53)
+			label.Size = UDim2.new(1, -8, 0, 18)
 			label.BackgroundTransparency = 1
 			label.Text = tostring(preset.Label or id)
 			label.TextColor3 = COLORS.text
@@ -742,6 +751,7 @@ local function closeEditor()
 	gui.Enabled = false
 	restoreCamera()
 	setWorldHudVisible(true)
+	setRoleplayTagVisible(true)
 	setShellLabelsVisible(true)
 end
 
@@ -893,6 +903,7 @@ openAvatarEditor.Event:Connect(function()
 		end
 	end
 	setWorldHudVisible(false)
+	setRoleplayTagVisible(false)
 	gui.Enabled = true
 	setShellLabelsVisible(false)
 	updateOutfitSlots()
