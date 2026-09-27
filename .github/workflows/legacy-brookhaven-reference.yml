@@ -9,6 +9,8 @@ on:
       - scripts/fetch-legacy-brookhaven-reference.mjs
       - scripts/analyze-legacy-brookhaven-reference.mjs
       - scripts/analyze-legacy-brookhaven-geometry-alignment.mjs
+      - tools/roblox_catalog_reader/Cargo.toml
+      - tools/roblox_catalog_reader/src/bin/geometry_sanitizer.rs
       - scripts/extract-legacy-brookhaven-spawn-reference.mjs
       - roblox/src/shared/WorldActivityBindings.luau
       - roblox/src/server/CoreGameLoopService.luau
@@ -53,6 +55,18 @@ jobs:
           test -s .legacy-brookhaven/Brookhaven-2024-github.rbxl
           test "$(stat -c%s .legacy-brookhaven/Brookhaven-2024-github.rbxl)" = "1276795"
           test "$(git hash-object .legacy-brookhaven/Brookhaven-2024-github.rbxl)" = "c0f49a326ab670ffe6bd8218e5aff680eb5df863"
+
+      - name: Sanitize full legacy Brookhaven geometry
+        run: |
+          npm run roblox:brookhaven-legacy:sanitize-geometry -- \
+            .legacy-brookhaven/Brookhaven-2024-github.rbxl \
+            .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          test -s .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx
+          test -s docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"status": "legacy-brookhaven-geometry-sanitized"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"geometryCount": 14459' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+          grep -q '"forbiddenGameplayClassCount": 0' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
 
       - name: Deserialize legacy Brookhaven place
         run: |
@@ -121,6 +135,7 @@ jobs:
             docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
             docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
