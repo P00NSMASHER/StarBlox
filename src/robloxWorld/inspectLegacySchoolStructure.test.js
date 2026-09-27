@@ -57,6 +57,7 @@ describe('pinned legacy school structure inspection', () => {
     expect(report.school.path).toBe('Workspace/WorkspaceCom/001_School');
     expect(report.school.geometryCount).toBe(1);
     expect(report.school.candidateGeometry[0].position).toEqual([1, 2, 3]);
+    expect(report.school.candidateGeometry[0].generatedName).toBe('LBH_00001');
     expect(report.interpretation.roomRoleAssignmentsVerified).toBe(false);
   });
 
@@ -104,6 +105,8 @@ describe('pinned legacy school structure inspection', () => {
     expect(sourceDoors[2].parts[0].generatedName).toBe('LBH_00004');
     expect(sourceDoors[1].parts[0].position).toEqual([10, 2, 30]);
     expect(sourceDoors[2].parts[0].position).toEqual([20, 2, 30]);
+    const namedDoor = report.school.namedSchoolCandidates.find(row => row.position?.[0] === 20);
+    expect(namedDoor.generatedName).toBe('LBH_00004');
     expect(report.interpretation.roomRoleAssignmentsVerified).toBe(false);
   });
 

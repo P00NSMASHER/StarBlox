@@ -72,6 +72,15 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       generatedName: 'LBH_' + String(index + 1).padStart(5, '0')
     }));
   const geometryByNode = new Map(indexedGeometry.map(entry => [entry.row.node, entry]));
+  const geometryIdentity = row => {
+    const indexed = geometryByNode.get(row.node);
+    return {
+      generatedName: indexed?.generatedName ?? null,
+      geometryIndex: indexed?.geometryIndex ?? null,
+      position: position(row.node),
+      size: vector(row.node, 'Size')
+    };
+  };
   const geometry = schoolRows.filter(row => geometryClasses.has(className(row.node)));
   const candidateGeometry = geometry
     .filter(row => /door|entrance|cafeteria|lunch|library|classroom|room/i
@@ -80,8 +89,7 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       className: className(row.node),
       name: nodeName(row.node),
       path: row.path.join('/'),
-      position: position(row.node),
-      size: vector(row.node, 'Size')
+      ...geometryIdentity(row)
     }));
   const structure = schoolRows
     .filter(row => ['Model', 'Folder', 'Configuration'].includes(className(row.node)))
@@ -92,7 +100,7 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       className: className(row.node),
       name: nodeName(row.node),
       path: row.path.join('/'),
-      ...(isGeometry ? {position: position(row.node), size: vector(row.node, 'Size')} : {})
+      ...(isGeometry ? geometryIdentity(row) : {})
     };
   });
   const namedSchoolCandidates = workspaceRows
@@ -104,7 +112,7 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
         className: className(row.node),
         name: nodeName(row.node),
         path: row.path.join('/'),
-        ...(isGeometry ? {position: position(row.node), size: vector(row.node, 'Size')} : {})
+        ...(isGeometry ? geometryIdentity(row) : {})
       };
     });
 
