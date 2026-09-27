@@ -30,6 +30,17 @@ describe('Brookhaven parity: owned vehicle controls',()=>{
     expect(service).toContain('occupant.Sit = false');
   });
 
+  it('lets another player drive an unlocked vehicle but ejects them when it is locked',()=>{
+    const service=read('roblox/src/server/MirrorLifestyleService.luau');
+    const foreignDriverGate=service.match(
+      /if seatedPlayer ~= player then\s+if model:GetAttribute\("Locked"\) == true then\s+occupant\.Sit = false\s+continue\s+end\s+end/
+    );
+
+    expect(foreignDriverGate).not.toBeNull();
+    expect(service).toContain('local throttle = math.clamp(seat.ThrottleFloat, -1, 1)');
+    expect(service).toContain('local steer = math.clamp(seat.SteerFloat, -1, 1)');
+  });
+
   it('shows controls only while the owner is driving their runtime vehicle',()=>{
     const client=read('roblox/src/client/VehicleControls.client.luau');
 
