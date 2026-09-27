@@ -51,6 +51,7 @@
     "learning:automation-state": "node scripts/derive-learning-automation.mjs",
     "learning:star-checkpoint": "node scripts/evaluate-star-checkpoint.mjs",
     "schoolwork:photos:intake": "node scripts/build-schoolwork-photo-intake.mjs",
+    "schoolwork:photos:skill-observations": "node scripts/build-schoolwork-skill-observations.mjs",
     "schoolwork:photos:validate": "node scripts/validate-schoolwork-photo-pack.mjs"
   },
   "dependencies": {
