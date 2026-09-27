@@ -6,10 +6,10 @@ const read=path=>readFileSync(new URL('../../'+path,import.meta.url),'utf8');
 describe('iPhone visual parity repair',()=>{
   it('shrinks and cleans persistent mobile chrome',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(52, 250)');
-    expect(sidebar).toContain('local y = (order - 1) * 50');
-    expect(sidebar).toContain('b.Size = UDim2.fromOffset(48, 48)');
-    expect(sidebar).toContain('iconScale.Scale = 0.76');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
+    expect(sidebar).toContain('local y = (order - 1) * 46');
+    expect(sidebar).toContain('b.Size = UDim2.fromOffset(44, 44)');
+    expect(sidebar).toContain('iconScale.Scale = 0.70');
     expect(sidebar).toContain('quickChatArrow.Visible = false');
     expect(sidebar).toContain('quickChatButton.Visible = false');
     expect(sidebar).toContain('local actionHintsDismissed = true');
