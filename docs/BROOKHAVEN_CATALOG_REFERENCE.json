@@ -80,7 +80,9 @@
     "smallReferenceMetadataComplete": true,
     "vehicleParityComplete": false,
     "inventoryParityComplete": false,
-    "parityComplete": false
+    "parityComplete": false,
+    "currentLiveCatalogParityCertified": false,
+    "sourceBoundPromotionBlocked": true
   },
   "firstVerifiedVehicleBatch": {
     "category": "Small",
@@ -253,5 +255,18 @@
     "The 22 Small-category entries are factual reference metadata only and are non-playable until original StarBlox runtime geometry/behavior is attached.",
     "Reference-only entries fail closed in purchase and spawn paths; game-pass/event requirements are never converted into learning-coin purchases.",
     "The eight temporary StarBlox vehicles remain the only runtime-playable vehicles."
-  ]
+  ],
+  "liveUniverseState": {
+    "universeId": 1686885941,
+    "rootPlaceId": 4924922222,
+    "creator": "Brookhaven by Voldex",
+    "updatedAt": "2026-09-25T20:05:44.0629578Z",
+    "copyingAllowed": false
+  },
+  "freshness": {
+    "catalogPagesObservedUpdated": "2026-09-02",
+    "liveUniverseUpdated": "2026-09-25",
+    "currentLiveCatalogParityCertified": false,
+    "reason": "The public catalog snapshot predates the current live universe update; the live description also announces new Jurassic World house, vehicle, tool/emote/props. Counts remain reference targets, not proof that every current-live entry is pinned."
+  }
 }
