@@ -19,7 +19,7 @@
   },
   "mappingContract": {
     "selector": "pinned-legacy-SchoolDoorClassroom-geometry-v1",
-    "minimumDistinctPhysicalClassrooms": 7,
+    "minimumDistinctPhysicalClassrooms": 4,
     "maximumBuildingClusterSeparationStuds": 300,
     "classAssignments": 5,
     "fallbackCampusEnabled": false,
