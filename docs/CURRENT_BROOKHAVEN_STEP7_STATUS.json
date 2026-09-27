@@ -135,6 +135,18 @@
       "currentLiveCertificationSatisfied": false,
       "exactParityClaimAllowed": false,
       "productionActivationAllowed": false
-    }
+    },
+    "worldGeometryP0": {
+      "closed": true,
+      "gate": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json",
+      "legacyGeometryCount": 14459,
+      "sanitizedGeometryCount": 14459,
+      "coverage": 1,
+      "sanitizedModelSha256": "16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c",
+      "forbiddenGameplayClassCount": 0,
+      "retainedWorkflowArtifact": "legacy-brookhaven-geometry-baseline"
+    },
+    "remainingP0DevelopmentGaps": 0,
+    "nextPriorityBand": "P1"
   }
 }
