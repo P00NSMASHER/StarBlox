@@ -28,12 +28,15 @@ describe('recorded mobile HUD coordination',()=>{
     expect(source).toContain('hud.Visible = false');
     expect(source).toContain('waypoint.Visible = false');
     expect(source).toContain('schoolCallout.AnchorPoint = Vector2.new(0.5, 1)');
-    expect(source).toContain('schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)');
-    expect(source).toContain('schoolCallout.Size = UDim2.fromOffset(276, 46)');
+    expect(source).toContain('schoolCallout.Position = UDim2.new(0.5, 0, 1, -8)');
+    expect(source).toContain('schoolCallout.Size = UDim2.fromOffset(210, 44)');
     expect(source).toContain('calloutBody.Visible = false');
-    expect(source).toContain('goToSchool.Size = UDim2.fromOffset(88, 44)');
+    expect(source).toContain('goToSchool.Size = UDim2.fromOffset(64, 44)');
     expect(source).toContain('return "JOIN"');
     expect(source).toContain('calloutTitle.Text = string.format("%s • %d studs"');
+    expect(source).toContain('local COMPACT_PROMPT_DISTANCE = 96');
+    expect(source).toContain('distance <= COMPACT_PROMPT_DISTANCE');
+    expect(source).toContain('schoolCallout.Visible = not compactViewport and payload.schoolRequired == true');
   });
 
   it('yields schedule, waypoint and invitation layers to every town menu',()=>{
