@@ -62,7 +62,8 @@
     "roblox:brookhaven-legacy:sanitize-geometry": "cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml --bin geometry_sanitizer --",
     "roblox:brookhaven-legacy:source-inventory": "node scripts/extract-legacy-brookhaven-source-inventory.mjs",
     "roblox:brookhaven-legacy:catalog-discovery": "node scripts/extract-legacy-brookhaven-catalog-discovery.mjs",
-    "roblox:brookhaven-legacy:catalog-baseline": "node scripts/derive-legacy-brookhaven-catalog-baseline.mjs"
+    "roblox:brookhaven-legacy:catalog-baseline": "node scripts/derive-legacy-brookhaven-catalog-baseline.mjs",
+    "roblox:brookhaven-legacy:runtime-bindings": "node scripts/generate-legacy-brookhaven-runtime-bindings.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
