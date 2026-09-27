@@ -396,7 +396,7 @@ export function renderSchoolworkSkillEvidenceLua(artifact){
   }
   lines.push(
     '\tSkills = table.freeze({'
-  ];
+  );
   for(const [skill,row] of Object.entries(artifact.bySkill).sort(([a],[b])=>a.localeCompare(b))){
     lines.push(
       '\t\t['+luaString(skill)+'] = table.freeze({',
