@@ -1675,6 +1675,7 @@ showAvatar = function()
 		pcall(function()
 			resetAvatar:InvokeServer()
 		end)
+		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 	end
 end
@@ -1693,6 +1694,8 @@ showFamily = function()
 	local openPanel = familyGui and familyGui:FindFirstChild("OpenFamilyPanel")
 	if openPanel and openPanel:IsA("BindableEvent") then
 		openPanel:Fire()
+	else
+		setSecondaryChromeVisible(true)
 	end
 end
 
@@ -1711,6 +1714,7 @@ showHomeCams = function()
 	if openCams and openCams:IsA("BindableEvent") then
 		openCams:Fire()
 	else
+		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 	end
 end
