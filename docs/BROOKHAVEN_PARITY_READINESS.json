@@ -92,6 +92,9 @@
     "exactParityProductionEligible": false,
     "sourceManifest": "research-inputs/brookhaven/world-baseline/AUTHORITATIVE_SOURCE.json",
     "currentSourceGate": "docs/CURRENT_BROOKHAVEN_SOURCE_GATE.json",
-    "candidateStatus": "awaiting-current-live-source-candidate"
+    "candidateStatus": "awaiting-current-live-source-candidate",
+    "structuralComparisonToolReady": true,
+    "structuralComparisonStatus": "awaiting-current-live-source-candidate",
+    "structuralComparisonCommand": "npm run roblox:brookhaven-current-source:compare-structure"
   }
 }
