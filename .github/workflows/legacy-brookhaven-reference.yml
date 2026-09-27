@@ -14,6 +14,7 @@ on:
       - scripts/analyze-legacy-brookhaven-geometry-alignment.mjs
       - tools/roblox_catalog_reader/Cargo.toml
       - tools/roblox_catalog_reader/src/bin/geometry_sanitizer.rs
+      - scripts/build-legacy-brookhaven-geometry-breadth-gate.mjs
       - scripts/extract-legacy-brookhaven-spawn-reference.mjs
       - roblox/src/shared/WorldActivityBindings.luau
       - roblox/src/server/CoreGameLoopService.luau
@@ -74,6 +75,14 @@ jobs:
           grep -q '"status": "legacy-brookhaven-geometry-sanitized"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
           grep -q '"geometryCount": 14459' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
           grep -q '"forbiddenGameplayClassCount": 0' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+
+      - name: Build legacy geometry breadth gate
+        run: |
+          node scripts/build-legacy-brookhaven-geometry-breadth-gate.mjs \
+            --sanitization docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
+            --source research-inputs/brookhaven/legacy-reference/SOURCE.json \
+            --out docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json
+          grep -q '"status": "development-geometry-breadth-p0-closed"' docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json
 
       - name: Deserialize legacy Brookhaven place
         run: |
@@ -179,6 +188,7 @@ jobs:
             docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
