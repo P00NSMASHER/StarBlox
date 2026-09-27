@@ -4,12 +4,12 @@ import {dirname,resolve} from 'node:path';
 import {
   assertPublishCompatibleXml,
   buildPrivatePublishReceipt,
-  publishPlaceVersion,
-  verifyPublishedRelease
+  publishPlaceVersion
 } from '../src/robloxRuntime/privatePublish.js';
 import {
   LEGACY_BROOKHAVEN_PRIVATE_RELEASE_VERSION,
-  verifyLegacyCandidateForPrivatePublish
+  verifyLegacyCandidateForPrivatePublish,
+  verifyLegacyPublishedRelease
 } from '../src/robloxRuntime/legacyBrookhavenPrivateRelease.js';
 
 const EXPECTED_UNIVERSE_ID='6027194615';
@@ -58,17 +58,12 @@ const published=await publishPlaceVersion({
   bytes:artifactBytes
 });
 
-const verified=await verifyPublishedRelease({
+const verified=await verifyLegacyPublishedRelease({
   apiKey,
   universeId,
   placeId,
-  releaseId:binding.releaseId,
-  versionNumber:published.versionNumber,
-  world:{
-    baselineModelSha256:binding.baselineModelSha256,
-    mountedSubtreeSha256:binding.mountedSubtreeSha256,
-    subtreeInstanceCount:binding.subtreeInstanceCount
-  }
+  binding,
+  versionNumber:published.versionNumber
 });
 
 const base=buildPrivatePublishReceipt({
