@@ -43,10 +43,10 @@ local shopGui = playerGui:WaitForChild("StarBloxShopUI", 10)
 local openStore = if shopGui then shopGui:FindFirstChild("OpenStore") else nil
 
 local UI = {
-	white = Color3.fromRGB(240, 240, 240),
-	tile = Color3.fromRGB(224, 224, 224),
-	tileSelected = Color3.fromRGB(201, 201, 201),
-	border = Color3.fromRGB(116, 116, 116),
+	white = Color3.fromRGB(248, 249, 250),
+	tile = Color3.fromRGB(237, 240, 243),
+	tileSelected = Color3.fromRGB(218, 235, 244),
+	border = Color3.fromRGB(164, 174, 184),
 	text = Color3.fromRGB(40, 40, 40),
 	muted = Color3.fromRGB(90, 90, 90),
 	red = Color3.fromRGB(205, 36, 36),
@@ -55,9 +55,9 @@ local UI = {
 	blue = Color3.fromRGB(132, 211, 238),
 	dark = Color3.fromRGB(25, 30, 35),
 	glassTop = Color3.fromRGB(255, 255, 255),
-	glassBottom = Color3.fromRGB(226, 233, 239),
+	glassBottom = Color3.fromRGB(237, 241, 245),
 	glassStroke = Color3.fromRGB(255, 255, 255),
-	selected = Color3.fromRGB(184, 226, 246),
+	selected = Color3.fromRGB(210, 235, 248),
 	icon = Color3.fromRGB(31, 38, 45),
 } 
 
@@ -94,7 +94,7 @@ local function glass(guiObject: GuiObject, radius: number)
 	line.Name = "GlassStroke"
 	line.Color = UI.glassStroke
 	line.Thickness = 1
-	line.Transparency = 0.38
+	line.Transparency = 0.52
 	line.Parent = guiObject
 
 	local gradient = Instance.new("UIGradient")
@@ -173,6 +173,15 @@ workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	end
 end)
 
+local topCluster = Instance.new("Frame")
+topCluster.Name = "TopUtilityCluster"
+topCluster.AnchorPoint = Vector2.new(1, 0)
+topCluster.Position = UDim2.new(1, -72, 0, 8)
+topCluster.Size = UDim2.fromOffset(218, 72)
+topCluster.BackgroundTransparency = 1
+topCluster.ZIndex = 34
+topCluster.Parent = shell
+
 local function makeTopUtilityButton(
 	name: string,
 	iconAsset: string,
@@ -185,7 +194,7 @@ local function makeTopUtilityButton(
 	button.Position = position
 	button.Size = size
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.12
+	button.BackgroundTransparency = 0.16
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
@@ -232,7 +241,7 @@ local function makeSquareIconButton(
 	button.Position = position
 	button.Size = UDim2.fromOffset(size, size)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.12
+	button.BackgroundTransparency = 0.16
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
@@ -325,6 +334,22 @@ local familyButton = makeTopUtilityButton(
 	UDim2.fromOffset(112, 30)
 )
 
+quickChatBolt.Parent = topCluster
+quickChatBolt.Position = UDim2.fromOffset(0, 0)
+quickChatBolt.Size = UDim2.fromOffset(38, 38)
+
+homeCamsButton.Parent = topCluster
+homeCamsButton.Position = UDim2.fromOffset(44, 0)
+homeCamsButton.Size = UDim2.fromOffset(80, 38)
+
+clockBox.Parent = topCluster
+clockBox.Position = UDim2.fromOffset(130, 0)
+clockBox.Size = UDim2.fromOffset(84, 38)
+
+familyButton.Parent = topCluster
+familyButton.Position = UDim2.fromOffset(52, 42)
+familyButton.Size = UDim2.fromOffset(112, 28)
+
 -- The small shop shortcut uses the same visual system and a real icon asset.
 local shopShortcut = makeSquareIconButton(
 	"ShopShortcut",
@@ -372,14 +397,14 @@ end)
 local rail = Instance.new("Frame")
 rail.Name = "RightActionRail"
 rail.AnchorPoint = Vector2.new(1, 0)
-rail.Position = UDim2.new(1, -12, 0, 78)
-rail.Size = UDim2.fromOffset(48, 230)
+rail.Position = UDim2.new(1, -12, 0, 86)
+rail.Size = UDim2.fromOffset(50, 246)
 rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
 
 local railLayout = Instance.new("UIListLayout")
-railLayout.Padding = UDim.new(0, 5)
+railLayout.Padding = UDim.new(0, 4)
 railLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 railLayout.SortOrder = Enum.SortOrder.LayoutOrder
 railLayout.Parent = rail
@@ -419,7 +444,7 @@ end
 local function drawRailIcon(button: GuiObject, iconName: string)
 	local asset = ICONS[iconName]
 	assert(asset ~= nil, "Unknown action icon: " .. iconName)
-	local icon = iconLabel(button, "Icon", asset, 25)
+	local icon = iconLabel(button, "Icon", asset, 26)
 	icon.ImageColor3 = UI.icon
 	if iconName == "house" then
 		icon.ImageRectOffset = Vector2.new(964, 204)
@@ -461,7 +486,7 @@ local function actionButton(iconName: string, name: string, _labelText: string, 
 	local holder = Instance.new("Frame")
 	holder.Name = name .. "Holder"
 	holder.LayoutOrder = order
-	holder.Size = UDim2.fromOffset(44, 44)
+	holder.Size = UDim2.fromOffset(46, 46)
 	holder.BackgroundTransparency = 1
 	holder.Parent = rail
 
@@ -470,23 +495,23 @@ local function actionButton(iconName: string, name: string, _labelText: string, 
 	shadow.Position = UDim2.fromOffset(1, 2)
 	shadow.Size = UDim2.fromScale(1, 1)
 	shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	shadow.BackgroundTransparency = 0.78
+	shadow.BackgroundTransparency = 0.90
 	shadow.BorderSizePixel = 0
 	shadow.ZIndex = 40
 	shadow.Parent = holder
-	round(shadow, 13)
+	round(shadow, 14)
 
 	local button = Instance.new("ImageButton")
 	button.Name = name .. "Button"
 	button.Size = UDim2.fromScale(1, 1)
 	button.BackgroundColor3 = UI.white
-	button.BackgroundTransparency = 0.08
+	button.BackgroundTransparency = 0.15
 	button.Image = ""
 	button.AutoButtonColor = true
 	button.Selectable = true
 	button.ZIndex = 41
 	button.Parent = holder
-	glass(button, 13)
+	glass(button, 14)
 	drawRailIcon(button, iconName)
 	return button
 end
@@ -503,14 +528,14 @@ local function setRailSelection(selected: ImageButton?)
 	for _, button in railButtons do
 		local active = button == selected
 		button.BackgroundColor3 = if active then UI.selected else UI.white
-		button.BackgroundTransparency = if active then 0.10 else 0.08
+		button.BackgroundTransparency = if active then 0.13 else 0.15
 		local icon = button:FindFirstChild("Icon")
 		if icon ~= nil and icon:IsA("ImageLabel") then
 			icon.ImageColor3 = if active then Color3.fromRGB(20, 79, 107) else UI.icon
 		end
 		local line = button:FindFirstChild("GlassStroke")
 		if line ~= nil and line:IsA("UIStroke") then
-			line.Transparency = if active then 0.08 else 0.38
+			line.Transparency = if active then 0.20 else 0.52
 		end
 	end
 end
@@ -609,7 +634,7 @@ local function toolbarButton(
 	button.LayoutOrder = order
 	button.Size = UDim2.fromOffset(46, 44)
 	button.BackgroundColor3 = if selected then UI.tileSelected else UI.white
-	button.BackgroundTransparency = 0.12
+	button.BackgroundTransparency = 0.16
 	button.Text = symbol
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
@@ -883,7 +908,7 @@ local function setCategories(
 		button.LayoutOrder = order
 		button.Size = UDim2.fromOffset(42, 42)
 		button.BackgroundColor3 = if entry.Id == selectedId then UI.tileSelected else UI.white
-		button.BackgroundTransparency = 0.12
+		button.BackgroundTransparency = 0.16
 		button.Text = entry.Symbol
 		button.TextColor3 = UI.text
 		button.Font = Enum.Font.GothamBold
