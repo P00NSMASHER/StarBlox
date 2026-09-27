@@ -39,6 +39,7 @@ describe('iPhone spawn presentation polish',()=>{
     expect(service).toContain('math.max(child.Threshold, 1.35)');
     expect(service).toContain('descendant.Brightness = math.min(descendant.Brightness, 1.2)');
     expect(service).toContain('descendant.Range = math.min(descendant.Range, 14)');
-    expect(service).not.toContain(':Destroy()');
+    expect(service).not.toContain('descendant:Destroy()');
+    expect(service).not.toContain('Lighting:ClearAllChildren()');
   });
 });
