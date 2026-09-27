@@ -56,11 +56,36 @@ jobs:
           assert.ok(report.school.geometryCount > 0);
           assert.equal(report.interpretation.roomRoleAssignmentsVerified,false);
           NODE
+          npm run roblox:brookhaven-legacy:runtime-bindings -- \
+            --dom /tmp/starblox-legacy-school/dom.json \
+            --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            --out-dir /tmp/starblox-legacy-school/runtime-bindings \
+            --manifest /tmp/starblox-legacy-school/runtime-binding-manifest.json
+          node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile} from 'node:fs/promises';
+          const source=JSON.parse(await readFile('/tmp/starblox-legacy-school/structure.json','utf8'));
+          const manifest=JSON.parse(await readFile('/tmp/starblox-legacy-school/runtime-binding-manifest.json','utf8'));
+          const school=manifest.school;
+          assert.equal(source.school.schoolDoorModels.length,11);
+          assert.equal(source.school.namedSchoolCandidates.filter(x =>
+            x.name === 'Door' && x.path === 'Workspace/Model/SchoolDoorClassroom/Door').length,4);
+          assert.equal(school.status,'verified-real-building-mapping-generated');
+          assert.equal(school.candidateDoorCount,4);
+          assert.equal(Object.keys(school.classAnchors).length,5);
+          assert.equal(new Set(Object.values(school.classAnchors).map(x => x.generatedName)).size,4);
+          assert.match(school.cafeteriaAnchor.sourcePath,/SchoolFakeFood/);
+          assert.match(school.makeUpAnchor.label,/Make-Up Classroom/);
+          assert.ok(school.classAnchors.reading.worldOffset[1] < 0);
+          NODE
       - name: Save pinned legacy school structure evidence
         uses: actions/upload-artifact@v4
         with:
           name: pinned-legacy-school-structure
-          path: /tmp/starblox-legacy-school/structure.json
+          path: |
+            /tmp/starblox-legacy-school/structure.json
+            /tmp/starblox-legacy-school/runtime-binding-manifest.json
+            /tmp/starblox-legacy-school/runtime-bindings/LegacySchoolWorldBindings.luau
           if-no-files-found: error
           retention-days: 30
       - name: Verify frozen Brookhaven world source
