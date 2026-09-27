@@ -18,6 +18,8 @@ class Tokenizer{
     this.source=source;
     this.index=0;
     this.cached=null;
+    this.numberPattern=/-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/y;
+    this.identifierPattern=/[A-Za-z_][A-Za-z0-9_]*/y;
   }
 
   error(message,at=this.index){
@@ -74,10 +76,10 @@ class Tokenizer{
     const start=this.index;
     if(start >= this.source.length) return {type:'eof',value:null,start,end:start};
 
-    const rest=this.source.slice(start);
-    const number=rest.match(/^-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+    this.numberPattern.lastIndex=start;
+    const number=this.numberPattern.exec(this.source);
     if(number){
-      this.index+=number[0].length;
+      this.index=this.numberPattern.lastIndex;
       const value=Number(number[0]);
       if(!Number.isFinite(value)) this.error('non-finite number',start);
       return {type:'number',value,raw:number[0],start,end:this.index};
@@ -86,9 +88,10 @@ class Tokenizer{
     const ch=this.source[start];
     if(ch === '"') return this.readString();
 
-    const identifier=rest.match(/^[A-Za-z_][A-Za-z0-9_]*/);
+    this.identifierPattern.lastIndex=start;
+    const identifier=this.identifierPattern.exec(this.source);
     if(identifier){
-      this.index+=identifier[0].length;
+      this.index=this.identifierPattern.lastIndex;
       return {type:'identifier',value:identifier[0],start,end:this.index};
     }
 
