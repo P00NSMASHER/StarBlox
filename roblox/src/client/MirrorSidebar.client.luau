@@ -177,7 +177,7 @@ local topCluster = Instance.new("Frame")
 topCluster.Name = "TopUtilityCluster"
 topCluster.AnchorPoint = Vector2.new(1, 0)
 topCluster.Position = UDim2.new(1, -72, 0, 8)
-topCluster.Size = UDim2.fromOffset(218, 72)
+topCluster.Size = UDim2.fromOffset(282, 38)
 topCluster.BackgroundTransparency = 1
 topCluster.ZIndex = 34
 topCluster.Parent = shell
@@ -205,8 +205,8 @@ local function makeTopUtilityButton(
 	local icon = Instance.new("ImageLabel")
 	icon.Name = "Icon"
 	icon.AnchorPoint = Vector2.new(0, 0.5)
-	icon.Position = UDim2.new(0, 8, 0.5, 0)
-	icon.Size = UDim2.fromOffset(20, 20)
+	icon.Position = UDim2.new(0, 7, 0.5, 0)
+	icon.Size = UDim2.fromOffset(18, 18)
 	icon.BackgroundTransparency = 1
 	icon.Image = iconAsset
 	icon.ImageColor3 = UI.icon
@@ -216,13 +216,13 @@ local function makeTopUtilityButton(
 
 	local label = Instance.new("TextLabel")
 	label.Name = "Label"
-	label.Position = UDim2.new(0, 31, 0, 0)
-	label.Size = UDim2.new(1, -36, 1, 0)
+	label.Position = UDim2.new(0, 28, 0, 0)
+	label.Size = UDim2.new(1, -32, 1, 0)
 	label.BackgroundTransparency = 1
 	label.Text = labelText
 	label.TextColor3 = UI.text
 	label.Font = Enum.Font.GothamMedium
-	label.TextSize = 13
+	label.TextSize = 12
 	label.TextXAlignment = Enum.TextXAlignment.Left
 	label.ZIndex = 36
 	label.Parent = button
@@ -335,20 +335,20 @@ local familyButton = makeTopUtilityButton(
 )
 
 quickChatBolt.Parent = topCluster
-quickChatBolt.Position = UDim2.fromOffset(0, 0)
-quickChatBolt.Size = UDim2.fromOffset(38, 38)
+quickChatBolt.Position = UDim2.fromOffset(0, 1)
+quickChatBolt.Size = UDim2.fromOffset(36, 36)
 
 homeCamsButton.Parent = topCluster
-homeCamsButton.Position = UDim2.fromOffset(44, 0)
-homeCamsButton.Size = UDim2.fromOffset(80, 38)
+homeCamsButton.Position = UDim2.fromOffset(42, 1)
+homeCamsButton.Size = UDim2.fromOffset(70, 36)
 
 clockBox.Parent = topCluster
-clockBox.Position = UDim2.fromOffset(130, 0)
-clockBox.Size = UDim2.fromOffset(84, 38)
+clockBox.Position = UDim2.fromOffset(202, 1)
+clockBox.Size = UDim2.fromOffset(80, 36)
 
 familyButton.Parent = topCluster
-familyButton.Position = UDim2.fromOffset(52, 42)
-familyButton.Size = UDim2.fromOffset(112, 28)
+familyButton.Position = UDim2.fromOffset(118, 1)
+familyButton.Size = UDim2.fromOffset(78, 36)
 
 -- The small shop shortcut uses the same visual system and a real icon asset.
 local shopShortcut = makeSquareIconButton(
@@ -398,7 +398,7 @@ local rail = Instance.new("Frame")
 rail.Name = "RightActionRail"
 rail.AnchorPoint = Vector2.new(1, 0)
 rail.Position = UDim2.new(1, -12, 0, 86)
-rail.Size = UDim2.fromOffset(50, 246)
+rail.Size = UDim2.fromOffset(48, 236)
 rail.BackgroundTransparency = 1
 rail.ZIndex = 40
 rail.Parent = shell
@@ -444,7 +444,7 @@ end
 local function drawRailIcon(button: GuiObject, iconName: string)
 	local asset = ICONS[iconName]
 	assert(asset ~= nil, "Unknown action icon: " .. iconName)
-	local icon = iconLabel(button, "Icon", asset, 26)
+	local icon = iconLabel(button, "Icon", asset, 24)
 	icon.ImageColor3 = UI.icon
 	if iconName == "house" then
 		icon.ImageRectOffset = Vector2.new(964, 204)
@@ -501,7 +501,7 @@ local function actionButton(iconName: string, name: string, _labelText: string, 
 	local holder = Instance.new("Frame")
 	holder.Name = name .. "Holder"
 	holder.LayoutOrder = order
-	holder.Size = UDim2.fromOffset(46, 46)
+	holder.Size = UDim2.fromOffset(44, 44)
 	holder.BackgroundTransparency = 1
 	holder.Parent = rail
 
@@ -600,13 +600,13 @@ local close = Instance.new("TextButton")
 close.Name = "Close"
 close.AnchorPoint = Vector2.new(1, 0)
 close.Position = UDim2.new(1, -8, 0, 8)
-close.Size = UDim2.fromOffset(34, 34)
+close.Size = UDim2.fromOffset(30, 30)
 close.BackgroundColor3 = UI.red
 close.BackgroundTransparency = 0.02
 close.Text = "×"
 close.TextColor3 = Color3.new(1, 1, 1)
 close.Font = Enum.Font.GothamBold
-close.TextSize = 22
+close.TextSize = 20
 close.ZIndex = 74
 close.Parent = panel
 round(close, 10)
@@ -646,13 +646,13 @@ local function toolbarButton(
 	local button = Instance.new("TextButton")
 	button.Name = name
 	button.LayoutOrder = order
-	button.Size = UDim2.fromOffset(38, 38)
+	button.Size = UDim2.fromOffset(36, 36)
 	button.BackgroundColor3 = if selected then UI.selected else UI.white
 	button.BackgroundTransparency = if selected then 0.08 else 0.18
 	button.Text = symbol
 	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
-	button.TextSize = 18
+	button.TextSize = 16
 	button.ZIndex = 74
 	button.Parent = panelToolbar
 	round(button, 10)
@@ -843,6 +843,7 @@ stroke(plotCatalog, Color3.fromRGB(41, 99, 153), 1, 0.25)
 local function setSecondaryChromeVisible(visible: boolean)
 	topCluster.Visible = visible
 	shopShortcut.Visible = visible
+	rail.Visible = visible
 end
 
 local mirrorState = nil
@@ -897,7 +898,7 @@ local function setCategories(
 		local button = Instance.new("TextButton")
 		button.Name = "Category_" .. entry.Id
 		button.LayoutOrder = order
-		button.Size = UDim2.fromOffset(38, 38)
+		button.Size = UDim2.fromOffset(36, 36)
 		button.BackgroundColor3 = if entry.Id == selectedId then UI.tileSelected else UI.white
 		button.BackgroundTransparency = 0.16
 		button.Text = entry.Symbol
