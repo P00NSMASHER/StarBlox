@@ -1,8 +1,7 @@
 --!strict
 
--- Generated from the current privacy-safe schoolwork-photo source pack.
--- This legacy batch preserved skill evidence but not per-item correctness,
--- so correctness remains explicitly unknown rather than inferred.
+-- Generated from privacy-safe schoolwork skill observations.
+-- No raw images, worksheet text, student answers, grades, or teacher marks are stored here.
 local SchoolworkSkillEvidence = {
 	SchemaVersion = 1,
 	Version = "schoolwork-skill-observations-v1",
