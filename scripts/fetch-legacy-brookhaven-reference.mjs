@@ -31,6 +31,9 @@ if(bytes.length!==Number(source.bytes)){
   throw new Error('legacy Brookhaven source byte count mismatch');
 }
 const sha256=createHash('sha256').update(bytes).digest('hex');
+if(source.sha256 && sha256!==source.sha256){
+  throw new Error('legacy Brookhaven source SHA-256 mismatch');
+}
 
 await mkdir(dirname(outPath),{recursive:true});
 await mkdir(dirname(receiptPath),{recursive:true});
