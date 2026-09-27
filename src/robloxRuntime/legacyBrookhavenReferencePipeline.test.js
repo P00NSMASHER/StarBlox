@@ -28,7 +28,7 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
 
     expect(receipt.status).toBe('legacy-brookhaven-geometry-sanitized');
     expect(receipt.output).toMatchObject({
-      rootName:'LegacyBrookhavenGeometryBaseline',
+      rootName:'BrookhavenWorldBaseline',
       geometryCount:14459,
       generatedNamePattern:'LBH_00001..LBH_14459',
       forbiddenGameplayClassCount:0,
