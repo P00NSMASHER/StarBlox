@@ -23,13 +23,26 @@ describe('recorded mobile HUD coordination',()=>{
     expect(source).toContain('panelConstraint.MaxSize = Vector2.new(520, 382)');
   });
 
+  it('collapses school chrome into a bottom action pill on compact phone viewports',()=>{
+    expect(source).toContain('compactViewport = viewport.X <= 1024 or viewport.Y <= 600');
+    expect(source).toContain('hud.Visible = false');
+    expect(source).toContain('waypoint.Visible = false');
+    expect(source).toContain('schoolCallout.AnchorPoint = Vector2.new(0.5, 1)');
+    expect(source).toContain('schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)');
+    expect(source).toContain('schoolCallout.Size = UDim2.fromOffset(276, 46)');
+    expect(source).toContain('calloutBody.Visible = false');
+    expect(source).toContain('goToSchool.Size = UDim2.fromOffset(88, 44)');
+    expect(source).toContain('return "JOIN"');
+    expect(source).toContain('calloutTitle.Text = string.format("%s • %d studs"');
+  });
+
   it('yields schedule, waypoint and invitation layers to every town menu',()=>{
     expect(source).toContain('playerGui:FindFirstChild("BrookhavenFamilyUI")');
     expect(source).toContain('family:IsA("ScreenGui") and family.Enabled');
     expect(source).toContain('local menuOpen = townMenuOpen()');
-    expect(source).toContain('hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen');
+    expect(source).toContain('hud.Visible = payload.dismissed ~= true and not compactViewport');
     expect(source).toContain('and not panel.Visible and not report.Visible and not menuOpen');
-    expect(source).toContain('waypoint.Visible = not panel.Visible and not report.Visible and not menuOpen');
+    expect(source).toContain('waypoint.Visible = not compactViewport and not panel.Visible and not report.Visible and not menuOpen');
     expect(source).toContain('local reportAvailable = type(payload.report) == "table" and payload.report.ok == true');
     expect(source).toContain('report.Visible = reportAvailable and not panel.Visible and not menuOpen');
     expect(source).toContain('and not panel.Visible and not reportAvailable and not menuOpen');
