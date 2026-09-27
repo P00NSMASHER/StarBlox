@@ -12,9 +12,13 @@ on:
       - scripts/extract-legacy-brookhaven-catalog-discovery.mjs
       - scripts/derive-legacy-brookhaven-catalog-baseline.mjs
       - scripts/generate-legacy-brookhaven-runtime-bindings.mjs
+      - scripts/generate-legacy-brookhaven-catalog-modules.mjs
+      - roblox/src/shared/LegacyMirrorCatalog.luau
+      - roblox/src/shared/LegacyStoreCatalog.luau
       - scripts/prepare-legacy-brookhaven-development-candidate.mjs
       - roblox/src/server/HomeEconomyService.luau
       - roblox/src/server/WorldInteractionService.luau
+      - roblox/src/server/MirrorLifestyleService.luau
       - roblox/src/shared/LegacyWorldActivityBindings.luau
       - roblox/src/shared/LegacyWorldInteractionBindings.luau
       - roblox/src/shared/LegacyWorldPlotBindings.luau
@@ -135,6 +139,16 @@ jobs:
           test -s docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json
           grep -q '"status": "legacy-catalog-baseline-derived"' docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json
 
+      - name: Generate complete legacy Brookhaven runtime catalogs
+        run: |
+          npm run roblox:brookhaven-legacy:catalog-modules -- \
+            --baseline docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
+            --out-dir roblox/src/shared \
+            --receipt docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json
+          test -s roblox/src/shared/LegacyMirrorCatalog.luau
+          test -s roblox/src/shared/LegacyStoreCatalog.luau
+          grep -q '"status": "legacy-catalog-runtime-complete"' docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json
+
       - name: Generate current StarBlox world baseline
         run: |
           npm run roblox:brookhaven-world:generate -- \
@@ -248,12 +262,15 @@ jobs:
             docs/roblox-world/LEGACY_BROOKHAVEN_SOURCE_INVENTORY.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_DISCOVERY.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
             docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json \
             roblox/src/shared/LegacyWorldActivityBindings.luau \
             roblox/src/shared/LegacyWorldInteractionBindings.luau \
-            roblox/src/shared/LegacyWorldPlotBindings.luau
+            roblox/src/shared/LegacyWorldPlotBindings.luau \
+            roblox/src/shared/LegacyMirrorCatalog.luau \
+            roblox/src/shared/LegacyStoreCatalog.luau
           if git diff --cached --quiet; then
             echo "Legacy Brookhaven receipts already current."
           else
