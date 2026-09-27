@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "rendered-evidence-intake-ready",
+  "status": "rendered-comparison-gate-ready",
   "purpose": "Lock side-by-side Brookhaven reference and StarBlox candidate frame identities to the structurally verified current source before any rendered-parity verdict.",
   "prerequisites": [
     "current-live source candidate identity locked",
@@ -22,7 +22,8 @@
     "renderedComparisonCompleted": false,
     "renderedParityVerified": false,
     "sideBySideHumanReviewCompleted": false,
-    "exactParityClaimAllowed": false
+    "exactParityClaimAllowed": false,
+    "renderedComparisonToolReady": true
   },
   "authority": {
     "sourceReplacementAllowed": false,
@@ -30,5 +31,21 @@
     "publicAccessChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextHalfStep": "implement comparison/review over locked rendered evidence"
+  "nextHalfStep": "implement behavioral parity evidence gate",
+  "comparisonPolicy": {
+    "maxPixelMismatchRatio": 0.015,
+    "minSsim": 0.985,
+    "maxPerceptualHashDistance": 4,
+    "maxLandmarkMismatchCount": 0,
+    "maxHumanMaterialMismatchCount": 0
+  },
+  "requiredHumanChecks": [
+    "persistentShell",
+    "topControls",
+    "rightActionRail",
+    "worldGeometry",
+    "lightingAndMaterials",
+    "legacyChromeAbsent"
+  ],
+  "evaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-rendered-parity"
 }
