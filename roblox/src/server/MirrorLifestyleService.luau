@@ -720,8 +720,8 @@ function MirrorLifestyleService:_stepVehicles(_dt: number)
 		if seatedPlayer ~= player then
 			if model:GetAttribute("Locked") == true then
 				occupant.Sit = false
+				continue
 			end
-			continue
 		end
 
 		local maxSpeed = tonumber(model:GetAttribute("MaxSpeed")) or 45
