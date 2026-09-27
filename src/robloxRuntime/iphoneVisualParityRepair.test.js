@@ -23,15 +23,30 @@ describe('iPhone visual parity repair',()=>{
     expect(school).toContain('payload.currentClassCompleted ~= true and not compactViewport');
   });
 
-  it('neutralizes the holiday checkerboard and near-spawn glare only on the mutable runtime world',()=>{
+  it('targets the exact v31 checkerboard and skyline holiday geometry',()=>{
     const core=read('roblox/src/server/CoreGameLoopService.luau');
-    expect(core).toContain('local function applyTownCenterVisualPolish(worldRoot: Model, spawnSource: BasePart)');
-    expect(core).toContain('horizontalDistance <= 58 and flatGround and looksLikeHolidayPlazaColor');
-    expect(core).toContain('descendant.Color = Color3.fromRGB(190, 191, 187)');
-    expect(core).toContain('descendant.Material = Enum.Material.Concrete');
-    expect(core).toContain('horizontalDistance <= 36 and descendant.Material == Enum.Material.Neon');
-    expect(core).toContain('worldRoot:SetAttribute("TownCenterVisualPolishApplied", true)');
+    expect(core).toContain('for index = 14342, 14376 do');
+    expect(core).toContain('part.Color = Color3.fromRGB(194, 194, 190)');
+    expect(core).toContain('part.Material = Enum.Material.Concrete');
+    expect(core).toContain('for index = 10677, 10683 do');
+    expect(core).toContain('part.Transparency = 1');
+    expect(core).toContain('part.CanCollide = false');
+    expect(core).toContain('worldRoot:SetAttribute("TownCenterGroundTilesRecolored", recoloredGround)');
+    expect(core).toContain('worldRoot:SetAttribute("TownCenterHolidayMeshesHidden", hiddenHolidayMeshes)');
     expect(core).toContain('applyTownCenterVisualPolish(worldRoot, spawnSource)');
+  });
+
+  it('moves legacy staging spawn framing toward the street while preserving slot spacing',()=>{
+    const core=read('roblox/src/server/CoreGameLoopService.luau');
+    expect(core).toContain('BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world"');
+    expect(core).toContain('spawnCFrame = spawnCFrame * CFrame.new(0, 0, -7.5)');
+  });
+
+  it('reduces roleplay nameplate clutter in the first camera frame',()=>{
+    const roleplay=read('roblox/src/server/RoleplayService.luau');
+    expect(roleplay).toContain('billboard.Size = UDim2.fromOffset(142, 32)');
+    expect(roleplay).toContain('billboard.StudsOffsetWorldSpace = Vector3.new(0, 2.55, 0)');
+    expect(roleplay).toContain('detail.Size = UDim2.new(1, 0, 0, 13)');
   });
 
   it('caps bloom and extreme color grading without touching the immutable witness',()=>{

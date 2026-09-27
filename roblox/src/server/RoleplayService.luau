@@ -355,8 +355,8 @@ local function attachTag(player: Player, character: Model, roleplayState)
 
 	local billboard = Instance.new("BillboardGui")
 	billboard.Name = TAG_NAME
-	billboard.Size = UDim2.fromOffset(180, 42)
-	billboard.StudsOffsetWorldSpace = Vector3.new(0, 2.9, 0)
+	billboard.Size = UDim2.fromOffset(142, 32)
+	billboard.StudsOffsetWorldSpace = Vector3.new(0, 2.55, 0)
 	billboard.AlwaysOnTop = false
 	billboard.MaxDistance = 90
 	billboard.Adornee = head
@@ -364,7 +364,7 @@ local function attachTag(player: Player, character: Model, roleplayState)
 
 	local nameLabel = Instance.new("TextLabel")
 	nameLabel.Name = "RoleplayName"
-	nameLabel.Size = UDim2.new(1, 0, 0, 22)
+	nameLabel.Size = UDim2.new(1, 0, 0, 18)
 	nameLabel.BackgroundTransparency = 1
 	nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 	nameLabel.TextStrokeTransparency = 0.6
@@ -375,8 +375,8 @@ local function attachTag(player: Player, character: Model, roleplayState)
 
 	local detail = Instance.new("TextLabel")
 	detail.Name = "RoleplayDetail"
-	detail.Position = UDim2.fromOffset(0, 22)
-	detail.Size = UDim2.new(1, 0, 0, 18)
+	detail.Position = UDim2.fromOffset(0, 18)
+	detail.Size = UDim2.new(1, 0, 0, 13)
 	detail.BackgroundTransparency = 1
 	detail.TextColor3 = Color3.fromRGB(225, 230, 242)
 	detail.TextStrokeTransparency = 0.7

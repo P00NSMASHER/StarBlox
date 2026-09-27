@@ -33,6 +33,7 @@ describe('legacy Brookhaven town-center spawn parity',()=>{
     expect(service).toContain('local slotIndex = (math.abs(player.UserId) % #slots) + 1');
     expect(service).toContain('return baseSpawnCFrame * CFrame.new(slot.X, 0, slot.Z)');
     expect(service).toContain('function CoreGameLoopService:_placeCharacterAtWorldSpawn(player: Player, character: Model)');
+    expect(service).toContain('spawnCFrame = spawnCFrame * CFrame.new(0, 0, -7.5)');
     expect((service.match(/self:_placeCharacterAtWorldSpawn\(player, character\)/g)||[]).length).toBe(2);
   });
 
