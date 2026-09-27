@@ -279,4 +279,20 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('clearRichVisual()');
   });
 
+
+  it('keeps the iPhone school HUD clear of Brookhaven top chrome',()=>{
+    const client=read('roblox/src/client/SchoolSystem.client.luau');
+
+    expect(client).toContain('compactViewport = viewport.X <= 1024 or viewport.Y <= 600');
+    expect(client).toContain('schoolCallout.AnchorPoint = Vector2.new(0.5, 1)');
+    expect(client).toContain('schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)');
+    expect(client).toContain('schoolCallout.Size = UDim2.fromOffset(276, 46)');
+    expect(client).toContain('calloutBody.Visible = false');
+    expect(client).toContain('goToSchool.Size = UDim2.fromOffset(88, 44)');
+    expect(client).toContain('hud.Visible = payload.dismissed ~= true and not compactViewport');
+    expect(client).toContain('waypoint.Visible = not compactViewport');
+    expect(client).toContain('return "JOIN"');
+    expect(client).toContain('calloutTitle.Text = string.format("%s • %d studs"');
+  });
+
 });
