@@ -45,5 +45,7 @@ describe('Brookhaven recording parity: Home Cams',()=>{
     expect(cams).toContain('closeEditor:Fire()');
     expect(cams).toContain('setWorldHudVisible(false)');
     expect(cams).toContain('setWorldHudVisible(true)');
+    expect(cams).toContain('setRoleplayTagVisible(false)');
+    expect(cams).toContain('setRoleplayTagVisible(true)');
   });
 });
