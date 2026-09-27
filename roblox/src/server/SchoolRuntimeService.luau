@@ -213,6 +213,11 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 					if period and period.Makeup == true then
 						self._makeupPeriodByPlayer[player] = nil
 					end
+					-- Update the contextual invitation within this period, not only
+					-- when the next school bell changes the global clock.
+					task.defer(function()
+						if player.Parent ~= nil then self:_sendState(player) end
+					end)
 				end
 
 				self._replicas:Sync(player, data)
@@ -394,6 +399,12 @@ function SchoolRuntimeService:_stateFor(player)
 
 	self._profiles:WithProfile(player, function(data)
 		self:_reconcilePastPeriods(data, clock)
+		if clock.AcademicPeriod and clock.PeriodId ~= nil then
+			local current = data.School and data.School.CurrentDay
+			local period = current and current.DayId == clock.SchoolDayId
+				and current.Periods and current.Periods[clock.PeriodId]
+			payload.currentClassCompleted = period ~= nil and period.Status == "completed"
+		end
 
 		if clock.PeriodKind == "report" or clock.PeriodKind == "after-school" then
 			payload.report = Report.Build(data, clock.SchoolDayId, true)
