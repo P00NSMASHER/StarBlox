@@ -29,7 +29,9 @@ describe('house travel confirmation',()=>{
     const client=read('roblox/src/client/MirrorSidebar.client.luau');
 
     expect(client).toContain('local function travelHome(): boolean');
-    expect(client).toContain('return ok and type(result) == "table" and result.ok == true');
+    expect(client).toContain('local success = ok and type(result) == "table" and result.ok == true');
+    expect(client).toContain('task.defer(stabilizeThirdPersonCamera)');
+    expect(client).toContain('current.CameraType = Enum.CameraType.Custom');
     expect(client).toContain('plotStatus.Text = "Travel failed — try again"');
     expect(client).toContain('if travelHome() then');
     expect((client.match(/if travelHome\(\) then/g)||[]).length).toBe(2);
