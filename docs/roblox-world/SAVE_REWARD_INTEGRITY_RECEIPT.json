@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "status": "DETERMINISTIC_REPAIR_NATIVE_REJOIN_PROOF_PENDING",
+  "recordedAt": "2026-09-27T12:43:00Z",
+  "scope": "classroom reward mutation and persisted-profile validation",
+  "baselineCommit": "50767e642a89013b40ff7caa5ce92cb34da72b15",
+  "defect": {
+    "id": "SAVE-REWARD-001",
+    "severity": "high",
+    "trigger": "a reconciled profile retains a nonnumeric, NaN, infinite, or negative Coins, XP, or Stars value",
+    "priorSequence": [
+      "ClassSessionService marks the answer correct and may mark the class complete",
+      "SchoolProgressService claims the exactly-once receipt",
+      "economy arithmetic raises or accepts an invalid counter",
+      "the persisted answer can no longer be retried even though reward delivery failed"
+    ],
+    "fixtureData": "synthetic counters only; no real child or player data"
+  },
+  "repair": {
+    "preflight": "SchoolRuntimeService validates reward-bearing profile state before Sessions.SubmitAnswer",
+    "defenseInDepth": "each reward method validates again before claimReceipt",
+    "rejectionCode": "invalid_reward_profile",
+    "invalidProfileConsumesAnswer": false,
+    "invalidProfileConsumesReceipt": false,
+    "migrationBehavior": "fail closed; no automatic coercion or cross-version data rewrite"
+  },
+  "integrityChecks": [
+    {
+      "case": "duplicate correct answer",
+      "result": "guarded by Attempt.FinalCorrect and persisted reward receipt"
+    },
+    {
+      "case": "concurrent server calls",
+      "result": "critical receipt/reward mutation has no yielding operation; second call observes mutated state"
+    },
+    {
+      "case": "invalid persisted counters",
+      "result": "rejected before answer or receipt mutation"
+    },
+    {
+      "case": "disconnect and rejoin",
+      "result": "receipts and answer completion remain in ProfileStore-backed profile data; native rejoin proof pending"
+    },
+    {
+      "case": "house purchases",
+      "result": "audited only; ownership guard precedes authoritative deduction; no house code changed"
+    }
+  ],
+  "coordination": {
+    "pr142": "evidence inventory only; no persistence overlap",
+    "pr143": "camera and school-prompt repair; no reward-profile validation",
+    "schoolBuildingLane": "PR #146 changes school travel/attendance mapping; no reward-profile validation",
+    "curriculumLane": "question selection and provenance remain separate from reward mutation"
+  },
+  "evidence": {
+    "deterministicTest": "src/robloxRuntime/saveRewardProfileIntegrity.test.js",
+    "nativeRobloxClient": "UNAVAILABLE",
+    "actualDisconnectRejoinRun": "NOT_RUN",
+    "actualConcurrentPlayerRun": "NOT_RUN",
+    "exactCurrentBrookhavenRelationship": "visual reference only",
+    "pinnedLegacyRbxlRelationship": "licensed implementation baseline only"
+  },
+  "rollback": {
+    "method": "close the draft pull request or revert its commits",
+    "dataMigrationRequired": false,
+    "mainChanged": false,
+    "placePublished": false
+  },
+  "claims": {
+    "sourceLevelDefectRepaired": true,
+    "deterministicRegressionAdded": true,
+    "endToEndButtonWorking": false,
+    "nativePersistenceCertified": false,
+    "releaseReady": false
+  }
+}
