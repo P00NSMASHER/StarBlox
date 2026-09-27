@@ -50,14 +50,23 @@ jobs:
             throw new Error('legacy source scripts must remain unexecuted');
           }
           if(meta.instanceCount<=24349) throw new Error('uncapped ledger did not cover the full DOM');
-          if(meta.countsByAssetKind?.audio<1) throw new Error('audio paths missing');
-          if(meta.countsByAssetKind?.animation<1) throw new Error('animation paths missing');
-          if(meta.countsByAssetKind?.image<1) throw new Error('image paths missing');
+          const requiredKinds=['audio','animation','image','mesh'];
+          for(const kind of requiredKinds){
+            const count=meta.countsByAssetKind?.[kind];
+            if(!Number.isInteger(count) || count<1){
+              throw new Error(`${kind} asset references missing`);
+            }
+          }
+          const counted=Object.values(meta.countsByAssetKind).reduce((sum,count)=>sum+count,0);
+          if(meta.assetReferenceCount!==counted || meta.assetReferenceCount<1){
+            throw new Error('asset reference total is empty or inconsistent');
+          }
           if(meta.currentLiveBrookhavenVersionPinned!==false) throw new Error('legacy/current boundary drift');
           if(meta.exactCurrentParityClaimAllowed!==false) throw new Error('parity boundary drift');
           console.log('STEP2_UNCAPPED_INVENTORY='+JSON.stringify(meta));
           NODE
       - name: Upload exact uncapped inventory evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: step2-uncapped-legacy-inventory

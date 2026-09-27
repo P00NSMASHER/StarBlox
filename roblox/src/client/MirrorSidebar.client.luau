@@ -311,7 +311,7 @@ local function iconPart(
 	part.Rotation = rotation or 0
 	part.BackgroundColor3 = UI.dark
 	part.BorderSizePixel = 0
-	part.ZIndex = 42
+	part.ZIndex = parent.ZIndex + 1
 	part.Parent = parent
 	round(part, radius or 2)
 	return part
@@ -353,6 +353,36 @@ local function drawActionIcon(button: TextButton, iconName: string)
 		door.BackgroundColor3 = UI.white
 	else
 		error("Unknown action icon: " .. iconName)
+	end
+end
+
+local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
+	iconPart(parent, prefix .. "LeftRoof", UDim2.fromOffset(x, y + 6), UDim2.fromOffset(18, 4), -34, 2)
+	iconPart(parent, prefix .. "RightRoof", UDim2.fromOffset(x + 12, y + 6), UDim2.fromOffset(18, 4), 34, 2)
+	iconPart(parent, prefix .. "Walls", UDim2.fromOffset(x + 4, y + 11), UDim2.fromOffset(22, 16), nil, 2)
+	local door = iconPart(parent, prefix .. "DoorCutout", UDim2.fromOffset(x + 13, y + 18), UDim2.fromOffset(6, 9), nil, 1)
+	door.BackgroundColor3 = UI.white
+end
+
+local function drawPlotModeIcon(button: TextButton, modeIndex: number)
+	local icon = Instance.new("Frame")
+	icon.Name = "PlotModePictogram"
+	icon.Size = UDim2.fromScale(1, 1)
+	icon.BackgroundTransparency = 1
+	icon.ZIndex = button.ZIndex + 1
+	icon.Parent = button
+
+	if modeIndex == 1 then
+		drawMiniHouse(icon, "Owned", 48, 12)
+		iconPart(icon, "CheckLeft", UDim2.fromOffset(91, 27), UDim2.fromOffset(12, 4), 42, 2)
+		iconPart(icon, "CheckRight", UDim2.fromOffset(99, 21), UDim2.fromOffset(19, 4), -43, 2)
+	elseif modeIndex == 2 then
+		drawMiniHouse(icon, "First", 38, 12)
+		drawMiniHouse(icon, "Second", 88, 12)
+	else
+		iconPart(icon, "TreeTrunk", UDim2.fromOffset(49, 25), UDim2.fromOffset(7, 15), nil, 2)
+		iconPart(icon, "TreeCanopy", UDim2.fromOffset(38, 10), UDim2.fromOffset(29, 24), nil, 14)
+		drawMiniHouse(icon, "House", 91, 12)
 	end
 end
 
@@ -595,7 +625,7 @@ plotModes.BackgroundTransparency = 1
 plotModes.ZIndex = 69
 plotModes.Parent = plotSelector
 
-for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
+for index = 1, 3 do
 	local mode = Instance.new("TextButton")
 	mode.Name = "Mode" .. tostring(index)
 	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
@@ -605,7 +635,7 @@ for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
 		elseif index == 2 then Color3.fromRGB(199, 184, 126)
 		else Color3.fromRGB(166, 184, 202)
 	mode.BackgroundTransparency = 0.1
-	mode.Text = text
+	mode.Text = ""
 	mode.TextColor3 = UI.text
 	mode.Font = Enum.Font.GothamBold
 	mode.TextScaled = true
@@ -616,6 +646,7 @@ for index, text in {"⌂  ✓", "⌂  ⌂", "♣  ⌂"} do
 	round(mode, 5)
 	stroke(mode, UI.border, 1, 0.4)
 	constrain(mode, 18, 26)
+	drawPlotModeIcon(mode, index)
 
 	if index == 1 then
 		local check = Instance.new("TextLabel")

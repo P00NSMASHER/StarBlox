@@ -1,12 +1,12 @@
 const ASSET_PROPERTIES = Object.freeze({
-  ImageLabel: ['Image'],
-  ImageButton: ['Image'],
-  Decal: ['Texture'],
-  Texture: ['Texture'],
-  Sound: ['SoundId'],
-  Animation: ['AnimationId'],
-  MeshPart: ['MeshId', 'TextureID', 'TextureId'],
-  SpecialMesh: ['MeshId', 'TextureId']
+  ImageLabel: ['Image', 'ImageContent'],
+  ImageButton: ['Image', 'ImageContent', 'HoverImageContent', 'PressedImageContent'],
+  Decal: ['Texture', 'TextureContent'],
+  Texture: ['Texture', 'TextureContent'],
+  Sound: ['SoundId', 'AudioContent'],
+  Animation: ['AnimationId', 'AnimationContent'],
+  MeshPart: ['MeshId', 'MeshContent', 'TextureID', 'TextureId', 'TextureContent'],
+  SpecialMesh: ['MeshId', 'MeshContent', 'TextureId', 'TextureContent']
 });
 
 const classNameOf = node => String(node?.class ?? node?.className ?? 'Unknown');
@@ -20,11 +20,21 @@ function escapeSegment(value) {
 function scalar(value) {
   if (value == null) return '';
   if (['string', 'number', 'boolean'].includes(typeof value)) return String(value);
+  if (Array.isArray(value)) return value.map(scalar).filter(Boolean).join(',');
   if (typeof value === 'object') {
-    for (const key of ['value', 'Value', 'content', 'Content']) {
+    // rbx_dom_weak's DomViewer preserves the Variant enum wrapper. Legacy
+    // asset properties are therefore serialized as ContentId/String variants
+    // rather than as bare strings. Keep this unwrapping explicit so geometry
+    // values cannot accidentally become asset references.
+    for (const key of [
+      'value', 'Value', 'content', 'Content', 'ContentId', 'String',
+      'uri', 'Uri', 'url', 'Url'
+    ]) {
       if (key in value) return scalar(value[key]);
     }
-    return JSON.stringify(value);
+    const entries = Object.entries(value);
+    if (entries.length === 1) return scalar(entries[0][1]);
+    return '';
   }
   return String(value);
 }
@@ -43,9 +53,11 @@ function domainFor(row) {
 }
 
 function assetKindFor(className, property) {
-  if (className === 'Sound' || /sound/i.test(property)) return 'audio';
-  if (className === 'Animation' || /animation/i.test(property)) return 'animation';
-  if (/mesh/i.test(property) || ['MeshPart', 'SpecialMesh'].includes(className)) return 'mesh';
+  if (/sound|audio/i.test(property) || className === 'Sound') return 'audio';
+  if (/animation/i.test(property) || className === 'Animation') return 'animation';
+  if (/mesh/i.test(property)) return 'mesh';
+  if (/image|texture/i.test(property)) return 'image';
+  if (['MeshPart', 'SpecialMesh'].includes(className)) return 'mesh';
   return 'image';
 }
 
@@ -84,7 +96,7 @@ export function buildLegacyBrookhavenPathInventory(root) {
       : {};
     const configured = ASSET_PROPERTIES[row.className] ?? [];
     const discovered = Object.keys(properties).filter(key =>
-      /^(Image|Texture|TextureId|TextureID|SoundId|AnimationId|MeshId)$/i.test(key)
+      /^(Image|HoverImage|PressedImage|Texture|Sound|Audio|Animation|Mesh)(Id|Content)?$/i.test(key)
     );
     const propertyNames = [...new Set([...configured, ...discovered])];
     for (const property of propertyNames) {
@@ -130,6 +142,16 @@ export function buildLegacyBrookhavenPathInventory(root) {
     .sort().map(domain => [domain, pathRows.filter(row => row.domain === domain).length]));
   const countsByAssetKind = Object.fromEntries([...new Set(assetRows.map(row => row.assetKind))]
     .sort().map(kind => [kind, assetRows.filter(row => row.assetKind === kind).length]));
+  const assetPropertyKeysByClass = {};
+  for (const row of walked) {
+    if (!ASSET_PROPERTIES[row.className]) continue;
+    const properties = row.node?.properties && typeof row.node.properties === 'object'
+      ? row.node.properties
+      : {};
+    const keys = assetPropertyKeysByClass[row.className] ?? new Set();
+    for (const key of Object.keys(properties)) keys.add(key);
+    assetPropertyKeysByClass[row.className] = keys;
+  }
 
   return {
     pathRows,
@@ -140,6 +162,9 @@ export function buildLegacyBrookhavenPathInventory(root) {
       assetReferenceCount: assetRows.length,
       countsByDomain,
       countsByAssetKind,
+      assetPropertyKeysByClass: Object.fromEntries(Object.entries(assetPropertyKeysByClass)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([className, keys]) => [className, [...keys].sort()])),
       sourceScriptsExecuted: false,
       sourceScriptsEvaluated: false,
       currentLiveBrookhavenVersionPinned: false,

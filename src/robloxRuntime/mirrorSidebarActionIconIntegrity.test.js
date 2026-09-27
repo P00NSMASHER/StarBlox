@@ -39,13 +39,13 @@ describe('Mirror sidebar action icon integrity',()=>{
   it('keeps the repair asset-independent and outside Mobile HUD layout ownership',()=>{
     expect(receipt.implementation).toEqual({
       file:'roblox/src/client/MirrorSidebar.client.luau',
-      approach:'five local Frame-composed pictograms; no Image asset dependency',
+      approach:'five action-rail pictograms plus three plot-mode composites; no Image asset dependency',
       externalAssetIds:[],
       thirdPartyArtCopied:false,
       mobileHudLayoutChanged:false,
       actionBindingsChanged:false
     });
-    expect(receipt.comparison).toHaveLength(5);
+    expect(receipt.comparison).toHaveLength(6);
     expect(receipt.comparison.every(row=>row.legacyAssetId===null)).toBe(true);
     expect(receipt.comparison.every(row=>row.exactCurrentLiveArtParity==='UNVERIFIED')).toBe(true);
   });
@@ -66,5 +66,20 @@ describe('Mirror sidebar action icon integrity',()=>{
       nativeClientProofAvailable:false,
       releaseReady:false
     });
+  });
+
+  it('draws the three house plot modes without the unsupported house or tree glyphs',()=>{
+    const start=source.indexOf('local plotModes = Instance.new("Frame")');
+    const end=source.indexOf('local previousPlot',start);
+    const plotModes=source.slice(start,end);
+
+    expect(source).toContain('local function drawPlotModeIcon(button: TextButton, modeIndex: number)');
+    expect(source).toContain('local function drawMiniHouse(parent: GuiObject');
+    expect(source).toContain('part.ZIndex = parent.ZIndex + 1');
+    expect(plotModes).toContain('for index = 1, 3 do');
+    expect(plotModes).toContain('mode.Text = ""');
+    expect(plotModes).toContain('drawPlotModeIcon(mode, index)');
+    expect(plotModes).not.toContain('⌂');
+    expect(plotModes).not.toContain('♣');
   });
 });
