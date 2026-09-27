@@ -202,9 +202,9 @@ local function updateSchoolHudLayout()
 
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 1)
 		schoolCallout.Position = UDim2.new(0.5, 0, 1, -14)
-		schoolCallout.Size = UDim2.fromOffset(190, 36)
+		schoolCallout.Size = UDim2.fromOffset(190, 44)
 		schoolCallout.BackgroundTransparency = 0.08
-		calloutConstraint.MaxSize = Vector2.new(190, 36)
+		calloutConstraint.MaxSize = Vector2.new(190, 44)
 
 		calloutTitle.Position = UDim2.fromOffset(8, 3)
 		calloutTitle.Size = UDim2.new(1, -72, 1, -6)
@@ -212,7 +212,7 @@ local function updateSchoolHudLayout()
 		calloutBody.Visible = false
 
 		goToSchool.Position = UDim2.new(1, -1, 0.5, 0)
-		goToSchool.Size = UDim2.fromOffset(62, 34)
+		goToSchool.Size = UDim2.fromOffset(64, 44)
 	else
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
 		schoolCallout.Position = UDim2.new(0.5, 0, 0, 84)
