@@ -18,9 +18,11 @@ describe('Mirror sidebar action icon integrity',()=>{
     expect(source).toContain('local ICONS: {[string]: string} = table.freeze({');
     expect(source).toContain('avatar = "rbxassetid://6022668898"');
     expect(source).toContain('tools = "rbxassetid://6023426938"');
-    expect(source).toContain('animations = "rbxassetid://6031625150"');
+    expect(source).toContain('animations = "rbxassetid://6034754445"');
     expect(source).toContain('vehicle = "rbxassetid://6034754441"');
-    expect(source).toContain('house = "rbxassetid://6026568195"');
+    expect(source).toContain('house = "rbxassetid://3926305904"');
+    expect(source).toContain('icon.ImageRectOffset = Vector2.new(964, 204)');
+    expect(source).toContain('icon.ImageRectSize = Vector2.new(36, 36)');
     expect(source).not.toContain('local function drawActionIcon');
     expect(source).not.toContain('iconScale.Scale = 0.70');
 
