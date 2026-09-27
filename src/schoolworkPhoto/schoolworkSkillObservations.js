@@ -176,14 +176,17 @@ function artifactFrom({batchId,capturedDate,intakeSourceHash,observations,mode,r
 }
 
 export function schoolworkSkillObservationHash(artifact){
-  return sha({
+  const payload={
     observationVersion:artifact?.observationVersion,
     batchId:artifact?.batchId,
     capturedDate:artifact?.capturedDate,
-    intakeSourceHash:artifact?.intakeSourceHash,
     observations:artifact?.observations,
     bySkill:artifact?.bySkill
-  });
+  };
+  if(typeof artifact?.intakeSourceHash==='string'&&artifact.intakeSourceHash.length>0){
+    payload.intakeSourceHash=artifact.intakeSourceHash;
+  }
+  return sha(payload);
 }
 
 function receiptFor(artifact){
