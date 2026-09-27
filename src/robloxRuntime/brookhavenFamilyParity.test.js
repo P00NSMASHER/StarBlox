@@ -54,6 +54,8 @@ describe('Brookhaven recording parity: ephemeral family groups',()=>{
     expect(panel).toContain('stateChanged.OnClientEvent:Connect');
     expect(panel).toContain('setWorldHudVisible(false)');
     expect(panel).toContain('setWorldHudVisible(true)');
+    expect(panel).toContain('setRoleplayTagVisible(false)');
+    expect(panel).toContain('setRoleplayTagVisible(true)');
     expect(panel).toContain('scrim.BackgroundTransparency = 0.36');
   });
 });
