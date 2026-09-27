@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -31,5 +31,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish v34 recording-driven repair: reliable house sprite crop, running-person animation icon, rail polish, cleaner avatar editor ownership, and depth-derived exterior GO HOME target.",
-  "requestedSourceCommit": "b7195cb8123889aca78222fcf44b455c0c5113a0"
+  "requestedSourceCommit": "b7195cb8123889aca78222fcf44b455c0c5113a0",
+  "completion": {
+    "publishedVersion": 34,
+    "verifiedVersion": 34,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
