@@ -18,8 +18,8 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(service).toContain('ApplyCorrectQuestionReward');
     expect(service).toContain('stale_question');
     expect(service).toContain('question_station_mismatch');
-    expect(service).toContain('local nextQuestion = CoreQuestionBank.Select(');
-    expect(service).toContain('targetDifficulty(profileData, activityId)');
+    expect(service).toContain('local nextQuestion = selectedQuestionFor(profileData, activityId)');
+    expect(service).toContain('LearningPriority.SelectForStation');
     expect(service).toContain('nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil');
     expect(service).toContain('nextQuestionId = questionReward.nextQuestionId');
   });
