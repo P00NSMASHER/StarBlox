@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "receiptVersion": "starblox-private-publish-v2",
-  "status": "published-and-verified",
+  "status": "published-server-boot-verified",
   "releaseId": "starblox-legacy-brookhaven-development-v1",
   "sourceCommit": "e3642d65cdc7090672938b38572d98089eea8163",
   "target": {
@@ -20,8 +20,11 @@
     "verified": 29
   },
   "verification": {
-    "status": "verified",
-    "taskPath": "universes/6027194615/places/17602626136/versions/29/luau-execution-sessions/fb29c440-523b-49c9-8343-b25d20efde48/tasks/fb29c440-523b-49c9-8343-b25d20efde48"
+    "status": "server-boot-verified",
+    "scope": "production-server-boot",
+    "taskPath": "universes/6027194615/places/17602626136/versions/29/luau-execution-sessions/fb29c440-523b-49c9-8343-b25d20efde48/tasks/fb29c440-523b-49c9-8343-b25d20efde48",
+    "robloxClientRunObserved": false,
+    "clientStatus": "not-tested"
   },
   "verificationTaskPath": "universes/6027194615/places/17602626136/versions/29/luau-execution-sessions/fb29c440-523b-49c9-8343-b25d20efde48/tasks/fb29c440-523b-49c9-8343-b25d20efde48",
   "releaseGate": {

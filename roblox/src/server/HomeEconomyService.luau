@@ -1567,26 +1567,34 @@ function HomeEconomyService:_resetPlacement(player: Player, itemId: any)
 	return outcome or {ok = false, code = "profile_unavailable"}
 end
 
-function HomeEconomyService:_teleport(player: Player, target: CFrame): boolean
+function HomeEconomyService:_teleport(player: Player, target: CFrame): (boolean, string?)
 	local character = player.Character
 	if character == nil then
-		return false
+		return false, "character_unavailable"
 	end
 	local root = character:FindFirstChild("HumanoidRootPart")
 	if root == nil or not root:IsA("BasePart") then
-		return false
+		return false, "character_root_unavailable"
 	end
 	character:PivotTo(target)
-	return true
+	if (root.Position - target.Position).Magnitude > 12 then
+		return false, "travel_not_confirmed"
+	end
+	return true, nil
 end
 
 function HomeEconomyService:_visitHome(player: Player)
+	if self._slots[player] == nil then
+		return {ok = false, code = "plot_unavailable"}
+	end
 	local base = self:_homeCFrame(player)
-	return {ok = self:_teleport(player, base * CFrame.new(0, 3.5, 4))}
+	local ok, code = self:_teleport(player, base * CFrame.new(0, 3.5, 4))
+	return {ok = ok, code = code}
 end
 
 function HomeEconomyService:_returnWorld(player: Player)
-	return {ok = self:_teleport(player, self._spawnCFrame)}
+	local ok, code = self:_teleport(player, self._spawnCFrame)
+	return {ok = ok, code = code}
 end
 
 function HomeEconomyService:PlayerReady(player: Player, profileData)

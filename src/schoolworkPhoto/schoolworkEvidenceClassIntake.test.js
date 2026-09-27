@@ -2,6 +2,7 @@ import {describe,expect,it} from 'vitest';
 
 import {
   SCHOOLWORK_EVIDENCE_CLASSES,
+  SCHOOLWORK_PHOTO_CONSENT,
   SCHOOLWORK_PHOTO_INTAKE_VERSION,
   adaptSchoolworkPhotoIntake,
   validateSchoolworkPhotoIntake
@@ -14,6 +15,7 @@ function intake(evidenceClass){
     intakeVersion:SCHOOLWORK_PHOTO_INTAKE_VERSION,
     batchId:'evidence-class-test',
     capturedDate:'2026-09-27',
+    consent:{...SCHOOLWORK_PHOTO_CONSENT},
     pages:[{
       pageRef:'page-01',
       sourceCategories:['phonics'],

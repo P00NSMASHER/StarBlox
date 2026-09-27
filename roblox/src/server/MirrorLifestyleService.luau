@@ -186,6 +186,29 @@ local function createVehicleModel(definition, spawnCFrame: CFrame): Model
 	return model
 end
 
+local function seatOccupant(instance: Instance): Humanoid?
+	if instance:IsA("Seat") or instance:IsA("VehicleSeat") then
+		return instance.Occupant
+	end
+	return nil
+end
+
+local function ejectLockedVehicleGuests(owner: Player, model: Model)
+	if model:GetAttribute("Locked") ~= true then
+		return
+	end
+	for _, descendant in model:GetDescendants() do
+		local occupant = seatOccupant(descendant)
+		if occupant ~= nil then
+			local character = occupant.Parent
+			local seatedPlayer = if character then Players:GetPlayerFromCharacter(character) else nil
+			if seatedPlayer ~= owner then
+				occupant.Sit = false
+			end
+		end
+	end
+end
+
 local function toolHandle(tool: Tool, size: Vector3, color: Color3): Part
 	local handle = Instance.new("Part")
 	handle.Name = "Handle"
@@ -541,6 +564,7 @@ function MirrorLifestyleService:_vehicleAction(player: Player, action: any)
 	if action == "lock" then
 		local locked = model:GetAttribute("Locked") ~= true
 		model:SetAttribute("Locked", locked)
+		ejectLockedVehicleGuests(player, model)
 		return {ok = true, action = action, enabled = locked}
 	end
 
@@ -707,6 +731,7 @@ function MirrorLifestyleService:_stepVehicles(_dt: number)
 		if not seat:IsA("VehicleSeat") then
 			continue
 		end
+		ejectLockedVehicleGuests(player, model)
 
 		local occupant = seat.Occupant
 		if occupant == nil then
@@ -720,8 +745,8 @@ function MirrorLifestyleService:_stepVehicles(_dt: number)
 		if seatedPlayer ~= player then
 			if model:GetAttribute("Locked") == true then
 				occupant.Sit = false
+				continue
 			end
-			continue
 		end
 
 		local maxSpeed = tonumber(model:GetAttribute("MaxSpeed")) or 45

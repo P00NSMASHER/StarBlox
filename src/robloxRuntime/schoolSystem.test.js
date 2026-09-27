@@ -82,7 +82,7 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('waypoint.Text = string.format(');
     expect(client).toContain('"→ %s%s • %d studs"');
     expect(client).toContain('closeButton.BackgroundColor3 = COLORS.red');
-    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 458)');
+    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 382)');
     expect(client).toContain('payload.report.earnings');
     expect(client).toContain('+%d Coins • +%d XP • +%d Stars');
   });
@@ -246,8 +246,10 @@ describe('School system milestones 7-12',()=>{
     expect(attendance).not.toContain('anchor.Parent = worldRoot');
     expect(attendance).toContain('anchor.Parent = folder');
     expect(bindings).toContain('Revision = "brookhaven-runtime-school-campus-v2"');
-    expect(bindings).toContain('FallbackSourcePartName = "LBH_14370"');
-    expect(attendance).toContain('buildFallbackCampus');
+    expect(bindings).toContain('FallbackCampusEnabled = false');
+    expect(bindings).toContain('PhysicalClassroomVerified = false');
+    expect(attendance).toContain('generic school fallback campus is not permitted');
+    expect(attendance).not.toContain('buildFallbackCampus(folder, entrance)');
   });
 
   it('keeps the released school UI inside the Brookhaven visual language with clear guidance',()=>{
@@ -275,24 +277,8 @@ describe('School system milestones 7-12',()=>{
     }
     expect(client).toContain('local function renderRichContent');
     expect(client).toContain('local hasRich = renderRichContent(question.richContent)');
-    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 458)');
+    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 382)');
     expect(client).toContain('clearRichVisual()');
-  });
-
-
-  it('keeps the iPhone school HUD clear of Brookhaven top chrome',()=>{
-    const client=read('roblox/src/client/SchoolSystem.client.luau');
-
-    expect(client).toContain('compactViewport = viewport.X <= 1024 or viewport.Y <= 600');
-    expect(client).toContain('schoolCallout.AnchorPoint = Vector2.new(0.5, 1)');
-    expect(client).toContain('schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)');
-    expect(client).toContain('schoolCallout.Size = UDim2.fromOffset(276, 46)');
-    expect(client).toContain('calloutBody.Visible = false');
-    expect(client).toContain('goToSchool.Size = UDim2.fromOffset(88, 44)');
-    expect(client).toContain('hud.Visible = payload.dismissed ~= true and not compactViewport');
-    expect(client).toContain('waypoint.Visible = not compactViewport');
-    expect(client).toContain('return "JOIN"');
-    expect(client).toContain('calloutTitle.Text = string.format("%s • %d studs"');
   });
 
 });

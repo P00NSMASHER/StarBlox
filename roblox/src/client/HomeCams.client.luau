@@ -99,8 +99,8 @@ footerLimit.Parent = footer
 local activePoints: {CFrame} = {}
 local activeIndex = 1
 local savedCameraType = nil
-local savedCFrame = nil
 local savedFieldOfView = nil
+local savedCameraSubject = nil
 
 local function ownHome(): Model?
 	local plotId = player:GetAttribute("StarBloxHomePlotId")
@@ -156,16 +156,19 @@ local function restoreCamera()
 		return
 	end
 	if savedCameraType ~= nil then
-		camera.CameraType = savedCameraType
-	end
-	if savedCFrame ~= nil then
-		camera.CFrame = savedCFrame
+		-- A saved frame can be inside geometry after travel; the Roblox camera
+		-- controller must reacquire the current character instead.
+		local character = player.Character
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		camera.CameraSubject = humanoid or savedCameraSubject or camera.CameraSubject
+		camera.CameraType = if savedCameraType == Enum.CameraType.Scriptable
+			then Enum.CameraType.Custom else savedCameraType
 	end
 	if savedFieldOfView ~= nil then
 		camera.FieldOfView = savedFieldOfView
 	end
 	savedCameraType = nil
-	savedCFrame = nil
+	savedCameraSubject = nil
 	savedFieldOfView = nil
 	activePoints = {}
 	activeIndex = 1
@@ -236,7 +239,7 @@ openHomeCams.Event:Connect(function()
 		return
 	end
 	savedCameraType = camera.CameraType
-	savedCFrame = camera.CFrame
+	savedCameraSubject = camera.CameraSubject
 	savedFieldOfView = camera.FieldOfView
 	activePoints = cameraPointsFor(model)
 	activeIndex = 1

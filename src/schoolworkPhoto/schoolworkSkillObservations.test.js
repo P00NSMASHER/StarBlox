@@ -1,6 +1,7 @@
 import {describe,expect,it} from 'vitest';
 
 import {
+  SCHOOLWORK_PHOTO_CONSENT,
   SCHOOLWORK_PHOTO_INTAKE_VERSION,
   adaptSchoolworkPhotoIntake
 } from './schoolworkPhotoIntakeAdapter.js';
@@ -16,6 +17,7 @@ function intakeFixture(){
     intakeVersion:SCHOOLWORK_PHOTO_INTAKE_VERSION,
     batchId:'schoolwork-2026-09-27-002',
     capturedDate:'2026-09-27',
+    consent:{...SCHOOLWORK_PHOTO_CONSENT},
     pages:[
       {
         pageRef:'page-01',
@@ -62,6 +64,8 @@ describe('schoolwork skill observations',()=>{
     });
     expect(result.issues).toEqual([]);
     expect(result.artifact.observations).toHaveLength(2);
+    expect(result.artifact.intakeSourceHash).toMatch(/^sha256:[a-f0-9]{64}$/);
+    expect(result.receipt.intakeSourceHash).toBe(result.artifact.intakeSourceHash);
 
     const vowel=result.artifact.bySkill['vowel-patterns'];
     expect(vowel).toMatchObject({
@@ -108,6 +112,24 @@ describe('schoolwork skill observations',()=>{
       reviewStatus:'parent-accepted'
     });
     expect(accepted.artifact.reviewSummary.acceptedReviewItems).toBe(1);
+  });
+
+  it('rejects a substituted reviewed pack even when it reuses the intake batch id',()=>{
+    const intake=intakeFixture();
+    const adapted=adaptSchoolworkPhotoIntake(intake);
+    const substituted=structuredClone(adapted.pack);
+    substituted.sourceCategories=['religion'];
+
+    const result=buildSchoolworkSkillObservations({
+      intake,
+      reviewedPack:substituted
+    });
+
+    expect(result.artifact).toBeNull();
+    expect(result.receipt).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({
+      type:'skill-observation-intake-source-mismatch'
+    }));
   });
 
   it('does not persist worksheet wording, raw responses, teacher marks, grades, or image identifiers',()=>{
@@ -202,6 +224,7 @@ describe('schoolwork skill observations',()=>{
     const lua=renderSchoolworkSkillEvidenceLua(result.artifact);
 
     expect(lua).toContain('Version = "schoolwork-skill-observations-v1"');
+    expect(lua).toContain('IntakeSourceHash = "sha256:');
     expect(lua).toContain('["vowel-patterns"] = table.freeze({');
     expect(lua).toContain('ObservationCount = 2');
     expect(lua).toContain('LikelyCorrect = 1');

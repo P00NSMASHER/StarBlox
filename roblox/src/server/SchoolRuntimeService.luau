@@ -77,7 +77,8 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 		table.insert(self._connections, prompt.Triggered:Connect(function(player)
 			local clock = Clock.Now()
 			local anchor = self._anchors[classId]
-			if anchor == nil or not Attendance.ValidateProximity(player, anchor, prompt.MaxActivationDistance + 3) then
+			if not Attendance.ValidateClassroomAnchor(anchor, classId)
+				or not Attendance.ValidateProximity(player, anchor, prompt.MaxActivationDistance + 3) then
 				return
 			end
 			if not clock.AcademicPeriod or clock.ClassId ~= classId then
@@ -115,7 +116,8 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 				self:_sendState(player)
 				return
 			end
-			if library == nil or not Attendance.ValidateProximity(player, library, makeupPrompt.MaxActivationDistance + 3) then
+			if not Attendance.ValidatePhysicalSchoolAnchor(library)
+				or not Attendance.ValidateProximity(player, library, makeupPrompt.MaxActivationDistance + 3) then
 				return
 			end
 
@@ -213,6 +215,11 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 					if period and period.Makeup == true then
 						self._makeupPeriodByPlayer[player] = nil
 					end
+					-- Update the contextual invitation within this period, not only
+					-- when the next school bell changes the global clock.
+					task.defer(function()
+						if player.Parent ~= nil then self:_sendState(player) end
+					end)
 				end
 
 				self._replicas:Sync(player, data)
@@ -343,8 +350,17 @@ function SchoolRuntimeService:_travelToSchool(player: Player)
 	if anchor == nil then
 		return {ok = false, code = "school_destination_unavailable"}
 	end
+	if not Attendance.ValidatePhysicalSchoolAnchor(anchor) then
+		return {ok = false, code = "school_destination_unverified"}
+	end
+	if clock.AcademicPeriod and clock.ClassId ~= nil and not Attendance.ValidateClassroomAnchor(anchor, clock.ClassId) then
+		return {ok = false, code = "classroom_unverified"}
+	end
 	if not self:_teleportPlayer(player, anchor) then
 		return {ok = false, code = "character_unavailable"}
+	end
+	if not Attendance.ValidateProximity(player, anchor, 12) then
+		return {ok = false, code = "school_travel_incomplete"}
 	end
 
 	local opened = nil
@@ -394,6 +410,12 @@ function SchoolRuntimeService:_stateFor(player)
 
 	self._profiles:WithProfile(player, function(data)
 		self:_reconcilePastPeriods(data, clock)
+		if clock.AcademicPeriod and clock.PeriodId ~= nil then
+			local current = data.School and data.School.CurrentDay
+			local period = current and current.DayId == clock.SchoolDayId
+				and current.Periods and current.Periods[clock.PeriodId]
+			payload.currentClassCompleted = period ~= nil and period.Status == "completed"
+		end
 
 		if clock.PeriodKind == "report" or clock.PeriodKind == "after-school" then
 			payload.report = Report.Build(data, clock.SchoolDayId, true)
@@ -406,7 +428,7 @@ function SchoolRuntimeService:_stateFor(player)
 				payload.makeupPeriodId = makeupPeriodId
 				payload.makeupClassId = makeupClassId
 				payload.targetAnchorName = "SchoolLibrary"
-				payload.targetDisplayName = "Library Make-Up"
+				payload.targetDisplayName = "Study Room / Make-Up"
 				payload.targetRoom = nil
 			end
 		end
