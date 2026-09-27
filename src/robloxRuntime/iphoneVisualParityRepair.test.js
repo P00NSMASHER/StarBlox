@@ -8,10 +8,12 @@ describe('iPhone visual parity repair',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
     expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
     expect(sidebar).toContain('railLayout.Padding = UDim.new(0, 5)');
-    expect(sidebar).toContain('button.Size = UDim2.fromOffset(44, 44)');
+    expect(sidebar).toContain('holder.Size = UDim2.fromOffset(44, 44)');
     expect(sidebar).toContain('local ICONS: {[string]: string} = table.freeze({');
     expect(sidebar).toContain('local function glass(guiObject: GuiObject, radius: number)');
     expect(sidebar).toContain('local function drawRailIcon(button: GuiObject, iconName: string)');
+    expect(sidebar).toContain('icon.ImageRectOffset = Vector2.new(964, 204)');
+    expect(sidebar).toContain('shadow.BackgroundTransparency = 0.78');
     expect(sidebar).toContain('setRailSelection');
     expect(sidebar).toContain('quickChatArrow.Visible = false');
     expect(sidebar).toContain('quickChatButton.Visible = false');
