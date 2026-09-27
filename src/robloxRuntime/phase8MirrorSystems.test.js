@@ -103,7 +103,7 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     const shop=read('roblox/src/client/Shop.client.luau');
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
     expect(sidebar).toContain('rail.Name = "RightActionRail"');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(64, 306)');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
     for(const call of [
       'actionButton("avatar", "Avatar", "Avatar Editor", 1)',
       'actionButton("tools", "Tools", "Tools", 2)',
