@@ -11,6 +11,10 @@ on:
       - scripts/extract-legacy-brookhaven-source-inventory.mjs
       - scripts/extract-legacy-brookhaven-catalog-discovery.mjs
       - scripts/derive-legacy-brookhaven-catalog-baseline.mjs
+      - scripts/generate-legacy-brookhaven-runtime-bindings.mjs
+      - roblox/src/shared/LegacyWorldActivityBindings.luau
+      - roblox/src/shared/LegacyWorldInteractionBindings.luau
+      - roblox/src/shared/LegacyWorldPlotBindings.luau
       - scripts/analyze-legacy-brookhaven-geometry-alignment.mjs
       - tools/roblox_catalog_reader/Cargo.toml
       - tools/roblox_catalog_reader/src/bin/geometry_sanitizer.rs
@@ -135,6 +139,18 @@ jobs:
           test -s docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
           grep -q '"status": "legacy-spawn-reference-extracted"' docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
 
+      - name: Generate source-bound legacy runtime bindings
+        run: |
+          npm run roblox:brookhaven-legacy:runtime-bindings -- \
+            --dom .legacy-brookhaven/legacy-dom.json \
+            --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            --out-dir roblox/src/shared \
+            --manifest docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json
+          test -s roblox/src/shared/LegacyWorldActivityBindings.luau
+          test -s roblox/src/shared/LegacyWorldInteractionBindings.luau
+          test -s roblox/src/shared/LegacyWorldPlotBindings.luau
+          grep -q '"status": "legacy-runtime-bindings-generated"' docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json
+
       - name: Measure legacy-to-StarBlox geometry alignment
         run: |
           npm run roblox:brookhaven-legacy:geometry-alignment -- \
@@ -186,6 +202,7 @@ jobs:
           git add \
             docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
+            docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json \
@@ -194,7 +211,10 @@ jobs:
             docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_BASELINE.json \
             docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json \
             docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json \
-            docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json \
+            roblox/src/shared/LegacyWorldActivityBindings.luau \
+            roblox/src/shared/LegacyWorldInteractionBindings.luau \
+            roblox/src/shared/LegacyWorldPlotBindings.luau
           if git diff --cached --quiet; then
             echo "Legacy Brookhaven receipts already current."
           else
