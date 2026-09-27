@@ -64,6 +64,14 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
     'Part', 'MeshPart', 'WedgePart', 'CornerWedgePart', 'UnionOperation',
     'TrussPart', 'Seat', 'VehicleSeat'
   ]);
+  const indexedGeometry = workspaceRows
+    .filter(row => geometryClasses.has(className(row.node)))
+    .map((row, index) => ({
+      row,
+      geometryIndex: index + 1,
+      generatedName: 'LBH_' + String(index + 1).padStart(5, '0')
+    }));
+  const geometryByNode = new Map(indexedGeometry.map(entry => [entry.row.node, entry]));
   const geometry = schoolRows.filter(row => geometryClasses.has(className(row.node)));
   const candidateGeometry = geometry
     .filter(row => /door|entrance|cafeteria|lunch|library|classroom|room/i
@@ -120,7 +128,8 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       structure,
       candidateGeometry,
       instances,
-      namedSchoolCandidates
+      namedSchoolCandidates,
+      schoolDoorModels
     },
     interpretation: {
       roomRoleAssignmentsVerified: false,
@@ -150,6 +159,7 @@ async function main() {
     structure: report.school.structure,
     instances: report.school.instances,
     namedSchoolCandidates: report.school.namedSchoolCandidates,
+    schoolDoorModels: report.school.schoolDoorModels,
     roomRoleAssignmentsVerified: false
   }, null, 2) + '\n');
 }
