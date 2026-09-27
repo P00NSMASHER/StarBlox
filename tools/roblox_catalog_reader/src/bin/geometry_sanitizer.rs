@@ -93,6 +93,7 @@ fn clone_safe_visual(
 fn clone_geometry(
     dom: &WeakDom,
     referent: Ref,
+    generated_name: &str,
     visual_count: &mut usize,
 ) -> Option<InstanceBuilder> {
     let instance = dom.get_by_ref(referent)?;
@@ -102,7 +103,7 @@ fn clone_geometry(
 
     let mut builder =
         InstanceBuilder::with_property_capacity(instance.class, instance.properties.len() + 1)
-            .with_name(instance.name.clone());
+            .with_name(generated_name);
 
     for (key, value) in instance.properties.iter() {
         if key.as_str() != "Anchored" {
@@ -131,7 +132,10 @@ fn collect_geometry(
         return;
     };
 
-    if let Some(builder) = clone_geometry(source, referent, visual_count) {
+    if is_geometry(instance.class.as_str()) {
+        let generated_name = format!("LBH_{:05}", *geometry_count + 1);
+        let builder = clone_geometry(source, referent, &generated_name, visual_count)
+            .expect("geometry classifier and cloner must agree");
         output.insert(output_parent, builder);
         *geometry_count += 1;
     }
@@ -251,6 +255,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "bytes": bytes.len(),
             "sha256": digest,
             "geometryCount": geometry_count,
+            "generatedNamePattern": "LBH_00001..LBH_14459",
             "safeVisualChildCount": visual_count,
             "forbiddenGameplayClassCount": 0,
             "allGeometryAnchored": true
