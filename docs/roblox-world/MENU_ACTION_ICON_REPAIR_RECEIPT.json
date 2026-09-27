@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "STATIC_REPAIR_COMPLETE_NATIVE_VISUAL_PROOF_PENDING",
-  "recordedAt": "2026-09-27T12:35:00Z",
+  "status": "HUD_IMAGE_ASSET_REBUILD_STATIC_COMPLETE_NATIVE_VISUAL_PROOF_PENDING",
+  "recordedAt": "2026-09-27T21:35:00Z",
   "defectId": "REC-06",
   "scope": "right-side world action rail and house plot mode strip",
   "sourceBoundary": {
@@ -30,7 +30,7 @@
       "legacySourcePath": null,
       "legacyAssetId": null,
       "preRepairStarBlox": "font glyph",
-      "repairedStarBlox": "original code-drawn pictogram",
+      "repairedStarBlox": "Roblox-hosted monochrome image icon inside shared glass button component",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     },
     {
@@ -40,7 +40,7 @@
       "legacyAssetId": null,
       "legacyInventoryNote": "source extractor recorded ImageLabel path but no reusable Image property",
       "preRepairStarBlox": "font glyph",
-      "repairedStarBlox": "original code-drawn pictogram",
+      "repairedStarBlox": "Roblox-hosted monochrome image icon inside shared glass button component",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     },
     {
@@ -49,7 +49,7 @@
       "legacySourcePath": null,
       "legacyAssetId": null,
       "preRepairStarBlox": "font glyph",
-      "repairedStarBlox": "original code-drawn pictogram",
+      "repairedStarBlox": "Roblox-hosted monochrome image icon inside shared glass button component",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     },
     {
@@ -59,7 +59,7 @@
       "legacyAssetId": null,
       "legacyInventoryNote": "source extractor recorded ImageLabel path but no reusable Image property",
       "preRepairStarBlox": "font glyph",
-      "repairedStarBlox": "original code-drawn pictogram",
+      "repairedStarBlox": "Roblox-hosted monochrome image icon inside shared glass button component",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     },
     {
@@ -69,7 +69,7 @@
       "legacyAssetId": null,
       "legacyInventoryNote": "source extractor recorded ImageLabel path but no reusable Image property",
       "preRepairStarBlox": "font glyph",
-      "repairedStarBlox": "original code-drawn pictogram",
+      "repairedStarBlox": "Roblox-hosted monochrome image icon inside shared glass button component",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     },
     {
@@ -108,21 +108,32 @@
   ],
   "implementation": {
     "file": "roblox/src/client/MirrorSidebar.client.luau",
-    "approach": "five action-rail pictograms plus three plot-mode composites; no Image asset dependency",
-    "externalAssetIds": [],
+    "approach": "five image-asset action rail icons plus image-asset top utilities on one shared glass button system; plot-mode composites remain code-drawn",
+    "externalAssetIds": [
+      "6022668898",
+      "6023426938",
+      "6031625150",
+      "6034754441",
+      "6026568195",
+      "6031572307",
+      "6035121916",
+      "6034333271",
+      "6031265976",
+      "6031280882"
+    ],
     "thirdPartyArtCopied": false,
-    "mobileHudLayoutChanged": false,
+    "mobileHudLayoutChanged": true,
     "actionBindingsChanged": false
   },
   "verification": {
     "deterministicTest": "src/robloxRuntime/mirrorSidebarActionIconIntegrity.test.js",
     "staticResult": "PASS_LOCAL",
     "githubCiPolicy": "VERIFY_EXACT_HEAD",
-    "nativeClientResult": "UNKNOWN",
+    "nativeClientResult": "PENDING_V33_IPHONE_CHECK",
     "fullActionResult": "NOT_RETESTED"
   },
   "rollback": {
-    "method": "revert this branch commit or close the draft pull request",
+    "method": "revert the HUD art rebuild commit or restore the previous private-staging version",
     "mainChanged": false,
     "publicPlaceChanged": false
   },
