@@ -121,7 +121,14 @@
       "structuralDiff": "docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json",
       "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
       "developmentUseReady": true,
-      "currentLiveCertificationSatisfied": false
+      "currentLiveCertificationSatisfied": false,
+      "townCenterSpawnDevelopmentParity": {
+        "applied": true,
+        "pattern": "legacy-town-center-3x3-v1",
+        "evidence": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json",
+        "decision": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json",
+        "currentLiveCertificationSatisfied": false
+      }
     }
   },
   "step7": {
@@ -132,6 +139,7 @@
     "releaseMayAdvanceToStep8": false,
     "legacyDevelopmentSteps1Through5Completed": true,
     "legacyDevelopmentWorkPlan": "docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json",
-    "legacyVerificationRun": 36293641601
+    "legacyVerificationRun": 36293641601,
+    "legacyTownCenterSpawnP0Closed": true
   }
 }
