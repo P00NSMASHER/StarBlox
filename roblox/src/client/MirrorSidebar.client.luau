@@ -1386,10 +1386,14 @@ showTools = function()
 		showTools()
 	end)
 	toolbarButton("ClearTools", "×", false, 3, function()
-		pcall(function()
-			clearTools:InvokeServer()
+		local ok, result = pcall(function()
+			return clearTools:InvokeServer()
 		end)
-		closePanel()
+		if ok and type(result) == "table" and result.ok == true then
+			closePanel()
+		else
+			showStatus("Couldn't clear tools")
+		end
 	end)
 	setCategories({
 		{Id = "all", Symbol = "★"},
@@ -1419,10 +1423,14 @@ showTools = function()
 				order,
 				function()
 					if owned then
-						pcall(function()
-							equipTool:InvokeServer(id)
+						local ok, result = pcall(function()
+							return equipTool:InvokeServer(id)
 						end)
-						closePanel()
+						if ok and type(result) == "table" and result.ok == true then
+							closePanel()
+						else
+							showStatus("Couldn't equip tool")
+						end
 					else
 						purchase(purchaseTool, id, showTools)
 					end
