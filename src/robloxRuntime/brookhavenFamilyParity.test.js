@@ -52,5 +52,8 @@ describe('Brookhaven recording parity: ephemeral family groups',()=>{
     expect(panel).toContain('removeMember:InvokeServer(memberId)');
     expect(panel).toContain('leave:InvokeServer()');
     expect(panel).toContain('stateChanged.OnClientEvent:Connect');
+    expect(panel).toContain('setWorldHudVisible(false)');
+    expect(panel).toContain('setWorldHudVisible(true)');
+    expect(panel).toContain('scrim.BackgroundTransparency = 0.36');
   });
 });
