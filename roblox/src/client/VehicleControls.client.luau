@@ -103,18 +103,20 @@ local function refreshButtons()
 	lock.Text = if model:GetAttribute("Locked") == true then "🔒" else "🔓"
 end
 
-local function invoke(action: string)
+local function invoke(action: string): boolean
 	if busy then
-		return
+		return false
 	end
 	busy = true
 	local ok, result = pcall(function()
 		return vehicleAction:InvokeServer(action)
 	end)
 	busy = false
-	if ok and type(result) == "table" and result.ok == true then
+	local succeeded = ok and type(result) == "table" and result.ok == true
+	if succeeded and action ~= "despawn" then
 		refreshButtons()
 	end
+	return succeeded
 end
 
 lights.Activated:Connect(function()
@@ -130,10 +132,11 @@ flip.Activated:Connect(function()
 end)
 
 despawn.Activated:Connect(function()
-	invoke("despawn")
-	bar.Visible = false
-	currentSeat = nil
-	currentModel = nil
+	if invoke("despawn") then
+		bar.Visible = false
+		currentSeat = nil
+		currentModel = nil
+	end
 end)
 
 local function bindCharacter(character: Model)
