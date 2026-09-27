@@ -73,6 +73,42 @@ function countMatches(legacy,current,delta,options){
   }
   return {matches,unmatched:legacy.length-matches,matchRatio:matches/legacy.length,unmatchedByClass};
 }
+function shapeKey(row,{sizeTol=0.05,rotTol=0.02}={}){
+  return [
+    row.className,
+    ...row.size.map(v=>round(v,sizeTol)),
+    ...(row.cframe.orientation||[]).map(v=>round(v,rotTol))
+  ].join('|');
+}
+function deriveTranslationCandidates(legacy,current,{deltaTol=0.25,maxPairsPerShape=100}={}){
+  const li=new Map(),ci=new Map();
+  for(const row of legacy) addIndex(li,shapeKey(row),row);
+  for(const row of current) addIndex(ci,shapeKey(row),row);
+  const counts=new Map();
+  for(const [sig,lrows] of li){
+    const crows=ci.get(sig);
+    if(!crows || lrows.length*crows.length>maxPairsPerShape) continue;
+    for(const l of lrows){
+      for(const c of crows){
+        const delta=c.cframe.position.map((v,i)=>v-l.cframe.position[i]);
+        const q=delta.map(v=>round(v,deltaTol));
+        const k=q.join('|');
+        const row=counts.get(k)||{quantized:q,count:0,samples:[]};
+        row.count++;
+        if(row.samples.length<3) row.samples.push(delta);
+        counts.set(k,row);
+      }
+    }
+  }
+  return [...counts.values()]
+    .sort((a,b)=>b.count-a.count)
+    .slice(0,30)
+    .map(row=>({
+      voteCount:row.count,
+      delta:row.samples[0],
+      quantizedDelta:row.quantized.map(v=>v*deltaTol)
+    }));
+}
 
 const legacyDom=JSON.parse(await readFile(resolve(arg('--legacy-dom')),'utf8'));
 const starbloxDom=JSON.parse(await readFile(resolve(arg('--starblox-dom')),'utf8'));
@@ -95,27 +131,44 @@ const legacy=geometry(legacyWorkspace);
 const current=geometry(starbloxBaseline);
 const strict=countMatches(legacy,current,delta,{includeClass:true,posTol:0.25,sizeTol:0.05,rotTol:0.02});
 const shapeOnly=countMatches(legacy,current,delta,{includeClass:false,posTol:0.25,sizeTol:0.05,rotTol:0.02});
+const translationCandidates=deriveTranslationCandidates(legacy,current);
+const evaluatedCandidates=translationCandidates.map(candidate=>({
+  ...candidate,
+  strictMatch:countMatches(
+    legacy,current,candidate.quantizedDelta,
+    {includeClass:true,posTol:0.25,sizeTol:0.05,rotTol:0.02}
+  )
+})).sort((a,b)=>b.strictMatch.matches-a.strictMatch.matches || b.voteCount-a.voteCount);
+const bestDerived=evaluatedCandidates[0]||null;
 
 const receipt={
   schemaVersion:1,
   status:'legacy-geometry-alignment-measured',
   origin:{
-    rule:'centroid-of-first-nine-legacy-spawnlocations-to-top-center-of-BHW_1202',
-    legacySpawnCentroid:legacyOrigin,
-    starbloxTargetGround:targetGround,
-    translationDelta:delta,
-    rotationApplied:false
+    spawnDerived:{
+      rule:'centroid-of-first-nine-legacy-spawnlocations-to-top-center-of-BHW_1202',
+      legacySpawnCentroid:legacyOrigin,
+      starbloxTargetGround:targetGround,
+      translationDelta:delta,
+      rotationApplied:false,
+      strictClassShapeTransformMatch:strict,
+      shapeTransformMatchIgnoringClass:shapeOnly
+    },
+    geometryDerived:{
+      method:'dominant translation votes from matching class-size-orientation signatures',
+      candidates:evaluatedCandidates.slice(0,10),
+      best:bestDerived
+    }
   },
   geometry:{
     legacyCount:legacy.length,
-    starbloxCount:current.length,
-    strictClassShapeTransformMatch:strict,
-    shapeTransformMatchIgnoringClass:shapeOnly
+    starbloxCount:current.length
   },
   decisionSupport:{
-    safeToAssumePureTranslationDuplicateOverlay:
-      shapeOnly.matchRatio>=0.25,
-    note:'This measures exact-ish spatial/shape overlap after the spawn-derived translation. It is development evidence, not current-live certification.'
+    bestDerivedTranslationMatchRatio:bestDerived?.strictMatch?.matchRatio||0,
+    safeToUseDerivedTranslationOverlay:
+      (bestDerived?.strictMatch?.matches||0)>=Math.min(1000,current.length*0.2),
+    note:'Derived translation is development evidence only and never current-live certification.'
   },
   boundary:{
     currentLiveCertificationSatisfied:false,
