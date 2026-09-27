@@ -2,6 +2,7 @@ import {describe,expect,it} from 'vitest';
 import {
   AUTO_ACCEPT_CONFIDENCE,
   REVIEW_CONFIDENCE_FLOOR,
+  SCHOOLWORK_PHOTO_CONSENT,
   SCHOOLWORK_PHOTO_INTAKE_VERSION,
   adaptSchoolworkPhotoIntake,
   supportedSchoolworkPhotoGenerators,
@@ -16,6 +17,7 @@ function baseIntake(){
     intakeVersion:SCHOOLWORK_PHOTO_INTAKE_VERSION,
     batchId:'schoolwork-2026-09-27-001',
     capturedDate:'2026-09-27',
+    consent:{...SCHOOLWORK_PHOTO_CONSENT},
     pages:[
       {
         pageRef:'page-01',
@@ -68,8 +70,32 @@ describe('automatic schoolwork photo intake adapter',()=>{
       acceptedObservations:2,
       acceptedSkillSignals:2,
       reviewItems:0,
-      lowConfidenceOmitted:0
+      lowConfidenceOmitted:0,
+      consent:{
+        gated:true,
+        authority:'parent-or-guardian',
+        scope:'sanitized-skill-and-performance-signals',
+        rawImageRetention:'none'
+      }
     });
+  });
+
+  it('fails closed unless parent or guardian consent covers sanitized signals with zero raw-image retention',()=>{
+    for(const mutate of [
+      intake=>{ delete intake.consent; },
+      intake=>{ intake.consent.granted=false; },
+      intake=>{ intake.consent.authority='teacher'; },
+      intake=>{ intake.consent.scope='question-generation'; },
+      intake=>{ intake.consent.rawImageRetention='temporary'; },
+      intake=>{ intake.consent.parentName='Private Person'; }
+    ]){
+      const intake=baseIntake();
+      mutate(intake);
+      const result=adaptSchoolworkPhotoIntake(intake);
+      expect(result.issues.length).toBeGreaterThan(0);
+      expect(result.pack).toBeNull();
+      expect(result.receipt).toBeNull();
+    }
   });
 
   it('routes ambiguous observations into an inert parent-review queue',()=>{
