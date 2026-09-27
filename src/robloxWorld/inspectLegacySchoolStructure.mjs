@@ -87,6 +87,19 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       ...(isGeometry ? {position: position(row.node), size: vector(row.node, 'Size')} : {})
     };
   });
+  const namedSchoolCandidates = workspaceRows
+    .filter(row => /school|classroom|cafeteria|library/i
+      .test([...row.path, nodeName(row.node)].join('/')))
+    .map(row => {
+      const isGeometry = geometryClasses.has(className(row.node));
+      return {
+        className: className(row.node),
+        name: nodeName(row.node),
+        path: row.path.join('/'),
+        ...(isGeometry ? {position: position(row.node), size: vector(row.node, 'Size')} : {})
+      };
+    });
+
 
   return {
     schemaVersion: 1,
@@ -106,7 +119,8 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
       geometryCount: geometry.length,
       structure,
       candidateGeometry,
-      instances
+      instances,
+      namedSchoolCandidates
     },
     interpretation: {
       roomRoleAssignmentsVerified: false,
@@ -135,6 +149,7 @@ async function main() {
     geometryCount: report.school.geometryCount,
     structure: report.school.structure,
     instances: report.school.instances,
+    namedSchoolCandidates: report.school.namedSchoolCandidates,
     roomRoleAssignmentsVerified: false
   }, null, 2) + '\n');
 }
