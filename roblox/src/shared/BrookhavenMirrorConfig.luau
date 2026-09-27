@@ -24,6 +24,15 @@ local BrookhavenMirrorConfig = table.freeze({
 		PaidCurrencyRequiredForGameplayUnlocks = false,
 		LearningCoinsRequiredForPurchases = true,
 	}),
+	LearningPresentation = table.freeze({
+		-- Exact post-opening Brookhaven parity keeps learning UI contextual.
+		-- The legacy neighborhood station prompts / pilot shortcut / vertical-slice HUD
+		-- must never appear as persistent free-roam chrome.
+		LegacyWorldStationsEnabled = false,
+		PersistentStudyPilotButtonEnabled = false,
+		LegacyVerticalSliceEnabled = false,
+		ContextualQuestionOverlayEnabled = true,
+	}),
 	-- Persistent post-opening chrome follows the real Brookhaven recording.
 	-- StarBlox-specific learning/economy surfaces are contextual rather than a world HUD.
 	TopControls = table.freeze({
