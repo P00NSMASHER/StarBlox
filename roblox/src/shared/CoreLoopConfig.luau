@@ -40,6 +40,13 @@ local CoreLoopConfig = table.freeze({
 			WrongPressureWeight = 0.16,
 			DueWeight = 0.20,
 			CurrentMaterialWeight = 0.08,
+			SchoolworkEvidenceWeight = 0.42,
+			SchoolworkEvidenceErrorShare = 0.75,
+			SchoolworkEvidencePresenceShare = 0.25,
+			SchoolworkEvidenceAttemptTarget = 3,
+			TeacherMarkedSchoolworkMultiplier = 1.0,
+			CompletedSchoolworkMultiplier = 0.65,
+			UngradedSchoolworkMultiplier = 0.35,
 			RecentSkillPenalty = 0.18,
 		}),
 		Step6SpacedMastery = table.freeze({

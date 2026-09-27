@@ -9,6 +9,12 @@ export const SCHOOLWORK_PHOTO_INTAKE_VERSION='schoolwork-photo-intake-v1';
 export const SCHOOLWORK_PHOTO_INTAKE_RECEIPT_VERSION='schoolwork-photo-intake-receipt-v1';
 export const AUTO_ACCEPT_CONFIDENCE=0.85;
 export const REVIEW_CONFIDENCE_FLOOR=0.55;
+export const SCHOOLWORK_EVIDENCE_CLASSES=Object.freeze([
+  'teacher-marked-schoolwork',
+  'completed-schoolwork',
+  'ungraded-schoolwork'
+]);
+const SCHOOLWORK_EVIDENCE_CLASS_SET=new Set(SCHOOLWORK_EVIDENCE_CLASSES);
 
 const SOURCE_CATEGORIES=new Set([
   'phonics',
@@ -106,7 +112,7 @@ const REASON_CODES=new Set([
 const ALLOWED_TOP_FIELDS=new Set(['schemaVersion','intakeVersion','batchId','capturedDate','pages']);
 const ALLOWED_PAGE_FIELDS=new Set(['pageRef','sourceCategories','observations']);
 const ALLOWED_OBSERVATION_FIELDS=new Set([
-  'generatorKey','confidence','coverageWeight','candidates','reasonCode','attempted','likelyCorrect'
+  'generatorKey','confidence','coverageWeight','candidates','reasonCode','attempted','likelyCorrect','evidenceClass'
 ]);
 const ALLOWED_CANDIDATE_FIELDS=new Set(['generatorKey','confidence','coverageWeight']);
 
@@ -241,6 +247,9 @@ export function validateSchoolworkPhotoIntake(intake){
       }
       if(observation.attempted===false&&typeof observation.likelyCorrect==='boolean'){
         issues.push({type:'intake-correctness-without-attempt',pageRef:page.pageRef,observationIndex});
+      }
+      if(observation.evidenceClass!==undefined&&!SCHOOLWORK_EVIDENCE_CLASS_SET.has(observation.evidenceClass)){
+        issues.push({type:'intake-evidence-class-invalid',pageRef:page.pageRef,observationIndex});
       }
       const candidates=normalizeObservationCandidates(observation);
       if(candidates.length<1||candidates.length>3){

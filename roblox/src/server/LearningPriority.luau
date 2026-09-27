@@ -51,6 +51,38 @@ local function recentQuestionSet(profileData)
 	return result
 end
 
+local function schoolworkEvidencePressure(skill: string, config): number
+	local row = SchoolworkSkillEvidence.Skills[skill]
+	if type(row) ~= "table" then return 0 end
+
+	local observationCount = math.max(1, tonumber(row.ObservationCount) or 0)
+	local teacherMarked = math.max(0, tonumber(row.TeacherMarked) or 0)
+	local completed = math.max(0, tonumber(row.CompletedSchoolwork) or 0)
+	local ungraded = math.max(0, tonumber(row.UngradedSchoolwork) or 0)
+	local sourceStrength = math.clamp(
+		(
+			teacherMarked * (tonumber(config.TeacherMarkedSchoolworkMultiplier) or 1)
+			+ completed * (tonumber(config.CompletedSchoolworkMultiplier) or 0.65)
+			+ ungraded * (tonumber(config.UngradedSchoolworkMultiplier) or 0.35)
+		) / observationCount,
+		0,
+		1
+	)
+
+	local likelyCorrect = math.max(0, tonumber(row.LikelyCorrect) or 0)
+	local likelyIncorrect = math.max(0, tonumber(row.LikelyIncorrect) or 0)
+	local known = likelyCorrect + likelyIncorrect
+	local errorRate = if known > 0 then math.clamp(likelyIncorrect / known, 0, 1) else 0
+	local attemptTarget = math.max(1, tonumber(config.SchoolworkEvidenceAttemptTarget) or 3)
+	local repetition = math.clamp((tonumber(row.Attempted) or 0) / attemptTarget, 0, 1)
+	local confidence = math.clamp(tonumber(row.MeanConfidence) or 0, 0, 1)
+	local evidencePressure =
+		errorRate * (tonumber(config.SchoolworkEvidenceErrorShare) or 0.75)
+		+ repetition * (tonumber(config.SchoolworkEvidencePresenceShare) or 0.25)
+
+	return math.clamp(evidencePressure * sourceStrength * confidence, 0, 1)
+end
+
 function LearningPriority.SkillScore(
 	profileData,
 	skill: string,
@@ -75,6 +107,7 @@ function LearningPriority.SkillScore(
 	local current = if (
 		type(currentMaterialSkills) == "table" and currentMaterialSkills[skill] == true
 	) or SchoolworkSkillEvidence.HasSkill(skill) then 1 else 0
+	local schoolworkPressure = schoolworkEvidencePressure(skill, config)
 	local recentPenalty = if type(recentSkills) == "table" and recentSkills[skill] == true
 		then tonumber(config.RecentSkillPenalty) or 0.18 else 0
 	local score =
@@ -83,6 +116,7 @@ function LearningPriority.SkillScore(
 		+ math.max(wrongPressure, underexposure * 0.5) * (tonumber(config.WrongPressureWeight) or 0.16)
 		+ due * (tonumber(config.DueWeight) or 0.20)
 		+ current * (tonumber(config.CurrentMaterialWeight) or 0.08)
+		+ schoolworkPressure * (tonumber(config.SchoolworkEvidenceWeight) or 0.42)
 		- recentPenalty
 	return score
 end

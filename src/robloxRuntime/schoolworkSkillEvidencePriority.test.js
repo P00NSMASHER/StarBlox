@@ -31,14 +31,12 @@ describe('Block 3: schoolwork skill observations feed learning priority',()=>{
     expect(evidence).not.toContain('imageHash');
   });
 
-  it('adds schoolwork presence to the existing current-material priority term only',()=>{
+  it('keeps the Block 3 current-material seam while later evidence policy can add bounded pressure',()=>{
     const priority=read('roblox/src/server/LearningPriority.luau');
 
     expect(priority).toContain('require(ReplicatedStorage.StarBlox.SchoolworkSkillEvidence)');
     expect(priority).toContain('SchoolworkSkillEvidence.HasSkill(skill)');
     expect(priority).toContain('CurrentMaterialWeight');
-    expect(priority).not.toContain('SchoolworkSkillEvidence.Skills[skill].LikelyCorrect');
-    expect(priority).not.toContain('SchoolworkSkillEvidence.Skills[skill].LikelyIncorrect');
   });
 
   it('keeps schoolwork evidence server-side and out of the replicated player projection',()=>{
