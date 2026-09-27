@@ -91,12 +91,16 @@ end
 local function polishLocalLights(runtimeWorld: Model, origin: Vector3): number
 	local changed = 0
 	for _, descendant in runtimeWorld:GetDescendants() do
-		if descendant:IsA("Light") then
-			local parent = descendant.Parent
+		local isLocalLight = descendant:IsA("PointLight")
+			or descendant:IsA("SpotLight")
+			or descendant:IsA("SurfaceLight")
+		if isLocalLight then
+			local light = descendant :: any
+			local parent = light.Parent
 			if parent ~= nil and parent:IsA("BasePart") and horizontalDistance(parent.Position, origin) <= LIGHT_RADIUS then
-				descendant.Brightness = math.min(descendant.Brightness, 1.2)
-				descendant.Range = math.min(descendant.Range, 14)
-				descendant.Shadows = false
+				light.Brightness = math.min(light.Brightness, 1.2)
+				light.Range = math.min(light.Range, 14)
+				light.Shadows = false
 				changed += 1
 			end
 		end
