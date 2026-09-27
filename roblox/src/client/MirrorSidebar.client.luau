@@ -897,18 +897,17 @@ local function setCategories(
 		local button = Instance.new("TextButton")
 		button.Name = "Category_" .. entry.Id
 		button.LayoutOrder = order
-		button.Size = UDim2.fromOffset(42, 42)
+		button.Size = UDim2.fromOffset(38, 38)
 		button.BackgroundColor3 = if entry.Id == selectedId then UI.tileSelected else UI.white
 		button.BackgroundTransparency = 0.16
 		button.Text = entry.Symbol
 		button.TextColor3 = UI.text
 		button.Font = Enum.Font.GothamBold
-		button.TextScaled = true
+		button.TextSize = 17
 		button.ZIndex = 73
 		button.Parent = categoryRail
-		round(button, 6)
-		stroke(button, UI.border, 1, 0.45)
-		constrain(button, 15, 22)
+		round(button, 10)
+		stroke(button, UI.border, 1, 0.55)
 		button.Activated:Connect(function()
 			onSelect(entry.Id)
 		end)
@@ -926,37 +925,37 @@ end
 
 
 local function configureTextPanel()
-	panel.Position = UDim2.new(1, -83, 0, 105)
-	panel.Size = UDim2.fromOffset(326, 309)
+	panel.Position = UDim2.new(1, -70, 0, 96)
+	panel.Size = UDim2.fromOffset(288, 300)
 	panelTitle.Visible = true
-	scroller.Position = UDim2.fromOffset(50, 54)
-	scroller.Size = UDim2.new(1, -50, 1, -58)
-	categoryRail.Position = UDim2.fromOffset(0, 54)
-	categoryRail.Size = UDim2.fromOffset(44, 245)
+	panelToolbar.Visible = false
+	categoryRail.Position = UDim2.fromOffset(12, 50)
+	categoryRail.Size = UDim2.fromOffset(38, 238)
 	categoryList.Padding = UDim.new(0, 4)
 	grid.CellPadding = UDim2.fromOffset(5, 5)
-	grid.CellSize = UDim2.fromOffset(76, 64)
-	panelToolbar.Visible = false
+	grid.CellSize = UDim2.fromOffset(70, 62)
+	scroller.Position = UDim2.fromOffset(56, 50)
+	scroller.Size = UDim2.new(1, -68, 1, -62)
 end
 
 local function configureIconPanel(withCategoryRail: boolean)
-	panel.Position = UDim2.new(1, -164, 0, 126)
-	panel.Size = UDim2.fromOffset(258, 264)
-	panelTitle.Visible = false
-	panelToolbar.Position = UDim2.fromOffset(0, 0)
-	panelToolbar.Size = UDim2.new(1, -56, 0, 48)
+	panel.Position = UDim2.new(1, -70, 0, 96)
+	panel.Size = UDim2.fromOffset(288, 300)
+	panelTitle.Visible = true
+	panelToolbar.Position = UDim2.fromOffset(12, 48)
+	panelToolbar.Size = UDim2.new(1, -58, 0, 38)
 	panelToolbar.Visible = true
-	categoryRail.Position = UDim2.fromOffset(0, 50)
-	categoryRail.Size = UDim2.fromOffset(44, 214)
-	categoryList.Padding = UDim.new(0, 1)
-	grid.CellPadding = UDim2.fromOffset(4, 4)
-	grid.CellSize = UDim2.fromOffset(49, 49)
+	categoryRail.Position = UDim2.fromOffset(12, 94)
+	categoryRail.Size = UDim2.fromOffset(38, 194)
+	categoryList.Padding = UDim.new(0, 4)
+	grid.CellPadding = UDim2.fromOffset(5, 5)
+	grid.CellSize = UDim2.fromOffset(58, 58)
 	if withCategoryRail then
-		scroller.Position = UDim2.fromOffset(50, 50)
-		scroller.Size = UDim2.new(1, -50, 1, -50)
+		scroller.Position = UDim2.fromOffset(56, 94)
+		scroller.Size = UDim2.new(1, -68, 1, -106)
 	else
-		scroller.Position = UDim2.fromOffset(0, 50)
-		scroller.Size = UDim2.new(1, 0, 1, -50)
+		scroller.Position = UDim2.fromOffset(12, 94)
+		scroller.Size = UDim2.new(1, -24, 1, -106)
 	end
 end
 
@@ -965,6 +964,7 @@ local function setHeader(nextTitle: string)
 	panelTitle.Text = nextTitle
 	panelTitle.Visible = true
 	panel.Visible = true
+	setSecondaryChromeVisible(false)
 	setActionLabelsVisible(false)
 end
 
@@ -987,11 +987,11 @@ local function tile(
 	frame.LayoutOrder = order
 	frame.Size = UDim2.fromOffset(76, 64)
 	frame.BackgroundColor3 = UI.tile
-	frame.BackgroundTransparency = 0.12
+	frame.BackgroundTransparency = 0.08
 	frame.ZIndex = 72
 	frame.Parent = scroller
-	round(frame, 6)
-	stroke(frame, UI.border, 1, 0.45)
+	round(frame, 10)
+	stroke(frame, UI.border, 1, 0.58)
 
 	local icon = Instance.new("TextLabel")
 	icon.BackgroundTransparency = 1
