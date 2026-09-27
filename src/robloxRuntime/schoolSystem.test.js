@@ -176,9 +176,10 @@ describe('School system milestones 7-12',()=>{
     expect(progress).toContain('"|class-complete"');
     expect(progress).toContain('"|full-day"');
     expect(progress).toContain('state.Receipts[key] == true');
-    expect(progress).toContain('state.RewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay');
+    expect(progress).toContain('previousRewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay');
     expect(progress).toContain('EarnedBySchoolDay');
-    expect(progress).toContain('recordEarnings');
+    expect(progress).toContain('applyRewardTransaction');
+    expect(progress).toContain('reward_transaction_failed');
     expect(progress).toContain('GetDayEarnings');
     expect(report).toContain('SchoolProgressService.ApplyFullDay');
     expect(report).toContain('SchoolProgressService.GetDayEarnings');
