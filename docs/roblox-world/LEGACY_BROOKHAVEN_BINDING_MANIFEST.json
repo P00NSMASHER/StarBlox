@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "status": "legacy-runtime-bindings-generated",
+  "geometrySequence": {
+    "count": 14459,
+    "namePattern": "LBH_00001..LBH_14459"
+  },
+  "spawn": {
+    "generatedName": "LBH_14370",
+    "sourcePath": "Workspace/Model/001_SpawnColor/Color1",
+    "sourceName": "Color1",
+    "legacySpawnCentroid": [
+      3.5863818533333336,
+      0.16769123,
+      -0.21469875666666674
+    ]
+  },
+  "interactions": {
+    "doors": [
+      {
+        "id": "legacy-door-001",
+        "generatedName": "LBH_00276",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/HouseDoorNotLocking",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-002",
+        "generatedName": "LBH_00360",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/FakeRoomDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-003",
+        "generatedName": "LBH_00395",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-004",
+        "generatedName": "LBH_00435",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/Shed/Door",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-005",
+        "generatedName": "LBH_00511",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/003_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-006",
+        "generatedName": "LBH_00939",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/002_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-007",
+        "generatedName": "LBH_01010",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/001_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-008",
+        "generatedName": "LBH_01246",
+        "sourcePath": "Workspace/001_Lots/MinaOlenToreLeeniHouse/HousePickedByPlayer/HouseModel/001_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-009",
+        "generatedName": "LBH_02090",
+        "sourcePath": "Workspace/001_Lots/MinaOlenToreLeeniHouse/HousePickedByPlayer/HouseModel/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-010",
+        "generatedName": "LBH_02096",
+        "sourcePath": "Workspace/001_Lots/MinaOlenToreLeeniHouse/HousePickedByPlayer/HouseModel/NoLockHouseDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-011",
+        "generatedName": "LBH_02640",
+        "sourcePath": "Workspace/001_Lots/ania2011adas2019House/HousePickedByPlayer/HouseModel/NoLockHouseDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-012",
+        "generatedName": "LBH_03056",
+        "sourcePath": "Workspace/001_Lots/ania2011adas2019House/HousePickedByPlayer/HouseModel/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-013",
+        "generatedName": "LBH_03558",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/002_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-014",
+        "generatedName": "LBH_03782",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/001_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-015",
+        "generatedName": "LBH_03940",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/003_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-016",
+        "generatedName": "LBH_04105",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-017",
+        "generatedName": "LBH_04111",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/NoLockHouseDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-018",
+        "generatedName": "LBH_04196",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/HouseDoorNotLocking",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-019",
+        "generatedName": "LBH_04280",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/FakeRoomDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-020",
+        "generatedName": "LBH_04315",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-021",
+        "generatedName": "LBH_04355",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/Shed/Door",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-022",
+        "generatedName": "LBH_04431",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/003_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-023",
+        "generatedName": "LBH_04859",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/002_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-024",
+        "generatedName": "LBH_04930",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/001_SlidingDoor",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-025",
+        "generatedName": "LBH_05112",
+        "sourcePath": "Workspace/001_Lots/For Sale/UnsoldLotGrass1/UnsoldLotGrass1/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-026",
+        "generatedName": "LBH_05139",
+        "sourcePath": "Workspace/001_Lots/For Sale/UnsoldLotGrass5/UnsoldLotGrass1/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-027",
+        "generatedName": "LBH_05173",
+        "sourcePath": "Workspace/001_Lots/For Sale/UnsoldLotGrass4/UnsoldLotGrass1/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-028",
+        "generatedName": "LBH_05207",
+        "sourcePath": "Workspace/001_Lots/For Sale/UnsoldLotGrass2/UnsoldLotGrass1/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-029",
+        "generatedName": "LBH_05241",
+        "sourcePath": "Workspace/001_Lots/For Sale/UnsoldLotGrass3/UnsoldLotGrass1/001_HouseDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-030",
+        "generatedName": "LBH_05258",
+        "sourcePath": "Workspace/WorkspaceCom/001_Bank/Door",
+        "sourceName": "Part"
+      },
+      {
+        "id": "legacy-door-031",
+        "generatedName": "LBH_06010",
+        "sourcePath": "Workspace/WorkspaceCom/001_StoreDoors",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-032",
+        "generatedName": "LBH_06546",
+        "sourcePath": "Workspace/WorkspaceCom/001_Hospital/Door",
+        "sourceName": "Glass"
+      },
+      {
+        "id": "legacy-door-033",
+        "generatedName": "LBH_06598",
+        "sourcePath": "Workspace/WorkspaceCom/002_Prison door/Doors/Button/Door",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-034",
+        "generatedName": "LBH_06705",
+        "sourcePath": "Workspace/WorkspaceCom/001_Jet/001_Plane/FakeRoomDoor",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-035",
+        "generatedName": "LBH_07151",
+        "sourcePath": "Workspace/WorkspaceCom/003_SchoolLockers/Doors/Door",
+        "sourceName": "LockerDoor"
+      },
+      {
+        "id": "legacy-door-036",
+        "generatedName": "LBH_07836",
+        "sourcePath": "Workspace/Model/Door",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-037",
+        "generatedName": "LBH_12323",
+        "sourcePath": "Workspace/Model/HospitalDoors/Door",
+        "sourceName": "MeshPart"
+      },
+      {
+        "id": "legacy-door-038",
+        "generatedName": "LBH_11807",
+        "sourcePath": "Workspace/Model/SchoolDoorClassroom/Door",
+        "sourceName": "Door"
+      },
+      {
+        "id": "legacy-door-039",
+        "generatedName": "LBH_13804",
+        "sourcePath": "Workspace/Model/DoorsAnchored/HouseDoor",
+        "sourceName": "Door"
+      }
+    ],
+    "garages": [
+      {
+        "id": "legacy-garage-001",
+        "generatedName": "LBH_00380",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/001_GarageDoor",
+        "sourceName": "GarageDoor"
+      },
+      {
+        "id": "legacy-garage-002",
+        "generatedName": "LBH_01597",
+        "sourcePath": "Workspace/001_Lots/MinaOlenToreLeeniHouse/HousePickedByPlayer/HouseModel/001_GarageDoor",
+        "sourceName": "GarageDoor"
+      },
+      {
+        "id": "legacy-garage-003",
+        "generatedName": "LBH_02418",
+        "sourcePath": "Workspace/001_Lots/ania2011adas2019House/HousePickedByPlayer/HouseModel/001_GarageDoor",
+        "sourceName": "GarageDoor"
+      },
+      {
+        "id": "legacy-garage-004",
+        "generatedName": "LBH_03572",
+        "sourcePath": "Workspace/001_Lots/sandro291011House/HousePickedByPlayer/HouseModel/001_GarageDoor",
+        "sourceName": "GarageDoor"
+      },
+      {
+        "id": "legacy-garage-005",
+        "generatedName": "LBH_04300",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/001_GarageDoor",
+        "sourceName": "GarageDoor"
+      }
+    ],
+    "lights": [
+      {
+        "id": "legacy-light-001",
+        "generatedName": "LBH_00283",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-002",
+        "generatedName": "LBH_00434",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House/HousePickedByPlayer/HouseModel/Shed/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-003",
+        "generatedName": "LBH_04203",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-004",
+        "generatedName": "LBH_04354",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse/HousePickedByPlayer/HouseModel/Shed/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-005",
+        "generatedName": "LBH_05968",
+        "sourcePath": "Workspace/WorkspaceCom/001_SchoolLights/Switches/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-006",
+        "generatedName": "LBH_06726",
+        "sourcePath": "Workspace/WorkspaceCom/001_Jet/001_Plane/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-007",
+        "generatedName": "LBH_07352",
+        "sourcePath": "Workspace/Model/LightSwitchMesh",
+        "sourceName": "Neon"
+      },
+      {
+        "id": "legacy-light-008",
+        "generatedName": "LBH_07630",
+        "sourcePath": "Workspace/Model/Model/LightSwitchMesh",
+        "sourceName": "Neon"
+      }
+    ],
+    "counts": {
+      "doors": 39,
+      "garages": 5,
+      "lights": 8
+    },
+    "pendingReview": {
+      "doors": 0,
+      "garages": 0,
+      "lights": 0
+    }
+  },
+  "plots": {
+    "count": 7,
+    "entries": [
+      {
+        "id": "legacy-plot-1",
+        "generatedName": "LBH_00192",
+        "sourcePath": "Workspace/001_Lots/For Sale",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-2",
+        "generatedName": "LBH_00252",
+        "sourcePath": "Workspace/001_Lots/1_Lexa86House",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-3",
+        "generatedName": "LBH_01175",
+        "sourcePath": "Workspace/001_Lots/MinaOlenToreLeeniHouse",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-4",
+        "generatedName": "LBH_02171",
+        "sourcePath": "Workspace/001_Lots/ania2011adas2019House",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-5",
+        "generatedName": "LBH_03154",
+        "sourcePath": "Workspace/001_Lots/sandro291011House",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-6",
+        "generatedName": "LBH_04172",
+        "sourcePath": "Workspace/001_Lots/MakamoshaHouse",
+        "sourceName": "BuyHouse"
+      },
+      {
+        "id": "legacy-plot-7",
+        "generatedName": "LBH_05080",
+        "sourcePath": "Workspace/001_Lots/benci36House",
+        "sourceName": "BuyHouse"
+      }
+    ]
+  },
+  "worldCoverage": {
+    "houseGeometry": 5074,
+    "vehicleGeometry": 201,
+    "lotGeometry": 5074,
+    "roadGeometry": 470
+  },
+  "boundary": {
+    "legacyDevelopmentOnly": true,
+    "currentLiveCertificationSatisfied": false,
+    "exactParityClaimAllowed": false
+  }
+}\n

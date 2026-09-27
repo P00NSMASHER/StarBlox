@@ -26,16 +26,17 @@
     "sourceCodeEvaluated": false
   },
   "artifact": {
-    "deterministicModelSha256": "16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c",
-    "deterministicModelBytes": 61023558,
+    "deterministicModelSha256": "ce9cf8aaab82782f4b88b3c88e920d8746368363b71d9692606156dd8b22c4ca",
+    "deterministicModelBytes": 61067553,
+    "generatedNamePattern": "LBH_00001..LBH_14459",
     "workflowArtifactName": "legacy-brookhaven-geometry-baseline",
     "committedBinary": false,
     "reproducibleFromPinnedSource": true
   },
   "activation": {
     "automaticOverlayIntoCurrentFlattenedWorld": false,
-    "reason": "Measured geometry alignment does not justify a translation-only overlay; avoid corrupting the playable world.",
-    "nextUse": "Use the sanitized full legacy geometry as the authoritative development geometry source for subsequent P1 catalog/interaction reconstruction and controlled world-mode integration."
+    "reason": "Legacy safe-world candidate is assembled separately; never overlay two unrelated coordinate/topology baselines.",
+    "nextUse": "Mount this complete sanitized source as the immutable witness in the dedicated legacy-development candidate."
   },
   "boundaries": {
     "developmentGeometryBreadthP0Closed": true,
