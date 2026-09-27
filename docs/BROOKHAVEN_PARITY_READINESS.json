@@ -38,6 +38,28 @@
     "houses": {
       "target": 83,
       "parityCatalogComplete": false
+    },
+    "legacyDevelopment": {
+      "sourceTargets": {
+        "vehicles": 19,
+        "inventoryUnique": 50,
+        "houses": 12
+      },
+      "runtime": {
+        "vehicles": 19,
+        "sourceVehiclesRuntimePlayable": 19,
+        "inventorySourceEntries": 50,
+        "inventoryRuntimeEntries": 51,
+        "compatibilityToolEntries": 1,
+        "houses": 12
+      },
+      "completion": {
+        "vehicleCatalogComplete": true,
+        "inventoryCatalogComplete": true,
+        "houseCatalogComplete": true,
+        "everySourceVehicleRuntimePlayable": true,
+        "everySourceToolHasRuntimeDefinition": true
+      }
     }
   },
   "interactions": {
@@ -56,7 +78,19 @@
     "reviewedLights": 0,
     "pendingLights": 111,
     "renderedEvidenceRequired": true,
-    "automaticCandidateActivationAllowed": false
+    "automaticCandidateActivationAllowed": false,
+    "legacyDevelopment": {
+      "reviewedDoors": 39,
+      "reviewedGarageDoors": 5,
+      "reviewedLights": 8,
+      "pendingReview": {
+        "doors": 0,
+        "garages": 0,
+        "lights": 0
+      },
+      "plots": 7,
+      "sourceBound": true
+    }
   },
   "school": {
     "implementationIntegrated": true,
@@ -137,7 +171,7 @@
         "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
         "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
         "sanitizationReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json",
-        "sanitizedModelSha256": "16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c",
+        "sanitizedModelSha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283",
         "legacyGeometryCount": 14459,
         "sanitizedGeometryCount": 14459,
         "safeVisualChildCount": 2491,
@@ -146,6 +180,33 @@
         "sourceCodeExecuted": false,
         "retainedWorkflowArtifact": "legacy-brookhaven-geometry-baseline",
         "currentLiveCertificationSatisfied": false
+      },
+      "runtimeBindings": {
+        "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_BINDING_MANIFEST.json",
+        "doors": 39,
+        "garages": 5,
+        "lights": 8,
+        "plots": 7,
+        "pendingReview": {
+          "doors": 0,
+          "garages": 0,
+          "lights": 0
+        }
+      },
+      "catalogCompletion": {
+        "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_CATALOG_COMPLETION.json",
+        "sourceTargets": {
+          "vehicles": 19,
+          "inventoryUnique": 50,
+          "houses": 12
+        },
+        "completion": {
+          "vehicleCatalogComplete": true,
+          "inventoryCatalogComplete": true,
+          "houseCatalogComplete": true,
+          "everySourceVehicleRuntimePlayable": true,
+          "everySourceToolHasRuntimeDefinition": true
+        }
       }
     }
   },

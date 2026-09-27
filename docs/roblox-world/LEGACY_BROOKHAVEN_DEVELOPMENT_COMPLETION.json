@@ -130,8 +130,8 @@
   },
   "candidate": {
     "ready": true,
-    "sha256": "c58e8a7f00a090a1b0e223cde0521d34108bbfa719ef69a6f007ef4ca0a3f58a",
-    "bytes": 65654725,
+    "sha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+    "bytes": 65678699,
     "privatePlaytestCandidate": true
   },
   "boundaries": {
