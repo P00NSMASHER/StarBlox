@@ -70,7 +70,10 @@
     "automatedContractSuiteRequired": true,
     "finalSideBySideMobileQaPassed": false,
     "currentLiveMapParityProofPassed": false,
-    "productionIconAssetPassComplete": false
+    "productionIconAssetPassComplete": false,
+    "renderedEvidenceIntakeReady": true,
+    "renderedEvidenceGate": "docs/CURRENT_BROOKHAVEN_RENDERED_EVIDENCE_GATE.json",
+    "renderedComparisonCompleted": false
   },
   "release": {
     "privatePublishPathAvailable": true,
