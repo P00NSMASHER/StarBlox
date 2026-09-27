@@ -3,10 +3,14 @@ import {createHash} from 'node:crypto';
 import {
   SCHOOLWORK_EVIDENCE_CLASSES,
   SCHOOLWORK_SIGNAL_DEFINITIONS,
+  adaptSchoolworkPhotoIntake,
   classifySchoolworkPhotoObservation,
   validateSchoolworkPhotoIntake
 } from './schoolworkPhotoIntakeAdapter.js';
-import {validateSanitizedSchoolworkPack} from './schoolworkPhotoPipeline.js';
+import {
+  schoolworkPackHash,
+  validateSanitizedSchoolworkPack
+} from './schoolworkPhotoPipeline.js';
 import {applySchoolworkReviewGate,validateSchoolworkReviewQueue} from './schoolworkPhotoReviewGate.js';
 
 export const SCHOOLWORK_SKILL_OBSERVATION_VERSION='schoolwork-skill-observations-v1';
@@ -30,6 +34,19 @@ function safeId(value){
     .replace(/[^a-z0-9._-]+/g,'-')
     .replace(/^-+|-+$/g,'')
     .slice(0,96);
+}
+
+function intakeBoundPack(pack){
+  if(!pack||typeof pack!=='object'||!Array.isArray(pack.reviewQueue)) return pack;
+  return {
+    ...pack,
+    reviewQueue:pack.reviewQueue.map(item=>{
+      if(!item||typeof item!=='object') return item;
+      const normalized={...item,status:'needs-review'};
+      delete normalized.selectedSignalId;
+      return normalized;
+    })
+  };
 }
 
 function evidenceFor(observation,candidate){
@@ -134,13 +151,14 @@ function aggregateBySkill(observations){
   );
 }
 
-function artifactFrom({batchId,capturedDate,observations,mode,reviewSummary}){
+function artifactFrom({batchId,capturedDate,intakeSourceHash,observations,mode,reviewSummary}){
   const bySkill=aggregateBySkill(observations);
   return {
     schemaVersion:1,
     observationVersion:SCHOOLWORK_SKILL_OBSERVATION_VERSION,
     batchId,
     capturedDate,
+    intakeSourceHash,
     mode,
     observationCount:observations.length,
     observations,
@@ -163,6 +181,7 @@ export function schoolworkSkillObservationHash(artifact){
     observationVersion:artifact?.observationVersion,
     batchId:artifact?.batchId,
     capturedDate:artifact?.capturedDate,
+    intakeSourceHash:artifact?.intakeSourceHash,
     observations:artifact?.observations,
     bySkill:artifact?.bySkill
   });
@@ -175,6 +194,7 @@ function receiptFor(artifact){
     observationVersion:SCHOOLWORK_SKILL_OBSERVATION_VERSION,
     batchId:artifact.batchId,
     capturedDate:artifact.capturedDate,
+    intakeSourceHash:artifact.intakeSourceHash,
     mode:artifact.mode,
     observationCount:artifact.observationCount,
     skillCount:Object.keys(artifact.bySkill).length,
@@ -184,13 +204,23 @@ function receiptFor(artifact){
 }
 
 export function buildSchoolworkSkillObservations({intake,reviewedPack}){
+  const rebuilt=adaptSchoolworkPhotoIntake(intake);
   const issues=[
-    ...validateSchoolworkPhotoIntake(intake),
+    ...rebuilt.issues,
     ...validateSanitizedSchoolworkPack(reviewedPack),
     ...validateSchoolworkReviewQueue(reviewedPack)
   ];
   if(intake?.batchId!==reviewedPack?.batchId){
     issues.push({type:'skill-observation-batch-mismatch'});
+  }
+  const intakeSourceHash=rebuilt.pack?schoolworkPackHash(rebuilt.pack):null;
+  const reviewedIntakeHash=schoolworkPackHash(intakeBoundPack(reviewedPack));
+  if(intakeSourceHash!==null&&reviewedIntakeHash!==intakeSourceHash){
+    issues.push({
+      type:'skill-observation-intake-source-mismatch',
+      expectedHash:intakeSourceHash,
+      actualHash:reviewedIntakeHash
+    });
   }
   if(issues.length) return {issues,artifact:null,receipt:null};
 
@@ -271,6 +301,7 @@ export function buildSchoolworkSkillObservations({intake,reviewedPack}){
   const artifact=artifactFrom({
     batchId:intake.batchId,
     capturedDate:intake.capturedDate,
+    intakeSourceHash,
     observations,
     mode:'structured-intake',
     reviewSummary:{
@@ -324,6 +355,7 @@ export function buildLegacySchoolworkSkillObservations(
   const artifact=artifactFrom({
     batchId:pack.batchId,
     capturedDate:pack.capturedDate||'',
+    intakeSourceHash:schoolworkPackHash(pack),
     observations,
     mode:'legacy-sanitized-skill-signals',
     reviewSummary:{
@@ -351,6 +383,7 @@ export function renderSchoolworkSkillEvidenceLua(artifact){
     '\tVersion = '+luaString(artifact.observationVersion)+',',
     '\tBatchId = '+luaString(artifact.batchId)+',',
     '\tCapturedDate = '+luaString(artifact.capturedDate)+',',
+    '\tIntakeSourceHash = '+luaString(artifact.intakeSourceHash)+',',
     '\tSkills = table.freeze({'
   ];
   for(const [skill,row] of Object.entries(artifact.bySkill).sort(([a],[b])=>a.localeCompare(b))){
