@@ -54,7 +54,9 @@
     "roblox:brookhaven-current-source:evaluate-rendered-parity": "node scripts/evaluate-current-brookhaven-rendered-parity.mjs",
     "roblox:brookhaven-current-source:lock-behavior-evidence": "node scripts/lock-current-brookhaven-behavior-evidence.mjs",
     "roblox:brookhaven-current-source:evaluate-behavior-parity": "node scripts/evaluate-current-brookhaven-behavior-parity.mjs",
-    "roblox:brookhaven-current-source:evaluate-combined-parity": "node scripts/evaluate-current-brookhaven-combined-parity.mjs"
+    "roblox:brookhaven-current-source:evaluate-combined-parity": "node scripts/evaluate-current-brookhaven-combined-parity.mjs",
+    "roblox:brookhaven-legacy:fetch": "node scripts/fetch-legacy-brookhaven-reference.mjs",
+    "roblox:brookhaven-legacy:analyze": "node scripts/analyze-legacy-brookhaven-reference.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
