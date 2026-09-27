@@ -1,8 +1,11 @@
 import {createHash} from 'node:crypto';
 
+import {buildEquivalentQuestionSpecs} from './schoolworkEquivalentItemFactory.js';
+
 export const SCHOOLWORK_PHOTO_PACK_VERSION='schoolwork-photo-source-v1';
 export const SCHOOLWORK_QUESTION_CATALOG_VERSION='schoolwork-photo-question-catalog-v1';
 export const SCHOOLWORK_PROVENANCE='original-practice-derived-from-sanitized-schoolwork-photos';
+export const SCHOOLWORK_SOURCE_TRANSFORM='skill-only-equivalent-item-v1';
 
 const STATIONS=new Set([
   'word-portal-put-v1',
@@ -494,20 +497,35 @@ export function validateSanitizedSchoolworkPack(pack){
   return issues;
 }
 
-export function buildSchoolworkQuestionCatalog(pack,{snapshotId}={}){
+export function buildSchoolworkQuestionCatalog(pack,{snapshotId,generationVariant=0}={}){
   const issues=validateSanitizedSchoolworkPack(pack);
   if(issues.length) throw new Error('schoolwork photo pack validation failed: '+JSON.stringify(issues));
   const cleanSnapshot=String(snapshotId||'schoolwork').replace(/[^a-zA-Z0-9_-]+/g,'-');
+  const variant=Math.max(0,Math.floor(Number(generationVariant)||0));
   const questions=[];
   for(const signal of pack.skillSignals){
     const enriched={...signal,batchId:pack.batchId};
-    const variants=FAMILIES[signal.generatorKey](enriched);
+    let variants;
+    if(variant>0){
+      const specs=buildEquivalentQuestionSpecs(signal.generatorKey,variant);
+      if(!Array.isArray(specs)||specs.length===0){
+        throw new Error('equivalent item factory missing generator: '+signal.generatorKey);
+      }
+      variants=specs.map(spec=>q(enriched,spec.type,spec));
+    }else{
+      variants=FAMILIES[signal.generatorKey](enriched);
+    }
     variants.forEach((question,index)=>{
       const type=question.questionType||['direct','transfer','reasoning'][index]||'practice';
       questions.push({
         ...question,
-        id:cleanSnapshot+'-photo-'+slug(signal.id)+'-'+slug(type),
-        coverageWeight:signal.coverageWeight
+        id:cleanSnapshot+'-photo-'+slug(signal.id)+'-'+slug(type)+(variant>0?'-ev'+variant:''),
+        coverageWeight:signal.coverageWeight,
+        ...(variant>0?{
+          generationVariant:variant,
+          sourceTransform:SCHOOLWORK_SOURCE_TRANSFORM,
+          originalEquivalent:true
+        }:{})
       });
     });
   }
@@ -516,9 +534,54 @@ export function buildSchoolworkQuestionCatalog(pack,{snapshotId}={}){
     catalogVersion:SCHOOLWORK_QUESTION_CATALOG_VERSION,
     batchId:pack.batchId,
     sourceHash:schoolworkPackHash(pack),
+    generationMode:variant>0?'skill-only-equivalent-item':'baseline-original-practice',
+    generationVariant:variant,
     questionCount:questions.length,
     questions
   };
+}
+
+export function validateOriginalEquivalentCatalog(catalog){
+  const issues=[];
+  if(!catalog||typeof catalog!=='object'){
+    return [{type:'equivalent-catalog-missing'}];
+  }
+  if(!Number.isInteger(catalog.generationVariant)||catalog.generationVariant<1){
+    issues.push({type:'equivalent-generation-variant-invalid'});
+  }
+  if(catalog.generationMode!=='skill-only-equivalent-item'){
+    issues.push({type:'equivalent-generation-mode-invalid'});
+  }
+  const ids=new Set();
+  for(const question of catalog.questions||[]){
+    if(ids.has(question.id)) issues.push({type:'equivalent-question-id-duplicate',id:question.id});
+    ids.add(question.id);
+    if(question.provenance!==SCHOOLWORK_PROVENANCE){
+      issues.push({type:'equivalent-provenance-invalid',id:question.id});
+    }
+    if(question.sourceTransform!==SCHOOLWORK_SOURCE_TRANSFORM||question.originalEquivalent!==true){
+      issues.push({type:'equivalent-source-transform-invalid',id:question.id});
+    }
+    if(!['direct','transfer','reasoning'].includes(question.questionType)){
+      issues.push({type:'equivalent-question-type-invalid',id:question.id});
+    }
+    if(typeof question.prompt!=='string'||question.prompt.length<20){
+      issues.push({type:'equivalent-prompt-invalid',id:question.id});
+    }
+    if(!Array.isArray(question.choices)||question.choices.length!==3||
+      new Set(question.choices).size!==3||!question.choices.includes(question.answer)
+    ){
+      issues.push({type:'equivalent-choices-invalid',id:question.id});
+    }
+    if(!String(question.sourceFact||'').startsWith('Sanitized schoolwork-photo skill evidence:')){
+      issues.push({type:'equivalent-source-fact-invalid',id:question.id});
+    }
+    const forbidden=deepForbiddenKeys(question);
+    if(forbidden.length){
+      issues.push({type:'equivalent-private-field-present',id:question.id,paths:forbidden});
+    }
+  }
+  return issues;
 }
 
 export function selectActiveSchoolworkQuestions(catalog,{maxPerStation=4}={}){
