@@ -62,7 +62,7 @@ describe('legacy Brookhaven real-school bindings', () => {
     expect(luau).toContain('AllowFallbackSource = false');
     expect(luau).toContain('RequireVerifiedPhysicalClassrooms = true');
     expect(luau).toContain('PhysicalClassroomVerified = true');
-    expect(luau).toContain('SchoolArrival • Room A');
+    expect(luau).toContain('School Arrival • Room A');
     expect(luau).toContain('Make-Up Classroom • Room A');
     expect(luau).not.toContain('Library / Make-Up');
   });
