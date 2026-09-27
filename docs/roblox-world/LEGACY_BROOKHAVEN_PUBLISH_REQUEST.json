@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -15,8 +15,8 @@
     "productionActivationAllowed": false
   },
   "completion": {
-    "publishedVersion": 27,
-    "verifiedVersion": 27,
+    "publishedVersion": 28,
+    "verifiedVersion": 28,
     "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
   },
   "attempt": 4,
