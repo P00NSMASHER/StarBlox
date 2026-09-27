@@ -39,6 +39,12 @@ local ProfileTemplate = {
 		QuestionBankSnapshotId = "",
 		AdaptiveByStation = {},
 		SkillStats = {},
+		SpacedMasteryBySkill = {},
+		Automation = {
+			PriorityUnlockedAt = 0,
+			SpacedMasteryUnlockedAt = 0,
+			LastPrioritySelectionAt = 0,
+		},
 		Experiments = {},
 		Pilot = {
 			SessionsStarted = 0,
@@ -81,7 +87,6 @@ local ProfileTemplate = {
 			EarnedBySchoolDay = {},
 		},
 	},
-
 
 	Inventory = {
 		Cosmetics = {},
