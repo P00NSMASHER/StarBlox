@@ -23,6 +23,28 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
     expect(acquisition.source.bytes).toBe(source.source.bytes);
   });
 
+  it('sanitizes the full legacy geometry without carrying gameplay code',()=>{
+    const receipt=readJson('docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json');
+
+    expect(receipt.status).toBe('legacy-brookhaven-geometry-sanitized');
+    expect(receipt.output).toMatchObject({
+      rootName:'LegacyBrookhavenGeometryBaseline',
+      geometryCount:14459,
+      forbiddenGameplayClassCount:0,
+      allGeometryAnchored:true,
+      sha256:'16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c'
+    });
+    expect(receipt.output.safeVisualChildCount).toBeGreaterThan(2000);
+    expect(receipt.policy).toMatchObject({
+      scriptsRemoved:true,
+      remotesRemoved:true,
+      clickDetectorsRemoved:true,
+      proximityPromptsRemoved:true,
+      sourceCodeExecuted:false,
+      sourceCodeEvaluated:false
+    });
+  });
+
   it('deserializes the legacy Workspace and profiles the StarBlox world baseline',()=>{
     const profile=readJson('docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json');
 
@@ -55,10 +77,29 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
     expect(diff.comparison.geometryCountDelta).toBe(4936-14459);
 
     expect(plan.status).toBe('legacy-reference-7b-development-plan-generated');
-    expect(plan.summary).toEqual({priorities:15,p0:2,p1:9,p2:4});
-    expect(plan.measuredBaseline).toEqual({
+    expect(plan.summary).toEqual({priorities:13,p0:0,p1:9,p2:4});
+    expect(plan.completedP0).toMatchObject({
+      worldGeometry:{
+        closed:true,
+        sanitizedGeometryCount:14459,
+        forbiddenGameplayClassCount:0,
+        sourceReceipt:'docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json'
+      },
+      spawnTownCenter:{
+        closed:true,
+        pattern:'legacy-town-center-3x3-v1',
+        slots:9,
+        sourceReceipt:'docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json'
+      }
+    });
+    expect(plan.measuredBaseline).toMatchObject({
       legacy:{instances:24349,geometry:14459,assets:622},
-      starblox:{instances:5493,geometry:4936,assets:154}
+      starblox:{instances:5493,geometry:4936,assets:154},
+      sanitizedDevelopmentGeometry:{
+        geometry:14459,
+        safeVisualChildren:2491,
+        sha256:'16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c'
+      }
     });
     expect(plan.releaseBoundary).toEqual({
       developmentMayUseLegacyReference:true,
