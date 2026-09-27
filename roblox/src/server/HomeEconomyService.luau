@@ -691,7 +691,7 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyS
 	return self
 end
 
-function HomeEconomyService:_reservePlot(player: Player, home, requestedPlotId: string?): number
+function HomeEconomyService:_reservePlot(player: Player, home, requestedPlotId: string?): number?
 	local current = self._slots[player]
 	if current ~= nil and self._usedPlots[current] == player then
 		return current
@@ -728,7 +728,7 @@ function HomeEconomyService:_reservePlot(player: Player, home, requestedPlotId: 
 		end
 	end
 
-	error("no Brookhaven house plot available for player")
+	return nil
 end
 
 function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
@@ -1028,6 +1028,10 @@ function HomeEconomyService:_destroyHome(player: Player)
 end
 
 function HomeEconomyService:_rebuildHome(player: Player, profileData)
+	if self._slots[player] == nil then
+		return
+	end
+
 	self:_destroyHome(player)
 
 	local homeState = ensureHome(profileData)
@@ -1166,11 +1170,13 @@ function HomeEconomyService:_state(player: Player)
 		local home = ensureHome(data)
 		local owned = ensureInventory(data)
 		ensurePlacementDefaults(home, owned)
+		local selectedSlot = self._slots[player]
 		result = {
 			ok = true,
 			coins = data.Economy.Coins,
 			homeTier = home.Tier,
-			plotId = home.PlotId,
+			plotId = if selectedSlot ~= nil then WorldPlotBindings.Plots[selectedSlot].Id else "",
+			homePlotAvailable = selectedSlot ~= nil,
 			selectedStyle = home.SelectedStyle,
 			ownedStyles = table.clone(home.OwnedStyles),
 			styles = StoreCatalog.Styles,
@@ -1581,6 +1587,9 @@ function HomeEconomyService:_teleport(player: Player, target: CFrame): boolean
 end
 
 function HomeEconomyService:_visitHome(player: Player)
+	if self._slots[player] == nil then
+		return {ok = false, code = "home_plot_unavailable"}
+	end
 	local base = self:_homeCFrame(player)
 	return {ok = self:_teleport(player, base * CFrame.new(0, 3.5, 4))}
 end
@@ -1594,8 +1603,12 @@ function HomeEconomyService:PlayerReady(player: Player, profileData)
 	local owned = ensureInventory(profileData)
 	local home = ensureHome(profileData)
 	ensurePlacementDefaults(home, owned)
-	self:_reservePlot(player, home, home.PlotId)
+	local slot = self:_reservePlot(player, home, home.PlotId)
 	player:SetAttribute("StarBloxHomeStyle", home.SelectedStyle)
+	if slot == nil then
+		player:SetAttribute("StarBloxHomePlotId", "")
+		return
+	end
 	self:_rebuildHome(player, profileData)
 end
 
