@@ -537,14 +537,15 @@ local function renderState(payload)
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
 	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
-	hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not townMenuOpen()
 	report.Visible = false
+	local menuOpen = townMenuOpen()
+	hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen
 	local titleText, bodyText, buttonText = periodCallout(clock)
 	calloutTitle.Text = titleText
 	calloutBody.Text = bodyText
 	goToSchool.Text = buttonText
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
-		and payload.currentClassCompleted ~= true and not panel.Visible and not townMenuOpen()
+		and payload.currentClassCompleted ~= true and not panel.Visible and not menuOpen
 
 	if payload.report and payload.report.ok then
 		local lines = {"TODAY'S REPORT"}
@@ -763,12 +764,13 @@ stateEvent.OnClientEvent:Connect(renderState)
 classOpened.OnClientEvent:Connect(renderQuestion)
 
 RunService.Heartbeat:Connect(function()
+	local menuOpen = townMenuOpen()
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
 		hud.Text = string.format("%s  •  %s  •  %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
 		hud.Visible = state.dismissed ~= true
-			and not panel.Visible and not report.Visible and not townMenuOpen()
+			and not panel.Visible and not report.Visible and not menuOpen
 	end
 
 	if not state or not state.targetAnchorName then
@@ -791,11 +793,11 @@ RunService.Heartbeat:Connect(function()
 			roomText,
 			math.floor(distance + 0.5)
 		)
-		waypoint.Visible = not panel.Visible and not report.Visible and not townMenuOpen()
+		waypoint.Visible = not panel.Visible and not report.Visible and not menuOpen
 		if state.schoolRequired == true and state.travelEnabled == true then
 			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
 				and state.currentClassCompleted ~= true and report.Visible ~= true
-				and not townMenuOpen()
+				and not menuOpen
 		end
 	else
 		waypoint.Visible = false

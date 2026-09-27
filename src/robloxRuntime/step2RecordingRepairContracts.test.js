@@ -16,6 +16,6 @@ describe('recorded StarBlox repair contracts',()=>{
     expect(server).toContain('if player.Parent ~= nil then self:_sendState(player) end');
     expect(client).toContain('calloutConstraint.MaxSize = Vector2.new(330, 60)');
     expect(client).toContain('and state.currentClassCompleted ~= true');
-    expect(client).toContain('and not townMenuOpen()');
+    expect(client).toContain('and not menuOpen');
   });
 });

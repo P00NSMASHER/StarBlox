@@ -26,9 +26,10 @@ describe('recorded mobile HUD coordination',()=>{
   it('yields schedule, waypoint and invitation layers to every town menu',()=>{
     expect(source).toContain('playerGui:FindFirstChild("BrookhavenFamilyUI")');
     expect(source).toContain('family:IsA("ScreenGui") and family.Enabled');
-    expect(source).toContain('hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not townMenuOpen()');
-    expect(source).toContain('and not panel.Visible and not report.Visible and not townMenuOpen()');
-    expect(source).toContain('waypoint.Visible = not panel.Visible and not report.Visible and not townMenuOpen()');
-    expect(source).toContain('and not townMenuOpen()');
+    expect(source).toContain('local menuOpen = townMenuOpen()');
+    expect(source).toContain('hud.Visible = payload.dismissed ~= true and not panel.Visible and not report.Visible and not menuOpen');
+    expect(source).toContain('and not panel.Visible and not report.Visible and not menuOpen');
+    expect(source).toContain('waypoint.Visible = not panel.Visible and not report.Visible and not menuOpen');
+    expect(source).toContain('and not menuOpen');
   });
 });
