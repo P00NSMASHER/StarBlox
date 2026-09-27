@@ -79,7 +79,7 @@ local scrim = Instance.new("Frame")
 scrim.Name = "EditorScrim"
 scrim.Size = UDim2.fromScale(1, 1)
 scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
-scrim.BackgroundTransparency = 0.34
+scrim.BackgroundTransparency = 0.22
 scrim.BorderSizePixel = 0
 scrim.ZIndex = 85
 scrim.Parent = root
@@ -108,7 +108,7 @@ outfitsPanel.Name = "MyOutfits"
 outfitsPanel.Position = UDim2.new(0, 72, 0.5, -110)
 outfitsPanel.Size = UDim2.fromOffset(112, 220)
 outfitsPanel.BackgroundColor3 = COLORS.white
-outfitsPanel.BackgroundTransparency = 0.06
+outfitsPanel.BackgroundTransparency = 0.02
 outfitsPanel.ZIndex = 86
 outfitsPanel.Parent = root
 round(outfitsPanel, 8)
@@ -139,7 +139,8 @@ for slot = 1, 4 do
 	button.Text = "Outfit " .. tostring(slot)
 	button.TextColor3 = COLORS.text
 	button.Font = Enum.Font.GothamMedium
-	button.TextScaled = true
+	button.TextScaled = false
+	button.TextSize = 11
 	button.ZIndex = 87
 	button.Parent = outfitsPanel
 	round(button, 7)
@@ -196,11 +197,12 @@ local function utilityButton(name: string, symbol: string, x: number): TextButto
 	button.Position = UDim2.fromOffset(x, 0)
 	button.Size = UDim2.fromOffset(36, 36)
 	button.BackgroundColor3 = COLORS.white
-	button.BackgroundTransparency = 0.16
+	button.BackgroundTransparency = 0.08
 	button.Text = symbol
 	button.TextColor3 = COLORS.text
 	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
+	button.TextScaled = false
+	button.TextSize = 11
 	button.ZIndex = 87
 	button.Parent = utilityBar
 	round(button, 6)
@@ -222,7 +224,7 @@ equippedTray.AnchorPoint = Vector2.new(0.5, 1)
 equippedTray.Position = UDim2.new(0.5, 0, 1, -14)
 equippedTray.Size = UDim2.fromOffset(348, 54)
 equippedTray.BackgroundColor3 = COLORS.white
-equippedTray.BackgroundTransparency = 0.06
+equippedTray.BackgroundTransparency = 0.02
 equippedTray.ZIndex = 86
 equippedTray.Parent = root
 round(equippedTray, 7)
@@ -259,7 +261,7 @@ presetsPanel.AnchorPoint = Vector2.new(1, 0)
 presetsPanel.Position = UDim2.new(1, -72, 0, 64)
 presetsPanel.Size = UDim2.fromOffset(342, 370)
 presetsPanel.BackgroundColor3 = COLORS.white
-presetsPanel.BackgroundTransparency = 0.08
+presetsPanel.BackgroundTransparency = 0.02
 presetsPanel.ZIndex = 86
 presetsPanel.Parent = root
 round(presetsPanel, 10)
@@ -304,15 +306,15 @@ local closeButton = Instance.new("TextButton")
 closeButton.Name = "Close"
 closeButton.AnchorPoint = Vector2.new(1, 0)
 closeButton.Position = UDim2.new(1, 0, 0, 0)
-closeButton.Size = UDim2.fromOffset(42, 40)
+closeButton.Size = UDim2.fromOffset(36, 36)
 closeButton.BackgroundColor3 = COLORS.red
 closeButton.Text = "×"
 closeButton.TextColor3 = Color3.new(1, 1, 1)
 closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 24
+closeButton.TextSize = 21
 closeButton.ZIndex = 90
 closeButton.Parent = presetsPanel
-round(closeButton, 7)
+round(closeButton, 10)
 stroke(closeButton, Color3.fromRGB(130, 25, 25), 1, 0.25)
 constrain(closeButton, 24, 30)
 
@@ -341,7 +343,7 @@ status.AnchorPoint = Vector2.new(0.5, 1)
 status.Position = UDim2.new(0.5, 0, 1, -8)
 status.Size = UDim2.fromOffset(260, 28)
 status.BackgroundColor3 = COLORS.white
-status.BackgroundTransparency = 0.2
+status.BackgroundTransparency = 0.08
 status.Text = ""
 status.TextColor3 = COLORS.text
 status.Font = Enum.Font.GothamMedium
@@ -498,7 +500,7 @@ local function renderEquippedItems()
 			label.Position = UDim2.fromOffset(3, 34)
 			label.Size = UDim2.new(1, -6, 0, 13)
 			label.BackgroundTransparency = 1
-			label.Text = string.sub(assetId, math.max(1, #assetId - 4))
+			label.Text = string.gsub(key, "Accessory", "")
 			label.TextColor3 = COLORS.muted
 			label.Font = Enum.Font.GothamMedium
 			label.TextScaled = true
@@ -663,12 +665,12 @@ local function renderPresets()
 			card.LayoutOrder = order
 			card.Size = UDim2.fromOffset(78, 78)
 			card.BackgroundColor3 = COLORS.white
-			card.BackgroundTransparency = 0.14
+			card.BackgroundTransparency = 0.05
 			card.Text = ""
 			card.ZIndex = 88
 			card.Parent = presetsScroll
 			round(card, 7)
-			stroke(card, COLORS.border, 1, 0.45)
+			stroke(card, COLORS.border, 1, 0.58)
 
 			if not buildPresetPreview(card, preset) then
 				local figure = Instance.new("TextLabel")
