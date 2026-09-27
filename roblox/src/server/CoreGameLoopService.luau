@@ -206,6 +206,14 @@ local function buildWorldBindings()
 		spawnCFrame = CFrame.lookAt(spawnPosition, fountainLookAt)
 	end
 
+	if BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world" then
+		-- v31 live diagnostics place the road/frontage toward negative Z from
+		-- LBH_14370. Move the spawn presentation forward within the same exact
+		-- plaza grid so the first camera frame favors the street instead of the
+		-- middle of the 35-tile plaza.
+		spawnCFrame = spawnCFrame * CFrame.new(0, 0, -7.5)
+	end
+
 	return runtimeFolder, prompts, spawnCFrame
 end
 
