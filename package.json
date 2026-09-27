@@ -48,7 +48,8 @@
     "roblox:phase6:retention-report": "node scripts/verify-phase6-retention.mjs",
     "pilot:fetch-live-metrics": "node scripts/fetch-live-pilot-metrics.mjs",
     "pilot:baseline": "node scripts/build-pilot-baseline.mjs",
-    "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs"
+    "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs",
+    "roblox:brookhaven-current-source:verify": "node scripts/verify-current-brookhaven-source.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
