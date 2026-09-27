@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "V33_NATIVE_RECORDING_REVIEWED_V34_REPAIR_PENDING",
-  "recordedAt": "2026-09-27T21:49:00Z",
+  "status": "V34_NATIVE_RECORDING_REVIEWED_V35_REPAIR_PENDING",
+  "recordedAt": "2026-09-27T22:32:00Z",
   "defectId": "REC-06",
   "scope": "right-side world action rail and house plot mode strip",
   "sourceBoundary": {
@@ -79,7 +79,7 @@
       "legacyAssetId": null,
       "legacyInventoryNote": "source extractor recorded the House ImageLabel path but no reusable Image property",
       "preRepairStarBlox": "font glyphs reused the unsupported house symbol and a tree symbol",
-      "repairedStarBlox": "three original code-drawn plot-mode composites",
+      "repairedStarBlox": "compact image-based three-mode selector inside the same mobile card language",
       "exactCurrentLiveArtParity": "UNVERIFIED"
     }
   ],
@@ -104,11 +104,18 @@
       "checkedInScreenshot": null,
       "result": "FAIL_V33_HOUSE_ICON_BLANK_AND_EDITOR_CHROME_CLUTTER",
       "limitation": "The recording proves image assets load for most rail/top controls, but the house icon is blank and the avatar editor leaves persistent world HUD chrome visible."
+    },
+    {
+      "screen": "StarBlox v34 iPhone mobile UI and GO HOME flow",
+      "source": "user-supplied iPhone recording ScreenRecording_09-27-2026 18-13-34_1(1).mp4",
+      "checkedInScreenshot": null,
+      "result": "FAIL_V34_FLOATING_MENU_STACKS_OVERSIZED_HOUSE_PICKER_AND_HOME_CAMERA_CLIP",
+      "limitation": "The recording shows the five rail icons render, but top utilities remain visually fragmented; Tools/Animations/Vehicle menus float without a coherent card; the house picker occupies the center of the screen; the avatar editor is visually dense; and GO HOME leaves the camera/player against obstructing geometry."
     }
   ],
   "implementation": {
     "file": "roblox/src/client/MirrorSidebar.client.luau",
-    "approach": "five image-asset action rail icons plus image-asset top utilities on one shared glass button system; plot-mode composites remain code-drawn",
+    "approach": "coherent top-right utility cluster; five image-asset rail actions; compact adjacent context card; compact image-based house picker; dedicated overlays own HUD focus",
     "externalAssetIds": [
       "6022668898",
       "6023426938",
@@ -129,11 +136,11 @@
     "deterministicTest": "src/robloxRuntime/mirrorSidebarActionIconIntegrity.test.js",
     "staticResult": "PASS_LOCAL",
     "githubCiPolicy": "VERIFY_EXACT_HEAD",
-    "nativeClientResult": "V33_FAIL_V34_PENDING",
-    "fullActionResult": "NOT_RETESTED"
+    "nativeClientResult": "V34_FAIL_V35_PENDING",
+    "fullActionResult": "V34_NATIVE_FLOW_REVIEWED_V35_PENDING"
   },
   "rollback": {
-    "method": "restore private-staging v33 if v34 regresses behavior",
+    "method": "restore private-staging v34 if v35 regresses behavior",
     "mainChanged": false,
     "publicPlaceChanged": false
   },
