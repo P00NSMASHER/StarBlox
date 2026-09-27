@@ -9,6 +9,8 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     expect(source).toContain('topCluster.Name = "TopUtilityCluster"');
     expect(source).toContain('topCluster.Position = UDim2.new(1, -72, 0, 8)');
     expect(source).toContain('topCluster.Size = UDim2.fromOffset(282, 38)');
+    expect(source).toContain('familyButton.Position = UDim2.fromOffset(118, 1)');
+    expect(source).toContain('clockBox.Position = UDim2.fromOffset(202, 1)');
     expect(source).toContain('rail.Position = UDim2.new(1, -12, 0, 86)');
     expect(source).toContain('rail.Size = UDim2.fromOffset(48, 236)');
     expect(source).toContain('holder.Size = UDim2.fromOffset(44, 44)');
@@ -23,6 +25,7 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     expect(source).toContain('grid.CellSize = UDim2.fromOffset(58, 58)');
     expect(source).toContain('setSecondaryChromeVisible(false)');
     expect(source).toContain('setSecondaryChromeVisible(true)');
+    expect(source).toContain('rail.Visible = visible');
     expect(source).toContain('previewType == "animation"');
   });
 
@@ -48,9 +51,13 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     expect(family).toContain('scrim.Name = "FamilyScrim"');
     expect(family).toContain('setWorldHudVisible(false)');
     expect(family).toContain('setWorldHudVisible(true)');
+    expect(family).toContain('setRoleplayTagVisible(false)');
+    expect(family).toContain('setRoleplayTagVisible(true)');
 
     expect(cams).toContain('setWorldHudVisible(false)');
     expect(cams).toContain('setWorldHudVisible(true)');
+    expect(cams).toContain('setRoleplayTagVisible(false)');
+    expect(cams).toContain('setRoleplayTagVisible(true)');
   });
 
   it('finds an exterior GO HOME point with ground and collision checks',()=>{
