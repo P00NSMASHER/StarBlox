@@ -14,7 +14,7 @@ describe('recorded StarBlox repair contracts',()=>{
     const client=read('roblox/src/client/SchoolSystem.client.luau');
     expect(server).toContain('payload.currentClassCompleted = period ~= nil and period.Status == "completed"');
     expect(server).toContain('if player.Parent ~= nil then self:_sendState(player) end');
-    expect(client).toContain('calloutConstraint.MaxSize = Vector2.new(330, 54)');
+    expect(client).toContain('calloutConstraint.MaxSize = Vector2.new(330, 60)');
     expect(client).toContain('and state.currentClassCompleted ~= true');
     expect(client).toContain('and not townMenuOpen()');
   });

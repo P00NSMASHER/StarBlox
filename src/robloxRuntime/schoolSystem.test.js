@@ -82,7 +82,7 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('waypoint.Text = string.format(');
     expect(client).toContain('"→ %s%s • %d studs"');
     expect(client).toContain('closeButton.BackgroundColor3 = COLORS.red');
-    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 458)');
+    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 382)');
     expect(client).toContain('payload.report.earnings');
     expect(client).toContain('+%d Coins • +%d XP • +%d Stars');
   });
@@ -275,7 +275,7 @@ describe('School system milestones 7-12',()=>{
     }
     expect(client).toContain('local function renderRichContent');
     expect(client).toContain('local hasRich = renderRichContent(question.richContent)');
-    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 458)');
+    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 382)');
     expect(client).toContain('clearRichVisual()');
   });
 
