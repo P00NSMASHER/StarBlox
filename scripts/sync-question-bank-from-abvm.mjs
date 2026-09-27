@@ -446,7 +446,7 @@ function makeQuestion(input){
     'id','stationId','subject','skill','prompt','choices','answer','explanation',
     'provenance','sourceFact','tier','domain','difficulty','standards','dok',
     'cognitiveDemand','hint','scaffold','choiceDiagnostics','rubric','alignmentEvidence',
-    'responseType','richContent','experiment'
+    'responseType','richContent','experiment','generationVariant','sourceTransform','originalEquivalent'
   ];
   const material={};
   for(const key of keys) if(enriched[key]!==undefined) material[key]=enriched[key];
@@ -1010,6 +1010,7 @@ const source={
     sourceHash:rawSourceHash,
     combinedSourceHash,
     schoolworkSourceHash,
+    schoolworkGenerationVariant,
     schoolworkBatchId:schoolworkPack?.batchId||null,
     schoolworkPackVersion:schoolworkPack?.packVersion||null,
     schoolworkCatalogVersion:rawSchoolworkCatalog.catalogVersion,
@@ -1034,6 +1035,9 @@ const source={
     schoolworkPhotoMaxPerStation:4,
     schoolworkPhotoActiveQuestionCount:activeSchoolworkQuestions.length,
     schoolworkPhotoCandidateQuestionCount:schoolworkCatalogQuestions.length,
+    schoolworkPhotoGenerationMode:rawSchoolworkCatalog.generationMode,
+    schoolworkPhotoGenerationVariant:rawSchoolworkCatalog.generationVariant,
+    schoolworkPhotoSourceTransform:'skill-only-equivalent-item-v1',
     schoolworkPhotoPrivacyContract:'no-raw-images-no-identity-no-responses-no-marks-no-grades-no-raw-worksheet-text',
     materialCountByStation,
     starFallbackQuestionsPerStation:40,
