@@ -1512,6 +1512,8 @@ local function showPlotSelector()
 	panel.Visible = false
 	clearCategories()
 	if not fetchPlots() then
+		setRailSelection(nil)
+		setSecondaryChromeVisible(true)
 		setActionLabelsVisible(true)
 		return
 	end
