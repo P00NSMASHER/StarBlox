@@ -30,9 +30,9 @@ local controls = Instance.new("Frame")
 controls.Name = "CameraControls"
 controls.AnchorPoint = Vector2.new(0.5, 0)
 controls.Position = UDim2.new(0.5, 0, 0, 12)
-controls.Size = UDim2.fromOffset(292, 42)
+controls.Size = UDim2.fromOffset(276, 40)
 controls.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
-controls.BackgroundTransparency = 0.08
+controls.BackgroundTransparency = 0.04
 controls.Parent = root
 
 local function round(object: GuiObject, radius: number)
@@ -56,9 +56,9 @@ local function button(name: string, text: string, x: number, width: number): Tex
 	local b = Instance.new("TextButton")
 	b.Name = name
 	b.Position = UDim2.fromOffset(x, 0)
-	b.Size = UDim2.fromOffset(width, 38)
+	b.Size = UDim2.fromOffset(width, 36)
 	b.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
-	b.BackgroundTransparency = 0.18
+	b.BackgroundTransparency = 0.12
 	b.Text = text
 	b.TextColor3 = Color3.fromRGB(38, 38, 38)
 	b.Font = Enum.Font.GothamBold
@@ -73,12 +73,12 @@ local function button(name: string, text: string, x: number, width: number): Tex
 	return b
 end
 
-local previous = button("Previous", "←", 6, 38)
-local cameraLabel = button("CameraLabel", "Home Cam 1/4", 50, 154)
+local previous = button("Previous", "←", 6, 34)
+local cameraLabel = button("CameraLabel", "Cam 1/4", 46, 148)
 cameraLabel.AutoButtonColor = false
 cameraLabel.Active = false
-local nextButton = button("Next", "→", 210, 38)
-local close = button("Close", "×", 254, 32)
+local nextButton = button("Next", "→", 200, 34)
+local close = button("Close", "×", 240, 30)
 close.BackgroundColor3 = Color3.fromRGB(205, 36, 36)
 close.TextColor3 = Color3.new(1, 1, 1)
 
@@ -88,7 +88,7 @@ footer.AnchorPoint = Vector2.new(0.5, 1)
 footer.Position = UDim2.new(0.5, 0, 1, -12)
 footer.Size = UDim2.fromOffset(180, 24)
 footer.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
-footer.BackgroundTransparency = 0.12
+footer.BackgroundTransparency = 0.06
 footer.Text = "Home Cams"
 footer.TextColor3 = Color3.fromRGB(45, 45, 45)
 footer.Font = Enum.Font.GothamMedium
@@ -229,11 +229,13 @@ openHomeCams.Event:Connect(function()
 	local model = ownHome()
 	if model == nil then
 		footer.Text = "No home camera available"
+		setWorldHudVisible(false)
 		gui.Enabled = true
 		task.delay(1.3, function()
 			if gui.Enabled and #activePoints == 0 then
 				gui.Enabled = false
 				footer.Text = "Home Cams"
+				setWorldHudVisible(true)
 				setShellLabelsVisible(true)
 			end
 		end)
