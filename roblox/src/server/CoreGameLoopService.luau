@@ -54,6 +54,58 @@ local function worldTopCFrame(sourcePart: BasePart, heightOffset: number): CFram
 	)
 end
 
+local function looksLikeHolidayPlazaColor(color: Color3): boolean
+	local redTile = color.R >= 0.48 and color.G <= 0.34 and color.B <= 0.34
+	local greenTile = color.G >= 0.42 and color.R <= 0.38 and color.B <= 0.34
+	return redTile or greenTile
+end
+
+local function applyTownCenterVisualPolish(worldRoot: Model, spawnSource: BasePart)
+	local center = spawnSource.Position
+	local recoloredGround = 0
+	local softenedNeon = 0
+	local softenedLights = 0
+
+	for _, descendant in worldRoot:GetDescendants() do
+		if descendant:IsA("BasePart") then
+			local delta = descendant.Position - center
+			local horizontalDistance = Vector3.new(delta.X, 0, delta.Z).Magnitude
+			local flatGround =
+				descendant.Size.Y <= 5
+				and descendant.Size.X >= 3
+				and descendant.Size.Z >= 3
+
+			if horizontalDistance <= 58 and flatGround and looksLikeHolidayPlazaColor(descendant.Color) then
+				descendant.Color = Color3.fromRGB(190, 191, 187)
+				descendant.Material = Enum.Material.Concrete
+				descendant.Reflectance = math.min(descendant.Reflectance, 0.04)
+				recoloredGround += 1
+			elseif horizontalDistance <= 36 and descendant.Material == Enum.Material.Neon then
+				descendant.Material = Enum.Material.SmoothPlastic
+				descendant.Reflectance = 0
+				softenedNeon += 1
+			end
+		elseif descendant:IsA("PointLight") or descendant:IsA("SpotLight") or descendant:IsA("SurfaceLight") then
+			local parentPart = descendant.Parent
+			if parentPart ~= nil and parentPart:IsA("BasePart") then
+				local delta = parentPart.Position - center
+				local horizontalDistance = Vector3.new(delta.X, 0, delta.Z).Magnitude
+				if horizontalDistance <= 42 then
+					local light = descendant :: any
+					light.Brightness = math.min(tonumber(light.Brightness) or 1, 0.85)
+					light.Range = math.min(tonumber(light.Range) or 12, 14)
+					softenedLights += 1
+				end
+			end
+		end
+	end
+
+	worldRoot:SetAttribute("TownCenterVisualPolishApplied", true)
+	worldRoot:SetAttribute("TownCenterGroundTilesRecolored", recoloredGround)
+	worldRoot:SetAttribute("TownCenterNeonPartsSoftened", softenedNeon)
+	worldRoot:SetAttribute("TownCenterLightsSoftened", softenedLights)
+end
+
 local function buildWorldBindings()
 	local worldRoot = Workspace:FindFirstChild(WorldBindings.WorldRootName)
 	assert(
@@ -126,6 +178,8 @@ local function buildWorldBindings()
 		WorldBindings.Spawn.FacingSourcePartName,
 		"player spawn facing"
 	)
+	applyTownCenterVisualPolish(worldRoot, spawnSource)
+
 	local spawnCFrame = worldTopCFrame(spawnSource, WorldBindings.Spawn.HeightOffset)
 	local spawnPosition = spawnCFrame.Position
 	local fountainLookAt = Vector3.new(
