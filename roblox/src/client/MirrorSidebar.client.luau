@@ -1297,6 +1297,7 @@ local function closePanel()
 	statusText.Visible = false
 	clearCategories()
 	clearToolbar()
+	setRailSelection(nil)
 	setActionLabelsVisible(true)
 end
 
@@ -1763,18 +1764,22 @@ end
 
 avatarBtn.Activated:Connect(function()
 	dismissActionHints()
+	setRailSelection(avatarBtn)
 	showAvatar()
 end)
 toolsBtn.Activated:Connect(function()
 	dismissActionHints()
+	setRailSelection(toolsBtn)
 	showTools()
 end)
 animationsBtn.Activated:Connect(function()
 	dismissActionHints()
+	setRailSelection(animationsBtn)
 	showAnimations()
 end)
 vehicleBtn.Activated:Connect(function()
 	dismissActionHints()
+	setRailSelection(vehicleBtn)
 	showVehicles()
 end)
 
@@ -1783,6 +1788,7 @@ houseBtn.Activated:Connect(function()
 	if plotSelector.Visible then
 		closePanel()
 	else
+		setRailSelection(houseBtn)
 		showPlotSelector()
 	end
 end)
