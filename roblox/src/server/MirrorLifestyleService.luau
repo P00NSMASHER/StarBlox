@@ -5,7 +5,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
-local MirrorCatalog = require(ReplicatedStorage.StarBlox.MirrorCatalog)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
+local DefaultMirrorCatalog = require(ReplicatedStorage.StarBlox.MirrorCatalog)
+local LegacyMirrorCatalog = require(ReplicatedStorage.StarBlox.LegacyMirrorCatalog)
+local MirrorCatalog = if BrookhavenMirrorConfig.World.Mode == "legacy-reference-safe-world"
+	then LegacyMirrorCatalog
+	else DefaultMirrorCatalog
 
 local MirrorLifestyleService = {}
 MirrorLifestyleService.__index = MirrorLifestyleService
