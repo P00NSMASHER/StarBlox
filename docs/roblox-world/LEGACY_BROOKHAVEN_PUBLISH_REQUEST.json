@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,26 +14,22 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 9,
+  "attempt": 10,
   "priorAttempt": {
-    "publishedVersion": 32,
+    "publishedVersion": 33,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
-    "robloxClientRunObserved": false
+    "robloxClientRunObserved": true,
+    "nativeClientFinding": "v33 user recording exposed blank house icon, wrong animation icon, avatar-editor HUD clutter, and GO HOME wall clipping"
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 32,
+    "diagnosticVersion": 33,
     "manualBootstrapProven": true,
-    "ciRun": 36352340777,
+    "ciRun": 36353922539,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish HUD art rebuild: real image icons for persistent mobile actions and top utilities, shared glass buttons, explicit typography, rail layout, and selected states.",
-  "requestedSourceCommit": "edfd002f5a17ae67b2a1f6d278e7d090fce6d24b",
-  "completion": {
-    "publishedVersion": 33,
-    "verifiedVersion": 33,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish v34 recording-driven repair: reliable house sprite crop, running-person animation icon, rail polish, cleaner avatar editor ownership, and depth-derived exterior GO HOME target.",
+  "requestedSourceCommit": "b7195cb8123889aca78222fcf44b455c0c5113a0"
 }
