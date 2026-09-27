@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -31,5 +31,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish v37 landscape anchor repair: keep persistent HUD, Avatar Editor, and Family full-screen roots at scale 1 in landscape so right/top safe-area anchors and full-screen scrims render at true iPhone device coordinates.",
-  "requestedSourceCommit": "76a2a9e5a7cbfd6e94332b82b7db37fef286de12"
+  "requestedSourceCommit": "76a2a9e5a7cbfd6e94332b82b7db37fef286de12",
+  "completion": {
+    "publishedVersion": 37,
+    "verifiedVersion": 37,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
