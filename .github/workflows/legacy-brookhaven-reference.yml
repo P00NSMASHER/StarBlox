@@ -24,6 +24,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: legacy-brookhaven-reference-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
@@ -127,6 +131,18 @@ jobs:
             src/robloxRuntime/legacyBrookhavenReferencePipeline.test.js \
             src/robloxRuntime/legacyBrookhavenTownCenterSpawnParity.test.js
 
+      - name: Upload sanitized legacy geometry development baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-brookhaven-geometry-baseline
+          path: |
+            .legacy-brookhaven/LegacyBrookhavenGeometryBaseline.rbxmx
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_ALIGNMENT.json
+            docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Commit deterministic analysis receipts
         run: |
           git config user.name "github-actions[bot]"
@@ -143,5 +159,6 @@ jobs:
             echo "Legacy Brookhaven receipts already current."
           else
             git commit -m "Generate legacy Brookhaven analysis receipts [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
