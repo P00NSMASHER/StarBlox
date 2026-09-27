@@ -49,4 +49,33 @@ describe('legacy Brookhaven uncapped path inventory', () => {
     const csv = csvFromRows([{id: 'PATH-1', name: 'School, Main'}], ['id', 'name']);
     expect(csv).toBe('id,name\n"PATH-1","School, Main"\n');
   });
+
+  it('extracts rbx_dom_weak Variant-wrapped asset references', () => {
+    const dom = node('DataModel', 'DataModel', {}, [
+      node('Workspace', 'Workspace', {}, [
+        node('Poster', 'Decal', {Texture: {ContentId: 'rbxassetid://101'}}),
+        node('Theme', 'Sound', {SoundId: {ContentId: 'rbxassetid://202'}}),
+        node('Dance', 'Animation', {AnimationId: {ContentId: 'rbxassetid://303'}}),
+        node('Statue', 'MeshPart', {
+          MeshId: {ContentId: 'rbxassetid://404'},
+          TextureID: {Content: {uri: 'rbxassetid://505'}}
+        })
+      ])
+    ]);
+
+    const inventory = buildLegacyBrookhavenPathInventory(dom);
+    expect(inventory.assetRows.map(row => row.reference)).toEqual([
+      'rbxassetid://101',
+      'rbxassetid://202',
+      'rbxassetid://303',
+      'rbxassetid://404',
+      'rbxassetid://505'
+    ]);
+    expect(inventory.summary.countsByAssetKind).toEqual({
+      animation: 1,
+      audio: 1,
+      image: 1,
+      mesh: 2
+    });
+  });
 });

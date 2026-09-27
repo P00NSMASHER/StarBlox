@@ -20,11 +20,21 @@ function escapeSegment(value) {
 function scalar(value) {
   if (value == null) return '';
   if (['string', 'number', 'boolean'].includes(typeof value)) return String(value);
+  if (Array.isArray(value)) return value.map(scalar).filter(Boolean).join(',');
   if (typeof value === 'object') {
-    for (const key of ['value', 'Value', 'content', 'Content']) {
+    // rbx_dom_weak's DomViewer preserves the Variant enum wrapper. Legacy
+    // asset properties are therefore serialized as ContentId/String variants
+    // rather than as bare strings. Keep this unwrapping explicit so geometry
+    // values cannot accidentally become asset references.
+    for (const key of [
+      'value', 'Value', 'content', 'Content', 'ContentId', 'String',
+      'uri', 'Uri', 'url', 'Url'
+    ]) {
       if (key in value) return scalar(value[key]);
     }
-    return JSON.stringify(value);
+    const entries = Object.entries(value);
+    if (entries.length === 1) return scalar(entries[0][1]);
+    return '';
   }
   return String(value);
 }
