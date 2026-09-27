@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused-for-boot-verifier-fix",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -19,11 +19,18 @@
     "verifiedVersion": null,
     "receipt": null
   },
-  "attempt": 2,
+  "attempt": 3,
   "priorAttempt": {
     "publishedVersion": 27,
     "publicationSucceeded": true,
     "verificationSucceeded": false,
     "failure": "Generic verifier waited for auto-started BrookhavenWorldRuntime in an Open Cloud Luau execution session; diagnostics proved manual Bootstrap.start succeeds."
+  },
+  "verifier": {
+    "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
+    "diagnosticVersion": 27,
+    "manualBootstrapProven": true,
+    "ciRun": 36308091988,
+    "ciConclusion": "success"
   }
 }
