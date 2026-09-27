@@ -166,6 +166,7 @@ constrain(goToSchool, 10, 14)
 -- the top-center stack on those same compact screens: one small bottom action pill
 -- replaces the schedule + waypoint + large invitation while preserving the class CTA.
 local compactViewport = false
+local COMPACT_PROMPT_DISTANCE = 96
 local calloutButtonText = "GO NOW"
 local viewportConnection: RBXScriptConnection? = nil
 
@@ -201,18 +202,18 @@ local function updateSchoolHudLayout()
 		waypoint.Visible = false
 
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 1)
-		schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)
-		schoolCallout.Size = UDim2.fromOffset(276, 46)
-		schoolCallout.BackgroundTransparency = 0.08
-		calloutConstraint.MaxSize = Vector2.new(276, 46)
+		schoolCallout.Position = UDim2.new(0.5, 0, 1, -8)
+		schoolCallout.Size = UDim2.fromOffset(210, 44)
+		schoolCallout.BackgroundTransparency = 0.12
+		calloutConstraint.MaxSize = Vector2.new(210, 44)
 
-		calloutTitle.Position = UDim2.fromOffset(10, 4)
-		calloutTitle.Size = UDim2.new(1, -104, 1, -8)
+		calloutTitle.Position = UDim2.fromOffset(8, 3)
+		calloutTitle.Size = UDim2.new(1, -76, 1, -6)
 		calloutTitle.TextXAlignment = Enum.TextXAlignment.Left
 		calloutBody.Visible = false
 
-		goToSchool.Position = UDim2.new(1, -1, 0.5, 0)
-		goToSchool.Size = UDim2.fromOffset(88, 44)
+		goToSchool.Position = UDim2.new(1, 0, 0.5, 0)
+		goToSchool.Size = UDim2.fromOffset(64, 44)
 	else
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
 		schoolCallout.Position = UDim2.new(0.5, 0, 0, 84)
@@ -632,7 +633,7 @@ local function renderState(payload)
 	calloutBody.Text = bodyText
 	calloutButtonText = buttonText
 	syncCalloutButtonText()
-	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
+	schoolCallout.Visible = not compactViewport and payload.schoolRequired == true and payload.travelEnabled == true
 		and payload.currentClassCompleted ~= true and not panel.Visible and not reportAvailable and not menuOpen
 
 	if reportAvailable then
@@ -864,6 +865,7 @@ RunService.Heartbeat:Connect(function()
 
 	if not state or not state.targetAnchorName then
 		waypoint.Visible = false
+		schoolCallout.Visible = false
 		return
 	end
 
@@ -888,12 +890,16 @@ RunService.Heartbeat:Connect(function()
 			calloutTitle.Text = string.format("%s • %d studs", tostring(targetName), roundedDistance)
 		end
 		if state.schoolRequired == true and state.travelEnabled == true then
-			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
+			local compactPromptInRange = not compactViewport or distance <= COMPACT_PROMPT_DISTANCE
+			schoolCallout.Visible = compactPromptInRange and distance > 26 and panel.Visible ~= true
 				and state.currentClassCompleted ~= true and report.Visible ~= true
 				and not menuOpen
+		else
+			schoolCallout.Visible = false
 		end
 	else
 		waypoint.Visible = false
+		schoolCallout.Visible = false
 	end
 end)
 
