@@ -41,7 +41,7 @@ describe('Mirror sidebar action icon integrity',()=>{
 
   it('records the image-asset HUD rebuild without changing action bindings',()=>{
     expect(receipt.implementation.file).toBe('roblox/src/client/MirrorSidebar.client.luau');
-    expect(receipt.implementation.approach).toContain('image-asset action rail icons');
+    expect(receipt.implementation.approach).toContain('image-asset rail actions');
     expect(receipt.implementation.externalAssetIds).toHaveLength(10);
     expect(receipt.implementation).toMatchObject({
       thirdPartyArtCopied:false,
