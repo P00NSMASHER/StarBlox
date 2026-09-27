@@ -76,7 +76,11 @@
     "renderedComparisonCompleted": false,
     "renderedComparisonToolReady": true,
     "renderedComparisonCommand": "npm run roblox:brookhaven-current-source:evaluate-rendered-parity",
-    "renderedParityVerified": false
+    "renderedParityVerified": false,
+    "behaviorEvidenceIntakeReady": true,
+    "behaviorEvidenceGate": "docs/CURRENT_BROOKHAVEN_BEHAVIOR_GATE.json",
+    "behaviorComparisonCompleted": false,
+    "behaviorParityVerified": false
   },
   "release": {
     "privatePublishPathAvailable": true,
