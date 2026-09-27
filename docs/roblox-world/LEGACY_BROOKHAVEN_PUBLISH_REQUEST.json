@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -30,5 +30,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish the merged Steps 1-6 integration candidate with Brookhaven HUD/menu, Home Cams, house travel, vehicle, action-icon, school, and evidence-boundary repairs to private staging for client parity testing.",
-  "requestedSourceCommit": "966dbca9e5cc622a68c8374d9750620e0388b272"
+  "requestedSourceCommit": "966dbca9e5cc622a68c8374d9750620e0388b272",
+  "completion": {
+    "publishedVersion": 30,
+    "verifiedVersion": 30,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
