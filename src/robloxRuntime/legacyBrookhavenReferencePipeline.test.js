@@ -45,6 +45,29 @@ describe('legacy Brookhaven development-reference pipeline',()=>{
     });
   });
 
+  it('closes the world-geometry P0 with a deterministic sanitized development model',()=>{
+    const gate=readJson('docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_BREADTH_GATE.json');
+
+    expect(gate.status).toBe('development-geometry-breadth-p0-closed');
+    expect(gate.breadth).toEqual({
+      legacyWorkspaceGeometry:14459,
+      sanitizedDevelopmentGeometry:14459,
+      coverage:1,
+      previousFlattenedBaselineGeometry:4936,
+      safeVisualChildren:2491
+    });
+    expect(gate.safety.forbiddenGameplayClasses).toBe(0);
+    expect(gate.artifact.deterministicModelSha256)
+      .toBe('16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c');
+    expect(gate.activation.automaticOverlayIntoCurrentFlattenedWorld).toBe(false);
+    expect(gate.boundaries).toMatchObject({
+      developmentGeometryBreadthP0Closed:true,
+      currentLiveCertificationSatisfied:false,
+      exactParityClaimAllowed:false,
+      productionActivationAllowed:false
+    });
+  });
+
   it('deserializes the legacy Workspace and profiles the StarBlox world baseline',()=>{
     const profile=readJson('docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json');
 
