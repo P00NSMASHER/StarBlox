@@ -61,6 +61,8 @@ jobs:
             --spawn-reference docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json \
             --out-dir /tmp/starblox-legacy-school/runtime-bindings \
             --manifest /tmp/starblox-legacy-school/runtime-binding-manifest.json
+          cmp --silent /tmp/starblox-legacy-school/runtime-bindings/LegacySchoolWorldBindings.luau \
+            roblox/src/shared/LegacySchoolWorldBindings.luau
           node --input-type=module - <<'NODE'
           import assert from 'node:assert/strict';
           import {readFile} from 'node:fs/promises';
