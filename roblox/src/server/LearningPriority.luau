@@ -1,5 +1,8 @@
 --!strict
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local SchoolworkSkillEvidence = require(ReplicatedStorage.StarBlox.SchoolworkSkillEvidence)
 local SpacedMastery = require(script.Parent.SpacedMastery)
 
 local LearningPriority = {}
@@ -69,7 +72,9 @@ function LearningPriority.SkillScore(
 	local underTarget = math.max(1, tonumber(config.UnderexposureTarget) or 8)
 	local underexposure = math.clamp(1 - (seen / underTarget), 0, 1)
 	local due = SpacedMastery.DueScore(profileData, skill, now, spacedConfig)
-	local current = if type(currentMaterialSkills) == "table" and currentMaterialSkills[skill] == true then 1 else 0
+	local current = if (
+		type(currentMaterialSkills) == "table" and currentMaterialSkills[skill] == true
+	) or SchoolworkSkillEvidence.HasSkill(skill) then 1 else 0
 	local recentPenalty = if type(recentSkills) == "table" and recentSkills[skill] == true
 		then tonumber(config.RecentSkillPenalty) or 0.18 else 0
 	local score =
