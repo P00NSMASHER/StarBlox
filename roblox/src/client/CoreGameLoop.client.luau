@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
 if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
 	return
 end
@@ -763,7 +764,10 @@ local function applyStatus(status)
 
 	updateClock()
 
-	pilotButton.Visible = type(status.pilot) == "table" and status.pilot.enabled == true
+	pilotButton.Visible = BrookhavenMirrorConfig.LearningPresentation.PersistentStudyPilotButtonEnabled == true
+		and player:GetAttribute("StarBloxLearningOverlayVisible") == true
+		and type(status.pilot) == "table"
+		and status.pilot.enabled == true
 
 	if type(status.recommendedStationName) == "string" then
 		nextHint.Text = "→ " .. status.recommendedStationName
