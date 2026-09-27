@@ -111,13 +111,27 @@
     "candidateStatus": "awaiting-current-live-source-candidate",
     "structuralComparisonToolReady": true,
     "structuralComparisonStatus": "awaiting-current-live-source-candidate",
-    "structuralComparisonCommand": "npm run roblox:brookhaven-current-source:compare-structure"
+    "structuralComparisonCommand": "npm run roblox:brookhaven-current-source:compare-structure",
+    "legacyReference": {
+      "available": true,
+      "classification": "legacy_reference_source",
+      "sourceManifest": "research-inputs/brookhaven/legacy-reference/SOURCE.json",
+      "acquisitionReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_ACQUISITION.json",
+      "profileReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PROFILE.json",
+      "structuralDiff": "docs/roblox-world/LEGACY_VS_STARBLOX_WORLD_DIFF.json",
+      "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
+      "developmentUseReady": true,
+      "currentLiveCertificationSatisfied": false
+    }
   },
   "step7": {
     "executionReceipt": "docs/CURRENT_BROOKHAVEN_STEP7_STATUS.json",
     "step7ACompleted": false,
     "step7BCompleted": false,
     "authorizedCurrentSourceAvailable": false,
-    "releaseMayAdvanceToStep8": false
+    "releaseMayAdvanceToStep8": false,
+    "legacyDevelopmentSteps1Through5Completed": true,
+    "legacyDevelopmentWorkPlan": "docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json",
+    "legacyVerificationRun": 36293641601
   }
 }
