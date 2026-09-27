@@ -10,34 +10,12 @@
     "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
   },
   "summary": {
-    "priorities": 15,
-    "p0": 2,
+    "priorities": 13,
+    "p0": 0,
     "p1": 9,
     "p2": 4
   },
   "priorities": [
-    {
-      "priority": "P0",
-      "area": "world-geometry",
-      "reason": "StarBlox contains fewer geometry instances than the legacy Brookhaven workspace.",
-      "metrics": {
-        "legacy": 14459,
-        "starblox": 4936,
-        "coverage": 0.34137907185835814
-      },
-      "nextAction": "Reconstruct highest-impact missing world geometry in isolated development batches and re-run the structural diff."
-    },
-    {
-      "priority": "P0",
-      "area": "spawn-town-center",
-      "reason": "Legacy source exposes more spawn/town-center named structure than StarBlox.",
-      "metrics": {
-        "legacy": 97,
-        "starblox": 0,
-        "delta": -97
-      },
-      "nextAction": "Use the legacy spawn/town-center structure as a development reference for StarBlox spawn placement and first-view composition."
-    },
     {
       "priority": "P1",
       "area": "interaction-door",
@@ -175,6 +153,20 @@
       "nextAction": "Use legacy geometry/behavior as development evidence, then promote only after rendered and behavior review receipts."
     }
   ],
+  "completedP0": {
+    "worldGeometry": {
+      "closed": true,
+      "sanitizedGeometryCount": 14459,
+      "forbiddenGameplayClassCount": 0,
+      "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json"
+    },
+    "spawnTownCenter": {
+      "closed": true,
+      "pattern": "legacy-town-center-3x3-v1",
+      "slots": 9,
+      "sourceReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json"
+    }
+  },
   "measuredBaseline": {
     "legacy": {
       "instances": 24349,
@@ -185,6 +177,11 @@
       "instances": 5493,
       "geometry": 4936,
       "assets": 154
+    },
+    "sanitizedDevelopmentGeometry": {
+      "geometry": 14459,
+      "safeVisualChildren": 2491,
+      "sha256": "16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c"
     }
   },
   "releaseBoundary": {
@@ -193,5 +190,5 @@
     "exactParityClaimAllowed": false,
     "productionActivationAllowed": false
   },
-  "nextAction": "execute P0/P1 development batches, then re-run this pipeline and final mobile QA"
+  "nextAction": "P0 development gaps are closed; continue P1 interaction/catalog batches, then final mobile QA"
 }
