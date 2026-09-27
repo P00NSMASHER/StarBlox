@@ -25,7 +25,7 @@ const schoolworkPackPath=option('--schoolwork-pack','docs/phase6/SCHOOLWORK_PHOT
 const schoolworkCatalogOut=option('--schoolwork-catalog-out','docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json');
 const schoolworkReceiptOut=option('--schoolwork-receipt-out','docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v6-original-equivalent-schoolwork';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -1041,7 +1041,7 @@ const source={
     assessment:'Renaissance Star Reading and Star Math',
     itemPolicy:'original-practice-only-not-copied-test-items',
     regenerationPolicy:'regenerate-on-every-verified-ABVM-source-change',
-    schoolworkRegenerationPolicy:'regenerate-on-sanitized-schoolwork-pack-change',
+    schoolworkRegenerationPolicy:'regenerate-on-sanitized-schoolwork-pack-or-review-decision-change',
     readingDomains:READ_DOMAINS,
     mathDomains:MATH_DOMAINS,
     readingQuestionCount:starRead.length,
