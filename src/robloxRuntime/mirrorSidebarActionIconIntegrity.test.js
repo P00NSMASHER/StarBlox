@@ -67,4 +67,19 @@ describe('Mirror sidebar action icon integrity',()=>{
       releaseReady:false
     });
   });
+
+  it('draws the three house plot modes without the unsupported house or tree glyphs',()=>{
+    const start=source.indexOf('local plotModes = Instance.new("Frame")');
+    const end=source.indexOf('local previousPlot',start);
+    const plotModes=source.slice(start,end);
+
+    expect(source).toContain('local function drawPlotModeIcon(button: TextButton, modeIndex: number)');
+    expect(source).toContain('local function drawMiniHouse(parent: GuiObject');
+    expect(source).toContain('part.ZIndex = parent.ZIndex + 1');
+    expect(plotModes).toContain('for index = 1, 3 do');
+    expect(plotModes).toContain('mode.Text = ""');
+    expect(plotModes).toContain('drawPlotModeIcon(mode, index)');
+    expect(plotModes).not.toContain('⌂');
+    expect(plotModes).not.toContain('♣');
+  });
 });
