@@ -34,7 +34,7 @@ function freezeTable(rows){
   return 'table.freeze({\\n'+rows.map(x=>'\\t\\t'+x).join(',\\n')+'\\n\\t})';
 }
 function normalizeGeneratedLua(value){
-  return value.replaceAll('\\\\t','\t').replaceAll('\\\\n','\n');
+  return value.replaceAll('\\t','\t').replaceAll('\\n','\n');
 }
 function area(row){return (row.size?.[0]||0)*(row.size?.[2]||0);}
 function volume(row){return (row.size?.[0]||0)*(row.size?.[1]||0)*(row.size?.[2]||0);}
