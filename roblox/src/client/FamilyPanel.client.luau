@@ -86,7 +86,12 @@ local function updateScale()
 	if camera == nil then
 		return
 	end
-	scale.Scale = math.clamp(camera.ViewportSize.Y / 512, 0.72, 1.08)
+	local viewport = camera.ViewportSize
+	if viewport.X >= viewport.Y then
+		scale.Scale = 1
+	else
+		scale.Scale = math.clamp(viewport.X / 960, 0.72, 1)
+	end
 end
 updateScale()
 Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(updateScale)
