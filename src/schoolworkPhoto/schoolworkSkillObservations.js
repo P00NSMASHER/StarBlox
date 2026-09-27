@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 
 import {
+  SCHOOLWORK_EVIDENCE_CLASSES,
   SCHOOLWORK_SIGNAL_DEFINITIONS,
   classifySchoolworkPhotoObservation,
   validateSchoolworkPhotoIntake
@@ -38,7 +39,8 @@ function evidenceFor(observation,candidate){
     likelyCorrect:attempted&&typeof observation?.likelyCorrect==='boolean'
       ? observation.likelyCorrect
       : null,
-    confidence:Number(candidate?.confidence)
+    confidence:Number(candidate?.confidence),
+    evidenceClass:observation?.evidenceClass||'completed-schoolwork'
   };
 }
 
@@ -68,6 +70,7 @@ function observationRecord({
     attempted:evidence.attempted===true,
     likelyCorrect:evidence.likelyCorrect,
     confidence:Number(evidence.confidence),
+    evidenceClass:evidence.evidenceClass,
     sourceType:'sanitized-schoolwork-photo',
     reviewStatus
   };
@@ -87,6 +90,9 @@ function aggregateBySkill(observations){
       unknownCorrectness:0,
       confidenceMass:0,
       maxConfidence:0,
+      teacherMarked:0,
+      completedSchoolwork:0,
+      ungradedSchoolwork:0,
       generatorKeys:new Set()
     };
     row.observationCount+=1;
@@ -96,6 +102,9 @@ function aggregateBySkill(observations){
     else row.unknownCorrectness+=1;
     row.confidenceMass+=observation.confidence;
     row.maxConfidence=Math.max(row.maxConfidence,observation.confidence);
+    if(observation.evidenceClass==='teacher-marked-schoolwork') row.teacherMarked+=1;
+    else if(observation.evidenceClass==='completed-schoolwork') row.completedSchoolwork+=1;
+    else if(observation.evidenceClass==='ungraded-schoolwork') row.ungradedSchoolwork+=1;
     row.generatorKeys.add(observation.generatorKey);
     groups.set(observation.skill,row);
   }
@@ -116,6 +125,9 @@ function aggregateBySkill(observations){
           unknownCorrectness:row.unknownCorrectness,
           meanConfidence:Number((row.confidenceMass/row.observationCount).toFixed(4)),
           maxConfidence:Number(row.maxConfidence.toFixed(4)),
+          teacherMarked:row.teacherMarked,
+          completedSchoolwork:row.completedSchoolwork,
+          ungradedSchoolwork:row.ungradedSchoolwork,
           generatorKeys:[...row.generatorKeys].sort()
         }
       ])
@@ -267,11 +279,17 @@ export function buildSchoolworkSkillObservations({intake,reviewedPack}){
   return {issues:[],artifact,receipt:receiptFor(artifact)};
 }
 
-export function buildLegacySchoolworkSkillObservations(pack){
+export function buildLegacySchoolworkSkillObservations(
+  pack,
+  {evidenceClass='teacher-marked-schoolwork'}={}
+){
   const issues=[
     ...validateSanitizedSchoolworkPack(pack),
     ...validateSchoolworkReviewQueue(pack)
   ];
+  if(!SCHOOLWORK_EVIDENCE_CLASSES.includes(evidenceClass)){
+    issues.push({type:'legacy-evidence-class-invalid',evidenceClass});
+  }
   if(issues.length) return {issues,artifact:null,receipt:null};
 
   const observations=(pack.skillSignals||[])
@@ -287,6 +305,7 @@ export function buildLegacySchoolworkSkillObservations(pack){
       attempted:true,
       likelyCorrect:null,
       confidence:0.5,
+      evidenceClass,
       sourceType:'legacy-sanitized-schoolwork-photo-signal',
       reviewStatus:'legacy-skill-only'
     }))
@@ -334,6 +353,9 @@ export function renderSchoolworkSkillEvidenceLua(artifact){
       '\t\t\tUnknownCorrectness = '+row.unknownCorrectness+',',
       '\t\t\tMeanConfidence = '+row.meanConfidence+',',
       '\t\t\tMaxConfidence = '+row.maxConfidence+',',
+      '\t\t\tTeacherMarked = '+row.teacherMarked+',',
+      '\t\t\tCompletedSchoolwork = '+row.completedSchoolwork+',',
+      '\t\t\tUngradedSchoolwork = '+row.ungradedSchoolwork+',',
       '\t\t\tCurrent = true,',
       '\t\t}),'
     );
