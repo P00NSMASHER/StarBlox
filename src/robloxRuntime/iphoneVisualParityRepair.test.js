@@ -6,18 +6,21 @@ const read=path=>readFileSync(new URL('../../'+path,import.meta.url),'utf8');
 describe('iPhone visual parity repair',()=>{
   it('rebuilds persistent mobile chrome with real image icons and glass controls',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(48, 230)');
-    expect(sidebar).toContain('railLayout.Padding = UDim.new(0, 5)');
-    expect(sidebar).toContain('holder.Size = UDim2.fromOffset(44, 44)');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(50, 246)');
+    expect(sidebar).toContain('railLayout.Padding = UDim.new(0, 4)');
+    expect(sidebar).toContain('holder.Size = UDim2.fromOffset(46, 46)');
     expect(sidebar).toContain('local ICONS: {[string]: string} = table.freeze({');
     expect(sidebar).toContain('local function glass(guiObject: GuiObject, radius: number)');
     expect(sidebar).toContain('local function drawRailIcon(button: GuiObject, iconName: string)');
     expect(sidebar).toContain('icon.ImageRectOffset = Vector2.new(964, 204)');
-    expect(sidebar).toContain('shadow.BackgroundTransparency = 0.78');
+    expect(sidebar).toContain('shadow.BackgroundTransparency = 0.90');
     expect(sidebar).toContain('setRailSelection');
     expect(sidebar).toContain('quickChatArrow.Visible = false');
     expect(sidebar).toContain('quickChatButton.Visible = false');
     expect(sidebar).toContain('local actionHintsDismissed = true');
+    expect(sidebar).toContain('topCluster.Name = "TopUtilityCluster"');
+    expect(sidebar).toContain('panel.BackgroundTransparency = 0.06');
+    expect(sidebar).toContain('plotSelector.Size = UDim2.fromOffset(300, 184)');
     expect(sidebar).not.toContain('local function drawActionIcon');
   });
 
