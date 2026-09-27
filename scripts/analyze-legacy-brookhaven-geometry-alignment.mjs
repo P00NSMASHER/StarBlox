@@ -89,8 +89,10 @@ const targetSize=target.properties.Size.Vector3.map(Number);
 const targetGround=[targetPos[0],targetPos[1]+targetSize[1]/2,targetPos[2]];
 const delta=targetGround.map((v,i)=>v-legacyOrigin[i]);
 
-const legacy=geometry(legacyDom);
-const current=geometry(starbloxDom);
+const legacyWorkspace=walk(legacyDom,[]).find(n=>cls(n)==='Workspace' && name(n)==='Workspace') || legacyDom;
+const starbloxBaseline=walk(starbloxDom,[]).find(n=>name(n)==='BrookhavenWorldBaseline') || starbloxDom;
+const legacy=geometry(legacyWorkspace);
+const current=geometry(starbloxBaseline);
 const strict=countMatches(legacy,current,delta,{includeClass:true,posTol:0.25,sizeTol:0.05,rotTol:0.02});
 const shapeOnly=countMatches(legacy,current,delta,{includeClass:false,posTol:0.25,sizeTol:0.05,rotTol:0.02});
 
