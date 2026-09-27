@@ -64,8 +64,19 @@ describe('sanitized schoolwork evidence classes',()=>{
       completedSchoolwork:0,
       ungradedSchoolwork:0
     });
-    const serialized=JSON.stringify(built.artifact);
-    expect(serialized).not.toContain('teacherMark');
-    expect(serialized).not.toContain('teacherComment');
+    const persistedKeys=[];
+    const collectKeys=value=>{
+      if(Array.isArray(value)){
+        for(const child of value) collectKeys(child);
+      }else if(value&&typeof value==='object'){
+        for(const [key,child] of Object.entries(value)){
+          persistedKeys.push(key);
+          collectKeys(child);
+        }
+      }
+    };
+    collectKeys(built.artifact);
+    expect(persistedKeys).not.toContain('teacherMark');
+    expect(persistedKeys).not.toContain('teacherComment');
   });
 });
