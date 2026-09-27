@@ -15,7 +15,7 @@ describe('Mirror sidebar action icon integrity',()=>{
 
   it('uses five real image icons instead of unsupported glyphs or block silhouettes',()=>{
     expect(source).toContain('local function drawRailIcon(button: GuiObject, iconName: string)');
-    expect(source).toContain('local ICONS = table.freeze({');
+    expect(source).toContain('local ICONS: {[string]: string} = table.freeze({');
     expect(source).toContain('avatar = "rbxassetid://6022668898"');
     expect(source).toContain('tools = "rbxassetid://6023426938"');
     expect(source).toContain('animations = "rbxassetid://6031625150"');
