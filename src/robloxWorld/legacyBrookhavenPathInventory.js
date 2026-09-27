@@ -1,12 +1,12 @@
 const ASSET_PROPERTIES = Object.freeze({
-  ImageLabel: ['Image'],
-  ImageButton: ['Image'],
-  Decal: ['Texture'],
-  Texture: ['Texture'],
-  Sound: ['SoundId'],
-  Animation: ['AnimationId'],
-  MeshPart: ['MeshId', 'TextureID', 'TextureId'],
-  SpecialMesh: ['MeshId', 'TextureId']
+  ImageLabel: ['Image', 'ImageContent'],
+  ImageButton: ['Image', 'ImageContent', 'HoverImageContent', 'PressedImageContent'],
+  Decal: ['Texture', 'TextureContent'],
+  Texture: ['Texture', 'TextureContent'],
+  Sound: ['SoundId', 'AudioContent'],
+  Animation: ['AnimationId', 'AnimationContent'],
+  MeshPart: ['MeshId', 'MeshContent', 'TextureID', 'TextureId', 'TextureContent'],
+  SpecialMesh: ['MeshId', 'MeshContent', 'TextureId', 'TextureContent']
 });
 
 const classNameOf = node => String(node?.class ?? node?.className ?? 'Unknown');
@@ -53,9 +53,11 @@ function domainFor(row) {
 }
 
 function assetKindFor(className, property) {
-  if (className === 'Sound' || /sound/i.test(property)) return 'audio';
-  if (className === 'Animation' || /animation/i.test(property)) return 'animation';
-  if (/mesh/i.test(property) || ['MeshPart', 'SpecialMesh'].includes(className)) return 'mesh';
+  if (/sound|audio/i.test(property) || className === 'Sound') return 'audio';
+  if (/animation/i.test(property) || className === 'Animation') return 'animation';
+  if (/mesh/i.test(property)) return 'mesh';
+  if (/image|texture/i.test(property)) return 'image';
+  if (['MeshPart', 'SpecialMesh'].includes(className)) return 'mesh';
   return 'image';
 }
 
@@ -94,7 +96,7 @@ export function buildLegacyBrookhavenPathInventory(root) {
       : {};
     const configured = ASSET_PROPERTIES[row.className] ?? [];
     const discovered = Object.keys(properties).filter(key =>
-      /^(Image|Texture|TextureId|TextureID|SoundId|AnimationId|MeshId)$/i.test(key)
+      /^(Image|HoverImage|PressedImage|Texture|Sound|Audio|Animation|Mesh)(Id|Content)?$/i.test(key)
     );
     const propertyNames = [...new Set([...configured, ...discovered])];
     for (const property of propertyNames) {

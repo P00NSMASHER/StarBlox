@@ -53,12 +53,12 @@ describe('legacy Brookhaven uncapped path inventory', () => {
   it('extracts rbx_dom_weak Variant-wrapped asset references', () => {
     const dom = node('DataModel', 'DataModel', {}, [
       node('Workspace', 'Workspace', {}, [
-        node('Poster', 'Decal', {Texture: {ContentId: 'rbxassetid://101'}}),
-        node('Theme', 'Sound', {SoundId: {ContentId: 'rbxassetid://202'}}),
-        node('Dance', 'Animation', {AnimationId: {ContentId: 'rbxassetid://303'}}),
+        node('Poster', 'Decal', {TextureContent: {ContentId: 'rbxassetid://101'}}),
+        node('Theme', 'Sound', {AudioContent: {ContentId: 'rbxassetid://202'}}),
+        node('Dance', 'Animation', {AnimationContent: {ContentId: 'rbxassetid://303'}}),
         node('Statue', 'MeshPart', {
-          MeshId: {ContentId: 'rbxassetid://404'},
-          TextureID: {Content: {uri: 'rbxassetid://505'}}
+          MeshContent: {ContentId: 'rbxassetid://404'},
+          TextureContent: {Content: {uri: 'rbxassetid://505'}}
         })
       ])
     ]);
@@ -74,14 +74,14 @@ describe('legacy Brookhaven uncapped path inventory', () => {
     expect(inventory.summary.countsByAssetKind).toEqual({
       animation: 1,
       audio: 1,
-      image: 1,
-      mesh: 2
+      image: 2,
+      mesh: 1
     });
     expect(inventory.summary.assetPropertyKeysByClass).toEqual({
-      Animation: ['AnimationId'],
-      Decal: ['Texture'],
-      MeshPart: ['MeshId', 'TextureID'],
-      Sound: ['SoundId']
+      Animation: ['AnimationContent'],
+      Decal: ['TextureContent'],
+      MeshPart: ['MeshContent', 'TextureContent'],
+      Sound: ['AudioContent']
     });
   });
 });
