@@ -9,6 +9,33 @@ local function utcDayKey(): string
 	return os.date("!%Y-%m-%d")
 end
 
+local function validPersistedCounter(value: any): boolean
+	return type(value) == "number"
+		and value == value
+		and value ~= math.huge
+		and value ~= -math.huge
+		and value >= 0
+end
+
+function SchoolProgressService.ValidateRewardProfile(profileData: any): (boolean, string?)
+	if type(profileData) ~= "table"
+		or type(profileData.School) ~= "table"
+		or type(profileData.Economy) ~= "table"
+	then
+		return false, "invalid_reward_profile"
+	end
+
+	local economy = profileData.Economy
+	if not validPersistedCounter(economy.Coins)
+		or not validPersistedCounter(economy.XP)
+		or not validPersistedCounter(economy.Stars)
+	then
+		return false, "invalid_reward_profile"
+	end
+
+	return true, nil
+end
+
 local function ensureRewardState(profileData)
 	local school = profileData.School
 	school.RewardState = type(school.RewardState) == "table" and school.RewardState or {}
@@ -106,6 +133,10 @@ function SchoolProgressService.RecordLearningAttempt(profileData, question, firs
 end
 
 function SchoolProgressService.ApplyCorrectAnswer(profileData, schoolDayId: string, periodId: string, questionId: string)
+	local profileOk, profileCode = SchoolProgressService.ValidateRewardProfile(profileData)
+	if not profileOk then
+		return {rewarded = false, invalidProfile = true, code = profileCode, coins = 0, xp = 0, stars = 0}
+	end
 	local key = schoolDayId .. "|" .. periodId .. "|" .. questionId .. "|correct"
 	if not claimReceipt(profileData, key) then
 		return {rewarded = false, duplicate = true, coins = 0, xp = 0, stars = 0}
@@ -121,6 +152,10 @@ function SchoolProgressService.ApplyCorrectAnswer(profileData, schoolDayId: stri
 end
 
 function SchoolProgressService.ApplyClassCompletion(profileData, schoolDayId: string, periodId: string)
+	local profileOk, profileCode = SchoolProgressService.ValidateRewardProfile(profileData)
+	if not profileOk then
+		return {rewarded = false, invalidProfile = true, code = profileCode, xp = 0}
+	end
 	local key = schoolDayId .. "|" .. periodId .. "|class-complete"
 	if not claimReceipt(profileData, key) then return {rewarded = false, duplicate = true, xp = 0} end
 	if not dayEligible(profileData, schoolDayId) then return {rewarded = false, capped = true, xp = 0} end
@@ -131,6 +166,10 @@ function SchoolProgressService.ApplyClassCompletion(profileData, schoolDayId: st
 end
 
 function SchoolProgressService.ApplyFullDay(profileData, schoolDayId: string)
+	local profileOk, profileCode = SchoolProgressService.ValidateRewardProfile(profileData)
+	if not profileOk then
+		return {rewarded = false, invalidProfile = true, code = profileCode, xp = 0, stars = 0}
+	end
 	local key = schoolDayId .. "|full-day"
 	if not claimReceipt(profileData, key) then return {rewarded = false, duplicate = true, xp = 0, stars = 0} end
 	if not dayEligible(profileData, schoolDayId) then return {rewarded = false, capped = true, xp = 0, stars = 0} end
