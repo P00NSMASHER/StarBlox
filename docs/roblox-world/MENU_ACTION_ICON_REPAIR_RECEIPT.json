@@ -106,7 +106,8 @@
   },
   "verification": {
     "deterministicTest": "src/robloxRuntime/mirrorSidebarActionIconIntegrity.test.js",
-    "staticResult": "PASS_PENDING_CI",
+    "staticResult": "PASS_LOCAL",
+    "githubCiPolicy": "VERIFY_EXACT_HEAD",
     "nativeClientResult": "UNKNOWN",
     "fullActionResult": "NOT_RETESTED"
   },
