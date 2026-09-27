@@ -5,6 +5,7 @@ local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
 local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+local BrookhavenMirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
@@ -99,7 +100,8 @@ local function buildWorldBindings()
 		prompt.HoldDuration = 0
 		prompt.MaxActivationDistance = 16
 		prompt.RequiresLineOfSight = false
-		prompt.Enabled = SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
+		prompt.Enabled = BrookhavenMirrorConfig.LearningPresentation.LegacyWorldStationsEnabled == true
+			and SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
 		prompt.Parent = anchor
@@ -1358,6 +1360,8 @@ end
 function CoreGameLoopService:SetActivityPromptsEnabled(enabled: boolean)
 	for _, prompt in self._prompts or {} do
 		prompt.Enabled = enabled
+			and BrookhavenMirrorConfig.LearningPresentation.LegacyWorldStationsEnabled == true
+			and SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
 	end
 end
 
