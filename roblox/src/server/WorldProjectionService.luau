@@ -1,5 +1,6 @@
 --!strict
 
+local Lighting = game:GetService("Lighting")
 local ServerStorage = game:GetService("ServerStorage")
 local Workspace = game:GetService("Workspace")
 
@@ -8,6 +9,21 @@ WorldProjectionService.__index = WorldProjectionService
 
 local WITNESS_NAME = "BrookhavenWorldBaseline"
 local RUNTIME_NAME = "BrookhavenWorldRuntime"
+
+local function tamePostProcessing()
+	for _, effect in Lighting:GetChildren() do
+		if effect:IsA("BloomEffect") then
+			effect.Intensity = math.min(effect.Intensity, 0.12)
+			effect.Size = math.min(effect.Size, 20)
+			effect.Threshold = math.max(effect.Threshold, 1.15)
+		elseif effect:IsA("ColorCorrectionEffect") then
+			effect.Brightness = math.clamp(effect.Brightness, -0.05, 0.05)
+			effect.Contrast = math.clamp(effect.Contrast, -0.05, 0.08)
+			effect.Saturation = math.clamp(effect.Saturation, -0.05, 0.08)
+		end
+	end
+end
+
 
 local function assertNoGameplayClasses(root: Model)
 	for _, descendant in root:GetDescendants() do
@@ -45,6 +61,7 @@ function WorldProjectionService.new()
 	runtime:SetAttribute("ImmutableWitnessName", WITNESS_NAME)
 	runtime:SetAttribute("RuntimeMutationAllowed", true)
 	runtime.Parent = Workspace
+	tamePostProcessing()
 
 	local self = setmetatable({}, WorldProjectionService)
 	self._witness = witness
