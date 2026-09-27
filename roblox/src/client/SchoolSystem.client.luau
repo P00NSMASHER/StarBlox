@@ -201,18 +201,18 @@ local function updateSchoolHudLayout()
 		waypoint.Visible = false
 
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 1)
-		schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)
-		schoolCallout.Size = UDim2.fromOffset(276, 46)
+		schoolCallout.Position = UDim2.new(0.5, 0, 1, -14)
+		schoolCallout.Size = UDim2.fromOffset(190, 44)
 		schoolCallout.BackgroundTransparency = 0.08
-		calloutConstraint.MaxSize = Vector2.new(276, 46)
+		calloutConstraint.MaxSize = Vector2.new(190, 44)
 
-		calloutTitle.Position = UDim2.fromOffset(10, 4)
-		calloutTitle.Size = UDim2.new(1, -104, 1, -8)
+		calloutTitle.Position = UDim2.fromOffset(8, 3)
+		calloutTitle.Size = UDim2.new(1, -72, 1, -6)
 		calloutTitle.TextXAlignment = Enum.TextXAlignment.Left
 		calloutBody.Visible = false
 
 		goToSchool.Position = UDim2.new(1, -1, 0.5, 0)
-		goToSchool.Size = UDim2.fromOffset(88, 44)
+		goToSchool.Size = UDim2.fromOffset(64, 44)
 	else
 		schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
 		schoolCallout.Position = UDim2.new(0.5, 0, 0, 84)
@@ -633,7 +633,8 @@ local function renderState(payload)
 	calloutButtonText = buttonText
 	syncCalloutButtonText()
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
-		and payload.currentClassCompleted ~= true and not panel.Visible and not reportAvailable and not menuOpen
+		and payload.currentClassCompleted ~= true and not compactViewport
+		and not panel.Visible and not reportAvailable and not menuOpen
 
 	if reportAvailable then
 		local lines = {"TODAY'S REPORT"}
@@ -888,7 +889,8 @@ RunService.Heartbeat:Connect(function()
 			calloutTitle.Text = string.format("%s • %d studs", tostring(targetName), roundedDistance)
 		end
 		if state.schoolRequired == true and state.travelEnabled == true then
-			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
+			local withinContextRange = if compactViewport then distance <= 90 else true
+			schoolCallout.Visible = distance > 26 and withinContextRange and panel.Visible ~= true
 				and state.currentClassCompleted ~= true and report.Visible ~= true
 				and not menuOpen
 		end
