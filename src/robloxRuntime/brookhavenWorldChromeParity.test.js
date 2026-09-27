@@ -22,9 +22,21 @@ describe('Brookhaven recording parity: persistent world chrome',()=>{
     const shell=read('roblox/src/client/MirrorSidebar.client.luau');
 
     expect(shell).toContain('shopShortcut.Name = "ShopShortcut"');
-    expect(shell).toContain('shopShortcut.Position = UDim2.new(0, 80, 0.5, -18)');
+    expect(shell).toContain('shopShortcut.Position = UDim2.new(0, 76, 0.5, -16)');
     expect(shell).toContain('shopShortcut.Text = "🛒"');
     expect(shell).toContain('openStore:Fire()');
+  });
+
+  it('uses a tighter iPhone action rail and centered top utility cluster',()=>{
+    const shell=read('roblox/src/client/MirrorSidebar.client.luau');
+
+    expect(shell).toContain('rail.AnchorPoint = Vector2.new(1, 0.5)');
+    expect(shell).toContain('rail.Size = UDim2.fromOffset(54, 260)');
+    expect(shell).toContain('b.Size = UDim2.fromOffset(50, 50)');
+    expect(shell).toContain('local y = (order - 1) * 52');
+    expect(shell).toContain('UDim2.new(0.5, -88, 0, 6)');
+    expect(shell).toContain('clockBox.Position = UDim2.new(0.5, 2, 0, 6)');
+    expect(shell).toContain('UDim2.new(0.5, -64, 0, 47)');
   });
 
   it('provides a separate server-backed run toggle in the recorded lower-right zone',()=>{
