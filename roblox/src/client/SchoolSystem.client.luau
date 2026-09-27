@@ -99,14 +99,17 @@ constrain(waypoint, 9, 12)
 local schoolCallout = Instance.new("Frame")
 schoolCallout.Name = "RequiredSchoolCallout"
 schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
-schoolCallout.Position = UDim2.new(0.5, 0, 0, 86)
-schoolCallout.Size = UDim2.fromOffset(430, 104)
+schoolCallout.Position = UDim2.new(0.5, 0, 0, 84)
+schoolCallout.Size = UDim2.new(0.82, 0, 0, 54)
 schoolCallout.BackgroundColor3 = COLORS.navy
 schoolCallout.BackgroundTransparency = 0.04
 schoolCallout.Visible = false
 schoolCallout.ZIndex = 34
 schoolCallout.Parent = gui
 round(schoolCallout, 14)
+local calloutConstraint = Instance.new("UISizeConstraint")
+calloutConstraint.MaxSize = Vector2.new(330, 54)
+calloutConstraint.Parent = schoolCallout
 
 local calloutStroke = Instance.new("UIStroke")
 calloutStroke.Color = Color3.fromRGB(125, 221, 255)
@@ -116,8 +119,8 @@ calloutStroke.Parent = schoolCallout
 
 local calloutTitle = Instance.new("TextLabel")
 calloutTitle.Name = "Title"
-calloutTitle.Position = UDim2.fromOffset(16, 10)
-calloutTitle.Size = UDim2.new(1, -156, 0, 31)
+calloutTitle.Position = UDim2.fromOffset(12, 7)
+calloutTitle.Size = UDim2.new(1, -120, 0, 20)
 calloutTitle.BackgroundTransparency = 1
 calloutTitle.Text = "SCHOOL STARTS NOW"
 calloutTitle.TextColor3 = Color3.new(1, 1, 1)
@@ -126,12 +129,12 @@ calloutTitle.TextScaled = true
 calloutTitle.TextXAlignment = Enum.TextXAlignment.Left
 calloutTitle.ZIndex = 35
 calloutTitle.Parent = schoolCallout
-constrain(calloutTitle, 15, 21)
+constrain(calloutTitle, 10, 14)
 
 local calloutBody = Instance.new("TextLabel")
 calloutBody.Name = "Body"
-calloutBody.Position = UDim2.fromOffset(16, 43)
-calloutBody.Size = UDim2.new(1, -156, 0, 48)
+calloutBody.Position = UDim2.fromOffset(12, 27)
+calloutBody.Size = UDim2.new(1, -120, 0, 20)
 calloutBody.BackgroundTransparency = 1
 calloutBody.Text = "Go to class, answer four questions, and earn coins."
 calloutBody.TextColor3 = Color3.fromRGB(224, 241, 255)
@@ -141,13 +144,13 @@ calloutBody.TextScaled = true
 calloutBody.TextXAlignment = Enum.TextXAlignment.Left
 calloutBody.ZIndex = 35
 calloutBody.Parent = schoolCallout
-constrain(calloutBody, 10, 14)
+constrain(calloutBody, 9, 11)
 
 local goToSchool = Instance.new("TextButton")
 goToSchool.Name = "GoToSchool"
 goToSchool.AnchorPoint = Vector2.new(1, 0.5)
-goToSchool.Position = UDim2.new(1, -12, 0.5, 0)
-goToSchool.Size = UDim2.fromOffset(128, 64)
+goToSchool.Position = UDim2.new(1, -8, 0.5, 0)
+goToSchool.Size = UDim2.fromOffset(100, 38)
 goToSchool.BackgroundColor3 = COLORS.green
 goToSchool.Text = "GO NOW"
 goToSchool.TextColor3 = Color3.new(1, 1, 1)
@@ -157,7 +160,7 @@ goToSchool.ZIndex = 36
 goToSchool.Parent = schoolCallout
 round(goToSchool, 12)
 stroke(goToSchool, 0.25)
-constrain(goToSchool, 16, 22)
+constrain(goToSchool, 10, 14)
 
 local panel = Instance.new("Frame")
 panel.Name = "ClassroomPanel"
@@ -521,6 +524,7 @@ local function renderState(payload)
 	calloutBody.Text = bodyText
 	goToSchool.Text = buttonText
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
+		and payload.currentClassCompleted ~= true and not panel.Visible
 
 	if payload.report and payload.report.ok then
 		local lines = {"TODAY'S REPORT"}
@@ -767,6 +771,7 @@ RunService.Heartbeat:Connect(function()
 		waypoint.Visible = true
 		if state.schoolRequired == true and state.travelEnabled == true then
 			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
+				and state.currentClassCompleted ~= true and report.Visible ~= true
 		end
 	else
 		waypoint.Visible = false
