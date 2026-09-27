@@ -453,11 +453,19 @@ local function drawRailIcon(button: GuiObject, iconName: string)
 end
 
 local function drawMiniHouse(parent: GuiObject, prefix: string, x: number, y: number)
-	iconPart(parent, prefix .. "LeftRoof", UDim2.fromOffset(x, y + 6), UDim2.fromOffset(18, 4), -34, 2)
-	iconPart(parent, prefix .. "RightRoof", UDim2.fromOffset(x + 12, y + 6), UDim2.fromOffset(18, 4), 34, 2)
-	iconPart(parent, prefix .. "Walls", UDim2.fromOffset(x + 4, y + 11), UDim2.fromOffset(22, 16), nil, 2)
-	local door = iconPart(parent, prefix .. "DoorCutout", UDim2.fromOffset(x + 13, y + 18), UDim2.fromOffset(6, 9), nil, 1)
-	door.BackgroundColor3 = UI.white
+	local image = Instance.new("ImageLabel")
+	image.Name = prefix .. "House"
+	image.Position = UDim2.fromOffset(x, y)
+	image.Size = UDim2.fromOffset(22, 22)
+	image.BackgroundTransparency = 1
+	image.Image = ICONS.house
+	image.ImageRectOffset = Vector2.new(964, 204)
+	image.ImageRectSize = Vector2.new(36, 36)
+	image.ImageColor3 = UI.icon
+	image.ScaleType = Enum.ScaleType.Fit
+	image.ZIndex = parent.ZIndex + 1
+	image.Parent = parent
+	return image
 end
 
 local function drawPlotModeIcon(button: TextButton, modeIndex: number)
@@ -469,16 +477,23 @@ local function drawPlotModeIcon(button: TextButton, modeIndex: number)
 	icon.Parent = button
 
 	if modeIndex == 1 then
-		drawMiniHouse(icon, "Owned", 48, 12)
-		iconPart(icon, "CheckLeft", UDim2.fromOffset(91, 27), UDim2.fromOffset(12, 4), 42, 2)
-		iconPart(icon, "CheckRight", UDim2.fromOffset(99, 21), UDim2.fromOffset(19, 4), -43, 2)
+		drawMiniHouse(icon, "Owned", 31, 11)
+		local check = Instance.new("TextLabel")
+		check.Name = "Check"
+		check.Position = UDim2.fromOffset(52, 7)
+		check.Size = UDim2.fromOffset(18, 18)
+		check.BackgroundTransparency = 1
+		check.Text = "✓"
+		check.TextColor3 = UI.green
+		check.Font = Enum.Font.GothamBold
+		check.TextSize = 14
+		check.ZIndex = icon.ZIndex + 2
+		check.Parent = icon
 	elseif modeIndex == 2 then
-		drawMiniHouse(icon, "First", 38, 12)
-		drawMiniHouse(icon, "Second", 88, 12)
+		drawMiniHouse(icon, "First", 20, 11)
+		drawMiniHouse(icon, "Second", 46, 11)
 	else
-		iconPart(icon, "TreeTrunk", UDim2.fromOffset(49, 25), UDim2.fromOffset(7, 15), nil, 2)
-		iconPart(icon, "TreeCanopy", UDim2.fromOffset(38, 10), UDim2.fromOffset(29, 24), nil, 14)
-		drawMiniHouse(icon, "House", 91, 12)
+		drawMiniHouse(icon, "Town", 31, 11)
 	end
 end
 
