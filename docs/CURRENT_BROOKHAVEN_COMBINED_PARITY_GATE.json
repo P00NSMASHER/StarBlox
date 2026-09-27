@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "status": "combined-parity-gate-ready",
+  "purpose": "Combine current-source structural proof, rendered side-by-side proof, and required core behavior scenarios under one fail-closed source binding.",
+  "requiredProofLayers": [
+    "structuralParityVerified=true",
+    "renderedParityVerified=true",
+    "behavior parity verified for every required core scenario"
+  ],
+  "requiredCoreBehaviorScenarios": [
+    "quick-chat",
+    "home-cams",
+    "family",
+    "avatar-editor",
+    "tools",
+    "animations",
+    "vehicle",
+    "house"
+  ],
+  "currentState": {
+    "combinedParityToolReady": true,
+    "realCurrentSourceRunCompleted": false,
+    "coreCurrentLiveParityVerified": false,
+    "fullCatalogInteractionParityVerified": false,
+    "finalMobileReleaseCertificationPassed": false,
+    "exactParityClaimAllowed": false
+  },
+  "authority": {
+    "sourceReplacementAllowed": false,
+    "candidatePublicationAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "evaluationCommand": "npm run roblox:brookhaven-current-source:evaluate-combined-parity",
+  "nextStep": "run the real current-source pipeline, then close catalog and interaction breadth"
+}
