@@ -17,6 +17,7 @@ on:
       - scripts/build-schoolwork-skill-observations.mjs
       - scripts/certify-schoolwork-photo-pipeline.mjs
       - src/schoolworkPhoto/**
+      - src/robloxRuntime/phase6QuestionBank.test.js
 permissions:
   contents: write
 
