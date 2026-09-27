@@ -37,8 +37,8 @@ describe('iPhone spawn presentation polish',()=>{
     expect(service).toContain('child:IsA("BloomEffect")');
     expect(service).toContain('math.min(child.Intensity, 0.15)');
     expect(service).toContain('math.max(child.Threshold, 1.35)');
-    expect(service).toContain('descendant.Brightness = math.min(descendant.Brightness, 1.2)');
-    expect(service).toContain('descendant.Range = math.min(descendant.Range, 14)');
+    expect(service).toContain('light.Brightness = math.min(light.Brightness, 1.2)');
+    expect(service).toContain('light.Range = math.min(light.Range, 14)');
     expect(service).not.toContain('descendant:Destroy()');
     expect(service).not.toContain('Lighting:ClearAllChildren()');
   });
