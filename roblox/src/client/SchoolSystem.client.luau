@@ -159,6 +159,90 @@ round(goToSchool, 12)
 stroke(goToSchool, 0.25)
 constrain(goToSchool, 16, 22)
 
+-- On phone-sized viewports Brookhaven already owns the top band. Collapse the
+-- StarBlox school chrome to one small bottom action pill so schedule/waypoint
+-- overlays never cover Home Cams, clock, Family, Quick Chat, or CoreGui.
+local compactViewport = false
+local calloutButtonText = "GO NOW"
+local viewportConnection: RBXScriptConnection? = nil
+
+local function compactActionLabel(text: string): string
+	if text == "JOIN CLASS" then
+		return "JOIN"
+	elseif text == "GO TO SCHOOL" or text == "GO TO CLASS" or text == "GO NOW" then
+		return "GO"
+	elseif text == "GO TO LUNCH" then
+		return "LUNCH"
+	end
+	return text
+end
+
+local function syncCalloutButtonText()
+	goToSchool.Text = if compactViewport then compactActionLabel(calloutButtonText) else calloutButtonText
+end
+
+local function updateSchoolHudLayout()
+	local camera = workspace.CurrentCamera
+	if camera == nil then
+		return
+	end
+
+	local viewport = camera.ViewportSize
+	compactViewport = viewport.X <= 1024 or viewport.Y <= 600
+
+	if compactViewport then
+		hud.Visible = false
+		waypoint.Visible = false
+
+		schoolCallout.AnchorPoint = Vector2.new(0.5, 1)
+		schoolCallout.Position = UDim2.new(0.5, 0, 1, -10)
+		schoolCallout.Size = UDim2.fromOffset(276, 46)
+		schoolCallout.BackgroundTransparency = 0.08
+
+		calloutTitle.Position = UDim2.fromOffset(10, 4)
+		calloutTitle.Size = UDim2.new(1, -104, 1, -8)
+		calloutTitle.TextScaled = false
+		calloutTitle.TextSize = 14
+		calloutBody.Visible = false
+
+		goToSchool.Position = UDim2.new(1, -1, 0.5, 0)
+		goToSchool.Size = UDim2.fromOffset(88, 44)
+		goToSchool.TextScaled = false
+		goToSchool.TextSize = 14
+	else
+		schoolCallout.AnchorPoint = Vector2.new(0.5, 0)
+		schoolCallout.Position = UDim2.new(0.5, 0, 0, 86)
+		schoolCallout.Size = UDim2.fromOffset(430, 104)
+		schoolCallout.BackgroundTransparency = 0.04
+
+		calloutTitle.Position = UDim2.fromOffset(16, 10)
+		calloutTitle.Size = UDim2.new(1, -156, 0, 31)
+		calloutTitle.TextScaled = true
+		calloutBody.Visible = true
+
+		goToSchool.Position = UDim2.new(1, -12, 0.5, 0)
+		goToSchool.Size = UDim2.fromOffset(128, 64)
+		goToSchool.TextScaled = true
+	end
+
+	syncCalloutButtonText()
+end
+
+local function bindViewport()
+	if viewportConnection ~= nil then
+		viewportConnection:Disconnect()
+		viewportConnection = nil
+	end
+	local camera = workspace.CurrentCamera
+	if camera ~= nil then
+		viewportConnection = camera:GetPropertyChangedSignal("ViewportSize"):Connect(updateSchoolHudLayout)
+	end
+	updateSchoolHudLayout()
+end
+
+bindViewport()
+workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(bindViewport)
+
 local panel = Instance.new("Frame")
 panel.Name = "ClassroomPanel"
 panel.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -514,12 +598,13 @@ local function renderState(payload)
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
 	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
-	hud.Visible = payload.dismissed ~= true
+	hud.Visible = payload.dismissed ~= true and not compactViewport
 	report.Visible = false
 	local titleText, bodyText, buttonText = periodCallout(clock)
 	calloutTitle.Text = titleText
 	calloutBody.Text = bodyText
-	goToSchool.Text = buttonText
+	calloutButtonText = buttonText
+	syncCalloutButtonText()
 	schoolCallout.Visible = payload.schoolRequired == true and payload.travelEnabled == true
 
 	if payload.report and payload.report.ok then
@@ -575,7 +660,7 @@ goToSchool.Activated:Connect(function()
 			schoolCallout.Visible = false
 		end
 	else
-		goToSchool.Text = "TRY AGAIN"
+		goToSchool.Text = if compactViewport then "RETRY" else "TRY AGAIN"
 		calloutBody.Text = "We couldn't move you yet. Tap again in a moment."
 	end
 end)
@@ -741,11 +826,14 @@ RunService.Heartbeat:Connect(function()
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
 		hud.Text = string.format("%s  •  %s  •  %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
-		hud.Visible = state.dismissed ~= true
+		hud.Visible = state.dismissed ~= true and not compactViewport
 	end
 
 	if not state or not state.targetAnchorName then
 		waypoint.Visible = false
+		if compactViewport then
+			schoolCallout.Visible = false
+		end
 		return
 	end
 
@@ -757,14 +845,18 @@ RunService.Heartbeat:Connect(function()
 	if target and target:IsA("BasePart") and rootPart and rootPart:IsA("BasePart") then
 		local distance = (target.Position - rootPart.Position).Magnitude
 		local targetName = state.targetDisplayName or state.clock.DisplayName
+		local roundedDistance = math.floor(distance + 0.5)
 		local roomText = if state.targetRoom then " • Room " .. tostring(state.targetRoom) else ""
 		waypoint.Text = string.format(
 			"→ %s%s • %d studs",
 			targetName,
 			roomText,
-			math.floor(distance + 0.5)
+			roundedDistance
 		)
-		waypoint.Visible = true
+		waypoint.Visible = not compactViewport
+		if compactViewport then
+			calloutTitle.Text = string.format("%s • %d studs", tostring(targetName), roundedDistance)
+		end
 		if state.schoolRequired == true and state.travelEnabled == true then
 			schoolCallout.Visible = distance > 26 and panel.Visible ~= true
 		end
