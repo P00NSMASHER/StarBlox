@@ -8,20 +8,31 @@ import {describe,expect,it} from 'vitest';
 function read(path){
   return readFileSync(new URL('../../'+path,import.meta.url),'utf8');
 }
-function runGenerator(pack,scannerCommit='test-scanner-sha'){
+function runGenerator(
+  pack,
+  scannerCommit='test-scanner-sha',
+  schoolwork=JSON.parse(read('docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json'))
+){
   const dir=mkdtempSync(join(tmpdir(),'starblox-question-sync-'));
   try{
     const packPath=join(dir,'pack.json');
+    const schoolworkPath=join(dir,'schoolwork.json');
     const sourcePath=join(dir,'source.json');
     const luaPath=join(dir,'bank.luau');
     const packOut=join(dir,'pack-out.json');
+    const catalogOut=join(dir,'schoolwork-catalog.json');
+    const receiptOut=join(dir,'schoolwork-receipt.json');
     writeFileSync(packPath,JSON.stringify(pack,null,2));
+    writeFileSync(schoolworkPath,JSON.stringify(schoolwork,null,2));
     execFileSync(process.execPath,[
       fileURLToPath(new URL('../../scripts/sync-question-bank-from-abvm.mjs',import.meta.url)),
       '--pack',packPath,
+      '--schoolwork-pack',schoolworkPath,
       '--source-out',sourcePath,
       '--lua-out',luaPath,
       '--pack-out',packOut,
+      '--schoolwork-catalog-out',catalogOut,
+      '--schoolwork-receipt-out',receiptOut,
       '--scanner-commit',scannerCommit
     ],{stdio:'pipe'});
     return JSON.parse(readFileSync(sourcePath,'utf8'));
@@ -41,6 +52,9 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(workflow).toContain('node .abvm/scripts/check-refresh-health.mjs --require-today --max-age-hours 1');
     expect(workflow).toContain('git -C .abvm rev-parse HEAD');
     expect(workflow).toContain('--scanner-commit');
+    expect(workflow).toContain('docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json');
+    expect(workflow).toContain('node scripts/validate-schoolwork-photo-pack.mjs');
+    expect(workflow).toContain('push:');
     expect(workflow).toContain("if(data?.delivery!=='verified') throw new Error('legacy ABVM fallback is not verified')");
     expect(workflow).toContain('legacy ABVM fallback integrity passed');
   });
@@ -63,7 +77,7 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(before.generatedFrom.sourceHash).not.toBe(after.generatedFrom.sourceHash);
     expect(before.generatedFrom.bankSnapshotId).not.toBe(after.generatedFrom.bankSnapshotId);
     expect(after.generatedFrom.scannerCommit).toBe('scanner-after');
-    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v4-research-7-12');
+    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork');
 
     const beforeMaterial=before.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);
     const afterMaterial=after.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);
@@ -73,6 +87,22 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     const afterStar=after.questions.filter(q=>q.tier==='star-fallback').map(q=>[q.prompt,q.choices]);
     expect(afterStar).not.toEqual(beforeStar);
     expect(after.starAlignment.regenerationPolicy).toBe('regenerate-on-every-verified-ABVM-source-change');
+  });
+
+  it('resets the bank snapshot when the sanitized schoolwork photo source changes',()=>{
+    const current=JSON.parse(read('docs/phase6/ABVM_CURRENT_STUDY_PACK.json'));
+    const schoolwork=JSON.parse(read('docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json'));
+    const changed=structuredClone(schoolwork);
+    changed.skillSignals[0].coverageWeight=changed.skillSignals[0].coverageWeight===5?4:5;
+
+    const before=runGenerator(current,'same-scanner',schoolwork);
+    const after=runGenerator(current,'same-scanner',changed);
+
+    expect(before.generatedFrom.sourceHash).toBe(after.generatedFrom.sourceHash);
+    expect(before.generatedFrom.schoolworkSourceHash).not.toBe(after.generatedFrom.schoolworkSourceHash);
+    expect(before.generatedFrom.bankSnapshotId).not.toBe(after.generatedFrom.bankSnapshotId);
+    expect(after.qualityPolicy.schoolworkPhotoMaxPerStation).toBe(4);
+    expect(after.qualityPolicy.schoolworkPhotoActiveQuestionCount).toBe(12);
   });
 
   it('publishes at least 60 STAR Reading and 60 STAR Math questions in every snapshot',()=>{

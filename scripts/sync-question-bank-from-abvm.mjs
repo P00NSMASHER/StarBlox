@@ -1,5 +1,16 @@
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,writeFileSync} from 'node:fs';
+import {
+  buildSchoolworkQuestionCatalog,
+  makeSchoolworkReviewReceipt,
+  schoolworkPackHash,
+  selectActiveSchoolworkQuestions,
+  validateSanitizedSchoolworkPack
+} from '../src/schoolworkPhoto/schoolworkPhotoPipeline.js';
+import {
+  applySchoolworkReviewGate,
+  validateSchoolworkReviewQueue
+} from '../src/schoolworkPhoto/schoolworkPhotoReviewGate.js';
 
 const argv=process.argv.slice(2);
 function option(name,fallback){
@@ -10,8 +21,11 @@ const packPath=option('--pack','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const sourceOut=option('--source-out','docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json');
 const packOut=option('--pack-out','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const luaOut=option('--lua-out','roblox/src/server/CoreQuestionBank.luau');
+const schoolworkPackPath=option('--schoolwork-pack','docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json');
+const schoolworkCatalogOut=option('--schoolwork-catalog-out','docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json');
+const schoolworkReceiptOut=option('--schoolwork-receipt-out','docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v4-research-7-12';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v7-reviewed-schoolwork';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -28,20 +42,53 @@ const stable=value=>{
 };
 const sha=value=>'sha256:'+createHash('sha256').update(typeof value==='string'?value:stable(value)).digest('hex');
 const rawSourceHash=pack.sourceHash||sha(pack);
-if(existsSync(sourceOut)){
+let schoolworkPack=null;
+let schoolworkSourceHash=null;
+let schoolworkReviewSummary=null;
+if(existsSync(schoolworkPackPath)){
+  const rawSchoolworkPack=JSON.parse(readFileSync(schoolworkPackPath,'utf8'));
+  const schoolworkIssues=[
+    ...validateSanitizedSchoolworkPack(rawSchoolworkPack),
+    ...validateSchoolworkReviewQueue(rawSchoolworkPack)
+  ];
+  if(schoolworkIssues.length){
+    throw new Error('Sanitized schoolwork-photo pack failed validation: '+JSON.stringify(schoolworkIssues));
+  }
+  const gated=applySchoolworkReviewGate(rawSchoolworkPack);
+  if(gated.issues.length){
+    throw new Error('Schoolwork-photo review gate failed: '+JSON.stringify(gated.issues));
+  }
+  schoolworkPack=gated.effectivePack;
+  schoolworkReviewSummary=gated.summary;
+  schoolworkSourceHash=schoolworkPackHash(rawSchoolworkPack);
+}
+const combinedSourceHash=sha({
+  abvmSourceHash:rawSourceHash,
+  schoolworkSourceHash:schoolworkSourceHash||'none'
+});
+const schoolworkGenerationVariant=schoolworkSourceHash
+  ? (Number.parseInt(String(schoolworkSourceHash).replace(/^sha256:/,'').slice(0,8),16)%2)+1
+  : 0;
+if(existsSync(sourceOut)&&existsSync(schoolworkCatalogOut)&&existsSync(schoolworkReceiptOut)){
   const previous=JSON.parse(readFileSync(sourceOut,'utf8'));
   if(
     previous?.generatedFrom?.sourceHash===rawSourceHash
+    && (previous?.generatedFrom?.schoolworkSourceHash||null)===(schoolworkSourceHash||null)
     && previous?.generatedFrom?.generatorVersion===GENERATOR_VERSION
     && (scannerCommit==='unknown'||previous?.generatedFrom?.scannerCommit===scannerCommit)
   ){
-    console.log(JSON.stringify({status:'unchanged',sourceHash:rawSourceHash,generatorVersion:GENERATOR_VERSION},null,2));
+    console.log(JSON.stringify({
+      status:'unchanged',
+      sourceHash:rawSourceHash,
+      schoolworkSourceHash,
+      generatorVersion:GENERATOR_VERSION
+    },null,2));
     process.exit(0);
   }
 }
 const generatorTag=createHash('sha256').update(GENERATOR_VERSION).digest('hex').slice(0,6);
-const snapshotId='abvm-'+String(rawSourceHash).replace(/^teacher-pages-/,'').replace(/^sha256:/,'').slice(0,12)+'-'+generatorTag;
-const snapshotSeed=createHash('sha256').update(String(rawSourceHash)).digest();
+const snapshotId='abvm-'+String(combinedSourceHash).replace(/^sha256:/,'').slice(0,12)+'-'+generatorTag;
+const snapshotSeed=createHash('sha256').update(String(combinedSourceHash)).digest();
 let seed=snapshotSeed.readUInt32LE(0)>>>0;
 function rand(){
   seed=(Math.imul(seed,1664525)+1013904223)>>>0;
@@ -76,6 +123,8 @@ const STANDARD_BY_SKILL=Object.freeze({
   'text-evidence':['CCSS.RL.2.1'],
   'visualize':['CCSS.RL.2.1'],
   'character-development':['CCSS.RL.2.3'],
+  'story-elements':['CCSS.RL.2.3'],
+  'genre':['CCSS.RL.2.5'],
   'author-purpose':['CCSS.RI.2.6'],
   'word-choice':['CCSS.RL.2.4'],
   'addition':['CCSS.2.NBT.B.5'],
@@ -126,6 +175,8 @@ const DOK_BY_SKILL=Object.freeze({
   'text-evidence':3,
   'visualize':2,
   'character-development':3,
+  'story-elements':2,
+  'genre':2,
   'author-purpose':3,
   'word-choice':2,
   'addition':1,
@@ -193,6 +244,8 @@ function hintFor(skill){
     'text-evidence':'Choose the detail that most directly proves the idea.',
     'visualize':'Match the important describing words to a mental picture.',
     'character-development':'Compare the character’s choice at the beginning and the end.',
+    'story-elements':'Identify who the story follows and where or when the events happen.',
+    'genre':'Ask whether the text gives facts, tells realistic made-up events, or includes impossible events.',
     'author-purpose':'Ask whether the author is informing, persuading, teaching, or entertaining.',
     'word-choice':'Think about the picture or feeling created by that exact word.',
     'addition':'Combine the parts and check the ones place.',
@@ -235,6 +288,8 @@ function scaffoldFor(skill){
     'inference':'Find one clue that is definitely true. What does that clue suggest?',
     'text-evidence':'Restate the claim, then point to the one detail that proves it most directly.',
     'character-development':'Name the beginning choice. Now name the ending choice.',
+    'story-elements':'Find the details that tell who the story is mostly about and where it happens.',
+    'genre':'Look for facts, realistic made-up events, or impossible events.',
     'author-purpose':'What is the text mostly trying to make the reader know, do, or feel?',
     'two-step-word-problem':'Write the answer after step 1 before you touch step 2.',
     'addition-within-100':'Solve the ones first, then the tens.',
@@ -278,6 +333,8 @@ function misconceptionFor(skill,choice,answer){
     'inference':['unsupported-inference','The best inference must be supported by a specific clue in the text.'],
     'text-evidence':['weak-or-irrelevant-evidence','Pick the detail that proves the claim most directly.'],
     'character-development':['beginning-ending-confusion','Compare how the character acts at the beginning with the ending.'],
+    'story-elements':['story-element-confusion','Use the passage details to identify the main character, setting, or other story element.'],
+    'genre':['genre-feature-confusion','Use the text features and whether events could happen in real life to identify the genre.'],
     'author-purpose':['purpose-confusion','Focus on what the author wants the reader to know, do, or feel.'],
     'word-choice':['literal-language-confusion','Think about the image or feeling the author creates, not only the literal meaning.'],
     'sentence-types':['sentence-purpose-confusion','Decide whether the sentence tells, asks, or gives a direction.'],
@@ -403,7 +460,7 @@ function makeQuestion(input){
     'id','stationId','subject','skill','prompt','choices','answer','explanation',
     'provenance','sourceFact','tier','domain','difficulty','standards','dok',
     'cognitiveDemand','hint','scaffold','choiceDiagnostics','rubric','alignmentEvidence',
-    'responseType','richContent','experiment'
+    'responseType','richContent','experiment','generationVariant','sourceTransform','originalEquivalent'
   ];
   const material={};
   for(const key of keys) if(enriched[key]!==undefined) material[key]=enriched[key];
@@ -857,11 +914,87 @@ function starMath(){
   return out;
 }
 
-const materialByStation={
+const baseMaterialByStation={
   [STATIONS[0]]:readingMaterial(),
   [STATIONS[1]]:mathMaterial(),
   [STATIONS[2]]:religionMaterial()
 };
+
+const rawSchoolworkCatalog=schoolworkPack
+  ? buildSchoolworkQuestionCatalog(schoolworkPack,{
+      snapshotId,
+      generationVariant:schoolworkGenerationVariant,
+      sourceHashOverride:schoolworkSourceHash
+    })
+  : {
+      schemaVersion:1,
+      catalogVersion:'schoolwork-photo-question-catalog-v1',
+      batchId:null,
+      sourceHash:null,
+      generationMode:'skill-only-equivalent-item',
+      generationVariant:0,
+      questionCount:0,
+      questions:[]
+    };
+const activeSchoolworkRaw=selectActiveSchoolworkQuestions(rawSchoolworkCatalog,{maxPerStation:4});
+const activeSchoolworkIds=new Set(activeSchoolworkRaw.map(question=>question.id));
+const schoolworkCatalogQuestions=rawSchoolworkCatalog.questions.map(item=>{
+  const {signalId,questionType,coverageWeight,photoDerived,...spec}=item;
+  return {
+    ...makeQuestion(spec),
+    signalId,
+    questionType,
+    coverageWeight,
+    photoDerived:photoDerived===true
+  };
+});
+const activeSchoolworkQuestions=schoolworkCatalogQuestions.filter(question=>activeSchoolworkIds.has(question.id));
+const schoolworkReceipt=schoolworkPack
+  ? {
+      ...makeSchoolworkReviewReceipt(schoolworkPack,rawSchoolworkCatalog,activeSchoolworkRaw),
+      reviewGate:schoolworkReviewSummary
+    }
+  : {
+      schemaVersion:1,
+      receiptVersion:'schoolwork-photo-review-receipt-v1',
+      batchId:null,
+      sourceHash:null,
+      pageCount:0,
+      acceptedSkillSignals:0,
+      generatedQuestionCandidates:0,
+      activeQuestionCount:0,
+      activeByStation:{},
+      ambiguousObservationsOmitted:true,
+      parentReviewRequiredOnAmbiguousExtraction:true,
+      privacy:{
+        rawImagesIncluded:false,
+        studentIdentityIncluded:false,
+        studentResponsesIncluded:false,
+        teacherMarksIncluded:false,
+        gradesOrScoresIncluded:false,
+        rawWorksheetTextIncluded:false
+      }
+    };
+
+writeFileSync(schoolworkCatalogOut,JSON.stringify({
+  ...rawSchoolworkCatalog,
+  questions:schoolworkCatalogQuestions,
+  activeQuestionIds:[...activeSchoolworkIds]
+},null,2)+'\n');
+writeFileSync(schoolworkReceiptOut,JSON.stringify(schoolworkReceipt,null,2)+'\n');
+
+const schoolworkByStation=Object.fromEntries(STATIONS.map(stationId=>[
+  stationId,
+  activeSchoolworkQuestions.filter(question=>question.stationId===stationId)
+]));
+const materialByStation={};
+for(const stationId of STATIONS){
+  materialByStation[stationId]=[
+    ...schoolworkByStation[stationId],
+    ...baseMaterialByStation[stationId]
+  ].slice(0,12);
+}
+
 const starRead=shuffled(starReading());
 const starMathQuestions=shuffled(starMath());
 const fallbackByStation={};
@@ -884,7 +1017,7 @@ if(questions.some(question=>!question.stationId)) throw new Error('Final questio
 const source={
   schemaVersion:4,
   certificationVersion:'dynamic-abvm-star-sync-v1',
-  status:'certified-daily-abvm-material-plus-regenerated-star-fallback',
+  status:'certified-schoolwork-photo-plus-daily-abvm-material-plus-regenerated-star-fallback',
   generatedFrom:{
     repository:'P00NSMASHER/abvmschoolstarworld',
     path:'pages/data/study-pack.json',
@@ -893,6 +1026,12 @@ const source={
     generatorVersion:GENERATOR_VERSION,
     healthCheck:'scripts/check-refresh-health.mjs',
     sourceHash:rawSourceHash,
+    combinedSourceHash,
+    schoolworkSourceHash,
+    schoolworkGenerationVariant,
+    schoolworkBatchId:schoolworkPack?.batchId||null,
+    schoolworkPackVersion:schoolworkPack?.packVersion||null,
+    schoolworkCatalogVersion:rawSchoolworkCatalog.catalogVersion,
     sourceCapturedAt:data.sourceCapturedAt||pack.sourceCapturedAt||null,
     sourceCheckedAt:data.sourceLastCheckedAt||pack.sourceCheckedAt||null,
     weekLabel:pack.weekLabel||null,
@@ -902,6 +1041,7 @@ const source={
     assessment:'Renaissance Star Reading and Star Math',
     itemPolicy:'original-practice-only-not-copied-test-items',
     regenerationPolicy:'regenerate-on-every-verified-ABVM-source-change',
+    schoolworkRegenerationPolicy:'regenerate-on-sanitized-schoolwork-pack-or-review-decision-change',
     readingDomains:READ_DOMAINS,
     mathDomains:MATH_DOMAINS,
     readingQuestionCount:starRead.length,
@@ -909,6 +1049,14 @@ const source={
   },
   qualityPolicy:{
     materialFirst:true,
+    schoolworkPhotoMaterialFirst:activeSchoolworkQuestions.length>0,
+    schoolworkPhotoMaxPerStation:4,
+    schoolworkPhotoActiveQuestionCount:activeSchoolworkQuestions.length,
+    schoolworkPhotoCandidateQuestionCount:schoolworkCatalogQuestions.length,
+    schoolworkPhotoGenerationMode:rawSchoolworkCatalog.generationMode,
+    schoolworkPhotoGenerationVariant:rawSchoolworkCatalog.generationVariant,
+    schoolworkPhotoSourceTransform:'skill-only-equivalent-item-v1',
+    schoolworkPhotoPrivacyContract:'no-raw-images-no-identity-no-responses-no-marks-no-grades-no-raw-worksheet-text',
     materialCountByStation,
     starFallbackQuestionsPerStation:40,
     starReadingPoolTarget:60,
@@ -942,13 +1090,17 @@ function luaValue(value){
 }
 const lines=[
   '--!strict','',
-  '-- Generated from the verified ABVM teacher-page scanner. Do not hand-edit.',
-  '-- Current school material is served first; STAR-aligned practice rotates after material is exhausted.',
+  '-- Generated from verified ABVM material plus a sanitized schoolwork-photo skill pack. Do not hand-edit.',
+  '-- Sanitized photo-derived practice is served first, then other current material, then STAR-aligned fallback.',
   'local CoreQuestionBank = {}','',
   'local SOURCE = table.freeze({',
   '\tCertificationVersion = '+q(source.certificationVersion)+',',
   '\tBankSnapshotId = '+q(snapshotId)+',',
   '\tPackSourceHash = '+q(String(rawSourceHash))+',',
+  '\tCombinedSourceHash = '+q(String(combinedSourceHash))+',',
+  '\tSchoolworkPhotoSourceHash = '+q(String(schoolworkSourceHash||''))+',',
+  '\tSchoolworkPhotoBatchId = '+q(String(schoolworkPack?.batchId||''))+',',
+  '\tSchoolworkPhotoMaterial = '+(activeSchoolworkQuestions.length>0?'true':'false')+',',
   '\tSourceCapturedAt = '+q(String(source.generatedFrom.sourceCapturedAt||''))+',',
   '\tSourceCheckedAt = '+q(String(source.generatedFrom.sourceCheckedAt||''))+',',
   '\tWeekLabel = '+q(String(pack.weekLabel||''))+',',
@@ -1079,6 +1231,9 @@ console.log(JSON.stringify({
   sourceHash:rawSourceHash,
   questions:questions.length,
   materialCountByStation,
+  schoolworkSourceHash,
+  schoolworkActiveQuestions:activeSchoolworkQuestions.length,
+  schoolworkCandidateQuestions:schoolworkCatalogQuestions.length,
   starReading:starRead.length,
   starMath:starMathQuestions.length
 },null,2));
