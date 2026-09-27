@@ -128,6 +128,22 @@
         "evidence": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_REFERENCE.json",
         "decision": "docs/roblox-world/LEGACY_BROOKHAVEN_SPAWN_DECISION.json",
         "currentLiveCertificationSatisfied": false
+      },
+      "geometryBreadthDevelopmentParity": {
+        "p0Closed": true,
+        "source": "IIIStatusIII/Roblox-Uncopylocked-Games/Brookhaven.rbxl",
+        "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+        "sourceSha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
+        "sanitizationReceipt": "docs/roblox-world/LEGACY_BROOKHAVEN_GEOMETRY_SANITIZATION.json",
+        "sanitizedModelSha256": "16030b4727f00abb1755f09d97654d0f1b73885fabf89008d9315a2b845b1b1c",
+        "legacyGeometryCount": 14459,
+        "sanitizedGeometryCount": 14459,
+        "safeVisualChildCount": 2491,
+        "forbiddenGameplayClassCount": 0,
+        "allGeometryAnchored": true,
+        "sourceCodeExecuted": false,
+        "retainedWorkflowArtifact": "legacy-brookhaven-geometry-baseline",
+        "currentLiveCertificationSatisfied": false
       }
     }
   },
@@ -140,6 +156,9 @@
     "legacyDevelopmentSteps1Through5Completed": true,
     "legacyDevelopmentWorkPlan": "docs/roblox-world/LEGACY_BROOKHAVEN_7B_WORKPLAN.json",
     "legacyVerificationRun": 36293641601,
-    "legacyTownCenterSpawnP0Closed": true
+    "legacyTownCenterSpawnP0Closed": true,
+    "legacyWorldGeometryP0Closed": true,
+    "remainingP0DevelopmentGaps": 0,
+    "nextPriorityBand": "P1"
   }
 }
