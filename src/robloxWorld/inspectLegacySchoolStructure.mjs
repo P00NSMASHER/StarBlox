@@ -109,6 +109,33 @@ export function inspectLegacySchoolStructure(dom, acquisition) {
     });
 
 
+  const schoolDoorModels = workspaceRows
+    .filter(row => className(row.node) === 'Model' && nodeName(row.node) === 'SchoolDoorClassroom')
+    .map((modelRow, modelIndex) => {
+      const modelPath = modelRow.path;
+      const modelParts = workspaceRows
+        .filter(row => row.path.length > modelPath.length
+          && modelPath.every((segment, index) => row.path[index] === segment)
+          && geometryClasses.has(className(row.node)))
+        .map(row => {
+          const indexed = geometryByNode.get(row.node);
+          return {
+            className: className(row.node),
+            name: nodeName(row.node),
+            path: row.path.join('/'),
+            generatedName: indexed?.generatedName ?? null,
+            geometryIndex: indexed?.geometryIndex ?? null,
+            position: position(row.node),
+            size: vector(row.node, 'Size')
+          };
+        });
+      return {
+        sourceOrder: modelIndex + 1,
+        path: modelPath.join('/'),
+        parts: modelParts
+      };
+    });
+
   return {
     schemaVersion: 1,
     status: 'pinned-legacy-school-structure-inspected',
