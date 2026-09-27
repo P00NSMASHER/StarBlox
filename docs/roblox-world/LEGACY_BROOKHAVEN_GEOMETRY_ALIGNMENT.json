@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "status": "legacy-geometry-alignment-measured",
+  "origin": {
+    "rule": "centroid-of-first-nine-legacy-spawnlocations-to-top-center-of-BHW_1202",
+    "legacySpawnCentroid": [
+      3.5863818533333336,
+      0.16769123,
+      -0.21469875666666674
+    ],
+    "starbloxTargetGround": [
+      -2273.4744,
+      3656.64044215,
+      826.76086
+    ],
+    "translationDelta": [
+      -2277.0607818533335,
+      3656.47275092,
+      826.9755587566666
+    ],
+    "rotationApplied": false
+  },
+  "geometry": {
+    "legacyCount": 15305,
+    "starbloxCount": 4936,
+    "strictClassShapeTransformMatch": {
+      "matches": 0,
+      "unmatched": 15305,
+      "matchRatio": 0,
+      "unmatchedByClass": {
+        "Part": 11203,
+        "VehicleSeat": 28,
+        "Seat": 447,
+        "MeshPart": 3221,
+        "UnionOperation": 41,
+        "WedgePart": 323,
+        "CornerWedgePart": 42
+      }
+    },
+    "shapeTransformMatchIgnoringClass": {
+      "matches": 0,
+      "unmatched": 15305,
+      "matchRatio": 0,
+      "unmatchedByClass": {
+        "Part": 11203,
+        "VehicleSeat": 28,
+        "Seat": 447,
+        "MeshPart": 3221,
+        "UnionOperation": 41,
+        "WedgePart": 323,
+        "CornerWedgePart": 42
+      }
+    }
+  },
+  "decisionSupport": {
+    "safeToAssumePureTranslationDuplicateOverlay": false,
+    "note": "This measures exact-ish spatial/shape overlap after the spawn-derived translation. It is development evidence, not current-live certification."
+  },
+  "boundary": {
+    "currentLiveCertificationSatisfied": false,
+    "exactParityClaimAllowed": false
+  }
+}
