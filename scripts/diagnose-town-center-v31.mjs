@@ -1,3 +1,4 @@
+// rerun against staging v32
 import {runOpenCloudLuauTask} from '../src/robloxRuntime/privatePublish.js';
 
 const apiKey=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||'');
