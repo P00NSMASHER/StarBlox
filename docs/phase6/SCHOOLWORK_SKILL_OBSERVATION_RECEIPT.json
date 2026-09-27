@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "receiptVersion": "schoolwork-skill-observation-receipt-v1",
+  "observationVersion": "schoolwork-skill-observations-v1",
+  "batchId": "schoolwork-2026-09-26-001",
+  "capturedDate": "2026-09-26",
+  "mode": "legacy-sanitized-skill-signals",
+  "observationCount": 12,
+  "skillCount": 8,
+  "observationHash": "sha256:19643baff0a446d51b785e4757d2df7929a96d3f362a1116900d406609438c89",
+  "privacy": {
+    "rawImagesIncluded": false,
+    "rawTextIncluded": false,
+    "studentIdentityIncluded": false,
+    "studentResponsesIncluded": false,
+    "teacherMarksIncluded": false,
+    "gradesOrScoresIncluded": false,
+    "sourceImageHashesIncluded": false
+  }
+}
