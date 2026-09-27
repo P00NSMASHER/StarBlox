@@ -7,7 +7,7 @@ local Config = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local MirrorConfig = require(ReplicatedStorage.StarBlox.BrookhavenMirrorConfig)
 
 local function selectedBindings()
-	if MirrorConfig.World.Mode == "legacy-reference-safe-world" then
+	if MirrorConfig.World.Mode == "exact-frozen-brookhaven-world" then
 		local legacyModule = ReplicatedStorage.StarBlox:FindFirstChild("LegacySchoolWorldBindings")
 		assert(legacyModule ~= nil and legacyModule:IsA("ModuleScript"), "legacy school bindings are required")
 		return require(legacyModule)

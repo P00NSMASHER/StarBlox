@@ -57,6 +57,9 @@ describe('legacy Brookhaven real-school bindings', () => {
     const runtime = readFileSync('roblox/src/server/SchoolRuntimeService.luau', 'utf8');
     const generator = readFileSync('scripts/generate-legacy-brookhaven-runtime-bindings.mjs', 'utf8');
 
+    const worldConfig = readFileSync('roblox/src/shared/BrookhavenMirrorConfig.luau', 'utf8');
+    expect(worldConfig).toContain('Mode = "exact-frozen-brookhaven-world"');
+    expect(attendance).toContain('MirrorConfig.World.Mode == "exact-frozen-brookhaven-world"');
     expect(attendance).toContain('LegacySchoolWorldBindings');
     expect(attendance).toContain('verified school source part is missing');
     expect(attendance).toContain('function SchoolAttendanceService.ValidateClassroomAnchor');
