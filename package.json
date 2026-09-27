@@ -70,7 +70,8 @@
     "roblox:brookhaven-legacy:catalog-discovery": "node scripts/extract-legacy-brookhaven-catalog-discovery.mjs",
     "roblox:brookhaven-legacy:catalog-baseline": "node scripts/derive-legacy-brookhaven-catalog-baseline.mjs",
     "roblox:brookhaven-legacy:runtime-bindings": "node scripts/generate-legacy-brookhaven-runtime-bindings.mjs",
-    "roblox:brookhaven-legacy:catalog-modules": "node scripts/generate-legacy-brookhaven-catalog-modules.mjs"
+    "roblox:brookhaven-legacy:catalog-modules": "node scripts/generate-legacy-brookhaven-catalog-modules.mjs",
+    "roblox:brookhaven-legacy:publish-private": "node scripts/publish-legacy-brookhaven-private.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
