@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "status": "rendered-evidence-intake-ready",
+  "purpose": "Lock side-by-side Brookhaven reference and StarBlox candidate frame identities to the structurally verified current source before any rendered-parity verdict.",
+  "prerequisites": [
+    "current-live source candidate identity locked",
+    "structural comparison completed",
+    "structuralParityVerified=true"
+  ],
+  "requiredPerScene": [
+    "sceneId",
+    "deviceProfile",
+    "viewportWidth",
+    "viewportHeight",
+    "referenceCapturedAt",
+    "candidateCapturedAt",
+    "reference image bytes",
+    "candidate image bytes"
+  ],
+  "currentState": {
+    "renderedEvidenceLockingReady": true,
+    "renderedComparisonCompleted": false,
+    "renderedParityVerified": false,
+    "sideBySideHumanReviewCompleted": false,
+    "exactParityClaimAllowed": false
+  },
+  "authority": {
+    "sourceReplacementAllowed": false,
+    "candidatePublicationAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "nextHalfStep": "implement comparison/review over locked rendered evidence"
+}
