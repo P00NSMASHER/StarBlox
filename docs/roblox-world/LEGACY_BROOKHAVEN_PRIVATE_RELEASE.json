@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "receiptVersion": "starblox-private-publish-v2",
+  "status": "published-and-verified",
+  "releaseId": "starblox-legacy-brookhaven-development-v1",
+  "sourceCommit": "a0a3b6ae557f61babbd0a44cf62f4e7e9695c61c",
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "releaseChannel": "private-staging"
+  },
+  "artifact": {
+    "format": "rbxlx",
+    "sha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+    "bytes": 65678699
+  },
+  "versions": {
+    "previous": 26,
+    "published": 27,
+    "verified": 27
+  },
+  "verification": {
+    "status": "verified",
+    "taskPath": "universes/6027194615/places/17602626136/versions/27/luau-execution-sessions/25228c86-7ec8-49d3-89f7-66d93692a018/tasks/25228c86-7ec8-49d3-89f7-66d93692a018"
+  },
+  "verificationTaskPath": "universes/6027194615/places/17602626136/versions/27/luau-execution-sessions/25228c86-7ec8-49d3-89f7-66d93692a018/tasks/25228c86-7ec8-49d3-89f7-66d93692a018",
+  "releaseGate": {
+    "version": "starblox-legacy-brookhaven-private-release-v1",
+    "artifactSha256": "7d69688ec699570e33fff8c76d6d329c0f82420640001277a6c7df8e49948324",
+    "baselineModelSha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283",
+    "mountedSubtreeSha256": "c0c23a85b933d629469fec0ab82e630a4d7afbee2dce2b73dc4c5658a35011b1"
+  },
+  "authority": {
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "rollback": {
+    "preservedPreviousVersion": 26,
+    "previousVersionBasis": "immediate predecessor of the version number returned by the serialized publish request",
+    "mechanism": "Roblox Creator Dashboard > Configure > Places > Version History > Restore",
+    "automaticRollbackAttempted": false,
+    "note": "Roblox retains saved place versions; restoring a prior version creates a new place version."
+  },
+  "legacyBrookhaven": {
+    "sourceMode": "legacy-reference-safe-world",
+    "geometryCount": 14459,
+    "subtreeInstanceCount": 16951,
+    "current2026CertificationSatisfied": false,
+    "exactCurrentParityClaimAllowed": false
+  }
+}
