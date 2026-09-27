@@ -51,7 +51,8 @@
     "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs",
     "roblox:brookhaven-current-source:verify": "node scripts/verify-current-brookhaven-source.mjs",
     "roblox:brookhaven-current-source:compare-structure": "node scripts/compare-current-brookhaven-structure.mjs",
-    "roblox:brookhaven-current-source:evaluate-rendered-parity": "node scripts/evaluate-current-brookhaven-rendered-parity.mjs"
+    "roblox:brookhaven-current-source:evaluate-rendered-parity": "node scripts/evaluate-current-brookhaven-rendered-parity.mjs",
+    "roblox:brookhaven-current-source:lock-behavior-evidence": "node scripts/lock-current-brookhaven-behavior-evidence.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
