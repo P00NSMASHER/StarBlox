@@ -79,12 +79,31 @@ describe('pinned legacy school structure inspection', () => {
         }]
       }]
     });
+    workspace.children.push({
+      class: 'Model',
+      name: 'Model',
+      children: [{
+        class: 'Model',
+        name: 'SchoolDoorClassroom',
+        children: [{
+          class: 'MeshPart',
+          name: 'Door',
+          properties: {
+            CFrame: {CFrame: {position: [20, 2, 30]}},
+            Size: {Vector3: [4, 5, 1]}
+          }
+        }]
+      }]
+    });
     const report = inspectLegacySchoolStructure(source, acquisition);
     const sourceDoors = report.school.schoolDoorModels;
-    expect(sourceDoors).toHaveLength(2);
+    expect(sourceDoors).toHaveLength(3);
     expect(sourceDoors[1].path).toBe('Workspace/Model/SchoolDoorClassroom');
+    expect(sourceDoors[2].path).toBe('Workspace/Model/SchoolDoorClassroom');
     expect(sourceDoors[1].parts[0].generatedName).toBe('LBH_00003');
+    expect(sourceDoors[2].parts[0].generatedName).toBe('LBH_00004');
     expect(sourceDoors[1].parts[0].position).toEqual([10, 2, 30]);
+    expect(sourceDoors[2].parts[0].position).toEqual([20, 2, 30]);
     expect(report.interpretation.roomRoleAssignmentsVerified).toBe(false);
   });
 
