@@ -132,7 +132,7 @@ jobs:
           STARBLOX_LEGACY_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/legacy-private-release/private-publish-receipt.json
         run: |
           npm run roblox:brookhaven-legacy:publish-private
-          grep -q '"status": "published-and-verified"' artifacts/legacy-private-release/private-publish-receipt.json
+          grep -q '"status": "published-server-boot-verified"' artifacts/legacy-private-release/private-publish-receipt.json
           grep -q '"publicAccessChangeAttempted": false' artifacts/legacy-private-release/private-publish-receipt.json
           grep -q '"productionActivationAllowed": false' artifacts/legacy-private-release/private-publish-receipt.json
           grep -q '"geometryCount": 14459' artifacts/legacy-private-release/private-publish-receipt.json
@@ -160,7 +160,7 @@ jobs:
           node --input-type=module - <<'NODE'
           import {readFileSync,writeFileSync} from 'node:fs';
           const receipt=JSON.parse(readFileSync('artifacts/legacy-private-release/private-publish-receipt.json','utf8'));
-          if(receipt?.status!=='published-and-verified') throw new Error('verified publish receipt required');
+          if(receipt?.status!=='published-server-boot-verified') throw new Error('verified publish receipt required');
           writeFileSync(
             'docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json',
             JSON.stringify(receipt,null,2)+'\n'
