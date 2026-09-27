@@ -10,6 +10,7 @@ local function utcDayKey(): string
 end
 
 local function ensureRewardState(profileData)
+	profileData.School = type(profileData.School) == "table" and profileData.School or {}
 	local school = profileData.School
 	school.RewardState = type(school.RewardState) == "table" and school.RewardState or {}
 	local state = school.RewardState
@@ -30,46 +31,92 @@ local function ensureRewardState(profileData)
 	return state
 end
 
-local function dayEligible(profileData, schoolDayId: string): boolean
+local function applyRewardTransaction(
+	profileData,
+	schoolDayId: string,
+	key: string,
+	coins: number,
+	xp: number,
+	stars: number
+)
 	local state = ensureRewardState(profileData)
-	local existing = state.DayEligibility[schoolDayId]
-	if existing ~= nil then return existing == true end
-
-	local allowed = state.RewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay
-	state.DayEligibility[schoolDayId] = allowed
-	if allowed then state.RewardedSchoolDays += 1 end
-	return allowed
-end
-
-local function claimReceipt(profileData, key: string): boolean
-	local state = ensureRewardState(profileData)
-	if state.Receipts[key] == true then return false end
-	state.Receipts[key] = true
-	return true
-end
-
-local function recordEarnings(profileData, schoolDayId: string, coins: number, xp: number, stars: number)
-	local state = ensureRewardState(profileData)
-	local row = state.EarnedBySchoolDay[schoolDayId]
-	if type(row) ~= "table" then
-		row = {Coins = 0, XP = 0, Stars = 0}
-		state.EarnedBySchoolDay[schoolDayId] = row
+	if state.Receipts[key] == true then
+		return {rewarded = false, duplicate = true, coins = 0, xp = 0, stars = 0}
 	end
-	row.Coins = math.max(0, tonumber(row.Coins) or 0) + math.max(0, coins)
-	row.XP = math.max(0, tonumber(row.XP) or 0) + math.max(0, xp)
-	row.Stars = math.max(0, tonumber(row.Stars) or 0) + math.max(0, stars)
-end
 
-function SchoolProgressService.GetDayEarnings(profileData, schoolDayId: string)
-	local state = ensureRewardState(profileData)
-	local row = state.EarnedBySchoolDay[schoolDayId]
-	if type(row) ~= "table" then
-		return {Coins = 0, XP = 0, Stars = 0}
+	local previousEligibility = state.DayEligibility[schoolDayId]
+	local previousRewardedSchoolDays = state.RewardedSchoolDays
+	local eligible = previousEligibility
+	if eligible == nil then
+		eligible = previousRewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay
 	end
+	if eligible ~= true then
+		state.DayEligibility[schoolDayId] = false
+		return {rewarded = false, capped = true, coins = 0, xp = 0, stars = 0}
+	end
+
+	profileData.Economy = type(profileData.Economy) == "table" and profileData.Economy or {}
+	local economy = profileData.Economy
+	local previousCoins = math.max(0, tonumber(economy.Coins) or 0)
+	local previousXP = math.max(0, tonumber(economy.XP) or 0)
+	local previousStars = math.max(0, tonumber(economy.Stars) or 0)
+	local awardCoins = math.max(0, tonumber(coins) or 0)
+	local awardXP = math.max(0, tonumber(xp) or 0)
+	local awardStars = math.max(0, tonumber(stars) or 0)
+
+	local existingEarnings = state.EarnedBySchoolDay[schoolDayId]
+	local hadEarnings = type(existingEarnings) == "table"
+	local earnings = if hadEarnings then existingEarnings else {Coins = 0, XP = 0, Stars = 0}
+	local previousEarnedCoins = math.max(0, tonumber(earnings.Coins) or 0)
+	local previousEarnedXP = math.max(0, tonumber(earnings.XP) or 0)
+	local previousEarnedStars = math.max(0, tonumber(earnings.Stars) or 0)
+
+	-- No yielding occurs inside this protected section. ProfileStore persists the
+	-- receipt and balances as one profile snapshot, while the rollback keeps an
+	-- unexpected mutation failure retryable instead of consuming the receipt.
+	local committed = pcall(function()
+		if previousEligibility == nil then
+			state.DayEligibility[schoolDayId] = true
+			state.RewardedSchoolDays = previousRewardedSchoolDays + 1
+		end
+		state.EarnedBySchoolDay[schoolDayId] = earnings
+		state.Receipts[key] = true
+		economy.Coins = previousCoins + awardCoins
+		economy.XP = previousXP + awardXP
+		economy.Stars = previousStars + awardStars
+		earnings.Coins = previousEarnedCoins + awardCoins
+		earnings.XP = previousEarnedXP + awardXP
+		earnings.Stars = previousEarnedStars + awardStars
+	end)
+
+	if not committed then
+		state.Receipts[key] = nil
+		state.DayEligibility[schoolDayId] = previousEligibility
+		state.RewardedSchoolDays = previousRewardedSchoolDays
+		economy.Coins = previousCoins
+		economy.XP = previousXP
+		economy.Stars = previousStars
+		if hadEarnings then
+			earnings.Coins = previousEarnedCoins
+			earnings.XP = previousEarnedXP
+			earnings.Stars = previousEarnedStars
+		else
+			state.EarnedBySchoolDay[schoolDayId] = nil
+		end
+		return {
+			rewarded = false,
+			code = "reward_transaction_failed",
+			coins = 0,
+			xp = 0,
+			stars = 0,
+		}
+	end
+
 	return {
-		Coins = math.max(0, tonumber(row.Coins) or 0),
-		XP = math.max(0, tonumber(row.XP) or 0),
-		Stars = math.max(0, tonumber(row.Stars) or 0),
+		rewarded = true,
+		coins = awardCoins,
+		xp = awardXP,
+		stars = awardStars,
 	}
 end
 
@@ -107,38 +154,38 @@ end
 
 function SchoolProgressService.ApplyCorrectAnswer(profileData, schoolDayId: string, periodId: string, questionId: string)
 	local key = schoolDayId .. "|" .. periodId .. "|" .. questionId .. "|correct"
-	if not claimReceipt(profileData, key) then
-		return {rewarded = false, duplicate = true, coins = 0, xp = 0, stars = 0}
-	end
-	if not dayEligible(profileData, schoolDayId) then
-		return {rewarded = false, capped = true, coins = 0, xp = 0, stars = 0}
-	end
-
-	profileData.Economy.Coins += Config.Rewards.QuestionCoins
-	profileData.Economy.XP += Config.Rewards.QuestionXP
-	recordEarnings(profileData, schoolDayId, Config.Rewards.QuestionCoins, Config.Rewards.QuestionXP, 0)
-	return {rewarded = true, coins = Config.Rewards.QuestionCoins, xp = Config.Rewards.QuestionXP, stars = 0}
+	return applyRewardTransaction(
+		profileData,
+		schoolDayId,
+		key,
+		Config.Rewards.QuestionCoins,
+		Config.Rewards.QuestionXP,
+		0
+	)
 end
 
 function SchoolProgressService.ApplyClassCompletion(profileData, schoolDayId: string, periodId: string)
 	local key = schoolDayId .. "|" .. periodId .. "|class-complete"
-	if not claimReceipt(profileData, key) then return {rewarded = false, duplicate = true, xp = 0} end
-	if not dayEligible(profileData, schoolDayId) then return {rewarded = false, capped = true, xp = 0} end
-
-	profileData.Economy.XP += Config.Rewards.ClassCompletionXP
-	recordEarnings(profileData, schoolDayId, 0, Config.Rewards.ClassCompletionXP, 0)
-	return {rewarded = true, xp = Config.Rewards.ClassCompletionXP}
+	return applyRewardTransaction(
+		profileData,
+		schoolDayId,
+		key,
+		0,
+		Config.Rewards.ClassCompletionXP,
+		0
+	)
 end
 
 function SchoolProgressService.ApplyFullDay(profileData, schoolDayId: string)
 	local key = schoolDayId .. "|full-day"
-	if not claimReceipt(profileData, key) then return {rewarded = false, duplicate = true, xp = 0, stars = 0} end
-	if not dayEligible(profileData, schoolDayId) then return {rewarded = false, capped = true, xp = 0, stars = 0} end
-
-	profileData.Economy.XP += Config.Rewards.FullDayXP
-	profileData.Economy.Stars += Config.Rewards.FullDayStars
-	recordEarnings(profileData, schoolDayId, 0, Config.Rewards.FullDayXP, Config.Rewards.FullDayStars)
-	return {rewarded = true, xp = Config.Rewards.FullDayXP, stars = Config.Rewards.FullDayStars}
+	return applyRewardTransaction(
+		profileData,
+		schoolDayId,
+		key,
+		0,
+		Config.Rewards.FullDayXP,
+		Config.Rewards.FullDayStars
+	)
 end
 
 return SchoolProgressService
