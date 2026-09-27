@@ -26,7 +26,7 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
 
     expect(editor).toContain('gui.Name = "BrookhavenAvatarEditorUI"');
     expect(editor).toContain('scrim.Name = "EditorScrim"');
-    expect(editor).toContain('scrim.BackgroundTransparency = 0.34');
+    expect(editor).toContain('scrim.BackgroundTransparency = 0.22');
     expect(editor).toContain('local function setWorldHudVisible(visible: boolean)');
     expect(editor).toContain('setWorldHudVisible(false)');
     expect(editor).toContain('setWorldHudVisible(true)');
@@ -75,6 +75,7 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
 
     expect(editor).toContain('equippedTray.Name = "EquippedItems"');
     expect(editor).toContain('equippedTray.Size = UDim2.fromOffset(348, 54)');
+    expect(editor).toContain('label.Text = string.gsub(key, "Accessory", "")');
     expect(editor).toContain('for slot = 1, 7 do');
     expect(editor).toContain('remove.BackgroundColor3 = COLORS.red');
     expect(editor).toContain('removeAvatarItem:InvokeServer(key, assetId)');
