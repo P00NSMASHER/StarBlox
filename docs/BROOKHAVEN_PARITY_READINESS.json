@@ -73,7 +73,10 @@
     "productionIconAssetPassComplete": false,
     "renderedEvidenceIntakeReady": true,
     "renderedEvidenceGate": "docs/CURRENT_BROOKHAVEN_RENDERED_EVIDENCE_GATE.json",
-    "renderedComparisonCompleted": false
+    "renderedComparisonCompleted": false,
+    "renderedComparisonToolReady": true,
+    "renderedComparisonCommand": "npm run roblox:brookhaven-current-source:evaluate-rendered-parity",
+    "renderedParityVerified": false
   },
   "release": {
     "privatePublishPathAvailable": true,
