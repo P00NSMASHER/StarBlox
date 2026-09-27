@@ -1,13 +1,21 @@
 --!strict
 
 -- School system milestones 1-12 plus Brookhaven runtime-projection integration.
--- This module is intentionally inert until SchoolSystemEnabled is explicitly enabled.
+-- The school day is now the primary StarBlox loop layered over Brookhaven free roam.
 local SchoolConfig = table.freeze({
-	SchemaVersion = 3,
-	IntegrationRevision = "brookhaven-runtime-projection-v1",
+	SchemaVersion = 4,
+	IntegrationRevision = "brookhaven-school-day-rescue-v1",
 
 	FeatureFlags = table.freeze({
-		SchoolSystemEnabled = false,
+		SchoolSystemEnabled = true,
+		SchoolRequiredDuringAcademicPeriods = true,
+		SchoolTravelEnabled = true,
+	}),
+
+	PlayerGuidance = table.freeze({
+		PersistentSchoolCallout = true,
+		ShowDistanceToClass = true,
+		TravelButtonMinimumSize = 48,
 	}),
 
 	CycleSeconds = 30 * 60,

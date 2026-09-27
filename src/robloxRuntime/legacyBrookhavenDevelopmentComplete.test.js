@@ -11,13 +11,14 @@ function text(path){
 describe('legacy Brookhaven completed development track',()=>{
   it('closes every P0/P1/P2 development priority without claiming current-live certification',()=>{
     const completion=json('docs/roblox-world/LEGACY_BROOKHAVEN_DEVELOPMENT_COMPLETION.json');
-    expect(completion.status).toBe('legacy-brookhaven-development-track-complete');
+    expect(completion.status).toBe('legacy-brookhaven-development-and-private-release-complete');
     expect(completion.summary).toEqual({
       closed:15,
       remaining:0,
       p0Remaining:0,
       p1Remaining:0,
-      p2Remaining:0
+      p2Remaining:0,
+      remainingAutomated:0
     });
     expect(new Set(completion.closedPriorities.map(row=>row.area)).size).toBe(15);
     expect(completion.boundaries).toEqual({
@@ -26,7 +27,9 @@ describe('legacy Brookhaven completed development track',()=>{
       currentLiveCertificationSatisfied:false,
       exactCurrentParityClaimAllowed:false,
       publicAccessChangeAllowed:false,
-      productionActivationAllowed:false
+      productionActivationAllowed:false,
+      legacyPrivateReleaseVerified:true,
+      finalRealDeviceVisualQaPassed:false
     });
   });
 

@@ -59,6 +59,10 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 	requestState.Name = "RequestSchoolState"
 	requestState.Parent = root
 
+	local requestTravel = Instance.new("RemoteFunction")
+	requestTravel.Name = "RequestSchoolTravel"
+	requestTravel.Parent = root
+
 	local submit = Instance.new("RemoteFunction")
 	submit.Name = "SubmitClassAnswer"
 	submit.Parent = root
@@ -66,6 +70,7 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 	self._stateEvent = stateEvent
 	self._classOpened = classOpened
 	self._requestState = requestState
+	self._requestTravel = requestTravel
 	self._submit = submit
 
 	for classId, prompt in self._prompts do
@@ -139,6 +144,10 @@ function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 
 	requestState.OnServerInvoke = function(player)
 		return self:_stateFor(player)
+	end
+
+	requestTravel.OnServerInvoke = function(player)
+		return self:_travelToSchool(player)
 	end
 
 	submit.OnServerInvoke = function(player, request)
@@ -292,6 +301,80 @@ function SchoolRuntimeService:_targetForClock(clock)
 	return nil, nil, nil
 end
 
+function SchoolRuntimeService:_anchorForClock(clock): BasePart?
+	if clock.ClassId ~= nil then
+		return self._anchors[clock.ClassId]
+	end
+	if clock.PeriodKind == "arrival" or clock.PeriodKind == "passing" then
+		if clock.UpcomingClassId ~= nil then
+			return self._anchors[clock.UpcomingClassId]
+		end
+	elseif clock.PeriodKind == "lunch" then
+		return self._specialAnchors and self._specialAnchors.Cafeteria or nil
+	elseif clock.PeriodKind == "after-school" then
+		return self._specialAnchors and self._specialAnchors.Library or nil
+	end
+	return self._specialAnchors and self._specialAnchors.Entrance or nil
+end
+
+function SchoolRuntimeService:_teleportPlayer(player: Player, anchor: BasePart): boolean
+	local character = player.Character
+	if character == nil then
+		return false
+	end
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	if humanoid == nil or rootPart == nil or not rootPart:IsA("BasePart") or humanoid.Health <= 0 then
+		return false
+	end
+	character:PivotTo(anchor.CFrame * CFrame.new(0, 4, 6))
+	rootPart.AssemblyLinearVelocity = Vector3.zero
+	rootPart.AssemblyAngularVelocity = Vector3.zero
+	return true
+end
+
+function SchoolRuntimeService:_travelToSchool(player: Player)
+	if Config.FeatureFlags.SchoolTravelEnabled ~= true then
+		return {ok = false, code = "school_travel_disabled"}
+	end
+
+	local clock = Clock.Now()
+	local anchor = self:_anchorForClock(clock)
+	if anchor == nil then
+		return {ok = false, code = "school_destination_unavailable"}
+	end
+	if not self:_teleportPlayer(player, anchor) then
+		return {ok = false, code = "character_unavailable"}
+	end
+
+	local opened = nil
+	if clock.AcademicPeriod and clock.ClassId ~= nil then
+		self._profiles:WithProfile(player, function(data)
+			self:_reconcilePastPeriods(data, clock)
+			opened = Sessions.OpenClass(data, clock.SchoolDayId, clock.PeriodId, clock.ClassId)
+			if opened and opened.ok then
+				Attendance.Mark(
+					data,
+					clock.SchoolDayId,
+					clock.PeriodId,
+					clock.SecondsSincePeriodStart
+				)
+				self._replicas:Sync(player, data)
+			end
+		end)
+		if opened and opened.ok then
+			self._classOpened:FireClient(player, opened.session)
+		end
+	end
+
+	return {
+		ok = true,
+		periodId = clock.PeriodId,
+		classOpened = opened ~= nil and opened.ok == true,
+		state = self:_stateFor(player),
+	}
+end
+
 function SchoolRuntimeService:_stateFor(player)
 	local clock = Clock.Now()
 	local targetAnchorName, targetDisplayName, targetRoom = self:_targetForClock(clock)
@@ -303,6 +386,10 @@ function SchoolRuntimeService:_stateFor(player)
 		targetRoom = targetRoom,
 		dismissed = clock.PeriodKind == "after-school",
 		makeupAvailable = false,
+		schoolRequired = Config.FeatureFlags.SchoolRequiredDuringAcademicPeriods == true
+			and clock.PeriodKind ~= "after-school"
+			and clock.PeriodKind ~= "report",
+		travelEnabled = Config.FeatureFlags.SchoolTravelEnabled == true,
 	}
 
 	self._profiles:WithProfile(player, function(data)

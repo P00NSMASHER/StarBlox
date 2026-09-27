@@ -101,6 +101,10 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(sidebar).toContain('plotGo.Name = "PlotGo"');
     expect(sidebar).toContain('plotStatus.Text = "Vacant"');
     expect(sidebar).toContain('selectPlot:InvokeServer(selected.Id)');
+    expect(sidebar).toContain('plotGo.Text = "GO HOME"');
+    expect(sidebar).toContain('plotCatalog.Name = "HouseCatalog"');
+    expect(sidebar).toContain('visitHome:InvokeServer()');
+    expect(sidebar).toContain('plotCatalog.Activated:Connect');
     expect(service).toContain('getPlots.Name = "GetPlots"');
     expect(service).toContain('selectPlot.Name = "SelectPlot"');
     expect(service).toContain('code = "plot_occupied"');

@@ -19,10 +19,10 @@ local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
 local UI = {
-	white = Color3.fromRGB(245,245,245),
-	tile = Color3.fromRGB(222,222,222),
-	border = Color3.fromRGB(115,115,115),
-	text = Color3.fromRGB(42,42,42),
+	white = Color3.fromRGB(248,251,255),
+	tile = Color3.fromRGB(235,243,251),
+	border = Color3.fromRGB(107,137,164),
+	text = Color3.fromRGB(28,45,62),
 	muted = Color3.fromRGB(90,90,90),
 	red = Color3.fromRGB(210,49,49),
 	green = Color3.fromRGB(68,173,92),
@@ -75,27 +75,36 @@ homeButton.Parent = gui
 
 local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
-panel.AnchorPoint = Vector2.new(1,0)
-panel.Position = UDim2.new(1,-83,0,105)
-panel.Size = UDim2.fromOffset(326,309)
+panel.AnchorPoint = Vector2.new(0.5,0.5)
+panel.Position = UDim2.fromScale(0.5,0.52)
+panel.Size = UDim2.fromOffset(720,390)
 panel.BackgroundColor3 = UI.white
-panel.BackgroundTransparency = 1
+panel.BackgroundTransparency = 0.03
 panel.Visible = false
 panel.ZIndex = 60
 panel.Parent = gui
-round(panel,5)
+round(panel,16)
+stroke(panel, Color3.fromRGB(95,168,220))
+
+local panelGradient = Instance.new("UIGradient")
+panelGradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(220,239,252)),
+})
+panelGradient.Rotation = 90
+panelGradient.Parent = panel
 
 local constraint = Instance.new("UISizeConstraint")
-constraint.MinSize = Vector2.new(300,286)
-constraint.MaxSize = Vector2.new(340,322)
+constraint.MinSize = Vector2.new(620,350)
+constraint.MaxSize = Vector2.new(740,410)
 constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
 title.BackgroundColor3 = UI.white
 title.BackgroundTransparency = 0.14
-title.Position = UDim2.fromOffset(0,2)
-title.Size = UDim2.fromOffset(198,42)
-title.Text = "Houses"
+title.Position = UDim2.fromOffset(18,10)
+title.Size = UDim2.fromOffset(260,34)
+title.Text = "MY HOME"
 title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamBold
 title.TextScaled = true
@@ -106,14 +115,14 @@ constrain(title,14,18)
 
 local balance = Instance.new("TextLabel")
 balance.BackgroundTransparency = 1
-balance.Position = UDim2.fromOffset(0,47)
-balance.Size = UDim2.fromOffset(198,20)
+balance.Position = UDim2.fromOffset(18,43)
+balance.Size = UDim2.fromOffset(260,22)
 balance.Text = "0 coins"
 balance.TextColor3 = UI.muted
 balance.Font = Enum.Font.GothamMedium
 balance.TextScaled = true
 balance.TextXAlignment = Enum.TextXAlignment.Left
-balance.Visible = false
+balance.Visible = true
 balance.ZIndex = 61
 balance.Parent = panel
 constrain(balance,10,13)
@@ -121,42 +130,42 @@ constrain(balance,10,13)
 local visit = Instance.new("TextButton")
 visit.Name = "VisitHome"
 visit.AnchorPoint = Vector2.new(1,0)
-visit.Position = UDim2.new(1,-116,0,6)
-visit.Size = UDim2.fromOffset(50, 50)
-visit.BackgroundColor3 = UI.white
-visit.Text = "⌂"
-visit.TextColor3 = UI.text
+visit.Position = UDim2.new(1,-242,0,10)
+visit.Size = UDim2.fromOffset(110,48)
+visit.BackgroundColor3 = UI.green
+visit.Text = "GO HOME"
+visit.TextColor3 = Color3.new(1,1,1)
 visit.Font = Enum.Font.GothamBold
 visit.TextScaled = true
 visit.ZIndex = 63
 visit.Parent = panel
-visit.Visible = false
-round(visit,4)
+visit.Visible = true
+round(visit,10)
 stroke(visit)
-constrain(visit,20,28)
+constrain(visit,12,16)
 
 local world = Instance.new("TextButton")
 world.Name = "ReturnWorld"
 world.AnchorPoint = Vector2.new(1,0)
-world.Position = UDim2.new(1,-62,0,6)
-world.Size = UDim2.fromOffset(50, 50)
-world.BackgroundColor3 = UI.white
-world.Text = "↺"
-world.TextColor3 = UI.text
+world.Position = UDim2.new(1,-126,0,10)
+world.Size = UDim2.fromOffset(104,48)
+world.BackgroundColor3 = UI.blue
+world.Text = "TOWN"
+world.TextColor3 = Color3.new(1,1,1)
 world.Font = Enum.Font.GothamBold
 world.TextScaled = true
 world.ZIndex = 63
 world.Parent = panel
-world.Visible = false
-round(world,4)
+world.Visible = true
+round(world,10)
 stroke(world)
-constrain(world,20,28)
+constrain(world,12,16)
 
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1,0)
-closeButton.Position = UDim2.new(1,0,0,0)
-closeButton.Size = UDim2.fromOffset(52,48)
+closeButton.Position = UDim2.new(1,-10,0,10)
+closeButton.Size = UDim2.fromOffset(48,48)
 closeButton.BackgroundColor3 = UI.red
 closeButton.Text = "X"
 closeButton.TextColor3 = Color3.new(1,1,1)
@@ -164,14 +173,14 @@ closeButton.Font = Enum.Font.GothamBold
 closeButton.TextScaled = true
 closeButton.ZIndex = 63
 closeButton.Parent = panel
-round(closeButton,4)
+round(closeButton,10)
 stroke(closeButton,Color3.fromRGB(135,30,30))
 constrain(closeButton,20,28)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Catalog"
-scroller.Position = UDim2.fromOffset(0,54)
-scroller.Size = UDim2.new(1,0,1,-58)
+scroller.Position = UDim2.fromOffset(18,76)
+scroller.Size = UDim2.new(1,-36,1,-92)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -182,8 +191,8 @@ scroller.ZIndex = 61
 scroller.Parent = panel
 
 local grid = Instance.new("UIGridLayout")
-grid.CellPadding = UDim2.fromOffset(5,5)
-grid.CellSize = UDim2.fromOffset(76,64)
+grid.CellPadding = UDim2.fromOffset(8,8)
+grid.CellSize = UDim2.fromOffset(128,126)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.Parent = scroller
 
@@ -215,6 +224,87 @@ local function symbolFor(kind: string): string
 	return "□"
 end
 
+local function previewPart(parent: Instance, size: Vector3, at: CFrame, color: Color3): Part
+	local object = Instance.new("Part")
+	object.Size = size
+	object.CFrame = at
+	object.Color = color
+	object.Material = Enum.Material.SmoothPlastic
+	object.Anchored = true
+	object.CanCollide = false
+	object.CanQuery = false
+	object.CanTouch = false
+	object.Parent = parent
+	return object
+end
+
+local function renderCatalogPreview(frame: GuiObject, previewKind: string)
+	local viewport = Instance.new("ViewportFrame")
+	viewport.Name = "CatalogPreview"
+	viewport.Position = UDim2.fromOffset(8, 5)
+	viewport.Size = UDim2.new(1, -16, 0, 60)
+	viewport.BackgroundTransparency = 1
+	viewport.Ambient = Color3.fromRGB(210, 220, 230)
+	viewport.LightColor = Color3.fromRGB(255, 255, 255)
+	viewport.LightDirection = Vector3.new(-1, -1, -1)
+	viewport.ZIndex = 63
+	viewport.Parent = frame
+
+	local previewWorld = Instance.new("WorldModel")
+	previewWorld.Parent = viewport
+	local accent = Color3.fromRGB(71, 166, 222)
+	local wall = Color3.fromRGB(242, 244, 247)
+	local dark = Color3.fromRGB(47, 58, 72)
+	local target = Vector3.new(0, 1, 0)
+	local distance = 8
+
+	if string.sub(previewKind, 1, 5) == "home:" then
+		local style = string.sub(previewKind, 6)
+		if style == "modern" or style == "villa" then
+			accent = Color3.fromRGB(80, 190, 220)
+		elseif style == "mansion" then
+			accent = Color3.fromRGB(222, 188, 83)
+		elseif style == "lakehouse" then
+			accent = Color3.fromRGB(95, 160, 205)
+		elseif style == "townhouse" then
+			accent = Color3.fromRGB(190, 104, 87)
+		end
+		previewPart(previewWorld, Vector3.new(5.2, 2.5, 3.8), CFrame.new(0, 1.25, 0), wall)
+		previewPart(previewWorld, Vector3.new(5.7, 0.48, 4.3), CFrame.new(0, 2.72, 0), accent)
+		previewPart(previewWorld, Vector3.new(1.05, 1.8, 0.18), CFrame.new(0, 0.9, -2), dark)
+		for _, x in {-1.65, 1.65} do
+			previewPart(previewWorld, Vector3.new(1.15, 1.05, 0.14), CFrame.new(x, 1.45, -2.03), Color3.fromRGB(151, 215, 242))
+		end
+		target = Vector3.new(0, 1.2, 0)
+		distance = 9.5
+	else
+		local kind = string.sub(previewKind, 6)
+		if kind == "bed" then
+			previewPart(previewWorld, Vector3.new(4.5, 0.45, 2.8), CFrame.new(0, 0.25, 0), accent)
+			previewPart(previewWorld, Vector3.new(4.5, 0.8, 0.3), CFrame.new(0, 0.65, 1.25), dark)
+		elseif kind == "chair" then
+			previewPart(previewWorld, Vector3.new(2.2, 0.35, 2.2), CFrame.new(0, 1, 0), accent)
+			previewPart(previewWorld, Vector3.new(2.2, 2.2, 0.3), CFrame.new(0, 2, 0.95), dark)
+		elseif kind == "desk" then
+			previewPart(previewWorld, Vector3.new(4.2, 0.35, 2.2), CFrame.new(0, 2, 0), accent)
+			for _, x in {-1.65, 1.65} do previewPart(previewWorld, Vector3.new(0.3, 2, 0.3), CFrame.new(x, 1, 0), dark) end
+		elseif kind == "lamp" then
+			previewPart(previewWorld, Vector3.new(0.35, 3, 0.35), CFrame.new(0, 1.5, 0), dark)
+			previewPart(previewWorld, Vector3.new(1.8, 1.1, 1.8), CFrame.new(0, 3.2, 0), Color3.fromRGB(255, 214, 92))
+		else
+			previewPart(previewWorld, Vector3.new(3.4, 2.2, 0.55), CFrame.new(0, 1.1, 0), accent)
+		end
+		target = Vector3.new(0, 1.2, 0)
+		distance = 7
+	end
+
+	local camera = Instance.new("Camera")
+	camera.FieldOfView = 34
+	camera.CFrame = CFrame.lookAt(target + Vector3.new(distance * 0.72, distance * 0.5, distance), target)
+	camera.Parent = viewport
+	viewport.CurrentCamera = camera
+end
+
 local function tile(
 	symbol: string,
 	name: string,
@@ -222,34 +312,47 @@ local function tile(
 	badgeText: string,
 	badgeColor: Color3,
 	order: number,
-	callback: (() -> ())?
+	callback: (() -> ())?,
+	previewKind: string?
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(76,64)
+	frame.Size = UDim2.fromOffset(128,126)
 	frame.BackgroundColor3 = UI.tile
-	frame.BackgroundTransparency = 0.12
+	frame.BackgroundTransparency = 0.02
 	frame.ZIndex = 62
 	frame.Parent = scroller
-	round(frame,4)
+	round(frame,12)
 	stroke(frame)
 
-	local icon = Instance.new("TextLabel")
-	icon.BackgroundTransparency = 1
-	icon.Position = UDim2.fromOffset(3,2)
-	icon.Size = UDim2.new(1,-6,0,30)
-	icon.Text = symbol
-	icon.TextColor3 = UI.text
-	icon.Font = Enum.Font.GothamBold
-	icon.TextScaled = true
-	icon.ZIndex = 63
-	icon.Parent = frame
-	constrain(icon,15,24)
+	local tileGradient = Instance.new("UIGradient")
+	tileGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(224,239,250)),
+	})
+	tileGradient.Rotation = 90
+	tileGradient.Parent = frame
+
+	if previewKind ~= nil then
+		renderCatalogPreview(frame, previewKind)
+	else
+		local icon = Instance.new("TextLabel")
+		icon.BackgroundTransparency = 1
+		icon.Position = UDim2.fromOffset(8,6)
+		icon.Size = UDim2.new(1,-16,0,58)
+		icon.Text = symbol
+		icon.TextColor3 = UI.text
+		icon.Font = Enum.Font.GothamBold
+		icon.TextScaled = true
+		icon.ZIndex = 63
+		icon.Parent = frame
+		constrain(icon,26,42)
+	end
 
 	local label = Instance.new("TextLabel")
 	label.BackgroundTransparency = 1
-	label.Position = UDim2.fromOffset(4,30)
-	label.Size = UDim2.new(1,-8,0,18)
+	label.Position = UDim2.fromOffset(8,66)
+	label.Size = UDim2.new(1,-16,0,32)
 	label.Text = name
 	label.TextColor3 = UI.text
 	label.Font = Enum.Font.GothamBold
@@ -257,25 +360,25 @@ local function tile(
 	label.TextWrapped = true
 	label.ZIndex = 63
 	label.Parent = frame
-	constrain(label,8,11)
+	constrain(label,10,14)
 
 	local d = Instance.new("TextLabel")
 	d.BackgroundTransparency = 1
-	d.Position = UDim2.fromOffset(3,48)
-	d.Size = UDim2.new(1,-6,0,13)
+	d.Position = UDim2.fromOffset(8,100)
+	d.Size = UDim2.new(1,-16,0,18)
 	d.Text = detail
 	d.TextColor3 = UI.muted
 	d.Font = Enum.Font.GothamMedium
 	d.TextScaled = true
 	d.ZIndex = 63
 	d.Parent = frame
-	constrain(d,7,9)
+	constrain(d,9,12)
 
 	if badgeText ~= "" then
 		local badge = Instance.new("TextLabel")
 		badge.AnchorPoint = Vector2.new(1,0)
 		badge.Position = UDim2.new(1,-2,0,2)
-		badge.Size = UDim2.fromOffset(25,14)
+		badge.Size = UDim2.fromOffset(38,22)
 		badge.BackgroundColor3 = badgeColor
 		badge.Text = badgeText
 		badge.TextColor3 = Color3.new(1,1,1)
@@ -283,8 +386,8 @@ local function tile(
 		badge.TextScaled = true
 		badge.ZIndex = 65
 		badge.Parent = frame
-		round(badge,3)
-		constrain(badge,6,9)
+		round(badge,7)
+		constrain(badge,8,11)
 	end
 
 	if callback then
@@ -527,7 +630,7 @@ render=function()
 	accessMode=false
 	clear()
 	title.Text="Houses"
-	balance.Visible=false
+	balance.Visible=true
 	balance.TextColor3=UI.muted
 	local order=1
 
@@ -584,7 +687,8 @@ render=function()
 			badge,
 			color,
 			order,
-			unlocked and function() purchaseTier(tier) end or nil
+			unlocked and function() purchaseTier(tier) end or nil,
+			"home:tier" .. tostring(tier)
 		)
 		order+=1
 	end
@@ -627,7 +731,8 @@ render=function()
 			badge,
 			color,
 			order,
-			callback
+			callback,
+			"home:" .. tostring(style.Kind)
 		)
 		order+=1
 	end
@@ -649,7 +754,8 @@ render=function()
 				end
 				or function()
 					purchaseItemById(id)
-				end
+				end,
+			"item:" .. tostring(item.Kind)
 		)
 		order+=1
 	end

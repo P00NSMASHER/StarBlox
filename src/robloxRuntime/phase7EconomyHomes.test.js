@@ -91,9 +91,12 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(client).toContain('homeButton.Size = UDim2.fromOffset(84, 44)');
     expect(client).toContain('shopButton.Visible = false');
     expect(client).toContain('homeButton.Visible = false');
-    expect(client).toContain('closeButton.Size = UDim2.fromOffset(52,48)');
-    expect(client).toContain('panel.Size = UDim2.fromOffset(326,309)');
-    expect(client).toContain('grid.CellSize = UDim2.fromOffset(76,64)');
+    expect(client).toContain('closeButton.Size = UDim2.fromOffset(48,48)');
+    expect(client).toContain('panel.Size = UDim2.fromOffset(720,390)');
+    expect(client).toContain('grid.CellSize = UDim2.fromOffset(128,126)');
+    expect(client).toContain('visit.Text = "GO HOME"');
+    expect(client).toContain('visit.Visible = true');
+    expect(client).toContain('viewport.Name = "CatalogPreview"');
     expect(client).toContain('PurchaseItem');
     expect(client).toContain('PurchaseHomeTier');
     expect(client).toContain('VisitHome');

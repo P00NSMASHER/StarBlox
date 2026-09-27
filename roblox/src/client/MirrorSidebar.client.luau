@@ -105,8 +105,9 @@ local function updateScale()
 		return
 	end
 	local viewport = camera.ViewportSize
-	local referenceHeight = 512
-	shellScale.Scale = math.clamp(viewport.Y / referenceHeight, 0.72, 1.08)
+	local widthScale = viewport.X / 960
+	local heightScale = viewport.Y / 512
+	shellScale.Scale = math.clamp(math.min(widthScale, heightScale), 0.72, 1)
 end
 
 updateScale()
@@ -618,7 +619,7 @@ local function plotArrow(name: string, text: string, x: number): TextButton
 	button.BackgroundColor3 = UI.white
 	button.BackgroundTransparency = 0.18
 	button.Text = text
-	button.TextColor3 = UI.white
+	button.TextColor3 = UI.text
 	button.Font = Enum.Font.GothamBold
 	button.TextScaled = true
 	button.ZIndex = 70
@@ -635,16 +636,37 @@ local nextPlot = plotArrow("NextPlot", "→", 178)
 local plotGo = Instance.new("TextButton")
 plotGo.Name = "PlotGo"
 plotGo.AnchorPoint = Vector2.new(0.5, 0)
-plotGo.Position = UDim2.new(0.5, -92, 0, 101)
-plotGo.Size = UDim2.fromOffset(90, 40)
-plotGo.BackgroundTransparency = 1
-plotGo.Text = "GO"
-plotGo.TextColor3 = Color3.fromRGB(50, 214, 58)
+plotGo.Position = UDim2.new(0.5, -82, 0, 154)
+plotGo.Size = UDim2.fromOffset(154, 42)
+plotGo.BackgroundColor3 = UI.green
+plotGo.BackgroundTransparency = 0.04
+plotGo.Text = "CLAIM PLOT"
+plotGo.TextColor3 = Color3.new(1, 1, 1)
 plotGo.Font = Enum.Font.GothamBold
 plotGo.TextScaled = true
 plotGo.ZIndex = 70
 plotGo.Parent = plotSelector
 constrain(plotGo, 25, 32)
+round(plotGo, 10)
+stroke(plotGo, Color3.fromRGB(37, 126, 56), 1, 0.25)
+
+local plotCatalog = Instance.new("TextButton")
+plotCatalog.Name = "HouseCatalog"
+plotCatalog.AnchorPoint = Vector2.new(0.5, 0)
+plotCatalog.Position = UDim2.new(0.5, 82, 0, 154)
+plotCatalog.Size = UDim2.fromOffset(154, 42)
+plotCatalog.BackgroundColor3 = Color3.fromRGB(74, 153, 224)
+plotCatalog.BackgroundTransparency = 0.04
+plotCatalog.Text = "BUY / CHANGE"
+plotCatalog.TextColor3 = Color3.new(1, 1, 1)
+plotCatalog.Font = Enum.Font.GothamBold
+plotCatalog.TextScaled = true
+plotCatalog.Visible = false
+plotCatalog.ZIndex = 70
+plotCatalog.Parent = plotSelector
+round(plotCatalog, 10)
+stroke(plotCatalog, Color3.fromRGB(41, 99, 153), 1, 0.25)
+constrain(plotCatalog, 12, 16)
 
 local mirrorState = nil
 local roleplayState = nil
@@ -1198,6 +1220,7 @@ local function renderPlotSelector()
 		plotStatus.Text = "Unavailable"
 		plotGo.Text = ""
 		plotGo.Active = false
+		plotCatalog.Visible = false
 		return
 	end
 
@@ -1207,14 +1230,17 @@ local function renderPlotSelector()
 	if selected.Mine == true then
 		plotStatus.Text = "Your plot"
 		plotStatus.TextColor3 = UI.green
-		plotGo.Text = "GO"
+		plotGo.Text = "GO HOME"
 		plotGo.Active = true
+		plotCatalog.Visible = true
 	elseif selected.Occupied == true then
 		plotStatus.Text = "Occupied"
 		plotStatus.TextColor3 = UI.red
 		plotGo.Text = "FULL"
 		plotGo.Active = false
+		plotCatalog.Visible = false
 	else
+		plotCatalog.Visible = false
 		local cooldown = math.max(0, math.floor(tonumber(plotState.houseSwapCooldownRemaining) or 0))
 		if cooldown > 0 then
 			local minutes = math.floor(cooldown / 60)
@@ -1226,7 +1252,7 @@ local function renderPlotSelector()
 		else
 			plotStatus.Text = "Vacant"
 			plotStatus.TextColor3 = UI.text
-			plotGo.Text = "GO"
+			plotGo.Text = "CLAIM PLOT"
 			plotGo.Active = true
 		end
 	end
@@ -1631,10 +1657,10 @@ plotGo.Activated:Connect(function()
 	end
 
 	if selected.Mine == true then
+		pcall(function()
+			visitHome:InvokeServer()
+		end)
 		closePanel()
-		if openStore and openStore:IsA("BindableEvent") then
-			openStore:Fire()
-		end
 		return
 	end
 
@@ -1652,6 +1678,13 @@ plotGo.Activated:Connect(function()
 	end
 end)
 
+plotCatalog.Activated:Connect(function()
+	closePanel()
+	if openStore and openStore:IsA("BindableEvent") then
+		openStore:Fire()
+	end
+end)
+
 quickChatBolt.Activated:Connect(showQuickChat)
 quickChatButton.Activated:Connect(showQuickChat)
 familyButton.Activated:Connect(showFamily)
@@ -1665,6 +1698,12 @@ shopShortcut.Activated:Connect(function()
 end)
 
 close.Activated:Connect(closePanel)
+
+task.delay(4, function()
+	if gui.Parent ~= nil and panel.Visible ~= true and plotSelector.Visible ~= true then
+		dismissActionHints()
+	end
+end)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
 	if panel.Visible then
