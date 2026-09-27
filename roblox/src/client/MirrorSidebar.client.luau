@@ -193,7 +193,7 @@ stroke(clockBox, UI.border, 1, 0.5)
 local clockTime = Instance.new("TextLabel")
 clockTime.Name = "Time"
 clockTime.Position = UDim2.fromOffset(4, 3)
-clockTime.Size = UDim2.new(1, -8, 0, 22)
+clockTime.Size = UDim2.new(1, -8, 0, 19)
 clockTime.BackgroundTransparency = 1
 clockTime.Text = "--:-- --"
 clockTime.TextColor3 = UI.text
@@ -205,8 +205,8 @@ constrain(clockTime, 10, 14)
 
 local clockDay = Instance.new("TextLabel")
 clockDay.Name = "Day"
-clockDay.Position = UDim2.fromOffset(4, 24)
-clockDay.Size = UDim2.new(1, -8, 0, 16)
+clockDay.Position = UDim2.fromOffset(4, 20)
+clockDay.Size = UDim2.new(1, -8, 0, 14)
 clockDay.BackgroundTransparency = 1
 clockDay.Text = "Monday"
 clockDay.TextColor3 = UI.text
