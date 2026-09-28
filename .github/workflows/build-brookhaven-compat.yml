@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/brookhaven-v40-controls-houses
+      - fix/client-runtime-and-vehicles-v50
     paths:
       - "compatibility/**"
       - "tools/brookhaven_compat_patcher/**"
@@ -33,6 +34,11 @@ jobs:
           grep -q '"status": "brookhaven-compat-patched"' brookhaven-compat-receipt.json
           grep -q '"worldGeometryRebuilt": false' brookhaven-compat-receipt.json
           grep -q '"existingGuiRestyled": false' brookhaven-compat-receipt.json
+          grep -q '"client": "StarterGui/BrookhavenCompat"' brookhaven-compat-receipt.json
+          grep -q 'STARBLOX_AVATAR_SHOP_CLIENT_READY' compatibility/client/BrookhavenCompat.client.luau
+          grep -q 'STARBLOX_VEHICLE_CLIENT_READY' compatibility/client/BrookhavenCompat.client.luau
+          grep -q 'STARBLOX_VEHICLE_COMPAT_READY' compatibility/server/BrookhavenHouseCompat.server.luau
+          grep -q 'StarBloxVehicleCompat' compatibility/server/BrookhavenHouseCompat.server.luau
       - name: Upload patch proof
         uses: actions/upload-artifact@v4
         with:
