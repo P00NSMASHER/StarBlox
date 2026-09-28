@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Verify published v41 compatibility repair
+      - name: Verify published v43 functional compatibility
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -32,33 +32,41 @@ jobs:
           if(!key) throw new Error("missing API key");
           if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
 
-          const script = [
-            'assert(game.PlaceVersion == 41, "expected version 41")',
+          const script=[
+            'assert(game.PlaceVersion == 43, "expected version 43")',
             'local Workspace=game:GetService("Workspace")',
             'local StarterPlayer=game:GetService("StarterPlayer")',
             'local StarterGui=game:GetService("StarterGui")',
             'local ServerScriptService=game:GetService("ServerScriptService")',
             'local descendants=#Workspace:GetDescendants()',
-            'assert(descendants > 20000, "Brookhaven world scale regressed")',
+            'assert(descendants == 24348, "Brookhaven workspace descendant count changed: "..tostring(descendants))',
+            'local geometry=0',
+            'for _,x in ipairs(Workspace:GetDescendants()) do',
+            '  if x:IsA("Part") or x:IsA("MeshPart") or x:IsA("WedgePart") or x:IsA("CornerWedgePart") or x:IsA("UnionOperation") or x:IsA("TrussPart") or x:IsA("Seat") or x:IsA("VehicleSeat") then geometry += 1 end',
+            'end',
+            'assert(geometry == 14459, "Brookhaven geometry changed: "..tostring(geometry))',
             'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
             'assert(client and client:IsA("LocalScript"), "BrookhavenCompat LocalScript missing")',
-            'assert(string.find(client.Source, "BROOKHAVEN_COMPAT_CLIENT_READY", 1, true), "client compatibility source mismatch")',
+            'assert(string.find(client.Source, "task.delay(0.08", 1, true), "native-first right-rail fallback missing")',
+            'assert(string.find(client.Source, "STARBLOX_BROOKHAVEN_COMPAT_CLIENT_READY", 1, true), "client compatibility marker missing")',
             'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
-            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat server Script missing")',
-            'assert(string.find(server.Source, "BROOKHAVEN_COMPAT_HOUSE_READY", 1, true), "house compatibility source mismatch")',
+            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat Script missing")',
+            'assert(string.find(server.Source, "gettingHouse.OnServerEvent:Connect", 1, true), "native GettingHouse backend missing")',
+            'assert(string.find(server.Source, "PickingCustomHouse", 1, true), "house style handler missing")',
+            'assert(string.find(server.Source, "templates", 1, true), "authentic house template pool missing")',
+            'assert(string.find(server.Source, "STARBLOX_BROOKHAVEN_COMPAT_SERVER_READY", 1, true), "server compatibility marker missing")',
             'local handler=StarterGui:FindFirstChild("PlayerHandler")',
             'assert(handler and handler:IsA("LocalScript"), "original PlayerHandler missing")',
-            'assert(string.find(handler.Source, "pcall(function() l__PlayerGui__4:SetTopbarTransparency", 1, true), "PlayerHandler topbar guard missing")',
+            'assert(string.find(handler.Source, "pcall(function() l__PlayerGui__4:SetTopbarTransparency", 1, true), "PlayerHandler startup guard missing")',
             'local lots=Workspace:FindFirstChild("001_Lots")',
             'assert(lots, "Brookhaven lots missing")',
-            'local claimable=0',
+            'local buyLots=0',
             'for _,lot in ipairs(lots:GetChildren()) do',
             '  local buy=lot:FindFirstChild("BuyHouse", true)',
-            '  local house=lot:FindFirstChild("HousePickedByPlayer")',
-            '  if buy and buy:IsA("BasePart") and house then claimable += 1 end',
+            '  if buy and buy:IsA("BasePart") then buyLots += 1 end',
             'end',
-            'assert(claimable >= 5, "expected Brookhaven claimable house lots")',
-            'print("BROOKHAVEN_COMPAT_V41_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." claimable="..tostring(claimable))'
+            'assert(buyLots >= 19, "expected all original house lots; got "..tostring(buyLots))',
+            'print("BROOKHAVEN_COMPAT_V43_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." buyLots="..tostring(buyLots))'
           ].join("\n");
 
           async function parse(r,label){
@@ -70,16 +78,17 @@ jobs:
           }
 
           let response;
-          for(let attempt=0;attempt<6;attempt++){
+          for(let attempt=0;attempt<8;attempt++){
             response=await fetch(
               `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
               {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
             );
             if(response.status!==429) break;
-            await new Promise(r=>setTimeout(r,2000*(attempt+1)));
+            await new Promise(r=>setTimeout(r,2500*(attempt+1)));
           }
           let task=await parse(response,"create");
           const raw=String(task.path||"");
+          if(!raw) throw new Error("missing task path");
           const url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
           const deadline=Date.now()+90000;
           while(String(task.state||"")==="PROCESSING"){
@@ -89,7 +98,7 @@ jobs:
           }
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
           const text=JSON.stringify(logs);
-          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1500));
-          if(!text.includes("BROOKHAVEN_COMPAT_V41_OK")) throw new Error("v41 compatibility sentinel missing");
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,2000));
+          if(!text.includes("BROOKHAVEN_COMPAT_V43_OK")) throw new Error("v43 compatibility sentinel missing");
           console.log(text);
           NODE
