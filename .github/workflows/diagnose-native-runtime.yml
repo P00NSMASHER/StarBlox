@@ -37,7 +37,7 @@ jobs:
             'local hidden=SS:FindFirstChild("StarBloxBrookhavenCompatibility")',
             'local probe=SS:FindFirstChild("StarBloxNativeRuntimeTest")',
             'local avatar=SG:FindFirstChild("AvatarEditor")',
-            'local compileOk,compileErr=pcall(function() SSS.LoadStringEnabled=true; local fn,err=loadstring(server and server.Source or ""); if not fn then error(err or "loadstring failed") end end)',
+            'local compileOk,compileErr=pcall(function() local fn,err=loadstring(server and server.Source or ""); if not fn then error(err or "loadstring failed") end end)',
             'print("NATIVE_COMPILE ok="..tostring(compileOk).." err="..tostring(compileErr))',
             'print("NATIVE_DIAG version="..tostring(game.PlaceVersion).." server="..tostring(server~=nil).." disabled="..tostring(server and server.Disabled).." source="..tostring(server and #server.Source or -1).." hidden="..tostring(hidden~=nil).." probe="..tostring(probe~=nil).." avatar="..tostring(avatar~=nil))',
             'local names={}',
