@@ -1,0 +1,52 @@
+name: Build Brookhaven v41 Controls and Houses
+
+on:
+  push:
+    branches:
+      - fix/brookhaven-controls-houses-v41
+    paths:
+      - "tools/brookhaven_patch/**"
+      - "runtime/BrookhavenCompatibility.server.luau"
+      - "scripts/fetch-brookhaven.mjs"
+      - ".github/workflows/build-brookhaven-v41.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Fetch exact v40 Brookhaven source
+        run: node scripts/fetch-brookhaven.mjs
+      - name: Build patched v41 candidate
+        run: |
+          mkdir -p artifacts
+          cargo run --quiet --manifest-path tools/brookhaven_patch/Cargo.toml -- \
+            Brookhaven.rbxl \
+            Brookhaven-v41.rbxl \
+            runtime/BrookhavenCompatibility.server.luau \
+            artifacts/BROOKHAVEN_V41_PATCH.json
+      - name: Verify candidate artifact and receipt
+        run: |
+          test -s Brookhaven-v41.rbxl
+          test -s artifacts/BROOKHAVEN_V41_PATCH.json
+          grep -q '"status": "brookhaven-v41-controls-houses-patched"' artifacts/BROOKHAVEN_V41_PATCH.json
+          grep -q '"playerHandlerPlayersBagGuard": true' artifacts/BROOKHAVEN_V41_PATCH.json
+          grep -q '"playerHandlerAvatarEditorBranch": true' artifacts/BROOKHAVEN_V41_PATCH.json
+          grep -q '"compatibilityServerScripts": 1' artifacts/BROOKHAVEN_V41_PATCH.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brookhaven-v41-controls-houses-candidate
+          path: |
+            Brookhaven-v41.rbxl
+            artifacts/BROOKHAVEN_V41_PATCH.json
+          if-no-files-found: error
+          retention-days: 7
