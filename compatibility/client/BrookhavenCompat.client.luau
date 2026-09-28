@@ -103,16 +103,6 @@ for _, button in ipairs(buttons:GetChildren()) do
 	end
 end
 
-local function actionSequence()
-	return tonumber(player:GetAttribute("StarBloxUiActionSeq")) or 0
-end
-
-local function successfulActionSince(sequence, surface)
-	return actionSequence() ~= sequence
-		and player:GetAttribute("StarBloxUiOk") == true
-		and player:GetAttribute("StarBloxUiSurface") == surface
-end
-
 local function invokeNativeUi(kind, ...)
 	local args = table.pack(...)
 	local ok, result = pcall(function()
@@ -210,11 +200,7 @@ for categoryName, panel in pairs(shopPanels) do
 	local purchase = mainOpen and mainOpen:FindFirstChild(purchaseButtonNames[categoryName])
 	if purchase and purchase:IsA("GuiButton") then
 		purchase.Activated:Connect(function()
-			local sequence = actionSequence()
 			task.delay(0.15, function()
-				if successfulActionSince(sequence, "shop") then
-					return
-				end
 				local ok = invokeNativeUi("shop_pass", shopPurchaseActions[categoryName])
 				if ok then
 					closeShopPanels()
@@ -347,7 +333,6 @@ local function bindAssetButton(button)
 	end
 	button:SetAttribute("StarBloxCompatAssetBound", true)
 	button.Activated:Connect(function()
-		local sequence = actionSequence()
 		local categoryAtClick = currentCategory
 		local subcategoryAtClick = currentSubcategory
 		local value = assetIdForButton(button)
@@ -355,9 +340,6 @@ local function bindAssetButton(button)
 			return
 		end
 		task.delay(0.15, function()
-			if successfulActionSince(sequence, "avatar") then
-				return
-			end
 			if subcategoryAtClick == "SkinTone" then
 				invokeNativeUi("avatar_skintone", value)
 			else
@@ -515,11 +497,7 @@ for _, outfit in ipairs(outfitFrame:GetChildren()) do
 			if not (shirt and pants) then
 				return
 			end
-			local sequence = actionSequence()
 			task.delay(0.15, function()
-				if successfulActionSince(sequence, "avatar") then
-					return
-				end
 				invokeNativeUi("avatar_outfit", shirt.Value, pants.Value)
 			end)
 		end)
@@ -551,11 +529,7 @@ end
 local function bindScale(button, delta)
 	if not (button and button:IsA("GuiButton")) then return end
 	button.Activated:Connect(function()
-		local sequence = actionSequence()
 		task.delay(0.15, function()
-			if successfulActionSince(sequence, "avatar") then
-				return
-			end
 			local value = math.clamp(currentScale() + delta, 0.5, 1)
 			local ok = invokeNativeUi("avatar_scale", value)
 			if ok then setScaleUi(value) end
@@ -570,11 +544,7 @@ end
 local revert = categoryTabs:FindFirstChild("RevertOriginalCharacter")
 if revert and revert:IsA("GuiButton") then
 	revert.Activated:Connect(function()
-		local sequence = actionSequence()
 		task.delay(0.15, function()
-			if successfulActionSince(sequence, "avatar") then
-				return
-			end
 			local ok = invokeNativeUi("avatar_reset")
 			if ok then setScaleUi(1) end
 		end)
