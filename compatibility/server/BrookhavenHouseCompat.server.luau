@@ -586,6 +586,7 @@ local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 local horseRemote = remotes:WaitForChild("HorseRemote")
 local babyFollowRemote = remotes:WaitForChild("BabyFollow")
+local giveAnimationToolsRemote = remotes:WaitForChild("GiveAnimationTools")
 local heliControlsRemote = remotes:WaitForChild("HeliControls")
 local fasterRemote = remotes:WaitForChild("Faster")
 local slowerRemote = remotes:WaitForChild("Slower")
@@ -952,6 +953,23 @@ playersHouse.OnServerEvent:Connect(function(player, action, value)
 	end
 	if action == "Curtains" then
 		RuntimeCore.toggleCurtains(house)
+		return
+	end
+	if action == "PoolOnOff" then
+		local record = playerLot[player]
+		local poolCovers = worldCommon:FindFirstChild("001_PoolCovers")
+		if not record or not poolCovers then
+			return
+		end
+		local result = RuntimeCore.toggleNativePoolCover(poolCovers, record.number)
+		if result.ok then
+			local main = house:FindFirstChild("MainHouseScript", true)
+			local poolLocked = main and main:FindFirstChild("PoolLocked")
+			if poolLocked and poolLocked:IsA("BoolValue") then
+				poolLocked.Value = result.on == true
+			end
+			playersHouse:FireClient(player, result.on and "PoolOn" or "PoolOff")
+		end
 		return
 	end
 	if action == "PickingHouseMusicText" or action == "PickingHouseMusicPlay" or action == "PickingHouseMusicStop" then
@@ -1740,6 +1758,44 @@ local function findOwnedTool(player, name)
 	return nil
 end
 
+local fakeBankCardDisplay = Workspace:FindFirstChild("FakeBankKeyCard", true)
+
+local function giveNativeCreditCard(player, variant)
+	if variant ~= "CreditCardBoy" and variant ~= "CreditCardGirl" then
+		return {ok = false, code = "unknown_credit_card_variant"}
+	end
+	if not (fakeBankCardDisplay and fakeBankCardDisplay:IsA("BasePart")) then
+		return {ok = false, code = "fake_bank_card_missing"}
+	end
+	local backpack = player:FindFirstChildOfClass("Backpack")
+	if not backpack then
+		return {ok = false, code = "backpack_missing"}
+	end
+	for _, name in ipairs({"CreditCardBoy", "CreditCardGirl"}) do
+		local existing = findOwnedTool(player, name)
+		if existing then
+			existing:Destroy()
+		end
+	end
+	local built = RuntimeCore.buildNativeCreditCardTool(fakeBankCardDisplay, variant)
+	if not built.ok or not built.tool then
+		return built
+	end
+	built.tool.Parent = backpack
+	return {
+		ok = built.tool.Parent == backpack and built.tool.Name == variant,
+		tool = built.tool,
+		variant = variant,
+	}
+end
+
+giveAnimationToolsRemote.OnServerEvent:Connect(function(player, action, variant)
+	if action ~= "GiveCreditCard" then
+		return
+	end
+	giveNativeCreditCard(player, tostring(variant or ""))
+end)
+
 local function createFallbackTool(name)
 	local tool = Instance.new("Tool")
 	tool.Name = name
@@ -1768,6 +1824,14 @@ toolsRemote.OnServerInvoke = function(player, action, toolName)
 	end
 	local backpack = player:FindFirstChildOfClass("Backpack")
 	if not backpack then
+		return true
+	end
+	if toolName == "CreditCardBoy" or toolName == "CreditCardGirl" then
+		local card = giveNativeCreditCard(player, toolName)
+		if card.ok then
+			clearToolsRemote:FireClient(player, "TurnOnGreenCheckMark", toolName)
+			return false
+		end
 		return true
 	end
 	local template = findToolTemplate(toolName)
