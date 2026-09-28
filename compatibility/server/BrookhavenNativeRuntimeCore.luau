@@ -597,6 +597,121 @@ function RuntimeCore.isVehicleMusicAction(action)
 end
 
 
+
+function RuntimeCore.inspectNativeHorse(horse)
+	if not (horse and horse:IsA("Model")) then
+		return {ok = false, code = "horse_missing"}
+	end
+	local humanoid = horse:FindFirstChildOfClass("Humanoid")
+	local upperTorso = horse:FindFirstChild("UpperTorso")
+	local seat = horse:FindFirstChild("Seat")
+	local owner = horse:FindFirstChild("Owner")
+	local mountButton = horse:FindFirstChild("MountButton")
+	local click = mountButton and mountButton:FindFirstChildOfClass("ClickDetector")
+	local gui = mountButton and mountButton:FindFirstChildWhichIsA("BillboardGui")
+	local animations = horse:FindFirstChild("Animations")
+	local requiredAnimations = {"Walk", "Idle", "Jump", "Fall"}
+	local animationCount = 0
+	if animations and animations:IsA("Folder") then
+		for _, name in ipairs(requiredAnimations) do
+			local animation = animations:FindFirstChild(name)
+			if animation and animation:IsA("Animation") then
+				animationCount += 1
+			end
+		end
+	end
+	local ok = humanoid ~= nil
+		and upperTorso ~= nil and upperTorso:IsA("BasePart")
+		and seat ~= nil and seat:IsA("BasePart")
+		and owner ~= nil and owner:IsA("ObjectValue")
+		and mountButton ~= nil and mountButton:IsA("BasePart")
+		and click ~= nil
+		and gui ~= nil
+		and animationCount == #requiredAnimations
+	return {
+		ok = ok,
+		hasHumanoid = humanoid ~= nil,
+		hasUpperTorso = upperTorso ~= nil and upperTorso:IsA("BasePart"),
+		hasSeat = seat ~= nil and seat:IsA("BasePart"),
+		hasOwner = owner ~= nil and owner:IsA("ObjectValue"),
+		hasMountClick = click ~= nil,
+		hasMountGui = gui ~= nil,
+		animationCount = animationCount,
+	}
+end
+
+function RuntimeCore.setHorseMountEnabled(horse, enabled)
+	local info = RuntimeCore.inspectNativeHorse(horse)
+	if not info.ok then
+		return info
+	end
+	local mountButton = horse:FindFirstChild("MountButton")
+	local click = mountButton:FindFirstChildOfClass("ClickDetector")
+	local gui = mountButton:FindFirstChildWhichIsA("BillboardGui")
+	click.MaxActivationDistance = enabled and 10 or 0
+	gui.Enabled = enabled == true
+	horse:SetAttribute("StarBloxHorseMountEnabled", enabled == true)
+	return {
+		ok = click.MaxActivationDistance == (enabled and 10 or 0) and gui.Enabled == (enabled == true),
+		enabled = enabled == true,
+		maxActivationDistance = click.MaxActivationDistance,
+	}
+end
+
+function RuntimeCore.prepareHorseMounted(horse)
+	local info = RuntimeCore.inspectNativeHorse(horse)
+	if not info.ok then
+		return info
+	end
+	local parts = 0
+	for _, item in ipairs(horse:GetDescendants()) do
+		if item:IsA("BasePart") then
+			if item:GetAttribute("StarBloxHorseSourceCanCollide") == nil then
+				item:SetAttribute("StarBloxHorseSourceCanCollide", item.CanCollide)
+			end
+			if item:GetAttribute("StarBloxHorseSourceMassless") == nil then
+				item:SetAttribute("StarBloxHorseSourceMassless", item.Massless)
+			end
+			if item:GetAttribute("StarBloxHorseSourceAnchored") == nil then
+				item:SetAttribute("StarBloxHorseSourceAnchored", item.Anchored)
+			end
+			item.Anchored = false
+			item.CanCollide = false
+			item.Massless = true
+			parts += 1
+		end
+	end
+	local mount = RuntimeCore.setHorseMountEnabled(horse, false)
+	return {ok = parts > 0 and mount.ok, parts = parts, mount = mount}
+end
+
+function RuntimeCore.restoreHorseAfterDismount(horse)
+	local info = RuntimeCore.inspectNativeHorse(horse)
+	if not info.ok then
+		return info
+	end
+	local parts = 0
+	for _, item in ipairs(horse:GetDescendants()) do
+		if item:IsA("BasePart") then
+			local canCollide = item:GetAttribute("StarBloxHorseSourceCanCollide")
+			local massless = item:GetAttribute("StarBloxHorseSourceMassless")
+			local anchored = item:GetAttribute("StarBloxHorseSourceAnchored")
+			if type(canCollide) == "boolean" then
+				item.CanCollide = canCollide
+			end
+			if type(massless) == "boolean" then
+				item.Massless = massless
+			end
+			if type(anchored) == "boolean" then
+				item.Anchored = anchored
+			end
+			parts += 1
+		end
+	end
+	local mount = RuntimeCore.setHorseMountEnabled(horse, true)
+	return {ok = parts > 0 and mount.ok, parts = parts, mount = mount}
+end
+
 function RuntimeCore.applyHorseCustomization(horse, action, value)
 	if not (horse and horse:IsA("Model")) then
 		return {ok = false, code = "horse_missing"}
@@ -797,6 +912,54 @@ function RuntimeCore.runBehaviorProbe()
 		and vehicleMusicSound.Looped == true
 	vehicleMusicFixture:Destroy()
 
+	local horseLifecycleFixture = Instance.new("Model")
+	local lifecycleHumanoid = Instance.new("Humanoid")
+	lifecycleHumanoid.Parent = horseLifecycleFixture
+	local lifecycleUpperTorso = Instance.new("Part")
+	lifecycleUpperTorso.Name = "UpperTorso"
+	lifecycleUpperTorso.CanCollide = true
+	lifecycleUpperTorso.Parent = horseLifecycleFixture
+	local lifecycleSeat = Instance.new("Part")
+	lifecycleSeat.Name = "Seat"
+	lifecycleSeat.CanCollide = true
+	lifecycleSeat.Parent = horseLifecycleFixture
+	local lifecycleOwner = Instance.new("ObjectValue")
+	lifecycleOwner.Name = "Owner"
+	lifecycleOwner.Parent = horseLifecycleFixture
+	local lifecycleMount = Instance.new("Part")
+	lifecycleMount.Name = "MountButton"
+	lifecycleMount.Parent = horseLifecycleFixture
+	local lifecycleClick = Instance.new("ClickDetector")
+	lifecycleClick.MaxActivationDistance = 10
+	lifecycleClick.Parent = lifecycleMount
+	local lifecycleGui = Instance.new("BillboardGui")
+	lifecycleGui.Enabled = true
+	lifecycleGui.Parent = lifecycleMount
+	local lifecycleAnimations = Instance.new("Folder")
+	lifecycleAnimations.Name = "Animations"
+	lifecycleAnimations.Parent = horseLifecycleFixture
+	for _, animationName in ipairs({"Walk", "Idle", "Jump", "Fall"}) do
+		local animation = Instance.new("Animation")
+		animation.Name = animationName
+		animation.Parent = lifecycleAnimations
+	end
+	local horseLifecycleInspect = RuntimeCore.inspectNativeHorse(horseLifecycleFixture)
+	local horseLifecycleMounted = RuntimeCore.prepareHorseMounted(horseLifecycleFixture)
+	local mountedOk = horseLifecycleMounted.ok
+		and lifecycleUpperTorso.CanCollide == false
+		and lifecycleUpperTorso.Massless == true
+		and lifecycleSeat.CanCollide == false
+		and lifecycleClick.MaxActivationDistance == 0
+		and lifecycleGui.Enabled == false
+	local horseLifecycleRestored = RuntimeCore.restoreHorseAfterDismount(horseLifecycleFixture)
+	local horseLifecycleOk = horseLifecycleInspect.ok and mountedOk and horseLifecycleRestored.ok
+		and lifecycleUpperTorso.CanCollide == true
+		and lifecycleUpperTorso.Massless == false
+		and lifecycleSeat.CanCollide == true
+		and lifecycleClick.MaxActivationDistance == 10
+		and lifecycleGui.Enabled == true
+	horseLifecycleFixture:Destroy()
+
 	local horseFixture = Instance.new("Model")
 	local horseHead = Instance.new("Part")
 	horseHead.Name = "Head"
@@ -968,8 +1131,9 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = vehicleMusicOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
+		horseLifecycle = {ok = horseLifecycleOk, inspected = horseLifecycleInspect, mounted = horseLifecycleMounted, restored = horseLifecycleRestored},
 		horseCustomization = {ok = horseCustomizationOk, name = horseNameResult, nameColor = horseNameColorResult, body = horseBodyResult, hair = horseHairResult, saddle = horseSaddleResult},
 		hairColor = {ok = hairColorOk, result = hairResult},
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
