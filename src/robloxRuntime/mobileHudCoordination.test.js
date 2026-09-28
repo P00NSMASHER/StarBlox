@@ -46,9 +46,10 @@ describe('recorded mobile HUD coordination',()=>{
     expect(source).toContain('and not panel.Visible and not report.Visible and not menuOpen');
     expect(source).toContain('waypoint.Visible = not compactViewport and not panel.Visible and not report.Visible and not menuOpen');
     expect(source).toContain('local reportAvailable = type(payload.report) == "table" and payload.report.ok == true');
-    expect(source).toContain('report.Visible = reportAvailable and not panel.Visible and not menuOpen');
+    expect(source).toContain('report.Visible = reportAvailable and not compactViewport and not panel.Visible and not menuOpen');
     expect(source).toContain('and not panel.Visible and not reportAvailable and not menuOpen');
     expect(source).toContain('local reportAvailable = state ~= nil and type(state.report) == "table" and state.report.ok == true');
+    expect(source.match(/report\.Visible = reportAvailable and not compactViewport/g)?.length).toBe(2);
     expect(source).not.toContain('report.Visible = true');
     expect(source).toContain('and not menuOpen');
   });

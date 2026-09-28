@@ -571,6 +571,10 @@ reportConstraint.MinSize = Vector2.new(300, 300)
 reportConstraint.MaxSize = Vector2.new(520, 360)
 reportConstraint.Parent = report
 
+-- The end-of-day report remains available in state but is not allowed to
+-- automatically cover compact phone free-roam. On iPhone, school chrome must
+-- yield to the world unless the player is actively inside a school interaction.
+
 local state = nil
 local stateReceivedAt = 0
 local session = nil
@@ -624,7 +628,7 @@ local function renderState(payload)
 	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
 	local menuOpen = townMenuOpen()
 	local reportAvailable = type(payload.report) == "table" and payload.report.ok == true
-	report.Visible = reportAvailable and not panel.Visible and not menuOpen
+	report.Visible = reportAvailable and not compactViewport and not panel.Visible and not menuOpen
 	hud.Visible = payload.dismissed ~= true and not compactViewport
 		and not panel.Visible and not report.Visible and not menuOpen
 	local titleText, bodyText, buttonText = periodCallout(clock)
@@ -854,7 +858,7 @@ classOpened.OnClientEvent:Connect(renderQuestion)
 RunService.Heartbeat:Connect(function()
 	local menuOpen = townMenuOpen()
 	local reportAvailable = state ~= nil and type(state.report) == "table" and state.report.ok == true
-	report.Visible = reportAvailable and not panel.Visible and not menuOpen
+	report.Visible = reportAvailable and not compactViewport and not panel.Visible and not menuOpen
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
