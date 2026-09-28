@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Verify published v44 preloaded-house reconciliation
+      - name: Verify published v45 avatar shop learning loop
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -33,215 +33,62 @@ jobs:
           if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
 
           const script=[
-            'assert(game.PlaceVersion == 44, "expected version 44")',
+            'assert(game.PlaceVersion == 45, "expected version 45")',
             'local Workspace=game:GetService("Workspace")',
+            'local StarterPlayer=game:GetService("StarterPlayer")',
+            'local StarterGui=game:GetService("StarterGui")',
             'local ServerScriptService=game:GetService("ServerScriptService")',
             'local descendants=#Workspace:GetDescendants()',
-            'assert(descendants == 24348, "Brookhaven workspace descendant count changed: "..tostring(descendants))',
-            'local lots=Workspace:FindFirstChild("001_Lots")',
-            'assert(lots, "Brookhaven lots missing")',
-            'local buyLots=0',
-            'local preloaded=0',
-            'for _,lot in ipairs(lots:GetChildren()) do',
-            '  local buy=lot:FindFirstChild("BuyHouse", true)',
-            '  if buy and buy:IsA("BasePart") then',
-            '    buyLots += 1',
-            '    local house=lot:FindFirstChild("HousePickedByPlayer")',
-            '    if house and house:IsA("Model") then preloaded += 1 end',
-            '  end',
-            'end',
-            'assert(buyLots == 19, "expected 19 Brookhaven lots; got "..tostring(buyLots))',
-            'assert(preloaded == 5, "expected 5 preloaded houses; got "..tostring(preloaded))',
+            'assert(descendants == 24348, "workspace descendant count changed: "..tostring(descendants))',
+            'local geometry=0',
+            'for _,x in ipairs(Workspace:GetDescendants()) do local c=x.ClassName; if c=="Part" or c=="MeshPart" or c=="WedgePart" or c=="CornerWedgePart" or c=="UnionOperation" or c=="TrussPart" or c=="Seat" or c=="VehicleSeat" then geometry += 1 end end',
+            'assert(geometry == 14459, "Brookhaven geometry changed: "..tostring(geometry))',
+            'local editor=StarterGui:WaitForChild("NoResetGUIHandler"):FindFirstChild("MainEditor")',
+            'assert(editor, "original Brookhaven MainEditor missing")',
+            'assert(editor.Catalog.Container:FindFirstChild("OutfitFrame"), "original outfit frame missing")',
+            'assert(editor.Catalog.Container.ScaleFrame.Buttons:FindFirstChild("Bigger"), "avatar size control missing")',
+            'local shop=StarterGui:WaitForChild("MainGUIHandler"):FindFirstChild("Shop")',
+            'assert(shop and shop.OpenButton.MainOpen:FindFirstChild("Open"), "original Brookhaven shop missing")',
+            'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
+            'assert(client and client:IsA("LocalScript"), "BrookhavenCompat missing")',
+            'assert(string.find(client.Source,"STARBLOX_AVATAR_SHOP_CLIENT_READY",1,true),"avatar/shop client marker missing")',
+            'assert(string.find(client.Source,"STUDY FOR COINS",1,true),"study-for-coins UI missing")',
+            'assert(string.find(client.Source,"ApplyOutfit",1,true),"outfit action missing")',
+            'assert(string.find(client.Source,"SkinTone",1,true),"skin tone action missing")',
             'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
             'assert(server and server:IsA("Script"), "BrookhavenHouseCompat missing")',
-            'assert(string.find(server.Source, "owned.Value = hasPreloadedHouse", 1, true), "preloaded occupancy reconciliation missing")',
-            'assert(string.find(server.Source, "PRELOADED_OCCUPIED", 1, true), "preloaded reservation guard missing")',
-            'assert(string.find(server.Source, "preloadedOccupied", 1, true), "preloaded occupancy state missing")',
-            'print("BROOKHAVEN_V44_PRELOADED_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." buyLots="..tostring(buyLots).." preloaded="..tostring(preloaded))'
+            'assert(string.find(server.Source,"STARBLOX_LEARNING_ECONOMY_READY",1,true),"learning economy marker missing")',
+            'assert(string.find(server.Source,"StarBloxLearningReward",1,true),"server-only school reward hook missing")',
+            'assert(string.find(server.Source,"PRACTICE_QUESTIONS",1,true),"practice question bank missing")',
+            'assert(string.find(server.Source,"PurchasePack",1,true),"shop purchase authority missing")',
+            'assert(string.find(server.Source,"5104356969",1,true),"real Brookhaven outfit IDs missing")',
+            'assert(string.find(server.Source,"SilverPass",1,true) and string.find(server.Source,"MusicPass",1,true),"Brookhaven unlock flags missing")',
+            'assert(string.find(server.Source,"owned.Value = hasPreloadedHouse",1,true),"preloaded house occupancy fix missing")',
+            'local lots=Workspace:FindFirstChild("001_Lots")',
+            'local buyLots=0; local preloaded=0',
+            'for _,lot in ipairs(lots:GetChildren()) do local buy=lot:FindFirstChild("BuyHouse",true); if buy and buy:IsA("BasePart") then buyLots+=1; local h=lot:FindFirstChild("HousePickedByPlayer"); if h and h:IsA("Model") then preloaded+=1 end end end',
+            'assert(buyLots==19 and preloaded==5,"house baseline changed")',
+            'print("STARBLOX_V45_AVATAR_SHOP_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." lots="..tostring(buyLots).." preloaded="..tostring(preloaded))'
           ].join("\n");
 
           async function parse(r,label){
-            const text=await r.text();
-            let payload={};
+            const text=await r.text(); let payload={};
             try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status);}
             if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1500));
             return payload;
           }
-
           let response;
           for(let attempt=0;attempt<8;attempt++){
-            response=await fetch(
-              `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
-              {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
-            );
+            response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
             if(response.status!==429 && response.status!==500) break;
             await new Promise(r=>setTimeout(r,2500*(attempt+1)));
           }
           let task=await parse(response,"create");
-          const raw=String(task.path||"");
-          if(!raw) throw new Error("missing task path");
-          const url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          const deadline=Date.now()+90000;
-          while(String(task.state||"")==="PROCESSING"){
-            if(Date.now()>deadline) throw new Error("verification timeout");
-            await new Promise(r=>setTimeout(r,1000));
-            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
-          }
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
           const text=JSON.stringify(logs);
-          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,2000));
-          if(!text.includes("BROOKHAVEN_V44_PRELOADED_OK")) throw new Error("v44 preloaded-house sentinel missing");
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1800));
+          if(!text.includes("STARBLOX_V45_AVATAR_SHOP_OK")) throw new Error("v45 sentinel missing");
           console.log(text);
-          NODE
-
-      - name: Inventory avatar editor and shop buttons
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==44,"expected v44")',
-            'local SG=game:GetService("StarterGui")',
-            'local function p(x) local a={x.Name}; local n=x.Parent; while n and n~=game do table.insert(a,1,n.Name); n=n.Parent end; return table.concat(a,"/") end',
-            'local roots={}',
-            'local nr=SG:FindFirstChild("NoResetGUIHandler")',
-            'local mg=SG:FindFirstChild("MainGUIHandler")',
-            'if nr and nr:FindFirstChild("MainEditor") then table.insert(roots,nr.MainEditor) end',
-            'if mg and mg:FindFirstChild("Shop") then table.insert(roots,mg.Shop) end',
-            'print("UI_INVENTORY_BEGIN")',
-            'for _,root in ipairs(roots) do',
-            ' print("UI_ROOT "..p(root).." descendants="..tostring(#root:GetDescendants()))',
-            ' for _,x in ipairs(root:GetDescendants()) do',
-            '  if x:IsA("GuiButton") then',
-            '   local text=""; pcall(function() text=x.Text end)',
-            '   local image=""; pcall(function() image=x.Image end)',
-            '   print("UI_BUTTON "..p(x).." class="..x.ClassName.." text="..string.gsub(text,"|","/").." image="..image)',
-            '  elseif x:IsA("TextLabel") then',
-            '   local text=string.gsub(x.Text,"|","/")',
-            '   if #text>0 then print("UI_LABEL "..p(x).." text="..string.sub(text,1,80)) end',
-            '  end',
-            ' end',
-            'end',
-            'print("UI_INVENTORY_END")'
-          ].join("\n");
-          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Inspect avatar outfit payloads
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==44,"expected v44")',
-            'local SG=game:GetService("StarterGui")',
-            'local nr=SG:WaitForChild("NoResetGUIHandler")',
-            'local editor=nr:WaitForChild("MainEditor")',
-            'local outfit=editor.Catalog.Container:FindFirstChild("OutfitFrame")',
-            'print("AVATAR_PAYLOAD_BEGIN")',
-            'if outfit then for _,btn in ipairs(outfit:GetChildren()) do',
-            ' if btn:IsA("GuiButton") then',
-            '  local values={}',
-            '  for _,d in ipairs(btn:GetDescendants()) do',
-            '   if d:IsA("ValueBase") then table.insert(values,d.Name.."="..tostring(d.Value)) end',
-            '  end',
-            '  print("OUTFIT "..btn.Name.." values="..table.concat(values,","))',
-            ' end',
-            'end end',
-            'for _,d in ipairs(editor:GetDescendants()) do',
-            ' if d:IsA("ValueBase") then',
-            '  local p=d:GetFullName()',
-            '  if string.find(p,"Skin",1,true) or string.find(p,"Face",1,true) or string.find(p,"Shirt",1,true) or string.find(p,"Pants",1,true) then',
-            '   print("AVATAR_VALUE "..p.." class="..d.ClassName.." value="..tostring(d.Value))',
-            '  end',
-            ' end',
-            'end',
-            'print("AVATAR_PAYLOAD_END")'
-          ].join("\n");
-          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Inventory editor panels and legacy pass flags
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==44,"expected v44")',
-            'local SG=game:GetService("StarterGui")',
-            'local RS=game:GetService("ReplicatedStorage")',
-            'local editor=SG.NoResetGUIHandler.MainEditor',
-            'local container=editor.Catalog.Container',
-            'print("EDITOR_STRUCT_BEGIN")',
-            'for _,x in ipairs(container:GetChildren()) do print("EDITOR_CHILD "..x.Name.." class="..x.ClassName.." visible="..tostring(x:IsA("GuiObject") and x.Visible or "na")) end',
-            'for _,x in ipairs(editor.Catalog.Header.SubCategoryTabs:GetDescendants()) do if x:IsA("GuiObject") then print("EDITOR_SUBTAB "..x:GetFullName().." class="..x.ClassName.." visible="..tostring(x.Visible)) end end',
-            'local startup=RS:FindFirstChild("PlayersStartup")',
-            'local bag=startup and startup:FindFirstChild("PlayersBag")',
-            'if bag then for _,x in ipairs(bag:GetChildren()) do if x:IsA("ValueBase") then print("BAG_VALUE "..x.Name.." class="..x.ClassName.." value="..tostring(x.Value)) end end end',
-            'print("EDITOR_STRUCT_END")'
-          ].join("\n");
-          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Inventory avatar accessory payloads
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==44,"expected v44")',
-            'local SG=game:GetService("StarterGui")',
-            'local editor=SG.NoResetGUIHandler.MainEditor',
-            'local root=editor.Catalog.Container:FindFirstChild("ScrollingFrame")',
-            'print("ACCESSORY_PAYLOAD_BEGIN")',
-            'if root then',
-            ' for _,btn in ipairs(root:GetDescendants()) do',
-            '  if btn:IsA("GuiButton") then',
-            '   local values={}',
-            '   for _,d in ipairs(btn:GetDescendants()) do',
-            '    if d:IsA("ValueBase") then table.insert(values,d.Name.."="..tostring(d.Value)) end',
-            '   end',
-            '   if #values>0 then print("ACCESSORY_BUTTON "..btn:GetFullName().." values="..table.concat(values,",")) end',
-            '  end',
-            ' end',
-            'end',
-            'print("ACCESSORY_PAYLOAD_END")'
-          ].join("\n");
-          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
