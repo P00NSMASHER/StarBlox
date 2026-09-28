@@ -53,6 +53,23 @@ const luau=[
   'assert(result.shop and result.shop.ok==true,"shop pass behavior failed")',
   'assert(result.profile and result.profile.ok==true,"profile/job behavior failed")',
   'assert(result.houseBusiness and result.houseBusiness.ok==true,"house business-sign behavior failed")',
+  'local worldCommon=game.Workspace:WaitForChild("WorkspaceCom")',
+  'local realHorseTemplate=worldCommon:WaitForChild("003_CarBackup"):WaitForChild("Horse")',
+  'local realHorseInfo=core.inspectNativeHorse(realHorseTemplate)',
+  'assert(realHorseInfo and realHorseInfo.ok==true,"real Brookhaven horse template contract failed")',
+  'local stableDoors=worldCommon:WaitForChild("001_HorseStableDoors")',
+  'local stableClicks=0',
+  'for _,door in ipairs(stableDoors:GetChildren()) do local clickPart=door:FindFirstChild("Click"); if clickPart and clickPart:FindFirstChildOfClass("ClickDetector") then stableClicks+=1 end end',
+  'assert(stableClicks>=3,"native horse stable click targets missing")',
+  'local realHorse=realHorseTemplate:Clone()',
+  'local horseCharacter=Instance.new("Model")',
+  'local horseRoot=Instance.new("Part"); horseRoot.Name="HumanoidRootPart"; horseRoot.Anchored=true; horseRoot.CFrame=CFrame.new(0,20,0); horseRoot.Parent=horseCharacter',
+  'local horseWorld=Instance.new("Folder"); horseWorld.Parent=game:GetService("ServerStorage")',
+  'local realHorseMount=core.mountHorseToCharacter(realHorse,horseCharacter)',
+  'assert(realHorseMount and realHorseMount.ok==true and realHorse.Parent==horseCharacter,"real horse mount transition failed")',
+  'local realHorseDismount=core.dismountHorseToWorld(realHorse,horseCharacter,horseWorld)',
+  'assert(realHorseDismount and realHorseDismount.ok==true and realHorse.Parent==horseWorld,"real horse dismount transition failed")',
+  'horseWorld:Destroy(); horseCharacter:Destroy()',
   'local vehicleResult=result.vehicle',
   'assert(vehicleResult and vehicleResult.ok==true and vehicleResult.hasVehicleSeat==true,"vehicle clone/pivot/seat behavior failed")',
   'assert(vehicleResult.driveReady and vehicleResult.driveReady.ok==true,"vehicle drivetrain preparation failed")',
@@ -65,7 +82,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
