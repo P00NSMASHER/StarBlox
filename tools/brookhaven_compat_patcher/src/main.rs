@@ -53,6 +53,19 @@ fn direct_child(dom: &WeakDom, parent: Ref, name: &str) -> Option<Ref> {
     })
 }
 
+fn find_named(dom: &WeakDom, current: Ref, name: &str) -> Option<Ref> {
+    let instance = dom.get_by_ref(current)?;
+    if instance.name == name {
+        return Some(current);
+    }
+    for child in instance.children() {
+        if let Some(found) = find_named(dom, *child, name) {
+            return Some(found);
+        }
+    }
+    None
+}
+
 
 fn collect_tool_names(dom: &WeakDom, current: Ref, out: &mut BTreeSet<String>) {
     let Some(instance) = dom.get_by_ref(current) else {
@@ -300,6 +313,9 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     let daycare_tools_ref = common_ref
         .and_then(|common| direct_child(dom, common, "001_DayCare"))
         .and_then(|daycare| direct_child(dom, daycare, "Tools"));
+    let replicated_ref = find_first(dom, dom.root_ref(), "ReplicatedStorage", None);
+    let banned_lots_ref = replicated_ref.and_then(|replicated| direct_child(dom, replicated, "BannedLots"));
+    let permission_players_ref = find_named(dom, dom.root_ref(), "PermissionPlayers");
 
     let mut horse_subtree = Vec::new();
     if let Some(horse) = horse_ref {
@@ -327,6 +343,14 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         collect_heli_control_state(dom, heli, "", &mut heli_control_state, 260);
         collect_subtree_labels(dom, heli, "", &mut heli_subtree, 360);
     }
+    let mut banned_lots_subtree = Vec::new();
+    if let Some(banned_lots) = banned_lots_ref {
+        collect_subtree_labels(dom, banned_lots, "", &mut banned_lots_subtree, 180);
+    }
+    let mut permission_players_subtree = Vec::new();
+    if let Some(permission_players) = permission_players_ref {
+        collect_subtree_labels(dom, permission_players, "", &mut permission_players_subtree, 120);
+    }
 
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
@@ -346,7 +370,11 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "daycareToolsSubtree": daycare_tools_subtree,
         "heliFound": heli_ref.is_some(),
         "heliControlState": heli_control_state,
-        "heliSubtree": heli_subtree
+        "heliSubtree": heli_subtree,
+        "bannedLotsFound": banned_lots_ref.is_some(),
+        "bannedLotsSubtree": banned_lots_subtree,
+        "permissionPlayersFound": permission_players_ref.is_some(),
+        "permissionPlayersSubtree": permission_players_subtree
     })
 }
 
