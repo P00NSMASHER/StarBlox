@@ -137,6 +137,113 @@ function RuntimeCore.primaryVehicleSeat(model)
 	return nil
 end
 
+
+local function boundedText(value, maxBytes)
+	local text = tostring(value or "")
+	if #text > maxBytes then
+		text = string.sub(text, 1, maxBytes)
+	end
+	return text
+end
+
+local function colorName(value)
+	if typeof(value) == "Color3" then
+		return BrickColor.new(value).Name
+	end
+	if typeof(value) == "BrickColor" then
+		return value.Name
+	end
+	if typeof(value) == "Instance" then
+		if value:IsA("BrickColorValue") then
+			return value.Value.Name
+		elseif value:IsA("Color3Value") then
+			return BrickColor.new(value.Value).Name
+		elseif value:IsA("StringValue") then
+			return boundedText(value.Value, 64)
+		end
+		local ok, raw = pcall(function()
+			return value.Value
+		end)
+		if ok then
+			if typeof(raw) == "Color3" then
+				return BrickColor.new(raw).Name
+			elseif typeof(raw) == "BrickColor" then
+				return raw.Name
+			elseif type(raw) == "string" then
+				return boundedText(raw, 64)
+			end
+		end
+	end
+	if type(value) == "string" then
+		return boundedText(value, 64)
+	end
+	return nil
+end
+
+function RuntimeCore.applyRolePlayTextToBag(bag, action, value)
+	local fieldByAction = {
+		RolePlayName = {"RPName", 48},
+		RolePlayBio = {"RPBio", 160},
+		RolePlayFollow = {"RPFollowName", 48},
+	}
+	local row = fieldByAction[action]
+	if not row then
+		return {ok = false, code = "unknown_roleplay_text_action"}
+	end
+	local field = ensureValue(bag, "StringValue", row[1], "")
+	field.Value = boundedText(value, row[2])
+	return {ok = true, action = action, field = row[1], value = field.Value}
+end
+
+function RuntimeCore.applyRolePlayColorToBag(bag, action, value)
+	local fieldByAction = {
+		PickingRPNameColor = "RPNameColor",
+		PickingRPBioColor = "RPBioColor",
+		PickingRPFollowColor = "RPFollowColor",
+	}
+	local fieldName = fieldByAction[action]
+	if not fieldName then
+		return {ok = false, code = "unknown_roleplay_color_action"}
+	end
+	local name = colorName(value)
+	if not name then
+		return {ok = false, code = "invalid_roleplay_color"}
+	end
+	local field = ensureValue(bag, "StringValue", fieldName, "Institutional white")
+	field.Value = name
+	return {ok = true, action = action, field = fieldName, value = name}
+end
+
+function RuntimeCore.applyJobStateToBag(bag, action, jobName, titlePic, jobOrStudent)
+	local job = ensureValue(bag, "BoolValue", "Job", false)
+	local title = ensureValue(job, "StringValue", "JobTitlePic", "")
+	local kind = ensureValue(job, "BoolValue", "JobOrStudent", false)
+	local name = ensureValue(job, "StringValue", "JobName", "")
+	ensureValue(job, "BoolValue", "OwnedLocker", false)
+
+	if action == "QuitJob" then
+		job.Value = false
+		title.Value = ""
+		kind.Value = false
+		name.Value = ""
+		return {ok = true, action = action, active = false}
+	elseif action == "GiveJobUIMenu" then
+		job.Value = true
+		name.Value = boundedText(jobName, 64)
+		title.Value = boundedText(titlePic, 64)
+		kind.Value = jobOrStudent == true
+		return {
+			ok = true,
+			action = action,
+			active = true,
+			jobName = name.Value,
+			titlePic = title.Value,
+			jobOrStudent = kind.Value,
+		}
+	end
+	return {ok = false, code = "unknown_job_action"}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
@@ -161,6 +268,21 @@ function RuntimeCore.runBehaviorProbe()
 		and bag.VehicleSpeed.Value == 200
 		and bag.SpeedPassNoMotorVehicle.Value == 45
 	bag:Destroy()
+
+	local profileBag = ReplicatedStorage:WaitForChild("PlayersStartup"):WaitForChild("PlayersBag"):Clone()
+	local rpName = RuntimeCore.applyRolePlayTextToBag(profileBag, "RolePlayName", "Alex")
+	local rpBio = RuntimeCore.applyRolePlayTextToBag(profileBag, "RolePlayBio", "Brookhaven resident")
+	local rpColor = RuntimeCore.applyRolePlayColorToBag(profileBag, "PickingRPNameColor", Color3.fromRGB(255, 0, 0))
+	local job = RuntimeCore.applyJobStateToBag(profileBag, "GiveJobUIMenu", "Police", "12345", false)
+	local profileOk = rpName.ok and rpBio.ok and rpColor.ok and job.ok
+		and profileBag.RPName.Value == "Alex"
+		and profileBag.RPBio.Value == "Brookhaven resident"
+		and profileBag.RPNameColor.Value == "Really red"
+		and profileBag.Job.Value == true
+		and profileBag.Job.JobName.Value == "Police"
+	local quitJob = RuntimeCore.applyJobStateToBag(profileBag, "QuitJob")
+	profileOk = profileOk and quitJob.ok and profileBag.Job.Value == false
+	profileBag:Destroy()
 
 	local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
 	local singleVehicles = ReplicatedStorage:FindFirstChild("SingleVehicles")
@@ -196,9 +318,10 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Tools"):IsA("RemoteFunction")
 
 	return {
-		ok = avatarOk and shopOk and vehicleOk and contractsOk,
+		ok = avatarOk and shopOk and profileOk and vehicleOk and contractsOk,
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
 		shop = {ok = shopOk, music = music, speed = speed},
+		profile = {ok = profileOk, rolePlayName = rpName, rolePlayBio = rpBio, rolePlayColor = rpColor, job = job, quitJob = quitJob},
 		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat},
 		contracts = {ok = contractsOk},
 	}
