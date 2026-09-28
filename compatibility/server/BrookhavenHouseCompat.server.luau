@@ -582,6 +582,7 @@ local rpHouseRemote = remotes:WaitForChild("RPHouseEvent")
 local rpHouseColorRemote = remotes:WaitForChild("RPHouseEventColor")
 local clockRemote = remotes:WaitForChild("Clock")
 local clockEventsRemote = remotes:WaitForChild("ClockEvents")
+local hairColorRemote = remotes:WaitForChild("HairColor")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -927,6 +928,13 @@ clockEventsRemote.OnServerEvent:Connect(function(player, action)
 		local utc = os.date("!*t")
 		clockEventsRemote:FireClient(player, "GiveDayOfWeek", RuntimeCore.dayNameFromWeekday(utc.wday))
 		clockRemote:FireClient(player, RuntimeCore.formatClockTime(Lighting.ClockTime))
+	end
+end)
+
+hairColorRemote.OnServerEvent:Connect(function(player, action, value)
+	local character = player.Character
+	if character then
+		RuntimeCore.applyHairColor(character, tostring(action), value)
 	end
 end)
 
@@ -1498,4 +1506,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1")
