@@ -552,62 +552,113 @@ print(
 )
 
 
--- Learning economy + avatar bridge.
--- Star Coins are virtual-only, earned through server-authorized school rewards.
-local DataStoreService = game:GetService("DataStoreService")
-local economyStore = DataStoreService:GetDataStore("StarBloxLearningEconomy_v1")
+-- ---------------------------------------------------------------------------
+-- StarBlox learning economy + functional avatar editor/shop compatibility.
+-- This is deliberately layered onto the untouched Brookhaven world/UI.
+-- ---------------------------------------------------------------------------
 
-local economyRemoteRoot = ReplicatedStorage:FindFirstChild("StarBloxLearningEconomy")
-if economyRemoteRoot then
-	economyRemoteRoot:Destroy()
+local EconomyDataStoreService = game:GetService("DataStoreService")
+local economyStore = EconomyDataStoreService:GetDataStore("StarBloxLearningEconomy_v1")
+
+local economyRoot = ReplicatedStorage:FindFirstChild("StarBloxLearningEconomy")
+if economyRoot then
+	economyRoot:Destroy()
 end
-economyRemoteRoot = Instance.new("Folder")
-economyRemoteRoot.Name = "StarBloxLearningEconomy"
-economyRemoteRoot.Parent = ReplicatedStorage
+economyRoot = Instance.new("Folder")
+economyRoot.Name = "StarBloxLearningEconomy"
+economyRoot.Parent = ReplicatedStorage
 
-local economyGetState = Instance.new("RemoteFunction")
-economyGetState.Name = "GetState"
-economyGetState.Parent = economyRemoteRoot
+local function makeRemoteFunction(name)
+	local remote = Instance.new("RemoteFunction")
+	remote.Name = name
+	remote.Parent = economyRoot
+	return remote
+end
 
-local economyPurchase = Instance.new("RemoteFunction")
-economyPurchase.Name = "Purchase"
-economyPurchase.Parent = economyRemoteRoot
-
-local avatarAction = Instance.new("RemoteFunction")
-avatarAction.Name = "AvatarAction"
-avatarAction.Parent = economyRemoteRoot
+local getEconomyState = makeRemoteFunction("GetState")
+local purchasePack = makeRemoteFunction("PurchasePack")
+local avatarAction = makeRemoteFunction("AvatarAction")
+local getPracticeQuestion = makeRemoteFunction("GetPracticeQuestion")
+local submitPracticeAnswer = makeRemoteFunction("SubmitPracticeAnswer")
 
 local economyChanged = Instance.new("RemoteEvent")
-economyChanged.Name = "Changed"
-economyChanged.Parent = economyRemoteRoot
+economyChanged.Name = "StateChanged"
+economyChanged.Parent = economyRoot
 
-local rewardRoot = ServerStorage:FindFirstChild("StarBloxLearningRewards")
-if rewardRoot then
-	rewardRoot:Destroy()
+local learningReward = ServerStorage:FindFirstChild("StarBloxLearningReward")
+if learningReward then
+	learningReward:Destroy()
 end
-rewardRoot = Instance.new("Folder")
-rewardRoot.Name = "StarBloxLearningRewards"
-rewardRoot.Parent = ServerStorage
+learningReward = Instance.new("BindableEvent")
+learningReward.Name = "StarBloxLearningReward"
+learningReward.Parent = ServerStorage
 
-local awardCorrectAnswer = Instance.new("BindableEvent")
-awardCorrectAnswer.Name = "AwardCorrectAnswer"
-awardCorrectAnswer.Parent = rewardRoot
+local PACKS = {
+	fashion = {
+		Name = "Fashion Pack",
+		Price = 60,
+		Outfits = {"WorkerPink", "WorkerWhite", "BlackSuit", "Maid", "CowGirl"},
+	},
+	rescue = {
+		Name = "Rescue & City Pack",
+		Price = 70,
+		Outfits = {"Chief", "FireRed", "FireYellow", "PoliceDarkBlue", "Ems", "FBI"},
+	},
+	roleplay = {
+		Name = "Roleplay Pack",
+		Price = 60,
+		Outfits = {"CowBoy", "Criminal", "Criminal2", "Prisoner", "Homeless"},
+	},
+	holiday = {
+		Name = "Holiday Pack",
+		Price = 80,
+		Outfits = {"SantaRed", "Elf", "SantaBlack"},
+	},
+	premium = {
+		Name = "Premium House Pack",
+		Price = 180,
+		Outfits = {},
+		Passes = {SilverPass = true},
+	},
+	music = {
+		Name = "Music Pack",
+		Price = 80,
+		Outfits = {},
+		Passes = {MusicPass = true},
+	},
+	fire = {
+		Name = "House Effects Pack",
+		Price = 100,
+		Outfits = {},
+		Passes = {FirePass = true},
+	},
+	horse = {
+		Name = "Horse Style Pack",
+		Price = 100,
+		Outfits = {},
+		Passes = {HorsePass = true},
+	},
+	vehicle = {
+		Name = "Vehicle Upgrade",
+		Price = 120,
+		Outfits = {},
+		Passes = {ColorSpeedPassLower = true},
+		Numbers = {VehicleSpeed = 70, SpeedPassNoMotorVehicle = 35},
+	},
+	speed = {
+		Name = "200 MPH Speed",
+		Price = 160,
+		Outfits = {},
+		Passes = {SpeedPass200 = true},
+		Numbers = {VehicleSpeed = 200},
+	},
+}
 
-local awardClassComplete = Instance.new("BindableEvent")
-awardClassComplete.Name = "AwardClassComplete"
-awardClassComplete.Parent = rewardRoot
-
-local awardCoins = Instance.new("BindableEvent")
-awardCoins.Name = "AwardCoins"
-awardCoins.Parent = rewardRoot
-
-local SHOP_ITEMS = {
-	Music = {Price = 60, BagFlag = "MusicPass", Label = "Music"},
-	Horse = {Price = 80, BagFlag = "HorsePass", Label = "Horse Upgrade"},
-	VehicleUpgrade = {Price = 100, BagFlag = "ColorSpeedPassLower", Label = "Vehicle Upgrade"},
-	Fire = {Price = 120, BagFlag = "FirePass", Label = "On-Demand Fire"},
-	Premium = {Price = 160, BagFlag = "SilverPass", Label = "Premium"},
-	Speed200 = {Price = 220, BagFlag = "SpeedPass200", Label = "200 Speed"},
+local FREE_OUTFITS = {
+	PoliceLightBlue = true,
+	DoctorBlue = true,
+	Lifeguard = true,
+	Dancer = true,
 }
 
 local OUTFITS = {
@@ -625,364 +676,447 @@ local OUTFITS = {
 	WorkerWhite = {Shirt = 5104365947, Pants = 5104390116},
 	Criminal2 = {Shirt = 5104359284, Pants = 5104384456},
 	Lifeguard = {Shirt = 5644792928, Pants = 5644793548},
-	Dancer = {Shirt = 229505432, Pants = 5846266654, Premium = true},
+	Dancer = {Shirt = 229505432, Pants = 5846266654},
 	Homeless = {Shirt = 229505432, Pants = 5846263819},
-	BlackSuit = {Shirt = 5994831990, Pants = 5994836799, Premium = true},
-	Maid = {Shirt = 229505432, Pants = 5996993717, Premium = true},
-	CowBoy = {Shirt = 5996986757, Pants = 5996990103, Premium = true},
-	CowGirl = {Shirt = 5997309428, Pants = 5997323809, Premium = true},
-	SantaRed = {Shirt = 5994831185, Pants = 5994833583, Premium = true},
-	Elf = {Shirt = 5994826937, Pants = 5994833063, Premium = true},
-	SantaBlack = {Shirt = 5996808541, Pants = 5996809284, Premium = true},
+	BlackSuit = {Shirt = 5994831990, Pants = 5994836799},
+	Maid = {Shirt = 229505432, Pants = 5996993717},
+	CowBoy = {Shirt = 5996986757, Pants = 5996990103},
+	CowGirl = {Shirt = 5997309428, Pants = 5997323809},
+	SantaRed = {Shirt = 5994831185, Pants = 5994833583},
+	Elf = {Shirt = 5994826937, Pants = 5994833063},
+	SantaBlack = {Shirt = 5996808541, Pants = 5996809284},
 }
 
 local SKIN_TONES = {
-	Color3.fromRGB(255, 224, 189),
+	Color3.fromRGB(255, 219, 172),
 	Color3.fromRGB(241, 194, 125),
+	Color3.fromRGB(224, 172, 105),
 	Color3.fromRGB(198, 134, 66),
 	Color3.fromRGB(141, 85, 36),
 	Color3.fromRGB(92, 51, 23),
+	Color3.fromRGB(255, 204, 188),
+	Color3.fromRGB(205, 133, 92),
 }
 
-local economyProfiles = {}
+local PRACTICE_QUESTIONS = {
+	{id="ela-short-vowel-1", prompt="Which word has the short a sound?", choices={"cat","cake","rain"}, answer="cat", hint="Think about the sound in apple."},
+	{id="ela-plural-1", prompt="Which plural is correct for box?", choices={"boxs","boxes","boxies"}, answer="boxes", hint="Words ending in x usually add -es."},
+	{id="ela-sentence-1", prompt="Which is a complete sentence?", choices={"The dog ran.","Running fast.","In the yard."}, answer="The dog ran.", hint="A complete sentence tells who or what and what happened."},
+	{id="math-add-1", prompt="What is 27 + 15?", choices={"32","42","52"}, answer="42", hint="Add the ones, then the tens."},
+	{id="math-sub-1", prompt="What is 54 - 18?", choices={"36","44","46"}, answer="36", hint="Regroup one ten if you need to."},
+	{id="math-place-1", prompt="In 347, what digit is in the tens place?", choices={"3","4","7"}, answer="4", hint="Hundreds, tens, ones."},
+	{id="math-time-1", prompt="30 minutes after 2:15 is...", choices={"2:35","2:45","3:15"}, answer="2:45", hint="Add half an hour."},
+	{id="math-fraction-1", prompt="One out of two equal parts is...", choices={"one half","one third","one fourth"}, answer="one half", hint="The bottom number tells the total equal parts."},
+	{id="ela-meaning-1", prompt="If Mia was exhausted, she was...", choices={"very tired","very loud","very hungry"}, answer="very tired", hint="Use the meaning of the word in context."},
+	{id="math-money-1", prompt="Two quarters are worth...", choices={"25 cents","50 cents","75 cents"}, answer="50 cents", hint="Each quarter is 25 cents."},
+	{id="ela-verb-1", prompt="Which word is the action word: Birds sing loudly.", choices={"Birds","sing","loudly"}, answer="sing", hint="What are the birds doing?"},
+	{id="math-pattern-1", prompt="What comes next: 5, 10, 15, 20, ...", choices={"21","25","30"}, answer="25", hint="The pattern adds the same amount each time."},
+}
 
-local function freshEconomyProfile()
+local economyStates = {}
+local economyLoaded = {}
+
+local function todayKey()
+	return os.date("!%Y-%m-%d")
+end
+
+local function newEconomyState()
 	return {
-		Coins = 100,
-		Owned = {},
+		Coins = 50,
+		OwnedPacks = {},
+		SelectedOutfit = nil,
+		Scale = 1,
+		SkinTone = nil,
+		PracticeDay = todayKey(),
+		CompletedPractice = {},
+		CurrentPractice = nil,
 	}
 end
 
-local function normalizeEconomyProfile(raw)
-	local profile = freshEconomyProfile()
-	if type(raw) == "table" then
-		local coins = tonumber(raw.Coins)
-		if coins ~= nil then
-			profile.Coins = math.max(0, math.floor(coins))
-		end
-		if type(raw.Owned) == "table" then
-			for itemId, owned in pairs(raw.Owned) do
-				if SHOP_ITEMS[itemId] and owned == true then
-					profile.Owned[itemId] = true
-				end
+local function sanitizeEconomy(raw)
+	local state = newEconomyState()
+	if type(raw) ~= "table" then
+		return state
+	end
+	state.Coins = math.clamp(math.floor(tonumber(raw.Coins) or state.Coins), 0, 1000000)
+	if type(raw.OwnedPacks) == "table" then
+		for id, owned in pairs(raw.OwnedPacks) do
+			if PACKS[id] and owned == true then
+				state.OwnedPacks[id] = true
 			end
 		end
 	end
-	return profile
+	if type(raw.SelectedOutfit) == "string" and OUTFITS[raw.SelectedOutfit] then
+		state.SelectedOutfit = raw.SelectedOutfit
+	end
+	state.Scale = math.clamp(tonumber(raw.Scale) or 1, 0.75, 1.25)
+	local tone = tonumber(raw.SkinTone)
+	if tone and SKIN_TONES[tone] then
+		state.SkinTone = tone
+	end
+	state.PracticeDay = type(raw.PracticeDay) == "string" and raw.PracticeDay or todayKey()
+	if state.PracticeDay == todayKey() and type(raw.CompletedPractice) == "table" then
+		for id, done in pairs(raw.CompletedPractice) do
+			if done == true then
+				state.CompletedPractice[id] = true
+			end
+		end
+	else
+		state.PracticeDay = todayKey()
+		state.CompletedPractice = {}
+	end
+	return state
 end
 
-local function syncEconomyPasses(player, profile)
-	local bag = ensureBag(player)
-	for itemId, config in pairs(SHOP_ITEMS) do
-		local value = ensureValue(bag, "BoolValue", config.BagFlag, false)
-		value.Value = profile.Owned[itemId] == true
-	end
-
-	if profile.Owned.VehicleUpgrade == true then
-		local vehicleSpeed = ensureValue(bag, "NumberValue", "VehicleSpeed", 25)
-		vehicleSpeed.Value = math.max(vehicleSpeed.Value, 70)
-	end
-	if profile.Owned.Speed200 == true then
-		local vehicleSpeed = ensureValue(bag, "NumberValue", "VehicleSpeed", 25)
-		vehicleSpeed.Value = math.max(vehicleSpeed.Value, 200)
-		local smallSpeed = ensureValue(bag, "NumberValue", "SpeedPassNoMotorVehicle", 25)
-		smallSpeed.Value = math.max(smallSpeed.Value, 45)
-	end
-	player:SetAttribute("StarBloxCoins", profile.Coins)
+local function stateKey(player)
+	return "u_" .. tostring(player.UserId)
 end
 
 local function loadEconomy(player)
-	local current = economyProfiles[player]
-	if current then
-		return current
+	if economyLoaded[player] then
+		return economyStates[player]
 	end
-
-	local loaded = nil
-	local ok = pcall(function()
-		loaded = economyStore:GetAsync("u:" .. tostring(player.UserId))
+	local raw = nil
+	pcall(function()
+		raw = economyStore:GetAsync(stateKey(player))
 	end)
-	local profile = normalizeEconomyProfile(ok and loaded or nil)
-	economyProfiles[player] = profile
-	syncEconomyPasses(player, profile)
-	return profile
+	local state = sanitizeEconomy(raw)
+	economyStates[player] = state
+	economyLoaded[player] = true
+	player:SetAttribute("StarCoins", state.Coins)
+	return state
 end
 
 local function saveEconomy(player)
-	local profile = economyProfiles[player]
-	if not profile then
-		return
-	end
-	local payload = {
-		Coins = profile.Coins,
-		Owned = profile.Owned,
+	local state = economyStates[player]
+	if not state then return end
+	local snapshot = {
+		Coins = state.Coins,
+		OwnedPacks = state.OwnedPacks,
+		SelectedOutfit = state.SelectedOutfit,
+		Scale = state.Scale,
+		SkinTone = state.SkinTone,
+		PracticeDay = state.PracticeDay,
+		CompletedPractice = state.CompletedPractice,
 	}
 	pcall(function()
-		economyStore:SetAsync("u:" .. tostring(player.UserId), payload)
+		economyStore:SetAsync(stateKey(player), snapshot)
 	end)
+end
+
+local function ownedOutfits(state)
+	local result = {}
+	for name in pairs(FREE_OUTFITS) do
+		result[name] = true
+	end
+	for packId, owned in pairs(state.OwnedPacks) do
+		if owned and PACKS[packId] then
+			for _, outfitName in ipairs(PACKS[packId].Outfits) do
+				result[outfitName] = true
+			end
+		end
+	end
+	return result
+end
+
+local function applyLegacyPackFlags(player, state)
+	local bag = ensureBag(player)
+	for packId, owned in pairs(state.OwnedPacks) do
+		local pack = PACKS[packId]
+		if owned and pack then
+			for name, value in pairs(pack.Passes or {}) do
+				local flag = bag:FindFirstChild(name)
+				if flag and flag:IsA("BoolValue") then flag.Value = value == true end
+			end
+			for name, value in pairs(pack.Numbers or {}) do
+				local number = bag:FindFirstChild(name)
+				if number and number:IsA("NumberValue") then number.Value = tonumber(value) or number.Value end
+			end
+		end
+	end
 end
 
 local function publicEconomyState(player)
-	local profile = loadEconomy(player)
-	local items = {}
-	for itemId, config in pairs(SHOP_ITEMS) do
-		table.insert(items, {
-			Id = itemId,
-			Label = config.Label,
-			Price = config.Price,
-			Owned = profile.Owned[itemId] == true,
+	local state = loadEconomy(player)
+	local packs = {}
+	for id, pack in pairs(PACKS) do
+		table.insert(packs, {
+			Id = id,
+			Name = pack.Name,
+			Price = pack.Price,
+			Owned = state.OwnedPacks[id] == true,
+			Outfits = pack.Outfits,
 		})
 	end
-	table.sort(items, function(a, b)
-		if a.Price ~= b.Price then
-			return a.Price < b.Price
-		end
-		return a.Id < b.Id
-	end)
+	table.sort(packs, function(a,b) return a.Price < b.Price end)
 	return {
 		ok = true,
-		coins = profile.Coins,
-		correctAnswerReward = 10,
-		classCompleteReward = 25,
-		items = items,
+		coins = state.Coins,
+		packs = packs,
+		ownedOutfits = ownedOutfits(state),
+		selectedOutfit = state.SelectedOutfit,
+		scale = state.Scale,
+		skinTone = state.SkinTone,
+		practiceRemaining = #PRACTICE_QUESTIONS,
 	}
 end
 
-local function notifyEconomy(player)
-	local state = publicEconomyState(player)
-	player:SetAttribute("StarBloxCoins", state.coins)
-	economyChanged:FireClient(player, state)
+local function emitEconomy(player)
+	local state = economyStates[player]
+	if not state then return end
+	player:SetAttribute("StarCoins", state.Coins)
+	economyChanged:FireClient(player, publicEconomyState(player))
 end
 
-local function grantCoins(player, amount, reason)
-	if not player or player.Parent ~= Players then
-		return
-	end
-	local numeric = tonumber(amount)
-	if numeric == nil then
-		return
-	end
-	numeric = math.clamp(math.floor(numeric), 0, 500)
-	if numeric <= 0 then
-		return
-	end
-	local profile = loadEconomy(player)
-	profile.Coins += numeric
-	notifyEconomy(player)
-	task.spawn(saveEconomy, player)
+local function addCoins(player, amount, reason)
+	local state = loadEconomy(player)
+	local safeAmount = math.clamp(math.floor(tonumber(amount) or 0), 0, 500)
+	if safeAmount <= 0 then return 0 end
+	state.Coins = math.clamp(state.Coins + safeAmount, 0, 1000000)
+	emitEconomy(player)
+	return safeAmount
 end
 
-awardCorrectAnswer.Event:Connect(function(player)
-	grantCoins(player, 10, "correct_answer")
+learningReward.Event:Connect(function(player, amount, reason)
+	if typeof(player) ~= "Instance" or not player:IsA("Player") then return end
+	addCoins(player, amount, reason)
 end)
-
-awardClassComplete.Event:Connect(function(player)
-	grantCoins(player, 25, "class_complete")
-end)
-
-awardCoins.Event:Connect(function(player, amount, reason)
-	grantCoins(player, amount, reason)
-end)
-
-economyGetState.OnServerInvoke = function(player)
-	return publicEconomyState(player)
-end
-
-economyPurchase.OnServerInvoke = function(player, itemId)
-	if type(itemId) ~= "string" then
-		return {ok = false, code = "invalid_item"}
-	end
-	local config = SHOP_ITEMS[itemId]
-	if not config then
-		return {ok = false, code = "unknown_item"}
-	end
-	local profile = loadEconomy(player)
-	if profile.Owned[itemId] == true then
-		return {ok = true, alreadyOwned = true, state = publicEconomyState(player)}
-	end
-	if profile.Coins < config.Price then
-		return {
-			ok = false,
-			code = "not_enough_coins",
-			needed = config.Price - profile.Coins,
-			state = publicEconomyState(player),
-		}
-	end
-
-	profile.Coins -= config.Price
-	profile.Owned[itemId] = true
-	syncEconomyPasses(player, profile)
-	task.spawn(saveEconomy, player)
-	notifyEconomy(player)
-	return {ok = true, purchased = itemId, state = publicEconomyState(player)}
-end
 
 local function getHumanoid(player)
 	local character = player.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-	if humanoid and humanoid:IsA("Humanoid") then
-		return humanoid
-	end
-	return nil
+	return humanoid
 end
 
-local function reapplyModelScale(player)
-	local character = player.Character
-	if not character then
-		return
-	end
-	local scale = tonumber(player:GetAttribute("StarBloxAvatarScale")) or 1
-	pcall(function()
-		character:ScaleTo(scale)
+local function getAppliedDescription(player)
+	local humanoid = getHumanoid(player)
+	if not humanoid then return nil end
+	local ok, description = pcall(function()
+		return humanoid:GetAppliedDescription()
 	end)
+	if ok then return description end
+	return nil
 end
 
 local function applyDescription(player, description)
 	local humanoid = getHumanoid(player)
-	if not humanoid then
-		description:Destroy()
-		return {ok = false, code = "character_unavailable"}
+	if not humanoid or not description then
+		if description then description:Destroy() end
+		return false
 	end
-	local ok, reason = pcall(function()
+	local ok = pcall(function()
 		humanoid:ApplyDescriptionReset(description)
 	end)
 	description:Destroy()
-	if not ok then
-		return {ok = false, code = "avatar_apply_failed", reason = tostring(reason)}
-	end
-	task.defer(reapplyModelScale, player)
-	return {ok = true}
+	return ok
 end
 
-local function currentDescription(player)
-	local humanoid = getHumanoid(player)
-	if not humanoid then
-		return nil
-	end
-	local ok, description = pcall(function()
-		return humanoid:GetAppliedDescription()
+local function applySavedAvatar(player)
+	local state = loadEconomy(player)
+	local description = nil
+	local ok = pcall(function()
+		description = Players:GetHumanoidDescriptionFromUserId(player.UserId)
 	end)
-	if ok then
-		return description
+	if not ok or not description then return end
+	local outfitName = state.SelectedOutfit
+	if outfitName and OUTFITS[outfitName] and ownedOutfits(state)[outfitName] then
+		description.Shirt = OUTFITS[outfitName].Shirt
+		description.Pants = OUTFITS[outfitName].Pants
 	end
-	return nil
-end
-
-avatarAction.OnServerInvoke = function(player, action, payload)
-	if action == "ApplyOutfit" then
-		if type(payload) ~= "string" then
-			return {ok = false, code = "invalid_outfit"}
-		end
-		local outfit = OUTFITS[payload]
-		if not outfit then
-			return {ok = false, code = "unknown_outfit"}
-		end
-		local profile = loadEconomy(player)
-		if outfit.Premium == true and profile.Owned.Premium ~= true then
-			return {ok = false, code = "premium_required"}
-		end
-		local description = currentDescription(player)
-		if not description then
-			return {ok = false, code = "avatar_unavailable"}
-		end
-		description.Shirt = outfit.Shirt
-		description.Pants = outfit.Pants
-		local result = applyDescription(player, description)
-		result.outfit = payload
-		return result
-	elseif action == "SetScale" then
-		local target = tonumber(payload)
-		if target == nil then
-			return {ok = false, code = "invalid_scale"}
-		end
-		target = math.clamp(target, 0.75, 1.25)
-		target = math.floor((target * 20) + 0.5) / 20
-		local character = player.Character
-		if not character then
-			return {ok = false, code = "character_unavailable"}
-		end
-		local ok, reason = pcall(function()
-			character:ScaleTo(target)
-		end)
-		if not ok then
-			return {ok = false, code = "scale_failed", reason = tostring(reason)}
-		end
-		player:SetAttribute("StarBloxAvatarScale", target)
-		return {ok = true, scale = target}
-	elseif action == "SetSkinTone" then
-		local index = tonumber(payload)
-		if index == nil then
-			return {ok = false, code = "invalid_skin_tone"}
-		end
-		index = math.clamp(math.floor(index), 1, #SKIN_TONES)
-		local color = SKIN_TONES[index]
-		local description = currentDescription(player)
-		if not description then
-			return {ok = false, code = "avatar_unavailable"}
-		end
+	local scale = math.clamp(state.Scale, 0.75, 1.25)
+	description.HeightScale = scale
+	description.WidthScale = math.clamp(0.9 + ((scale - 1) * 0.55), 0.8, 1.05)
+	description.DepthScale = math.clamp(0.9 + ((scale - 1) * 0.55), 0.8, 1.05)
+	description.HeadScale = math.clamp(1 - ((scale - 1) * 0.25), 0.9, 1.08)
+	if state.SkinTone and SKIN_TONES[state.SkinTone] then
+		local color = SKIN_TONES[state.SkinTone]
 		description.HeadColor = color
 		description.LeftArmColor = color
 		description.RightArmColor = color
 		description.LeftLegColor = color
 		description.RightLegColor = color
 		description.TorsoColor = color
-		local result = applyDescription(player, description)
-		result.skinTone = index
-		return result
-	elseif action == "ResetFace" then
-		local ok, original = pcall(function()
-			return Players:GetHumanoidDescriptionFromUserId(player.UserId)
-		end)
-		if not ok or not original then
-			return {ok = false, code = "avatar_unavailable"}
-		end
-		local description = currentDescription(player)
-		if not description then
-			original:Destroy()
-			return {ok = false, code = "avatar_unavailable"}
-		end
-		description.Face = original.Face
-		original:Destroy()
-		return applyDescription(player, description)
-	elseif action == "RevertOriginal" then
-		local ok, description = pcall(function()
-			return Players:GetHumanoidDescriptionFromUserId(player.UserId)
-		end)
-		if not ok or not description then
-			return {ok = false, code = "avatar_unavailable"}
-		end
-		player:SetAttribute("StarBloxAvatarScale", 1)
-		local result = applyDescription(player, description)
-		task.defer(function()
-			local character = player.Character
-			if character then
-				pcall(function()
-					character:ScaleTo(1)
-				end)
-			end
-		end)
-		result.scale = 1
-		return result
 	end
-	return {ok = false, code = "unknown_avatar_action"}
+	applyDescription(player, description)
 end
 
-Players.PlayerAdded:Connect(function(player)
-	task.spawn(loadEconomy, player)
-end)
-
-for _, player in ipairs(Players:GetPlayers()) do
-	task.spawn(loadEconomy, player)
+getEconomyState.OnServerInvoke = function(player)
+	return publicEconomyState(player)
 end
 
+purchasePack.OnServerInvoke = function(player, packId)
+	if type(packId) ~= "string" or not PACKS[packId] then
+		return {ok=false, code="unknown_pack"}
+	end
+	local state = loadEconomy(player)
+	if state.OwnedPacks[packId] then
+		return publicEconomyState(player)
+	end
+	local price = PACKS[packId].Price
+	if state.Coins < price then
+		return {ok=false, code="not_enough_coins", coins=state.Coins, needed=price}
+	end
+	state.Coins -= price
+	state.OwnedPacks[packId] = true
+	applyLegacyPackFlags(player, state)
+	emitEconomy(player)
+	task.spawn(saveEconomy, player)
+	local result = publicEconomyState(player)
+	result.purchased = packId
+	return result
+end
+
+avatarAction.OnServerInvoke = function(player, action, value)
+	local state = loadEconomy(player)
+	if action == "ApplyOutfit" then
+		if type(value) ~= "string" or not OUTFITS[value] then
+			return {ok=false, code="unknown_outfit"}
+		end
+		if not ownedOutfits(state)[value] then
+			return {ok=false, code="locked", outfit=value}
+		end
+		local description = getAppliedDescription(player)
+		if not description then return {ok=false, code="avatar_unavailable"} end
+		description.Shirt = OUTFITS[value].Shirt
+		description.Pants = OUTFITS[value].Pants
+		if not applyDescription(player, description) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		state.SelectedOutfit = value
+		task.spawn(saveEconomy, player)
+		return {ok=true, outfit=value}
+	elseif action == "Scale" then
+		local delta = math.clamp(tonumber(value) or 0, -0.15, 0.15)
+		state.Scale = math.clamp(state.Scale + delta, 0.75, 1.25)
+		local description = getAppliedDescription(player)
+		if not description then return {ok=false, code="avatar_unavailable"} end
+		description.HeightScale = state.Scale
+		description.WidthScale = math.clamp(0.9 + ((state.Scale - 1) * 0.55), 0.8, 1.05)
+		description.DepthScale = math.clamp(0.9 + ((state.Scale - 1) * 0.55), 0.8, 1.05)
+		description.HeadScale = math.clamp(1 - ((state.Scale - 1) * 0.25), 0.9, 1.08)
+		if not applyDescription(player, description) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		task.spawn(saveEconomy, player)
+		return {ok=true, scale=state.Scale}
+	elseif action == "SkinTone" then
+		local index = math.floor(tonumber(value) or 0)
+		local color = SKIN_TONES[index]
+		if not color then return {ok=false, code="invalid_skin_tone"} end
+		local description = getAppliedDescription(player)
+		if not description then return {ok=false, code="avatar_unavailable"} end
+		description.HeadColor = color
+		description.LeftArmColor = color
+		description.RightArmColor = color
+		description.LeftLegColor = color
+		description.RightLegColor = color
+		description.TorsoColor = color
+		if not applyDescription(player, description) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		state.SkinTone = index
+		task.spawn(saveEconomy, player)
+		return {ok=true, skinTone=index}
+	elseif action == "Reset" then
+		local description = nil
+		local ok = pcall(function()
+			description = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+		end)
+		if not ok or not description then return {ok=false, code="avatar_unavailable"} end
+		if not applyDescription(player, description) then return {ok=false, code="avatar_apply_failed"} end
+		state.SelectedOutfit = nil
+		state.Scale = 1
+		state.SkinTone = nil
+		task.spawn(saveEconomy, player)
+		return {ok=true, reset=true}
+	end
+	return {ok=false, code="unknown_action"}
+end
+
+local function ensurePracticeDay(state)
+	if state.PracticeDay ~= todayKey() then
+		state.PracticeDay = todayKey()
+		state.CompletedPractice = {}
+		state.CurrentPractice = nil
+	end
+end
+
+getPracticeQuestion.OnServerInvoke = function(player)
+	local state = loadEconomy(player)
+	ensurePracticeDay(state)
+	for _, question in ipairs(PRACTICE_QUESTIONS) do
+		if state.CompletedPractice[question.id] ~= true then
+			state.CurrentPractice = question.id
+			return {
+				ok=true,
+				id=question.id,
+				prompt=question.prompt,
+				choices=question.choices,
+				remaining=#PRACTICE_QUESTIONS,
+			}
+		end
+	end
+	state.CurrentPractice = nil
+	return {ok=true, done=true, message="All practice rewards earned for today."}
+end
+
+submitPracticeAnswer.OnServerInvoke = function(player, questionId, choice)
+	local state = loadEconomy(player)
+	ensurePracticeDay(state)
+	if type(questionId) ~= "string" or state.CurrentPractice ~= questionId then
+		return {ok=false, code="stale_question"}
+	end
+	local found = nil
+	for _, question in ipairs(PRACTICE_QUESTIONS) do
+		if question.id == questionId then found = question break end
+	end
+	if not found or state.CompletedPractice[questionId] then
+		return {ok=false, code="already_answered"}
+	end
+	local correct = tostring(choice) == found.answer
+	local reward = correct and 10 or 3
+	state.CompletedPractice[questionId] = true
+	state.CurrentPractice = nil
+	addCoins(player, reward, correct and "practice_correct" or "practice_attempt")
+	task.spawn(saveEconomy, player)
+	return {
+		ok=true,
+		correct=correct,
+		reward=reward,
+		coins=state.Coins,
+		hint=correct and "Nice work!" or ("Answer: "..found.answer..". "..found.hint),
+	}
+end
+
+local function setupEconomyPlayer(player)
+	local state = loadEconomy(player)
+	applyLegacyPackFlags(player, state)
+	player.CharacterAdded:Connect(function()
+		task.delay(1.25, function()
+			if player.Parent then applySavedAvatar(player) end
+		end)
+	end)
+	if player.Character then
+		task.delay(1.25, function()
+			if player.Parent then applySavedAvatar(player) end
+		end)
+	end
+end
+
+Players.PlayerAdded:Connect(setupEconomyPlayer)
 Players.PlayerRemoving:Connect(function(player)
 	saveEconomy(player)
-	economyProfiles[player] = nil
+	economyStates[player] = nil
+	economyLoaded[player] = nil
 end)
+for _, player in ipairs(Players:GetPlayers()) do
+	task.spawn(setupEconomyPlayer, player)
+end
 
 game:BindToClose(function()
-	for player in pairs(economyProfiles) do
+	for _, player in ipairs(Players:GetPlayers()) do
 		saveEconomy(player)
 	end
 end)
 
-print("STARBLOX_LEARNING_ECONOMY_READY starter=100 answerReward=10 classReward=25")
+print("STARBLOX_LEARNING_ECONOMY_READY packs=10 outfits=23 questions="..tostring(#PRACTICE_QUESTIONS))
