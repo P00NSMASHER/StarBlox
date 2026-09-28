@@ -1680,124 +1680,132 @@ function RuntimeCore.runBehaviorProbe()
 	end
 
 	print("NATIVE_PROBE_CHECKPOINT no_motor")
-	local heliFixture = Instance.new("Model")
-	heliFixture.Name = "Heli"
-	local heliSeat = Instance.new("VehicleSeat")
-	heliSeat.Name = "VehicleSeat"
-	heliSeat.Parent = heliFixture
-	local heliGyro = Instance.new("BodyGyro")
-	heliGyro.Name = "BodyGyro"
-	heliGyro.P = 3000
-	heliGyro.D = 500
-	heliGyro.MaxTorque = Vector3.new(0, 0, 0)
-	heliGyro.Parent = heliSeat
-	local heliVelocity = Instance.new("BodyVelocity")
-	heliVelocity.Name = "BodyVelocity"
-	heliVelocity.P = 1250
-	heliVelocity.MaxForce = Vector3.new(0, 0, 0)
-	heliVelocity.Parent = heliSeat
-	local heliConfig = Instance.new("Configuration")
-	heliConfig.Name = "Configuration"
-	heliConfig.Parent = heliSeat
-	local heliMaxSpeed = Instance.new("NumberValue")
-	heliMaxSpeed.Name = "MaxSpeed"
-	heliMaxSpeed.Value = 80
-	heliMaxSpeed.Parent = heliConfig
-	local heliMaxForce = Instance.new("NumberValue")
-	heliMaxForce.Name = "MaxForce"
-	heliMaxForce.Value = 100000000
-	heliMaxForce.Parent = heliConfig
-	local heliTurnSpeed = Instance.new("NumberValue")
-	heliTurnSpeed.Name = "TurnSpeed"
-	heliTurnSpeed.Value = 4.5
-	heliTurnSpeed.Parent = heliConfig
-	local heliGiver = Instance.new("Script")
-	heliGiver.Name = "Gui Giver"
-	heliGiver.Parent = heliSeat
-	local heliOwner = Instance.new("StringValue")
-	heliOwner.Name = "Owner"
-	heliOwner.Parent = heliGiver
-	local heliLanding = Instance.new("BoolValue")
-	heliLanding.Name = "Landing"
-	heliLanding.Parent = heliGiver
-	local heliGui = Instance.new("ScreenGui")
-	heliGui.Name = "HeliGui"
-	heliGui.Parent = heliSeat
-	local heliCarSeat = Instance.new("ObjectValue")
-	heliCarSeat.Name = "CarSeat"
-	heliCarSeat.Parent = heliGui
-	local heliFrame = Instance.new("Frame")
-	heliFrame.Name = "Frame"
-	heliFrame.Parent = heliGui
-	local heliControls = Instance.new("LocalScript")
-	heliControls.Name = "VehicleControls"
-	heliControls.Disabled = false
-	heliControls.Parent = heliFrame
-	local heliTakeOff = Instance.new("BoolValue")
-	heliTakeOff.Name = "TakeOffBool"
-	heliTakeOff.Parent = heliControls
-	local heliInspect = RuntimeCore.inspectNativeHelicopter(heliFixture)
-	local heliGuiBuild = RuntimeCore.buildHelicopterGui(heliFixture)
-	local heliFlightOn = RuntimeCore.setHelicopterFlightEnabled(heliFixture, true)
-	local heliLift = RuntimeCore.updateHelicopterVelocity(heliFixture, 18)
-	local heliSpeedUp = RuntimeCore.adjustHelicopterSpeed(heliFixture, 10)
-	local heliSpeedCap = RuntimeCore.adjustHelicopterSpeed(heliFixture, 1000)
-	local heliFlightOff = RuntimeCore.setHelicopterFlightEnabled(heliFixture, false)
-	local heliFinal = RuntimeCore.inspectNativeHelicopter(heliFixture)
-	local heliGuiOk = heliInspect.ok
-		and heliInspect.maxSpeed == 80
-		and heliInspect.maxForce == 100000000
-		and math.abs((heliInspect.turnSpeed or 0) - 4.5) < 0.001
-		and heliGuiBuild.ok
-		and heliGuiBuild.carSeat.Value == heliSeat
-		and heliGuiBuild.controls.Disabled == false
-		and heliGuiBuild.takeOffBool.Value == false
-		and heliGuiBuild.gui:GetAttribute("BrookhavenNativeHeliGui") == true
-		and heliFlightOn.ok
-		and heliLift.ok and heliLift.velocity.Y == 18
-		and heliSpeedUp.ok and heliSpeedUp.speed > 25
-		and heliSpeedCap.ok and heliSpeedCap.speed == 80
-		and heliFlightOff.ok
-		and heliFinal.bodyVelocity.MaxForce == Vector3.zero
-		and heliFinal.bodyGyro.MaxTorque == Vector3.zero
-		and heliFinal.landing.Value == true
-	if heliGuiBuild.gui then
-		heliGuiBuild.gui:Destroy()
+	local heliGuiOk, heliInspect, heliGuiBuild, heliFlightOn, heliLift, heliSpeedUp, heliSpeedCap, heliFlightOff
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local heliFixture = Instance.new("Model")
+		heliFixture.Name = "Heli"
+		local heliSeat = Instance.new("VehicleSeat")
+		heliSeat.Name = "VehicleSeat"
+		heliSeat.Parent = heliFixture
+		local heliGyro = Instance.new("BodyGyro")
+		heliGyro.Name = "BodyGyro"
+		heliGyro.P = 3000
+		heliGyro.D = 500
+		heliGyro.MaxTorque = Vector3.new(0, 0, 0)
+		heliGyro.Parent = heliSeat
+		local heliVelocity = Instance.new("BodyVelocity")
+		heliVelocity.Name = "BodyVelocity"
+		heliVelocity.P = 1250
+		heliVelocity.MaxForce = Vector3.new(0, 0, 0)
+		heliVelocity.Parent = heliSeat
+		local heliConfig = Instance.new("Configuration")
+		heliConfig.Name = "Configuration"
+		heliConfig.Parent = heliSeat
+		local heliMaxSpeed = Instance.new("NumberValue")
+		heliMaxSpeed.Name = "MaxSpeed"
+		heliMaxSpeed.Value = 80
+		heliMaxSpeed.Parent = heliConfig
+		local heliMaxForce = Instance.new("NumberValue")
+		heliMaxForce.Name = "MaxForce"
+		heliMaxForce.Value = 100000000
+		heliMaxForce.Parent = heliConfig
+		local heliTurnSpeed = Instance.new("NumberValue")
+		heliTurnSpeed.Name = "TurnSpeed"
+		heliTurnSpeed.Value = 4.5
+		heliTurnSpeed.Parent = heliConfig
+		local heliGiver = Instance.new("Script")
+		heliGiver.Name = "Gui Giver"
+		heliGiver.Parent = heliSeat
+		local heliOwner = Instance.new("StringValue")
+		heliOwner.Name = "Owner"
+		heliOwner.Parent = heliGiver
+		local heliLanding = Instance.new("BoolValue")
+		heliLanding.Name = "Landing"
+		heliLanding.Parent = heliGiver
+		local heliGui = Instance.new("ScreenGui")
+		heliGui.Name = "HeliGui"
+		heliGui.Parent = heliSeat
+		local heliCarSeat = Instance.new("ObjectValue")
+		heliCarSeat.Name = "CarSeat"
+		heliCarSeat.Parent = heliGui
+		local heliFrame = Instance.new("Frame")
+		heliFrame.Name = "Frame"
+		heliFrame.Parent = heliGui
+		local heliControls = Instance.new("LocalScript")
+		heliControls.Name = "VehicleControls"
+		heliControls.Disabled = false
+		heliControls.Parent = heliFrame
+		local heliTakeOff = Instance.new("BoolValue")
+		heliTakeOff.Name = "TakeOffBool"
+		heliTakeOff.Parent = heliControls
+		heliInspect = RuntimeCore.inspectNativeHelicopter(heliFixture)
+		heliGuiBuild = RuntimeCore.buildHelicopterGui(heliFixture)
+		heliFlightOn = RuntimeCore.setHelicopterFlightEnabled(heliFixture, true)
+		heliLift = RuntimeCore.updateHelicopterVelocity(heliFixture, 18)
+		heliSpeedUp = RuntimeCore.adjustHelicopterSpeed(heliFixture, 10)
+		heliSpeedCap = RuntimeCore.adjustHelicopterSpeed(heliFixture, 1000)
+		heliFlightOff = RuntimeCore.setHelicopterFlightEnabled(heliFixture, false)
+		local heliFinal = RuntimeCore.inspectNativeHelicopter(heliFixture)
+		heliGuiOk = heliInspect.ok
+			and heliInspect.maxSpeed == 80
+			and heliInspect.maxForce == 100000000
+			and math.abs((heliInspect.turnSpeed or 0) - 4.5) < 0.001
+			and heliGuiBuild.ok
+			and heliGuiBuild.carSeat.Value == heliSeat
+			and heliGuiBuild.controls.Disabled == false
+			and heliGuiBuild.takeOffBool.Value == false
+			and heliGuiBuild.gui:GetAttribute("BrookhavenNativeHeliGui") == true
+			and heliFlightOn.ok
+			and heliLift.ok and heliLift.velocity.Y == 18
+			and heliSpeedUp.ok and heliSpeedUp.speed > 25
+			and heliSpeedCap.ok and heliSpeedCap.speed == 80
+			and heliFlightOff.ok
+			and heliFinal.bodyVelocity.MaxForce == Vector3.zero
+			and heliFinal.bodyGyro.MaxTorque == Vector3.zero
+			and heliFinal.landing.Value == true
+		if heliGuiBuild.gui then
+			heliGuiBuild.gui:Destroy()
+		end
+		heliFixture:Destroy()
+	
 	end
-	heliFixture:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT helicopter")
-	local socialCarrier = Instance.new("Model")
-	socialCarrier.Name = "Carrier"
-	local carrierTorso = Instance.new("Part")
-	carrierTorso.Name = "UpperTorso"
-	carrierTorso.Anchored = true
-	carrierTorso.Parent = socialCarrier
-	local socialPassenger = Instance.new("Model")
-	socialPassenger.Name = "Passenger"
-	local passengerTorso = Instance.new("Part")
-	passengerTorso.Name = "UpperTorso"
-	passengerTorso.Anchored = true
-	passengerTorso.Parent = socialPassenger
-	local socialPair = RuntimeCore.createClient2ClientWeld(socialCarrier, socialPassenger, "Piggyback")
-	local socialWeld = passengerTorso:FindFirstChild("Client_To_ClientWeld")
-	local socialBag = Instance.new("Folder")
-	local socialPartner = Instance.new("Folder")
-	local pairValue = RuntimeCore.setClient2ClientPairValue(socialBag, socialPartner)
-	local pairValueCreated = pairValue.ok and socialBag:FindFirstChild("Client2Client") ~= nil and socialBag.Client2Client.Value == socialPartner
-	local socialClear = RuntimeCore.clearClient2ClientWeld(socialPassenger)
-	local pairClear = RuntimeCore.clearClient2ClientPairValue(socialBag)
-	local socialOk = socialPair.ok
-		and socialWeld ~= nil and socialWeld:IsA("Weld")
-		and socialWeld.Part0 == carrierTorso and socialWeld.Part1 == passengerTorso
-		and socialWeld:GetAttribute("BrookhavenSocialMode") == "Piggyback"
-		and pairValueCreated
-		and socialClear.ok and passengerTorso:FindFirstChild("Client_To_ClientWeld") == nil
-		and pairClear.ok and socialBag:FindFirstChild("Client2Client") == nil
-	socialCarrier:Destroy()
-	socialPassenger:Destroy()
-	socialBag:Destroy()
-	socialPartner:Destroy()
+	local socialOk, socialPair, pairValueCreated, socialClear
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local socialCarrier = Instance.new("Model")
+		socialCarrier.Name = "Carrier"
+		local carrierTorso = Instance.new("Part")
+		carrierTorso.Name = "UpperTorso"
+		carrierTorso.Anchored = true
+		carrierTorso.Parent = socialCarrier
+		local socialPassenger = Instance.new("Model")
+		socialPassenger.Name = "Passenger"
+		local passengerTorso = Instance.new("Part")
+		passengerTorso.Name = "UpperTorso"
+		passengerTorso.Anchored = true
+		passengerTorso.Parent = socialPassenger
+		socialPair = RuntimeCore.createClient2ClientWeld(socialCarrier, socialPassenger, "Piggyback")
+		local socialWeld = passengerTorso:FindFirstChild("Client_To_ClientWeld")
+		local socialBag = Instance.new("Folder")
+		local socialPartner = Instance.new("Folder")
+		local pairValue = RuntimeCore.setClient2ClientPairValue(socialBag, socialPartner)
+		pairValueCreated = pairValue.ok and socialBag:FindFirstChild("Client2Client") ~= nil and socialBag.Client2Client.Value == socialPartner
+		socialClear = RuntimeCore.clearClient2ClientWeld(socialPassenger)
+		local pairClear = RuntimeCore.clearClient2ClientPairValue(socialBag)
+		socialOk = socialPair.ok
+			and socialWeld ~= nil and socialWeld:IsA("Weld")
+			and socialWeld.Part0 == carrierTorso and socialWeld.Part1 == passengerTorso
+			and socialWeld:GetAttribute("BrookhavenSocialMode") == "Piggyback"
+			and pairValueCreated
+			and socialClear.ok and passengerTorso:FindFirstChild("Client_To_ClientWeld") == nil
+			and pairClear.ok and socialBag:FindFirstChild("Client2Client") == nil
+		socialCarrier:Destroy()
+		socialPassenger:Destroy()
+		socialBag:Destroy()
+		socialPartner:Destroy()
+	
+	end
 
 	print("NATIVE_PROBE_CHECKPOINT social")
 	local musicFixture = Instance.new("Model")
@@ -1861,220 +1869,236 @@ function RuntimeCore.runBehaviorProbe()
 	vehicleMusicFixture:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT vehicle_music")
-	local horseLifecycleFixture = Instance.new("Model")
-	local lifecycleHumanoid = Instance.new("Humanoid")
-	lifecycleHumanoid.Parent = horseLifecycleFixture
-	local lifecycleUpperTorso = Instance.new("Part")
-	lifecycleUpperTorso.Name = "UpperTorso"
-	lifecycleUpperTorso.CanCollide = true
-	lifecycleUpperTorso.Parent = horseLifecycleFixture
-	local lifecycleSeat = Instance.new("Part")
-	lifecycleSeat.Name = "Seat"
-	lifecycleSeat.CanCollide = true
-	lifecycleSeat.Parent = horseLifecycleFixture
-	local lifecycleOwner = Instance.new("ObjectValue")
-	lifecycleOwner.Name = "Owner"
-	lifecycleOwner.Parent = horseLifecycleFixture
-	local lifecycleMount = Instance.new("Part")
-	lifecycleMount.Name = "MountButton"
-	lifecycleMount.Parent = horseLifecycleFixture
-	local lifecycleClick = Instance.new("ClickDetector")
-	lifecycleClick.MaxActivationDistance = 10
-	lifecycleClick.Parent = lifecycleMount
-	local lifecycleGui = Instance.new("BillboardGui")
-	lifecycleGui.Enabled = true
-	lifecycleGui.Parent = lifecycleMount
-	local lifecycleAnimations = Instance.new("Folder")
-	lifecycleAnimations.Name = "Animations"
-	lifecycleAnimations.Parent = horseLifecycleFixture
-	for _, animationName in ipairs({"Walk", "Idle", "Jump", "Fall"}) do
-		local animation = Instance.new("Animation")
-		animation.Name = animationName
-		animation.Parent = lifecycleAnimations
+	local horseLifecycleOk, horseLifecycleInspect, horseLifecycleMounted, horseLifecycleRestored
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local horseLifecycleFixture = Instance.new("Model")
+		local lifecycleHumanoid = Instance.new("Humanoid")
+		lifecycleHumanoid.Parent = horseLifecycleFixture
+		local lifecycleUpperTorso = Instance.new("Part")
+		lifecycleUpperTorso.Name = "UpperTorso"
+		lifecycleUpperTorso.CanCollide = true
+		lifecycleUpperTorso.Parent = horseLifecycleFixture
+		local lifecycleSeat = Instance.new("Part")
+		lifecycleSeat.Name = "Seat"
+		lifecycleSeat.CanCollide = true
+		lifecycleSeat.Parent = horseLifecycleFixture
+		local lifecycleOwner = Instance.new("ObjectValue")
+		lifecycleOwner.Name = "Owner"
+		lifecycleOwner.Parent = horseLifecycleFixture
+		local lifecycleMount = Instance.new("Part")
+		lifecycleMount.Name = "MountButton"
+		lifecycleMount.Parent = horseLifecycleFixture
+		local lifecycleClick = Instance.new("ClickDetector")
+		lifecycleClick.MaxActivationDistance = 10
+		lifecycleClick.Parent = lifecycleMount
+		local lifecycleGui = Instance.new("BillboardGui")
+		lifecycleGui.Enabled = true
+		lifecycleGui.Parent = lifecycleMount
+		local lifecycleAnimations = Instance.new("Folder")
+		lifecycleAnimations.Name = "Animations"
+		lifecycleAnimations.Parent = horseLifecycleFixture
+		for _, animationName in ipairs({"Walk", "Idle", "Jump", "Fall"}) do
+			local animation = Instance.new("Animation")
+			animation.Name = animationName
+			animation.Parent = lifecycleAnimations
+		end
+		horseLifecycleInspect = RuntimeCore.inspectNativeHorse(horseLifecycleFixture)
+		local lifecycleCharacter = Instance.new("Model")
+		local lifecycleRoot = Instance.new("Part")
+		lifecycleRoot.Name = "HumanoidRootPart"
+		lifecycleRoot.CFrame = CFrame.new(12, 8, -4)
+		lifecycleRoot.Parent = lifecycleCharacter
+		local lifecycleWorld = Instance.new("Folder")
+		lifecycleWorld.Parent = ServerStorage
+		horseLifecycleMounted = RuntimeCore.mountHorseToCharacter(horseLifecycleFixture, lifecycleCharacter)
+		local mountWeld = lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld")
+		local mountedOk = horseLifecycleMounted.ok
+			and horseLifecycleFixture.Parent == lifecycleCharacter
+			and mountWeld ~= nil and mountWeld:IsA("WeldConstraint")
+			and lifecycleUpperTorso.CanCollide == false
+			and lifecycleUpperTorso.Massless == true
+			and lifecycleSeat.CanCollide == false
+			and lifecycleClick.MaxActivationDistance == 0
+			and lifecycleGui.Enabled == false
+		horseLifecycleRestored = RuntimeCore.dismountHorseToWorld(horseLifecycleFixture, lifecycleCharacter, lifecycleWorld)
+		horseLifecycleOk = horseLifecycleInspect.ok and mountedOk and horseLifecycleRestored.ok
+			and horseLifecycleFixture.Parent == lifecycleWorld
+			and lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld") == nil
+			and lifecycleUpperTorso.CanCollide == true
+			and lifecycleUpperTorso.Massless == false
+			and lifecycleSeat.CanCollide == true
+			and lifecycleClick.MaxActivationDistance == 10
+			and lifecycleGui.Enabled == true
+		lifecycleWorld:Destroy()
+		lifecycleCharacter:Destroy()
+	
 	end
-	local horseLifecycleInspect = RuntimeCore.inspectNativeHorse(horseLifecycleFixture)
-	local lifecycleCharacter = Instance.new("Model")
-	local lifecycleRoot = Instance.new("Part")
-	lifecycleRoot.Name = "HumanoidRootPart"
-	lifecycleRoot.CFrame = CFrame.new(12, 8, -4)
-	lifecycleRoot.Parent = lifecycleCharacter
-	local lifecycleWorld = Instance.new("Folder")
-	lifecycleWorld.Parent = ServerStorage
-	local horseLifecycleMounted = RuntimeCore.mountHorseToCharacter(horseLifecycleFixture, lifecycleCharacter)
-	local mountWeld = lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld")
-	local mountedOk = horseLifecycleMounted.ok
-		and horseLifecycleFixture.Parent == lifecycleCharacter
-		and mountWeld ~= nil and mountWeld:IsA("WeldConstraint")
-		and lifecycleUpperTorso.CanCollide == false
-		and lifecycleUpperTorso.Massless == true
-		and lifecycleSeat.CanCollide == false
-		and lifecycleClick.MaxActivationDistance == 0
-		and lifecycleGui.Enabled == false
-	local horseLifecycleRestored = RuntimeCore.dismountHorseToWorld(horseLifecycleFixture, lifecycleCharacter, lifecycleWorld)
-	local horseLifecycleOk = horseLifecycleInspect.ok and mountedOk and horseLifecycleRestored.ok
-		and horseLifecycleFixture.Parent == lifecycleWorld
-		and lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld") == nil
-		and lifecycleUpperTorso.CanCollide == true
-		and lifecycleUpperTorso.Massless == false
-		and lifecycleSeat.CanCollide == true
-		and lifecycleClick.MaxActivationDistance == 10
-		and lifecycleGui.Enabled == true
-	lifecycleWorld:Destroy()
-	lifecycleCharacter:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT horse_lifecycle")
-	local followerDisplay = Instance.new("Part")
-	followerDisplay.Name = "BabyGirl"
-	followerDisplay.Size = Vector3.new(1.4, 2.3, 0.9)
-	followerDisplay.Color = Color3.fromRGB(255, 170, 204)
-	followerDisplay.Anchored = true
-	followerDisplay.CanCollide = true
-	local followerMesh = Instance.new("SpecialMesh")
-	followerMesh.Parent = followerDisplay
-	local followerClick = Instance.new("ClickDetector")
-	followerClick.Parent = followerDisplay
-	local followerBuild = RuntimeCore.buildFollowerFromDisplayPart(followerDisplay, "BabyGirl2")
-	local followerModel = followerBuild.model
-	local followerTorso = followerModel and followerModel:FindFirstChild("Torso")
-	local followerHumanoid = followerModel and followerModel:FindFirstChildOfClass("Humanoid")
-	local followerName = followerModel and followerModel:FindFirstChild("FollowName")
-	local followerOk = followerBuild.ok
-		and followerModel ~= nil
-		and followerModel.Name == "FollowCharacter"
-		and followerModel.PrimaryPart == followerTorso
-		and followerTorso ~= nil and followerTorso:IsA("BasePart")
-		and followerTorso.Size == Vector3.new(1.4, 2.3, 0.9)
-		and followerTorso.Anchored == false
-		and followerTorso.CanCollide == false
-		and followerTorso:FindFirstChildOfClass("SpecialMesh") ~= nil
-		and followerTorso:FindFirstChildOfClass("ClickDetector") == nil
-		and followerHumanoid ~= nil
-		and followerName ~= nil and followerName:IsA("StringValue") and followerName.Value == "BabyGirl2"
-		and followerModel:GetAttribute("BrookhavenNativeDisplaySource") == true
-	if followerModel then
-		followerModel:Destroy()
+	local followerOk, followerBuild, followerName
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local followerDisplay = Instance.new("Part")
+		followerDisplay.Name = "BabyGirl"
+		followerDisplay.Size = Vector3.new(1.4, 2.3, 0.9)
+		followerDisplay.Color = Color3.fromRGB(255, 170, 204)
+		followerDisplay.Anchored = true
+		followerDisplay.CanCollide = true
+		local followerMesh = Instance.new("SpecialMesh")
+		followerMesh.Parent = followerDisplay
+		local followerClick = Instance.new("ClickDetector")
+		followerClick.Parent = followerDisplay
+		followerBuild = RuntimeCore.buildFollowerFromDisplayPart(followerDisplay, "BabyGirl2")
+		local followerModel = followerBuild.model
+		local followerTorso = followerModel and followerModel:FindFirstChild("Torso")
+		local followerHumanoid = followerModel and followerModel:FindFirstChildOfClass("Humanoid")
+		followerName = followerModel and followerModel:FindFirstChild("FollowName")
+		followerOk = followerBuild.ok
+			and followerModel ~= nil
+			and followerModel.Name == "FollowCharacter"
+			and followerModel.PrimaryPart == followerTorso
+			and followerTorso ~= nil and followerTorso:IsA("BasePart")
+			and followerTorso.Size == Vector3.new(1.4, 2.3, 0.9)
+			and followerTorso.Anchored == false
+			and followerTorso.CanCollide == false
+			and followerTorso:FindFirstChildOfClass("SpecialMesh") ~= nil
+			and followerTorso:FindFirstChildOfClass("ClickDetector") == nil
+			and followerHumanoid ~= nil
+			and followerName ~= nil and followerName:IsA("StringValue") and followerName.Value == "BabyGirl2"
+			and followerModel:GetAttribute("BrookhavenNativeDisplaySource") == true
+		if followerModel then
+			followerModel:Destroy()
+		end
+		followerDisplay:Destroy()
+	
 	end
-	followerDisplay:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT follower")
-	local displayPart = Instance.new("Part")
-	displayPart.Name = "Basketball"
-	displayPart.Size = Vector3.new(2, 2, 2)
-	displayPart.Color = Color3.fromRGB(255, 128, 0)
-	displayPart.Anchored = true
-	displayPart.CanCollide = true
-	local displayMesh = Instance.new("SpecialMesh")
-	displayMesh.MeshType = Enum.MeshType.Sphere
-	displayMesh.Parent = displayPart
-	local displayClick = Instance.new("ClickDetector")
-	displayClick.Parent = displayPart
-	local displayGui = Instance.new("BillboardGui")
-	displayGui.Parent = displayPart
-	local displayToolResult = RuntimeCore.buildToolFromDisplayPart(displayPart, "Basketball")
-	local displayTool = displayToolResult.tool
-	local displayHandle = displayTool and displayTool:FindFirstChild("Handle")
-	local toolVisualOk = displayToolResult.ok
-		and displayTool ~= nil
-		and displayHandle ~= nil
-		and displayHandle:IsA("BasePart")
-		and displayTool.Name == "Basketball"
-		and displayHandle.Size == Vector3.new(2, 2, 2)
-		and displayHandle.Color == Color3.fromRGB(255, 128, 0)
-		and displayHandle.Anchored == false
-		and displayHandle.CanCollide == false
-		and displayHandle.Massless == true
-		and displayHandle:FindFirstChildOfClass("SpecialMesh") ~= nil
-		and displayHandle:FindFirstChildOfClass("ClickDetector") == nil
-		and displayHandle:FindFirstChildOfClass("BillboardGui") == nil
-		and displayTool:GetAttribute("BrookhavenNativeDisplaySource") == true
-	if displayTool then
-		displayTool:Destroy()
+	local toolVisualOk, displayToolResult
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local displayPart = Instance.new("Part")
+		displayPart.Name = "Basketball"
+		displayPart.Size = Vector3.new(2, 2, 2)
+		displayPart.Color = Color3.fromRGB(255, 128, 0)
+		displayPart.Anchored = true
+		displayPart.CanCollide = true
+		local displayMesh = Instance.new("SpecialMesh")
+		displayMesh.MeshType = Enum.MeshType.Sphere
+		displayMesh.Parent = displayPart
+		local displayClick = Instance.new("ClickDetector")
+		displayClick.Parent = displayPart
+		local displayGui = Instance.new("BillboardGui")
+		displayGui.Parent = displayPart
+		displayToolResult = RuntimeCore.buildToolFromDisplayPart(displayPart, "Basketball")
+		local displayTool = displayToolResult.tool
+		local displayHandle = displayTool and displayTool:FindFirstChild("Handle")
+		toolVisualOk = displayToolResult.ok
+			and displayTool ~= nil
+			and displayHandle ~= nil
+			and displayHandle:IsA("BasePart")
+			and displayTool.Name == "Basketball"
+			and displayHandle.Size == Vector3.new(2, 2, 2)
+			and displayHandle.Color == Color3.fromRGB(255, 128, 0)
+			and displayHandle.Anchored == false
+			and displayHandle.CanCollide == false
+			and displayHandle.Massless == true
+			and displayHandle:FindFirstChildOfClass("SpecialMesh") ~= nil
+			and displayHandle:FindFirstChildOfClass("ClickDetector") == nil
+			and displayHandle:FindFirstChildOfClass("BillboardGui") == nil
+			and displayTool:GetAttribute("BrookhavenNativeDisplaySource") == true
+		if displayTool then
+			displayTool:Destroy()
+		end
+		displayPart:Destroy()
+	
 	end
-	displayPart:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT tool_visual")
-	local horseFixture = Instance.new("Model")
-	local horseHead = Instance.new("Part")
-	horseHead.Name = "Head"
-	horseHead.Parent = horseFixture
-	local horseNameGui = Instance.new("BillboardGui")
-	horseNameGui.Name = "NameGUI"
-	horseNameGui.Parent = horseHead
-	local horseNameText = Instance.new("TextBox")
-	horseNameText.Name = "NameTxt"
-	horseNameText.Parent = horseNameGui
-	local horseTorso = Instance.new("Part")
-	horseTorso.Name = "UpperTorso"
-	horseTorso.Parent = horseFixture
-	local horseBodyState = Instance.new("StringValue")
-	horseBodyState.Name = "Color"
-	horseBodyState.Parent = horseTorso
-	local horseTexture = Instance.new("Texture")
-	horseTexture.Name = "Texture"
-	horseTexture.Parent = horseTorso
-	local horseMane = Instance.new("Part")
-	horseMane.Name = "Mane"
-	horseMane.Parent = horseFixture
-	local horseManeState = Instance.new("StringValue")
-	horseManeState.Name = "HairColor"
-	horseManeState.Parent = horseMane
-	local horseTail = Instance.new("Part")
-	horseTail.Name = "Tail"
-	horseTail.Parent = horseFixture
-	local horseTailState = Instance.new("StringValue")
-	horseTailState.Name = "HairColor"
-	horseTailState.Parent = horseTail
-	local horseSaddle = Instance.new("Part")
-	horseSaddle.Name = "Saddle"
-	horseSaddle.Parent = horseFixture
-	local horseSeat = Instance.new("Part")
-	horseSeat.Name = "Seat"
-	horseSeat.Parent = horseFixture
-	local horseSeatScript = Instance.new("Script")
-	horseSeatScript.Name = "HorseSeat"
-	horseSeatScript.Parent = horseSeat
-	local blackPreset = Instance.new("Folder")
-	blackPreset.Name = "BlackHorse"
-	blackPreset.Parent = horseSeatScript
-	for valueName, storedValue in pairs({
-		HorseBodyColor = "Really black",
-		HorseHairColor = "Really black",
-		HorseSaddleColor = "Brown",
-		HorseTexture = "Really black",
-	}) do
-		local stored = Instance.new("StringValue")
-		stored.Name = valueName
-		stored.Value = storedValue
-		stored.Parent = blackPreset
+	local horseCustomizationOk, horseNameResult, horseNameColorResult, horseBodyResult, horseHairResult, horseSaddleResult, horseTextureResult, horsePresetResult
+	do -- Fixture temporaries must not exhaust Luau registers.
+		local horseFixture = Instance.new("Model")
+		local horseHead = Instance.new("Part")
+		horseHead.Name = "Head"
+		horseHead.Parent = horseFixture
+		local horseNameGui = Instance.new("BillboardGui")
+		horseNameGui.Name = "NameGUI"
+		horseNameGui.Parent = horseHead
+		local horseNameText = Instance.new("TextBox")
+		horseNameText.Name = "NameTxt"
+		horseNameText.Parent = horseNameGui
+		local horseTorso = Instance.new("Part")
+		horseTorso.Name = "UpperTorso"
+		horseTorso.Parent = horseFixture
+		local horseBodyState = Instance.new("StringValue")
+		horseBodyState.Name = "Color"
+		horseBodyState.Parent = horseTorso
+		local horseTexture = Instance.new("Texture")
+		horseTexture.Name = "Texture"
+		horseTexture.Parent = horseTorso
+		local horseMane = Instance.new("Part")
+		horseMane.Name = "Mane"
+		horseMane.Parent = horseFixture
+		local horseManeState = Instance.new("StringValue")
+		horseManeState.Name = "HairColor"
+		horseManeState.Parent = horseMane
+		local horseTail = Instance.new("Part")
+		horseTail.Name = "Tail"
+		horseTail.Parent = horseFixture
+		local horseTailState = Instance.new("StringValue")
+		horseTailState.Name = "HairColor"
+		horseTailState.Parent = horseTail
+		local horseSaddle = Instance.new("Part")
+		horseSaddle.Name = "Saddle"
+		horseSaddle.Parent = horseFixture
+		local horseSeat = Instance.new("Part")
+		horseSeat.Name = "Seat"
+		horseSeat.Parent = horseFixture
+		local horseSeatScript = Instance.new("Script")
+		horseSeatScript.Name = "HorseSeat"
+		horseSeatScript.Parent = horseSeat
+		local blackPreset = Instance.new("Folder")
+		blackPreset.Name = "BlackHorse"
+		blackPreset.Parent = horseSeatScript
+		for valueName, storedValue in pairs({
+			HorseBodyColor = "Really black",
+			HorseHairColor = "Really black",
+			HorseSaddleColor = "Brown",
+			HorseTexture = "Really black",
+		}) do
+			local stored = Instance.new("StringValue")
+			stored.Name = valueName
+			stored.Value = storedValue
+			stored.Parent = blackPreset
+		end
+		horseNameResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseName", "Comet")
+		horseNameColorResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseNameColor", Color3.fromRGB(255, 0, 0))
+		horseBodyResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseBodyColor", Color3.fromRGB(163, 162, 165))
+		horseHairResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseHairColor", Color3.fromRGB(17, 17, 17))
+		horseSaddleResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingSaddleColor", Color3.fromRGB(124, 92, 70))
+		horseTextureResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseTexture", Color3.fromRGB(255, 0, 0))
+		local horseManualCustomizationOk = horseNameResult.ok
+			and horseNameColorResult.ok
+			and horseBodyResult.ok
+			and horseHairResult.ok
+			and horseSaddleResult.ok
+			and horseTextureResult.ok
+			and horseNameText.Text == "Comet"
+			and horseNameText.TextColor3 == Color3.fromRGB(255, 0, 0)
+			and horseTorso.Color == Color3.fromRGB(163, 162, 165)
+			and horseBodyState.Value == "Medium stone grey"
+			and horseMane.Color == Color3.fromRGB(17, 17, 17)
+			and horseTail.Color == Color3.fromRGB(17, 17, 17)
+			and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
+		horsePresetResult = RuntimeCore.applyHorseCustomization(horseFixture, "BlackHorseFree")
+		local horsePresetOk = horsePresetResult.ok
+			and horseTorso.Color == Color3.fromRGB(17, 17, 17)
+			and horseBodyState.Value == "Really black"
+			and horseMane.Color == Color3.fromRGB(17, 17, 17)
+			and horseTail.Color == Color3.fromRGB(17, 17, 17)
+			and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
+		horseCustomizationOk = horseManualCustomizationOk and horsePresetOk
+		horseFixture:Destroy()
+	
 	end
-	local horseNameResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseName", "Comet")
-	local horseNameColorResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseNameColor", Color3.fromRGB(255, 0, 0))
-	local horseBodyResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseBodyColor", Color3.fromRGB(163, 162, 165))
-	local horseHairResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseHairColor", Color3.fromRGB(17, 17, 17))
-	local horseSaddleResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingSaddleColor", Color3.fromRGB(124, 92, 70))
-	local horseTextureResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseTexture", Color3.fromRGB(255, 0, 0))
-	local horseManualCustomizationOk = horseNameResult.ok
-		and horseNameColorResult.ok
-		and horseBodyResult.ok
-		and horseHairResult.ok
-		and horseSaddleResult.ok
-		and horseTextureResult.ok
-		and horseNameText.Text == "Comet"
-		and horseNameText.TextColor3 == Color3.fromRGB(255, 0, 0)
-		and horseTorso.Color == Color3.fromRGB(163, 162, 165)
-		and horseBodyState.Value == "Medium stone grey"
-		and horseMane.Color == Color3.fromRGB(17, 17, 17)
-		and horseTail.Color == Color3.fromRGB(17, 17, 17)
-		and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
-	local horsePresetResult = RuntimeCore.applyHorseCustomization(horseFixture, "BlackHorseFree")
-	local horsePresetOk = horsePresetResult.ok
-		and horseTorso.Color == Color3.fromRGB(17, 17, 17)
-		and horseBodyState.Value == "Really black"
-		and horseMane.Color == Color3.fromRGB(17, 17, 17)
-		and horseTail.Color == Color3.fromRGB(17, 17, 17)
-		and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
-	local horseCustomizationOk = horseManualCustomizationOk and horsePresetOk
-	horseFixture:Destroy()
 
 	print("NATIVE_PROBE_CHECKPOINT horse_customization")
 	local houseFireFixture = Instance.new("Model")
