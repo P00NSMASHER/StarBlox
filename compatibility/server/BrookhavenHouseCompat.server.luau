@@ -1233,7 +1233,15 @@ local function removePlayerVehicle(player)
 end
 
 local function removeNoMotorVehicle(player)
-	removeVehicleModel(activeNoMotorByPlayer[player])
+	local model = activeNoMotorByPlayer[player]
+	if not model then
+		local character = player.Character
+		local current = character and character:FindFirstChild("NoMotorVehicleModel")
+		if current and current:IsA("Model") then
+			model = current
+		end
+	end
+	removeVehicleModel(model)
 	activeNoMotorByPlayer[player] = nil
 end
 
@@ -1350,21 +1358,48 @@ local function spawnVehicle(player, requestedName, noMotor)
 		return {ok = false, code = "rate_limited"}
 	end
 	lastVehicleSpawn[player] = now
-	local spawnAt = vehicleSpawnCFrame(player)
-	if not spawnAt then
-		return {ok = false, code = "character_unavailable"}
-	end
+
 	local result = cloneVehicleTemplate(requestedName, noMotor)
 	if not result.ok then
 		return result
 	end
-	if noMotor then
-		removeNoMotorVehicle(player)
-	else
-		removePlayerVehicle(player)
-	end
 	local clone = result.model
-	local driveReady = normalizeVehicle(player, clone, requestedName, noMotor)
+
+	if noMotor then
+		local character = player.Character
+		if not (character and character:FindFirstChild("HumanoidRootPart")) then
+			clone:Destroy()
+			return {ok = false, code = "character_unavailable"}
+		end
+		removeNoMotorVehicle(player)
+		clone:SetAttribute("StarBloxVehicleOwnerUserId", player.UserId)
+		clone:SetAttribute("BrookhavenVehicleType", requestedName)
+		clone:SetAttribute("BrookhavenNativeRemoteSpawn", true)
+		clone:SetAttribute("BrookhavenNoMotorSourceName", requestedName)
+		local attached = RuntimeCore.attachNoMotorVehicle(clone, character)
+		if not attached.ok then
+			clone:Destroy()
+			return attached
+		end
+		activeNoMotorByPlayer[player] = clone
+		return {
+			ok = true,
+			vehicle = requestedName,
+			modelName = clone.Name,
+			noMotor = true,
+			attached = attached,
+			hasVehicleSeat = false,
+			nativeCarClientAvailable = false,
+		}
+	end
+
+	local spawnAt = vehicleSpawnCFrame(player)
+	if not spawnAt then
+		clone:Destroy()
+		return {ok = false, code = "character_unavailable"}
+	end
+	removePlayerVehicle(player)
+	local driveReady = normalizeVehicle(player, clone, requestedName, false)
 	if not driveReady.ok then
 		clone:Destroy()
 		return driveReady
@@ -1379,11 +1414,7 @@ local function spawnVehicle(player, requestedName, noMotor)
 		return {ok = false, code = "spawn_failed", reason = tostring(reason)}
 	end
 	bindVehicleSeats(player, clone)
-	if noMotor then
-		activeNoMotorByPlayer[player] = clone
-	else
-		activeVehicleByPlayer[player] = clone
-	end
+	activeVehicleByPlayer[player] = clone
 	return {
 		ok = true,
 		vehicle = requestedName,
@@ -2328,4 +2359,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1 heliGui=" .. tostring(nativeHeliHandoffReady) .. " heliFlight=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1 heliGui=" .. tostring(nativeHeliHandoffReady) .. " heliFlight=1 noMotor=1")
