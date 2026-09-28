@@ -41,6 +41,7 @@ local playerLot = {}
 local pendingLot = {}
 local touchDebounce = {}
 local templates = {}
+local PRELOADED_OCCUPIED = {}
 
 local function ensureValue(parent, className, name, defaultValue)
 	local current = parent:FindFirstChild(name)
@@ -180,6 +181,9 @@ for fallbackIndex, candidate in ipairs(lotCandidates) do
 	end
 	numberValue.Value = number
 
+	local baseline = lot:FindFirstChild("HousePickedByPlayer")
+	local hasPreloadedHouse = baseline and baseline:IsA("Model") or false
+
 	local camera = nearest and nearest.camera or mapCameras:FindFirstChild("House" .. tostring(number))
 	local owned = camera and camera:FindFirstChild("HouseOwned")
 	if camera and not (owned and owned:IsA("BoolValue")) then
@@ -188,10 +192,10 @@ for fallbackIndex, candidate in ipairs(lotCandidates) do
 		owned.Parent = camera
 	end
 	if owned then
-		owned.Value = false
+		-- Reconcile occupancy from the world snapshot instead of assuming every lot is vacant.
+		owned.Value = hasPreloadedHouse
 	end
 
-	local baseline = lot:FindFirstChild("HousePickedByPlayer")
 	local baselineClone = nil
 	local baselineRelative = nil
 	if baseline and baseline:IsA("Model") then
@@ -218,7 +222,8 @@ for fallbackIndex, candidate in ipairs(lotCandidates) do
 		numberValue = numberValue,
 		camera = camera,
 		ownedValue = owned,
-		owner = nil,
+		owner = hasPreloadedHouse and PRELOADED_OCCUPIED or nil,
+		preloadedOccupied = hasPreloadedHouse,
 		baseline = baselineClone,
 		baselineRelative = baselineRelative,
 		originalTransparency = buy.Transparency,
@@ -325,7 +330,7 @@ local function beginPurchase(player, record)
 		return
 	end
 	if record.owner and record.owner ~= player then
-		message(player, "This home is already owned.")
+		message(player, record.preloadedOccupied and "This home is already occupied." or "This home is already owned.")
 		return
 	end
 	pendingLot[player] = record
@@ -533,4 +538,15 @@ for _, player in ipairs(Players:GetPlayers()) do
 	ensureBag(player)
 end
 
-print("STARBLOX_BROOKHAVEN_COMPAT_SERVER_READY lots=" .. tostring(#lotCandidates) .. " templates=" .. tostring(#templates))
+local preloadedOccupiedCount = 0
+for _, record in pairs(recordsByNumber) do
+	if record.preloadedOccupied then
+		preloadedOccupiedCount += 1
+	end
+end
+
+print(
+	"STARBLOX_BROOKHAVEN_COMPAT_SERVER_READY lots=" .. tostring(#lotCandidates) ..
+	" templates=" .. tostring(#templates) ..
+	" preloadedOccupied=" .. tostring(preloadedOccupiedCount)
+)
