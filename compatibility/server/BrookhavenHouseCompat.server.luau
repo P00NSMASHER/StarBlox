@@ -956,6 +956,14 @@ playersHouse.OnServerEvent:Connect(function(player, action, value)
 			return
 		end
 		RuntimeCore.applyHouseMusicMutation(house, action, value)
+		return
+	end
+	if action == "PlayerWantsFire"
+		or action == "PlayerWantsFireOnFirePass"
+		or action == "PlayerWantsFireOnFirePassNotShowingAnyone"
+		or action == "PlayerWantsFireOffFirePass"
+	then
+		RuntimeCore.applyHouseFireMutation(house, action)
 	end
 end)
 
@@ -1721,4 +1729,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
