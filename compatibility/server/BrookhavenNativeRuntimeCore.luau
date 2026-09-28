@@ -1482,6 +1482,28 @@ function RuntimeCore.setNativeHousePermission(permissionFolder, target, allowed)
 end
 
 
+
+function RuntimeCore.playNativeVehicleSpecialSound(model, action)
+	if not (model and model:IsA("Model")) then
+		return {ok = false, code = "vehicle_missing"}
+	end
+	if action ~= "Duke" and action ~= "Duke1" then
+		return {ok = false, code = "unknown_vehicle_special_sound"}
+	end
+	local sound = model:FindFirstChild(action, true)
+	if not (sound and sound:IsA("Sound")) then
+		return {ok = false, code = "vehicle_special_sound_missing", action = action}
+	end
+	local ok = pcall(function()
+		sound:Play()
+	end)
+	return {
+		ok = ok and sound.Playing == true,
+		action = action,
+		sound = sound,
+	}
+end
+
 function RuntimeCore.toggleNativePoolCover(poolCovers, houseNumber)
 	if not poolCovers then
 		return {ok = false, code = "pool_covers_missing"}
@@ -2148,10 +2170,14 @@ function RuntimeCore.runBehaviorProbe()
 		local pivotOk = pcall(function()
 			model:PivotTo(CFrame.new(0, -10000, 0))
 		end)
+		local duke = RuntimeCore.playNativeVehicleSpecialSound(model, "Duke")
+		local duke1 = RuntimeCore.playNativeVehicleSpecialSound(model, "Duke1")
 		descendants = #model:GetDescendants()
 		hasVehicleSeat = RuntimeCore.primaryVehicleSeat(model) ~= nil
 		vehicleName = vehicleResult.vehicle
-		vehicleOk = pivotOk and descendants > 0 and hasVehicleSeat and driveReady.ok == true
+		vehicleOk = pivotOk and descendants > 0 and hasVehicleSeat and driveReady.ok == true and duke.ok and duke1.ok
+		vehicleResult.duke = duke
+		vehicleResult.duke1 = duke1
 		model:Destroy()
 	end
 
@@ -2190,7 +2216,7 @@ function RuntimeCore.runBehaviorProbe()
 		shop = {ok = shopOk, music = music, speed = speed},
 		profile = {ok = profileOk, rolePlayName = rpName, rolePlayBio = rpBio, rolePlayColor = rpColor, job = job, quitJob = quitJob},
 		houseBusiness = {ok = houseBusinessOk, name = businessName, color = businessColor},
-		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat, driveReady = driveReady},
+		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat, driveReady = driveReady, duke = vehicleResult.duke, duke1 = vehicleResult.duke1},
 		contracts = {ok = contractsOk},
 	}
 end
