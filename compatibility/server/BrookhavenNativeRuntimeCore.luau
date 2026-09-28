@@ -137,6 +137,40 @@ function RuntimeCore.primaryVehicleSeat(model)
 	return nil
 end
 
+function RuntimeCore.prepareNativeVehicle(model)
+	local seat = RuntimeCore.primaryVehicleSeat(model)
+	if not seat then
+		return {ok = false, code = "vehicle_seat_missing"}
+	end
+
+	local required = {
+		CylindricalBL = false,
+		CylindricalBR = false,
+		CylindricalFL = false,
+		CylindricalFR = false,
+	}
+	local constraintCount = 0
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("CylindricalConstraint") and required[item.Name] ~= nil then
+			required[item.Name] = true
+			constraintCount += 1
+		end
+	end
+	for name, present in pairs(required) do
+		if not present then
+			return {ok = false, code = "drivetrain_constraint_missing", constraint = name}
+		end
+	end
+
+	seat.Anchored = false
+	return {
+		ok = seat.Anchored == false,
+		seat = seat.Name,
+		seatAnchored = seat.Anchored,
+		driveConstraints = constraintCount,
+	}
+end
+
 
 local function boundedText(value, maxBytes)
 	local text = tostring(value or "")
@@ -297,8 +331,10 @@ function RuntimeCore.runBehaviorProbe()
 	local vehicleName = nil
 	local descendants = 0
 	local hasVehicleSeat = false
+	local driveReady = nil
 	if vehicleResult.ok and vehicleResult.model then
 		local model = vehicleResult.model
+		driveReady = RuntimeCore.prepareNativeVehicle(model)
 		model.Parent = ServerStorage
 		local pivotOk = pcall(function()
 			model:PivotTo(CFrame.new(0, -10000, 0))
@@ -306,7 +342,7 @@ function RuntimeCore.runBehaviorProbe()
 		descendants = #model:GetDescendants()
 		hasVehicleSeat = RuntimeCore.primaryVehicleSeat(model) ~= nil
 		vehicleName = vehicleResult.vehicle
-		vehicleOk = pivotOk and descendants > 0 and hasVehicleSeat
+		vehicleOk = pivotOk and descendants > 0 and hasVehicleSeat and driveReady.ok == true
 		model:Destroy()
 	end
 
@@ -322,7 +358,7 @@ function RuntimeCore.runBehaviorProbe()
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
 		shop = {ok = shopOk, music = music, speed = speed},
 		profile = {ok = profileOk, rolePlayName = rpName, rolePlayBio = rpBio, rolePlayColor = rpColor, job = job, quitJob = quitJob},
-		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat},
+		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat, driveReady = driveReady},
 		contracts = {ok = contractsOk},
 	}
 end
