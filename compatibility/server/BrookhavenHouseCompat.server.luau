@@ -1883,7 +1883,105 @@ local function acceptSocialPair(passenger, carrier, acceptAction)
 	return result
 end
 
+local nativeBannedLots = ReplicatedStorage:WaitForChild("BannedLots")
+
+local function ownedHouseAccessState(player)
+	local record = playerLot[player]
+	if not record or record.owner ~= player then
+		return nil
+	end
+	local house = currentHouse(record)
+	local main = house and house:FindFirstChild("MainHouseScript", true)
+	local permissionFolder = main and main:FindFirstChild("PermissionPlayers")
+	if permissionFolder and not permissionFolder:IsA("Folder") then
+		permissionFolder = nil
+	end
+	return {
+		record = record,
+		house = house,
+		permissionFolder = permissionFolder,
+	}
+end
+
+local function setNativeHouseBan(owner, target, banned)
+	if not (target and target:IsA("Player")) or target == owner then
+		return {ok = false, code = "invalid_target"}
+	end
+	local state = ownedHouseAccessState(owner)
+	if not state then
+		return {ok = false, code = "house_not_owned"}
+	end
+	local block = RuntimeCore.inspectNativeBanBlock(nativeBannedLots, state.record.number)
+	if not block.ok then
+		return block
+	end
+	state.record.bannedPlayers = state.record.bannedPlayers or {}
+	if banned then
+		state.record.bannedPlayers[target.UserId] = true
+	else
+		state.record.bannedPlayers[target.UserId] = nil
+	end
+	if target.Character then
+		playerTriggerRemote:FireClient(
+			target,
+			banned and "ClientBanBlock" or "ClientBanBlockRemove",
+			state.record.numberValue,
+			target.Character,
+			owner.Name
+		)
+	end
+	return {
+		ok = banned and state.record.bannedPlayers[target.UserId] == true
+			or (not banned and state.record.bannedPlayers[target.UserId] == nil),
+		banned = banned == true,
+		houseNumber = state.record.number,
+	}
+end
+
+local function setNativeRoommate(owner, target, allowed, requestedHouseNumber)
+	if not (target and target:IsA("Player")) or target == owner then
+		return {ok = false, code = "invalid_target"}
+	end
+	local state = ownedHouseAccessState(owner)
+	if not state then
+		return {ok = false, code = "house_not_owned"}
+	end
+	if tonumber(requestedHouseNumber) ~= state.record.number then
+		return {ok = false, code = "house_number_mismatch"}
+	end
+	if not state.permissionFolder then
+		return {ok = false, code = "permission_folder_missing"}
+	end
+	local result = RuntimeCore.setNativeHousePermission(state.permissionFolder, target, allowed)
+	if result.ok then
+		state.record.permissionPlayers = state.record.permissionPlayers or {}
+		if allowed then
+			state.record.permissionPlayers[target.UserId] = true
+		else
+			state.record.permissionPlayers[target.UserId] = nil
+		end
+	end
+	return result
+end
+
 playerTriggerRemote.OnServerEvent:Connect(function(player, action, a, b, c)
+	if action == "BanPlayerFromHouse" then
+		setNativeHouseBan(player, a, true)
+		return
+	end
+	if action == "UnBanPlayerFromHouse" then
+		setNativeHouseBan(player, a, false)
+		return
+	end
+	if action == "GivePermissionLoopToServer" then
+		setNativeRoommate(player, a, true, b)
+		return
+	end
+	if action == "RemovePermissionLoopToServer" then
+		setNativeRoommate(player, a, false, b)
+		return
+	end
+
 	if action == "Client2Client" then
 		local request = tostring(a or "")
 		local target = b
