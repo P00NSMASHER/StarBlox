@@ -2,6 +2,10 @@ name: Verify Clean Brookhaven Baseline
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-clean-brookhaven.yml"
 
 permissions:
   contents: read
