@@ -50,6 +50,8 @@ jobs:
             'for _,x in ipairs(RS.RemoteEvents:GetChildren()) do table.insert(names,x.Name..":"..x.ClassName) end',
             'table.sort(names)',
             'print("NATIVE_REMOTE_INVENTORY "..table.concat(names,","))',
+            'local backup=RS:FindFirstChild("003_CarBackup")',
+            'if backup then for _,m in ipairs(backup:GetChildren()) do if m:IsA("Model") then local parts=0;local anchored=0;local seats=0;local constraints=0;local scripts=0;local liveScripts=0; for _,d in ipairs(m:GetDescendants()) do if d:IsA("BasePart") then parts+=1;if d.Anchored then anchored+=1 end end; if d:IsA("VehicleSeat") then seats+=1 end; if d:IsA("Constraint") then constraints+=1 end; if d:IsA("LuaSourceContainer") then scripts+=1;if #d.Source>0 then liveScripts+=1 end end end; print("VEHICLE_TEMPLATE name="..m.Name.." parts="..parts.." anchored="..anchored.." seats="..seats.." constraints="..constraints.." scripts="..scripts.." sourceScripts="..liveScripts) end end end',
             'if hidden then local h={}; for _,x in ipairs(hidden:GetChildren()) do table.insert(h,x.Name..":"..x.ClassName) end; print("NATIVE_HIDDEN "..table.concat(h,",")) end',
             'print("NATIVE_DIAG_DONE")'
           ].join("\n");
