@@ -436,3 +436,39 @@ jobs:
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
+
+      - name: Test Brookhaven startup animation loads
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
+          const script=[
+            'assert(game.PlaceVersion==40,"expected v40")',
+            'local S=game:GetService("StarterGui")',
+            'local W=game:GetService("Workspace")',
+            'local ph=S:WaitForChild("PlayerHandler")',
+            'local names={"ScooterAnimation","SegwaySmallAnimation","SkateBoardAnimation"}',
+            'local rig=Instance.new("Model"); rig.Name="__StarBloxAnimationProbe"; rig.Parent=W',
+            'local ac=Instance.new("AnimationController"); ac.Parent=rig',
+            'local animator=Instance.new("Animator"); animator.Parent=ac',
+            'for _,n in ipairs(names) do',
+            ' local a=ph:FindFirstChild(n)',
+            ' print("ANIM_ID "..n.."="..tostring(a and a.AnimationId or "missing"))',
+            ' if a then',
+            '  local ok,res=pcall(function() return animator:LoadAnimation(a) end)',
+            '  print("ANIM_LOAD "..n.." ok="..tostring(ok).." result="..tostring(res))',
+            '  if ok and res then pcall(function() res:Destroy() end) end',
+            ' end',
+            'end',
+            'rig:Destroy()'
+          ].join("\n");
+          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}),"create");
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
