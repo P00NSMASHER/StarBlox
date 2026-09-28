@@ -62,7 +62,7 @@ const houseStorageCandidates=rows.filter(r=>{
   return (p.startsWith('DataModel/ReplicatedStorage/')||p.startsWith('DataModel/ServerStorage/')) &&
     (n.includes('house')||n.includes('motel')) &&
     ['Folder','Model'].includes(cls(r.node));
-}).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)}).slice(0,500));
+}).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)})).slice(0,500);
 const sourceStats={
   scripts:scripts.length,
   nonEmptyScripts:scripts.filter(r=>String(r.node?.properties?.Source?.String||'').trim().length>0).length,
