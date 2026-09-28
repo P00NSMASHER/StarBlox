@@ -135,3 +135,46 @@ jobs:
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
+
+      - name: Inspect avatar outfit payloads
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
+          const script=[
+            'assert(game.PlaceVersion==44,"expected v44")',
+            'local SG=game:GetService("StarterGui")',
+            'local nr=SG:WaitForChild("NoResetGUIHandler")',
+            'local editor=nr:WaitForChild("MainEditor")',
+            'local outfit=editor.Catalog.Container:FindFirstChild("OutfitFrame")',
+            'print("AVATAR_PAYLOAD_BEGIN")',
+            'if outfit then for _,btn in ipairs(outfit:GetChildren()) do',
+            ' if btn:IsA("GuiButton") then',
+            '  local values={}',
+            '  for _,d in ipairs(btn:GetDescendants()) do',
+            '   if d:IsA("ValueBase") then table.insert(values,d.Name.."="..tostring(d.Value)) end',
+            '  end',
+            '  print("OUTFIT "..btn.Name.." values="..table.concat(values,","))',
+            ' end',
+            'end end',
+            'for _,d in ipairs(editor:GetDescendants()) do',
+            ' if d:IsA("ValueBase") then',
+            '  local p=d:GetFullName()',
+            '  if string.find(p,"Skin",1,true) or string.find(p,"Face",1,true) or string.find(p,"Shirt",1,true) or string.find(p,"Pants",1,true) then',
+            '   print("AVATAR_VALUE "..p.." class="..d.ClassName.." value="..tostring(d.Value))',
+            '  end',
+            ' end',
+            'end',
+            'print("AVATAR_PAYLOAD_END")'
+          ].join("\n");
+          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+          let task=await parse(response,"create");
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
