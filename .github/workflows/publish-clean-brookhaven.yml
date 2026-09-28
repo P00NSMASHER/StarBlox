@@ -3,7 +3,7 @@ name: Publish Clean Brookhaven Baseline
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, repair/native-brookhaven-runtime-v51]
     paths:
       - ".github/workflows/publish-clean-brookhaven.yml"
       - "brookhaven-source.json"
@@ -11,6 +11,7 @@ on:
       - "scripts/publish-private.mjs"
       - "compatibility/**"
       - "tools/brookhaven_compat_patcher/**"
+      - "scripts/verify-published-native-runtime.mjs"
 
 permissions:
   contents: read
@@ -45,6 +46,12 @@ jobs:
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: node scripts/publish-private.mjs
+      - name: Verify published native Brookhaven behavior
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/verify-published-native-runtime.mjs
       - name: Upload compatibility receipt
         uses: actions/upload-artifact@v4
         with:
