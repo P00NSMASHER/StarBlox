@@ -3,7 +3,7 @@ name: Publish Clean Brookhaven Baseline
 on:
   workflow_dispatch:
   push:
-    branches: [main, repair/native-brookhaven-runtime-v51, repair/native-weather-controller-v52]
+    branches: [main, repair/native-brookhaven-runtime-v51, repair/native-weather-controller-v52, repair/avatar-shop-live-path-v53]
     paths:
       - ".github/workflows/publish-clean-brookhaven.yml"
       - "brookhaven-source.json"
@@ -13,6 +13,7 @@ on:
       - "tools/brookhaven_compat_patcher/**"
       - "scripts/verify-published-native-runtime.mjs"
       - "scripts/verify-compatibility-compile.luau"
+      - "scripts/verify-native-ui-live-path.mjs"
 
 permissions:
   contents: read
@@ -31,6 +32,8 @@ jobs:
         with:
           node-version: "22"
       - uses: dtolnay/rust-toolchain@stable
+      - name: Verify shop/avatar live-path contracts
+        run: node scripts/verify-native-ui-live-path.mjs | tee native-ui-contract.log
       - name: Compile exact-revision Luau modules before publishing
         shell: bash
         run: |
@@ -76,6 +79,7 @@ jobs:
           path: |
             source-revision.txt
             native-compile.log
+            native-ui-contract.log
             controller-regressions.log
             native-behavior.log
             brookhaven-compat-receipt.json
