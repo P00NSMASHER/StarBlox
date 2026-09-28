@@ -55,6 +55,12 @@ const lotsRoot=rows.find(r=>r.pathText==='DataModel/Workspace/001_Lots')?.node||
 const lots=lotsRoot?kids(lotsRoot).filter(x=>name(x)!=='DontDelete').slice(0,20).map(x=>compact(x,0,3)):[];
 const remotes=rows.filter(r=>r.pathText.startsWith('DataModel/ReplicatedStorage/RemoteEvents/') && ['RemoteEvent','RemoteFunction','BindableEvent','BindableFunction'].includes(cls(r.node)))
   .map(r=>({name:name(r.node),className:cls(r.node),path:r.pathText}));
+const tools=rows.filter(r=>cls(r.node)==='Tool').map(r=>({
+  name:name(r.node),
+  className:cls(r.node),
+  path:r.pathText,
+  template:compact(r.node,0,2)
+}));
 
 const houseStyleNames=new Set(Array.from({length:12},(_,i)=>String(i+1).padStart(3,'0')+'_House'));
 const houseStyleCandidates=rows.filter(r=>houseStyleNames.has(name(r.node))).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)}));
@@ -88,6 +94,7 @@ const result={
     playersStartup:playerStartup?compact(playerStartup,0,4):null,
     lots,
     remotes,
+    tools,
     houseStyleCandidates,
     houseStorageCandidates,
     sourceStats
@@ -105,5 +112,6 @@ console.log(JSON.stringify({
   playerStartup:Boolean(result.templates.playersStartup),
   lots:result.templates.lots.length,
   remotes:result.templates.remotes.length,
+  tools:result.templates.tools.length,
   output
 },null,2));
