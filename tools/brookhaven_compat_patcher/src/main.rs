@@ -13,6 +13,7 @@ use sha2::{Digest, Sha256};
 
 const CLIENT_SOURCE: &str = include_str!("../../../compatibility/client/BrookhavenCompat.client.luau");
 const SERVER_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenHouseCompat.server.luau");
+const RUNTIME_CORE_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenNativeRuntimeCore.luau");
 const BOOT_SENTINEL_SOURCE: &str = r#"
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local proof = ReplicatedStorage:FindFirstChild("StarBloxServerBootProof")
@@ -165,6 +166,13 @@ fn insert_compat_scripts(dom: &mut WeakDom) -> Result<Ref, Box<dyn std::error::E
 
     dom.insert(
         server_scripts,
+        InstanceBuilder::new("ModuleScript")
+            .with_name("BrookhavenNativeRuntimeCore")
+            .with_property("Source", RUNTIME_CORE_SOURCE.to_string()),
+    );
+
+    dom.insert(
+        server_scripts,
         InstanceBuilder::new("Script")
             .with_name("BrookhavenHouseCompat")
             .with_property("Disabled", false)
@@ -212,6 +220,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .ok_or("patched place missing BrookhavenCompat LocalScript")?;
     let server = find_first(&verified, verified.root_ref(), "Script", Some("BrookhavenHouseCompat"))
         .ok_or("patched place missing BrookhavenHouseCompat Script")?;
+    let runtime_core = find_first(&verified, verified.root_ref(), "ModuleScript", Some("BrookhavenNativeRuntimeCore"))
+        .ok_or("patched place missing BrookhavenNativeRuntimeCore ModuleScript")?;
     let starter_gui = find_first(&verified, verified.root_ref(), "StarterGui", None)
         .ok_or("patched place missing StarterGui")?;
     let avatar = direct_child(&verified, starter_gui, "AvatarEditor")
@@ -232,7 +242,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(Variant::String(value)) => value.len(),
         _ => 0,
     };
-    if client_source_len < 1_000 || server_source_len < 1_000 {
+    let runtime_core_source_len = match verified.get_by_ref(runtime_core).and_then(|i| i.properties.get(&ustr("Source"))) {
+        Some(Variant::String(value)) => value.len(),
+        _ => 0,
+    };
+    if client_source_len < 1_000 || server_source_len < 1_000 || runtime_core_source_len < 1_000 {
         return Err("compatibility script source did not survive binary serialization".into());
     }
 
@@ -255,7 +269,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "client": "StarterGui/BrookhavenCompat",
             "clientSourceBytes": client_source_len,
             "server": "ServerScriptService/BrookhavenHouseCompat",
-            "serverSourceBytes": server_source_len
+            "serverSourceBytes": server_source_len,
+            "runtimeCore": "ServerScriptService/BrookhavenNativeRuntimeCore",
+            "runtimeCoreSourceBytes": runtime_core_source_len
         },
         "worldGeometryRebuilt": false,
         "existingGuiRestyled": false
