@@ -122,21 +122,30 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     let mut follow_candidates = BTreeSet::new();
     collect_follow_candidates(dom, dom.root_ref(), &mut follow_candidates);
 
-    let horse_ref = find_first(dom, dom.root_ref(), "Workspace", None)
-        .and_then(|workspace| direct_child(dom, workspace, "WorkspaceCom"))
+    let workspace_ref = find_first(dom, dom.root_ref(), "Workspace", None);
+    let common_ref = workspace_ref.and_then(|workspace| direct_child(dom, workspace, "WorkspaceCom"));
+    let horse_ref = common_ref
         .and_then(|common| direct_child(dom, common, "003_CarBackup"))
         .and_then(|backup| direct_child(dom, backup, "Horse"));
+    let horse_stall_ref = common_ref
+        .and_then(|common| direct_child(dom, common, "000001HorseStall"));
 
     let mut horse_subtree = Vec::new();
     if let Some(horse) = horse_ref {
         collect_subtree_labels(dom, horse, "", &mut horse_subtree, 220);
+    }
+    let mut horse_stall_subtree = Vec::new();
+    if let Some(stall) = horse_stall_ref {
+        collect_subtree_labels(dom, stall, "", &mut horse_stall_subtree, 220);
     }
 
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
         "horseTemplateFound": horse_ref.is_some(),
-        "horseTemplateSubtree": horse_subtree
+        "horseTemplateSubtree": horse_subtree,
+        "horseStallFound": horse_stall_ref.is_some(),
+        "horseStallSubtree": horse_stall_subtree
     })
 }
 
