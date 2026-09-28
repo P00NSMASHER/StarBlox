@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "status": "clean-reset-server-verified",
+  "recordedAt": "2026-09-27T22:08:27-04:00",
+  "resetCommit": "17be8d86815784fa75065e70c621e04733e77703",
+  "publishWorkflowCommit": "aa13b0d9b15648340256548b7f399e08847a3f17",
+  "verifyWorkflowCommit": "fe81fa4432defda34ec59c60df1c23725d5f9344",
+  "source": {
+    "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
+    "path": "Brookhaven.rbxl",
+    "sourceCommit": "d92b5bf18bec7866356b154b56ffb525e137bd34",
+    "bytes": 1276795,
+    "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217"
+  },
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "releaseChannel": "private-staging",
+    "publishedVersion": 40,
+    "publicAccessChanged": false
+  },
+  "publishEvidence": {
+    "workflowRunId": 36368571667,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36368571667",
+    "result": "success"
+  },
+  "serverVerification": {
+    "workflowRunId": 36368642697,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36368642697",
+    "result": "success",
+    "workspaceDescendants": 24348,
+    "serverScripts": 266,
+    "clientScripts": 79,
+    "spawnLocations": 18,
+    "sentinel": "CLEAN_BROOKHAVEN_BOOT_OK"
+  },
+  "visualVerification": {
+    "status": "not-yet-observed-in-real-client",
+    "claimAllowed": false
+  },
+  "rollback": {
+    "branch": "archive/pre-reset-2026-09-27",
+    "preResetCommit": "c3d274ee8e50101307d54f2218c7eb686625464f"
+  }
+}
