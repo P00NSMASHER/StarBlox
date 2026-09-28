@@ -402,6 +402,7 @@ end
 
 local render
 local renderAccess
+local closePanel: () -> ()
 
 local function purchaseItemById(itemId: string)
 	if busy then return end
@@ -765,7 +766,7 @@ local function openPanel()
 	end
 end
 
-local function closePanel()
+closePanel = function()
 	panel.Visible = false
 	MobileShell.Close("shop")
 end
