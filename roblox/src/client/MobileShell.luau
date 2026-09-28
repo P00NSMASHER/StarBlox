@@ -40,6 +40,7 @@ MobileShell.Metrics = table.freeze({
 })
 
 local persistent: {[string]: ScreenGui} = {}
+local persistentSurfaces: {[string]: (boolean) -> ()} = {}
 local overlays: {[string]: ScreenGui} = {}
 local surfaceOverlays: {[string]: (boolean) -> ()} = {}
 local activeOverlay: string? = nil
@@ -61,6 +62,9 @@ local function sync()
 			gui.Enabled = showPersistent
 		end
 	end
+	for _, setVisible in persistentSurfaces do
+		setVisible(showPersistent)
+	end
 	for id, gui in overlays do
 		if gui.Parent ~= nil then
 			gui.Enabled = activeOverlay == id
@@ -74,6 +78,12 @@ end
 
 function MobileShell.RegisterPersistent(id: string, gui: ScreenGui)
 	persistent[id] = gui
+	sync()
+end
+
+function MobileShell.RegisterPersistentSurface(id: string, setVisible: (boolean) -> ())
+	persistentSurfaces[id] = setVisible
+	setVisible(activeOverlay == nil and not suppressed)
 	sync()
 end
 
