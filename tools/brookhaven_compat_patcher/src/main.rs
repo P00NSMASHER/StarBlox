@@ -322,8 +322,10 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         collect_subtree_labels(dom, daycare_tools, "", &mut daycare_tools_subtree, 220);
     }
     let mut heli_control_state = Vec::new();
+    let mut heli_subtree = Vec::new();
     if let Some(heli) = heli_ref {
         collect_heli_control_state(dom, heli, "", &mut heli_control_state, 260);
+        collect_subtree_labels(dom, heli, "", &mut heli_subtree, 360);
     }
 
     serde_json::json!({
@@ -343,7 +345,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "daycareToolsFound": daycare_tools_ref.is_some(),
         "daycareToolsSubtree": daycare_tools_subtree,
         "heliFound": heli_ref.is_some(),
-        "heliControlState": heli_control_state
+        "heliControlState": heli_control_state,
+        "heliSubtree": heli_subtree
     })
 }
 
