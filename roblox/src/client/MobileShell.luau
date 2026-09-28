@@ -41,6 +41,7 @@ MobileShell.Metrics = table.freeze({
 
 local persistent: {[string]: ScreenGui} = {}
 local overlays: {[string]: ScreenGui} = {}
+local surfaceOverlays: {[string]: (boolean) -> ()} = {}
 local activeOverlay: string? = nil
 local suppressed = false
 
@@ -62,8 +63,11 @@ local function sync()
 	end
 	for id, gui in overlays do
 		if gui.Parent ~= nil then
-			gui.Enabled = activeOverlay == id and not suppressed
+			gui.Enabled = activeOverlay == id
 		end
+	end
+	for id, setVisible in surfaceOverlays do
+		setVisible(activeOverlay == id)
 	end
 	setRoleplayTagVisible(activeOverlay == nil)
 end
@@ -81,8 +85,14 @@ function MobileShell.RegisterOverlay(id: string, gui: ScreenGui)
 	sync()
 end
 
+function MobileShell.RegisterSurfaceOverlay(id: string, setVisible: (boolean) -> ())
+	surfaceOverlays[id] = setVisible
+	setVisible(activeOverlay == id)
+	sync()
+end
+
 function MobileShell.Open(id: string): boolean
-	if overlays[id] == nil then
+	if overlays[id] == nil and surfaceOverlays[id] == nil then
 		return false
 	end
 	activeOverlay = id
@@ -97,6 +107,10 @@ function MobileShell.Close(id: string)
 	local gui = overlays[id]
 	if gui ~= nil and gui.Parent ~= nil then
 		gui.Enabled = false
+	end
+	local setVisible = surfaceOverlays[id]
+	if setVisible ~= nil then
+		setVisible(false)
 	end
 	sync()
 end
