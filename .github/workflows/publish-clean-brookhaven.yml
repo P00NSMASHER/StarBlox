@@ -12,6 +12,7 @@ on:
       - "compatibility/**"
       - "tools/brookhaven_compat_patcher/**"
       - "scripts/verify-published-native-runtime.mjs"
+      - "scripts/verify-compatibility-compile.luau"
 
 permissions:
   contents: read
@@ -30,12 +31,20 @@ jobs:
         with:
           node-version: "22"
       - uses: dtolnay/rust-toolchain@stable
-      - name: Verify exact-revision controller regressions before publishing
+      - name: Compile exact-revision Luau modules before publishing
         shell: bash
         run: |
           git rev-parse HEAD > source-revision.txt
           test "$(cat source-revision.txt)" = "$GITHUB_SHA"
-          cargo test --manifest-path tools/brookhaven_compat_patcher/Cargo.toml 2>&1 | tee controller-regressions.log
+          curl --fail --location --silent --show-error https://github.com/lune-org/lune/releases/download/v0.10.5/lune-0.10.5-linux-x86_64.zip -o /tmp/lune.zip
+          echo '1fb5dee6a1afa1d300092805c6e660fe06144d29dd68c45cf6956f040667f791  /tmp/lune.zip' | sha256sum --check
+          mkdir -p /tmp/starblox-lune
+          unzip -q /tmp/lune.zip -d /tmp/starblox-lune
+          chmod +x /tmp/starblox-lune/lune
+          /tmp/starblox-lune/lune run scripts/verify-compatibility-compile.luau 2>&1 | tee native-compile.log
+      - name: Verify exact-revision controller regressions before publishing
+        shell: bash
+        run: cargo test --manifest-path tools/brookhaven_compat_patcher/Cargo.toml 2>&1 | tee controller-regressions.log
       - name: Fetch pinned Brookhaven source
         run: node scripts/fetch-brookhaven.mjs
       - name: Add control and house compatibility without rebuilding the world
@@ -66,10 +75,12 @@ jobs:
           name: brookhaven-compat-publish
           path: |
             source-revision.txt
+            native-compile.log
             controller-regressions.log
             native-behavior.log
             brookhaven-compat-receipt.json
             published-version.txt
             publish-response.json
+            Brookhaven.rbxl
           if-no-files-found: error
           retention-days: 30
