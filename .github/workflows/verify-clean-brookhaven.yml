@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Verify published v43 functional compatibility
+      - name: Verify published v44 preloaded-house reconciliation
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -33,49 +33,31 @@ jobs:
           if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
 
           const script=[
-            'assert(game.PlaceVersion == 43, "expected version 43")',
+            'assert(game.PlaceVersion == 44, "expected version 44")',
             'local Workspace=game:GetService("Workspace")',
-            'local StarterPlayer=game:GetService("StarterPlayer")',
-            'local StarterGui=game:GetService("StarterGui")',
             'local ServerScriptService=game:GetService("ServerScriptService")',
-            'local ServerStorage=game:GetService("ServerStorage")',
-            'local ReplicatedStorage=game:GetService("ReplicatedStorage")',
             'local descendants=#Workspace:GetDescendants()',
             'assert(descendants == 24348, "Brookhaven workspace descendant count changed: "..tostring(descendants))',
-            'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
-            'assert(client and client:IsA("LocalScript"), "BrookhavenCompat LocalScript missing")',
-            'assert(string.find(client.Source, "task.delay(0.08", 1, true), "native-first right-rail fallback missing")',
-            'assert(string.find(client.Source, "menuSignature", 1, true), "native-state guard missing")',
-            'assert(string.find(client.Source, "STARBLOX_BROOKHAVEN_COMPAT_CLIENT_READY", 1, true), "client compatibility marker missing")',
-            'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
-            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat Script missing")',
-            'assert(string.find(server.Source, "gettingHouse.OnServerEvent:Connect", 1, true), "native GettingHouse backend missing")',
-            'assert(string.find(server.Source, "PickingCustomHouse", 1, true), "house style handler missing")',
-            'assert(string.find(server.Source, "ensureBag", 1, true), "PlayersBag bootstrap missing")',
-            'assert(string.find(server.Source, "STARBLOX_BROOKHAVEN_COMPAT_SERVER_READY", 1, true), "server compatibility marker missing")',
-            'local handler=StarterGui:FindFirstChild("PlayerHandler")',
-            'assert(handler and handler:IsA("LocalScript"), "original PlayerHandler missing")',
-            'assert(string.find(handler.Source, "pcall(function() l__PlayerGui__4:SetTopbarTransparency", 1, true), "PlayerHandler startup guard missing")',
             'local lots=Workspace:FindFirstChild("001_Lots")',
             'assert(lots, "Brookhaven lots missing")',
             'local buyLots=0',
-            'local wiredLots=0',
+            'local preloaded=0',
             'for _,lot in ipairs(lots:GetChildren()) do',
             '  local buy=lot:FindFirstChild("BuyHouse", true)',
             '  if buy and buy:IsA("BasePart") then',
             '    buyLots += 1',
-            '    if buy:FindFirstChild("CompatibilityHouseNumber") and buy:FindFirstChildOfClass("ClickDetector") then wiredLots += 1 end',
+            '    local house=lot:FindFirstChild("HousePickedByPlayer")',
+            '    if house and house:IsA("Model") then preloaded += 1 end',
             '  end',
             'end',
-            'assert(buyLots >= 19, "expected original Brookhaven buy lots; got "..tostring(buyLots))',
-            'assert(wiredLots == buyLots, "not all Brookhaven lots wired: "..tostring(wiredLots).."/"..tostring(buyLots))',
-            'local hidden=ServerStorage:FindFirstChild("StarBloxBrookhavenCompatibility")',
-            'assert(hidden, "compatibility runtime state missing")',
-            'local templates=hidden:FindFirstChild("HouseTemplates")',
-            'assert(templates and #templates:GetChildren() >= 5, "authentic house template pool missing")',
-            'local remotes=ReplicatedStorage:FindFirstChild("RemoteEvents")',
-            'assert(remotes and remotes:FindFirstChild("GettingHouse") and remotes:FindFirstChild("PlayerHouseChoice") and remotes:FindFirstChild("PlayersHouse"), "Brookhaven house remotes missing")',
-            'print("BROOKHAVEN_COMPAT_V43_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." buyLots="..tostring(buyLots).." wiredLots="..tostring(wiredLots).." templates="..tostring(#templates:GetChildren()))'
+            'assert(buyLots == 19, "expected 19 Brookhaven lots; got "..tostring(buyLots))',
+            'assert(preloaded == 5, "expected 5 preloaded houses; got "..tostring(preloaded))',
+            'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
+            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat missing")',
+            'assert(string.find(server.Source, "owned.Value = hasPreloadedHouse", 1, true), "preloaded occupancy reconciliation missing")',
+            'assert(string.find(server.Source, "PRELOADED_OCCUPIED", 1, true), "preloaded reservation guard missing")',
+            'assert(string.find(server.Source, "preloadedOccupied", 1, true), "preloaded occupancy state missing")',
+            'print("BROOKHAVEN_V44_PRELOADED_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." buyLots="..tostring(buyLots).." preloaded="..tostring(preloaded))'
           ].join("\n");
 
           async function parse(r,label){
@@ -108,6 +90,6 @@ jobs:
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
           const text=JSON.stringify(logs);
           if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,2000));
-          if(!text.includes("BROOKHAVEN_COMPAT_V43_OK")) throw new Error("v43 compatibility sentinel missing");
+          if(!text.includes("BROOKHAVEN_V44_PRELOADED_OK")) throw new Error("v44 preloaded-house sentinel missing");
           console.log(text);
           NODE
