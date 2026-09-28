@@ -30296,6 +30296,107 @@
         "className": "RemoteEvent",
         "path": "DataModel/ReplicatedStorage/RemoteEvents/Plane"
       }
-    ]
+    ],
+    "houseStyleCandidates": [
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/002_House",
+        "className": "ImageButton",
+        "name": "002_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/001_House",
+        "className": "ImageButton",
+        "name": "001_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/011_House",
+        "className": "ImageButton",
+        "name": "011_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/005_House",
+        "className": "ImageButton",
+        "name": "005_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/006_House",
+        "className": "ImageButton",
+        "name": "006_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/008_House",
+        "className": "ImageButton",
+        "name": "008_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/003_House",
+        "className": "ImageButton",
+        "name": "003_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/007_House",
+        "className": "ImageButton",
+        "name": "007_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/010_House",
+        "className": "ImageButton",
+        "name": "010_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/009_House",
+        "className": "ImageButton",
+        "name": "009_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/004_House",
+        "className": "ImageButton",
+        "name": "004_House"
+      },
+      {
+        "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/012_House",
+        "className": "ImageButton",
+        "name": "012_House"
+      }
+    ],
+    "houseStorageCandidates": [
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions",
+        "className": "Folder",
+        "name": "MotelRegions"
+      },
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions/MotelRegion1",
+        "className": "Folder",
+        "name": "MotelRegion1"
+      },
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions/MotelRegion2",
+        "className": "Folder",
+        "name": "MotelRegion2"
+      },
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions/MotelRegion3",
+        "className": "Folder",
+        "name": "MotelRegion3"
+      },
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions/MotelRegion4",
+        "className": "Folder",
+        "name": "MotelRegion4"
+      },
+      {
+        "path": "DataModel/ReplicatedStorage/MotelRegions/MotelRegion5",
+        "className": "Folder",
+        "name": "MotelRegion5"
+      }
+    ],
+    "sourceStats": {
+      "scripts": 382,
+      "nonEmptyScripts": 196,
+      "serverScripts": 187,
+      "nonEmptyServerScripts": 1,
+      "serverHandlerHits": []
+    }
   }
 }\n
