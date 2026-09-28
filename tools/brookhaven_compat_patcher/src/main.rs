@@ -490,9 +490,18 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     }
     let mut drone_subtree = Vec::new();
     let mut drone_state = Vec::new();
+    let mut drone_part_state = Vec::new();
     if let Some(drone) = drone_ref {
         collect_subtree_labels(dom, drone, "", &mut drone_subtree, 260);
         collect_heli_control_state(dom, drone, "", &mut drone_state, 180);
+        collect_selected_state(
+            dom,
+            drone,
+            "",
+            &["a", "c", "drone", "Frame"],
+            &mut drone_part_state,
+            80,
+        );
     }
     let mut banned_lots_subtree = Vec::new();
     if let Some(banned_lots) = banned_lots_ref {
@@ -532,6 +541,7 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "droneFound": drone_ref.is_some(),
         "droneSubtree": drone_subtree,
         "droneState": drone_state,
+        "dronePartState": drone_part_state,
         "bannedLotsFound": banned_lots_ref.is_some(),
         "bannedLotsSubtree": banned_lots_subtree,
         "permissionPlayersFound": permission_players_ref.is_some(),
