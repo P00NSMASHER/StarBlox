@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Verify private place boot
+      - name: Verify published v41 compatibility repair
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -33,39 +33,53 @@ jobs:
           if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
 
           const script = [
-            'local Workspace = game:GetService("Workspace")',
-            'assert(game.PlaceVersion == 40, "expected version 40")',
-            'local descendants = Workspace:GetDescendants()',
-            'local scripts = 0',
-            'local localScripts = 0',
-            'local spawns = 0',
-            'for _,x in game:GetDescendants() do',
-            '  if x:IsA("Script") then scripts += 1 end',
-            '  if x:IsA("LocalScript") then localScripts += 1 end',
-            '  if x:IsA("SpawnLocation") then spawns += 1 end',
+            'assert(game.PlaceVersion == 41, "expected version 41")',
+            'local Workspace=game:GetService("Workspace")',
+            'local StarterPlayer=game:GetService("StarterPlayer")',
+            'local StarterGui=game:GetService("StarterGui")',
+            'local ServerScriptService=game:GetService("ServerScriptService")',
+            'local descendants=#Workspace:GetDescendants()',
+            'assert(descendants > 20000, "Brookhaven world scale regressed")',
+            'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
+            'assert(client and client:IsA("LocalScript"), "BrookhavenCompat LocalScript missing")',
+            'assert(string.find(client.Source, "BROOKHAVEN_COMPAT_CLIENT_READY", 1, true), "client compatibility source mismatch")',
+            'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
+            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat server Script missing")',
+            'assert(string.find(server.Source, "BROOKHAVEN_COMPAT_HOUSE_READY", 1, true), "house compatibility source mismatch")',
+            'local handler=StarterGui:FindFirstChild("PlayerHandler")',
+            'assert(handler and handler:IsA("LocalScript"), "original PlayerHandler missing")',
+            'assert(string.find(handler.Source, "pcall(function() l__PlayerGui__4:SetTopbarTransparency", 1, true), "PlayerHandler topbar guard missing")',
+            'local lots=Workspace:FindFirstChild("001_Lots")',
+            'assert(lots, "Brookhaven lots missing")',
+            'local claimable=0',
+            'for _,lot in ipairs(lots:GetChildren()) do',
+            '  local buy=lot:FindFirstChild("BuyHouse", true)',
+            '  local house=lot:FindFirstChild("HousePickedByPlayer")',
+            '  if buy and buy:IsA("BasePart") and house then claimable += 1 end',
             'end',
-            'assert(#descendants > 20000, "world too small")',
-            'assert(scripts > 0, "no server scripts")',
-            'assert(localScripts > 0, "no client scripts")',
-            'assert(spawns > 0, "no spawns")',
-            'print("CLEAN_BROOKHAVEN_BOOT_OK version=" .. tostring(game.PlaceVersion) .. " descendants=" .. tostring(#descendants) .. " scripts=" .. tostring(scripts) .. " localScripts=" .. tostring(localScripts) .. " spawns=" .. tostring(spawns))'
+            'assert(claimable >= 6, "expected Brookhaven claimable house lots")',
+            'print("BROOKHAVEN_COMPAT_V41_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." claimable="..tostring(claimable))'
           ].join("\n");
 
           async function parse(r,label){
-            const t=await r.text();
-            let p={};
-            try{p=t?JSON.parse(t):{};}catch{throw new Error(label+" non-JSON "+r.status);}
-            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(p).slice(0,1500));
-            return p;
+            const text=await r.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status);}
+            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1500));
+            return payload;
           }
 
-          let task=await parse(await fetch(
-            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
-            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
-          ),"create");
-
+          let response;
+          for(let attempt=0;attempt<6;attempt++){
+            response=await fetch(
+              `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
+              {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
+            );
+            if(response.status!==429) break;
+            await new Promise(r=>setTimeout(r,2000*(attempt+1)));
+          }
+          let task=await parse(response,"create");
           const raw=String(task.path||"");
-          if(!raw) throw new Error("missing task path");
           const url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
           const deadline=Date.now()+90000;
           while(String(task.state||"")==="PROCESSING"){
@@ -76,399 +90,6 @@ jobs:
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
           const text=JSON.stringify(logs);
           if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1500));
-          if(!text.includes("CLEAN_BROOKHAVEN_BOOT_OK")) throw new Error("verification sentinel missing");
+          if(!text.includes("BROOKHAVEN_COMPAT_V41_OK")) throw new Error("v41 compatibility sentinel missing");
           console.log(text);
-          NODE
-
-      - name: Diagnose Brookhaven UI and house wiring
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
-          const universe=process.env.ROBLOX_UNIVERSE_ID;
-          const place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,label){
-            const t=await r.text(); let p={};
-            try{p=t?JSON.parse(t):{};}catch{throw new Error(label+" non-JSON "+r.status);}
-            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(p).slice(0,1500));
-            return p;
-          }
-          const lines=[
-            'assert(game.PlaceVersion == 40, "expected v40")',
-            'local function pathOf(x)',
-            '  local p={x.Name}; local n=x.Parent',
-            '  while n and n~=game do table.insert(p,1,n.Name); n=n.Parent end',
-            '  return table.concat(p,"/")',
-            'end',
-            'local StarterGui=game:GetService("StarterGui")',
-            'local ReplicatedStorage=game:GetService("ReplicatedStorage")',
-            'local Workspace=game:GetService("Workspace")',
-            'print("DIAG_BEGIN")',
-            'for _,x in StarterGui:GetDescendants() do',
-            '  local lower=string.lower(x.Name)',
-            '  local isButton=x:IsA("ImageButton") or x:IsA("TextButton")',
-            '  local interesting=string.find(lower,"house") or string.find(lower,"home") or string.find(lower,"vehicle") or string.find(lower,"avatar") or string.find(lower,"tool") or string.find(lower,"emote") or string.find(lower,"menu")',
-            '  if isButton and interesting then',
-            '    print("GUI_BUTTON "..pathOf(x).." active="..tostring(x.Active).." visible="..tostring(x.Visible).." selectable="..tostring(x.Selectable))',
-            '  end',
-            'end',
-            'for _,x in game:GetDescendants() do',
-            '  local lower=string.lower(x.Name)',
-            '  local p=string.lower(pathOf(x))',
-            '  if x:IsA("RemoteEvent") or x:IsA("RemoteFunction") then',
-            '    if string.find(lower,"house") or string.find(lower,"home") or string.find(lower,"lot") or string.find(lower,"vehicle") or string.find(lower,"tool") or string.find(lower,"avatar") then',
-            '      print("REMOTE "..x.ClassName.." "..pathOf(x))',
-            '    end',
-            '  elseif x:IsA("Script") or x:IsA("LocalScript") or x:IsA("ModuleScript") then',
-            '    if string.find(lower,"house") or string.find(lower,"home") or string.find(lower,"lot") or string.find(p,"mainui") or string.find(p,"maingui") then',
-            '      local disabled="na"; pcall(function() disabled=tostring(x.Disabled) end)',
-            '      print("SCRIPT "..x.ClassName.." "..pathOf(x).." disabled="..disabled)',
-            '    end',
-            '  end',
-            'end',
-            'local lots=Workspace:FindFirstChild("001_Lots")',
-            'if lots then',
-            '  print("LOTS childCount="..tostring(#lots:GetChildren()))',
-            '  for _,x in lots:GetChildren() do',
-            '    local buy=x:FindFirstChild("BuyHouse",true)',
-            '    print("LOT "..x.Name.." buyHouse="..tostring(buy~=nil).." buyClass="..tostring(buy and buy.ClassName or "none"))',
-            '  end',
-            'else print("LOTS missing") end',
-            'local rem=ReplicatedStorage:FindFirstChild("RemoteEvents")',
-            'print("REMOTE_FOLDER "..tostring(rem~=nil).." count="..tostring(rem and #rem:GetChildren() or 0))',
-            'print("DIAG_END")'
-          ];
-          const script=lines.join("\n");
-          let task=await parse(await fetch(
-            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
-            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
-          ),"create");
-          const raw=String(task.path||"");
-          const url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          const deadline=Date.now()+90000;
-          while(String(task.state||"")==="PROCESSING"){
-            if(Date.now()>deadline) throw new Error("diagnostic timeout");
-            await new Promise(r=>setTimeout(r,1000));
-            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
-          }
-          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
-          console.log(JSON.stringify(logs));
-          NODE
-
-      - name: Diagnose top-level client controller
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY, universe=process.env.ROBLOX_UNIVERSE_ID, place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==40,"expected v40")',
-            'local StarterGui=game:GetService("StarterGui")',
-            'local function p(x) local a={x.Name}; local n=x.Parent; while n and n~=game do table.insert(a,1,n.Name); n=n.Parent end; return table.concat(a,"/") end',
-            'print("CLIENT_DIAG_BEGIN")',
-            'for _,x in StarterGui:GetDescendants() do',
-            ' if x:IsA("LocalScript") then print("LOCAL "..p(x).." disabled="..tostring(x.Disabled)) end',
-            'end',
-            'local main=StarterGui:FindFirstChild("MainGUIHandler")',
-            'local buttons=main and main:FindFirstChild("MainButtons") and main.MainButtons:FindFirstChild("Buttons")',
-            'if buttons then for _,x in buttons:GetChildren() do',
-            ' local active="na"; local visible="na"; if x:IsA("GuiObject") then active=tostring(x.Active); visible=tostring(x.Visible) end',
-            ' print("MAIN_BUTTON "..x.Name.." class="..x.ClassName.." active="..active.." visible="..visible)',
-            'end end',
-            'local ph=StarterGui:FindFirstChild("PlayerHandler")',
-            'print("PLAYER_HANDLER "..tostring(ph~=nil).." class="..tostring(ph and ph.ClassName or "none").." disabled="..tostring(ph and ph.Disabled or "na"))',
-            'if ph then for _,x in ph:GetDescendants() do print("PH_CHILD "..p(x).." class="..x.ClassName) end end',
-            'print("CLIENT_DIAG_END")'
-          ].join("\n");
-          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}),"create");
-          const raw=String(task.path||""), url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Extract original Brookhaven controller sources
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: current
-
-      - name: Checkout archived parser tools
-        uses: actions/checkout@v4
-        with:
-          ref: archive/pre-reset-2026-09-27
-          path: legacy-tools
-
-      - name: Use Rust stable for RBXL inspection
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Parse pinned RBXL and inspect relevant script source
-        shell: bash
-        run: |
-          set -euo pipefail
-          node current/scripts/fetch-brookhaven.mjs
-          cargo run --quiet --manifest-path legacy-tools/tools/roblox_catalog_reader/Cargo.toml -- Brookhaven.rbxl > brookhaven-dom.json
-          node <<'NODE'
-          const fs=require('fs');
-          const dom=JSON.parse(fs.readFileSync('brookhaven-dom.json','utf8'));
-          const rows=[];
-          function cls(n){return String(n?.class??n?.className??'');}
-          function name(n){return String(n?.name??n?.properties?.Name??cls(n));}
-          function kids(n){return Array.isArray(n?.children)?n.children:[];}
-          function walk(n,path=[]){
-            if(!n||typeof n!=='object') return;
-            const next=[...path,name(n)];
-            const c=cls(n);
-            if(c==='Script'||c==='LocalScript'||c==='ModuleScript'){
-              rows.push({node:n,path:next.join('/')});
-            }
-            for(const ch of kids(n)) walk(ch,next);
-          }
-          walk(dom);
-          function sourceText(node){
-            const props=node?.properties||{};
-            const direct=props.Source;
-            if(typeof direct==='string') return direct;
-            if(direct&&typeof direct==='object'){
-              for(const k of ['value','Value','text','Text','source','Source']){
-                if(typeof direct[k]==='string') return direct[k];
-              }
-            }
-            return JSON.stringify(direct??'');
-          }
-          const needles=['MainButtons','AvatarEditor','BackPack','PlayerHouseChoice','GettingHouse','PlayersHouse','BuyHouse','MainHouseMenu','HouseControl'];
-          console.log('SOURCE_DIAG_BEGIN scripts='+rows.length);
-          let matched=0;
-          for(const r of rows){
-            const src=sourceText(r.node);
-            const hay=(r.path+'\n'+src).toLowerCase();
-            const hits=needles.filter(n=>hay.includes(n.toLowerCase()));
-            if(!hits.length) continue;
-            matched++;
-            console.log('SOURCE_MATCH path='+r.path+' hits='+hits.join(',')+' sourceLen='+src.length);
-            if(src.length){
-              const relevant=src.split(/\r?\n/).filter(line=>needles.some(n=>line.toLowerCase().includes(n.toLowerCase())));
-              console.log('SOURCE_LINES '+JSON.stringify(relevant.slice(0,120)));
-            }
-          }
-          console.log('SOURCE_DIAG_END matched='+matched);
-          NODE
-
-      - name: Check PlayerHandler startup dependencies
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==40,"expected v40")',
-            'local R=game:GetService("ReplicatedStorage")',
-            'local S=game:GetService("StarterGui")',
-            'local W=game:GetService("Workspace")',
-            'local rem=R:FindFirstChild("RemoteEvents")',
-            'local names={"PlayerHouseChoice","ChatAnimations","PlayerTriggerEvent","RPNameEvent","RPNameEventColor","GettingHouse","PlayersHouse","Tools","KeyFab","ClearTools","NoMotorVehicles","Car","Clothes","Messages","PlayersCar","Flying","Pass","GiveAnimationTools","BabyFollow","Jobs"}',
-            'for _,n in ipairs(names) do local x=rem and rem:FindFirstChild(n); print("DEP_REMOTE "..n.."="..tostring(x~=nil).." class="..tostring(x and x.ClassName or "none")) end',
-            'print("DEP_REPL NoCarsRegions="..tostring(R:FindFirstChild("NoCarsRegions")~=nil))',
-            'local wc=W:FindFirstChild("WorkspaceCom")',
-            'print("DEP_WORLD WorkspaceCom="..tostring(wc~=nil).." mapCameras="..tostring(wc and wc:FindFirstChild("001_MapCameras")~=nil).." houseTeleports="..tostring(wc and wc:FindFirstChild("001_MapHouseTeleports")~=nil))',
-            'local paths={"MainGUIHandler","NoResetGUIHandler","IntroGui"}',
-            'for _,n in ipairs(paths) do print("DEP_GUI "..n.."="..tostring(S:FindFirstChild(n)~=nil)) end',
-            'local m=S:FindFirstChild("MainGUIHandler"); local nr=S:FindFirstChild("NoResetGUIHandler")',
-            'for _,n in ipairs({"MainVehicleMenu","MainAnimationsMenu","MainAvatarMenu","MainHouseMenu","MainNoHouseMenu","MainMotelMenu","MainButtons","Client2Client","Menu","Shop","HouseSpinner","BuyHouse","Messages","CarControl","NoMotorControl","HouseControl","HorseControl","HouseControlMotel","CarControlSiren"}) do print("DEP_MAIN "..n.."="..tostring(m and m:FindFirstChild(n)~=nil)) end',
-            'for _,n in ipairs({"MainEditor","MainToolMenu","JobMenuWorkspace","HouseKey"}) do print("DEP_NORESET "..n.."="..tostring(nr and nr:FindFirstChild(n)~=nil)) end',
-            'local startup=R:FindFirstChild("PlayersStartup"); print("PLAYERS_STARTUP="..tostring(startup~=nil).." children="..tostring(startup and #startup:GetChildren() or 0))',
-            'if startup then for _,x in startup:GetDescendants() do local n=string.lower(x.Name); if string.find(n,"house") or string.find(n,"bag") then print("STARTUP_CHILD "..x:GetFullName().." class="..x.ClassName) end end end'
-          ].join("\n");
-          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}),"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Check PlayerHandler pre-button dependencies
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY, universe=process.env.ROBLOX_UNIVERSE_ID, place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const luau=[
-            'assert(game.PlaceVersion==40,"expected v40")',
-            'local RS=game:GetService("ReplicatedStorage")',
-            'local SG=game:GetService("StarterGui")',
-            'local rem=RS:FindFirstChild("RemoteEvents")',
-            'print("DEP_BEGIN")',
-            'print("DEP_REMOTE PlayerHouseChoice="..tostring(rem and rem:FindFirstChild("PlayerHouseChoice")~=nil))',
-            'print("DEP_REMOTE ChatAnimations="..tostring(rem and rem:FindFirstChild("ChatAnimations")~=nil))',
-            'print("DEP_REMOTE PlayerTriggerEvent="..tostring(rem and rem:FindFirstChild("PlayerTriggerEvent")~=nil))',
-            'print("DEP_REMOTE RPNameEvent="..tostring(rem and rem:FindFirstChild("RPNameEvent")~=nil))',
-            'print("DEP_REMOTE RPNameEventColor="..tostring(rem and rem:FindFirstChild("RPNameEventColor")~=nil))',
-            'print("DEP_REMOTE GettingHouse="..tostring(rem and rem:FindFirstChild("GettingHouse")~=nil))',
-            'print("DEP_REMOTE PlayersHouse="..tostring(rem and rem:FindFirstChild("PlayersHouse")~=nil))',
-            'print("DEP_REMOTE Tools="..tostring(rem and rem:FindFirstChild("Tools")~=nil))',
-            'print("DEP_REMOTE KeyFab="..tostring(rem and rem:FindFirstChild("KeyFab")~=nil))',
-            'print("DEP_REMOTE ClearTools="..tostring(rem and rem:FindFirstChild("ClearTools")~=nil))',
-            'print("DEP_REMOTE NoMotorVehicles="..tostring(rem and rem:FindFirstChild("NoMotorVehicles")~=nil))',
-            'print("DEP_REMOTE Car="..tostring(rem and rem:FindFirstChild("Car")~=nil))',
-            'print("DEP_REMOTE Clothes="..tostring(rem and rem:FindFirstChild("Clothes")~=nil))',
-            'print("DEP_REMOTE Messages="..tostring(rem and rem:FindFirstChild("Messages")~=nil))',
-            'print("DEP_REMOTE PlayersCar="..tostring(rem and rem:FindFirstChild("PlayersCar")~=nil))',
-            'print("DEP_REMOTE Flying="..tostring(rem and rem:FindFirstChild("Flying")~=nil))',
-            'print("DEP_REMOTE Pass="..tostring(rem and rem:FindFirstChild("Pass")~=nil))',
-            'print("DEP_REMOTE GiveAnimationTools="..tostring(rem and rem:FindFirstChild("GiveAnimationTools")~=nil))',
-            'print("DEP_REMOTE BabyFollow="..tostring(rem and rem:FindFirstChild("BabyFollow")~=nil))',
-            'print("DEP_REMOTE Jobs="..tostring(rem and rem:FindFirstChild("Jobs")~=nil))',
-            'print("DEP_NOCARS="..tostring(RS:FindFirstChild("NoCarsRegions")~=nil))',
-            'local function findPath(root,path) local cur=root; for part in string.gmatch(path,"[^/]+") do cur=cur and cur:FindFirstChild(part) end; return cur end',
-            'print("DEP_GUI MainGUIHandler="..tostring(findPath(SG,"MainGUIHandler")~=nil))',
-            'print("DEP_GUI NoResetGUIHandler="..tostring(findPath(SG,"NoResetGUIHandler")~=nil))',
-            'print("DEP_GUI NoResetGUIHandler/MainEditor="..tostring(findPath(SG,"NoResetGUIHandler/MainEditor")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainVehicleMenu="..tostring(findPath(SG,"MainGUIHandler/MainVehicleMenu")~=nil))',
-            'print("DEP_GUI NoResetGUIHandler/MainToolMenu="..tostring(findPath(SG,"NoResetGUIHandler/MainToolMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainAnimationsMenu="..tostring(findPath(SG,"MainGUIHandler/MainAnimationsMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainAvatarMenu="..tostring(findPath(SG,"MainGUIHandler/MainAvatarMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainHouseMenu="..tostring(findPath(SG,"MainGUIHandler/MainHouseMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainNoHouseMenu="..tostring(findPath(SG,"MainGUIHandler/MainNoHouseMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainMotelMenu="..tostring(findPath(SG,"MainGUIHandler/MainMotelMenu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/MainButtons="..tostring(findPath(SG,"MainGUIHandler/MainButtons")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Client2Client="..tostring(findPath(SG,"MainGUIHandler/Client2Client")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Client2Client/Client2ClientAccept="..tostring(findPath(SG,"MainGUIHandler/Client2Client/Client2ClientAccept")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Client2Client/WhiteCircle="..tostring(findPath(SG,"MainGUIHandler/Client2Client/WhiteCircle")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Menu="..tostring(findPath(SG,"MainGUIHandler/Menu")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Menu/Cam="..tostring(findPath(SG,"MainGUIHandler/Menu/Cam")~=nil))',
-            'print("DEP_GUI NoResetGUIHandler/JobMenuWorkspace="..tostring(findPath(SG,"NoResetGUIHandler/JobMenuWorkspace")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Shop="..tostring(findPath(SG,"MainGUIHandler/Shop")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Shop/MainButtons="..tostring(findPath(SG,"MainGUIHandler/Shop/MainButtons")~=nil))',
-            'print("DEP_GUI IntroGui/Frame/StarterInstructions="..tostring(findPath(SG,"IntroGui/Frame/StarterInstructions")~=nil))',
-            'print("DEP_GUI NoResetGUIHandler/HouseKey="..tostring(findPath(SG,"NoResetGUIHandler/HouseKey")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseSpinner="..tostring(findPath(SG,"MainGUIHandler/HouseSpinner")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseSpinner/Spinner="..tostring(findPath(SG,"MainGUIHandler/HouseSpinner/Spinner")~=nil))',
-            'print("DEP_GUI MainGUIHandler/BuyHouse="..tostring(findPath(SG,"MainGUIHandler/BuyHouse")~=nil))',
-            'print("DEP_GUI MainGUIHandler/Messages="..tostring(findPath(SG,"MainGUIHandler/Messages")~=nil))',
-            'print("DEP_GUI MainGUIHandler/CarControl="..tostring(findPath(SG,"MainGUIHandler/CarControl")~=nil))',
-            'print("DEP_GUI MainGUIHandler/NoMotorControl="..tostring(findPath(SG,"MainGUIHandler/NoMotorControl")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseControl="..tostring(findPath(SG,"MainGUIHandler/HouseControl")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HorseControl="..tostring(findPath(SG,"MainGUIHandler/HorseControl")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseControl/Cam="..tostring(findPath(SG,"MainGUIHandler/HouseControl/Cam")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseControlMotel="..tostring(findPath(SG,"MainGUIHandler/HouseControlMotel")~=nil))',
-            'print("DEP_GUI MainGUIHandler/HouseControlMotel/Cam="..tostring(findPath(SG,"MainGUIHandler/HouseControlMotel/Cam")~=nil))',
-            'print("DEP_GUI MainGUIHandler/CarControlSiren="..tostring(findPath(SG,"MainGUIHandler/CarControlSiren")~=nil))',
-            'print("DEP_GUI MainGUIHandler/NoMotorControl/RegSpeedGUI="..tostring(findPath(SG,"MainGUIHandler/NoMotorControl/RegSpeedGUI")~=nil))',
-            'print("DEP_GUI MainGUIHandler/NoMotorControl/PassSpeed200GUI="..tostring(findPath(SG,"MainGUIHandler/NoMotorControl/PassSpeed200GUI")~=nil))',
-            'print("DEP_GUI MainGUIHandler/NoMotorControl/PassSpeedLowerGUI="..tostring(findPath(SG,"MainGUIHandler/NoMotorControl/PassSpeedLowerGUI")~=nil))',
-            'print("DEP_GUI MainGUIHandler/NoMotorControl/MusicPicks="..tostring(findPath(SG,"MainGUIHandler/NoMotorControl/MusicPicks")~=nil))',
-            'print("DEP_WORLD_MAPCAM="..tostring(findPath(game.Workspace,"WorkspaceCom/001_MapCameras")~=nil))',
-            'print("DEP_WORLD_HOUSETP="..tostring(findPath(game.Workspace,"WorkspaceCom/001_MapHouseTeleports")~=nil))',
-            'local ph=SG:FindFirstChild("PlayerHandler")',
-            'print("DEP_PH ClientGameSetting="..tostring(ph and findPath(ph,"ClientGameSetting")~=nil))',
-            'print("DEP_PH PlaneShaker="..tostring(ph and findPath(ph,"PlaneShaker")~=nil))',
-            'print("DEP_PH PlaneShaker/Shaker="..tostring(ph and findPath(ph,"PlaneShaker/Shaker")~=nil))',
-            'print("DEP_PH PlaneSound="..tostring(ph and findPath(ph,"PlaneSound")~=nil))',
-            'print("DEP_PH AdminFly="..tostring(ph and findPath(ph,"AdminFly")~=nil))',
-            'print("DEP_PH WaitingForReplyPiggy="..tostring(ph and findPath(ph,"WaitingForReplyPiggy")~=nil))',
-            'print("DEP_PH LoadingBool="..tostring(ph and findPath(ph,"LoadingBool")~=nil))',
-            'print("DEP_PH TempPlotOfLand="..tostring(ph and findPath(ph,"TempPlotOfLand")~=nil))',
-            'print("DEP_PH TempHouseNumber="..tostring(ph and findPath(ph,"TempHouseNumber")~=nil))',
-            'print("DEP_PH CameraNumber="..tostring(ph and findPath(ph,"CameraNumber")~=nil))',
-            'print("DEP_PH AnimationString="..tostring(ph and findPath(ph,"AnimationString")~=nil))',
-            'print("DEP_PH CarTimer="..tostring(ph and findPath(ph,"CarTimer")~=nil))',
-            'print("DEP_PH ScooterAnimation="..tostring(ph and findPath(ph,"ScooterAnimation")~=nil))',
-            'print("DEP_PH SegwaySmallAnimation="..tostring(ph and findPath(ph,"SegwaySmallAnimation")~=nil))',
-            'print("DEP_PH SkateBoardAnimation="..tostring(ph and findPath(ph,"SkateBoardAnimation")~=nil))',
-            'print("DEP_PH AnimationPlaying="..tostring(ph and findPath(ph,"AnimationPlaying")~=nil))',
-            'print("DEP_PH ChatAnimationPlaying="..tostring(ph and findPath(ph,"ChatAnimationPlaying")~=nil))',
-            'print("DEP_END")'
-          ].join("\n");
-          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script:luau,timeout:"30s"})}),"create");
-          const raw=String(task.path||""), url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Inspect live house lot and no-house menu schema
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY, universe=process.env.ROBLOX_UNIVERSE_ID, place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const luau=[
-            'assert(game.PlaceVersion==40,"expected v40")',
-            'local function path(x) local a={x.Name}; local n=x.Parent; while n and n~=game do table.insert(a,1,n.Name); n=n.Parent end; return table.concat(a,"/") end',
-            'local function describe(x,prefix,depth)',
-            ' if not x or depth<0 then return end',
-            ' local extra=""',
-            ' if x:IsA("ValueBase") then extra=" value="..tostring(x.Value) end',
-            ' if x:IsA("BasePart") then extra=extra.." pos="..tostring(x.Position) end',
-            ' if x:IsA("GuiObject") then extra=extra.." visible="..tostring(x.Visible).." active="..tostring(x.Active) end',
-            ' print(prefix..x.ClassName.." "..path(x)..extra)',
-            ' if depth>0 then for _,c in ipairs(x:GetChildren()) do describe(c,prefix.."  ",depth-1) end end',
-            'end',
-            'print("HOUSE_SCHEMA_BEGIN")',
-            'local lots=workspace:FindFirstChild("001_Lots")',
-            'local sample=lots and (lots:FindFirstChild("1_Lexa86House") or lots:FindFirstChild("For Sale"))',
-            'describe(sample,"",3)',
-            'local sg=game:GetService("StarterGui")',
-            'describe(sg:FindFirstChild("MainGUIHandler") and sg.MainGUIHandler:FindFirstChild("MainNoHouseMenu"),"",4)',
-            'local startup=game:GetService("ReplicatedStorage"):FindFirstChild("PlayersStartup")',
-            'describe(startup and startup:FindFirstChild("PlayersBag"),"",2)',
-            'print("HOUSE_SCHEMA_END")'
-          ].join("\n");
-          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script:luau,timeout:"30s"})}),"create");
-          const raw=String(task.path||""), url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
-          NODE
-
-      - name: Test Brookhaven startup animation loads
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
-          const script=[
-            'assert(game.PlaceVersion==40,"expected v40")',
-            'local S=game:GetService("StarterGui")',
-            'local W=game:GetService("Workspace")',
-            'local ph=S:WaitForChild("PlayerHandler")',
-            'local names={"ScooterAnimation","SegwaySmallAnimation","SkateBoardAnimation"}',
-            'local rig=Instance.new("Model"); rig.Name="__StarBloxAnimationProbe"; rig.Parent=W',
-            'local ac=Instance.new("AnimationController"); ac.Parent=rig',
-            'local animator=Instance.new("Animator"); animator.Parent=ac',
-            'for _,n in ipairs(names) do',
-            ' local a=ph:FindFirstChild(n)',
-            ' print("ANIM_ID "..n.."="..tostring(a and a.AnimationId or "missing"))',
-            ' if a then',
-            '  local ok,res=pcall(function() return animator:LoadAnimation(a) end)',
-            '  print("ANIM_LOAD "..n.." ok="..tostring(ok).." result="..tostring(res))',
-            '  if ok and res then pcall(function() res:Destroy() end) end',
-            ' end',
-            'end',
-            'rig:Destroy()'
-          ].join("\n");
-          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}),"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
