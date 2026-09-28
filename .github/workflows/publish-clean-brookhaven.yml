@@ -3,7 +3,7 @@ name: Publish Clean Brookhaven Baseline
 on:
   workflow_dispatch:
   push:
-    branches: [main, repair/native-brookhaven-runtime-v51]
+    branches: [main, repair/native-brookhaven-runtime-v51, repair/native-weather-controller-v52]
     paths:
       - ".github/workflows/publish-clean-brookhaven.yml"
       - "brookhaven-source.json"
@@ -12,6 +12,8 @@ on:
       - "compatibility/**"
       - "tools/brookhaven_compat_patcher/**"
       - "scripts/verify-published-native-runtime.mjs"
+      - "scripts/verify-compatibility-compile.luau"
+      - "scripts/verify-patched-place-interactions.luau"
 
 permissions:
   contents: read
@@ -30,6 +32,20 @@ jobs:
         with:
           node-version: "22"
       - uses: dtolnay/rust-toolchain@stable
+      - name: Compile exact-revision Luau modules before publishing
+        shell: bash
+        run: |
+          git rev-parse HEAD > source-revision.txt
+          test "$(cat source-revision.txt)" = "$GITHUB_SHA"
+          curl --fail --location --silent --show-error https://github.com/lune-org/lune/releases/download/v0.10.5/lune-0.10.5-linux-x86_64.zip -o /tmp/lune.zip
+          echo '1fb5dee6a1afa1d300092805c6e660fe06144d29dd68c45cf6956f040667f791  /tmp/lune.zip' | sha256sum --check
+          mkdir -p /tmp/starblox-lune
+          unzip -q /tmp/lune.zip -d /tmp/starblox-lune
+          chmod +x /tmp/starblox-lune/lune
+          /tmp/starblox-lune/lune run scripts/verify-compatibility-compile.luau 2>&1 | tee native-compile.log
+      - name: Verify exact-revision controller regressions before publishing
+        shell: bash
+        run: cargo test --manifest-path tools/brookhaven_compat_patcher/Cargo.toml 2>&1 | tee controller-regressions.log
       - name: Fetch pinned Brookhaven source
         run: node scripts/fetch-brookhaven.mjs
       - name: Add control and house compatibility without rebuilding the world
@@ -40,6 +56,9 @@ jobs:
           grep -q '"worldGeometryRebuilt": false' brookhaven-compat-receipt.json
           grep -q '"existingGuiRestyled": false' brookhaven-compat-receipt.json
           mv Brookhaven-compat.rbxl Brookhaven.rbxl
+      - name: Verify generated Avatar and Shop interaction contracts
+        shell: bash
+        run: /tmp/starblox-lune/lune run scripts/verify-patched-place-interactions.luau Brookhaven.rbxl 2>&1 | tee patched-place-interactions.log
       - name: Publish private staging baseline
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
@@ -47,18 +66,26 @@ jobs:
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: node scripts/publish-private.mjs
       - name: Verify published native Brookhaven behavior
+        shell: bash
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        run: node scripts/verify-published-native-runtime.mjs
-      - name: Upload compatibility receipt
+        run: node scripts/verify-published-native-runtime.mjs 2>&1 | tee native-behavior.log
+      - name: Upload compatibility and verification evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: brookhaven-compat-publish
           path: |
+            source-revision.txt
+            native-compile.log
+            controller-regressions.log
+            patched-place-interactions.log
+            native-behavior.log
             brookhaven-compat-receipt.json
             published-version.txt
             publish-response.json
+            Brookhaven.rbxl
           if-no-files-found: error
           retention-days: 30

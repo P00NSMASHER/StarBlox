@@ -12,6 +12,9 @@ use rbx_dom_weak::{
 };
 use sha2::{Digest, Sha256};
 
+mod native_weather;
+mod native_avatar;
+
 const CLIENT_SOURCE: &str = include_str!("../../../compatibility/client/BrookhavenCompat.client.luau");
 const SERVER_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenHouseCompat.server.luau");
 const RUNTIME_CORE_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenNativeRuntimeCore.luau");
@@ -633,28 +636,11 @@ fn ensure_script_container(
     Ok(service)
 }
 
-fn insert_compat_scripts(dom: &mut WeakDom) -> Result<Ref, Box<dyn std::error::Error>> {
-    // This legacy Brookhaven snapshot reliably runs LocalScripts cloned from StarterGui.
-    // StarterPlayerScripts exists in the file but did not execute the native AvatarEditor
-    // in the recorded mobile client. Clone that whole controller subtree into StarterGui
-    // so its Button module and CharacterSizeNumber child travel with it.
+fn insert_compat_scripts(dom: &mut WeakDom) -> Result<(), Box<dyn std::error::Error>> {
     let starter_gui = find_first(dom, dom.root_ref(), "StarterGui", None)
         .ok_or("StarterGui service missing")?;
     let server_scripts = ensure_script_container(dom, "ServerScriptService", None)?;
 
-    let native_avatar = find_first(dom, dom.root_ref(), "LocalScript", Some("AvatarEditor"))
-        .ok_or("native StarterPlayerScripts AvatarEditor missing")?;
-    let avatar_clone = dom.clone_within(native_avatar);
-    {
-        let instance = dom
-            .get_by_ref_mut(avatar_clone)
-            .ok_or("cloned AvatarEditor disappeared")?;
-        instance.name = "AvatarEditor".to_string();
-        instance
-            .properties
-            .insert(ustr("Disabled"), Variant::Bool(false));
-    }
-    dom.transfer_within(avatar_clone, starter_gui);
 
     dom.insert(
         starter_gui,
@@ -687,7 +673,7 @@ fn insert_compat_scripts(dom: &mut WeakDom) -> Result<Ref, Box<dyn std::error::E
             .with_property("Source", BOOT_SENTINEL_SOURCE.to_string()),
     );
 
-    Ok(avatar_clone)
+    Ok(())
 }
 
 fn sha256(bytes: &[u8]) -> String {
@@ -708,7 +694,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let native_source_inventory = build_native_source_inventory(&dom);
 
     let player_handler_patch_count = patch_player_handler(&mut dom)?;
-    let avatar_clone_ref = insert_compat_scripts(&mut dom)?;
+    let weather_restore = native_weather::restore(&mut dom)?;
+    let avatar_restore = native_avatar::restore(&mut dom)?;
+    insert_compat_scripts(&mut dom)?;
 
     let root_refs = dom.root().children().to_vec();
     let output = BufWriter::new(File::create(output_path)?);
@@ -716,6 +704,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let output_bytes = fs::read(output_path)?;
     let verified = read_dom(output_path)?;
+    native_weather::verify(&verified)?;
+    native_avatar::verify(&verified)?;
 
     let client = find_first(&verified, verified.root_ref(), "LocalScript", Some("BrookhavenCompat"))
         .ok_or("patched place missing BrookhavenCompat LocalScript")?;
@@ -723,18 +713,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .ok_or("patched place missing BrookhavenHouseCompat Script")?;
     let runtime_core = find_first(&verified, verified.root_ref(), "ModuleScript", Some("BrookhavenNativeRuntimeCore"))
         .ok_or("patched place missing BrookhavenNativeRuntimeCore ModuleScript")?;
-    let starter_gui = find_first(&verified, verified.root_ref(), "StarterGui", None)
-        .ok_or("patched place missing StarterGui")?;
-    let avatar = direct_child(&verified, starter_gui, "AvatarEditor")
-        .ok_or("patched place missing StarterGui AvatarEditor clone")?;
-    let avatar_instance = verified.get_by_ref(avatar).ok_or("StarterGui AvatarEditor disappeared")?;
-    if avatar_instance.class.as_str() != "LocalScript" {
-        return Err("StarterGui AvatarEditor clone is not a LocalScript".into());
-    }
-    if avatar_instance.children().is_empty() {
-        return Err("StarterGui AvatarEditor clone lost its controller children".into());
-    }
-
     let client_source_len = match verified.get_by_ref(client).and_then(|i| i.properties.get(&ustr("Source"))) {
         Some(Variant::String(value)) => value.len(),
         _ => 0,
@@ -763,9 +741,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             "sha256": sha256(&output_bytes)
         },
         "playerHandlerStartupStatementsGuarded": player_handler_patch_count,
-        "nativeAvatarEditorClonedToStarterGui": true,
-        "nativeAvatarEditorCloneRef": format!("{:?}", avatar_clone_ref),
-        "nativeAvatarEditorCloneChildren": avatar_instance.children().len(),
+        "nativeAvatarEditor": avatar_restore,
+        "nativeWeatherController": weather_restore,
         "nativeSourceInventory": native_source_inventory,
         "injected": {
             "client": "StarterGui/BrookhavenCompat",
