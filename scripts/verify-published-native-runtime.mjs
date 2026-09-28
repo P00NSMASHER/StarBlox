@@ -42,13 +42,14 @@ const luau=[
   'local core=require(coreModule)',
   'local result=core.runBehaviorProbe()',
   'assert(result,"native runtime behavior probe missing")',
-  'print("NATIVE_SUBSYSTEMS horseLifecycle="..tostring(result.horseLifecycle and result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization and result.horseCustomization.ok).." toolVisual="..tostring(result.toolVisual and result.toolVisual.ok).." vehicleMusic="..tostring(result.vehicleMusic and result.vehicleMusic.ok).." hairColor="..tostring(result.hairColor and result.hairColor.ok).." houseMusic="..tostring(result.houseMusic and result.houseMusic.ok).." curtains="..tostring(result.curtains and result.curtains.ok).." clock="..tostring(result.clock and result.clock.ok).." avatar="..tostring(result.avatar and result.avatar.ok).." shop="..tostring(result.shop and result.shop.ok).." profile="..tostring(result.profile and result.profile.ok).." houseBusiness="..tostring(result.houseBusiness and result.houseBusiness.ok).." vehicle="..tostring(result.vehicle and result.vehicle.ok).." contracts="..tostring(result.contracts and result.contracts.ok))',
+  'print("NATIVE_SUBSYSTEMS horseLifecycle="..tostring(result.horseLifecycle and result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization and result.horseCustomization.ok).." toolVisual="..tostring(result.toolVisual and result.toolVisual.ok).." vehicleMusic="..tostring(result.vehicleMusic and result.vehicleMusic.ok).." hairColor="..tostring(result.hairColor and result.hairColor.ok).." houseFire="..tostring(result.houseFire and result.houseFire.ok).." houseMusic="..tostring(result.houseMusic and result.houseMusic.ok).." curtains="..tostring(result.curtains and result.curtains.ok).." clock="..tostring(result.clock and result.clock.ok).." avatar="..tostring(result.avatar and result.avatar.ok).." shop="..tostring(result.shop and result.shop.ok).." profile="..tostring(result.profile and result.profile.ok).." houseBusiness="..tostring(result.houseBusiness and result.houseBusiness.ok).." vehicle="..tostring(result.vehicle and result.vehicle.ok).." contracts="..tostring(result.contracts and result.contracts.ok))',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
   'assert(result.toolVisual and result.toolVisual.ok==true,"Backpack source-display tool behavior failed")',
   'assert(result.vehicleMusic and result.vehicleMusic.ok==true,"vehicle music behavior failed")',
   'assert(result.horseLifecycle and result.horseLifecycle.ok==true,"horse mount/dismount lifecycle behavior failed")',
   'assert(result.horseCustomization and result.horseCustomization.ok==true,"horse customization behavior failed")',
   'assert(result.hairColor and result.hairColor.ok==true,"hair color behavior failed")',
+  'assert(result.houseFire and result.houseFire.ok==true,"house fireplace behavior failed")',
   'assert(result.houseMusic and result.houseMusic.ok==true,"house music behavior failed")',
   'assert(result.curtains and result.curtains.ok==true,"curtain behavior failed")',
   'assert(result.clock and result.clock.ok==true,"clock/day behavior failed")',
@@ -56,6 +57,16 @@ const luau=[
   'assert(result.shop and result.shop.ok==true,"shop pass behavior failed")',
   'assert(result.profile and result.profile.ok==true,"profile/job behavior failed")',
   'assert(result.houseBusiness and result.houseBusiness.ok==true,"house business-sign behavior failed")',
+  'local lots=game.Workspace:WaitForChild("001_Lots")',
+  'local realFireHouse=nil',
+  'for _,lot in ipairs(lots:GetChildren()) do local house=lot:FindFirstChild("HousePickedByPlayer"); if house and house:FindFirstChild("001_Fire",true) then realFireHouse=house; break end end',
+  'assert(realFireHouse~=nil,"real Brookhaven house fire source missing")',
+  'local fireClone=realFireHouse:Clone()',
+  'local fireOn=core.applyHouseFireMutation(fireClone,"PlayerWantsFireOnFirePass")',
+  'assert(fireOn and fireOn.ok==true and fireOn.enabled==true and fireOn.effects>0,"real house fireplace enable failed")',
+  'local fireOff=core.applyHouseFireMutation(fireClone,"PlayerWantsFireOffFirePass")',
+  'assert(fireOff and fireOff.ok==true and fireOff.enabled==false,"real house fireplace disable failed")',
+  'fireClone:Destroy()',
   'local worldCommon=game.Workspace:WaitForChild("WorkspaceCom")',
   'local realGiveTools=worldCommon:WaitForChild("001_GiveTools")',
   'local realDisplay=nil',
@@ -96,7 +107,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
