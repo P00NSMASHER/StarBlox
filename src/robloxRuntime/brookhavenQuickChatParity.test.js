@@ -28,7 +28,10 @@ describe('Brookhaven parity: Quick Chat',()=>{
     const client=read('roblox/src/client/QuickChat.client.luau');
 
     expect(client).toContain('bubble.Name = "StarBloxQuickChatBubble"');
-    expect(client).toContain('Color3.fromRGB(69, 171, 235)');
+    expect(client).toContain('local MobileShell = require(script.Parent:WaitForChild("MobileShell"))');
+    expect(client).toContain('frame.BackgroundColor3 = UI.blue');
+    expect(client).toContain('MobileShell.Round(frame, 12)');
+    expect(client).toContain('MobileShell.Stroke(frame, UI.glassStroke, 1.5, 0.35)');
     expect(client).toContain('bolt.Text = "⚡"');
     expect(client).toContain('[Quick Chat] %s: %s');
     expect(client).toContain('general:DisplaySystemMessage');
