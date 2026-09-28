@@ -583,6 +583,7 @@ local rpHouseColorRemote = remotes:WaitForChild("RPHouseEventColor")
 local clockRemote = remotes:WaitForChild("Clock")
 local clockEventsRemote = remotes:WaitForChild("ClockEvents")
 local hairColorRemote = remotes:WaitForChild("HairColor")
+local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -977,6 +978,29 @@ if not liveVehicles then
 	liveVehicles.Name = "Vehicles"
 	liveVehicles.Parent = Workspace
 end
+
+local function activeHorseForPlayer(player)
+	local name = player.Name .. "Horse"
+	local horse = liveVehicles:FindFirstChild(name)
+	if horse and horse:IsA("Model") then
+		return horse
+	end
+	local character = player.Character
+	if character then
+		horse = character:FindFirstChild(name)
+		if horse and horse:IsA("Model") then
+			return horse
+		end
+	end
+	return nil
+end
+
+horseRemotePass.OnServerEvent:Connect(function(player, action, value)
+	local horse = activeHorseForPlayer(player)
+	if horse then
+		RuntimeCore.applyHorseCustomization(horse, tostring(action), value)
+	end
+end)
 
 local activeVehicleByPlayer = {}
 local activeNoMotorByPlayer = {}
@@ -1528,4 +1552,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1")
