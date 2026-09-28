@@ -400,6 +400,16 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     collect_named_paths(dom, dom.root_ref(), "", &["pool", "cover"], &mut remaining_pool_paths);
     collect_named_paths(dom, dom.root_ref(), "", &["creditcard", "credit_card", "bankcard", "bankkeycard", "credit card"], &mut remaining_bank_card_paths);
 
+    let mut wheel_control_state = Vec::new();
+    collect_selected_state(
+        dom,
+        dom.root_ref(),
+        "",
+        &["PhysicalWheel", "CylindricalBL", "CylindricalBR", "CylindricalFL", "CylindricalFR", "Duke", "Duke1"],
+        &mut wheel_control_state,
+        180,
+    );
+
     let mut vehicle_control_paths = BTreeSet::new();
     if let Some(replicated) = find_first(dom, dom.root_ref(), "ReplicatedStorage", None) {
         if let Some(backup) = direct_child(dom, replicated, "003_CarBackup") {
@@ -500,6 +510,7 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "poolCoverState": pool_cover_state,
         "bankCardState": bank_card_state,
         "ambulanceControlPaths": vehicle_control_paths.into_iter().collect::<Vec<_>>(),
+        "wheelControlState": wheel_control_state,
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
         "followAssetPaths": follow_paths.into_iter().collect::<Vec<_>>(),
         "horseClickDetectorPaths": horse_click_paths.into_iter().collect::<Vec<_>>(),
