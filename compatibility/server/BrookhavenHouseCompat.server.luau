@@ -593,6 +593,51 @@ local fasterRemote = remotes:WaitForChild("Faster")
 local slowerRemote = remotes:WaitForChild("Slower")
 local playerTriggerRemote = remotes:WaitForChild("PlayerTriggerEvent")
 
+local nativeUiActionRemote = remotes:FindFirstChild("StarBloxNativeUiAction")
+if nativeUiActionRemote and not nativeUiActionRemote:IsA("RemoteFunction") then
+	nativeUiActionRemote:Destroy()
+	nativeUiActionRemote = nil
+end
+if not nativeUiActionRemote then
+	nativeUiActionRemote = Instance.new("RemoteFunction")
+	nativeUiActionRemote.Name = "StarBloxNativeUiAction"
+	nativeUiActionRemote.Parent = remotes
+end
+
+local lastUiActionByPlayer = {}
+
+local function recordUiAction(player, surface, action, result, receiptKey)
+	local seq = (tonumber(player:GetAttribute("StarBloxUiActionSeq")) or 0) + 1
+	local ok = result and result.ok == true
+	local key = tostring(receiptKey or (tostring(surface) .. ":" .. tostring(action)))
+	lastUiActionByPlayer[player] = {
+		at = os.clock(),
+		surface = tostring(surface),
+		action = tostring(action),
+		key = key,
+		ok = ok,
+	}
+	player:SetAttribute("StarBloxUiActionSeq", seq)
+	player:SetAttribute("StarBloxUiSurface", tostring(surface))
+	player:SetAttribute("StarBloxUiAction", tostring(action))
+	player:SetAttribute("StarBloxUiOk", ok)
+	player:SetAttribute("StarBloxUiCode", tostring(result and (result.code or result.action) or "unknown"))
+	player:SetAttribute("StarBloxUiReceiptKey", key)
+	return result
+end
+
+local function recentSuccessfulUiAction(player, receiptKey)
+	local state = lastUiActionByPlayer[player]
+	return state ~= nil
+		and state.ok == true
+		and state.key == tostring(receiptKey)
+		and os.clock() - state.at <= 1.25
+end
+
+local function deduplicatedResult(receiptKey)
+	return {ok = true, action = "already_completed", deduplicated = true, receiptKey = tostring(receiptKey)}
+end
+
 local function getHumanoid(player)
 	local character = player.Character
 	return character and character:FindFirstChildOfClass("Humanoid") or nil
@@ -743,6 +788,71 @@ local function toggleCsv(text, id)
 	return table.concat(values, ","), not present
 end
 
+local catalogAccessoryField = {
+	Hats = "HatAccessory",
+	Hair = "HairAccessory",
+	Face = "FaceAccessory",
+	Back = "BackAccessory",
+	Waist = "WaistAccessory",
+}
+local catalogSingleField = {
+	Shirts = "Shirt",
+	ShirtsGirl = "Shirt",
+	Pants = "Pants",
+	PantsGirl = "Pants",
+	Faces = "Face",
+}
+
+local function applyCatalogAsset(player, category, subcategory, assetId)
+	assetId = math.floor(tonumber(assetId) or 0)
+	if assetId <= 0 then
+		return {ok = false, code = "invalid_asset"}
+	end
+	local description = getDescription(player)
+	if not description then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+	local field = nil
+	local enabled = true
+	if category == "Accessories" then
+		field = catalogAccessoryField[tostring(subcategory)]
+		if not field then
+			description:Destroy()
+			return {ok = false, code = "unsupported_accessory_category"}
+		end
+		local current = ""
+		pcall(function() current = description[field] end)
+		local nextValue
+		nextValue, enabled = toggleCsv(current, assetId)
+		local okSet = pcall(function() description[field] = nextValue end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "asset_apply_failed"}
+		end
+	elseif category == "Clothes" or category == "Body" then
+		field = catalogSingleField[tostring(subcategory)]
+		if not field then
+			description:Destroy()
+			return {ok = false, code = "unsupported_catalog_category"}
+		end
+		local current = 0
+		pcall(function() current = tonumber(description[field]) or 0 end)
+		enabled = current ~= assetId
+		local okSet = pcall(function() description[field] = enabled and assetId or 0 end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "asset_apply_failed"}
+		end
+	else
+		description:Destroy()
+		return {ok = false, code = "unsupported_catalog_category"}
+	end
+	if not applyDescription(player, description) then
+		return {ok = false, code = "avatar_apply_failed"}
+	end
+	return {ok = true, action = "catalog_asset", assetId = assetId, field = field, enabled = enabled}
+end
+
 local appearanceAssets = {}
 
 local function seedAppearance(player)
@@ -837,53 +947,70 @@ local function toggleAvatarAsset(player, assetId)
 	return {ok = true, action = "wear", assetId = assetId, enabled = enabled}
 end
 
-clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
+local function mutateAvatarDescription(player, action, a, b)
 	local description = getDescription(player)
 	if not description then
-		return
+		return {ok = false, code = "avatar_unavailable"}
 	end
-	local result
-	if action == "outfit" then
-		result = applyNativeAvatarMutation(description, "outfit", a, b)
-	elseif action == "CharacterSizeUp" or action == "CharacterSizeDown" then
-		result = applyNativeAvatarMutation(description, "scale", a)
-	else
+	local result = applyNativeAvatarMutation(description, action, a, b)
+	if not result.ok then
 		description:Destroy()
-		return
+		return result
 	end
-	if result.ok then
-		applyDescription(player, description)
-	else
-		description:Destroy()
+	if not applyDescription(player, description) then
+		return {ok = false, code = "avatar_apply_failed"}
 	end
-end)
+	return result
+end
 
-updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
-	if action == "wear" or action == "wearPremium" then
-		toggleAvatarAsset(player, value)
-	elseif action == "skintone" then
-		local description = getDescription(player)
-		if not description then
-			return
-		end
-		local result = applyNativeAvatarMutation(description, "skintone", value)
-		if result.ok then
-			applyDescription(player, description)
-		else
-			description:Destroy()
-		end
-	end
-end)
-
-resetAvatarRemote.OnServerEvent:Connect(function(player)
+local function resetAvatar(player)
 	local description = nil
 	local ok = pcall(function()
 		description = Players:GetHumanoidDescriptionFromUserId(player.UserId)
 	end)
-	if ok and description and applyDescription(player, description) then
-		seedAppearance(player)
-		pushAppearance(player)
+	if not ok or not description then
+		return {ok = false, code = "avatar_reset_description_failed"}
 	end
+	if not applyDescription(player, description) then
+		return {ok = false, code = "avatar_reset_apply_failed"}
+	end
+	seedAppearance(player)
+	pushAppearance(player)
+	return {ok = true, action = "reset"}
+end
+
+clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
+	local result
+	if action == "outfit" then
+		result = mutateAvatarDescription(player, "outfit", a, b)
+	elseif action == "CharacterSizeUp" or action == "CharacterSizeDown" then
+		result = mutateAvatarDescription(player, "scale", a)
+	else
+		result = {ok = false, code = "unknown_clothes_action"}
+	end
+	local key = action == "outfit"
+		and ("outfit:" .. tostring(a) .. ":" .. tostring(b))
+		or ("scale:" .. tostring(a))
+	recordUiAction(player, "avatar", tostring(action), result, key)
+end)
+
+updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
+	local result
+	if action == "wear" or action == "wearPremium" then
+		result = toggleAvatarAsset(player, value)
+	elseif action == "skintone" then
+		result = mutateAvatarDescription(player, "skintone", value)
+	else
+		result = {ok = false, code = "unknown_update_avatar_action"}
+	end
+	local key = (action == "skintone")
+		and ("skin:" .. tostring(value))
+		or ("asset:" .. tostring(value))
+	recordUiAction(player, "avatar", tostring(action), result, key)
+end)
+
+resetAvatarRemote.OnServerEvent:Connect(function(player)
+	recordUiAction(player, "avatar", "reset", resetAvatar(player), "reset")
 end)
 
 local function applyPassActionToBag(bag, action)
@@ -892,8 +1019,58 @@ end
 
 passRemote.OnServerEvent:Connect(function(player, action)
 	local bag = ensureBag(player)
-	applyPassActionToBag(bag, tostring(action))
+	local result = applyPassActionToBag(bag, tostring(action))
+	recordUiAction(player, "shop", tostring(action), result, "pass:" .. tostring(action))
 end)
+
+nativeUiActionRemote.OnServerInvoke = function(player, kind, a, b, c)
+	local result
+	local receiptKey
+	if kind == "shop_pass" then
+		receiptKey = "pass:" .. tostring(a)
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = applyPassActionToBag(ensureBag(player), tostring(a))
+		return recordUiAction(player, "shop", tostring(a), result, receiptKey)
+	elseif kind == "avatar_outfit" then
+		receiptKey = "outfit:" .. tostring(a) .. ":" .. tostring(b)
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = mutateAvatarDescription(player, "outfit", a, b)
+		return recordUiAction(player, "avatar", "outfit", result, receiptKey)
+	elseif kind == "avatar_scale" then
+		receiptKey = "scale:" .. tostring(a)
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = mutateAvatarDescription(player, "scale", a)
+		return recordUiAction(player, "avatar", "scale", result, receiptKey)
+	elseif kind == "avatar_skintone" then
+		receiptKey = "skin:" .. tostring(a)
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = mutateAvatarDescription(player, "skintone", a)
+		return recordUiAction(player, "avatar", "skintone", result, receiptKey)
+	elseif kind == "avatar_asset" then
+		receiptKey = "asset:" .. tostring(c)
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = applyCatalogAsset(player, tostring(a), tostring(b), c)
+		return recordUiAction(player, "avatar", "catalog_asset", result, receiptKey)
+	elseif kind == "avatar_reset" then
+		receiptKey = "reset"
+		if recentSuccessfulUiAction(player, receiptKey) then
+			return deduplicatedResult(receiptKey)
+		end
+		result = resetAvatar(player)
+		return recordUiAction(player, "avatar", "reset", result, receiptKey)
+	end
+	return recordUiAction(player, "unknown", tostring(kind), {ok = false, code = "unknown_native_ui_action"})
+end
 
 rpNameRemote.OnServerEvent:Connect(function(player, action, value)
 	local bag = ensureBag(player)
@@ -2399,6 +2576,7 @@ Players.PlayerRemoving:Connect(function(player)
 	destroyActiveHorse(player)
 	pendingHorseDoor[player] = nil
 	appearanceAssets[player] = nil
+	lastUiActionByPlayer[player] = nil
 	lastVehicleSpawn[player] = nil
 	activeCarClientByPlayer[player] = nil
 	clearNativeHeliGui(player)
