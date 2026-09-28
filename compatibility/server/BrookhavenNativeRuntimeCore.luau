@@ -1572,6 +1572,7 @@ function RuntimeCore.weatherEntryCommand(action)
 end
 
 function RuntimeCore.runBehaviorProbe()
+	print("NATIVE_PROBE_CHECKPOINT start")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
@@ -1581,6 +1582,7 @@ function RuntimeCore.runBehaviorProbe()
 	local weatherOk = weatherRain.ok and weatherRain.command == "TurnOnRain"
 		and weatherSnow.ok and weatherSnow.command == "TurnOnSnow"
 		and weatherInvalid.ok == false
+	print("NATIVE_PROBE_CHECKPOINT weather")
 	local poolFixture = Instance.new("Folder")
 	poolFixture.Name = "001_PoolCovers"
 	local poolCover = Instance.new("Part")
@@ -1595,6 +1597,7 @@ function RuntimeCore.runBehaviorProbe()
 	local poolCoverOk = poolHidden and poolOn.ok and poolOn.on == true and poolCover.Transparency == 0 and poolCover.CanCollide == true
 	poolFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT pool")
 	local cardDisplay = Instance.new("Part")
 	cardDisplay.Name = "FakeBankKeyCard"
 	cardDisplay.Size = Vector3.new(0.46, 0.05, 0.84)
@@ -1614,6 +1617,7 @@ function RuntimeCore.runBehaviorProbe()
 	if girlCard.tool then girlCard.tool:Destroy() end
 	cardDisplay:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT bank_card")
 	local bannedLotsFixture = Instance.new("Model")
 	bannedLotsFixture.Name = "BannedLots"
 	local nativeBanSource = Instance.new("Part")
@@ -1640,6 +1644,7 @@ function RuntimeCore.runBehaviorProbe()
 	permissionFolder:Destroy()
 	permissionTarget:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT house_access")
 	local singleVehicles = ReplicatedStorage:WaitForChild("SingleVehicles")
 	local noMotorKinds = {"Scooter", "SegwaySmall", "SkateBoard"}
 	local noMotorResults = {}
@@ -1674,6 +1679,7 @@ function RuntimeCore.runBehaviorProbe()
 		end
 	end
 
+	print("NATIVE_PROBE_CHECKPOINT no_motor")
 	local heliFixture = Instance.new("Model")
 	heliFixture.Name = "Heli"
 	local heliSeat = Instance.new("VehicleSeat")
@@ -1760,6 +1766,7 @@ function RuntimeCore.runBehaviorProbe()
 	end
 	heliFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT helicopter")
 	local socialCarrier = Instance.new("Model")
 	socialCarrier.Name = "Carrier"
 	local carrierTorso = Instance.new("Part")
@@ -1792,6 +1799,7 @@ function RuntimeCore.runBehaviorProbe()
 	socialBag:Destroy()
 	socialPartner:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT social")
 	local musicFixture = Instance.new("Model")
 	local stereoFixture = Instance.new("Model")
 	stereoFixture.Name = "HouseStereo"
@@ -1810,6 +1818,7 @@ function RuntimeCore.runBehaviorProbe()
 		and musicSound.Looped == true
 	musicFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT house_music")
 	local curtainFixture = Instance.new("Model")
 	local curtainState = Instance.new("Script")
 	curtainState.Name = "MainHouseScript"
@@ -1834,6 +1843,7 @@ function RuntimeCore.runBehaviorProbe()
 	local curtainOk = curtainOpened and curtainCloseResult.ok and curtainCloseResult.open == false and math.abs(curtainPart.Transparency - 0.25) < 0.001 and curtainPart.CanCollide == true and curtainOpen.Value == false
 	curtainFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT curtains")
 	local vehicleMusicFixture = Instance.new("Model")
 	local vehicleMusicSeat = Instance.new("VehicleSeat")
 	vehicleMusicSeat.Name = "VehicleSeat"
@@ -1850,6 +1860,7 @@ function RuntimeCore.runBehaviorProbe()
 		and vehicleMusicSound.Looped == true
 	vehicleMusicFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT vehicle_music")
 	local horseLifecycleFixture = Instance.new("Model")
 	local lifecycleHumanoid = Instance.new("Humanoid")
 	lifecycleHumanoid.Parent = horseLifecycleFixture
@@ -1911,6 +1922,7 @@ function RuntimeCore.runBehaviorProbe()
 	lifecycleWorld:Destroy()
 	lifecycleCharacter:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT horse_lifecycle")
 	local followerDisplay = Instance.new("Part")
 	followerDisplay.Name = "BabyGirl"
 	followerDisplay.Size = Vector3.new(1.4, 2.3, 0.9)
@@ -1944,6 +1956,7 @@ function RuntimeCore.runBehaviorProbe()
 	end
 	followerDisplay:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT follower")
 	local displayPart = Instance.new("Part")
 	displayPart.Name = "Basketball"
 	displayPart.Size = Vector3.new(2, 2, 2)
@@ -1979,6 +1992,7 @@ function RuntimeCore.runBehaviorProbe()
 	end
 	displayPart:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT tool_visual")
 	local horseFixture = Instance.new("Model")
 	local horseHead = Instance.new("Part")
 	horseHead.Name = "Head"
@@ -2062,6 +2076,7 @@ function RuntimeCore.runBehaviorProbe()
 	local horseCustomizationOk = horseManualCustomizationOk and horsePresetOk
 	horseFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT horse_customization")
 	local houseFireFixture = Instance.new("Model")
 	local houseFireModel = Instance.new("Model")
 	houseFireModel.Name = "001_Fire"
@@ -2081,6 +2096,7 @@ function RuntimeCore.runBehaviorProbe()
 	local houseFireOk = houseFireOnOk and houseFireOff.ok and nativeFire.Enabled == false and nativeFireLight.Enabled == false
 	houseFireFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT house_fire")
 	local hairFixture = Instance.new("Model")
 	for i = 1, 3 do
 		local accessory = Instance.new("Accessory")
@@ -2101,11 +2117,13 @@ function RuntimeCore.runBehaviorProbe()
 		and hair3.Color == Color3.fromRGB(255, 255, 255)
 	hairFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT hair")
 	local clockNoon = RuntimeCore.formatClockTime(12.5)
 	local clockMidnight = RuntimeCore.formatClockTime(0)
 	local dayName = RuntimeCore.dayNameFromWeekday(2)
 	local clockOk = clockNoon == "12:30 PM" and clockMidnight == "12:00 AM" and dayName == "Monday"
 
+	print("NATIVE_PROBE_CHECKPOINT clock")
 	local avatarDescription = Instance.new("HumanoidDescription")
 	local outfit = RuntimeCore.applyNativeAvatarMutation(avatarDescription, DEFAULT_SKIN_TONES, "outfit", 123456, 654321)
 	local scale = RuntimeCore.applyNativeAvatarMutation(avatarDescription, DEFAULT_SKIN_TONES, "scale", 0.75)
@@ -2117,6 +2135,7 @@ function RuntimeCore.runBehaviorProbe()
 		and avatarDescription.HeadColor == Color3.fromRGB(255, 0, 0)
 	avatarDescription:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT avatar")
 	local bag = ReplicatedStorage:WaitForChild("PlayersStartup"):WaitForChild("PlayersBag"):Clone()
 	local music = RuntimeCore.applyPassActionToBag(bag, "BoughtMusic")
 	local speed = RuntimeCore.applyPassActionToBag(bag, "BoughtSpeed200")
@@ -2127,6 +2146,7 @@ function RuntimeCore.runBehaviorProbe()
 		and bag.SpeedPassNoMotorVehicle.Value == 45
 	bag:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT shop")
 	local profileBag = ReplicatedStorage:WaitForChild("PlayersStartup"):WaitForChild("PlayersBag"):Clone()
 	local rpName = RuntimeCore.applyRolePlayTextToBag(profileBag, "RolePlayName", "Alex")
 	local rpBio = RuntimeCore.applyRolePlayTextToBag(profileBag, "RolePlayBio", "Brookhaven resident")
@@ -2142,6 +2162,7 @@ function RuntimeCore.runBehaviorProbe()
 	profileOk = profileOk and quitJob.ok and profileBag.Job.Value == false
 	profileBag:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT profile")
 	local houseFixture = Instance.new("Model")
 	local business = Instance.new("Model")
 	business.Name = "001_HomeBasedBusiness"
@@ -2164,6 +2185,7 @@ function RuntimeCore.runBehaviorProbe()
 		and businessText.TextColor3 == Color3.fromRGB(255, 0, 0)
 	houseFixture:Destroy()
 
+	print("NATIVE_PROBE_CHECKPOINT house_business")
 	local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
 	local singleVehicles = ReplicatedStorage:FindFirstChild("SingleVehicles")
 	local children = carBackup:GetChildren()
@@ -2196,6 +2218,7 @@ function RuntimeCore.runBehaviorProbe()
 		model:Destroy()
 	end
 
+	print("NATIVE_PROBE_CHECKPOINT vehicle")
 	local contractsOk = remotes:WaitForChild("Clothes"):IsA("RemoteEvent")
 		and remotes:WaitForChild("UpdateAvatar"):IsA("RemoteEvent")
 		and remotes:WaitForChild("Pass"):IsA("RemoteEvent")
@@ -2209,6 +2232,7 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Slower"):IsA("RemoteEvent")
 		and remotes:WaitForChild("WeatherClients"):IsA("RemoteEvent")
 
+	print("NATIVE_PROBE_CHECKPOINT contracts")
 	return {
 		ok = weatherOk and bankCardOk and poolCoverOk and houseAccessOk and socialOk and noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		weather = {ok = weatherOk, rain = weatherRain, snow = weatherSnow, invalid = weatherInvalid},
