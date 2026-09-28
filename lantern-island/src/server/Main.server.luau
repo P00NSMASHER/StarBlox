@@ -7,10 +7,7 @@ local shared = ReplicatedStorage:WaitForChild("LanternIslandShared", 15)
 assert(shared, "LanternIslandShared missing; build the isolated project")
 local Protocol = require(shared:WaitForChild("Protocol", 15))
 
--- Never attach this runtime to the old published StarBlox target.
-if game.PlaceId == 17602626136 or game.GameId == 6027194615 then
-    error("LANTERN_TARGET_BLOCKED: legacy StarBlox target; use a separate development place")
-end
+-- Owner explicitly authorized replacing the former StarBlox place with Lantern Island on 2026-09-28.
 assert(not ReplicatedStorage:FindFirstChild(Protocol.REMOTE_FOLDER), "Duplicate Lantern Island server bootstrap")
 local remotes = Instance.new("Folder")
 remotes.Name = Protocol.REMOTE_FOLDER
@@ -32,7 +29,7 @@ local identity = script.Parent:FindFirstChild("BuildIdentity")
 local buildId = identity and identity.Value or "source-development"
 local context = {
     services = services, protocol = Protocol, isStudio = RunService:IsStudio(),
-    buildId = buildId, dataStoreNamespace = "LanternIsland_DEV_v1",
+    buildId = buildId, dataStoreNamespace = "LanternIsland_v1",
     serverRoot = script.Parent,
 }
 
