@@ -4,6 +4,9 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TextChatService = game:GetService("TextChatService")
 
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
+local UI = MobileShell.Theme
+
 local remotes = ReplicatedStorage:WaitForChild("StarBloxQuickChat")
 local message = remotes:WaitForChild("Message") :: RemoteEvent
 
@@ -34,20 +37,13 @@ local function showBubble(sender: Player, text: string)
 
 	local frame = Instance.new("Frame")
 	frame.Size = UDim2.fromScale(1, 1)
-	frame.BackgroundColor3 = Color3.fromRGB(69, 171, 235)
+	frame.BackgroundColor3 = UI.blue
 	frame.BackgroundTransparency = 0.08
 	frame.BorderSizePixel = 0
 	frame.Parent = bubble
 
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, 12)
-	corner.Parent = frame
-
-	local stroke = Instance.new("UIStroke")
-	stroke.Color = Color3.fromRGB(160, 220, 255)
-	stroke.Thickness = 1.5
-	stroke.Transparency = 0.15
-	stroke.Parent = frame
+	MobileShell.Round(frame, 12)
+	MobileShell.Stroke(frame, UI.glassStroke, 1.5, 0.35)
 
 	local bolt = Instance.new("TextLabel")
 	bolt.Name = "QuickChatMark"
