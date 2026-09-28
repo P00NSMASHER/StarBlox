@@ -398,3 +398,41 @@ jobs:
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
+
+      - name: Inspect live house lot and no-house menu schema
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY, universe=process.env.ROBLOX_UNIVERSE_ID, place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
+          const luau=[
+            'assert(game.PlaceVersion==40,"expected v40")',
+            'local function path(x) local a={x.Name}; local n=x.Parent; while n and n~=game do table.insert(a,1,n.Name); n=n.Parent end; return table.concat(a,"/") end',
+            'local function describe(x,prefix,depth)',
+            ' if not x or depth<0 then return end',
+            ' local extra=""',
+            ' if x:IsA("ValueBase") then extra=" value="..tostring(x.Value) end',
+            ' if x:IsA("BasePart") then extra=extra.." pos="..tostring(x.Position) end',
+            ' if x:IsA("GuiObject") then extra=extra.." visible="..tostring(x.Visible).." active="..tostring(x.Active) end',
+            ' print(prefix..x.ClassName.." "..path(x)..extra)',
+            ' if depth>0 then for _,c in ipairs(x:GetChildren()) do describe(c,prefix.."  ",depth-1) end end',
+            'end',
+            'print("HOUSE_SCHEMA_BEGIN")',
+            'local lots=workspace:FindFirstChild("001_Lots")',
+            'local sample=lots and (lots:FindFirstChild("1_Lexa86House") or lots:FindFirstChild("For Sale"))',
+            'describe(sample,"",3)',
+            'local sg=game:GetService("StarterGui")',
+            'describe(sg:FindFirstChild("MainGUIHandler") and sg.MainGUIHandler:FindFirstChild("MainNoHouseMenu"),"",4)',
+            'local startup=game:GetService("ReplicatedStorage"):FindFirstChild("PlayersStartup")',
+            'describe(startup and startup:FindFirstChild("PlayersBag"),"",2)',
+            'print("HOUSE_SCHEMA_END")'
+          ].join("\n");
+          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script:luau,timeout:"30s"})}),"create");
+          const raw=String(task.path||""), url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
