@@ -39,7 +39,9 @@ const selected=scripts.filter(r=>{
   const serialized=JSON.stringify(r.node);
   return p.includes('startergui/playerhandler') ||
     p.includes('startergui/mainguihandler') ||
+    p.includes('startergui/noresetguihandler') ||
     p.includes('workspace/001_lots') ||
+    String(r.node?.properties?.Source?.String||'').trim().length>0 ||
     needles.some(n=>serialized.includes(n));
 }).map(r=>({
   className:cls(r.node),
