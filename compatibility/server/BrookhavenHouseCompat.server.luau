@@ -606,7 +606,7 @@ end
 
 local lastUiActionByPlayer = {}
 
-local function recordUiAction(player, surface, action, result, receiptKey)
+local function recordUiAction(player, surface, action, result, receiptKey, source)
 	local seq = (tonumber(player:GetAttribute("StarBloxUiActionSeq")) or 0) + 1
 	local ok = result and result.ok == true
 	local key = tostring(receiptKey or (tostring(surface) .. ":" .. tostring(action)))
@@ -616,6 +616,7 @@ local function recordUiAction(player, surface, action, result, receiptKey)
 		action = tostring(action),
 		key = key,
 		ok = ok,
+		source = tostring(source or "unknown"),
 	}
 	player:SetAttribute("StarBloxUiActionSeq", seq)
 	player:SetAttribute("StarBloxUiSurface", tostring(surface))
@@ -626,11 +627,12 @@ local function recordUiAction(player, surface, action, result, receiptKey)
 	return result
 end
 
-local function recentSuccessfulUiAction(player, receiptKey)
+local function recentSuccessfulUiAction(player, receiptKey, source)
 	local state = lastUiActionByPlayer[player]
 	return state ~= nil
 		and state.ok == true
 		and state.key == tostring(receiptKey)
+		and state.source == tostring(source)
 		and os.clock() - state.at <= 1.25
 end
 
@@ -980,6 +982,12 @@ local function resetAvatar(player)
 end
 
 clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
+	local key = action == "outfit"
+		and ("outfit:" .. tostring(a) .. ":" .. tostring(b))
+		or ("scale:" .. tostring(a))
+	if recentSuccessfulUiAction(player, key, "fallback") then
+		return
+	end
 	local result
 	if action == "outfit" then
 		result = mutateAvatarDescription(player, "outfit", a, b)
@@ -988,13 +996,16 @@ clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
 	else
 		result = {ok = false, code = "unknown_clothes_action"}
 	end
-	local key = action == "outfit"
-		and ("outfit:" .. tostring(a) .. ":" .. tostring(b))
-		or ("scale:" .. tostring(a))
-	recordUiAction(player, "avatar", tostring(action), result, key)
+	recordUiAction(player, "avatar", tostring(action), result, key, "native")
 end)
 
 updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
+	local key = (action == "skintone")
+		and ("skin:" .. tostring(value))
+		or ("asset:" .. tostring(value))
+	if recentSuccessfulUiAction(player, key, "fallback") then
+		return
+	end
 	local result
 	if action == "wear" or action == "wearPremium" then
 		result = toggleAvatarAsset(player, value)
@@ -1003,14 +1014,14 @@ updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
 	else
 		result = {ok = false, code = "unknown_update_avatar_action"}
 	end
-	local key = (action == "skintone")
-		and ("skin:" .. tostring(value))
-		or ("asset:" .. tostring(value))
-	recordUiAction(player, "avatar", tostring(action), result, key)
+	recordUiAction(player, "avatar", tostring(action), result, key, "native")
 end)
 
 resetAvatarRemote.OnServerEvent:Connect(function(player)
-	recordUiAction(player, "avatar", "reset", resetAvatar(player), "reset")
+	if recentSuccessfulUiAction(player, "reset", "fallback") then
+		return
+	end
+	recordUiAction(player, "avatar", "reset", resetAvatar(player), "reset", "native")
 end)
 
 local function applyPassActionToBag(bag, action)
@@ -1018,9 +1029,13 @@ local function applyPassActionToBag(bag, action)
 end
 
 passRemote.OnServerEvent:Connect(function(player, action)
+	local key = "pass:" .. tostring(action)
+	if recentSuccessfulUiAction(player, key, "fallback") then
+		return
+	end
 	local bag = ensureBag(player)
 	local result = applyPassActionToBag(bag, tostring(action))
-	recordUiAction(player, "shop", tostring(action), result, "pass:" .. tostring(action))
+	recordUiAction(player, "shop", tostring(action), result, key, "native")
 end)
 
 nativeUiActionRemote.OnServerInvoke = function(player, kind, a, b, c)
@@ -1028,48 +1043,48 @@ nativeUiActionRemote.OnServerInvoke = function(player, kind, a, b, c)
 	local receiptKey
 	if kind == "shop_pass" then
 		receiptKey = "pass:" .. tostring(a)
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = applyPassActionToBag(ensureBag(player), tostring(a))
-		return recordUiAction(player, "shop", tostring(a), result, receiptKey)
+		return recordUiAction(player, "shop", tostring(a), result, receiptKey, "fallback")
 	elseif kind == "avatar_outfit" then
 		receiptKey = "outfit:" .. tostring(a) .. ":" .. tostring(b)
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = mutateAvatarDescription(player, "outfit", a, b)
-		return recordUiAction(player, "avatar", "outfit", result, receiptKey)
+		return recordUiAction(player, "avatar", "outfit", result, receiptKey, "fallback")
 	elseif kind == "avatar_scale" then
 		receiptKey = "scale:" .. tostring(a)
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = mutateAvatarDescription(player, "scale", a)
-		return recordUiAction(player, "avatar", "scale", result, receiptKey)
+		return recordUiAction(player, "avatar", "scale", result, receiptKey, "fallback")
 	elseif kind == "avatar_skintone" then
 		receiptKey = "skin:" .. tostring(a)
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = mutateAvatarDescription(player, "skintone", a)
-		return recordUiAction(player, "avatar", "skintone", result, receiptKey)
+		return recordUiAction(player, "avatar", "skintone", result, receiptKey, "fallback")
 	elseif kind == "avatar_asset" then
 		receiptKey = "asset:" .. tostring(c)
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = applyCatalogAsset(player, tostring(a), tostring(b), c)
-		return recordUiAction(player, "avatar", "catalog_asset", result, receiptKey)
+		return recordUiAction(player, "avatar", "catalog_asset", result, receiptKey, "fallback")
 	elseif kind == "avatar_reset" then
 		receiptKey = "reset"
-		if recentSuccessfulUiAction(player, receiptKey) then
+		if recentSuccessfulUiAction(player, receiptKey, "native") then
 			return deduplicatedResult(receiptKey)
 		end
 		result = resetAvatar(player)
-		return recordUiAction(player, "avatar", "reset", result, receiptKey)
+		return recordUiAction(player, "avatar", "reset", result, receiptKey, "fallback")
 	end
-	return recordUiAction(player, "unknown", tostring(kind), {ok = false, code = "unknown_native_ui_action"})
+	return recordUiAction(player, "unknown", tostring(kind), {ok = false, code = "unknown_native_ui_action"}, nil, "fallback")
 end
 
 rpNameRemote.OnServerEvent:Connect(function(player, action, value)
