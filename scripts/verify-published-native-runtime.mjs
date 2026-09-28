@@ -41,6 +41,7 @@ const luau=[
   'assert(string.find(server.Source,"heliControlsRemote.OnServerEvent",1,true) and string.find(server.Source,"fasterRemote.OnServerEvent",1,true) and string.find(server.Source,"slowerRemote.OnServerEvent",1,true),"native helicopter flight remotes missing")',
   'assert(string.find(server.Source,"RuntimeCore.setHelicopterFlightEnabled",1,true) and string.find(server.Source,"RuntimeCore.updateHelicopterVelocity",1,true),"native helicopter flight physics bridge missing")',
   'assert(string.find(server.Source,"RuntimeCore.attachNoMotorVehicle",1,true) and string.find(server.Source,"NoMotorVehicleModel",1,true),"native no-motor attachment bridge missing")',
+  'assert(string.find(server.Source,"RuntimeCore.playNativeVehicleSpecialSound",1,true),"native Duke vehicle sound bridge missing")',
   'local coreModule=SSS:WaitForChild("BrookhavenNativeRuntimeCore")',
   'assert(coreModule:IsA("ModuleScript"),"native runtime core ModuleScript missing")',
   'local core=require(coreModule)',
@@ -162,6 +163,7 @@ const luau=[
   'assert(vehicleResult.driveReady and vehicleResult.driveReady.ok==true,"vehicle drivetrain preparation failed")',
   'assert(vehicleResult.driveReady.seatAnchored==false,"vehicle seat remained anchored")',
   'assert(vehicleResult.driveReady.driveConstraints==4,"vehicle drivetrain constraint count changed")',
+  'assert(vehicleResult.duke and vehicleResult.duke.ok==true and vehicleResult.duke1 and vehicleResult.duke1.ok==true,"native Duke vehicle sound behavior failed")',
   'local backup=RS:WaitForChild("003_CarBackup")',
   'local proofTemplate=backup:FindFirstChild(vehicleResult.vehicle)',
   'local carHandler=proofTemplate and proofTemplate:FindFirstChild("CarHandler")',
@@ -169,7 +171,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." noMotorVehicles="..tostring(result.noMotorVehicles.ok).." helicopter="..tostring(result.helicopter.ok).." helicopterGui="..tostring(result.helicopterGui.ok).." realHeliGui=true realHeliFlight=true avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." noMotorVehicles="..tostring(result.noMotorVehicles.ok).." helicopter="..tostring(result.helicopter.ok).." helicopterGui="..tostring(result.helicopterGui.ok).." realHeliGui=true realHeliFlight=true avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." duke="..tostring(vehicleResult.duke.ok).." duke1="..tostring(vehicleResult.duke1.ok).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
