@@ -178,3 +178,34 @@ jobs:
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
+
+      - name: Inventory editor panels and legacy pass flags
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
+          const script=[
+            'assert(game.PlaceVersion==44,"expected v44")',
+            'local SG=game:GetService("StarterGui")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local editor=SG.NoResetGUIHandler.MainEditor',
+            'local container=editor.Catalog.Container',
+            'print("EDITOR_STRUCT_BEGIN")',
+            'for _,x in ipairs(container:GetChildren()) do print("EDITOR_CHILD "..x.Name.." class="..x.ClassName.." visible="..tostring(x:IsA("GuiObject") and x.Visible or "na")) end',
+            'for _,x in ipairs(editor.Catalog.Header.SubCategoryTabs:GetDescendants()) do if x:IsA("GuiObject") then print("EDITOR_SUBTAB "..x:GetFullName().." class="..x.ClassName.." visible="..tostring(x.Visible)) end end',
+            'local startup=RS:FindFirstChild("PlayersStartup")',
+            'local bag=startup and startup:FindFirstChild("PlayersBag")',
+            'if bag then for _,x in ipairs(bag:GetChildren()) do if x:IsA("ValueBase") then print("BAG_VALUE "..x.Name.." class="..x.ClassName.." value="..tostring(x.Value)) end end end',
+            'print("EDITOR_STRUCT_END")'
+          ].join("\n");
+          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+          let task=await parse(response,"create");
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
