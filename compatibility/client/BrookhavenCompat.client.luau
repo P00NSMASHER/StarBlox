@@ -375,6 +375,35 @@ local function bindCurrentAssetButtons()
 	end
 end
 
+local function currentCatalogMatches(category, subcategory)
+	local rows = assetRows(category, subcategory)
+	if type(rows) ~= "table" then
+		return false
+	end
+	local expected = {}
+	if subcategory == "SkinTone" then
+		for name in pairs(rows) do
+			expected[tostring(name)] = true
+		end
+	else
+		for _, item in ipairs(rows) do
+			if type(item) == "table" and item.Name then
+				expected[tostring(item.Name)] = true
+			end
+		end
+	end
+	local count = 0
+	for _, child in ipairs(scrolling:GetChildren()) do
+		if child:IsA("GuiButton") then
+			count += 1
+			if not expected[child.Name] then
+				return false
+			end
+		end
+	end
+	return count > 0
+end
+
 scrolling.ChildAdded:Connect(function(child)
 	if child:IsA("GuiButton") then
 		task.defer(bindAssetButton, child)
@@ -467,14 +496,7 @@ for _, subFrame in ipairs(subCategoryTabs:GetChildren()) do
 							end
 						else
 							bindCurrentAssetButtons()
-							local hasButtons = false
-							for _, child in ipairs(scrolling:GetChildren()) do
-								if child:IsA("GuiButton") then
-									hasButtons = true
-									break
-								end
-							end
-							if not hasButtons then
+							if not currentCatalogMatches(currentCategory, currentSubcategory) then
 								populateCatalogFallback(currentCategory, currentSubcategory)
 							end
 						end
