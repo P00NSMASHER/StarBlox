@@ -118,6 +118,78 @@ fn collect_vehicle_control_paths(
     }
 }
 
+
+fn collect_heli_control_state(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    out: &mut Vec<String>,
+    limit: usize,
+) {
+    if out.len() >= limit {
+        return;
+    }
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    let class = instance.class.as_str();
+    let interesting = matches!(
+        class,
+        "VehicleSeat" | "BodyGyro" | "BodyVelocity" | "NumberValue" | "BoolValue" | "Configuration" | "ObjectValue" | "LocalScript"
+    );
+    if interesting {
+        let mut props = Vec::new();
+        for key in [
+            "Value",
+            "Anchored",
+            "MaxSpeed",
+            "Torque",
+            "TurnSpeed",
+            "P",
+            "D",
+            "MaxTorque",
+            "Velocity",
+            "MaxForce",
+            "CFrame",
+            "Disabled",
+            "Source",
+        ] {
+            if let Some(value) = instance.properties.get(&ustr(key)) {
+                let rendered = if key == "Source" {
+                    match value {
+                        Variant::String(source) => format!("chars={}", source.len()),
+                        _ => format!("{value:?}"),
+                    }
+                } else {
+                    format!("{value:?}")
+                };
+                props.push(format!("{key}={rendered}"));
+            }
+        }
+        out.push(format!(
+            "{}:{}{}",
+            path,
+            class,
+            if props.is_empty() {
+                String::new()
+            } else {
+                format!(" {}", props.join(" "))
+            }
+        ));
+    }
+    for child in instance.children() {
+        collect_heli_control_state(dom, *child, &path, out, limit);
+        if out.len() >= limit {
+            break;
+        }
+    }
+}
+
 fn collect_interaction_paths(
     dom: &WeakDom,
     current: Ref,
@@ -222,6 +294,9 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         .and_then(|common| direct_child(dom, common, "001_HorseStableDoors"));
     let give_tools_ref = common_ref
         .and_then(|common| direct_child(dom, common, "001_GiveTools"));
+    let heli_ref = common_ref
+        .and_then(|common| direct_child(dom, common, "001_HeliStorage"))
+        .and_then(|storage| direct_child(dom, storage, "Heli"));
     let daycare_tools_ref = common_ref
         .and_then(|common| direct_child(dom, common, "001_DayCare"))
         .and_then(|daycare| direct_child(dom, daycare, "Tools"));
@@ -246,6 +321,10 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     if let Some(daycare_tools) = daycare_tools_ref {
         collect_subtree_labels(dom, daycare_tools, "", &mut daycare_tools_subtree, 220);
     }
+    let mut heli_control_state = Vec::new();
+    if let Some(heli) = heli_ref {
+        collect_heli_control_state(dom, heli, "", &mut heli_control_state, 260);
+    }
 
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
@@ -262,7 +341,9 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "giveToolsFound": give_tools_ref.is_some(),
         "giveToolsSubtree": give_tools_subtree,
         "daycareToolsFound": daycare_tools_ref.is_some(),
-        "daycareToolsSubtree": daycare_tools_subtree
+        "daycareToolsSubtree": daycare_tools_subtree,
+        "heliFound": heli_ref.is_some(),
+        "heliControlState": heli_control_state
     })
 }
 
