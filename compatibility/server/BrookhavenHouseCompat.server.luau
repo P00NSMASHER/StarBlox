@@ -6,6 +6,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
 
 local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
 local playerHouseChoice = remotes:WaitForChild("PlayerHouseChoice")
@@ -579,6 +580,8 @@ local rpNameColorRemote = remotes:WaitForChild("RPNameEventColor")
 local jobsRemote = remotes:WaitForChild("Jobs")
 local rpHouseRemote = remotes:WaitForChild("RPHouseEvent")
 local rpHouseColorRemote = remotes:WaitForChild("RPHouseEventColor")
+local clockRemote = remotes:WaitForChild("Clock")
+local clockEventsRemote = remotes:WaitForChild("ClockEvents")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -916,6 +919,26 @@ rpHouseColorRemote.OnServerEvent:Connect(function(player, action, value)
 	local house = playerHouseForNativeControl(player)
 	if house then
 		RuntimeCore.applyHomeBusinessMutation(house, tostring(action), value)
+	end
+end)
+
+clockEventsRemote.OnServerEvent:Connect(function(player, action)
+	if action == "GetDayOfWeekOnEnter" then
+		local utc = os.date("!*t")
+		clockEventsRemote:FireClient(player, "GiveDayOfWeek", RuntimeCore.dayNameFromWeekday(utc.wday))
+		clockRemote:FireClient(player, RuntimeCore.formatClockTime(Lighting.ClockTime))
+	end
+end)
+
+task.spawn(function()
+	local lastText = nil
+	while true do
+		local text = RuntimeCore.formatClockTime(Lighting.ClockTime)
+		if text ~= lastText then
+			lastText = text
+			clockRemote:FireAllClients(text)
+		end
+		task.wait(1)
 	end
 end)
 
@@ -1456,4 +1479,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1")
