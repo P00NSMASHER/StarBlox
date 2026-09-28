@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "completed",
-  "enabled": false,
+  "status": "requested",
+  "enabled": true,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -14,27 +14,22 @@
     "experienceVisibilityChangeAllowed": false,
     "productionActivationAllowed": false
   },
-  "attempt": 12,
+  "attempt": 13,
   "priorAttempt": {
-    "publishedVersion": 36,
+    "publishedVersion": 37,
     "publicationSucceeded": true,
     "verificationSucceeded": true,
     "verificationScope": "production-server-boot",
     "robloxClientRunObserved": true,
-    "nativeClientFinding": "v36 iPhone recording showed right/top HUD and modal panels pulled inward because the full-screen GUI roots were globally scaled in landscape"
+    "nativeClientFinding": "v37 iPhone recording showed the end-of-day school ReportCard persistently covering most of compact free-roam"
   },
   "verifier": {
     "mode": "explicit-production-bootstrap-in-open-cloud-luau-session",
-    "diagnosticVersion": 36,
+    "diagnosticVersion": 37,
     "manualBootstrapProven": true,
-    "ciRun": 36360084268,
+    "ciRun": 36362250353,
     "ciConclusion": "success"
   },
-  "requestReason": "Publish v37 landscape anchor repair: keep persistent HUD, Avatar Editor, and Family full-screen roots at scale 1 in landscape so right/top safe-area anchors and full-screen scrims render at true iPhone device coordinates.",
-  "requestedSourceCommit": "76a2a9e5a7cbfd6e94332b82b7db37fef286de12",
-  "completion": {
-    "publishedVersion": 37,
-    "verifiedVersion": 37,
-    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
-  }
+  "requestReason": "Publish v38 compact free-roam repair: preserve school report data and desktop behavior while preventing the automatic end-of-day ReportCard from covering compact iPhone free-roam.",
+  "requestedSourceCommit": "4efe119beb23014e8f0da65477829d8f4dd19f70"
 }
