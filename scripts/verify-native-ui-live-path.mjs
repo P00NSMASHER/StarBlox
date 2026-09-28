@@ -41,8 +41,11 @@ requireAll(server, "server", [
   'receiptKey = "asset:"',
   'receiptKey = "pass:"',
   'deduplicated = true',
+  'source = tostring(source or "unknown")',
+  'recentSuccessfulUiAction(player, receiptKey, "native")',
+  'recentSuccessfulUiAction(player, key, "fallback")',
 ]);
-forbidAll(client, "client", ["StarCoinShop", "hideLegacyShopPages"]);
+forbidAll(client, "client", ["StarCoinShop", "hideLegacyShopPages", "successfulActionSince", "actionSequence()"]);
 forbidAll(server, "server", ["StarCoinShop", "hideLegacyShopPages"]);
 
 const shopActions = [
@@ -65,5 +68,6 @@ console.log(JSON.stringify({
   avatarFallbacks: 5,
   catalogSelectionValidation: true,
   serverSideDedupe: true,
+  sourceAwareDedupe: true,
   existingBrookhavenUiPreserved: true,
 }, null, 2));
