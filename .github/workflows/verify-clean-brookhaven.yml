@@ -193,3 +193,70 @@ jobs:
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
+
+      - name: Extract original Brookhaven controller sources
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: current
+
+      - name: Checkout archived parser tools
+        uses: actions/checkout@v4
+        with:
+          ref: archive/pre-reset-2026-09-27
+          path: legacy-tools
+
+      - name: Use Rust stable for RBXL inspection
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Parse pinned RBXL and inspect relevant script source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node current/scripts/fetch-brookhaven.mjs
+          cargo run --quiet --manifest-path legacy-tools/tools/roblox_catalog_reader/Cargo.toml -- Brookhaven.rbxl > brookhaven-dom.json
+          node <<'NODE'
+          const fs=require('fs');
+          const dom=JSON.parse(fs.readFileSync('brookhaven-dom.json','utf8'));
+          const rows=[];
+          function cls(n){return String(n?.class??n?.className??'');}
+          function name(n){return String(n?.name??n?.properties?.Name??cls(n));}
+          function kids(n){return Array.isArray(n?.children)?n.children:[];}
+          function walk(n,path=[]){
+            if(!n||typeof n!=='object') return;
+            const next=[...path,name(n)];
+            const c=cls(n);
+            if(c==='Script'||c==='LocalScript'||c==='ModuleScript'){
+              rows.push({node:n,path:next.join('/')});
+            }
+            for(const ch of kids(n)) walk(ch,next);
+          }
+          walk(dom);
+          function sourceText(node){
+            const props=node?.properties||{};
+            const direct=props.Source;
+            if(typeof direct==='string') return direct;
+            if(direct&&typeof direct==='object'){
+              for(const k of ['value','Value','text','Text','source','Source']){
+                if(typeof direct[k]==='string') return direct[k];
+              }
+            }
+            return JSON.stringify(direct??'');
+          }
+          const needles=['MainButtons','AvatarEditor','BackPack','PlayerHouseChoice','GettingHouse','PlayersHouse','BuyHouse','MainHouseMenu','HouseControl'];
+          console.log('SOURCE_DIAG_BEGIN scripts='+rows.length);
+          let matched=0;
+          for(const r of rows){
+            const src=sourceText(r.node);
+            const hay=(r.path+'\n'+src).toLowerCase();
+            const hits=needles.filter(n=>hay.includes(n.toLowerCase()));
+            if(!hits.length) continue;
+            matched++;
+            console.log('SOURCE_MATCH path='+r.path+' hits='+hits.join(',')+' sourceLen='+src.length);
+            if(src.length){
+              const relevant=src.split(/\r?\n/).filter(line=>needles.some(n=>line.toLowerCase().includes(n.toLowerCase())));
+              console.log('SOURCE_LINES '+JSON.stringify(relevant.slice(0,120)));
+            }
+          }
+          console.log('SOURCE_DIAG_END matched='+matched);
+          NODE
