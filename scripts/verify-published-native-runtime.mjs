@@ -38,6 +38,7 @@ const luau=[
   'local result=core.runBehaviorProbe()',
   'assert(result and result.ok==true,"native runtime behavior probe failed")',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
+  'assert(result.curtains and result.curtains.ok==true,"curtain behavior failed")',
   'assert(result.clock and result.clock.ok==true,"clock/day behavior failed")',
   'assert(result.avatar and result.avatar.ok==true,"avatar mutation behavior failed")',
   'assert(result.shop and result.shop.ok==true,"shop pass behavior failed")',
