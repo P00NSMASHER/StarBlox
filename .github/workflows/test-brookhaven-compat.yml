@@ -1,0 +1,47 @@
+name: Test Brookhaven Compatibility Patch
+
+on:
+  push:
+    branches:
+      - fix/brookhaven-functional-v41
+    paths:
+      - "runtime/**"
+      - "tools/brookhaven_compat_patcher/**"
+      - ".github/workflows/test-brookhaven-compat.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Fetch exact pinned Brookhaven source
+        run: node scripts/fetch-brookhaven.mjs
+      - name: Build and apply compatibility patch
+        run: |
+          cargo run --quiet --manifest-path tools/brookhaven_compat_patcher/Cargo.toml --             Brookhaven.rbxl Brookhaven-functional.rbxl artifacts/compat-patch.json
+      - name: Assert no visual-world mutation
+        run: |
+          test -s Brookhaven-functional.rbxl
+          test -s artifacts/compat-patch.json
+          grep -q '"status": "brookhaven-compatibility-patch-verified"' artifacts/compat-patch.json
+          grep -q '"workspaceDescendantsUnchanged": true' artifacts/compat-patch.json
+          grep -q '"workspaceGeometryUnchanged": true' artifacts/compat-patch.json
+          grep -q '"addedServerScripts": 1' artifacts/compat-patch.json
+          grep -q '"addedClientScripts": 1' artifacts/compat-patch.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: brookhaven-functional-v41-candidate
+          path: |
+            Brookhaven-functional.rbxl
+            artifacts/compat-patch.json
+          if-no-files-found: error
+          retention-days: 7
