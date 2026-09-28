@@ -184,7 +184,7 @@ for(let attempt=0;attempt<12;attempt++){
   response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{
     method:"POST",
     headers:{"x-api-key":key,"content-type":"application/json"},
-    body:JSON.stringify({script:luau,timeout:"30s"})
+    body:JSON.stringify({script:luau,timeout:"60s"})
   });
   if(response.status!==429&&response.status!==500) break;
   if(attempt===11) break;
