@@ -469,6 +469,94 @@ function RuntimeCore.toggleCurtains(house)
 	return {ok = changed > 0, open = nextOpen, parts = changed}
 end
 
+
+local function hairColorValue(value)
+	if typeof(value) == "Color3" then
+		return value
+	end
+	if typeof(value) == "BrickColor" then
+		return value.Color
+	end
+	if typeof(value) == "Instance" then
+		if value:IsA("Color3Value") then
+			return value.Value
+		elseif value:IsA("BrickColorValue") then
+			return value.Value.Color
+		end
+		local ok, result = pcall(function()
+			return value.Color
+		end)
+		if ok and typeof(result) == "Color3" then
+			return result
+		end
+	end
+	return nil
+end
+
+local function orderedHairAccessories(character)
+	local rows = {}
+	for _, item in ipairs(character:GetChildren()) do
+		if item:IsA("Accessory") then
+			local isHair = false
+			local ok, accessoryType = pcall(function()
+				return item.AccessoryType
+			end)
+			if ok and accessoryType == Enum.AccessoryType.Hair then
+				isHair = true
+			end
+			if not isHair and string.find(string.lower(item.Name), "hair", 1, true) then
+				isHair = true
+			end
+			if isHair then
+				table.insert(rows, item)
+			end
+		end
+	end
+	table.sort(rows, function(a, b)
+		return a.Name < b.Name
+	end)
+	return rows
+end
+
+function RuntimeCore.applyHairColor(character, action, value)
+	if not (character and character:IsA("Model")) then
+		return {ok = false, code = "character_missing"}
+	end
+	local indexByAction = {
+		ChangeHairColor = 1,
+		ChangeHairColor2 = 2,
+		ChangeHairColor3 = 3,
+	}
+	local index = indexByAction[action]
+	if not index then
+		return {ok = false, code = "unknown_hair_color_action"}
+	end
+	local color = hairColorValue(value)
+	if not color then
+		return {ok = false, code = "invalid_hair_color"}
+	end
+	local accessories = orderedHairAccessories(character)
+	local accessory = accessories[index]
+	if not accessory then
+		return {ok = false, code = "hair_accessory_missing", index = index, count = #accessories}
+	end
+	local changed = 0
+	for _, item in ipairs(accessory:GetDescendants()) do
+		if item:IsA("BasePart") then
+			item.Color = color
+			changed += 1
+		end
+	end
+	return {
+		ok = changed > 0,
+		action = action,
+		index = index,
+		accessory = accessory.Name,
+		parts = changed,
+		color = color,
+	}
+end
+
 function RuntimeCore.formatClockTime(clockTime)
 	local raw = tonumber(clockTime) or 0
 	raw = raw % 24
@@ -537,6 +625,26 @@ function RuntimeCore.runBehaviorProbe()
 	local curtainCloseResult = RuntimeCore.toggleCurtains(curtainFixture)
 	local curtainOk = curtainOpened and curtainCloseResult.ok and curtainCloseResult.open == false and math.abs(curtainPart.Transparency - 0.25) < 0.001 and curtainPart.CanCollide == true and curtainOpen.Value == false
 	curtainFixture:Destroy()
+
+	local hairFixture = Instance.new("Model")
+	for i = 1, 3 do
+		local accessory = Instance.new("Accessory")
+		accessory.Name = "Hair" .. tostring(i)
+		local handle = Instance.new("Part")
+		handle.Name = "Handle"
+		handle.Color = Color3.fromRGB(255, 255, 255)
+		handle.Parent = accessory
+		accessory.Parent = hairFixture
+	end
+	local hairResult = RuntimeCore.applyHairColor(hairFixture, "ChangeHairColor2", Color3.fromRGB(255, 0, 0))
+	local hair1 = hairFixture:FindFirstChild("Hair1").Handle
+	local hair2 = hairFixture:FindFirstChild("Hair2").Handle
+	local hair3 = hairFixture:FindFirstChild("Hair3").Handle
+	local hairColorOk = hairResult.ok
+		and hair1.Color == Color3.fromRGB(255, 255, 255)
+		and hair2.Color == Color3.fromRGB(255, 0, 0)
+		and hair3.Color == Color3.fromRGB(255, 255, 255)
+	hairFixture:Destroy()
 
 	local clockNoon = RuntimeCore.formatClockTime(12.5)
 	local clockMidnight = RuntimeCore.formatClockTime(0)
@@ -639,7 +747,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		hairColor = {ok = hairColorOk, result = hairResult},
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
 		clock = {ok = clockOk, noon = clockNoon, midnight = clockMidnight, day = dayName},
