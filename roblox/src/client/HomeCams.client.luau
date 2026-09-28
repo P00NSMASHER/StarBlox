@@ -5,6 +5,8 @@ local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
+local UI = MobileShell.Theme
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "BrookhavenHomeCamsUI"
@@ -16,6 +18,7 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterOverlay("cams", gui)
 
 local openHomeCams = Instance.new("BindableEvent")
 openHomeCams.Name = "OpenHomeCams"
@@ -31,22 +34,16 @@ controls.Name = "CameraControls"
 controls.AnchorPoint = Vector2.new(0.5, 0)
 controls.Position = UDim2.new(0.5, 0, 0, 12)
 controls.Size = UDim2.fromOffset(276, 40)
-controls.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
+controls.BackgroundColor3 = UI.white
 controls.BackgroundTransparency = 0.04
 controls.Parent = root
 
 local function round(object: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = object
+	MobileShell.Round(object, radius)
 end
 
 local function stroke(object: GuiObject)
-	local s = Instance.new("UIStroke")
-	s.Color = Color3.fromRGB(105, 105, 105)
-	s.Transparency = 0.35
-	s.Thickness = 1
-	s.Parent = object
+	MobileShell.Stroke(object, UI.border, 1, 0.45)
 end
 
 round(controls, 11)
@@ -57,10 +54,10 @@ local function button(name: string, text: string, x: number, width: number): Tex
 	b.Name = name
 	b.Position = UDim2.fromOffset(x, 0)
 	b.Size = UDim2.fromOffset(width, 36)
-	b.BackgroundColor3 = Color3.fromRGB(248, 249, 250)
+	b.BackgroundColor3 = UI.white
 	b.BackgroundTransparency = 0.12
 	b.Text = text
-	b.TextColor3 = Color3.fromRGB(38, 38, 38)
+	b.TextColor3 = UI.text
 	b.Font = Enum.Font.GothamBold
 	b.TextSize = 17
 	b.Parent = controls
@@ -79,7 +76,7 @@ cameraLabel.AutoButtonColor = false
 cameraLabel.Active = false
 local nextButton = button("Next", "→", 200, 34)
 local close = button("Close", "×", 240, 30)
-close.BackgroundColor3 = Color3.fromRGB(205, 36, 36)
+close.BackgroundColor3 = UI.red
 close.TextColor3 = Color3.new(1, 1, 1)
 
 local footer = Instance.new("TextLabel")
@@ -87,10 +84,10 @@ footer.Name = "Hint"
 footer.AnchorPoint = Vector2.new(0.5, 1)
 footer.Position = UDim2.new(0.5, 0, 1, -12)
 footer.Size = UDim2.fromOffset(180, 24)
-footer.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
+footer.BackgroundColor3 = UI.white
 footer.BackgroundTransparency = 0.06
 footer.Text = "Home Cams"
-footer.TextColor3 = Color3.fromRGB(45, 45, 45)
+footer.TextColor3 = UI.muted
 footer.Font = Enum.Font.GothamMedium
 footer.TextScaled = true
 footer.Parent = root
@@ -204,10 +201,8 @@ local function setRoleplayTagVisible(visible: boolean)
 end
 
 local function closeCams()
-	gui.Enabled = false
 	restoreCamera()
-	setRoleplayTagVisible(true)
-	setWorldHudVisible(true)
+	MobileShell.Close("cams")
 	setShellLabelsVisible(true)
 end
 
@@ -239,15 +234,11 @@ openHomeCams.Event:Connect(function()
 	local model = ownHome()
 	if model == nil then
 		footer.Text = "No home camera available"
-		setWorldHudVisible(false)
-		setRoleplayTagVisible(false)
-		gui.Enabled = true
+		MobileShell.Open("cams")
 		task.delay(1.3, function()
 			if gui.Enabled and #activePoints == 0 then
-				gui.Enabled = false
 				footer.Text = "Home Cams"
-				setRoleplayTagVisible(true)
-				setWorldHudVisible(true)
+				MobileShell.Close("cams")
 				setShellLabelsVisible(true)
 			end
 		end)
@@ -270,9 +261,7 @@ openHomeCams.Event:Connect(function()
 	activePoints = cameraPointsFor(model)
 	activeIndex = 1
 	footer.Text = "Home Cams"
-	setWorldHudVisible(false)
-	setRoleplayTagVisible(false)
-	gui.Enabled = true
+	MobileShell.Open("cams")
 	setShellLabelsVisible(false)
 	applyCamera()
 end)
