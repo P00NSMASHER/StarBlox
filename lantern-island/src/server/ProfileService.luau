@@ -13,14 +13,16 @@ local function copy(source:any)
  return p
 end
 function ProfileService.new(context:any)
- local self=setmetatable({context=context,profiles={}},ProfileService)
+ local self=setmetatable({context=context,profiles={},studioPersist={}},ProfileService)
  self.store=DataStoreService:GetDataStore(context.dataStoreNamespace.."_profiles")
  return self
 end
 function ProfileService:load(player:Player)
  if self.profiles[player] then return true,"ALREADY_LOADED" end
  local p
- if RunService:IsStudio() then p=blank() else
+ if RunService:IsStudio() then
+  p=copy(self.studioPersist[player.UserId])
+ else
   local ok,data=pcall(function() return self.store:GetAsync("u:"..player.UserId) end)
   if not ok then return false,"LOAD_FAILED" end;p=copy(data)
  end
@@ -29,12 +31,13 @@ end
 function ProfileService:get(player:Player) return self.profiles[player] end
 function ProfileService:publicState(player:Player)
  local p=self.profiles[player];if not p then return {currency=0,equippedItemId="",ownedItemIds={},saveStatus="NOT_LOADED"} end
- return {currency=p.currency,equippedItemId=p.equippedItemId,ownedItemIds=table.clone(p.ownedItemIds),saveStatus=RunService:IsStudio() and "STUDIO_SESSION" or "LOADED"}
+ return {currency=p.currency,equippedItemId=p.equippedItemId,ownedItemIds=table.clone(p.ownedItemIds),saveStatus=RunService:IsStudio() and "STUDIO_REJOIN" or "LOADED"}
 end
 function ProfileService:save(player:Player)
  local p=self.profiles[player];if not p then return false,"NOT_LOADED" end
- if RunService:IsStudio() then return true,"STUDIO_SESSION" end
- local snapshot=copy(p);local ok=pcall(function() self.store:UpdateAsync("u:"..player.UserId,function() return snapshot end) end)
+ local snapshot=copy(p)
+ if RunService:IsStudio() then self.studioPersist[player.UserId]=snapshot;return true,"STUDIO_REJOIN_SAVED" end
+ local ok=pcall(function() self.store:UpdateAsync("u:"..player.UserId,function() return snapshot end) end)
  return ok,ok and "SAVED" or "SAVE_FAILED"
 end
 function ProfileService:release(player:Player)
