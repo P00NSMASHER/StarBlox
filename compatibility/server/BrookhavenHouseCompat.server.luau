@@ -614,6 +614,44 @@ local PACKS = {
 		Price = 80,
 		Outfits = {"SantaRed", "Elf", "SantaBlack"},
 	},
+	premium = {
+		Name = "Premium House Pack",
+		Price = 180,
+		Outfits = {},
+		Passes = {SilverPass = true},
+	},
+	music = {
+		Name = "Music Pack",
+		Price = 80,
+		Outfits = {},
+		Passes = {MusicPass = true},
+	},
+	fire = {
+		Name = "House Effects Pack",
+		Price = 100,
+		Outfits = {},
+		Passes = {FirePass = true},
+	},
+	horse = {
+		Name = "Horse Style Pack",
+		Price = 100,
+		Outfits = {},
+		Passes = {HorsePass = true},
+	},
+	vehicle = {
+		Name = "Vehicle Upgrade",
+		Price = 120,
+		Outfits = {},
+		Passes = {ColorSpeedPassLower = true},
+		Numbers = {VehicleSpeed = 70, SpeedPassNoMotorVehicle = 35},
+	},
+	speed = {
+		Name = "200 MPH Speed",
+		Price = 160,
+		Outfits = {},
+		Passes = {SpeedPass200 = true},
+		Numbers = {VehicleSpeed = 200},
+	},
 }
 
 local FREE_OUTFITS = {
@@ -781,6 +819,23 @@ local function ownedOutfits(state)
 	return result
 end
 
+local function applyLegacyPackFlags(player, state)
+	local bag = ensureBag(player)
+	for packId, owned in pairs(state.OwnedPacks) do
+		local pack = PACKS[packId]
+		if owned and pack then
+			for name, value in pairs(pack.Passes or {}) do
+				local flag = bag:FindFirstChild(name)
+				if flag and flag:IsA("BoolValue") then flag.Value = value == true end
+			end
+			for name, value in pairs(pack.Numbers or {}) do
+				local number = bag:FindFirstChild(name)
+				if number and number:IsA("NumberValue") then number.Value = tonumber(value) or number.Value end
+			end
+		end
+	end
+end
+
 local function publicEconomyState(player)
 	local state = loadEconomy(player)
 	local packs = {}
@@ -903,6 +958,7 @@ purchasePack.OnServerInvoke = function(player, packId)
 	end
 	state.Coins -= price
 	state.OwnedPacks[packId] = true
+	applyLegacyPackFlags(player, state)
 	emitEconomy(player)
 	task.spawn(saveEconomy, player)
 	local result = publicEconomyState(player)
@@ -1033,7 +1089,8 @@ submitPracticeAnswer.OnServerInvoke = function(player, questionId, choice)
 end
 
 local function setupEconomyPlayer(player)
-	loadEconomy(player)
+	local state = loadEconomy(player)
+	applyLegacyPackFlags(player, state)
 	player.CharacterAdded:Connect(function()
 		task.delay(1.25, function()
 			if player.Parent then applySavedAvatar(player) end
@@ -1062,4 +1119,4 @@ game:BindToClose(function()
 	end
 end)
 
-print("STARBLOX_LEARNING_ECONOMY_READY packs=4 outfits=23 questions="..tostring(#PRACTICE_QUESTIONS))
+print("STARBLOX_LEARNING_ECONOMY_READY packs=10 outfits=23 questions="..tostring(#PRACTICE_QUESTIONS))
