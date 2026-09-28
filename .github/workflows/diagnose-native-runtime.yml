@@ -63,7 +63,12 @@ jobs:
             'if hidden then local h={}; for _,x in ipairs(hidden:GetChildren()) do table.insert(h,x.Name..":"..x.ClassName) end; print("NATIVE_HIDDEN "..table.concat(h,",")) end',
             'print("NATIVE_DIAG_DONE")'
           ].join("\n");
-          let r=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+          let r;
+          for(let attempt=0;attempt<8;attempt++){
+            r=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+            if(r.status!==429&&r.status!==500) break;
+            await new Promise(resolve=>setTimeout(resolve,2500*(attempt+1)));
+          }
           let task=await parse(r,"create");const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
           while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
