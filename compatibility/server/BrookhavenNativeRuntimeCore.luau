@@ -1562,10 +1562,25 @@ function RuntimeCore.buildNativeCreditCardTool(displayPart, variant)
 	}
 end
 
+function RuntimeCore.weatherEntryCommand(action)
+	if action == "EnterPlayerWeatherRain" then
+		return {ok = true, command = "TurnOnRain", weather = "Rain"}
+	elseif action == "EnterPlayerWeatherSnow" then
+		return {ok = true, command = "TurnOnSnow", weather = "Snow"}
+	end
+	return {ok = false, code = "unknown_weather_entry_action"}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local weatherRain = RuntimeCore.weatherEntryCommand("EnterPlayerWeatherRain")
+	local weatherSnow = RuntimeCore.weatherEntryCommand("EnterPlayerWeatherSnow")
+	local weatherInvalid = RuntimeCore.weatherEntryCommand("Unknown")
+	local weatherOk = weatherRain.ok and weatherRain.command == "TurnOnRain"
+		and weatherSnow.ok and weatherSnow.command == "TurnOnSnow"
+		and weatherInvalid.ok == false
 	local poolFixture = Instance.new("Folder")
 	poolFixture.Name = "001_PoolCovers"
 	local poolCover = Instance.new("Part")
@@ -2192,9 +2207,11 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("HeliControls"):IsA("RemoteEvent")
 		and remotes:WaitForChild("Faster"):IsA("RemoteEvent")
 		and remotes:WaitForChild("Slower"):IsA("RemoteEvent")
+		and remotes:WaitForChild("WeatherClients"):IsA("RemoteEvent")
 
 	return {
-		ok = bankCardOk and poolCoverOk and houseAccessOk and socialOk and noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = weatherOk and bankCardOk and poolCoverOk and houseAccessOk and socialOk and noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		weather = {ok = weatherOk, rain = weatherRain, snow = weatherSnow, invalid = weatherInvalid},
 		poolCover = {ok = poolCoverOk, off = poolOff, on = poolOn},
 		bankCard = {ok = bankCardOk, boy = boyCard, girl = girlCard},
 		houseAccess = {ok = houseAccessOk, ban = banInspect, permissionOn = permissionOn, permissionOff = permissionOff},

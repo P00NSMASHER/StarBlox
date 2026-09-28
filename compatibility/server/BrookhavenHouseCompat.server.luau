@@ -582,6 +582,7 @@ local rpHouseRemote = remotes:WaitForChild("RPHouseEvent")
 local rpHouseColorRemote = remotes:WaitForChild("RPHouseEventColor")
 local clockRemote = remotes:WaitForChild("Clock")
 local clockEventsRemote = remotes:WaitForChild("ClockEvents")
+local weatherClientsRemote = remotes:WaitForChild("WeatherClients")
 local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 local horseRemote = remotes:WaitForChild("HorseRemote")
@@ -936,6 +937,13 @@ clockEventsRemote.OnServerEvent:Connect(function(player, action)
 		local utc = os.date("!*t")
 		clockEventsRemote:FireClient(player, "GiveDayOfWeek", RuntimeCore.dayNameFromWeekday(utc.wday))
 		clockRemote:FireClient(player, RuntimeCore.formatClockTime(Lighting.ClockTime))
+	end
+end)
+
+weatherClientsRemote.OnServerEvent:Connect(function(player, action)
+	local result = RuntimeCore.weatherEntryCommand(tostring(action or ""))
+	if result.ok then
+		weatherClientsRemote:FireClient(player, result.command)
 	end
 end)
 
