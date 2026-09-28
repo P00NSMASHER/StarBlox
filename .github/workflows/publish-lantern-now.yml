@@ -1,0 +1,112 @@
+name: Publish Lantern Island Now
+
+on:
+  push:
+    branches:
+      - lantern-publish-now
+    paths:
+      - "lantern-island/**"
+      - ".github/workflows/publish-lantern-now.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout deploy branch
+        uses: actions/checkout@v4
+
+      - name: Install pinned Rojo
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL -o /tmp/rojo.zip https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip
+          echo "22503e5839864f9d7c2171c48b536fc229f2cc4d8774c9cc149f60941d864073  /tmp/rojo.zip" | sha256sum -c -
+          unzip -q /tmp/rojo.zip -d /tmp/rojo
+          chmod +x /tmp/rojo/rojo
+          /tmp/rojo/rojo --version
+
+      - name: Build Lantern Island place
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p lantern-island/dist
+          /tmp/rojo/rojo build lantern-island/default.project.json -o lantern-island/dist/LanternIsland.rbxlx
+          sha256sum lantern-island/dist/LanternIsland.rbxlx | tee lantern-island/dist/build.sha256
+          test -s lantern-island/dist/LanternIsland.rbxlx
+
+      - name: Publish over former StarBlox place
+        shell: bash
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "${ROBLOX_OPEN_CLOUD_API_KEY:-}" || { echo "MISSING_ROBLOX_KEY"; exit 10; }
+          http_code=$(curl -sS -L -o /tmp/publish.json -w "%{http_code}" \
+            -X POST "https://apis.roblox.com/universes/v1/6027194615/places/17602626136/versions?versionType=Published" \
+            -H "x-api-key: ${ROBLOX_OPEN_CLOUD_API_KEY}" \
+            -H "Content-Type: application/xml" \
+            --data-binary @lantern-island/dist/LanternIsland.rbxlx)
+          echo "ROBLOX_PUBLISH_HTTP=${http_code}"
+          cat /tmp/publish.json
+          test "${http_code}" -ge 200 -a "${http_code}" -lt 300
+          node -e 'const fs=require("fs");const x=JSON.parse(fs.readFileSync("/tmp/publish.json","utf8"));if(!Number.isInteger(x.versionNumber))process.exit(2);console.log("LANTERN_PUBLISHED_VERSION="+x.versionNumber);fs.writeFileSync("/tmp/version.txt",String(x.versionNumber));'
+
+      - name: Verify published place structure
+        shell: bash
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+        run: |
+          set -euo pipefail
+          cat >/tmp/verify.mjs <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe="6027194615", place="17602626136";
+          const script=[
+            'assert(game.PlaceId==17602626136,"wrong place")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SS=game:GetService("ServerScriptService")',
+            'local SP=game:GetService("StarterPlayer")',
+            'assert(RS:FindFirstChild("LanternIslandShared"),"shared folder missing")',
+            'local server=SS:FindFirstChild("LanternIslandServer")',
+            'assert(server and server:FindFirstChild("Main"),"Lantern server missing")',
+            'assert(server:FindFirstChild("MissionService"),"MissionService missing")',
+            'assert(server:FindFirstChild("WorldBuilder"),"WorldBuilder missing")',
+            'assert(server:FindFirstChild("ProfileService"),"ProfileService missing")',
+            'local client=SP.StarterPlayerScripts:FindFirstChild("LanternIslandClient")',
+            'assert(client and client:FindFirstChild("Main"),"Lantern client missing")',
+            'assert(client:FindFirstChild("UIController"),"UIController missing")',
+            'assert(workspace:FindFirstChild("FoundationSpawn"),"spawn missing")',
+            'print("LANTERN_PUBLISHED_STRUCTURE_OK")'
+          ].join("\n");
+          const headers={"x-api-key":key,"content-type":"application/json"};
+          const create=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers,body:JSON.stringify({script,timeout:"30s"})});
+          const raw=await create.text();
+          if(!create.ok) throw new Error("VERIFY_CREATE "+create.status+" "+raw.slice(0,1200));
+          let task=JSON.parse(raw);
+          const path=String(task.path||"").replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          const url="https://apis.roblox.com/cloud/v2/"+path;
+          for(let i=0;i<45 && String(task.state||"")==="PROCESSING";i++){
+            await new Promise(r=>setTimeout(r,1000));
+            const rr=await fetch(url,{headers:{"x-api-key":key}});
+            task=JSON.parse(await rr.text());
+          }
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("VERIFY_TASK "+JSON.stringify(task).slice(0,1200));
+          const lr=await fetch(url+"/logs",{headers:{"x-api-key":key}});
+          const logs=await lr.text();
+          console.log(logs);
+          if(!logs.includes("LANTERN_PUBLISHED_STRUCTURE_OK")) throw new Error("VERIFY_MARKER_MISSING");
+          NODE
+          node /tmp/verify.mjs
+
+      - name: Upload exact published build
+        uses: actions/upload-artifact@v4
+        with:
+          name: lantern-island-published-build
+          path: |
+            lantern-island/dist/LanternIsland.rbxlx
+            lantern-island/dist/build.sha256
+          if-no-files-found: error
