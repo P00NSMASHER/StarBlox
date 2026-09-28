@@ -149,6 +149,7 @@ end
 
 local shopOpenButton = shop:WaitForChild("OpenButton"):WaitForChild("MainOpen"):WaitForChild("Open")
 shopOpenButton.Activated:Connect(function()
+	print("STARBLOX_UI_ACTION shop_open")
 	local before = shopSignature()
 	local wasVisible = shopMainButtons.Visible
 	task.delay(0.08, function()
@@ -167,6 +168,7 @@ for buttonName, category in pairs(shopCategoryByButton) do
 	local button = shopMainOpen:FindFirstChild(buttonName)
 	if button and button:IsA("GuiButton") then
 		button.Activated:Connect(function()
+			print("STARBLOX_UI_ACTION shop_category " .. buttonName)
 			local before = shopSignature()
 			local wasVisible = category.Visible
 			task.delay(0.08, function()
@@ -195,18 +197,42 @@ local function hasPassFlag(flagName)
 	return flag and flag:IsA("BoolValue") and flag.Value == true
 end
 
-for _, row in ipairs(passButtons) do
-	if row.button:IsA("GuiButton") then
-		row.button.Activated:Connect(function()
-			task.delay(0.12, function()
-				-- If native PlayerHandler already completed the action, do not duplicate it.
-				if not hasPassFlag(row.flag) then
-					passRemote:FireServer(row.action)
-				end
-				shopMainButtons.Visible = false
-				closeShopCategories(nil)
-			end)
+local lastPassTap = {}
+
+local function activatePass(row)
+	local now = os.clock()
+	if lastPassTap[row.action] and now - lastPassTap[row.action] < 0.35 then
+		return
+	end
+	lastPassTap[row.action] = now
+	print("STARBLOX_UI_ACTION shop_pass " .. row.action)
+	task.delay(0.12, function()
+		-- If native PlayerHandler already completed the action, do not duplicate it.
+		if not hasPassFlag(row.flag) then
+			passRemote:FireServer(row.action)
+		end
+		shopMainButtons.Visible = false
+		closeShopCategories(nil)
+	end)
+end
+
+local function bindPassTarget(target, row)
+	if target and target:IsA("GuiButton") then
+		target.Activated:Connect(function()
+			activatePass(row)
 		end)
+	end
+end
+
+for _, row in ipairs(passButtons) do
+	bindPassTarget(row.button, row)
+	-- Several Brookhaven purchase cards contain an active TextButton named Label
+	-- above the ImageButton. GUI events do not bubble, so taps on that visible CTA
+	-- never reached the original parent callback.
+	for _, descendant in ipairs(row.button:GetDescendants()) do
+		if descendant:IsA("GuiButton") and descendant.Name == "Label" then
+			bindPassTarget(descendant, row)
+		end
 	end
 end
 
