@@ -1570,6 +1570,23 @@ local function findToolTemplate(name)
 	return nil
 end
 
+local nativeGiveTools = Workspace:WaitForChild("WorkspaceCom"):FindFirstChild("001_GiveTools")
+local nativeDayCareTools = Workspace:WaitForChild("WorkspaceCom"):FindFirstChild("001_DayCare")
+nativeDayCareTools = nativeDayCareTools and nativeDayCareTools:FindFirstChild("Tools")
+
+local function findNativeToolDisplay(name)
+	for _, root in ipairs({nativeGiveTools, nativeDayCareTools}) do
+		if root then
+			for _, item in ipairs(root:GetDescendants()) do
+				if item:IsA("BasePart") and item.Name == name then
+					return item
+				end
+			end
+		end
+	end
+	return nil
+end
+
 local function findOwnedTool(player, name)
 	local backpack = player:FindFirstChildOfClass("Backpack")
 	local character = player.Character
@@ -1588,10 +1605,14 @@ local function createFallbackTool(name)
 	local tool = Instance.new("Tool")
 	tool.Name = name
 	tool.CanBeDropped = false
+	tool:SetAttribute("BrookhavenNativeDisplaySource", false)
+	tool:SetAttribute("BrookhavenFallbackReason", "native_display_missing")
 	local handle = Instance.new("Part")
 	handle.Name = "Handle"
 	handle.Size = Vector3.new(0.5, 0.5, 1.5)
 	handle.CanCollide = false
+	handle.CanTouch = false
+	handle.Massless = true
 	handle.Parent = tool
 	return tool
 end
@@ -1611,7 +1632,21 @@ toolsRemote.OnServerInvoke = function(player, action, toolName)
 		return true
 	end
 	local template = findToolTemplate(toolName)
-	local tool = template and template:Clone() or createFallbackTool(toolName)
+	local tool = nil
+	if template then
+		tool = template:Clone()
+		tool:SetAttribute("BrookhavenNativeDisplaySource", true)
+		tool:SetAttribute("BrookhavenNativeToolTemplate", true)
+	else
+		local displayPart = findNativeToolDisplay(toolName)
+		if displayPart then
+			local built = RuntimeCore.buildToolFromDisplayPart(displayPart, toolName)
+			if built.ok then
+				tool = built.tool
+			end
+		end
+	end
+	tool = tool or createFallbackTool(toolName)
 	tool.Parent = backpack
 	clearToolsRemote:FireClient(player, "TurnOnGreenCheckMark", toolName)
 	return false
@@ -1686,4 +1721,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
