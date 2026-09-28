@@ -762,8 +762,17 @@ local function seedAppearance(player)
 	return state
 end
 
+local function currentAppearanceState(player)
+	local state = appearanceAssets[player]
+	if not state then
+		state = {}
+		appearanceAssets[player] = state
+	end
+	return state
+end
+
 local function pushAppearance(player)
-	local state = appearanceAssets[player] or seedAppearance(player)
+	local state = currentAppearanceState(player)
 	local assets = {}
 	for _, asset in pairs(state) do
 		table.insert(assets, asset)
@@ -827,7 +836,7 @@ local function toggleAvatarAsset(player, assetId)
 	if not applyDescription(player, description) then
 		return {ok = false, code = "avatar_apply_failed"}
 	end
-	local state = appearanceAssets[player] or seedAppearance(player)
+	local state = currentAppearanceState(player)
 	if enabled then
 		state[assetId] = {id = assetId, name = tostring(info.Name or assetId)}
 	else
@@ -835,6 +844,92 @@ local function toggleAvatarAsset(player, assetId)
 	end
 	pushAppearance(player)
 	return {ok = true, action = "wear", assetId = assetId, enabled = enabled}
+end
+
+local directAccessoryFields = {
+	HatAccessory = true,
+	HairAccessory = true,
+	FaceAccessory = true,
+	NeckAccessory = true,
+	ShouldersAccessory = true,
+	FrontAccessory = true,
+	BackAccessory = true,
+	WaistAccessory = true,
+}
+local directSingleFields = {
+	GraphicTShirt = true,
+	Shirt = true,
+	Pants = true,
+	Face = true,
+	Head = true,
+	Torso = true,
+	LeftArm = true,
+	RightArm = true,
+	LeftLeg = true,
+	RightLeg = true,
+}
+
+local function toggleAvatarAssetDirect(player, assetId, field)
+	assetId = math.floor(tonumber(assetId) or 0)
+	field = tostring(field or "")
+	if assetId <= 0 then
+		return {ok = false, code = "invalid_asset"}
+	end
+	if not directAccessoryFields[field] and not directSingleFields[field] then
+		return {ok = false, code = "invalid_avatar_field", field = field}
+	end
+
+	local description = getDescription(player)
+	if not description then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+
+	local enabled = true
+	if directAccessoryFields[field] then
+		local current = ""
+		local okRead = pcall(function()
+			current = description[field]
+		end)
+		if not okRead then
+			description:Destroy()
+			return {ok = false, code = "avatar_field_read_failed", field = field}
+		end
+		local nextValue
+		nextValue, enabled = toggleCsv(current, assetId)
+		local okSet = pcall(function()
+			description[field] = nextValue
+		end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "avatar_field_write_failed", field = field}
+		end
+	else
+		local current = 0
+		pcall(function()
+			current = tonumber(description[field]) or 0
+		end)
+		enabled = current ~= assetId
+		local okSet = pcall(function()
+			description[field] = enabled and assetId or 0
+		end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "avatar_field_write_failed", field = field}
+		end
+	end
+
+	if not applyDescription(player, description) then
+		return {ok = false, code = "avatar_apply_failed"}
+	end
+
+	local state = currentAppearanceState(player)
+	if enabled then
+		state[assetId] = {id = assetId, name = tostring(assetId), field = field}
+	else
+		state[assetId] = nil
+	end
+	pushAppearance(player)
+	return {ok = true, action = "wearDirect", assetId = assetId, field = field, enabled = enabled}
 end
 
 clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
@@ -858,8 +953,10 @@ clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
 	end
 end)
 
-updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
-	if action == "wear" or action == "wearPremium" then
+updateAvatarRemote.OnServerEvent:Connect(function(player, action, value, field)
+	if action == "wearDirect" then
+		toggleAvatarAssetDirect(player, value, field)
+	elseif action == "wear" or action == "wearPremium" then
 		toggleAvatarAsset(player, value)
 	elseif action == "skintone" then
 		local description = getDescription(player)
@@ -2366,7 +2463,7 @@ local nativeHeliHandoffReady = setupNativeHelicopter()
 
 local function setupNativePlayer(player)
 	ensureBag(player)
-	seedAppearance(player)
+	currentAppearanceState(player)
 	player.CharacterAdded:Connect(function()
 		task.delay(0.75, function()
 			if player.Parent then
