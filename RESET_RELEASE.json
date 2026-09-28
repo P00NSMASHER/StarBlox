@@ -1,9 +1,11 @@
 {
-  "schemaVersion": 2,
-  "status": "brookhaven-v41-controls-houses-server-verified",
-  "recordedAt": "2026-09-27T22:44:17-04:00",
+  "schemaVersion": 3,
+  "status": "brookhaven-v43-functional-compatibility-server-verified",
+  "recordedAt": "2026-09-27T22:50:08-04:00",
   "resetCommit": "17be8d86815784fa75065e70c621e04733e77703",
-  "repairMergeCommit": "43b7054efa66709eb08e6c1628529c50c52577a7",
+  "v41RepairCommit": "43b7054efa66709eb08e6c1628529c50c52577a7",
+  "v43ServerUpgradeCommit": "2df8f2f4a8f4af0516539f75b845194c1862ac11",
+  "v43ClientUpgradeCommit": "57361ab4b5d72ffce40f09919f48908779078ced",
   "source": {
     "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
     "path": "Brookhaven.rbxl",
@@ -15,7 +17,7 @@
     "universeId": "6027194615",
     "placeId": "17602626136",
     "releaseChannel": "private-staging",
-    "publishedVersion": 41,
+    "publishedVersion": 43,
     "publicAccessChanged": false
   },
   "repair": {
@@ -24,26 +26,33 @@
     "originalPlayerHandlerStartupStatementsGuarded": 5,
     "clientCompatibilityScript": "StarterPlayer/StarterPlayerScripts/BrookhavenCompat",
     "serverHouseCompatibilityScript": "ServerScriptService/BrookhavenHouseCompat",
-    "claimablePrebuiltHouseLots": 5
+    "nativeFirstRightRailFallback": true,
+    "nativeGettingHouseBackend": true,
+    "houseStyleSelectionHandler": true,
+    "authenticSourceHouseTemplates": 5,
+    "originalBuyHouseLots": 19
   },
   "publishEvidence": {
-    "workflowRunId": 36370774811,
-    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36370774811",
-    "result": "success"
+    "workflowRunId": 36371119180,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36371119180",
+    "result": "success",
+    "patchedArtifactSha256": "261e00fa620240aa6551513e2783650e7d28e88654d392f68245e30dc7e5a5f0"
   },
   "serverVerification": {
-    "workflowRunId": 36370946942,
-    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36370946942",
+    "workflowRunId": 36371323073,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36371323073",
     "result": "success",
     "workspaceDescendants": 24348,
-    "claimablePrebuiltHouseLots": 5,
-    "sentinel": "BROOKHAVEN_COMPAT_V41_OK"
+    "workspaceGeometry": 14459,
+    "originalBuyHouseLots": 19,
+    "sentinel": "BROOKHAVEN_COMPAT_V43_OK"
   },
   "visualVerification": {
-    "status": "awaiting-real-client-test",
+    "status": "awaiting-real-client-test-of-v43-controls-and-houses",
     "claimAllowed": false
   },
   "rollback": {
+    "previousVerifiedRobloxVersion": 41,
     "branch": "archive/pre-reset-2026-09-27",
     "preResetCommit": "c3d274ee8e50101307d54f2218c7eb686625464f"
   }
