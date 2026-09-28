@@ -1,173 +1,105 @@
--- Minimal compatibility layer for the pinned Brookhaven baseline.
--- It does not create or restyle UI; it only reconnects the existing controls.
+-- Nonvisual compatibility fallback for the legacy Brookhaven right-side rail.
+-- Native Brookhaven callbacks get first chance; this acts only when a click leaves
+-- the menu state unchanged.
 
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+
 local main = playerGui:WaitForChild("MainGUIHandler")
 local noReset = playerGui:WaitForChild("NoResetGUIHandler")
 local buttons = main:WaitForChild("MainButtons"):WaitForChild("Buttons")
 
-local panels = {
-    main:FindFirstChild("MainVehicleMenu"),
-    main:FindFirstChild("MainAnimationsMenu"),
-    noReset:FindFirstChild("MainToolMenu"),
-    main:FindFirstChild("MainAvatarMenu"),
-    noReset:FindFirstChild("MainEditor"),
-    main:FindFirstChild("MainHouseMenu"),
-    main:FindFirstChild("MainNoHouseMenu"),
-    main:FindFirstChild("MainMotelMenu"),
+local menuByName = {
+	Car = main:WaitForChild("MainVehicleMenu"),
+	Animation = main:WaitForChild("MainAnimationsMenu"),
+	BackPack = noReset:WaitForChild("MainToolMenu"),
+	Character = main:WaitForChild("MainAvatarMenu"),
+	AvatarEditor = noReset:WaitForChild("MainEditor"),
 }
 
-local function closePanels(except)
-    for _, panel in ipairs(panels) do
-        if panel and panel ~= except then
-            panel.Visible = false
-        end
-    end
-end
-
-local function fitGrids(root)
-    if not root then return end
-    for _, node in ipairs(root:GetDescendants()) do
-        if node:IsA("ScrollingFrame") then
-            local grid = node:FindFirstChildOfClass("UIGridLayout")
-            if grid then
-                node.CanvasSize = UDim2.new(0, 0, 0, grid.AbsoluteContentSize.Y)
-            end
-        end
-    end
-end
-
-local function toggle(panel)
-    if not panel then return end
-    local show = not panel.Visible
-    closePanels(panel)
-    panel.Visible = show
-    if show then
-        fitGrids(panel)
-    end
-end
-
-local function getHouseStructure()
-    local bag = player:FindFirstChild("PlayersBag")
-    local value = bag and bag:FindFirstChild("PlayerHouseStructure")
-    return value and tostring(value.Value) or "No House"
-end
-
-local function openHousePanel()
-    local structure = getHouseStructure()
-    if structure == "House" then
-        toggle(main:FindFirstChild("MainHouseMenu"))
-    elseif structure == "Motel" then
-        toggle(main:FindFirstChild("MainMotelMenu"))
-    else
-        toggle(main:FindFirstChild("MainNoHouseMenu"))
-    end
-end
-
-local targetByName = {
-    Car = main:FindFirstChild("MainVehicleMenu"),
-    Animation = main:FindFirstChild("MainAnimationsMenu"),
-    BackPack = noReset:FindFirstChild("MainToolMenu"),
-    Character = main:FindFirstChild("MainAvatarMenu"),
-    AvatarEditor = noReset:FindFirstChild("MainEditor"),
+local allMenus = {
+	menuByName.Car,
+	menuByName.Animation,
+	menuByName.BackPack,
+	menuByName.Character,
+	menuByName.AvatarEditor,
+	main:WaitForChild("MainHouseMenu"),
+	main:WaitForChild("MainNoHouseMenu"),
+	main:WaitForChild("MainMotelMenu"),
 }
+
+local function menuSignature()
+	local parts = {}
+	for index, menu in ipairs(allMenus) do
+		parts[index] = menu.Visible and "1" or "0"
+	end
+	return table.concat(parts)
+end
+
+local function closeAll(except)
+	for _, menu in ipairs(allMenus) do
+		if menu ~= except then
+			menu.Visible = false
+		end
+	end
+end
+
+local function fitScrollingFrames(root)
+	for _, item in ipairs(root:GetDescendants()) do
+		if item:IsA("ScrollingFrame") then
+			local layout = item:FindFirstChildWhichIsA("UIGridLayout") or item:FindFirstChildWhichIsA("UIListLayout")
+			if layout then
+				item.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+			end
+		end
+	end
+end
+
+local function houseTarget()
+	local bag = player:FindFirstChild("PlayersBag")
+	local structure = bag and bag:FindFirstChild("PlayerHouseStructure")
+	local value = structure and tostring(structure.Value) or "No House"
+	if value == "House" then
+		return main:WaitForChild("MainHouseMenu")
+	elseif value == "Motel" then
+		return main:WaitForChild("MainMotelMenu")
+	end
+	return main:WaitForChild("MainNoHouseMenu")
+end
+
+local function targetFor(buttonName)
+	if buttonName == "House" then
+		return houseTarget()
+	end
+	return menuByName[buttonName]
+end
 
 for _, button in ipairs(buttons:GetChildren()) do
-    if button:IsA("GuiButton") then
-        button.Activated:Connect(function()
-            if button.Name == "House" then
-                openHousePanel()
-            else
-                local target = targetByName[button.Name]
-                if target then
-                    toggle(target)
-                end
-            end
-        end)
-    end
+	if button:IsA("ImageButton") then
+		button.Activated:Connect(function()
+			local target = targetFor(button.Name)
+			if not target then
+				return
+			end
+			local before = menuSignature()
+			local targetWasVisible = target.Visible
+
+			task.delay(0.08, function()
+				-- If Brookhaven's native handler changed any relevant menu, leave it alone.
+				if menuSignature() ~= before then
+					return
+				end
+
+				local open = not targetWasVisible
+				closeAll(target)
+				target.Visible = open
+				if open then
+					fitScrollingFrames(target)
+				end
+			end)
+		end)
+	end
 end
 
-for _, panel in ipairs(panels) do
-    if panel then
-        for _, node in ipairs(panel:GetDescendants()) do
-            if node:IsA("GuiButton") and node.Name == "Close" then
-                node.Activated:Connect(function()
-                    panel.Visible = false
-                end)
-            end
-        end
-    end
-end
-
-local remoteFolder = ReplicatedStorage:WaitForChild("RemoteEvents")
-local compat = remoteFolder:WaitForChild("BrookhavenCompatHouse")
-
-local function updateHouseKey(number)
-    local keyGui = noReset:FindFirstChild("HouseKey")
-    if not keyGui then return end
-    local house = keyGui:FindFirstChild("House")
-    if not house then return end
-    local key = house:FindFirstChild("Key")
-    if key then
-        pcall(function() key.Text = "#" .. tostring(number) end)
-        local value = key:FindFirstChild("HouseKeyNumber")
-        if value and value:IsA("ValueBase") then
-            value.Value = number
-        end
-    end
-    local label = house:FindFirstChild("SettingsLabel")
-    if label and label:IsA("TextLabel") then
-        label.Text = "House Controls"
-    end
-    keyGui.Visible = true
-end
-
-compat.OnClientEvent:Connect(function(action, ...)
-    local args = {...}
-    if action == "Claimed" then
-        updateHouseKey(args[1])
-        closePanels(main:FindFirstChild("MainHouseMenu"))
-        local menu = main:FindFirstChild("MainHouseMenu")
-        if menu then
-            menu.Visible = true
-            fitGrids(menu)
-        end
-    elseif action == "Sold" then
-        local keyGui = noReset:FindFirstChild("HouseKey")
-        if keyGui then keyGui.Visible = false end
-        closePanels(main:FindFirstChild("MainNoHouseMenu"))
-        local menu = main:FindFirstChild("MainNoHouseMenu")
-        if menu then menu.Visible = true end
-    end
-end)
-
-local function bindNamedButtons(root, name, callback)
-    if not root then return end
-    for _, node in ipairs(root:GetDescendants()) do
-        if node:IsA("GuiButton") and node.Name == name then
-            node.Activated:Connect(callback)
-        end
-    end
-end
-
-bindNamedButtons(main:FindFirstChild("MainHouseMenu"), "LeaveHome", function()
-    compat:FireServer("Sell")
-end)
-bindNamedButtons(main:FindFirstChild("MainMotelMenu"), "LeaveHome", function()
-    compat:FireServer("Sell")
-end)
-bindNamedButtons(main:FindFirstChild("MainHouseMenu"), "TeleportHome", function()
-    compat:FireServer("TeleportHome")
-end)
-bindNamedButtons(main:FindFirstChild("MainMotelMenu"), "TeleportHome", function()
-    compat:FireServer("TeleportHome")
-end)
-bindNamedButtons(main:FindFirstChild("MainNoHouseMenu"), "CamOpen", function()
-    compat:FireServer("TeleportToAvailableLot")
-end)
-
-print("BROOKHAVEN_COMPAT_CLIENT_READY")
+print("STARBLOX_BROOKHAVEN_COMPAT_CLIENT_READY")
