@@ -60,14 +60,19 @@ const luau=[
 ].join("\n");
 
 let response;
-for(let attempt=0;attempt<8;attempt++){
+for(let attempt=0;attempt<12;attempt++){
   response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{
     method:"POST",
     headers:{"x-api-key":key,"content-type":"application/json"},
     body:JSON.stringify({script:luau,timeout:"30s"})
   });
   if(response.status!==429&&response.status!==500) break;
-  await new Promise(resolve=>setTimeout(resolve,2500*(attempt+1)));
+  if(attempt===11) break;
+  const retryAfterSeconds=Number(response.headers.get("retry-after")||0);
+  const fallbackMs=Math.min(30000,5000*(attempt+1));
+  const waitMs=Math.max(retryAfterSeconds*1000,fallbackMs);
+  console.log("native verifier backing off after HTTP "+response.status+" for "+waitMs+"ms");
+  await new Promise(resolve=>setTimeout(resolve,waitMs));
 }
 
 let task=await parse(response,"create");
