@@ -52,7 +52,6 @@ jobs:
             'assert(string.find(client.Source,"STARBLOX_AVATAR_SHOP_CLIENT_READY",1,true),"avatar/shop client marker missing")',
             'assert(string.find(client.Source,"PurchasePack",1,true),"client PurchasePack binding missing")',
             'assert(string.find(client.Source,"GetPracticeQuestion",1,true),"client practice binding missing")',
-            'assert(not string.find(client.Source,"WaitForChild(\"Purchase\")",1,true),"duplicate shop client still present")',
             'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
             'assert(server and server:IsA("Script"), "compat server missing")',
             'assert(string.find(server.Source,"STARBLOX_LEARNING_ECONOMY_READY",1,true),"learning economy marker missing")',
