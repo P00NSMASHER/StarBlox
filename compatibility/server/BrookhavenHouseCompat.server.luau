@@ -585,6 +585,7 @@ local clockEventsRemote = remotes:WaitForChild("ClockEvents")
 local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 local horseRemote = remotes:WaitForChild("HorseRemote")
+local babyFollowRemote = remotes:WaitForChild("BabyFollow")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -1594,6 +1595,101 @@ local function findNativeToolDisplay(name)
 	end
 	return nil
 end
+
+
+local function followerDisplayName(selectedName)
+	if type(selectedName) ~= "string" then
+		return nil
+	end
+	if string.match(selectedName, "^BabyBoy") then
+		return "BabyBoy"
+	elseif string.match(selectedName, "^BabyGirl") then
+		return "BabyGirl"
+	end
+	return nil
+end
+
+local function currentFollowCharacter(player)
+	local character = player.Character
+	local follower = character and character:FindFirstChild("FollowCharacter")
+	if follower and follower:IsA("Model") then
+		return follower
+	end
+	return nil
+end
+
+local function destroyFollowCharacter(player, preserveSelection, delaySeconds)
+	local follower = currentFollowCharacter(player)
+	if not preserveSelection then
+		local bag = ensureBag(player)
+		ensureValue(bag, "StringValue", "FollowCharacterName", "NoFollowCharacter").Value = "NoFollowCharacter"
+	end
+	if not follower then
+		return
+	end
+	local function remove()
+		if follower and follower.Parent then
+			follower:Destroy()
+		end
+	end
+	if delaySeconds and delaySeconds > 0 then
+		task.delay(delaySeconds, remove)
+	else
+		remove()
+	end
+end
+
+local function spawnFollowCharacter(player, selectedName)
+	local displayName = followerDisplayName(selectedName)
+	if not displayName then
+		return {ok = false, code = "unknown_follower"}
+	end
+	local displayPart = findNativeToolDisplay(displayName)
+	if not displayPart then
+		return {ok = false, code = "native_follower_display_missing"}
+	end
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	if not (character and root and root:IsA("BasePart")) then
+		return {ok = false, code = "character_unavailable"}
+	end
+	destroyFollowCharacter(player, true, 0)
+	local built = RuntimeCore.buildFollowerFromDisplayPart(displayPart, selectedName)
+	if not built.ok or not built.model then
+		return built
+	end
+	local follower = built.model
+	follower.Parent = character
+	follower:PivotTo(root.CFrame * CFrame.new(2, -1.5, 2))
+	pcall(function()
+		built.torso:SetNetworkOwner(player)
+	end)
+	local bag = ensureBag(player)
+	ensureValue(bag, "StringValue", "FollowCharacterName", "NoFollowCharacter").Value = selectedName
+	babyFollowRemote:FireClient(player, "ClientHasFollowCharacter")
+	return {
+		ok = follower.Parent == character
+			and follower.PrimaryPart == built.torso
+			and follower:FindFirstChild("Humanoid") ~= nil
+			and follower:FindFirstChild("FollowName") ~= nil,
+		follower = follower,
+		source = built.sourceName,
+		selected = selectedName,
+	}
+end
+
+babyFollowRemote.OnServerEvent:Connect(function(player, action, selectedName)
+	if action == "CharacterFollowSpawnPlayer" then
+		spawnFollowCharacter(player, tostring(selectedName or ""))
+	elseif action == "TempDeleteFollowCharacter" then
+		destroyFollowCharacter(player, true, 0)
+	elseif action == "DeleteFollowCharacter" then
+		-- The native client reads FollowCharacter.FollowName immediately after this
+		-- request when entering a vehicle, so defer destruction slightly to preserve
+		-- that client-side handoff while still making the explicit delete button work.
+		destroyFollowCharacter(player, false, 0.15)
+	end
+end)
 
 local function findOwnedTool(player, name)
 	local backpack = player:FindFirstChildOfClass("Backpack")
