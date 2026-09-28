@@ -342,10 +342,39 @@ function RuntimeCore.applyHomeBusinessMutation(house, action, value)
 	return {ok = false, code = "unknown_business_action"}
 end
 
+
+function RuntimeCore.formatClockTime(clockTime)
+	local raw = tonumber(clockTime) or 0
+	raw = raw % 24
+	local hour24 = math.floor(raw)
+	local minute = math.floor(((raw - hour24) * 60) + 0.5)
+	if minute >= 60 then
+		minute = 0
+		hour24 = (hour24 + 1) % 24
+	end
+	local suffix = hour24 >= 12 and "PM" or "AM"
+	local hour12 = hour24 % 12
+	if hour12 == 0 then
+		hour12 = 12
+	end
+	return string.format("%d:%02d %s", hour12, minute, suffix)
+end
+
+function RuntimeCore.dayNameFromWeekday(weekday)
+	local days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+	local index = math.clamp(math.floor(tonumber(weekday) or 1), 1, 7)
+	return days[index]
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local clockNoon = RuntimeCore.formatClockTime(12.5)
+	local clockMidnight = RuntimeCore.formatClockTime(0)
+	local dayName = RuntimeCore.dayNameFromWeekday(2)
+	local clockOk = clockNoon == "12:30 PM" and clockMidnight == "12:00 AM" and dayName == "Monday"
+
 	local avatarDescription = Instance.new("HumanoidDescription")
 	local outfit = RuntimeCore.applyNativeAvatarMutation(avatarDescription, DEFAULT_SKIN_TONES, "outfit", 123456, 654321)
 	local scale = RuntimeCore.applyNativeAvatarMutation(avatarDescription, DEFAULT_SKIN_TONES, "scale", 0.75)
@@ -442,7 +471,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		clock = {ok = clockOk, noon = clockNoon, midnight = clockMidnight, day = dayName},
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
 		shop = {ok = shopOk, music = music, speed = speed},
 		profile = {ok = profileOk, rolePlayName = rpName, rolePlayBio = rpBio, rolePlayColor = rpColor, job = job, quitJob = quitJob},
