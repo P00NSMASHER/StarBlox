@@ -145,6 +145,7 @@ end
 local editor = noReset:FindFirstChild("MainEditor")
 local editorStatus = nil
 local skinPanel = nil
+local accessoryPanel = nil
 local editorCoinLabel = nil
 
 local function showEditorStatus(textValue, good)
@@ -175,6 +176,7 @@ local function setEditorMode(mode)
 	if outfit and outfit:IsA("GuiObject") then outfit.Visible = mode == "outfit" end
 	if scaleFrame and scaleFrame:IsA("GuiObject") then scaleFrame.Visible = mode == "scale" end
 	if skinPanel then skinPanel.Visible = mode == "skin" end
+	if accessoryPanel then accessoryPanel.Visible = mode == "accessory" end
 end
 
 local function runAvatarAction(action, value)
@@ -248,6 +250,70 @@ local function buildSkinPanel(container)
 	return panel
 end
 
+local function buildAccessoryPanel(container)
+	if accessoryPanel then return accessoryPanel end
+	local panel = Instance.new("Frame")
+	panel.Name = "StarBloxAccessoryPanel"
+	panel.AnchorPoint = Vector2.new(0.5,0.5)
+	panel.Position = UDim2.fromScale(0.5,0.62)
+	panel.Size = UDim2.fromOffset(390,190)
+	panel.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	panel.BackgroundTransparency = 0.08
+	panel.Visible = false
+	panel.ZIndex = 30
+	panel.Parent = container
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0,14)
+	corner.Parent = panel
+
+	local title = Instance.new("TextLabel")
+	title.Position = UDim2.fromOffset(12,8)
+	title.Size = UDim2.new(1,-24,0,34)
+	title.BackgroundTransparency = 1
+	title.Text = "Accessories — tap to remove / restore"
+	title.TextColor3 = Color3.fromRGB(30,30,30)
+	title.Font = Enum.Font.GothamBold
+	title.TextScaled = true
+	title.ZIndex = 31
+	title.Parent = panel
+
+	local items = {
+		{"Hair","Hair"},
+		{"Hats","Hat"},
+		{"Face","Face"},
+		{"Back","Back"},
+		{"Waist","Waist"},
+	}
+	for index,row in ipairs(items) do
+		local button = Instance.new("TextButton")
+		button.Name = row[1]
+		button.Size = UDim2.fromOffset(68,92)
+		button.Position = UDim2.fromOffset(10 + ((index-1)*76), 54)
+		button.BackgroundColor3 = Color3.fromRGB(238,244,252)
+		button.Text = row[2]
+		button.TextColor3 = Color3.fromRGB(30,35,45)
+		button.Font = Enum.Font.GothamBold
+		button.TextScaled = true
+		button.TextWrapped = true
+		button.ZIndex = 32
+		button.Parent = panel
+		local bc = Instance.new("UICorner")
+		bc.CornerRadius = UDim.new(0,12)
+		bc.Parent = button
+		button.Activated:Connect(function()
+			local result = runAvatarAction("ToggleAccessory", row[1])
+			if result and result.ok then
+				local stateText = result.hidden and "removed" or "restored"
+				showEditorStatus(row[2].." "..stateText, true)
+			else
+				showEditorStatus("Couldn't change "..row[2], false)
+			end
+		end)
+	end
+	accessoryPanel = panel
+	return panel
+end
+
 if editor then
 	editorStatus = Instance.new("TextLabel")
 	editorStatus.Name = "StarBloxEditorStatus"
@@ -286,7 +352,10 @@ if editor then
 	local header = catalog and catalog:FindFirstChild("Header")
 	local categoryTabs = header and header:FindFirstChild("CategoryTabs")
 	local subTabs = header and header:FindFirstChild("SubCategoryTabs")
-	if container then buildSkinPanel(container) end
+	if container then
+		buildSkinPanel(container)
+		buildAccessoryPanel(container)
+	end
 
 	if container then
 		local scaleFrame = container:FindFirstChild("ScaleFrame")
@@ -317,6 +386,19 @@ if editor then
 						showEditorStatus("Avatar size decreased", true)
 					else
 						showEditorStatus("Couldn't change avatar size", false)
+					end
+				end)
+			end
+			local number = scaleButtons:FindFirstChild("Number")
+			if number and number:IsA("GuiButton") then
+				number.Activated:Connect(function()
+					local result = runAvatarAction("SetScale", 1)
+					if result and result.ok then
+						local label = number:FindFirstChild("Number")
+						if label and label:IsA("TextLabel") then label.Text = "1" end
+						showEditorStatus("Avatar size reset", true)
+					else
+						showEditorStatus("Couldn't reset avatar size", false)
 					end
 				end)
 			end
@@ -351,8 +433,8 @@ if editor then
 		if body and body:IsA("GuiButton") then body.Activated:Connect(function() setEditorMode("scale") end) end
 		if accessories and accessories:IsA("GuiButton") then
 			accessories.Activated:Connect(function()
-				setEditorMode("outfit")
-				showEditorStatus("Accessory packs are coming through the Star Shop", true)
+				setEditorMode("accessory")
+				showEditorStatus("Tap an accessory to remove or restore it", true)
 			end)
 		end
 		if reset and reset:IsA("GuiButton") then
@@ -370,12 +452,42 @@ if editor then
 		if bodyTabs then
 			local scale = bodyTabs:FindFirstChild("Scale")
 			local skin = bodyTabs:FindFirstChild("SkinTone")
+			local faces = bodyTabs:FindFirstChild("Faces")
+			local removeCharacter = bodyTabs:FindFirstChild("RemoveCharacter")
 			if scale and scale:IsA("GuiButton") then scale.Activated:Connect(function() setEditorMode("scale") end) end
 			if skin and skin:IsA("GuiButton") then skin.Activated:Connect(function() setEditorMode("skin") end) end
+			if faces and faces:IsA("GuiButton") then
+				faces.Activated:Connect(function()
+					local result = runAvatarAction("ResetFace")
+					showEditorStatus(result and result.ok and "Original face restored" or "Couldn't restore face", result and result.ok)
+				end)
+			end
+			if removeCharacter and removeCharacter:IsA("GuiButton") then
+				removeCharacter.Activated:Connect(function()
+					local result = runAvatarAction("Reset")
+					showEditorStatus(result and result.ok and "Original avatar restored" or "Couldn't restore avatar", result and result.ok)
+				end)
+			end
 		end
 		if clothesTabs then
 			for _, button in ipairs(clothesTabs:GetChildren()) do
 				if button:IsA("GuiButton") then button.Activated:Connect(function() setEditorMode("outfit") end) end
+			end
+		end
+		local accessoryTabs = subTabs:FindFirstChild("Accessories")
+		if accessoryTabs then
+			for _, button in ipairs(accessoryTabs:GetChildren()) do
+				if button:IsA("GuiButton") then
+					button.Activated:Connect(function()
+						setEditorMode("accessory")
+						local result = runAvatarAction("ToggleAccessory", button.Name)
+						if result and result.ok then
+							showEditorStatus(button.Name .. (result.hidden and " removed" or " restored"), true)
+						else
+							showEditorStatus("Couldn't change "..button.Name, false)
+						end
+					end)
+				end
 			end
 		end
 	end
@@ -553,7 +665,7 @@ renderShop = function()
 		card.LayoutOrder = order
 		card.Text = tostring(pack.Name).."
 "..(owned and "OWNED ✓" or ("★ "..tostring(pack.Price))).."
-"..tostring(#(pack.Outfits or {})).." outfits"
+"..tostring(pack.Description or (tostring(#(pack.Outfits or {})).." outfits"))
 		card.ZIndex = 202
 		card.Parent = shopGrid
 		styleButton(card, owned and Color3.fromRGB(208,242,216) or Color3.fromRGB(238,244,252))
