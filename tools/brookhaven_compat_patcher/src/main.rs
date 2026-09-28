@@ -12,6 +12,8 @@ use rbx_dom_weak::{
 };
 use sha2::{Digest, Sha256};
 
+mod native_weather;
+
 const CLIENT_SOURCE: &str = include_str!("../../../compatibility/client/BrookhavenCompat.client.luau");
 const SERVER_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenHouseCompat.server.luau");
 const RUNTIME_CORE_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenNativeRuntimeCore.luau");
@@ -709,6 +711,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let player_handler_patch_count = patch_player_handler(&mut dom)?;
     let avatar_clone_ref = insert_compat_scripts(&mut dom)?;
+    let weather_restore = native_weather::restore(&mut dom)?;
 
     let root_refs = dom.root().children().to_vec();
     let output = BufWriter::new(File::create(output_path)?);
@@ -716,6 +719,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let output_bytes = fs::read(output_path)?;
     let verified = read_dom(output_path)?;
+    native_weather::verify(&verified)?;
 
     let client = find_first(&verified, verified.root_ref(), "LocalScript", Some("BrookhavenCompat"))
         .ok_or("patched place missing BrookhavenCompat LocalScript")?;
@@ -766,6 +770,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "nativeAvatarEditorClonedToStarterGui": true,
         "nativeAvatarEditorCloneRef": format!("{:?}", avatar_clone_ref),
         "nativeAvatarEditorCloneChildren": avatar_instance.children().len(),
+        "nativeWeatherController": weather_restore,
         "nativeSourceInventory": native_source_inventory,
         "injected": {
             "client": "StarterGui/BrookhavenCompat",
