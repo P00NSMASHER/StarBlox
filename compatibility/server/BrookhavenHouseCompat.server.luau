@@ -584,6 +584,7 @@ local clockRemote = remotes:WaitForChild("Clock")
 local clockEventsRemote = remotes:WaitForChild("ClockEvents")
 local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
+local horseRemote = remotes:WaitForChild("HorseRemote")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -1001,6 +1002,137 @@ horseRemotePass.OnServerEvent:Connect(function(player, action, value)
 		RuntimeCore.applyHorseCustomization(horse, tostring(action), value)
 	end
 end)
+
+local horseTemplateRoot = Workspace:WaitForChild("WorkspaceCom"):WaitForChild("003_CarBackup")
+local nativeHorseTemplate = horseTemplateRoot:WaitForChild("Horse")
+local nativeHorseStableDoors = Workspace:WaitForChild("WorkspaceCom"):WaitForChild("001_HorseStableDoors")
+local pendingHorseDoor = {}
+local activeHorseByPlayer = {}
+local horseMountConnections = {}
+
+local function disconnectHorseMount(player)
+	local connection = horseMountConnections[player]
+	horseMountConnections[player] = nil
+	if connection then
+		connection:Disconnect()
+	end
+end
+
+local function destroyActiveHorse(player)
+	disconnectHorseMount(player)
+	local horse = activeHorseByPlayer[player] or activeHorseForPlayer(player)
+	activeHorseByPlayer[player] = nil
+	if horse and horse.Parent then
+		horse:Destroy()
+	end
+end
+
+local function assignHorseNetworkOwner(player, horse)
+	for _, item in ipairs(horse:GetDescendants()) do
+		if item:IsA("BasePart") then
+			pcall(function()
+				item:SetNetworkOwner(player)
+			end)
+		end
+	end
+end
+
+local function horseSpawnCFrame(player, doorModel)
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	if root and root:IsA("BasePart") then
+		return root.CFrame * CFrame.new(0, -3, -10)
+	end
+	local prime = doorModel and doorModel:FindFirstChild("Prime")
+	if prime and prime:IsA("BasePart") then
+		return prime.CFrame * CFrame.new(0, -3, -8)
+	end
+	return CFrame.new(0, 8, 0)
+end
+
+local function bindHorseMount(player, horse)
+	disconnectHorseMount(player)
+	local mountButton = horse:FindFirstChild("MountButton")
+	local click = mountButton and mountButton:FindFirstChildOfClass("ClickDetector")
+	if not click then
+		return false
+	end
+	horseMountConnections[player] = click.MouseClick:Connect(function(clickedPlayer)
+		if clickedPlayer ~= player then
+			return
+		end
+		local character = player.Character
+		if not character or horse.Parent ~= liveVehicles then
+			return
+		end
+		local mounted = RuntimeCore.mountHorseToCharacter(horse, character)
+		if mounted.ok then
+			assignHorseNetworkOwner(player, horse)
+			horseRemote:FireClient(player, "HorseStart")
+		end
+	end)
+	return true
+end
+
+local function spawnNativeHorse(player)
+	destroyActiveHorse(player)
+	local horse = nativeHorseTemplate:Clone()
+	horse.Name = player.Name .. "Horse"
+	local owner = horse:FindFirstChild("Owner")
+	if owner and owner:IsA("ObjectValue") then
+		owner.Value = player
+	end
+	local mountState = RuntimeCore.setHorseMountEnabled(horse, true)
+	if not mountState.ok then
+		horse:Destroy()
+		return {ok = false, code = "horse_mount_contract_invalid"}
+	end
+	horse.Parent = liveVehicles
+	local door = pendingHorseDoor[player]
+	pendingHorseDoor[player] = nil
+	local ok, err = pcall(function()
+		horse:PivotTo(horseSpawnCFrame(player, door))
+	end)
+	if not ok then
+		horse:Destroy()
+		return {ok = false, code = "horse_spawn_failed", reason = tostring(err)}
+	end
+	assignHorseNetworkOwner(player, horse)
+	if not bindHorseMount(player, horse) then
+		horse:Destroy()
+		return {ok = false, code = "horse_mount_click_missing"}
+	end
+	activeHorseByPlayer[player] = horse
+	horseRemote:FireClient(player, "TurnOnHorseMountButton")
+	return {ok = true, horse = horse, mount = mountState}
+end
+
+horseRemote.OnServerEvent:Connect(function(player, action)
+	if action == "PlayerReadyForHorse" then
+		spawnNativeHorse(player)
+	elseif action == "HorseDismount" then
+		local horse = activeHorseByPlayer[player] or activeHorseForPlayer(player)
+		local character = player.Character
+		if horse and character then
+			local result = RuntimeCore.dismountHorseToWorld(horse, character, liveVehicles)
+			if result.ok then
+				assignHorseNetworkOwner(player, horse)
+				horseRemote:FireClient(player, "HorseDismountPlayer")
+			end
+		end
+	end
+end)
+
+for _, door in ipairs(nativeHorseStableDoors:GetChildren()) do
+	local clickPart = door:FindFirstChild("Click")
+	local detector = clickPart and clickPart:FindFirstChildOfClass("ClickDetector")
+	if detector then
+		detector.MouseClick:Connect(function(player)
+			pendingHorseDoor[player] = door
+			horseRemote:FireClient(player, "CheckPlayeForHorse")
+		end)
+	end
+end
 
 local activeVehicleByPlayer = {}
 local activeNoMotorByPlayer = {}
@@ -1524,6 +1656,8 @@ Players.PlayerAdded:Connect(setupNativePlayer)
 Players.PlayerRemoving:Connect(function(player)
 	removePlayerVehicle(player)
 	removeNoMotorVehicle(player)
+	destroyActiveHorse(player)
+	pendingHorseDoor[player] = nil
 	appearanceAssets[player] = nil
 	lastVehicleSpawn[player] = nil
 	activeCarClientByPlayer[player] = nil
@@ -1552,4 +1686,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
