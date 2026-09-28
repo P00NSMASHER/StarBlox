@@ -27822,6 +27822,1979 @@
         }
       }
     ],
+    "horseTemplate": {
+      "className": "Model",
+      "name": "Horse",
+      "properties": {},
+      "children": [
+        {
+          "className": "UnionOperation",
+          "name": "RH",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  15.580804,
+                  -31.545301,
+                  -64.94664
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.0192109,
+                0.8709709,
+                1.5940593
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.0192109,
+                    0.8709709,
+                    1.5940593
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "Part",
+          "name": "Tail",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  20.949532,
+                  -28.00652,
+                  -64.04993
+                ],
+                "orientation": [
+                  [
+                    -0.0012150793,
+                    -0.7161678,
+                    0.69792736
+                  ],
+                  [
+                    0.99999934,
+                    -0.000858895,
+                    0.0008596702
+                  ],
+                  [
+                    -0.000016272354,
+                    0.6979277,
+                    0.7161682
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                3,
+                1,
+                1
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "SpecialMesh",
+              "name": "Mesh",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    3,
+                    1,
+                    1
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "HairColor",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LLL",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.756472,
+                  -30.674566,
+                  -63.07026
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.75338554,
+                1.8036333,
+                1.113033
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.75338554,
+                    1.8036333,
+                    1.113033
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LUL",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.647366,
+                  -28.513353,
+                  -63.21064
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.2617582,
+                3.772898,
+                1.9459141
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.2617582,
+                    3.772898,
+                    1.9459141
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "RLL",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.765045,
+                  -30.67456,
+                  -64.92582
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.75338566,
+                1.8036333,
+                1.113033
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.75338566,
+                    1.8036333,
+                    1.113033
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LF",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.52652,
+                  -31.540476,
+                  -63.071064
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.024909,
+                0.8709709,
+                1.5850861
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.024909,
+                    0.8709709,
+                    1.5850861
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "UpperTorso",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  17.135027,
+                  -26.978928,
+                  -64.00293
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                2.0067184,
+                3.94978,
+                6.800931
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    2.0067184,
+                    3.94978,
+                    6.800931
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "RLA",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  15.824484,
+                  -30.697865,
+                  -64.94551
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.75203866,
+                1.7666543,
+                1.1521262
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.75203866,
+                    1.7666543,
+                    1.1521262
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LUA",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  16.048061,
+                  -28.725994,
+                  -63.064796
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.8476987,
+                3.2385566,
+                1.3775402
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.8476987,
+                    3.2385566,
+                    1.3775402
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "RUA",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  16.056715,
+                  -28.725988,
+                  -64.954025
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.8476987,
+                3.2385566,
+                1.3775402
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.8476987,
+                    3.2385566,
+                    1.3775402
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LLA",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  15.815904,
+                  -30.697872,
+                  -63.07541
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.7520387,
+                1.7666543,
+                1.1521245
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.7520387,
+                    1.7666543,
+                    1.1521245
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "LH",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  15.572171,
+                  -31.54531,
+                  -63.076584
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.0192108,
+                0.8709709,
+                1.5940596
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.0192108,
+                    0.8709709,
+                    1.5940596
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "RUL",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.654728,
+                  -28.513348,
+                  -64.78644
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.2617569,
+                3.772898,
+                1.9459145
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.2617569,
+                    3.772898,
+                    1.9459145
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "RF",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  19.535103,
+                  -31.54047,
+                  -64.92719
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    -0.0012207743,
+                    -0.9999886
+                  ],
+                  [
+                    -0.000002828019,
+                    0.99999934,
+                    -0.0012207743
+                  ],
+                  [
+                    0.99998933,
+                    -0.000002827945,
+                    -0.0046330695
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.0249076,
+                0.8709709,
+                1.5850861
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.0249076,
+                    0.8709709,
+                    1.5850861
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "Part",
+          "name": "Mane",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  14.952994,
+                  -25.234869,
+                  -64.01275
+                ],
+                "orientation": [
+                  [
+                    -0.0046330695,
+                    0.3268932,
+                    -0.94505006
+                  ],
+                  [
+                    -0.000002828019,
+                    0.9450602,
+                    0.32689673
+                  ],
+                  [
+                    0.99998933,
+                    0.0015172077,
+                    -0.0043776045
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1,
+                1.2,
+                2
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "SpecialMesh",
+              "name": "Mesh",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1,
+                    1.2,
+                    2
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "HairColor",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "UnionOperation",
+          "name": "Head",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  13.683115,
+                  -26.022081,
+                  -64.019
+                ],
+                "orientation": [
+                  [
+                    0.34744495,
+                    -0.0012207743,
+                    -0.9376997
+                  ],
+                  [
+                    0.0004268039,
+                    0.99999934,
+                    -0.0011437379
+                  ],
+                  [
+                    0.93770033,
+                    -0.000002827945,
+                    0.3474452
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.0594281,
+                2.4684644,
+                1.448189
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    1.0594281,
+                    2.4684644,
+                    1.448189
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "StringValue",
+              "name": "Color",
+              "properties": {
+                "Value": {
+                  "String": ""
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "BillboardGui",
+              "name": "NameGUI",
+              "properties": {
+                "Size": {
+                  "UDim2": [
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ]
+                  ]
+                }
+              },
+              "children": [
+                {
+                  "className": "TextBox",
+                  "name": "NameTxt",
+                  "properties": {
+                    "Text": {
+                      "String": ""
+                    },
+                    "Position": {
+                      "UDim2": [
+                        [
+                          -7,
+                          0
+                        ],
+                        [
+                          0.99,
+                          0
+                        ]
+                      ]
+                    },
+                    "Size": {
+                      "UDim2": [
+                        [
+                          15,
+                          0
+                        ],
+                        [
+                          0.5,
+                          0
+                        ]
+                      ]
+                    }
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Texture",
+              "name": "Texture",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "Humanoid",
+          "name": "Humanoid",
+          "properties": {},
+          "children": [
+            {
+              "className": "Animator",
+              "name": "Animator",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "MeshPart",
+          "name": "Saddle",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  17.328789,
+                  -26.904621,
+                  -63.998547
+                ],
+                "orientation": [
+                  [
+                    -0.9999888,
+                    -0.0011600188,
+                    0.0046331147
+                  ],
+                  [
+                    -0.0011597355,
+                    0.9999994,
+                    0.00006386701
+                  ],
+                  [
+                    -0.004633189,
+                    0.000058493086,
+                    -0.99998945
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                2.058012,
+                2.7644205,
+                2.04
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Motor6D",
+              "name": "Joint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    2.058012,
+                    2.7644205,
+                    2.04
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "Part",
+          "name": "Seat",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  17.303904,
+                  -26.409641,
+                  -64.00531
+                ],
+                "orientation": [
+                  [
+                    0.9985536,
+                    -0.05357191,
+                    -0.0045864605
+                  ],
+                  [
+                    0.05357247,
+                    0.99856406,
+                    -0.0000015492235
+                  ],
+                  [
+                    0.0045799576,
+                    -0.00024415914,
+                    0.99998957
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                1.4000013,
+                0.2999997,
+                1.4999995
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "Script",
+              "name": "HorseSeat",
+              "properties": {
+                "Disabled": {
+                  "Bool": true
+                }
+              },
+              "children": [
+                {
+                  "className": "Folder",
+                  "name": "BlackHorse",
+                  "properties": {},
+                  "children": [
+                    {
+                      "className": "StringValue",
+                      "name": "HorseBodyColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Really black"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseHairColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Really black"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseSaddleColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Dark stone grey"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseTexture",
+                      "properties": {
+                        "Value": {
+                          "String": ""
+                        }
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "className": "Folder",
+                  "name": "BrownHorse",
+                  "properties": {},
+                  "children": [
+                    {
+                      "className": "StringValue",
+                      "name": "HorseBodyColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Brown"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseHairColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Really black"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseSaddleColor",
+                      "properties": {
+                        "Value": {
+                          "String": "Black"
+                        }
+                      },
+                      "children": []
+                    },
+                    {
+                      "className": "StringValue",
+                      "name": "HorseTexture",
+                      "properties": {
+                        "Value": {
+                          "String": ""
+                        }
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "className": "Part",
+          "name": "Eyes",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  13.511308,
+                  -25.764183,
+                  -63.95487
+                ],
+                "orientation": [
+                  [
+                    -0.34744495,
+                    -0.7567387,
+                    0.5537406
+                  ],
+                  [
+                    -0.0004268039,
+                    0.59065795,
+                    0.806922
+                  ],
+                  [
+                    -0.93770033,
+                    0.2801246,
+                    -0.20554408
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                0.9500017,
+                0.4,
+                0.6099996
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "SpecialMesh",
+              "name": "Mesh",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "WeldConstraint",
+              "name": "WeldConstraint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    0.9500017,
+                    0.4,
+                    0.6099996
+                  ]
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "Folder",
+          "name": "Animations",
+          "properties": {},
+          "children": [
+            {
+              "className": "Animation",
+              "name": "Walk",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Animation",
+              "name": "Idle",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Animation",
+              "name": "Jump",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Animation",
+              "name": "Fall",
+              "properties": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "className": "ObjectValue",
+          "name": "Owner",
+          "properties": {
+            "Value": "null"
+          },
+          "children": []
+        },
+        {
+          "className": "Part",
+          "name": "MountButton",
+          "properties": {
+            "CFrame": {
+              "CFrame": {
+                "position": [
+                  17.874617,
+                  -24.781088,
+                  -63.93698
+                ],
+                "orientation": [
+                  [
+                    0.9999888,
+                    -0.0011600188,
+                    -0.0046331147
+                  ],
+                  [
+                    0.0011597355,
+                    0.9999994,
+                    -0.00006386701
+                  ],
+                  [
+                    0.004633189,
+                    0.000058493086,
+                    0.99998945
+                  ]
+                ]
+              }
+            },
+            "Size": {
+              "Vector3": [
+                2,
+                2,
+                2
+              ]
+            }
+          },
+          "children": [
+            {
+              "className": "ClickDetector",
+              "name": "ClickDetector",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "WeldConstraint",
+              "name": "WeldConstraint",
+              "properties": {},
+              "children": []
+            },
+            {
+              "className": "Vector3Value",
+              "name": "OriginalSize",
+              "properties": {
+                "Value": {
+                  "Vector3": [
+                    4,
+                    1,
+                    4
+                  ]
+                }
+              },
+              "children": []
+            },
+            {
+              "className": "BillboardGui",
+              "name": "GUI",
+              "properties": {
+                "Size": {
+                  "UDim2": [
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ]
+                  ]
+                }
+              },
+              "children": [
+                {
+                  "className": "ImageLabel",
+                  "name": "ImageLabel",
+                  "properties": {
+                    "Position": {
+                      "UDim2": [
+                        [
+                          -0.4,
+                          0
+                        ],
+                        [
+                          -0.6,
+                          0
+                        ]
+                      ]
+                    },
+                    "Size": {
+                      "UDim2": [
+                        [
+                          1.8,
+                          0
+                        ],
+                        [
+                          1.8,
+                          0
+                        ]
+                      ]
+                    }
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "houseStyleCandidates": [
       {
         "path": "DataModel/StarterGui/MainGUIHandler/MainHouseMenu/Catalog/Container/ScrollingFrame/002_House",
