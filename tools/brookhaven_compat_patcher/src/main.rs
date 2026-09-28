@@ -97,6 +97,32 @@ fn collect_follow_candidates(dom: &WeakDom, current: Ref, out: &mut BTreeSet<Str
 }
 
 
+
+fn collect_named_paths(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    needles: &[&str],
+    out: &mut BTreeSet<String>,
+) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    let lower_name = instance.name.to_ascii_lowercase();
+    let lower_path = path.to_ascii_lowercase();
+    if needles.iter().any(|needle| lower_name.contains(needle) || lower_path.contains(needle)) {
+        out.insert(format!("{}:{}", path, instance.class.as_str()));
+    }
+    for child in instance.children() {
+        collect_named_paths(dom, *child, &path, needles, out);
+    }
+}
+
 fn collect_vehicle_control_paths(
     dom: &WeakDom,
     current: Ref,
@@ -287,6 +313,11 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         &mut horse_click_paths,
     );
 
+    let mut remaining_pool_paths = BTreeSet::new();
+    let mut remaining_bank_card_paths = BTreeSet::new();
+    collect_named_paths(dom, dom.root_ref(), "", &["pool", "cover"], &mut remaining_pool_paths);
+    collect_named_paths(dom, dom.root_ref(), "", &["creditcard", "credit_card", "bankcard", "bankkeycard", "credit card"], &mut remaining_bank_card_paths);
+
     let mut vehicle_control_paths = BTreeSet::new();
     if let Some(replicated) = find_first(dom, dom.root_ref(), "ReplicatedStorage", None) {
         if let Some(backup) = direct_child(dom, replicated, "003_CarBackup") {
@@ -354,6 +385,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
 
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
+        "remainingPoolPaths": remaining_pool_paths.into_iter().collect::<Vec<_>>(),
+        "remainingBankCardPaths": remaining_bank_card_paths.into_iter().collect::<Vec<_>>(),
         "ambulanceControlPaths": vehicle_control_paths.into_iter().collect::<Vec<_>>(),
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
         "followAssetPaths": follow_paths.into_iter().collect::<Vec<_>>(),
