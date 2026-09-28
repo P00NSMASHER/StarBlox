@@ -1,4 +1,5 @@
 use std::{
+    collections::BTreeSet,
     env,
     fs::{self, File},
     io::{BufReader, BufWriter},
@@ -49,6 +50,93 @@ fn direct_child(dom: &WeakDom, parent: Ref, name: &str) -> Option<Ref> {
         dom.get_by_ref(*child)
             .map(|value| value.name == name)
             .unwrap_or(false)
+    })
+}
+
+
+fn collect_tool_names(dom: &WeakDom, current: Ref, out: &mut BTreeSet<String>) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    if instance.class.as_str() == "Tool" {
+        out.insert(instance.name.clone());
+    }
+    for child in instance.children() {
+        collect_tool_names(dom, *child, out);
+    }
+}
+
+fn collect_follow_candidates(dom: &WeakDom, current: Ref, out: &mut BTreeSet<String>) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let lower = instance.name.to_ascii_lowercase();
+    if lower.contains("babyboy")
+        || lower.contains("babygirl")
+        || lower.contains("followcharacter")
+        || lower.contains("followname")
+    {
+        out.insert(format!("{}:{}", instance.name, instance.class.as_str()));
+    }
+    for child in instance.children() {
+        collect_follow_candidates(dom, *child, out);
+    }
+}
+
+fn collect_subtree_labels(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    out: &mut Vec<String>,
+    limit: usize,
+) {
+    if out.len() >= limit {
+        return;
+    }
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    out.push(format!("{}:{}", path, instance.class.as_str()));
+    if out.len() >= limit {
+        return;
+    }
+    for child in instance.children() {
+        collect_subtree_labels(dom, *child, &path, out, limit);
+        if out.len() >= limit {
+            break;
+        }
+    }
+}
+
+fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
+    let mut tool_names = BTreeSet::new();
+    if let Some(replicated) = find_first(dom, dom.root_ref(), "ReplicatedStorage", None) {
+        collect_tool_names(dom, replicated, &mut tool_names);
+    }
+
+    let mut follow_candidates = BTreeSet::new();
+    collect_follow_candidates(dom, dom.root_ref(), &mut follow_candidates);
+
+    let horse_ref = find_first(dom, dom.root_ref(), "Workspace", None)
+        .and_then(|workspace| direct_child(dom, workspace, "WorkspaceCom"))
+        .and_then(|common| direct_child(dom, common, "003_CarBackup"))
+        .and_then(|backup| direct_child(dom, backup, "Horse"));
+
+    let mut horse_subtree = Vec::new();
+    if let Some(horse) = horse_ref {
+        collect_subtree_labels(dom, horse, "", &mut horse_subtree, 220);
+    }
+
+    serde_json::json!({
+        "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
+        "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
+        "horseTemplateFound": horse_ref.is_some(),
+        "horseTemplateSubtree": horse_subtree
     })
 }
 
@@ -205,6 +293,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let input_bytes = fs::read(input_path)?;
     let mut dom = read_dom(input_path)?;
+    let native_source_inventory = build_native_source_inventory(&dom);
 
     let player_handler_patch_count = patch_player_handler(&mut dom)?;
     let avatar_clone_ref = insert_compat_scripts(&mut dom)?;
@@ -265,6 +354,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "nativeAvatarEditorClonedToStarterGui": true,
         "nativeAvatarEditorCloneRef": format!("{:?}", avatar_clone_ref),
         "nativeAvatarEditorCloneChildren": avatar_instance.children().len(),
+        "nativeSourceInventory": native_source_inventory,
         "injected": {
             "client": "StarterGui/BrookhavenCompat",
             "clientSourceBytes": client_source_len,
