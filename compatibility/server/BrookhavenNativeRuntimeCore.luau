@@ -805,6 +805,51 @@ function RuntimeCore.applyHorseCustomization(horse, action, value)
 		return {ok = true, action = action, color = color}
 	end
 
+	if action == "BlackHorseFree" or action == "BrownHorseFree" then
+		local seat = horse:FindFirstChild("Seat")
+		local horseSeat = seat and seat:FindFirstChild("HorseSeat")
+		local preset = horseSeat and horseSeat:FindFirstChild(action == "BlackHorseFree" and "BlackHorse" or "BrownHorse")
+		if not preset then
+			return {ok = false, code = "horse_preset_missing"}
+		end
+		local actionByValue = {
+			HorseBodyColor = "PickingHorseBodyColor",
+			HorseHairColor = "PickingHorseHairColor",
+			HorseSaddleColor = "PickingSaddleColor",
+			HorseTexture = "PickingHorseTexture",
+		}
+		local applied = 0
+		for valueName, mappedAction in pairs(actionByValue) do
+			local stored = preset:FindFirstChild(valueName)
+			if stored and stored:IsA("StringValue") and stored.Value ~= "" then
+				local result = RuntimeCore.applyHorseCustomization(horse, mappedAction, stored.Value)
+				if result.ok then
+					applied += 1
+				end
+			end
+		end
+		return {ok = applied > 0, action = action, applied = applied, preset = preset.Name}
+	end
+
+	if action == "PickingHorseTexture" then
+		local color = resolvedColor3(value)
+		local raw = tostring(value or "")
+		local assetId = string.match(raw, "(%d+)")
+		local changed = 0
+		for _, item in ipairs(horse:GetDescendants()) do
+			if item:IsA("Texture") then
+				if color then
+					item.Color3 = color
+					changed += 1
+				elseif assetId then
+					item.Texture = "rbxassetid://" .. assetId
+					changed += 1
+				end
+			end
+		end
+		return {ok = changed > 0, action = action, changed = changed, color = color, assetId = assetId}
+	end
+
 	local color = resolvedColor3(value)
 	if not color then
 		return {ok = false, code = "invalid_horse_color"}
@@ -1055,6 +1100,9 @@ function RuntimeCore.runBehaviorProbe()
 	local horseBodyState = Instance.new("StringValue")
 	horseBodyState.Name = "Color"
 	horseBodyState.Parent = horseTorso
+	local horseTexture = Instance.new("Texture")
+	horseTexture.Name = "Texture"
+	horseTexture.Parent = horseTorso
 	local horseMane = Instance.new("Part")
 	horseMane.Name = "Mane"
 	horseMane.Parent = horseFixture
@@ -1070,16 +1118,40 @@ function RuntimeCore.runBehaviorProbe()
 	local horseSaddle = Instance.new("Part")
 	horseSaddle.Name = "Saddle"
 	horseSaddle.Parent = horseFixture
+	local horseSeat = Instance.new("Part")
+	horseSeat.Name = "Seat"
+	horseSeat.Parent = horseFixture
+	local horseSeatScript = Instance.new("Script")
+	horseSeatScript.Name = "HorseSeat"
+	horseSeatScript.Parent = horseSeat
+	local blackPreset = Instance.new("Folder")
+	blackPreset.Name = "BlackHorse"
+	blackPreset.Parent = horseSeatScript
+	for valueName, storedValue in pairs({
+		HorseBodyColor = "Really black",
+		HorseHairColor = "Really black",
+		HorseSaddleColor = "Brown",
+		HorseTexture = "Really black",
+	}) do
+		local stored = Instance.new("StringValue")
+		stored.Name = valueName
+		stored.Value = storedValue
+		stored.Parent = blackPreset
+	end
 	local horseNameResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseName", "Comet")
 	local horseNameColorResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseNameColor", Color3.fromRGB(255, 0, 0))
 	local horseBodyResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseBodyColor", Color3.fromRGB(163, 162, 165))
 	local horseHairResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseHairColor", Color3.fromRGB(17, 17, 17))
 	local horseSaddleResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingSaddleColor", Color3.fromRGB(124, 92, 70))
+	local horseTextureResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseTexture", Color3.fromRGB(255, 0, 0))
+	local horsePresetResult = RuntimeCore.applyHorseCustomization(horseFixture, "BlackHorseFree")
 	local horseCustomizationOk = horseNameResult.ok
 		and horseNameColorResult.ok
 		and horseBodyResult.ok
 		and horseHairResult.ok
 		and horseSaddleResult.ok
+		and horseTextureResult.ok
+		and horsePresetResult.ok
 		and horseNameText.Text == "Comet"
 		and horseNameText.TextColor3 == Color3.fromRGB(255, 0, 0)
 		and horseTorso.Color == Color3.fromRGB(163, 162, 165)
@@ -1213,7 +1285,7 @@ function RuntimeCore.runBehaviorProbe()
 		ok = vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
 		horseLifecycle = {ok = horseLifecycleOk, inspected = horseLifecycleInspect, mounted = horseLifecycleMounted, restored = horseLifecycleRestored},
-		horseCustomization = {ok = horseCustomizationOk, name = horseNameResult, nameColor = horseNameColorResult, body = horseBodyResult, hair = horseHairResult, saddle = horseSaddleResult},
+		horseCustomization = {ok = horseCustomizationOk, name = horseNameResult, nameColor = horseNameColorResult, body = horseBodyResult, hair = horseHairResult, saddle = horseSaddleResult, texture = horseTextureResult, preset = horsePresetResult},
 		hairColor = {ok = hairColorOk, result = hairResult},
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
