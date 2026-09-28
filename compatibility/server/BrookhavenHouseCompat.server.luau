@@ -551,385 +551,54 @@ print(
 	" preloadedOccupied=" .. tostring(preloadedOccupiedCount)
 )
 
-
 -- ---------------------------------------------------------------------------
--- StarBlox learning economy + functional avatar editor/shop compatibility.
--- This is deliberately layered onto the untouched Brookhaven world/UI.
+-- Native Brookhaven runtime restoration.
+--
+-- The pinned place still contains Brookhaven's original client controllers and UI,
+-- but nearly all original server Script source is absent. These handlers restore
+-- the server contract those native clients already call. No replacement shop or
+-- avatar UI is created here.
 -- ---------------------------------------------------------------------------
 
-local EconomyDataStoreService = game:GetService("DataStoreService")
-local economyStore = EconomyDataStoreService:GetDataStore("StarBloxLearningEconomy_v1")
+local MarketplaceService = game:GetService("MarketplaceService")
+local ServerStorageService = game:GetService("ServerStorage")
 
-local economyRoot = ReplicatedStorage:FindFirstChild("StarBloxLearningEconomy")
-if economyRoot then
-	economyRoot:Destroy()
-end
-economyRoot = Instance.new("Folder")
-economyRoot.Name = "StarBloxLearningEconomy"
-economyRoot.Parent = ReplicatedStorage
-
-local function makeRemoteFunction(name)
-	local remote = Instance.new("RemoteFunction")
-	remote.Name = name
-	remote.Parent = economyRoot
-	return remote
-end
-
-local getEconomyState = makeRemoteFunction("GetState")
-local purchasePack = makeRemoteFunction("PurchasePack")
-local avatarAction = makeRemoteFunction("AvatarAction")
-local getPracticeQuestion = makeRemoteFunction("GetPracticeQuestion")
-local submitPracticeAnswer = makeRemoteFunction("SubmitPracticeAnswer")
-
-local economyChanged = Instance.new("RemoteEvent")
-economyChanged.Name = "StateChanged"
-economyChanged.Parent = economyRoot
-
-local learningReward = ServerStorage:FindFirstChild("StarBloxLearningReward")
-if learningReward then
-	learningReward:Destroy()
-end
-learningReward = Instance.new("BindableEvent")
-learningReward.Name = "StarBloxLearningReward"
-learningReward.Parent = ServerStorage
-
-local PACKS = {
-	fashion = {
-		Name = "Fashion Pack",
-		Description = "5 fashion & roleplay outfits",
-		Price = 60,
-		Outfits = {"WorkerPink", "WorkerWhite", "BlackSuit", "Maid", "CowGirl"},
-	},
-	rescue = {
-		Name = "Rescue & City Pack",
-		Description = "6 police, fire & medical outfits",
-		Price = 70,
-		Outfits = {"Chief", "FireRed", "FireYellow", "PoliceDarkBlue", "Ems", "FBI"},
-	},
-	roleplay = {
-		Name = "Roleplay Pack",
-		Description = "5 extra roleplay outfits",
-		Price = 60,
-		Outfits = {"CowBoy", "Criminal", "Criminal2", "Prisoner", "Homeless"},
-	},
-	holiday = {
-		Name = "Holiday Pack",
-		Description = "3 holiday outfits",
-		Price = 80,
-		Outfits = {"SantaRed", "Elf", "SantaBlack"},
-	},
-	premium = {
-		Name = "Premium House Pack",
-		Description = "Unlock premium house features",
-		Price = 180,
-		Outfits = {},
-		Passes = {SilverPass = true},
-	},
-	music = {
-		Name = "Music Pack",
-		Description = "Unlock Brookhaven music controls",
-		Price = 80,
-		Outfits = {},
-		Passes = {MusicPass = true},
-	},
-	fire = {
-		Name = "House Effects Pack",
-		Description = "Unlock on-demand house effects",
-		Price = 100,
-		Outfits = {},
-		Passes = {FirePass = true},
-	},
-	horse = {
-		Name = "Horse Style Pack",
-		Description = "Unlock horse styling controls",
-		Price = 100,
-		Outfits = {},
-		Passes = {HorsePass = true},
-	},
-	vehicle = {
-		Name = "Vehicle Upgrade",
-		Description = "Vehicle colors + faster driving",
-		Price = 120,
-		Outfits = {},
-		Passes = {ColorSpeedPassLower = true},
-		Numbers = {VehicleSpeed = 70, SpeedPassNoMotorVehicle = 35},
-	},
-	speed = {
-		Name = "200 MPH Speed",
-		Description = "Unlock 200 MPH street speed",
-		Price = 160,
-		Outfits = {},
-		Passes = {SpeedPass200 = true},
-		Numbers = {VehicleSpeed = 200},
-	},
-}
-
-local FREE_OUTFITS = {
-	PoliceLightBlue = true,
-	DoctorBlue = true,
-	Lifeguard = true,
-	Dancer = true,
-}
-
-local OUTFITS = {
-	PoliceLightBlue = {Shirt = 5104356969, Pants = 5104554099},
-	Prisoner = {Shirt = 5104363121, Pants = 5104388889},
-	DoctorBlue = {Shirt = 5104359800, Pants = 5104384847},
-	Criminal = {Shirt = 5104357530, Pants = 5104383348},
-	Chief = {Shirt = 5104355165, Pants = 5104381930},
-	FireRed = {Shirt = 5103195987, Pants = 5104387877},
-	FireYellow = {Shirt = 5104362567, Pants = 5104387571},
-	PoliceDarkBlue = {Shirt = 5104364229, Pants = 5104389242},
-	WorkerPink = {Shirt = 5104364739, Pants = 5104390116},
-	Ems = {Shirt = 5104360914, Pants = 5104386076},
-	FBI = {Shirt = 5104361445, Pants = 5104386472},
-	WorkerWhite = {Shirt = 5104365947, Pants = 5104390116},
-	Criminal2 = {Shirt = 5104359284, Pants = 5104384456},
-	Lifeguard = {Shirt = 5644792928, Pants = 5644793548},
-	Dancer = {Shirt = 229505432, Pants = 5846266654},
-	Homeless = {Shirt = 229505432, Pants = 5846263819},
-	BlackSuit = {Shirt = 5994831990, Pants = 5994836799},
-	Maid = {Shirt = 229505432, Pants = 5996993717},
-	CowBoy = {Shirt = 5996986757, Pants = 5996990103},
-	CowGirl = {Shirt = 5997309428, Pants = 5997323809},
-	SantaRed = {Shirt = 5994831185, Pants = 5994833583},
-	Elf = {Shirt = 5994826937, Pants = 5994833063},
-	SantaBlack = {Shirt = 5996808541, Pants = 5996809284},
-}
-
-local SKIN_TONES = {
-	Color3.fromRGB(255, 219, 172),
-	Color3.fromRGB(241, 194, 125),
-	Color3.fromRGB(224, 172, 105),
-	Color3.fromRGB(198, 134, 66),
-	Color3.fromRGB(141, 85, 36),
-	Color3.fromRGB(92, 51, 23),
-	Color3.fromRGB(255, 204, 188),
-	Color3.fromRGB(205, 133, 92),
-}
-
-local ACCESSORY_FIELDS = {
-	Hair = "HairAccessory",
-	Hats = "HatAccessory",
-	Face = "FaceAccessory",
-	Back = "BackAccessory",
-	Waist = "WaistAccessory",
-}
-
-local PRACTICE_QUESTIONS = {
-	{id="ela-short-vowel-1", prompt="Which word has the short a sound?", choices={"cat","cake","rain"}, answer="cat", hint="Think about the sound in apple."},
-	{id="ela-plural-1", prompt="Which plural is correct for box?", choices={"boxs","boxes","boxies"}, answer="boxes", hint="Words ending in x usually add -es."},
-	{id="ela-sentence-1", prompt="Which is a complete sentence?", choices={"The dog ran.","Running fast.","In the yard."}, answer="The dog ran.", hint="A complete sentence tells who or what and what happened."},
-	{id="math-add-1", prompt="What is 27 + 15?", choices={"32","42","52"}, answer="42", hint="Add the ones, then the tens."},
-	{id="math-sub-1", prompt="What is 54 - 18?", choices={"36","44","46"}, answer="36", hint="Regroup one ten if you need to."},
-	{id="math-place-1", prompt="In 347, what digit is in the tens place?", choices={"3","4","7"}, answer="4", hint="Hundreds, tens, ones."},
-	{id="math-time-1", prompt="30 minutes after 2:15 is...", choices={"2:35","2:45","3:15"}, answer="2:45", hint="Add half an hour."},
-	{id="math-fraction-1", prompt="One out of two equal parts is...", choices={"one half","one third","one fourth"}, answer="one half", hint="The bottom number tells the total equal parts."},
-	{id="ela-meaning-1", prompt="If Mia was exhausted, she was...", choices={"very tired","very loud","very hungry"}, answer="very tired", hint="Use the meaning of the word in context."},
-	{id="math-money-1", prompt="Two quarters are worth...", choices={"25 cents","50 cents","75 cents"}, answer="50 cents", hint="Each quarter is 25 cents."},
-	{id="ela-verb-1", prompt="Which word is the action word: Birds sing loudly.", choices={"Birds","sing","loudly"}, answer="sing", hint="What are the birds doing?"},
-	{id="math-pattern-1", prompt="What comes next: 5, 10, 15, 20, ...", choices={"21","25","30"}, answer="25", hint="The pattern adds the same amount each time."},
-}
-
-local economyStates = {}
-local economyLoaded = {}
-
-local function todayKey()
-	return os.date("!%Y-%m-%d")
-end
-
-local function newEconomyState()
-	return {
-		Coins = 50,
-		OwnedPacks = {},
-		SelectedOutfit = nil,
-		Scale = 1,
-		SkinTone = nil,
-		AccessoryHidden = {},
-		PracticeDay = todayKey(),
-		CompletedPractice = {},
-		CurrentPractice = nil,
-	}
-end
-
-local function sanitizeEconomy(raw)
-	local state = newEconomyState()
-	if type(raw) ~= "table" then
-		return state
-	end
-	state.Coins = math.clamp(math.floor(tonumber(raw.Coins) or state.Coins), 0, 1000000)
-	if type(raw.OwnedPacks) == "table" then
-		for id, owned in pairs(raw.OwnedPacks) do
-			if PACKS[id] and owned == true then
-				state.OwnedPacks[id] = true
-			end
-		end
-	end
-	if type(raw.SelectedOutfit) == "string" and OUTFITS[raw.SelectedOutfit] then
-		state.SelectedOutfit = raw.SelectedOutfit
-	end
-	state.Scale = math.clamp(tonumber(raw.Scale) or 1, 0.75, 1.25)
-	local tone = tonumber(raw.SkinTone)
-	if tone and SKIN_TONES[tone] then
-		state.SkinTone = tone
-	end
-	if type(raw.AccessoryHidden) == "table" then
-		for _, property in pairs(ACCESSORY_FIELDS) do
-			if raw.AccessoryHidden[property] == true then
-				state.AccessoryHidden[property] = true
-			end
-		end
-	end
-	state.PracticeDay = type(raw.PracticeDay) == "string" and raw.PracticeDay or todayKey()
-	if state.PracticeDay == todayKey() and type(raw.CompletedPractice) == "table" then
-		for id, done in pairs(raw.CompletedPractice) do
-			if done == true then
-				state.CompletedPractice[id] = true
-			end
-		end
-	else
-		state.PracticeDay = todayKey()
-		state.CompletedPractice = {}
-	end
-	return state
-end
-
-local function stateKey(player)
-	return "u_" .. tostring(player.UserId)
-end
-
-local function loadEconomy(player)
-	if economyLoaded[player] then
-		return economyStates[player]
-	end
-	local raw = nil
-	pcall(function()
-		raw = economyStore:GetAsync(stateKey(player))
-	end)
-	local state = sanitizeEconomy(raw)
-	economyStates[player] = state
-	economyLoaded[player] = true
-	player:SetAttribute("StarCoins", state.Coins)
-	return state
-end
-
-local function saveEconomy(player)
-	local state = economyStates[player]
-	if not state then return end
-	local snapshot = {
-		Coins = state.Coins,
-		OwnedPacks = state.OwnedPacks,
-		SelectedOutfit = state.SelectedOutfit,
-		Scale = state.Scale,
-		SkinTone = state.SkinTone,
-		AccessoryHidden = state.AccessoryHidden,
-		PracticeDay = state.PracticeDay,
-		CompletedPractice = state.CompletedPractice,
-	}
-	pcall(function()
-		economyStore:SetAsync(stateKey(player), snapshot)
-	end)
-end
-
-local function ownedOutfits(state)
-	local result = {}
-	for name in pairs(FREE_OUTFITS) do
-		result[name] = true
-	end
-	for packId, owned in pairs(state.OwnedPacks) do
-		if owned and PACKS[packId] then
-			for _, outfitName in ipairs(PACKS[packId].Outfits) do
-				result[outfitName] = true
-			end
-		end
-	end
-	return result
-end
-
-local function applyLegacyPackFlags(player, state)
-	local bag = ensureBag(player)
-	for packId, owned in pairs(state.OwnedPacks) do
-		local pack = PACKS[packId]
-		if owned and pack then
-			for name, value in pairs(pack.Passes or {}) do
-				local flag = bag:FindFirstChild(name)
-				if flag and flag:IsA("BoolValue") then flag.Value = value == true end
-			end
-			for name, value in pairs(pack.Numbers or {}) do
-				local number = bag:FindFirstChild(name)
-				if number and number:IsA("NumberValue") then number.Value = tonumber(value) or number.Value end
-			end
-		end
-	end
-end
-
-local function publicEconomyState(player)
-	local state = loadEconomy(player)
-	local packs = {}
-	for id, pack in pairs(PACKS) do
-		table.insert(packs, {
-			Id = id,
-			Name = pack.Name,
-			Description = pack.Description,
-			Price = pack.Price,
-			Owned = state.OwnedPacks[id] == true,
-			Outfits = pack.Outfits,
-		})
-	end
-	table.sort(packs, function(a,b) return a.Price < b.Price end)
-	return {
-		ok = true,
-		coins = state.Coins,
-		packs = packs,
-		ownedOutfits = ownedOutfits(state),
-		selectedOutfit = state.SelectedOutfit,
-		scale = state.Scale,
-		skinTone = state.SkinTone,
-		practiceRemaining = #PRACTICE_QUESTIONS,
-	}
-end
-
-local function emitEconomy(player)
-	local state = economyStates[player]
-	if not state then return end
-	player:SetAttribute("StarCoins", state.Coins)
-	economyChanged:FireClient(player, publicEconomyState(player))
-end
-
-local function addCoins(player, amount, reason)
-	local state = loadEconomy(player)
-	local safeAmount = math.clamp(math.floor(tonumber(amount) or 0), 0, 500)
-	if safeAmount <= 0 then return 0 end
-	state.Coins = math.clamp(state.Coins + safeAmount, 0, 1000000)
-	emitEconomy(player)
-	return safeAmount
-end
-
-learningReward.Event:Connect(function(player, amount, reason)
-	if typeof(player) ~= "Instance" or not player:IsA("Player") then return end
-	addCoins(player, amount, reason)
-end)
+local clothesRemote = remotes:WaitForChild("Clothes")
+local updateAvatarRemote = remotes:WaitForChild("UpdateAvatar")
+local resetAvatarRemote = remotes:WaitForChild("AvatarOriginalCharacterClient")
+local passRemote = remotes:WaitForChild("Pass")
+local carRemote = remotes:WaitForChild("Car")
+local playersCarRemote = remotes:WaitForChild("PlayersCar")
+local keyFabRemote = remotes:WaitForChild("KeyFab")
+local toolsRemote = remotes:WaitForChild("Tools")
+local clearToolsRemote = remotes:WaitForChild("ClearTools")
+local noMotorRemote = remotes:WaitForChild("NoMotorVehicles")
 
 local function getHumanoid(player)
 	local character = player.Character
-	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-	return humanoid
+	return character and character:FindFirstChildOfClass("Humanoid") or nil
 end
 
-local function getAppliedDescription(player)
+local function getDescription(player)
 	local humanoid = getHumanoid(player)
-	if not humanoid then return nil end
+	if not humanoid then
+		return nil
+	end
 	local ok, description = pcall(function()
 		return humanoid:GetAppliedDescription()
 	end)
-	if ok then return description end
+	if ok then
+		return description
+	end
 	return nil
 end
 
 local function applyDescription(player, description)
 	local humanoid = getHumanoid(player)
 	if not humanoid or not description then
-		if description then description:Destroy() end
+		if description then
+			description:Destroy()
+		end
 		return false
 	end
 	local ok = pcall(function()
@@ -939,295 +608,320 @@ local function applyDescription(player, description)
 	return ok
 end
 
-local function applySavedAvatar(player)
-	local state = loadEconomy(player)
+local fallbackSkinTones = {
+	Alder = Color3.fromRGB(180, 128, 255),
+	Black = Color3.fromRGB(27, 42, 53),
+	Brown = Color3.fromRGB(124, 92, 70),
+	["Pastel light blue"] = Color3.fromRGB(128, 187, 219),
+	Flint = Color3.fromRGB(105, 102, 92),
+	["Deep orange"] = Color3.fromRGB(255, 176, 0),
+	["Forest green"] = Color3.fromRGB(31, 128, 29),
+	["Hot pink"] = Color3.fromRGB(255, 0, 191),
+	["Institutional white"] = Color3.fromRGB(248, 248, 248),
+	["Light orange"] = Color3.fromRGB(234, 184, 146),
+	["Lime green"] = Color3.fromRGB(0, 255, 0),
+	Magenta = Color3.fromRGB(170, 0, 170),
+	["Medium stone grey"] = Color3.fromRGB(163, 162, 165),
+	["Navy blue"] = Color3.fromRGB(0, 32, 96),
+	["New Yeller"] = Color3.fromRGB(255, 255, 0),
+	["Really black"] = Color3.fromRGB(17, 17, 17),
+	["Really blue"] = Color3.fromRGB(0, 0, 255),
+	["Really red"] = Color3.fromRGB(255, 0, 0),
+	["Royal purple"] = Color3.fromRGB(98, 37, 209),
+	Toothpaste = Color3.fromRGB(0, 255, 255),
+}
+local skinTones = fallbackSkinTones
+pcall(function()
+	local avatarScripts = ReplicatedStorage:WaitForChild("AvatarEditorScipts")
+	local skinModule = avatarScripts:WaitForChild("Catalog"):WaitForChild("Appearance"):WaitForChild("SkinTone")
+	local loaded = require(skinModule)
+	if type(loaded) == "table" then
+		skinTones = loaded
+	end
+end)
+
+local function setBodyColor(description, color)
+	description.HeadColor = color
+	description.LeftArmColor = color
+	description.RightArmColor = color
+	description.LeftLegColor = color
+	description.RightLegColor = color
+	description.TorsoColor = color
+end
+
+local function applyNativeAvatarMutation(description, action, a, b)
+	if not description then
+		return {ok = false, code = "description_missing"}
+	end
+	if action == "outfit" then
+		local shirt = tonumber(a)
+		local pants = tonumber(b)
+		if not shirt or not pants then
+			return {ok = false, code = "invalid_outfit"}
+		end
+		description.Shirt = shirt
+		description.Pants = pants
+		return {ok = true, action = action, shirt = shirt, pants = pants}
+	elseif action == "scale" then
+		local scale = math.clamp(tonumber(a) or 1, 0.5, 1)
+		description.HeightScale = scale
+		description.WidthScale = math.clamp(0.85 + (scale - 0.5) * 0.3, 0.85, 1)
+		description.DepthScale = math.clamp(0.85 + (scale - 0.5) * 0.3, 0.85, 1)
+		description.HeadScale = math.clamp(0.9 + (scale - 0.5) * 0.2, 0.9, 1)
+		return {ok = true, action = action, scale = scale}
+	elseif action == "skintone" then
+		local color = skinTones[tostring(a)]
+		if typeof(color) ~= "Color3" then
+			return {ok = false, code = "unknown_skin_tone"}
+		end
+		setBodyColor(description, color)
+		return {ok = true, action = action, skinTone = tostring(a)}
+	end
+	return {ok = false, code = "unknown_avatar_action"}
+end
+
+local function enumAssetTypeValue(name)
+	local item = nil
+	pcall(function()
+		item = Enum.AssetType[name]
+	end)
+	return item and item.Value or nil
+end
+
+local accessoryFieldByType = {}
+for _, row in ipairs({
+	{"Hat", "HatAccessory"},
+	{"HairAccessory", "HairAccessory"},
+	{"FaceAccessory", "FaceAccessory"},
+	{"NeckAccessory", "NeckAccessory"},
+	{"ShoulderAccessory", "ShouldersAccessory"},
+	{"FrontAccessory", "FrontAccessory"},
+	{"BackAccessory", "BackAccessory"},
+	{"WaistAccessory", "WaistAccessory"},
+}) do
+	local value = enumAssetTypeValue(row[1])
+	if value then
+		accessoryFieldByType[value] = row[2]
+	end
+end
+
+local singleFieldByType = {}
+for _, row in ipairs({
+	{"TShirt", "GraphicTShirt"},
+	{"Shirt", "Shirt"},
+	{"Pants", "Pants"},
+	{"Face", "Face"},
+	{"Head", "Head"},
+	{"Torso", "Torso"},
+	{"LeftArm", "LeftArm"},
+	{"RightArm", "RightArm"},
+	{"LeftLeg", "LeftLeg"},
+	{"RightLeg", "RightLeg"},
+}) do
+	local value = enumAssetTypeValue(row[1])
+	if value then
+		singleFieldByType[value] = row[2]
+	end
+end
+
+local function csvContains(text, id)
+	local wanted = tostring(id)
+	for token in string.gmatch(tostring(text or ""), "[^,%s]+") do
+		if token == wanted then
+			return true
+		end
+	end
+	return false
+end
+
+local function toggleCsv(text, id)
+	local wanted = tostring(id)
+	local values = {}
+	local present = false
+	for token in string.gmatch(tostring(text or ""), "[^,%s]+") do
+		if token == wanted then
+			present = true
+		else
+			table.insert(values, token)
+		end
+	end
+	if not present then
+		table.insert(values, wanted)
+	end
+	return table.concat(values, ","), not present
+end
+
+local appearanceAssets = {}
+
+local function seedAppearance(player)
+	local state = {}
+	local ok, info = pcall(function()
+		return Players:GetCharacterAppearanceInfoAsync(player.UserId)
+	end)
+	if ok and type(info) == "table" then
+		for _, asset in ipairs(info.assets or {}) do
+			local id = tonumber(asset.id)
+			if id then
+				state[id] = asset
+			end
+		end
+	end
+	appearanceAssets[player] = state
+	return state
+end
+
+local function pushAppearance(player)
+	local state = appearanceAssets[player] or seedAppearance(player)
+	local assets = {}
+	for _, asset in pairs(state) do
+		table.insert(assets, asset)
+	end
+	updateAvatarRemote:FireClient(player, {assets = assets})
+end
+
+local function toggleAvatarAsset(player, assetId)
+	assetId = math.floor(tonumber(assetId) or 0)
+	if assetId <= 0 then
+		return {ok = false, code = "invalid_asset"}
+	end
+	local okInfo, info = pcall(function()
+		return MarketplaceService:GetProductInfo(assetId, Enum.InfoType.Asset)
+	end)
+	if not okInfo or type(info) ~= "table" then
+		return {ok = false, code = "asset_info_failed"}
+	end
+	local assetTypeId = tonumber(info.AssetTypeId)
+	local description = getDescription(player)
+	if not description then
+		return {ok = false, code = "avatar_unavailable"}
+	end
+
+	local enabled = true
+	local field = accessoryFieldByType[assetTypeId]
+	if field then
+		local current = ""
+		pcall(function()
+			current = description[field]
+		end)
+		local nextValue
+		nextValue, enabled = toggleCsv(current, assetId)
+		local okSet = pcall(function()
+			description[field] = nextValue
+		end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "asset_apply_failed"}
+		end
+	else
+		field = singleFieldByType[assetTypeId]
+		if not field then
+			description:Destroy()
+			return {ok = false, code = "unsupported_asset_type", assetTypeId = assetTypeId}
+		end
+		local current = 0
+		pcall(function()
+			current = tonumber(description[field]) or 0
+		end)
+		enabled = current ~= assetId
+		local okSet = pcall(function()
+			description[field] = enabled and assetId or 0
+		end)
+		if not okSet then
+			description:Destroy()
+			return {ok = false, code = "asset_apply_failed"}
+		end
+	end
+
+	if not applyDescription(player, description) then
+		return {ok = false, code = "avatar_apply_failed"}
+	end
+	local state = appearanceAssets[player] or seedAppearance(player)
+	if enabled then
+		state[assetId] = {id = assetId, name = tostring(info.Name or assetId)}
+	else
+		state[assetId] = nil
+	end
+	pushAppearance(player)
+	return {ok = true, action = "wear", assetId = assetId, enabled = enabled}
+end
+
+clothesRemote.OnServerEvent:Connect(function(player, action, a, b)
+	local description = getDescription(player)
+	if not description then
+		return
+	end
+	local result
+	if action == "outfit" then
+		result = applyNativeAvatarMutation(description, "outfit", a, b)
+	elseif action == "CharacterSizeUp" or action == "CharacterSizeDown" then
+		result = applyNativeAvatarMutation(description, "scale", a)
+	else
+		description:Destroy()
+		return
+	end
+	if result.ok then
+		applyDescription(player, description)
+	else
+		description:Destroy()
+	end
+end)
+
+updateAvatarRemote.OnServerEvent:Connect(function(player, action, value)
+	if action == "wear" or action == "wearPremium" then
+		toggleAvatarAsset(player, value)
+	elseif action == "skintone" then
+		local description = getDescription(player)
+		if not description then
+			return
+		end
+		local result = applyNativeAvatarMutation(description, "skintone", value)
+		if result.ok then
+			applyDescription(player, description)
+		else
+			description:Destroy()
+		end
+	end
+end)
+
+resetAvatarRemote.OnServerEvent:Connect(function(player)
 	local description = nil
 	local ok = pcall(function()
 		description = Players:GetHumanoidDescriptionFromUserId(player.UserId)
 	end)
-	if not ok or not description then return end
-	local outfitName = state.SelectedOutfit
-	if outfitName and OUTFITS[outfitName] and ownedOutfits(state)[outfitName] then
-		description.Shirt = OUTFITS[outfitName].Shirt
-		description.Pants = OUTFITS[outfitName].Pants
-	end
-	local scale = math.clamp(state.Scale, 0.75, 1.25)
-	description.HeightScale = scale
-	description.WidthScale = math.clamp(0.9 + ((scale - 1) * 0.55), 0.8, 1.05)
-	description.DepthScale = math.clamp(0.9 + ((scale - 1) * 0.55), 0.8, 1.05)
-	description.HeadScale = math.clamp(1 - ((scale - 1) * 0.25), 0.9, 1.08)
-	if state.SkinTone and SKIN_TONES[state.SkinTone] then
-		local color = SKIN_TONES[state.SkinTone]
-		description.HeadColor = color
-		description.LeftArmColor = color
-		description.RightArmColor = color
-		description.LeftLegColor = color
-		description.RightLegColor = color
-		description.TorsoColor = color
-	end
-	for _, property in pairs(ACCESSORY_FIELDS) do
-		if state.AccessoryHidden[property] == true then
-			pcall(function()
-				description[property] = ""
-			end)
-		end
-	end
-	applyDescription(player, description)
-end
-
-getEconomyState.OnServerInvoke = function(player)
-	return publicEconomyState(player)
-end
-
-purchasePack.OnServerInvoke = function(player, packId)
-	if type(packId) ~= "string" or not PACKS[packId] then
-		return {ok=false, code="unknown_pack"}
-	end
-	local state = loadEconomy(player)
-	if state.OwnedPacks[packId] then
-		return publicEconomyState(player)
-	end
-	local price = PACKS[packId].Price
-	if state.Coins < price then
-		return {ok=false, code="not_enough_coins", coins=state.Coins, needed=price}
-	end
-	state.Coins -= price
-	state.OwnedPacks[packId] = true
-	applyLegacyPackFlags(player, state)
-	emitEconomy(player)
-	task.spawn(saveEconomy, player)
-	local result = publicEconomyState(player)
-	result.purchased = packId
-	return result
-end
-
-avatarAction.OnServerInvoke = function(player, action, value)
-	local state = loadEconomy(player)
-	if action == "ApplyOutfit" then
-		if type(value) ~= "string" or not OUTFITS[value] then
-			return {ok=false, code="unknown_outfit"}
-		end
-		if not ownedOutfits(state)[value] then
-			return {ok=false, code="locked", outfit=value}
-		end
-		local description = getAppliedDescription(player)
-		if not description then return {ok=false, code="avatar_unavailable"} end
-		description.Shirt = OUTFITS[value].Shirt
-		description.Pants = OUTFITS[value].Pants
-		if not applyDescription(player, description) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		state.SelectedOutfit = value
-		task.spawn(saveEconomy, player)
-		return {ok=true, outfit=value}
-	elseif action == "Scale" then
-		local delta = math.clamp(tonumber(value) or 0, -0.15, 0.15)
-		state.Scale = math.clamp(state.Scale + delta, 0.75, 1.25)
-		local description = getAppliedDescription(player)
-		if not description then return {ok=false, code="avatar_unavailable"} end
-		description.HeightScale = state.Scale
-		description.WidthScale = math.clamp(0.9 + ((state.Scale - 1) * 0.55), 0.8, 1.05)
-		description.DepthScale = math.clamp(0.9 + ((state.Scale - 1) * 0.55), 0.8, 1.05)
-		description.HeadScale = math.clamp(1 - ((state.Scale - 1) * 0.25), 0.9, 1.08)
-		if not applyDescription(player, description) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		task.spawn(saveEconomy, player)
-		return {ok=true, scale=state.Scale}
-	elseif action == "SkinTone" then
-		local index = math.floor(tonumber(value) or 0)
-		local color = SKIN_TONES[index]
-		if not color then return {ok=false, code="invalid_skin_tone"} end
-		local description = getAppliedDescription(player)
-		if not description then return {ok=false, code="avatar_unavailable"} end
-		description.HeadColor = color
-		description.LeftArmColor = color
-		description.RightArmColor = color
-		description.LeftLegColor = color
-		description.RightLegColor = color
-		description.TorsoColor = color
-		if not applyDescription(player, description) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		state.SkinTone = index
-		task.spawn(saveEconomy, player)
-		return {ok=true, skinTone=index}
-	elseif action == "SetScale" then
-		local target = math.clamp(tonumber(value) or 1, 0.75, 1.25)
-		state.Scale = target
-		local description = getAppliedDescription(player)
-		if not description then return {ok=false, code="avatar_unavailable"} end
-		description.HeightScale = target
-		description.WidthScale = math.clamp(0.9 + ((target - 1) * 0.55), 0.8, 1.05)
-		description.DepthScale = math.clamp(0.9 + ((target - 1) * 0.55), 0.8, 1.05)
-		description.HeadScale = math.clamp(1 - ((target - 1) * 0.25), 0.9, 1.08)
-		if not applyDescription(player, description) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		task.spawn(saveEconomy, player)
-		return {ok=true, scale=state.Scale}
-	elseif action == "ResetFace" then
-		local current = getAppliedDescription(player)
-		if not current then return {ok=false, code="avatar_unavailable"} end
-		local original = nil
-		local ok = pcall(function()
-			original = Players:GetHumanoidDescriptionFromUserId(player.UserId)
-		end)
-		if not ok or not original then
-			current:Destroy()
-			return {ok=false, code="avatar_unavailable"}
-		end
-		current.Face = original.Face
-		original:Destroy()
-		if not applyDescription(player, current) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		return {ok=true, faceReset=true}
-	elseif action == "ToggleAccessory" then
-		if type(value) ~= "string" or ACCESSORY_FIELDS[value] == nil then
-			return {ok=false, code="invalid_accessory"}
-		end
-		local property = ACCESSORY_FIELDS[value]
-		state.AccessoryHidden[property] = state.AccessoryHidden[property] ~= true
-		local current = getAppliedDescription(player)
-		if not current then return {ok=false, code="avatar_unavailable"} end
-		local original = nil
-		local ok = pcall(function()
-			original = Players:GetHumanoidDescriptionFromUserId(player.UserId)
-		end)
-		if not ok or not original then
-			current:Destroy()
-			return {ok=false, code="avatar_unavailable"}
-		end
-		if state.AccessoryHidden[property] then
-			current[property] = ""
-		else
-			current[property] = original[property]
-		end
-		original:Destroy()
-		if not applyDescription(player, current) then
-			return {ok=false, code="avatar_apply_failed"}
-		end
-		task.spawn(saveEconomy, player)
-		return {ok=true, accessory=value, hidden=state.AccessoryHidden[property]}
-	elseif action == "Reset" then
-		local description = nil
-		local ok = pcall(function()
-			description = Players:GetHumanoidDescriptionFromUserId(player.UserId)
-		end)
-		if not ok or not description then return {ok=false, code="avatar_unavailable"} end
-		if not applyDescription(player, description) then return {ok=false, code="avatar_apply_failed"} end
-		state.SelectedOutfit = nil
-		state.Scale = 1
-		state.SkinTone = nil
-		state.AccessoryHidden = {}
-		task.spawn(saveEconomy, player)
-		return {ok=true, reset=true}
-	end
-	return {ok=false, code="unknown_action"}
-end
-
-local function ensurePracticeDay(state)
-	if state.PracticeDay ~= todayKey() then
-		state.PracticeDay = todayKey()
-		state.CompletedPractice = {}
-		state.CurrentPractice = nil
-	end
-end
-
-getPracticeQuestion.OnServerInvoke = function(player)
-	local state = loadEconomy(player)
-	ensurePracticeDay(state)
-	for _, question in ipairs(PRACTICE_QUESTIONS) do
-		if state.CompletedPractice[question.id] ~= true then
-			state.CurrentPractice = question.id
-			return {
-				ok=true,
-				id=question.id,
-				prompt=question.prompt,
-				choices=question.choices,
-				remaining=#PRACTICE_QUESTIONS,
-			}
-		end
-	end
-	state.CurrentPractice = nil
-	return {ok=true, done=true, message="All practice rewards earned for today."}
-end
-
-submitPracticeAnswer.OnServerInvoke = function(player, questionId, choice)
-	local state = loadEconomy(player)
-	ensurePracticeDay(state)
-	if type(questionId) ~= "string" or state.CurrentPractice ~= questionId then
-		return {ok=false, code="stale_question"}
-	end
-	local found = nil
-	for _, question in ipairs(PRACTICE_QUESTIONS) do
-		if question.id == questionId then found = question break end
-	end
-	if not found or state.CompletedPractice[questionId] then
-		return {ok=false, code="already_answered"}
-	end
-	local correct = tostring(choice) == found.answer
-	local reward = correct and 10 or 3
-	state.CompletedPractice[questionId] = true
-	state.CurrentPractice = nil
-	addCoins(player, reward, correct and "practice_correct" or "practice_attempt")
-	task.spawn(saveEconomy, player)
-	return {
-		ok=true,
-		correct=correct,
-		reward=reward,
-		coins=state.Coins,
-		hint=correct and "Nice work!" or ("Answer: "..found.answer..". "..found.hint),
-	}
-end
-
-local function setupEconomyPlayer(player)
-	local state = loadEconomy(player)
-	applyLegacyPackFlags(player, state)
-	player.CharacterAdded:Connect(function()
-		task.delay(1.25, function()
-			if player.Parent then applySavedAvatar(player) end
-		end)
-	end)
-	if player.Character then
-		task.delay(1.25, function()
-			if player.Parent then applySavedAvatar(player) end
-		end)
-	end
-end
-
-Players.PlayerAdded:Connect(setupEconomyPlayer)
-Players.PlayerRemoving:Connect(function(player)
-	saveEconomy(player)
-	economyStates[player] = nil
-	economyLoaded[player] = nil
-end)
-for _, player in ipairs(Players:GetPlayers()) do
-	task.spawn(setupEconomyPlayer, player)
-end
-
-game:BindToClose(function()
-	for _, player in ipairs(Players:GetPlayers()) do
-		saveEconomy(player)
+	if ok and description and applyDescription(player, description) then
+		seedAppearance(player)
+		pushAppearance(player)
 	end
 end)
 
-print("STARBLOX_LEARNING_ECONOMY_READY packs=10 outfits=23 questions="..tostring(#PRACTICE_QUESTIONS))
+local PASS_ACTIONS = {
+	BoughtMusic = {flag = "MusicPass"},
+	BoughtPremium = {flag = "SilverPass"},
+	BoughtColorSpeedLower = {flag = "ColorSpeedPassLower", vehicleSpeed = 70, noMotorSpeed = 35},
+	BoughtSpeed200 = {flag = "SpeedPass200", vehicleSpeed = 200, noMotorSpeed = 45},
+	BoughtHorse = {flag = "HorsePass"},
+	BoughtFire = {flag = "FirePass"},
+}
 
-
--- ---------------------------------------------------------------------------
--- Brookhaven vehicle spawning compatibility.
--- The legacy UI names match the original models in ReplicatedStorage/003_CarBackup.
--- ---------------------------------------------------------------------------
-
-local vehicleCompat = ReplicatedStorage:FindFirstChild("StarBloxVehicleCompat")
-if vehicleCompat then
-	vehicleCompat:Destroy()
+local function applyPassActionToBag(bag, action)
+	local def = PASS_ACTIONS[action]
+	if not def then
+		return {ok = false, code = "unknown_pass_action"}
+	end
+	ensureValue(bag, "BoolValue", def.flag, false).Value = true
+	if def.vehicleSpeed then
+		ensureValue(bag, "NumberValue", "VehicleSpeed", 55).Value = def.vehicleSpeed
+	end
+	if def.noMotorSpeed then
+		ensureValue(bag, "NumberValue", "SpeedPassNoMotorVehicle", 25).Value = def.noMotorSpeed
+	end
+	return {ok = true, action = action, flag = def.flag}
 end
-vehicleCompat = Instance.new("RemoteFunction")
-vehicleCompat.Name = "StarBloxVehicleCompat"
-vehicleCompat.Parent = ReplicatedStorage
+
+passRemote.OnServerEvent:Connect(function(player, action)
+	local bag = ensureBag(player)
+	applyPassActionToBag(bag, tostring(action))
+end)
 
 local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
 local singleVehicles = ReplicatedStorage:FindFirstChild("SingleVehicles")
@@ -1238,126 +932,538 @@ if not liveVehicles then
 	liveVehicles.Parent = Workspace
 end
 
-local MOTOR_VEHICLES = {
-	Ambulance=true, Bus=true, Cadillac=true, Challenger=true, CopChallenger=true,
-	CopLambo=true, CopUnderCoverSUV=true, FireTruck=true, Ford4x4Truck=true,
-	GolfCart=true, Jeep=true, Lambo=true, Limo=true, Quad=true, QuadStock=true, Van=true,
-}
-local SINGLE_VEHICLES = {
-	Scooter=true,
-	SkateBoard=true,
-}
 local activeVehicleByPlayer = {}
+local activeNoMotorByPlayer = {}
+local vehicleSeatConnections = {}
+local vehicleLockState = {}
 local lastVehicleSpawn = {}
 
-local function removePlayerVehicle(player)
-	local current = activeVehicleByPlayer[player]
-	if current and current.Parent then
-		current:Destroy()
+local function disconnectVehicle(model)
+	local connections = vehicleSeatConnections[model]
+	if connections then
+		for _, connection in ipairs(connections) do
+			connection:Disconnect()
+		end
 	end
-	activeVehicleByPlayer[player] = nil
+	vehicleSeatConnections[model] = nil
+	vehicleLockState[model] = nil
+end
 
-	-- Clean up a stale compatibility vehicle from an earlier character life/server call.
-	for _, model in ipairs(liveVehicles:GetChildren()) do
-		if model:IsA("Model") and model:GetAttribute("StarBloxVehicleOwnerUserId") == player.UserId then
+local function removeVehicleModel(model)
+	if model then
+		disconnectVehicle(model)
+		if model.Parent then
 			model:Destroy()
 		end
 	end
 end
 
+local function removePlayerVehicle(player)
+	removeVehicleModel(activeVehicleByPlayer[player])
+	activeVehicleByPlayer[player] = nil
+	playersCarRemote:FireClient(player, "CloseCarGUI")
+end
+
+local function removeNoMotorVehicle(player)
+	removeVehicleModel(activeNoMotorByPlayer[player])
+	activeNoMotorByPlayer[player] = nil
+end
+
 local function vehicleSpawnCFrame(player)
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
-	if not root or not root:IsA("BasePart") then return nil end
-
-	-- Spawn ahead and slightly above the player so it does not intersect the avatar.
+	if not root or not root:IsA("BasePart") then
+		return nil
+	end
 	local origin = root.CFrame * CFrame.new(0, 2.5, -18)
 	local rayOrigin = origin.Position + Vector3.new(0, 20, 0)
-	local rayDirection = Vector3.new(0, -80, 0)
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Exclude
 	params.FilterDescendantsInstances = {character, liveVehicles}
-	local hit = Workspace:Raycast(rayOrigin, rayDirection, params)
+	local hit = Workspace:Raycast(rayOrigin, Vector3.new(0, -80, 0), params)
 	if hit then
-		return CFrame.new(hit.Position + Vector3.new(0, 2.8, 0), hit.Position + root.CFrame.LookVector * 10 + Vector3.new(0, 2.8, 0))
+		local y = hit.Position + Vector3.new(0, 2.8, 0)
+		return CFrame.lookAt(y, y + root.CFrame.LookVector)
 	end
 	return origin
 end
 
-local function normalizeSpawnedVehicle(player, clone, requestedName)
-	clone.Name = player.Name .. "Car"
-	clone:SetAttribute("StarBloxVehicleOwnerUserId", player.UserId)
-	clone:SetAttribute("StarBloxVehicleType", requestedName)
+local function findVehicleTemplate(requestedName, noMotor)
+	local storage = noMotor and singleVehicles or carBackup
+	if storage then
+		local template = storage:FindFirstChild(requestedName)
+		if template and template:IsA("Model") then
+			return template
+		end
+	end
+	if noMotor then
+		local fallback = carBackup:FindFirstChild(requestedName)
+		if fallback and fallback:IsA("Model") then
+			return fallback
+		end
+	end
+	return nil
+end
 
-	-- Old vehicle scripts commonly identify the driver/owner through values on the model.
-	for _, item in ipairs(clone:GetDescendants()) do
-		if item:IsA("ObjectValue") and (item.Name == "Player" or item.Name == "Owner") then
-			pcall(function() item.Value = player end)
-		elseif item:IsA("StringValue") and (item.Name == "PlayerName" or item.Name == "OwnerName") then
-			item.Value = player.Name
+local function cloneVehicleTemplate(requestedName, noMotor)
+	local template = findVehicleTemplate(requestedName, noMotor)
+	if not template then
+		return {ok = false, code = "vehicle_unavailable", vehicle = requestedName}
+	end
+	local clone = template:Clone()
+	return {ok = true, vehicle = requestedName, model = clone}
+end
+
+local function primaryVehicleSeat(model)
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("VehicleSeat") then
+			return item
+		end
+	end
+	return nil
+end
+
+local function ejectLockedGuests(owner, model)
+	if vehicleLockState[model] ~= true then
+		return
+	end
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("Seat") or item:IsA("VehicleSeat") then
+			local occupant = item.Occupant
+			if occupant then
+				local seatedPlayer = Players:GetPlayerFromCharacter(occupant.Parent)
+				if seatedPlayer ~= owner then
+					occupant.Sit = false
+				end
+			end
 		end
 	end
 end
 
-local function spawnVehicle(player, requestedName)
-	local template = nil
-	if MOTOR_VEHICLES[requestedName] then
-		template = carBackup:FindFirstChild(requestedName)
-	elseif SINGLE_VEHICLES[requestedName] and singleVehicles then
-		template = singleVehicles:FindFirstChild(requestedName)
+local function bindVehicleSeats(player, model)
+	local connections = {}
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("VehicleSeat") then
+			table.insert(connections, item:GetPropertyChangedSignal("Occupant"):Connect(function()
+				local occupant = item.Occupant
+				if not occupant then
+					playersCarRemote:FireClient(player, "CloseCarGUI")
+					return
+				end
+				local seatedPlayer = Players:GetPlayerFromCharacter(occupant.Parent)
+				if vehicleLockState[model] and seatedPlayer ~= player then
+					occupant.Sit = false
+					return
+				end
+				if seatedPlayer == player then
+					playersCarRemote:FireClient(player, "OpenCarGUI")
+				end
+			end))
+		end
 	end
-	if not template or not template:IsA("Model") then
-		return {ok=false, code="vehicle_unavailable", vehicle=requestedName}
-	end
+	vehicleSeatConnections[model] = connections
+end
 
+local function normalizeVehicle(player, model, requestedName, noMotor)
+	model.Name = noMotor and (player.Name .. "NoMotorVehicle") or (player.Name .. "Car")
+	model:SetAttribute("StarBloxVehicleOwnerUserId", player.UserId)
+	model:SetAttribute("BrookhavenVehicleType", requestedName)
+	model:SetAttribute("BrookhavenNativeRemoteSpawn", true)
+	vehicleLockState[model] = false
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("ObjectValue") and (item.Name == "Player" or item.Name == "Owner") then
+			pcall(function()
+				item.Value = player
+			end)
+		elseif item:IsA("StringValue") and (item.Name == "PlayerName" or item.Name == "OwnerName") then
+			item.Value = player.Name
+		elseif item:IsA("BasePart") then
+			pcall(function()
+				item:SetNetworkOwner(player)
+			end)
+		end
+	end
+end
+
+local function spawnVehicle(player, requestedName, noMotor)
+	if type(requestedName) ~= "string" or requestedName == "" then
+		return {ok = false, code = "invalid_vehicle"}
+	end
 	local now = os.clock()
-	if lastVehicleSpawn[player] and now - lastVehicleSpawn[player] < 0.8 then
-		return {ok=false, code="rate_limited"}
+	if lastVehicleSpawn[player] and now - lastVehicleSpawn[player] < 0.35 then
+		return {ok = false, code = "rate_limited"}
 	end
 	lastVehicleSpawn[player] = now
-
 	local spawnAt = vehicleSpawnCFrame(player)
 	if not spawnAt then
-		return {ok=false, code="character_unavailable"}
+		return {ok = false, code = "character_unavailable"}
 	end
-
-	removePlayerVehicle(player)
-	local clone = template:Clone()
-	normalizeSpawnedVehicle(player, clone, requestedName)
+	local result = cloneVehicleTemplate(requestedName, noMotor)
+	if not result.ok then
+		return result
+	end
+	if noMotor then
+		removeNoMotorVehicle(player)
+	else
+		removePlayerVehicle(player)
+	end
+	local clone = result.model
+	normalizeVehicle(player, clone, requestedName, noMotor)
 	clone.Parent = liveVehicles
-
 	local ok, reason = pcall(function()
 		clone:PivotTo(spawnAt)
 	end)
 	if not ok then
-		clone:Destroy()
-		return {ok=false, code="spawn_failed", reason=tostring(reason)}
+		removeVehicleModel(clone)
+		return {ok = false, code = "spawn_failed", reason = tostring(reason)}
 	end
-
-	activeVehicleByPlayer[player] = clone
+	bindVehicleSeats(player, clone)
+	if noMotor then
+		activeNoMotorByPlayer[player] = clone
+	else
+		activeVehicleByPlayer[player] = clone
+	end
 	return {
-		ok=true,
-		vehicle=requestedName,
-		modelName=clone.Name,
+		ok = true,
+		vehicle = requestedName,
+		modelName = clone.Name,
+		hasVehicleSeat = primaryVehicleSeat(clone) ~= nil,
 	}
 end
 
-vehicleCompat.OnServerInvoke = function(player, action, requestedName)
-	if action == "Spawn" then
-		if type(requestedName) ~= "string" then
-			return {ok=false, code="invalid_vehicle"}
-		end
-		return spawnVehicle(player, requestedName)
-	elseif action == "Remove" then
-		removePlayerVehicle(player)
-		return {ok=true, removed=true}
+local function ownedVehicle(player)
+	local model = activeVehicleByPlayer[player]
+	if model and model.Parent then
+		return model
 	end
-	return {ok=false, code="unknown_action"}
+	return nil
 end
 
-Players.PlayerRemoving:Connect(function(player)
-	removePlayerVehicle(player)
-	lastVehicleSpawn[player] = nil
+local function toggleLights(model)
+	local target = nil
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("Light") then
+			if target == nil then
+				target = not item.Enabled
+			end
+			item.Enabled = target
+		end
+	end
+end
+
+local function setNamedSounds(model, needle, enabled)
+	local lowerNeedle = string.lower(needle)
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("Sound") and string.find(string.lower(item.Name), lowerNeedle, 1, true) then
+			if enabled then
+				item:Play()
+			else
+				item:Stop()
+			end
+		end
+	end
+end
+
+local function toggleNamedEffects(model, needle)
+	local lowerNeedle = string.lower(needle)
+	for _, item in ipairs(model:GetDescendants()) do
+		local name = string.lower(item.Name)
+		if string.find(name, lowerNeedle, 1, true) and (item:IsA("ParticleEmitter") or item:IsA("Fire") or item:IsA("Smoke") or item:IsA("Light")) then
+			item.Enabled = not item.Enabled
+		end
+	end
+end
+
+local function flipVehicle(model)
+	local pivot = model:GetPivot()
+	local look = pivot.LookVector
+	local flat = Vector3.new(look.X, 0, look.Z)
+	if flat.Magnitude < 0.01 then
+		flat = Vector3.new(0, 0, -1)
+	else
+		flat = flat.Unit
+	end
+	local position = pivot.Position + Vector3.new(0, 4, 0)
+	model:PivotTo(CFrame.lookAt(position, position + flat))
+end
+
+local function pickVehicleColor(value)
+	if typeof(value) == "Color3" then
+		return value
+	end
+	if typeof(value) == "Instance" then
+		local ok, color = pcall(function()
+			return value.Color
+		end)
+		if ok and typeof(color) == "Color3" then
+			return color
+		end
+	end
+	return nil
+end
+
+local function colorVehicle(model, value)
+	local color = pickVehicleColor(value)
+	if not color then
+		return false
+	end
+	local changed = false
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("BasePart") then
+			local name = string.lower(item.Name)
+			if string.find(name, "color", 1, true) or string.find(name, "body", 1, true) or string.find(name, "paint", 1, true) then
+				item.Color = color
+				changed = true
+			end
+		end
+	end
+	return changed
+end
+
+local function setVehicleSpeed(model, value)
+	local speed = math.clamp(tonumber(value) or 55, 1, 200)
+	local changed = false
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("VehicleSeat") then
+			pcall(function()
+				item.MaxSpeed = speed
+			end)
+			changed = true
+		end
+	end
+	return changed
+end
+
+carRemote.OnServerEvent:Connect(function(player, action, requestedName)
+	if action == "PickingCar" then
+		spawnVehicle(player, requestedName, false)
+	elseif action == "NoMotorVehicleDeleteCar" then
+		removePlayerVehicle(player)
+	end
 end)
 
-print("STARBLOX_VEHICLE_COMPAT_READY motor=16 single=2")
+noMotorRemote.OnServerEvent:Connect(function(player, action)
+	if action == "Delete NoMotorVehicle" then
+		removeNoMotorVehicle(player)
+	elseif type(action) == "string" then
+		spawnVehicle(player, action, true)
+	end
+end)
+
+keyFabRemote.OnServerInvoke = function(player, action)
+	if action ~= "LockUnlockVehicles" then
+		return false
+	end
+	local model = ownedVehicle(player)
+	if not model then
+		return false
+	end
+	local locked = vehicleLockState[model] ~= true
+	vehicleLockState[model] = locked
+	model:SetAttribute("Locked", locked)
+	ejectLockedGuests(player, model)
+	return locked
+end
+
+playersCarRemote.OnServerEvent:Connect(function(player, action, value)
+	local model = ownedVehicle(player)
+	if not model then
+		return
+	end
+	if action == "Horn" then
+		setNamedSounds(model, "horn", true)
+	elseif action == "HornStop" then
+		setNamedSounds(model, "horn", false)
+	elseif action == "Lights" then
+		toggleLights(model)
+	elseif action == "Hazards" then
+		toggleNamedEffects(model, "hazard")
+	elseif action == "SirenLights" then
+		toggleNamedEffects(model, "siren")
+	elseif action == "Siren" then
+		setNamedSounds(model, "siren", true)
+	elseif action == "Flip" then
+		flipVehicle(model)
+	elseif action == "PickingCarColor" then
+		colorVehicle(model, value)
+	elseif action == "RegPlayerGiveSpeed" or action == "PlayerGiveSpeedLower" or action == "200PlayerGiveSpeed" then
+		setVehicleSpeed(model, value)
+	elseif action == "Fire" then
+		toggleNamedEffects(model, "fire")
+	elseif action == "Smoke" then
+		toggleNamedEffects(model, "smoke")
+	end
+end)
+
+local function findToolTemplate(name)
+	for _, item in ipairs(ReplicatedStorage:GetDescendants()) do
+		if item:IsA("Tool") and item.Name == name then
+			return item
+		end
+	end
+	return nil
+end
+
+local function findOwnedTool(player, name)
+	local backpack = player:FindFirstChildOfClass("Backpack")
+	local character = player.Character
+	local tool = backpack and backpack:FindFirstChild(name)
+	if tool and tool:IsA("Tool") then
+		return tool
+	end
+	tool = character and character:FindFirstChild(name)
+	if tool and tool:IsA("Tool") then
+		return tool
+	end
+	return nil
+end
+
+local function createFallbackTool(name)
+	local tool = Instance.new("Tool")
+	tool.Name = name
+	tool.CanBeDropped = false
+	local handle = Instance.new("Part")
+	handle.Name = "Handle"
+	handle.Size = Vector3.new(0.5, 0.5, 1.5)
+	handle.CanCollide = false
+	handle.Parent = tool
+	return tool
+end
+
+toolsRemote.OnServerInvoke = function(player, action, toolName)
+	if action ~= "PickingTools" or type(toolName) ~= "string" then
+		return true
+	end
+	local existing = findOwnedTool(player, toolName)
+	if existing then
+		existing:Destroy()
+		clearToolsRemote:FireClient(player, "TurnOffGreenCheckMark", toolName)
+		return true
+	end
+	local backpack = player:FindFirstChildOfClass("Backpack")
+	if not backpack then
+		return true
+	end
+	local template = findToolTemplate(toolName)
+	local tool = template and template:Clone() or createFallbackTool(toolName)
+	tool.Parent = backpack
+	clearToolsRemote:FireClient(player, "TurnOnGreenCheckMark", toolName)
+	return false
+end
+
+clearToolsRemote.OnServerEvent:Connect(function(player, action)
+	if action ~= "ClearAllTools" then
+		return
+	end
+	local backpack = player:FindFirstChildOfClass("Backpack")
+	if backpack then
+		for _, item in ipairs(backpack:GetChildren()) do
+			if item:IsA("Tool") then
+				item:Destroy()
+			end
+		end
+	end
+	local character = player.Character
+	if character then
+		for _, item in ipairs(character:GetChildren()) do
+			if item:IsA("Tool") then
+				item:Destroy()
+			end
+		end
+	end
+	clearToolsRemote:FireClient(player, "AllGreenChecksOff")
+end)
+
+local function setupNativePlayer(player)
+	ensureBag(player)
+	seedAppearance(player)
+	player.CharacterAdded:Connect(function()
+		task.delay(0.75, function()
+			if player.Parent then
+				pushAppearance(player)
+			end
+		end)
+	end)
+end
+
+Players.PlayerAdded:Connect(setupNativePlayer)
+Players.PlayerRemoving:Connect(function(player)
+	removePlayerVehicle(player)
+	removeNoMotorVehicle(player)
+	appearanceAssets[player] = nil
+	lastVehicleSpawn[player] = nil
+end)
+for _, player in ipairs(Players:GetPlayers()) do
+	task.spawn(setupNativePlayer, player)
+end
+
+-- A server-only behavior probe used by CI/Open Cloud verification. It invokes the
+-- same mutation helpers used by the native RemoteEvent handlers and returns their
+-- action/result state, rather than proving only that strings or objects exist.
+local runtimeTest = ServerStorageService:FindFirstChild("StarBloxNativeRuntimeTest")
+if runtimeTest then
+	runtimeTest:Destroy()
+end
+runtimeTest = Instance.new("BindableFunction")
+runtimeTest.Name = "StarBloxNativeRuntimeTest"
+runtimeTest.Parent = ServerStorageService
+runtimeTest.OnInvoke = function(testName)
+	if testName == "avatar" then
+		local description = Instance.new("HumanoidDescription")
+		local outfit = applyNativeAvatarMutation(description, "outfit", 123456, 654321)
+		local scale = applyNativeAvatarMutation(description, "scale", 0.75)
+		local skin = applyNativeAvatarMutation(description, "skintone", "Really red")
+		local ok = outfit.ok and scale.ok and skin.ok and description.Shirt == 123456 and description.Pants == 654321 and math.abs(description.HeightScale - 0.75) < 0.001 and description.HeadColor == Color3.fromRGB(255, 0, 0)
+		description:Destroy()
+		return {ok = ok, outfit = outfit, scale = scale, skin = skin}
+	elseif testName == "shop" then
+		local bag = bagTemplate:Clone()
+		local music = applyPassActionToBag(bag, "BoughtMusic")
+		local speed = applyPassActionToBag(bag, "BoughtSpeed200")
+		local ok = music.ok and speed.ok and bag.MusicPass.Value == true and bag.SpeedPass200.Value == true and bag.VehicleSpeed.Value == 200 and bag.SpeedPassNoMotorVehicle.Value == 45
+		bag:Destroy()
+		return {ok = ok, music = music, speed = speed}
+	elseif testName == "vehicle" then
+		local children = carBackup:GetChildren()
+		table.sort(children, function(a, b)
+			return a.Name < b.Name
+		end)
+		local template = children[1]
+		if not template then
+			return {ok = false, code = "no_vehicle_templates"}
+		end
+		local result = cloneVehicleTemplate(template.Name, false)
+		if not result.ok then
+			return result
+		end
+		local model = result.model
+		model.Parent = hidden
+		local seat = primaryVehicleSeat(model)
+		local pivotOk = pcall(function()
+			model:PivotTo(CFrame.new(0, -10000, 0))
+		end)
+		local descendantCount = #model:GetDescendants()
+		local modelName = model.Name
+		model:Destroy()
+		return {
+			ok = pivotOk and descendantCount > 0,
+			vehicle = template.Name,
+			modelName = modelName,
+			hasVehicleSeat = seat ~= nil,
+			descendants = descendantCount,
+		}
+	elseif testName == "contracts" then
+		return {
+			ok = clothesRemote:IsA("RemoteEvent") and updateAvatarRemote:IsA("RemoteEvent") and passRemote:IsA("RemoteEvent") and carRemote:IsA("RemoteEvent") and keyFabRemote:IsA("RemoteFunction") and toolsRemote:IsA("RemoteFunction"),
+			clothes = clothesRemote.ClassName,
+			updateAvatar = updateAvatarRemote.ClassName,
+			pass = passRemote.ClassName,
+			car = carRemote.ClassName,
+			keyFab = keyFabRemote.ClassName,
+			tools = toolsRemote.ClassName,
+		}
+	end
+	return {ok = false, code = "unknown_test"}
+end
+
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1")
