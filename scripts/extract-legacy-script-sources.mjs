@@ -54,6 +54,27 @@ const lots=lotsRoot?kids(lotsRoot).filter(x=>name(x)!=='DontDelete').slice(0,20)
 const remotes=rows.filter(r=>r.pathText.startsWith('DataModel/ReplicatedStorage/RemoteEvents/') && ['RemoteEvent','RemoteFunction','BindableEvent','BindableFunction'].includes(cls(r.node)))
   .map(r=>({name:name(r.node),className:cls(r.node),path:r.pathText}));
 
+const houseStyleNames=new Set(Array.from({length:12},(_,i)=>String(i+1).padStart(3,'0')+'_House'));
+const houseStyleCandidates=rows.filter(r=>houseStyleNames.has(name(r.node))).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)}));
+const houseStorageCandidates=rows.filter(r=>{
+  const p=r.pathText;
+  const n=name(r.node).toLowerCase();
+  return (p.startsWith('DataModel/ReplicatedStorage/')||p.startsWith('DataModel/ServerStorage/')) &&
+    (n.includes('house')||n.includes('motel')) &&
+    ['Folder','Model'].includes(cls(r.node));
+}).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)}).slice(0,500));
+const sourceStats={
+  scripts:scripts.length,
+  nonEmptyScripts:scripts.filter(r=>String(r.node?.properties?.Source?.String||'').trim().length>0).length,
+  serverScripts:scripts.filter(r=>cls(r.node)==='Script').length,
+  nonEmptyServerScripts:scripts.filter(r=>cls(r.node)==='Script'&&String(r.node?.properties?.Source?.String||'').trim().length>0).length,
+  serverHandlerHits:scripts.filter(r=>{
+    if(cls(r.node)!=='Script') return false;
+    const src=String(r.node?.properties?.Source?.String||'');
+    return ['PlayerAdded','PlayersStartup','PlayersBag','BuyHouseYesNo','PickingCustomHouse','PlayerSellHouse'].some(x=>src.includes(x));
+  }).map(r=>({path:r.pathText,sourceLen:String(r.node?.properties?.Source?.String||'').length}))
+};
+
 const result={
   schemaVersion:2,
   status:'brookhaven-script-sources-extracted',
@@ -64,7 +85,10 @@ const result={
   templates:{
     playersStartup:playerStartup?compact(playerStartup,0,4):null,
     lots,
-    remotes
+    remotes,
+    houseStyleCandidates,
+    houseStorageCandidates,
+    sourceStats
   }
 };
 await mkdir(dirname(output),{recursive:true});
