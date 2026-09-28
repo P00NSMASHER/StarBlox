@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 local remotes = ReplicatedStorage:WaitForChild("StarBloxShop")
 
 local getState = remotes:WaitForChild("GetState") :: RemoteFunction
@@ -22,29 +23,15 @@ if editPlacement == nil or not editPlacement:IsA("BindableEvent") then
 	return
 end
 
-local UI = {
-	white = Color3.fromRGB(245, 245, 245),
-	tile = Color3.fromRGB(222, 222, 222),
-	border = Color3.fromRGB(115, 115, 115),
-	text = Color3.fromRGB(42, 42, 42),
-	muted = Color3.fromRGB(90, 90, 90),
-	red = Color3.fromRGB(210, 49, 49),
-	green = Color3.fromRGB(68, 173, 92),
-	blue = Color3.fromRGB(80, 154, 221),
-}
+local UI = MobileShell.Theme
+
 
 local function round(guiObject: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = guiObject
+	MobileShell.Round(guiObject, radius)
 end
 
 local function stroke(guiObject: GuiObject, color: Color3?)
-	local line = Instance.new("UIStroke")
-	line.Color = color or UI.border
-	line.Thickness = 1
-	line.Transparency = 0.15
-	line.Parent = guiObject
+	MobileShell.Stroke(guiObject, color or UI.border, 1, 0.45)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
@@ -58,28 +45,29 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "StarBloxHomeBuild"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
-gui.DisplayOrder = 90
+gui.DisplayOrder = 92
+gui.Enabled = false
 pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterOverlay("build", gui)
 
 local panel = Instance.new("Frame")
 panel.Name = "BuildStrip"
 panel.AnchorPoint = Vector2.new(0.5, 1)
 panel.Position = UDim2.new(0.5, 0, 1, -12)
-panel.Size = UDim2.fromOffset(390, 126)
+panel.Size = UDim2.fromOffset(420, 130)
 panel.BackgroundColor3 = UI.white
 panel.BackgroundTransparency = 0.03
 panel.Visible = false
 panel.ZIndex = 100
 panel.Parent = gui
-round(panel, 6)
-stroke(panel)
+MobileShell.ApplyModalCard(panel, 14)
 
 local constraint = Instance.new("UISizeConstraint")
-constraint.MinSize = Vector2.new(330, 126)
-constraint.MaxSize = Vector2.new(420, 126)
+constraint.MinSize = Vector2.new(360, 130)
+constraint.MaxSize = Vector2.new(440, 130)
 constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
@@ -281,6 +269,7 @@ done.Activated:Connect(function()
 	currentItemId = nil
 	currentPlacement = nil
 	currentItemName = ""
+	MobileShell.Close("build")
 end)
 
 editPlacement.Event:Connect(function(itemId)
@@ -293,8 +282,10 @@ editPlacement.Event:Connect(function(itemId)
 	currentItemId = itemId
 	if fetchPlacement(itemId) then
 		panel.Visible = true
+		MobileShell.Open("build")
 	else
 		currentItemId = nil
 		panel.Visible = false
+		MobileShell.Close("build")
 	end
 end)
