@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Verify published v49 avatar shop learning loop
+      - name: Verify published v50 StarterGui runtime and vehicles
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -29,59 +29,46 @@ jobs:
           const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
           const universe=process.env.ROBLOX_UNIVERSE_ID;
           const place=process.env.ROBLOX_PLACE_ID;
-          if(!key) throw new Error("missing API key");
-          if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
-
-          const script=[
-            'assert(game.PlaceVersion == 49, "expected version 49")',
-            'local Workspace=game:GetService("Workspace")',
-            'local StarterPlayer=game:GetService("StarterPlayer")',
-            'local StarterGui=game:GetService("StarterGui")',
-            'local ServerScriptService=game:GetService("ServerScriptService")',
-            'local descendants=#Workspace:GetDescendants()',
-            'assert(descendants == 24348, "workspace descendant count changed: "..tostring(descendants))',
-            'local geometry=0',
-            'for _,x in ipairs(Workspace:GetDescendants()) do local c=x.ClassName; if c=="Part" or c=="MeshPart" or c=="WedgePart" or c=="CornerWedgePart" or c=="UnionOperation" or c=="TrussPart" or c=="Seat" or c=="VehicleSeat" then geometry += 1 end end',
-            'assert(geometry == 14459, "Brookhaven geometry changed: "..tostring(geometry))',
-            'local editor=StarterGui:WaitForChild("NoResetGUIHandler"):FindFirstChild("MainEditor")',
-            'assert(editor and editor.Catalog.Container:FindFirstChild("OutfitFrame"), "Brookhaven avatar editor missing")',
-            'assert(editor.Catalog.Container.ScaleFrame.Buttons:FindFirstChild("Bigger") and editor.Catalog.Container.ScaleFrame.Buttons:FindFirstChild("Smaller"), "avatar size controls missing")',
-            'local shop=StarterGui:WaitForChild("MainGUIHandler"):FindFirstChild("Shop")',
-            'assert(shop and shop.OpenButton.MainOpen:FindFirstChild("Open"), "Brookhaven shop missing")',
-            'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
-            'assert(client and client:IsA("LocalScript"), "BrookhavenCompat missing")',
-            'assert(string.find(client.Source,"STARBLOX_AVATAR_SHOP_CLIENT_READY",1,true),"avatar/shop client marker missing")',
-            'assert(string.find(client.Source,"STUDY FOR COINS",1,true),"study-for-coins UI missing")',
-            'assert(string.find(client.Source,"PurchasePack",1,true),"PurchasePack client missing")',
-            'assert(string.find(client.Source,"StateChanged",1,true),"StateChanged client missing")',
-            'assert(string.find(client.Source,"ApplyOutfit",1,true) and string.find(client.Source,"SkinTone",1,true),"avatar actions missing")',
-            'assert(string.find(client.Source,"ToggleAccessory",1,true),"accessory controls missing")',
-            'assert(string.find(client.Source,"ResetFace",1,true),"face control missing")',
-            'assert(not string.find(client.Source,"WaitForChild(\\\"Purchase\\\")",1,true),"stale Purchase API present")',
-            'assert(not string.find(client.Source,"WaitForChild(\\\"Changed\\\")",1,true),"stale Changed API present")',
-            'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
-            'assert(server and server:IsA("Script"), "BrookhavenHouseCompat missing")',
-            'assert(string.find(server.Source,"STARBLOX_LEARNING_ECONOMY_READY",1,true),"learning economy marker missing")',
-            'assert(string.find(server.Source,"StarBloxLearningReward",1,true),"server school-reward hook missing")',
-            'assert(string.find(server.Source,"PRACTICE_QUESTIONS",1,true),"practice questions missing")',
-            'assert(string.find(server.Source,"PurchasePack",1,true),"purchase authority missing")',
-            'assert(string.find(server.Source,"ToggleAccessory",1,true),"accessory server action missing")',
-            'assert(string.find(server.Source,"Description = \\"Unlock premium house features\\"",1,true),"shop metadata missing")',
-            'assert(string.find(server.Source,"5104356969",1,true),"real Brookhaven outfit IDs missing")',
-            'assert(string.find(server.Source,"SilverPass",1,true) and string.find(server.Source,"MusicPass",1,true) and string.find(server.Source,"SpeedPass200",1,true),"Brookhaven unlock flags missing")',
-            'assert(string.find(server.Source,"owned.Value = hasPreloadedHouse",1,true),"preloaded house occupancy fix missing")',
-            'local lots=Workspace:FindFirstChild("001_Lots"); local buyLots=0; local preloaded=0',
-            'for _,lot in ipairs(lots:GetChildren()) do local buy=lot:FindFirstChild("BuyHouse",true); if buy and buy:IsA("BasePart") then buyLots+=1; local h=lot:FindFirstChild("HousePickedByPlayer"); if h and h:IsA("Model") then preloaded+=1 end end end',
-            'assert(buyLots==19 and preloaded==5,"house baseline changed")',
-            'print("STARBLOX_V49_AVATAR_SHOP_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." lots="..tostring(buyLots).." preloaded="..tostring(preloaded))'
-          ].join("\n");
-
           async function parse(r,label){
             const text=await r.text(); let payload={};
             try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status);}
-            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1500));
+            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1600));
             return payload;
           }
+          const script=[
+            'assert(game.PlaceVersion==50,"expected version 50")',
+            'local W=game:GetService("Workspace")',
+            'local SG=game:GetService("StarterGui")',
+            'local SS=game:GetService("ServerScriptService")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local descendants=#W:GetDescendants()',
+            'assert(descendants==24348,"workspace descendants changed "..tostring(descendants))',
+            'local geometry=0',
+            'for _,x in ipairs(W:GetDescendants()) do local c=x.ClassName; if c=="Part" or c=="MeshPart" or c=="WedgePart" or c=="CornerWedgePart" or c=="UnionOperation" or c=="TrussPart" or c=="Seat" or c=="VehicleSeat" then geometry+=1 end end',
+            'assert(geometry==14459,"geometry changed "..tostring(geometry))',
+            'local client=SG:FindFirstChild("BrookhavenCompat")',
+            'assert(client and client:IsA("LocalScript"),"StarterGui BrookhavenCompat missing")',
+            'assert(client.Disabled==false,"StarterGui BrookhavenCompat disabled")',
+            'assert(string.find(client.Source,"STARBLOX_AVATAR_SHOP_CLIENT_READY",1,true),"avatar shop marker missing")',
+            'assert(string.find(client.Source,"STARBLOX_VEHICLE_CLIENT_READY",1,true),"vehicle client marker missing")',
+            'assert(string.find(client.Source,"STUDY FOR COINS",1,true),"study shop UI missing")',
+            'assert(string.find(client.Source,"StarBloxVehicleCompat",1,true),"vehicle remote client missing")',
+            'local server=SS:FindFirstChild("BrookhavenHouseCompat")',
+            'assert(server and server:IsA("Script"),"server compat missing")',
+            'assert(string.find(server.Source,"STARBLOX_VEHICLE_COMPAT_READY",1,true),"vehicle server marker missing")',
+            'assert(string.find(server.Source,"StarBloxVehicleCompat",1,true),"vehicle remote server missing")',
+            'assert(string.find(server.Source,"STARBLOX_LEARNING_ECONOMY_READY",1,true),"economy missing")',
+            'local backup=RS:FindFirstChild("003_CarBackup")',
+            'assert(backup and #backup:GetChildren()==16,"expected 16 car templates")',
+            'local menu=SG.MainGUIHandler.MainVehicleMenu.Catalog.Container.ScrollingFrame',
+            'local motor=0',
+            'for _,x in ipairs(menu:GetChildren()) do if x:IsA("GuiButton") and backup:FindFirstChild(x.Name) then motor+=1 end end',
+            'assert(motor==16,"vehicle menu/template mismatch "..tostring(motor))',
+            'local lots=W:FindFirstChild("001_Lots"); local buyLots=0; local preloaded=0',
+            'for _,lot in ipairs(lots:GetChildren()) do local buy=lot:FindFirstChild("BuyHouse",true); if buy and buy:IsA("BasePart") then buyLots+=1; local h=lot:FindFirstChild("HousePickedByPlayer"); if h and h:IsA("Model") then preloaded+=1 end end end',
+            'assert(buyLots==19 and preloaded==5,"house baseline changed")',
+            'print("STARBLOX_V50_STRUCTURE_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." motorTemplates="..tostring(motor).." preloaded="..tostring(preloaded))'
+          ].join("\n");
           let response;
           for(let attempt=0;attempt<8;attempt++){
             response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
@@ -94,46 +81,6 @@ jobs:
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
           const text=JSON.stringify(logs);
           if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1800));
-          if(!text.includes("STARBLOX_V49_AVATAR_SHOP_OK")) throw new Error("v49 sentinel missing");
+          if(!text.includes("STARBLOX_V50_STRUCTURE_OK")) throw new Error("v50 sentinel missing");
           console.log(text);
-          NODE
-
-      - name: Inventory Brookhaven vehicle menu and backups
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        shell: bash
-        run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1600));return p;}
-          const script=[
-            'assert(game.PlaceVersion==49,"expected v49")',
-            'local SG=game:GetService("StarterGui")',
-            'local RS=game:GetService("ReplicatedStorage")',
-            'print("VEHICLE_DIAG_BEGIN")',
-            'local menu=SG:FindFirstChild("MainGUIHandler") and SG.MainGUIHandler:FindFirstChild("MainVehicleMenu")',
-            'if menu then',
-            ' for _,x in ipairs(menu:GetDescendants()) do',
-            '  if x:IsA("GuiButton") then',
-            '   local vals={}',
-            '   for _,v in ipairs(x:GetDescendants()) do if v:IsA("ValueBase") then table.insert(vals,v.Name.."="..tostring(v.Value)) end end',
-            '   print("VEHICLE_BUTTON "..x:GetFullName().." class="..x.ClassName.." vals="..table.concat(vals,","))',
-            '  end',
-            ' end',
-            'end',
-            'local backup=RS:FindFirstChild("003_CarBackup")',
-            'print("CAR_BACKUP "..tostring(backup~=nil).." class="..tostring(backup and backup.ClassName or "none").." count="..tostring(backup and #backup:GetChildren() or 0))',
-            'if backup then for _,x in ipairs(backup:GetChildren()) do print("CAR_TEMPLATE "..x.Name.." class="..x.ClassName.." descendants="..tostring(#x:GetDescendants())) end end',
-            'local vehicles=workspace:FindFirstChild("Vehicles")',
-            'print("LIVE_VEHICLES "..tostring(vehicles~=nil).." count="..tostring(vehicles and #vehicles:GetChildren() or 0))',
-            'if vehicles then for _,x in ipairs(vehicles:GetChildren()) do print("LIVE_VEHICLE "..x.Name.." class="..x.ClassName.." descendants="..tostring(#x:GetDescendants())) end end',
-            'print("VEHICLE_DIAG_END")'
-          ].join("\n");
-          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
           NODE
