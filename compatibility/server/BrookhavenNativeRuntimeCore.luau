@@ -164,7 +164,7 @@ function RuntimeCore.prepareNativeVehicle(model)
 
 	seat.Anchored = false
 	return {
-		ok = houseAccessOk and socialOk and seat.Anchored == false,
+		ok = bankCardOk and poolCoverOk and houseAccessOk and socialOk and seat.Anchored == false,
 		seat = seat.Name,
 		seatAnchored = seat.Anchored,
 		driveConstraints = constraintCount,
@@ -1425,10 +1425,102 @@ function RuntimeCore.setNativeHousePermission(permissionFolder, target, allowed)
 	}
 end
 
+
+function RuntimeCore.toggleNativePoolCover(poolCovers, houseNumber)
+	if not poolCovers then
+		return {ok = false, code = "pool_covers_missing"}
+	end
+	local number = math.floor(tonumber(houseNumber) or 0)
+	local cover = poolCovers:FindFirstChild(tostring(number))
+	if not (cover and cover:IsA("BasePart")) then
+		return {ok = false, code = "pool_cover_missing", houseNumber = number}
+	end
+	if cover:GetAttribute("BrookhavenPoolCoverSourceTransparency") == nil then
+		cover:SetAttribute("BrookhavenPoolCoverSourceTransparency", cover.Transparency)
+	end
+	if cover:GetAttribute("BrookhavenPoolCoverSourceCanCollide") == nil then
+		cover:SetAttribute("BrookhavenPoolCoverSourceCanCollide", cover.CanCollide)
+	end
+	local currentlyOn = cover.Transparency < 0.95 and cover.CanCollide == true
+	local nextOn = not currentlyOn
+	if nextOn then
+		cover.Transparency = tonumber(cover:GetAttribute("BrookhavenPoolCoverSourceTransparency")) or 0
+		cover.CanCollide = cover:GetAttribute("BrookhavenPoolCoverSourceCanCollide") == true
+	else
+		cover.Transparency = 1
+		cover.CanCollide = false
+	end
+	cover:SetAttribute("BrookhavenPoolCoverOn", nextOn)
+	return {
+		ok = nextOn and cover.Transparency < 0.95 and cover.CanCollide == true
+			or (not nextOn and cover.Transparency == 1 and cover.CanCollide == false),
+		on = nextOn,
+		houseNumber = number,
+		cover = cover,
+	}
+end
+
+function RuntimeCore.buildNativeCreditCardTool(displayPart, variant)
+	if variant ~= "CreditCardBoy" and variant ~= "CreditCardGirl" then
+		return {ok = false, code = "unknown_credit_card_variant"}
+	end
+	if not (displayPart and displayPart:IsA("BasePart")) then
+		return {ok = false, code = "credit_card_display_missing"}
+	end
+	local built = RuntimeCore.buildToolFromDisplayPart(displayPart, variant)
+	if not built.ok or not built.tool then
+		return built
+	end
+	built.tool:SetAttribute("BrookhavenCreditCardVariant", variant)
+	built.tool:SetAttribute("BrookhavenCreditCardSource", displayPart.Name)
+	return {
+		ok = built.tool.Name == variant
+			and built.tool:GetAttribute("BrookhavenNativeDisplaySource") == true
+			and built.tool:GetAttribute("BrookhavenCreditCardVariant") == variant,
+		tool = built.tool,
+		handle = built.handle,
+		variant = variant,
+		sourceName = displayPart.Name,
+	}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local poolFixture = Instance.new("Folder")
+	poolFixture.Name = "001_PoolCovers"
+	local poolCover = Instance.new("Part")
+	poolCover.Name = "11"
+	poolCover.Transparency = 0
+	poolCover.CanCollide = true
+	poolCover.Anchored = true
+	poolCover.Parent = poolFixture
+	local poolOff = RuntimeCore.toggleNativePoolCover(poolFixture, 11)
+	local poolHidden = poolOff.ok and poolOff.on == false and poolCover.Transparency == 1 and poolCover.CanCollide == false
+	local poolOn = RuntimeCore.toggleNativePoolCover(poolFixture, 11)
+	local poolCoverOk = poolHidden and poolOn.ok and poolOn.on == true and poolCover.Transparency == 0 and poolCover.CanCollide == true
+	poolFixture:Destroy()
+
+	local cardDisplay = Instance.new("Part")
+	cardDisplay.Name = "FakeBankKeyCard"
+	cardDisplay.Size = Vector3.new(0.46, 0.05, 0.84)
+	cardDisplay.Transparency = 0
+	cardDisplay.Anchored = true
+	local cardDecal = Instance.new("Decal")
+	cardDecal.Parent = cardDisplay
+	local boyCard = RuntimeCore.buildNativeCreditCardTool(cardDisplay, "CreditCardBoy")
+	local girlCard = RuntimeCore.buildNativeCreditCardTool(cardDisplay, "CreditCardGirl")
+	local bankCardOk = boyCard.ok and girlCard.ok
+		and boyCard.tool.Name == "CreditCardBoy"
+		and girlCard.tool.Name == "CreditCardGirl"
+		and boyCard.handle.Anchored == false and girlCard.handle.Anchored == false
+		and boyCard.tool:GetAttribute("BrookhavenCreditCardSource") == "FakeBankKeyCard"
+		and girlCard.tool:GetAttribute("BrookhavenCreditCardSource") == "FakeBankKeyCard"
+	if boyCard.tool then boyCard.tool:Destroy() end
+	if girlCard.tool then girlCard.tool:Destroy() end
+	cardDisplay:Destroy()
+
 	local bannedLotsFixture = Instance.new("Model")
 	bannedLotsFixture.Name = "BannedLots"
 	local nativeBanSource = Instance.new("Part")
@@ -1987,6 +2079,8 @@ function RuntimeCore.runBehaviorProbe()
 
 	return {
 		ok = heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		poolCover = {ok = poolCoverOk, off = poolOff, on = poolOn},
+		bankCard = {ok = bankCardOk, boy = boyCard, girl = girlCard},
 		houseAccess = {ok = houseAccessOk, ban = banInspect, permissionOn = permissionOn, permissionOff = permissionOff},
 		helicopter = {ok = heliGuiOk, inspected = heliInspect, gui = heliGuiBuild, flightOn = heliFlightOn, lift = heliLift, speedUp = heliSpeedUp, speedCap = heliSpeedCap, flightOff = heliFlightOff},
 		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
