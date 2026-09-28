@@ -37,13 +37,15 @@ const luau=[
   'assert(string.find(server.Source,"RuntimeCore.mountHorseToCharacter",1,true),"live server horse mount handoff missing")',
   'assert(string.find(server.Source,"RuntimeCore.dismountHorseToWorld",1,true),"live server horse dismount handoff missing")',
   'assert(string.find(server.Source,"CheckPlayeForHorse",1,true) and string.find(server.Source,"HorseStart",1,true) and string.find(server.Source,"HorseDismountPlayer",1,true),"native horse client event sequence missing")',
+  'assert(string.find(server.Source,"giveNativeHeliGui",1,true) and string.find(server.Source,"BrookhavenNativeHeliGui",1,true),"native helicopter GUI handoff missing")',
   'local coreModule=SSS:WaitForChild("BrookhavenNativeRuntimeCore")',
   'assert(coreModule:IsA("ModuleScript"),"native runtime core ModuleScript missing")',
   'local core=require(coreModule)',
   'local result=core.runBehaviorProbe()',
   'assert(result,"native runtime behavior probe missing")',
-  'print("NATIVE_SUBSYSTEMS social="..tostring(result.social and result.social.ok).." follower="..tostring(result.follower and result.follower.ok).." horseLifecycle="..tostring(result.horseLifecycle and result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization and result.horseCustomization.ok).." toolVisual="..tostring(result.toolVisual and result.toolVisual.ok).." vehicleMusic="..tostring(result.vehicleMusic and result.vehicleMusic.ok).." hairColor="..tostring(result.hairColor and result.hairColor.ok).." houseFire="..tostring(result.houseFire and result.houseFire.ok).." houseMusic="..tostring(result.houseMusic and result.houseMusic.ok).." curtains="..tostring(result.curtains and result.curtains.ok).." clock="..tostring(result.clock and result.clock.ok).." avatar="..tostring(result.avatar and result.avatar.ok).." shop="..tostring(result.shop and result.shop.ok).." profile="..tostring(result.profile and result.profile.ok).." houseBusiness="..tostring(result.houseBusiness and result.houseBusiness.ok).." vehicle="..tostring(result.vehicle and result.vehicle.ok).." contracts="..tostring(result.contracts and result.contracts.ok))',
+  'print("NATIVE_SUBSYSTEMS helicopterGui="..tostring(result.helicopterGui and result.helicopterGui.ok).." social="..tostring(result.social and result.social.ok).." follower="..tostring(result.follower and result.follower.ok).." horseLifecycle="..tostring(result.horseLifecycle and result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization and result.horseCustomization.ok).." toolVisual="..tostring(result.toolVisual and result.toolVisual.ok).." vehicleMusic="..tostring(result.vehicleMusic and result.vehicleMusic.ok).." hairColor="..tostring(result.hairColor and result.hairColor.ok).." houseFire="..tostring(result.houseFire and result.houseFire.ok).." houseMusic="..tostring(result.houseMusic and result.houseMusic.ok).." curtains="..tostring(result.curtains and result.curtains.ok).." clock="..tostring(result.clock and result.clock.ok).." avatar="..tostring(result.avatar and result.avatar.ok).." shop="..tostring(result.shop and result.shop.ok).." profile="..tostring(result.profile and result.profile.ok).." houseBusiness="..tostring(result.houseBusiness and result.houseBusiness.ok).." vehicle="..tostring(result.vehicle and result.vehicle.ok).." contracts="..tostring(result.contracts and result.contracts.ok))',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
+  'assert(result.helicopterGui and result.helicopterGui.ok==true,"helicopter native GUI behavior failed")',
   'assert(result.social and result.social.ok==true,"social pair behavior failed")',
   'assert(result.follower and result.follower.ok==true,"BabyFollow native-display behavior failed")',
   'assert(result.toolVisual and result.toolVisual.ok==true,"Backpack source-display tool behavior failed")',
@@ -70,6 +72,15 @@ const luau=[
   'assert(fireOff and fireOff.ok==true and fireOff.enabled==false,"real house fireplace disable failed")',
   'fireClone:Destroy()',
   'local worldCommon=game.Workspace:WaitForChild("WorkspaceCom")',
+  'local realHeli=worldCommon:WaitForChild("001_HeliStorage"):WaitForChild("Heli")',
+  'local realHeliInfo=core.inspectNativeHelicopter(realHeli)',
+  'assert(realHeliInfo and realHeliInfo.ok==true,"real Brookhaven helicopter contract failed")',
+  'assert(realHeliInfo.maxSpeed==80 and realHeliInfo.maxForce==100000000 and math.abs(realHeliInfo.turnSpeed-4.5)<0.001,"real helicopter source configuration changed")',
+  'local realHeliGui=core.buildHelicopterGui(realHeli)',
+  'assert(realHeliGui and realHeliGui.ok==true and realHeliGui.gui and realHeliGui.carSeat.Value==realHeliInfo.seat,"real helicopter GUI binding failed")',
+  'assert(realHeliGui.controls:IsA("LocalScript") and realHeliGui.controls.Disabled==false and #realHeliGui.controls.Source>1000,"real helicopter VehicleControls source missing")',
+  'assert(realHeliGui.takeOffBool:IsA("BoolValue") and realHeliGui.takeOffBool.Value==false,"real helicopter takeoff state invalid")',
+  'realHeliGui.gui:Destroy()',
   'local realGiveTools=worldCommon:WaitForChild("001_GiveTools")',
   'local realDisplay=nil',
   'for _,item in ipairs(realGiveTools:GetDescendants()) do if item:IsA("BasePart") and item.Name=="Basketball" then realDisplay=item; break end end',
@@ -109,7 +120,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." helicopterGui="..tostring(result.helicopterGui.ok).." realHeliGui=true avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
