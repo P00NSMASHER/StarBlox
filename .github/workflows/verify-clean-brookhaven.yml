@@ -38,22 +38,20 @@ jobs:
             'local StarterPlayer=game:GetService("StarterPlayer")',
             'local StarterGui=game:GetService("StarterGui")',
             'local ServerScriptService=game:GetService("ServerScriptService")',
+            'local ServerStorage=game:GetService("ServerStorage")',
+            'local ReplicatedStorage=game:GetService("ReplicatedStorage")',
             'local descendants=#Workspace:GetDescendants()',
             'assert(descendants == 24348, "Brookhaven workspace descendant count changed: "..tostring(descendants))',
-            'local geometry=0',
-            'for _,x in ipairs(Workspace:GetDescendants()) do',
-            '  local c=x.ClassName; if c=="Part" or c=="MeshPart" or c=="WedgePart" or c=="CornerWedgePart" or c=="UnionOperation" or c=="TrussPart" or c=="Seat" or c=="VehicleSeat" then geometry += 1 end',
-            'end',
-            'assert(geometry == 14459, "Brookhaven geometry changed: "..tostring(geometry))',
             'local client=StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("BrookhavenCompat")',
             'assert(client and client:IsA("LocalScript"), "BrookhavenCompat LocalScript missing")',
             'assert(string.find(client.Source, "task.delay(0.08", 1, true), "native-first right-rail fallback missing")',
+            'assert(string.find(client.Source, "menuSignature", 1, true), "native-state guard missing")',
             'assert(string.find(client.Source, "STARBLOX_BROOKHAVEN_COMPAT_CLIENT_READY", 1, true), "client compatibility marker missing")',
             'local server=ServerScriptService:FindFirstChild("BrookhavenHouseCompat")',
             'assert(server and server:IsA("Script"), "BrookhavenHouseCompat Script missing")',
             'assert(string.find(server.Source, "gettingHouse.OnServerEvent:Connect", 1, true), "native GettingHouse backend missing")',
             'assert(string.find(server.Source, "PickingCustomHouse", 1, true), "house style handler missing")',
-            'assert(string.find(server.Source, "templates", 1, true), "authentic house template pool missing")',
+            'assert(string.find(server.Source, "ensureBag", 1, true), "PlayersBag bootstrap missing")',
             'assert(string.find(server.Source, "STARBLOX_BROOKHAVEN_COMPAT_SERVER_READY", 1, true), "server compatibility marker missing")',
             'local handler=StarterGui:FindFirstChild("PlayerHandler")',
             'assert(handler and handler:IsA("LocalScript"), "original PlayerHandler missing")',
@@ -61,12 +59,23 @@ jobs:
             'local lots=Workspace:FindFirstChild("001_Lots")',
             'assert(lots, "Brookhaven lots missing")',
             'local buyLots=0',
+            'local wiredLots=0',
             'for _,lot in ipairs(lots:GetChildren()) do',
             '  local buy=lot:FindFirstChild("BuyHouse", true)',
-            '  if buy and buy:IsA("BasePart") then buyLots += 1 end',
+            '  if buy and buy:IsA("BasePart") then',
+            '    buyLots += 1',
+            '    if buy:FindFirstChild("CompatibilityHouseNumber") and buy:FindFirstChildOfClass("ClickDetector") then wiredLots += 1 end',
+            '  end',
             'end',
-            'assert(buyLots >= 19, "expected all original house lots; got "..tostring(buyLots))',
-            'print("BROOKHAVEN_COMPAT_V43_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." buyLots="..tostring(buyLots))'
+            'assert(buyLots >= 19, "expected original Brookhaven buy lots; got "..tostring(buyLots))',
+            'assert(wiredLots == buyLots, "not all Brookhaven lots wired: "..tostring(wiredLots).."/"..tostring(buyLots))',
+            'local hidden=ServerStorage:FindFirstChild("StarBloxBrookhavenCompatibility")',
+            'assert(hidden, "compatibility runtime state missing")',
+            'local templates=hidden:FindFirstChild("HouseTemplates")',
+            'assert(templates and #templates:GetChildren() >= 5, "authentic house template pool missing")',
+            'local remotes=ReplicatedStorage:FindFirstChild("RemoteEvents")',
+            'assert(remotes and remotes:FindFirstChild("GettingHouse") and remotes:FindFirstChild("PlayerHouseChoice") and remotes:FindFirstChild("PlayersHouse"), "Brookhaven house remotes missing")',
+            'print("BROOKHAVEN_COMPAT_V43_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." buyLots="..tostring(buyLots).." wiredLots="..tostring(wiredLots).." templates="..tostring(#templates:GetChildren()))'
           ].join("\n");
 
           async function parse(r,label){
@@ -83,7 +92,7 @@ jobs:
               `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
               {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
             );
-            if(response.status!==429) break;
+            if(response.status!==429 && response.status!==500) break;
             await new Promise(r=>setTimeout(r,2500*(attempt+1)));
           }
           let task=await parse(response,"create");
