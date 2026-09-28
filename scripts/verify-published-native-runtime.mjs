@@ -39,6 +39,7 @@ const luau=[
   'assert(result and result.ok==true,"native runtime behavior probe failed")',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
   'assert(result.vehicleMusic and result.vehicleMusic.ok==true,"vehicle music behavior failed")',
+  'assert(result.horseCustomization and result.horseCustomization.ok==true,"horse customization behavior failed")',
   'assert(result.hairColor and result.hairColor.ok==true,"hair color behavior failed")',
   'assert(result.houseMusic and result.houseMusic.ok==true,"house music behavior failed")',
   'assert(result.curtains and result.curtains.ok==true,"curtain behavior failed")',
@@ -59,7 +60,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
