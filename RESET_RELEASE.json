@@ -1,10 +1,9 @@
 {
-  "schemaVersion": 1,
-  "status": "clean-reset-server-verified",
-  "recordedAt": "2026-09-27T22:08:27-04:00",
+  "schemaVersion": 2,
+  "status": "brookhaven-v41-controls-houses-server-verified",
+  "recordedAt": "2026-09-27T22:44:17-04:00",
   "resetCommit": "17be8d86815784fa75065e70c621e04733e77703",
-  "publishWorkflowCommit": "aa13b0d9b15648340256548b7f399e08847a3f17",
-  "verifyWorkflowCommit": "fe81fa4432defda34ec59c60df1c23725d5f9344",
+  "repairMergeCommit": "43b7054efa66709eb08e6c1628529c50c52577a7",
   "source": {
     "repository": "IIIStatusIII/Roblox-Uncopylocked-Games",
     "path": "Brookhaven.rbxl",
@@ -16,26 +15,32 @@
     "universeId": "6027194615",
     "placeId": "17602626136",
     "releaseChannel": "private-staging",
-    "publishedVersion": 40,
+    "publishedVersion": 41,
     "publicAccessChanged": false
   },
+  "repair": {
+    "existingGuiRestyled": false,
+    "worldGeometryRebuilt": false,
+    "originalPlayerHandlerStartupStatementsGuarded": 5,
+    "clientCompatibilityScript": "StarterPlayer/StarterPlayerScripts/BrookhavenCompat",
+    "serverHouseCompatibilityScript": "ServerScriptService/BrookhavenHouseCompat",
+    "claimablePrebuiltHouseLots": 5
+  },
   "publishEvidence": {
-    "workflowRunId": 36368571667,
-    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36368571667",
+    "workflowRunId": 36370774811,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36370774811",
     "result": "success"
   },
   "serverVerification": {
-    "workflowRunId": 36368642697,
-    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36368642697",
+    "workflowRunId": 36370946942,
+    "workflowRunUrl": "https://github.com/P00NSMASHER/StarBlox/actions/runs/36370946942",
     "result": "success",
     "workspaceDescendants": 24348,
-    "serverScripts": 266,
-    "clientScripts": 79,
-    "spawnLocations": 18,
-    "sentinel": "CLEAN_BROOKHAVEN_BOOT_OK"
+    "claimablePrebuiltHouseLots": 5,
+    "sentinel": "BROOKHAVEN_COMPAT_V41_OK"
   },
   "visualVerification": {
-    "status": "not-yet-observed-in-real-client",
+    "status": "awaiting-real-client-test",
     "claimAllowed": false
   },
   "rollback": {
