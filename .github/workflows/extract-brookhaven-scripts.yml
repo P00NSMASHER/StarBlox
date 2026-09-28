@@ -1,0 +1,52 @@
+name: Extract Brookhaven Script Sources
+
+on:
+  push:
+    branches:
+      - diag/extract-brookhaven-scripts
+    paths:
+      - scripts/extract-legacy-script-sources.mjs
+      - .github/workflows/extract-brookhaven-scripts.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Fetch pinned Brookhaven place
+        run: |
+          node scripts/fetch-legacy-brookhaven-reference.mjs \
+            --out .diag-brookhaven/Brookhaven.rbxl \
+            --receipt .diag-brookhaven/source.json
+      - name: Decode Roblox DOM
+        run: |
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            .diag-brookhaven/Brookhaven.rbxl --pretty > .diag-brookhaven/legacy-dom.json
+      - name: Extract relevant script sources
+        run: |
+          node scripts/extract-legacy-script-sources.mjs \
+            .diag-brookhaven/legacy-dom.json \
+            docs/diagnostics/BROOKHAVEN_SCRIPT_EXTRACT.json
+      - name: Commit diagnostic extract
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/diagnostics/BROOKHAVEN_SCRIPT_EXTRACT.json
+          if git diff --cached --quiet; then
+            echo "No diagnostic changes"
+          else
+            git commit -m "Record Brookhaven script source extract [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
