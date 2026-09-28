@@ -899,6 +899,47 @@ function RuntimeCore.applyHorseCustomization(horse, action, value)
 	}
 end
 
+
+function RuntimeCore.buildToolFromDisplayPart(displayPart, toolName)
+	if not (displayPart and displayPart:IsA("BasePart")) then
+		return {ok = false, code = "display_part_missing"}
+	end
+	local tool = Instance.new("Tool")
+	tool.Name = tostring(toolName or displayPart.Name)
+	tool.CanBeDropped = false
+	tool.RequiresHandle = true
+	tool:SetAttribute("BrookhavenNativeDisplaySource", true)
+	tool:SetAttribute("BrookhavenNativeDisplayName", displayPart.Name)
+
+	local handle = displayPart:Clone()
+	handle.Name = "Handle"
+	handle.Anchored = false
+	handle.CanCollide = false
+	handle.CanTouch = false
+	handle.Massless = true
+	pcall(function()
+		handle.CanQuery = false
+	end)
+	for _, item in ipairs(handle:GetDescendants()) do
+		if item:IsA("ClickDetector")
+			or item:IsA("ProximityPrompt")
+			or item:IsA("BillboardGui")
+			or item:IsA("SurfaceGui")
+		then
+			item:Destroy()
+		end
+	end
+	handle.Parent = tool
+
+	return {
+		ok = handle.Parent == tool and handle.Anchored == false and handle.CanCollide == false,
+		tool = tool,
+		handle = handle,
+		sourceName = displayPart.Name,
+		sourceClass = displayPart.ClassName,
+	}
+end
+
 function RuntimeCore.applyHairColor(character, action, value)
 	if not (character and character:IsA("Model")) then
 		return {ok = false, code = "character_missing"}
@@ -1083,6 +1124,41 @@ function RuntimeCore.runBehaviorProbe()
 		and lifecycleGui.Enabled == true
 	lifecycleWorld:Destroy()
 	lifecycleCharacter:Destroy()
+
+	local displayPart = Instance.new("Part")
+	displayPart.Name = "Basketball"
+	displayPart.Size = Vector3.new(2, 2, 2)
+	displayPart.Color = Color3.fromRGB(255, 128, 0)
+	displayPart.Anchored = true
+	displayPart.CanCollide = true
+	local displayMesh = Instance.new("SpecialMesh")
+	displayMesh.MeshType = Enum.MeshType.Sphere
+	displayMesh.Parent = displayPart
+	local displayClick = Instance.new("ClickDetector")
+	displayClick.Parent = displayPart
+	local displayGui = Instance.new("BillboardGui")
+	displayGui.Parent = displayPart
+	local displayToolResult = RuntimeCore.buildToolFromDisplayPart(displayPart, "Basketball")
+	local displayTool = displayToolResult.tool
+	local displayHandle = displayTool and displayTool:FindFirstChild("Handle")
+	local toolVisualOk = displayToolResult.ok
+		and displayTool ~= nil
+		and displayHandle ~= nil
+		and displayHandle:IsA("BasePart")
+		and displayTool.Name == "Basketball"
+		and displayHandle.Size == Vector3.new(2, 2, 2)
+		and displayHandle.Color == Color3.fromRGB(255, 128, 0)
+		and displayHandle.Anchored == false
+		and displayHandle.CanCollide == false
+		and displayHandle.Massless == true
+		and displayHandle:FindFirstChildOfClass("SpecialMesh") ~= nil
+		and displayHandle:FindFirstChildOfClass("ClickDetector") == nil
+		and displayHandle:FindFirstChildOfClass("BillboardGui") == nil
+		and displayTool:GetAttribute("BrookhavenNativeDisplaySource") == true
+	if displayTool then
+		displayTool:Destroy()
+	end
+	displayPart:Destroy()
 
 	local horseFixture = Instance.new("Model")
 	local horseHead = Instance.new("Part")
@@ -1282,7 +1358,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		toolVisual = {ok = toolVisualOk, sourceName = displayToolResult.sourceName, sourceClass = displayToolResult.sourceClass},
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
 		horseLifecycle = {ok = horseLifecycleOk, inspected = horseLifecycleInspect, mounted = horseLifecycleMounted, restored = horseLifecycleRestored},
 		horseCustomization = {ok = horseCustomizationOk, name = horseNameResult, nameColor = horseNameColorResult, body = horseBodyResult, hair = horseHairResult, saddle = horseSaddleResult, texture = horseTextureResult, preset = horsePresetResult},
