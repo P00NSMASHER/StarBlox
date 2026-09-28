@@ -1,3 +1,4 @@
+// Interactive Avatar/Shop repair verification revision.
 const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
 const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
 const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
@@ -22,12 +23,18 @@ const luauLines=[
   'assert(client and client:IsA("LocalScript") and client.Disabled==false,"native UI fallback missing")',
   'assert(not string.find(client.Source,"StarCoinShop",1,true),"custom Star Shop still overrides Brookhaven")',
   'assert(not string.find(client.Source,"hideLegacyShopPages",1,true),"legacy shop hider still present")',
+  'assert(string.find(client.Source,"STARBLOX_BROOKHAVEN_NATIVE_SHOP_FALLBACK_READY",1,true),"native Shop fallback marker missing")',
+  'assert(string.find(client.Source,"shopOpen.Activated",1,true) and string.find(client.Source,"shopPanels",1,true) and string.find(client.Source,"invokeNativeUi(\\\"shop_pass\\\"",1,true),"native Shop open/category/purchase fallback wiring missing")',
+  'assert(string.find(client.Source,"BoughtMusic",1,true) and string.find(client.Source,"BoughtPremium",1,true) and string.find(client.Source,"BoughtColorSpeedLower",1,true) and string.find(client.Source,"BoughtSpeed200",1,true) and string.find(client.Source,"BoughtHorse",1,true) and string.find(client.Source,"BoughtFire",1,true),"native Shop pass wiring incomplete")',
+  'assert(string.find(client.Source,"currentCatalogMatches",1,true) and string.find(client.Source,"resolveNativeUiAction",1,true) and string.find(client.Source,"invokeNativeUi(\\\"avatar_asset\\\"",1,true),"Avatar live fallback wiring incomplete")',
   'local weatherScript=SP:WaitForChild("StarterPlayerScripts"):WaitForChild("WeatherScript")',
   'assert(weatherScript:IsA("LocalScript") and string.find(weatherScript.Source,"TurnOnRain",1,true) and string.find(weatherScript.Source,"TurnOnSnow",1,true),"native WeatherScript effects missing")',
-  'local avatar=SG:FindFirstChild("AvatarEditor")',
-  'assert(avatar and avatar:IsA("LocalScript") and avatar.Disabled==false,"executing StarterGui AvatarEditor clone missing")',
-  'assert(avatar:FindFirstChild("Button") and avatar:FindFirstChild("CharacterSizeNumber"),"AvatarEditor controller children missing")',
-  'assert(string.find(avatar.Source,"UpdateAvatar",1,true) and string.find(avatar.Source,"CharacterSizeUp",1,true),"native avatar callbacks missing")',
+  'local playerScripts=SP:WaitForChild("StarterPlayerScripts")',
+  'local avatar=playerScripts:FindFirstChild("AvatarEditor")',
+  'assert(avatar and avatar:IsA("LocalScript") and avatar.Disabled==false,"native AvatarEditor is not in executable StarterPlayerScripts")',
+  'assert(avatar:FindFirstChild("Button") and avatar.Button:IsA("ModuleScript") and avatar:FindFirstChild("CharacterSizeNumber"),"AvatarEditor controller children missing")',
+  'assert(string.find(avatar.Source,"UpdateAvatar",1,true) and string.find(avatar.Source,"Clothes",1,true) and string.find(avatar.Source,"wearPremium",1,true) and string.find(avatar.Source,"CharacterSizeUp",1,true) and string.find(avatar.Source,"CharacterSizeDown",1,true),"native avatar callbacks incomplete")',
+  'assert(SG:FindFirstChild("AvatarEditor")==nil,"duplicate StarterGui AvatarEditor clone still present")',
   'local remotes=RS:WaitForChild("RemoteEvents")',
   'assert(remotes.Clothes:IsA("RemoteEvent") and remotes.UpdateAvatar:IsA("RemoteEvent"),"native avatar remotes missing")',
   'assert(remotes.Pass:IsA("RemoteEvent") and remotes.Car:IsA("RemoteEvent"),"native shop/vehicle remotes missing")',
