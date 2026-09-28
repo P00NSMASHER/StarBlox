@@ -363,7 +363,7 @@ end);
         assert!(src.contains("wearDirect"));
         assert!(!src.contains("GetCharacterAppearanceInfoAsync(l__LocalPlayer__1.UserId)"));
         assert_eq!(receipt["moved"], true);
-        assert_eq!(receipt["networkIndependentPatchCount"], 11);
+        assert_eq!(receipt["networkIndependentPatchCount"], 12);
     }
 
     #[test]
