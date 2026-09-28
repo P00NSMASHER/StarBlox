@@ -164,7 +164,7 @@ function RuntimeCore.prepareNativeVehicle(model)
 
 	seat.Anchored = false
 	return {
-		ok = socialOk and seat.Anchored == false,
+		ok = houseAccessOk and socialOk and seat.Anchored == false,
 		seat = seat.Name,
 		seatAnchored = seat.Anchored,
 		driveConstraints = constraintCount,
@@ -1354,10 +1354,107 @@ function RuntimeCore.updateHelicopterVelocity(heli, verticalVelocity)
 	return {ok = true, velocity = inspected.bodyVelocity.Velocity, speed = inspected.seat.MaxSpeed}
 end
 
+
+function RuntimeCore.inspectNativeBanBlock(bannedLots, houseNumber)
+	if not bannedLots then
+		return {ok = false, code = "banned_lots_missing"}
+	end
+	local number = math.floor(tonumber(houseNumber) or 0)
+	if number < 1 then
+		return {ok = false, code = "invalid_house_number"}
+	end
+	local block = bannedLots:FindFirstChild("BannedBlock" .. tostring(number))
+	if not (block and block:IsA("BasePart")) then
+		return {ok = false, code = "banned_block_missing", houseNumber = number}
+	end
+	return {
+		ok = true,
+		houseNumber = number,
+		block = block,
+		descendants = #block:GetDescendants(),
+	}
+end
+
+function RuntimeCore.cloneNativeBanBlock(bannedLots, houseNumber)
+	local inspected = RuntimeCore.inspectNativeBanBlock(bannedLots, houseNumber)
+	if not inspected.ok then
+		return inspected
+	end
+	local clone = inspected.block:Clone()
+	clone.Name = inspected.block.Name
+	clone:SetAttribute("BrookhavenNativeBanBlock", true)
+	return {
+		ok = clone:IsA("BasePart") and clone.Name == "BannedBlock" .. tostring(inspected.houseNumber),
+		houseNumber = inspected.houseNumber,
+		block = clone,
+		descendants = #clone:GetDescendants(),
+	}
+end
+
+function RuntimeCore.setNativeHousePermission(permissionFolder, target, allowed)
+	if not (permissionFolder and permissionFolder:IsA("Folder")) then
+		return {ok = false, code = "permission_folder_missing"}
+	end
+	if not target then
+		return {ok = false, code = "permission_target_missing"}
+	end
+	local key = tostring(target.Name)
+	local existing = permissionFolder:FindFirstChild(key)
+	if allowed == false then
+		if existing then
+			existing:Destroy()
+		end
+		return {ok = permissionFolder:FindFirstChild(key) == nil, allowed = false, key = key}
+	end
+	if existing and not existing:IsA("ObjectValue") then
+		existing:Destroy()
+		existing = nil
+	end
+	local entry = existing
+	if not entry then
+		entry = Instance.new("ObjectValue")
+		entry.Name = key
+		entry.Parent = permissionFolder
+	end
+	entry.Value = target
+	return {
+		ok = entry.Parent == permissionFolder and entry.Value == target,
+		allowed = true,
+		key = key,
+		entry = entry,
+	}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local bannedLotsFixture = Instance.new("Model")
+	bannedLotsFixture.Name = "BannedLots"
+	local nativeBanSource = Instance.new("Part")
+	nativeBanSource.Name = "BannedBlock11"
+	nativeBanSource.Size = Vector3.new(12, 8, 1)
+	nativeBanSource.Parent = bannedLotsFixture
+	local banInspect = RuntimeCore.inspectNativeBanBlock(bannedLotsFixture, 11)
+	local banClone = RuntimeCore.cloneNativeBanBlock(bannedLotsFixture, 11)
+	local permissionFolder = Instance.new("Folder")
+	permissionFolder.Name = "PermissionPlayers"
+	local permissionTarget = Instance.new("Folder")
+	permissionTarget.Name = "RoommatePlayer"
+	local permissionOn = RuntimeCore.setNativeHousePermission(permissionFolder, permissionTarget, true)
+	local permissionOff = RuntimeCore.setNativeHousePermission(permissionFolder, permissionTarget, false)
+	local houseAccessOk = banInspect.ok
+		and banClone.ok and banClone.block ~= nil
+		and banClone.block.Name == "BannedBlock11"
+		and banClone.block:GetAttribute("BrookhavenNativeBanBlock") == true
+		and permissionOn.ok
+		and permissionOff.ok
+		and permissionFolder:FindFirstChild("RoommatePlayer") == nil
+	if banClone.block then banClone.block:Destroy() end
+	bannedLotsFixture:Destroy()
+	permissionFolder:Destroy()
+	permissionTarget:Destroy()
+
 	local heliFixture = Instance.new("Model")
 	heliFixture.Name = "Heli"
 	local heliSeat = Instance.new("VehicleSeat")
@@ -1890,6 +1987,7 @@ function RuntimeCore.runBehaviorProbe()
 
 	return {
 		ok = heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		houseAccess = {ok = houseAccessOk, ban = banInspect, permissionOn = permissionOn, permissionOff = permissionOff},
 		helicopter = {ok = heliGuiOk, inspected = heliInspect, gui = heliGuiBuild, flightOn = heliFlightOn, lift = heliLift, speedUp = heliSpeedUp, speedCap = heliSpeedCap, flightOff = heliFlightOff},
 		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
 		helicopterGui = {ok = heliGuiOk, inspected = heliInspect},
