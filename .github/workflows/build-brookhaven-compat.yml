@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/brookhaven-v40-controls-houses
+      - repair/native-brookhaven-runtime-v51
     paths:
       - "compatibility/**"
       - "tools/brookhaven_compat_patcher/**"
