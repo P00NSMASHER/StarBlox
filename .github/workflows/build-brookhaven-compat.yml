@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          npx --yes @johnnymorganz/stylua-bin@2.5.2 --syntax Luau --check compatibility/server/BrookhavenHouseCompat.server.luau > /tmp/stylua-check.log 2>&1
+          npx --yes @johnnymorganz/stylua-bin@2.5.2 --syntax Luau --check compatibility/server/BrookhavenHouseCompat.server.luau compatibility/server/BrookhavenNativeRuntimeCore.luau > /tmp/stylua-check.log 2>&1
           status=$?
           set -e
           cat /tmp/stylua-check.log
