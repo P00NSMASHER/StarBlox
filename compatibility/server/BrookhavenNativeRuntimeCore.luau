@@ -164,7 +164,7 @@ function RuntimeCore.prepareNativeVehicle(model)
 
 	seat.Anchored = false
 	return {
-		ok = seat.Anchored == false,
+		ok = socialOk and seat.Anchored == false,
 		seat = seat.Name,
 		seatAnchored = seat.Anchored,
 		driveConstraints = constraintCount,
@@ -1107,10 +1107,141 @@ function RuntimeCore.dayNameFromWeekday(weekday)
 	return days[index]
 end
 
+
+local SOCIAL_OFFSETS = {
+	Piggyback = CFrame.new(0, 0.25, 1.35),
+	Shoulders = CFrame.new(0, 1.65, 0),
+	Carry = CFrame.new(1.15, 0.15, 0),
+}
+
+local function socialTorso(character)
+	if not (character and character:IsA("Model")) then
+		return nil
+	end
+	return character:FindFirstChild("UpperTorso")
+		or character:FindFirstChild("Torso")
+		or character:FindFirstChild("HumanoidRootPart")
+end
+
+function RuntimeCore.clearClient2ClientWeld(character)
+	local torso = socialTorso(character)
+	if not torso then
+		return {ok = false, code = "torso_missing"}
+	end
+	local removed = 0
+	for _, item in ipairs(torso:GetChildren()) do
+		if item.Name == "Client_To_ClientWeld" and (item:IsA("Weld") or item:IsA("WeldConstraint")) then
+			item:Destroy()
+			removed += 1
+		end
+	end
+	return {ok = true, removed = removed}
+end
+
+function RuntimeCore.createClient2ClientWeld(carrierCharacter, passengerCharacter, mode)
+	local carrierTorso = socialTorso(carrierCharacter)
+	local passengerTorso = socialTorso(passengerCharacter)
+	if not carrierTorso or not passengerTorso then
+		return {ok = false, code = "torso_missing"}
+	end
+	local offset = SOCIAL_OFFSETS[mode]
+	if not offset then
+		return {ok = false, code = "unknown_social_mode"}
+	end
+
+	RuntimeCore.clearClient2ClientWeld(carrierCharacter)
+	RuntimeCore.clearClient2ClientWeld(passengerCharacter)
+
+	local weld = Instance.new("Weld")
+	weld.Name = "Client_To_ClientWeld"
+	weld.Part0 = carrierTorso
+	weld.Part1 = passengerTorso
+	weld.C0 = offset
+	weld.C1 = CFrame.new()
+	weld:SetAttribute("BrookhavenSocialMode", mode)
+	weld.Parent = passengerTorso
+
+	pcall(function()
+		passengerTorso.CFrame = carrierTorso.CFrame * offset
+	end)
+
+	return {
+		ok = weld.Parent == passengerTorso
+			and weld.Part0 == carrierTorso
+			and weld.Part1 == passengerTorso,
+		mode = mode,
+		weld = weld,
+		carrierTorso = carrierTorso,
+		passengerTorso = passengerTorso,
+	}
+end
+
+function RuntimeCore.setClient2ClientPairValue(bag, partner)
+	if not bag then
+		return {ok = false, code = "bag_missing"}
+	end
+	local pair = bag:FindFirstChild("Client2Client")
+	if pair and not pair:IsA("ObjectValue") then
+		pair:Destroy()
+		pair = nil
+	end
+	if not pair then
+		pair = Instance.new("ObjectValue")
+		pair.Name = "Client2Client"
+		pair.Parent = bag
+	end
+	pair.Value = partner
+	return {ok = pair.Value == partner, value = pair}
+end
+
+function RuntimeCore.clearClient2ClientPairValue(bag)
+	if not bag then
+		return {ok = false, code = "bag_missing"}
+	end
+	local pair = bag:FindFirstChild("Client2Client")
+	if pair then
+		pair:Destroy()
+		return {ok = true, removed = true}
+	end
+	return {ok = true, removed = false}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local socialCarrier = Instance.new("Model")
+	socialCarrier.Name = "Carrier"
+	local carrierTorso = Instance.new("Part")
+	carrierTorso.Name = "UpperTorso"
+	carrierTorso.Anchored = true
+	carrierTorso.Parent = socialCarrier
+	local socialPassenger = Instance.new("Model")
+	socialPassenger.Name = "Passenger"
+	local passengerTorso = Instance.new("Part")
+	passengerTorso.Name = "UpperTorso"
+	passengerTorso.Anchored = true
+	passengerTorso.Parent = socialPassenger
+	local socialPair = RuntimeCore.createClient2ClientWeld(socialCarrier, socialPassenger, "Piggyback")
+	local socialWeld = passengerTorso:FindFirstChild("Client_To_ClientWeld")
+	local socialBag = Instance.new("Folder")
+	local socialPartner = Instance.new("Folder")
+	local pairValue = RuntimeCore.setClient2ClientPairValue(socialBag, socialPartner)
+	local pairValueCreated = pairValue.ok and socialBag:FindFirstChild("Client2Client") ~= nil and socialBag.Client2Client.Value == socialPartner
+	local socialClear = RuntimeCore.clearClient2ClientWeld(socialPassenger)
+	local pairClear = RuntimeCore.clearClient2ClientPairValue(socialBag)
+	local socialOk = socialPair.ok
+		and socialWeld ~= nil and socialWeld:IsA("Weld")
+		and socialWeld.Part0 == carrierTorso and socialWeld.Part1 == passengerTorso
+		and socialWeld:GetAttribute("BrookhavenSocialMode") == "Piggyback"
+		and pairValueCreated
+		and socialClear.ok and passengerTorso:FindFirstChild("Client_To_ClientWeld") == nil
+		and pairClear.ok and socialBag:FindFirstChild("Client2Client") == nil
+	socialCarrier:Destroy()
+	socialPassenger:Destroy()
+	socialBag:Destroy()
+	socialPartner:Destroy()
+
 	local musicFixture = Instance.new("Model")
 	local stereoFixture = Instance.new("Model")
 	stereoFixture.Name = "HouseStereo"
@@ -1522,6 +1653,7 @@ function RuntimeCore.runBehaviorProbe()
 
 	return {
 		ok = followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
 		follower = {ok = followerOk, sourceName = followerBuild.sourceName, selected = followerName and followerName.Value or nil},
 		houseFire = {ok = houseFireOk, enabled = houseFireOn, disabled = houseFireOff},
 		toolVisual = {ok = toolVisualOk, sourceName = displayToolResult.sourceName, sourceClass = displayToolResult.sourceClass},
