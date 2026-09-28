@@ -562,6 +562,7 @@ print(
 
 local MarketplaceService = game:GetService("MarketplaceService")
 local ServerStorageService = game:GetService("ServerStorage")
+local RuntimeCore = require(script.Parent:WaitForChild("BrookhavenNativeRuntimeCore"))
 
 local clothesRemote = remotes:WaitForChild("Clothes")
 local updateAvatarRemote = remotes:WaitForChild("UpdateAvatar")
@@ -650,34 +651,7 @@ local function setBodyColor(description, color)
 end
 
 local function applyNativeAvatarMutation(description, action, a, b)
-	if not description then
-		return {ok = false, code = "description_missing"}
-	end
-	if action == "outfit" then
-		local shirt = tonumber(a)
-		local pants = tonumber(b)
-		if not shirt or not pants then
-			return {ok = false, code = "invalid_outfit"}
-		end
-		description.Shirt = shirt
-		description.Pants = pants
-		return {ok = true, action = action, shirt = shirt, pants = pants}
-	elseif action == "scale" then
-		local scale = math.clamp(tonumber(a) or 1, 0.5, 1)
-		description.HeightScale = scale
-		description.WidthScale = math.clamp(0.85 + (scale - 0.5) * 0.3, 0.85, 1)
-		description.DepthScale = math.clamp(0.85 + (scale - 0.5) * 0.3, 0.85, 1)
-		description.HeadScale = math.clamp(0.9 + (scale - 0.5) * 0.2, 0.9, 1)
-		return {ok = true, action = action, scale = scale}
-	elseif action == "skintone" then
-		local color = skinTones[tostring(a)]
-		if typeof(color) ~= "Color3" then
-			return {ok = false, code = "unknown_skin_tone"}
-		end
-		setBodyColor(description, color)
-		return {ok = true, action = action, skinTone = tostring(a)}
-	end
-	return {ok = false, code = "unknown_avatar_action"}
+	return RuntimeCore.applyNativeAvatarMutation(description, skinTones, action, a, b)
 end
 
 local function enumAssetTypeValue(name)
@@ -894,28 +868,8 @@ resetAvatarRemote.OnServerEvent:Connect(function(player)
 	end
 end)
 
-local PASS_ACTIONS = {
-	BoughtMusic = {flag = "MusicPass"},
-	BoughtPremium = {flag = "SilverPass"},
-	BoughtColorSpeedLower = {flag = "ColorSpeedPassLower", vehicleSpeed = 70, noMotorSpeed = 35},
-	BoughtSpeed200 = {flag = "SpeedPass200", vehicleSpeed = 200, noMotorSpeed = 45},
-	BoughtHorse = {flag = "HorsePass"},
-	BoughtFire = {flag = "FirePass"},
-}
-
 local function applyPassActionToBag(bag, action)
-	local def = PASS_ACTIONS[action]
-	if not def then
-		return {ok = false, code = "unknown_pass_action"}
-	end
-	ensureValue(bag, "BoolValue", def.flag, false).Value = true
-	if def.vehicleSpeed then
-		ensureValue(bag, "NumberValue", "VehicleSpeed", 55).Value = def.vehicleSpeed
-	end
-	if def.noMotorSpeed then
-		ensureValue(bag, "NumberValue", "SpeedPassNoMotorVehicle", 25).Value = def.noMotorSpeed
-	end
-	return {ok = true, action = action, flag = def.flag}
+	return RuntimeCore.applyPassActionToBag(bag, action)
 end
 
 passRemote.OnServerEvent:Connect(function(player, action)
@@ -988,39 +942,12 @@ local function vehicleSpawnCFrame(player)
 	return origin
 end
 
-local function findVehicleTemplate(requestedName, noMotor)
-	local storage = noMotor and singleVehicles or carBackup
-	if storage then
-		local template = storage:FindFirstChild(requestedName)
-		if template and template:IsA("Model") then
-			return template
-		end
-	end
-	if noMotor then
-		local fallback = carBackup:FindFirstChild(requestedName)
-		if fallback and fallback:IsA("Model") then
-			return fallback
-		end
-	end
-	return nil
-end
-
 local function cloneVehicleTemplate(requestedName, noMotor)
-	local template = findVehicleTemplate(requestedName, noMotor)
-	if not template then
-		return {ok = false, code = "vehicle_unavailable", vehicle = requestedName}
-	end
-	local clone = template:Clone()
-	return {ok = true, vehicle = requestedName, model = clone}
+	return RuntimeCore.cloneVehicleTemplate(carBackup, singleVehicles, requestedName, noMotor)
 end
 
 local function primaryVehicleSeat(model)
-	for _, item in ipairs(model:GetDescendants()) do
-		if item:IsA("VehicleSeat") then
-			return item
-		end
-	end
-	return nil
+	return RuntimeCore.primaryVehicleSeat(model)
 end
 
 local function ejectLockedGuests(owner, model)
@@ -1404,9 +1331,8 @@ for _, player in ipairs(Players:GetPlayers()) do
 	task.spawn(setupNativePlayer, player)
 end
 
--- A server-only behavior probe used by CI/Open Cloud verification. It invokes the
--- same mutation helpers used by the native RemoteEvent handlers and returns their
--- action/result state, rather than proving only that strings or objects exist.
+-- A server-only behavior probe remains available in a live server. CI requires the
+-- same ModuleScript directly because Open Cloud Luau Execution has IsRunning=false.
 local runtimeTest = ServerStorageService:FindFirstChild("StarBloxNativeRuntimeTest")
 if runtimeTest then
 	runtimeTest:Destroy()
@@ -1415,60 +1341,12 @@ runtimeTest = Instance.new("BindableFunction")
 runtimeTest.Name = "StarBloxNativeRuntimeTest"
 runtimeTest.Parent = ServerStorageService
 runtimeTest.OnInvoke = function(testName)
-	if testName == "avatar" then
-		local description = Instance.new("HumanoidDescription")
-		local outfit = applyNativeAvatarMutation(description, "outfit", 123456, 654321)
-		local scale = applyNativeAvatarMutation(description, "scale", 0.75)
-		local skin = applyNativeAvatarMutation(description, "skintone", "Really red")
-		local ok = outfit.ok and scale.ok and skin.ok and description.Shirt == 123456 and description.Pants == 654321 and math.abs(description.HeightScale - 0.75) < 0.001 and description.HeadColor == Color3.fromRGB(255, 0, 0)
-		description:Destroy()
-		return {ok = ok, outfit = outfit, scale = scale, skin = skin}
-	elseif testName == "shop" then
-		local bag = bagTemplate:Clone()
-		local music = applyPassActionToBag(bag, "BoughtMusic")
-		local speed = applyPassActionToBag(bag, "BoughtSpeed200")
-		local ok = music.ok and speed.ok and bag.MusicPass.Value == true and bag.SpeedPass200.Value == true and bag.VehicleSpeed.Value == 200 and bag.SpeedPassNoMotorVehicle.Value == 45
-		bag:Destroy()
-		return {ok = ok, music = music, speed = speed}
-	elseif testName == "vehicle" then
-		local children = carBackup:GetChildren()
-		table.sort(children, function(a, b)
-			return a.Name < b.Name
-		end)
-		local template = children[1]
-		if not template then
-			return {ok = false, code = "no_vehicle_templates"}
-		end
-		local result = cloneVehicleTemplate(template.Name, false)
-		if not result.ok then
-			return result
-		end
-		local model = result.model
-		model.Parent = hidden
-		local seat = primaryVehicleSeat(model)
-		local pivotOk = pcall(function()
-			model:PivotTo(CFrame.new(0, -10000, 0))
-		end)
-		local descendantCount = #model:GetDescendants()
-		local modelName = model.Name
-		model:Destroy()
-		return {
-			ok = pivotOk and descendantCount > 0,
-			vehicle = template.Name,
-			modelName = modelName,
-			hasVehicleSeat = seat ~= nil,
-			descendants = descendantCount,
-		}
-	elseif testName == "contracts" then
-		return {
-			ok = clothesRemote:IsA("RemoteEvent") and updateAvatarRemote:IsA("RemoteEvent") and passRemote:IsA("RemoteEvent") and carRemote:IsA("RemoteEvent") and keyFabRemote:IsA("RemoteFunction") and toolsRemote:IsA("RemoteFunction"),
-			clothes = clothesRemote.ClassName,
-			updateAvatar = updateAvatarRemote.ClassName,
-			pass = passRemote.ClassName,
-			car = carRemote.ClassName,
-			keyFab = keyFabRemote.ClassName,
-			tools = toolsRemote.ClassName,
-		}
+	local result = RuntimeCore.runBehaviorProbe()
+	if testName == "all" then
+		return result
+	end
+	if type(result) == "table" and type(result[testName]) == "table" then
+		return result[testName]
 	end
 	return {ok = false, code = "unknown_test"}
 end
