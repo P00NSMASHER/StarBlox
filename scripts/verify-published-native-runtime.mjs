@@ -235,6 +235,7 @@ async function runLuauTask(script,label,sentinel){
 
   const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),label+" logs");
   const output=JSON.stringify(logs);
+  console.log(label+" raw logs "+output);
   if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))){
     throw new Error(label+" runtime task failed "+JSON.stringify(task).slice(0,2200));
   }
