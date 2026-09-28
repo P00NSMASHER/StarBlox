@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -31,5 +31,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish v38 compact free-roam repair: preserve school report data and desktop behavior while preventing the automatic end-of-day ReportCard from covering compact iPhone free-roam.",
-  "requestedSourceCommit": "4efe119beb23014e8f0da65477829d8f4dd19f70"
+  "requestedSourceCommit": "4efe119beb23014e8f0da65477829d8f4dd19f70",
+  "completion": {
+    "publishedVersion": 38,
+    "verifiedVersion": 38,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
