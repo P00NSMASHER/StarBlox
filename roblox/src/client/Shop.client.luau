@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 local remotes = ReplicatedStorage:WaitForChild("StarBloxShop")
 local getState = remotes:WaitForChild("GetState") :: RemoteFunction
 local purchaseItem = remotes:WaitForChild("PurchaseItem") :: RemoteFunction
@@ -18,29 +19,15 @@ local setHouseBan = remotes:WaitForChild("SetHouseBan") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
-local UI = {
-	white = Color3.fromRGB(248,251,255),
-	tile = Color3.fromRGB(235,243,251),
-	border = Color3.fromRGB(107,137,164),
-	text = Color3.fromRGB(28,45,62),
-	muted = Color3.fromRGB(90,90,90),
-	red = Color3.fromRGB(210,49,49),
-	green = Color3.fromRGB(68,173,92),
-	blue = Color3.fromRGB(80,154,221),
-}
+local UI = MobileShell.Theme
+
 
 local function round(guiObject: GuiObject, radius: number)
-	local c = Instance.new("UICorner")
-	c.CornerRadius = UDim.new(0,radius)
-	c.Parent = guiObject
+	MobileShell.Round(guiObject, radius)
 end
 
 local function stroke(guiObject: GuiObject, color: Color3?)
-	local s = Instance.new("UIStroke")
-	s.Color = color or UI.border
-	s.Thickness = 1
-	s.Transparency = 0.15
-	s.Parent = guiObject
+	MobileShell.Stroke(guiObject, color or UI.border, 1, 0.45)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
@@ -54,11 +41,20 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "StarBloxShopUI"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
-gui.DisplayOrder = 26
+gui.DisplayOrder = 88
+gui.Enabled = false
 pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterOverlay("shop", gui)
+
+local scrim = Instance.new("Frame")
+scrim.Name = "ShopScrim"
+scrim.Size = UDim2.fromScale(1, 1)
+scrim.ZIndex = 58
+scrim.Parent = gui
+MobileShell.ApplyScrim(scrim, 0.30)
 
 -- Kept only as compatibility hooks for older tests/callers; hidden from players.
 local shopButton = Instance.new("TextButton")
@@ -77,26 +73,17 @@ local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
 panel.AnchorPoint = Vector2.new(0.5,0.5)
 panel.Position = UDim2.fromScale(0.5,0.52)
-panel.Size = UDim2.fromOffset(720,390)
+panel.Size = UDim2.fromOffset(640,360)
 panel.BackgroundColor3 = UI.white
-panel.BackgroundTransparency = 0.03
+panel.BackgroundTransparency = 0.04
 panel.Visible = false
 panel.ZIndex = 60
 panel.Parent = gui
-round(panel,16)
-stroke(panel, Color3.fromRGB(95,168,220))
-
-local panelGradient = Instance.new("UIGradient")
-panelGradient.Color = ColorSequence.new({
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(220,239,252)),
-})
-panelGradient.Rotation = 90
-panelGradient.Parent = panel
+MobileShell.ApplyModalCard(panel,16)
 
 local constraint = Instance.new("UISizeConstraint")
-constraint.MinSize = Vector2.new(620,350)
-constraint.MaxSize = Vector2.new(740,410)
+constraint.MinSize = Vector2.new(520,330)
+constraint.MaxSize = Vector2.new(660,380)
 constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
@@ -749,8 +736,8 @@ render=function()
 			order,
 			owned
 				and function()
+					closePanel()
 					editPlacement:Fire(id)
-					panel.Visible = false
 				end
 				or function()
 					purchaseItemById(id)
@@ -774,24 +761,28 @@ local function openPanel()
 	if fetchState() then
 		render()
 		panel.Visible=true
+		MobileShell.Open("shop")
 	end
+end
+
+local function closePanel()
+	panel.Visible = false
+	MobileShell.Close("shop")
 end
 
 openStore.Event:Connect(openPanel)
 shopButton.Activated:Connect(openPanel)
 
-closeButton.Activated:Connect(function()
-	panel.Visible=false
-end)
+closeButton.Activated:Connect(closePanel)
 
 visit.Activated:Connect(function()
 	pcall(function() visitHome:InvokeServer() end)
-	panel.Visible=false
+	closePanel()
 end)
 
 world.Activated:Connect(function()
 	pcall(function() returnWorld:InvokeServer() end)
-	panel.Visible=false
+	closePanel()
 end)
 
 homeButton.Activated:Connect(function()
@@ -800,7 +791,7 @@ end)
 
 toggleHome.Event:Connect(function()
 	pcall(function() visitHome:InvokeServer() end)
-	panel.Visible=false
+	closePanel()
 end)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
