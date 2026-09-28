@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: clean-brookhaven-baseline
+  group: clean-brookhaven-baseline-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
