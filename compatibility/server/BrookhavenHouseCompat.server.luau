@@ -1077,7 +1077,13 @@ local function normalizeVehicle(player, model, requestedName, noMotor)
 			end)
 		elseif item:IsA("StringValue") and (item.Name == "PlayerName" or item.Name == "OwnerName") then
 			item.Value = player.Name
-		elseif item:IsA("BasePart") then
+		end
+	end
+end
+
+local function assignVehicleNetworkOwner(player, model)
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("BasePart") then
 			pcall(function()
 				item:SetNetworkOwner(player)
 			end)
@@ -1110,6 +1116,7 @@ local function spawnVehicle(player, requestedName, noMotor)
 	local clone = result.model
 	normalizeVehicle(player, clone, requestedName, noMotor)
 	clone.Parent = liveVehicles
+	assignVehicleNetworkOwner(player, clone)
 	local ok, reason = pcall(function()
 		clone:PivotTo(spawnAt)
 	end)
