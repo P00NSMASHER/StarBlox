@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "status": "FOUNDATION_ONLY",
+  "sourceCommit": "2d4a2d3e6b04554c5a2ba96eebb93fa1d6ddbee5",
+  "builtAt": "2026-09-28T18:46:13.314Z",
+  "sourceFingerprint": "f5c7056c600cfca8aad4ca8fb4519eda415458fdb0ff7cfc7862d96fe9709c01",
+  "sourceHashes": {
+    "default.project.json": "f4ded9b284ac791ba12441d954ddf93e21229433dbbca104f05af0fc2e37b6bc",
+    "src/client/Main.client.luau": "6df33c04d6e285f3ceee1617e10f79f614414dc545af520cadf4f0434060deb3",
+    "src/server/Main.server.luau": "2213a492712dd6423e11443f353dfed15f553da9bcac6f7fb1c11820f419ecf5",
+    "src/shared/Protocol.luau": "0a26fa130c92b38fc1fbc1117053dec45a3da48dee6ff8614b8c01480d9574aa",
+    "tests/runtime_protocol.spec.luau": "98ca28ca4e29daf68a16e3bbffeca8a08106a868b35b485e2cf5e4e10c07a266",
+    "tools/build.mjs": "a54c00ff6949fec3e04c518827d1c9a53ae1cb99b7d0ddffbff4410a5d1bcdd7"
+  },
+  "artifact": "LanternIsland-Foundation.rbxlx",
+  "artifactSha256": "3c00bac19bce8368bfb94334c1745f914f8e5f50fdfe5088cb67fa5e3acc1c5b",
+  "artifactBytes": 29280,
+  "artifactLocation": "Authorized Windows development computer: %USERPROFILE%/LanternIslandBuilds/kickoff-0427aa6/lantern-island/dist/LanternIsland-Foundation.rbxlx",
+  "artifactPublicUrl": null,
+  "toolchain": {
+    "rojo": "7.7.0",
+    "luau": "0.740",
+    "officialWindowsLuauArchiveSha256": "be676d9a1092b3d5ee36be5f5f11e2af1976911c32f5644a052548dc7c66bb9c",
+    "archiveChecksumVerifiedBeforeExecution": true
+  },
+  "checks": {
+    "compiledProductionLuauFiles": 3,
+    "protocolAndTestStrictTypecheck": "PASS",
+    "actualProtocolModuleBehaviorTestsPassed": 38,
+    "actualProtocolModuleBehaviorTestsFailed": 0,
+    "rojoBuild": "PASS",
+    "xmlParse": "PASS",
+    "xmlRoot": "roblox",
+    "xmlItems": 14,
+    "repeatBuildArtifactHashMatched": true
+  },
+  "commands": [
+    "luau-compile --null src/client/Main.client.luau src/server/Main.server.luau src/shared/Protocol.luau",
+    "luau-analyze src/shared/Protocol.luau tests/runtime_protocol.spec.luau",
+    "luau tests/runtime_protocol.spec.luau",
+    "node tools/build.mjs --rojo <rojo.exe> --luau <luau.exe> --compile <luau-compile.exe> --analyze <luau-analyze.exe>"
+  ],
+  "verificationScope": "Producer-executed actual Luau protocol behavior tests and Rojo packaging; not independent release QA.",
+  "nativeRobloxEngineExecution": "NOT_RUN",
+  "physicalDeviceInput": "NOT_RUN",
+  "realDataStoreLeaveRejoin": "NOT_RUN",
+  "schoolworkIntegration": "NOT_INTEGRATED",
+  "firstPlayableMission": "NOT_INTEGRATED",
+  "sixMissionGame": "NOT_INTEGRATED",
+  "publishedTarget": null,
+  "observedRuntimeAccess": "Existing local Studio bridge responded but reported zero attached peers. No old Studio session was started, stopped, replaced, or published.",
+  "remainingDependencies": ["ProfileService", "LessonService", "WorldBuilder", "RewardService", "MissionService", "UIController", "InteractionController"],
+  "nextOwners": {
+    "02": "Review and integrate foundation only into the sprint branch; preserve the evidence scope and wire accepted producer modules.",
+    "04_12": "Implement against evidence/03/INTERFACES.md, using one network owner and the declared action/public-state contract.",
+    "13": "Independently challenge protocol and integrated handlers; these producer tests are not independent certification.",
+    "14_15": "Verify the exact integrated candidate in Roblox and on actual devices; packaging is not runtime proof."
+  }
+}
