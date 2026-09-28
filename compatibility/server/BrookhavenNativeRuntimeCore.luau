@@ -712,6 +712,72 @@ function RuntimeCore.restoreHorseAfterDismount(horse)
 	return {ok = parts > 0 and mount.ok, parts = parts, mount = mount}
 end
 
+
+function RuntimeCore.mountHorseToCharacter(horse, character)
+	local info = RuntimeCore.inspectNativeHorse(horse)
+	if not info.ok then
+		return info
+	end
+	if not (character and character:IsA("Model")) then
+		return {ok = false, code = "character_missing"}
+	end
+	local root = character:FindFirstChild("HumanoidRootPart")
+	local upperTorso = horse:FindFirstChild("UpperTorso")
+	if not (root and root:IsA("BasePart") and upperTorso and upperTorso:IsA("BasePart")) then
+		return {ok = false, code = "mount_parts_missing"}
+	end
+	local prepared = RuntimeCore.prepareHorseMounted(horse)
+	if not prepared.ok then
+		return prepared
+	end
+	for _, item in ipairs(upperTorso:GetChildren()) do
+		if item:IsA("WeldConstraint") and item.Name == "StarBloxHorseMountWeld" then
+			item:Destroy()
+		end
+	end
+	horse.Parent = character
+	horse:PivotTo(root.CFrame * CFrame.new(0, -3.2, 0))
+	local weld = Instance.new("WeldConstraint")
+	weld.Name = "StarBloxHorseMountWeld"
+	weld.Part0 = root
+	weld.Part1 = upperTorso
+	weld.Parent = upperTorso
+	horse:SetAttribute("StarBloxHorseMounted", true)
+	return {
+		ok = horse.Parent == character and weld.Part0 == root and weld.Part1 == upperTorso,
+		weld = weld,
+		prepared = prepared,
+	}
+end
+
+function RuntimeCore.dismountHorseToWorld(horse, character, targetParent)
+	local info = RuntimeCore.inspectNativeHorse(horse)
+	if not info.ok then
+		return info
+	end
+	if not (targetParent and targetParent:IsA("Instance")) then
+		return {ok = false, code = "target_parent_missing"}
+	end
+	local upperTorso = horse:FindFirstChild("UpperTorso")
+	if upperTorso and upperTorso:IsA("BasePart") then
+		local weld = upperTorso:FindFirstChild("StarBloxHorseMountWeld")
+		if weld and weld:IsA("WeldConstraint") then
+			weld:Destroy()
+		end
+	end
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	horse.Parent = targetParent
+	if root and root:IsA("BasePart") then
+		horse:PivotTo(root.CFrame * CFrame.new(5, -3, 0))
+	end
+	horse:SetAttribute("StarBloxHorseMounted", false)
+	local restored = RuntimeCore.restoreHorseAfterDismount(horse)
+	return {
+		ok = restored.ok and horse.Parent == targetParent and horse:GetAttribute("StarBloxHorseMounted") == false,
+		restored = restored,
+	}
+end
+
 function RuntimeCore.applyHorseCustomization(horse, action, value)
 	if not (horse and horse:IsA("Model")) then
 		return {ok = false, code = "horse_missing"}
@@ -944,21 +1010,34 @@ function RuntimeCore.runBehaviorProbe()
 		animation.Parent = lifecycleAnimations
 	end
 	local horseLifecycleInspect = RuntimeCore.inspectNativeHorse(horseLifecycleFixture)
-	local horseLifecycleMounted = RuntimeCore.prepareHorseMounted(horseLifecycleFixture)
+	local lifecycleCharacter = Instance.new("Model")
+	local lifecycleRoot = Instance.new("Part")
+	lifecycleRoot.Name = "HumanoidRootPart"
+	lifecycleRoot.CFrame = CFrame.new(12, 8, -4)
+	lifecycleRoot.Parent = lifecycleCharacter
+	local lifecycleWorld = Instance.new("Folder")
+	lifecycleWorld.Parent = ServerStorage
+	local horseLifecycleMounted = RuntimeCore.mountHorseToCharacter(horseLifecycleFixture, lifecycleCharacter)
+	local mountWeld = lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld")
 	local mountedOk = horseLifecycleMounted.ok
+		and horseLifecycleFixture.Parent == lifecycleCharacter
+		and mountWeld ~= nil and mountWeld:IsA("WeldConstraint")
 		and lifecycleUpperTorso.CanCollide == false
 		and lifecycleUpperTorso.Massless == true
 		and lifecycleSeat.CanCollide == false
 		and lifecycleClick.MaxActivationDistance == 0
 		and lifecycleGui.Enabled == false
-	local horseLifecycleRestored = RuntimeCore.restoreHorseAfterDismount(horseLifecycleFixture)
+	local horseLifecycleRestored = RuntimeCore.dismountHorseToWorld(horseLifecycleFixture, lifecycleCharacter, lifecycleWorld)
 	local horseLifecycleOk = horseLifecycleInspect.ok and mountedOk and horseLifecycleRestored.ok
+		and horseLifecycleFixture.Parent == lifecycleWorld
+		and lifecycleUpperTorso:FindFirstChild("StarBloxHorseMountWeld") == nil
 		and lifecycleUpperTorso.CanCollide == true
 		and lifecycleUpperTorso.Massless == false
 		and lifecycleSeat.CanCollide == true
 		and lifecycleClick.MaxActivationDistance == 10
 		and lifecycleGui.Enabled == true
-	horseLifecycleFixture:Destroy()
+	lifecycleWorld:Destroy()
+	lifecycleCharacter:Destroy()
 
 	local horseFixture = Instance.new("Model")
 	local horseHead = Instance.new("Part")
