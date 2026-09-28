@@ -1,0 +1,54 @@
+name: Diagnose Native Brookhaven Runtime
+
+on:
+  push:
+    branches: [repair/native-brookhaven-runtime-v51]
+    paths:
+      - ".github/workflows/diagnose-native-runtime.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Inspect published runtime initialization
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json "+r.status+" "+t.slice(0,500));}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1500));return p;}
+          const script=[
+            'local SSS=game:GetService("ServerScriptService")',
+            'local SS=game:GetService("ServerStorage")',
+            'local SG=game:GetService("StarterGui")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local server=SSS:FindFirstChild("BrookhavenHouseCompat")',
+            'local hidden=SS:FindFirstChild("StarBloxBrookhavenCompatibility")',
+            'local probe=SS:FindFirstChild("StarBloxNativeRuntimeTest")',
+            'local avatar=SG:FindFirstChild("AvatarEditor")',
+            'print("NATIVE_DIAG version="..tostring(game.PlaceVersion).." server="..tostring(server~=nil).." disabled="..tostring(server and server.Disabled).." source="..tostring(server and #server.Source or -1).." hidden="..tostring(hidden~=nil).." probe="..tostring(probe~=nil).." avatar="..tostring(avatar~=nil))',
+            'local names={}',
+            'for _,x in ipairs(RS.RemoteEvents:GetChildren()) do table.insert(names,x.Name..":"..x.ClassName) end',
+            'table.sort(names)',
+            'print("NATIVE_REMOTE_INVENTORY "..table.concat(names,","))',
+            'if hidden then local h={}; for _,x in ipairs(hidden:GetChildren()) do table.insert(h,x.Name..":"..x.ClassName) end; print("NATIVE_HIDDEN "..table.concat(h,",")) end',
+            'print("NATIVE_DIAG_DONE")'
+          ].join("\n");
+          let r=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+          let task=await parse(r,"create");const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
+          console.log(JSON.stringify({task,logs},null,2));
+          if(task.error) throw new Error(JSON.stringify(task.error));
+          NODE
