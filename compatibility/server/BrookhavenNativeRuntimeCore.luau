@@ -940,6 +940,51 @@ function RuntimeCore.buildToolFromDisplayPart(displayPart, toolName)
 	}
 end
 
+
+local HOUSE_FIRE_ON_ACTIONS = {
+	PlayerWantsFire = true,
+	PlayerWantsFireOnFirePass = true,
+	PlayerWantsFireOnFirePassNotShowingAnyone = true,
+}
+
+function RuntimeCore.applyHouseFireMutation(house, action)
+	if not (house and house:IsA("Model")) then
+		return {ok = false, code = "house_missing"}
+	end
+	local enabled
+	if HOUSE_FIRE_ON_ACTIONS[action] then
+		enabled = true
+	elseif action == "PlayerWantsFireOffFirePass" then
+		enabled = false
+	else
+		return {ok = false, code = "unknown_house_fire_action"}
+	end
+	local fireModel = house:FindFirstChild("001_Fire", true)
+	if not (fireModel and fireModel:IsA("Model")) then
+		return {ok = false, code = "house_fire_model_missing"}
+	end
+	local changed = 0
+	for _, item in ipairs(fireModel:GetDescendants()) do
+		if item:IsA("Fire")
+			or item:IsA("Smoke")
+			or item:IsA("ParticleEmitter")
+			or item:IsA("PointLight")
+			or item:IsA("SpotLight")
+			or item:IsA("SurfaceLight")
+		then
+			item.Enabled = enabled
+			changed += 1
+		end
+	end
+	fireModel:SetAttribute("StarBloxHouseFireEnabled", enabled)
+	return {
+		ok = changed > 0,
+		action = action,
+		enabled = enabled,
+		effects = changed,
+	}
+end
+
 function RuntimeCore.applyHairColor(character, action, value)
 	if not (character and character:IsA("Model")) then
 		return {ok = false, code = "character_missing"}
@@ -1243,6 +1288,25 @@ function RuntimeCore.runBehaviorProbe()
 	local horseCustomizationOk = horseManualCustomizationOk and horsePresetOk
 	horseFixture:Destroy()
 
+	local houseFireFixture = Instance.new("Model")
+	local houseFireModel = Instance.new("Model")
+	houseFireModel.Name = "001_Fire"
+	houseFireModel.Parent = houseFireFixture
+	local houseFirePart = Instance.new("Part")
+	houseFirePart.Name = "Fire"
+	houseFirePart.Parent = houseFireModel
+	local nativeFire = Instance.new("Fire")
+	nativeFire.Enabled = false
+	nativeFire.Parent = houseFirePart
+	local nativeFireLight = Instance.new("PointLight")
+	nativeFireLight.Enabled = false
+	nativeFireLight.Parent = houseFirePart
+	local houseFireOn = RuntimeCore.applyHouseFireMutation(houseFireFixture, "PlayerWantsFireOnFirePass")
+	local houseFireOnOk = houseFireOn.ok and nativeFire.Enabled == true and nativeFireLight.Enabled == true
+	local houseFireOff = RuntimeCore.applyHouseFireMutation(houseFireFixture, "PlayerWantsFireOffFirePass")
+	local houseFireOk = houseFireOnOk and houseFireOff.ok and nativeFire.Enabled == false and nativeFireLight.Enabled == false
+	houseFireFixture:Destroy()
+
 	local hairFixture = Instance.new("Model")
 	for i = 1, 3 do
 		local accessory = Instance.new("Accessory")
@@ -1364,7 +1428,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		houseFire = {ok = houseFireOk, enabled = houseFireOn, disabled = houseFireOff},
 		toolVisual = {ok = toolVisualOk, sourceName = displayToolResult.sourceName, sourceClass = displayToolResult.sourceClass},
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
 		horseLifecycle = {ok = horseLifecycleOk, inspected = horseLifecycleInspect, mounted = horseLifecycleMounted, restored = horseLifecycleRestored},
