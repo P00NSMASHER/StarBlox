@@ -930,6 +930,16 @@ clockEventsRemote.OnServerEvent:Connect(function(player, action)
 	end
 end)
 
+playersHouse.OnServerEvent:Connect(function(player, action)
+	if action ~= "Curtains" then
+		return
+	end
+	local house = playerHouseForNativeControl(player)
+	if house then
+		RuntimeCore.toggleCurtains(house)
+	end
+end)
+
 task.spawn(function()
 	local lastText = nil
 	while true do
@@ -1479,4 +1489,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1")
