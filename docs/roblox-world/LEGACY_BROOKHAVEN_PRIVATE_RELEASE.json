@@ -3,7 +3,7 @@
   "receiptVersion": "starblox-private-publish-v2",
   "status": "published-server-boot-verified",
   "releaseId": "starblox-legacy-brookhaven-development-v1",
-  "sourceCommit": "3b85969d35c7c5a1ea67ed70c2bdf1db39d35043",
+  "sourceCommit": "0664cb2f70ccdf3c20b31c32179ef1750c9f0178",
   "target": {
     "universeId": "6027194615",
     "placeId": "17602626136",
@@ -11,25 +11,25 @@
   },
   "artifact": {
     "format": "rbxlx",
-    "sha256": "1f917cf7199743189505608f4e84dae375567971ba7c39769d4931fc1781ba46",
-    "bytes": 65724145
+    "sha256": "ba5e3f7983a5ca2e12e584663bc020b5279dc7437f5a3e33d75e12876e607880",
+    "bytes": 65726849
   },
   "versions": {
-    "previous": 37,
-    "published": 38,
-    "verified": 38
+    "previous": 38,
+    "published": 39,
+    "verified": 39
   },
   "verification": {
     "status": "server-boot-verified",
     "scope": "production-server-boot",
-    "taskPath": "universes/6027194615/places/17602626136/versions/38/luau-execution-sessions/9c0bbee7-0e3c-4951-83b2-31bc6e29d073/tasks/9c0bbee7-0e3c-4951-83b2-31bc6e29d073",
+    "taskPath": "universes/6027194615/places/17602626136/versions/39/luau-execution-sessions/a8d7a1c7-2166-4dcb-8771-e54d38d3caaa/tasks/a8d7a1c7-2166-4dcb-8771-e54d38d3caaa",
     "robloxClientRunObserved": false,
     "clientStatus": "not-tested"
   },
-  "verificationTaskPath": "universes/6027194615/places/17602626136/versions/38/luau-execution-sessions/9c0bbee7-0e3c-4951-83b2-31bc6e29d073/tasks/9c0bbee7-0e3c-4951-83b2-31bc6e29d073",
+  "verificationTaskPath": "universes/6027194615/places/17602626136/versions/39/luau-execution-sessions/a8d7a1c7-2166-4dcb-8771-e54d38d3caaa/tasks/a8d7a1c7-2166-4dcb-8771-e54d38d3caaa",
   "releaseGate": {
     "version": "starblox-legacy-brookhaven-private-release-v1",
-    "artifactSha256": "1f917cf7199743189505608f4e84dae375567971ba7c39769d4931fc1781ba46",
+    "artifactSha256": "ba5e3f7983a5ca2e12e584663bc020b5279dc7437f5a3e33d75e12876e607880",
     "baselineModelSha256": "30a918c944f386566d67635d211c2c933cda9281b4415341c15876e290f4a283",
     "mountedSubtreeSha256": "c0c23a85b933d629469fec0ab82e630a4d7afbee2dce2b73dc4c5658a35011b1"
   },
@@ -40,7 +40,7 @@
     "productionActivationAllowed": false
   },
   "rollback": {
-    "preservedPreviousVersion": 37,
+    "preservedPreviousVersion": 38,
     "previousVersionBasis": "immediate predecessor of the version number returned by the serialized publish request",
     "mechanism": "Roblox Creator Dashboard > Configure > Places > Version History > Restore",
     "automaticRollbackAttempted": false,

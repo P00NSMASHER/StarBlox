@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "requested",
-  "enabled": true,
+  "status": "completed",
+  "enabled": false,
   "action": "publish-private",
   "target": {
     "universeId": "6027194615",
@@ -31,5 +31,10 @@
     "ciConclusion": "success"
   },
   "requestReason": "Publish the unified mobile-shell rebuild: one shared design token system, one modal owner, shared persistent chrome ownership, and migrated Avatar, Family, Home Cams, Home Store, furniture editing, Settings, Run, School, Quick Chat, and world HUD presentation.",
-  "requestedSourceCommit": "ef37268119226f138edce0b05e01fd656df913a1"
+  "requestedSourceCommit": "ef37268119226f138edce0b05e01fd656df913a1",
+  "completion": {
+    "publishedVersion": 39,
+    "verifiedVersion": 39,
+    "receipt": "docs/roblox-world/LEGACY_BROOKHAVEN_PRIVATE_RELEASE.json"
+  }
 }
