@@ -43,8 +43,11 @@ describe('Brookhaven recording parity: persistent world chrome',()=>{
 
     expect(client).toContain('gui.Name = "BrookhavenRunControlUI"');
     expect(client).toContain('button.Name = "Run"');
-    expect(client).toContain('button.Position = UDim2.new(1, -282, 1, -62)');
-    expect(client).toContain('button.Size = UDim2.fromOffset(56, 56)');
+    expect(client).toContain('MobileShell.RegisterPersistent("run", gui)');
+    expect(client).toContain('local button = Instance.new("ImageButton")');
+    expect(client).toContain('button.Position = UDim2.new(1, -76, 1, -58)');
+    expect(client).toContain('button.Size = UDim2.fromOffset(52, 52)');
+    expect(client).toContain('button.Image = "rbxassetid://6034754445"');
     expect(client).toContain('toggleRun:InvokeServer()');
 
     expect(bootstrap).toContain('MovementService.new()');
