@@ -14,6 +14,7 @@ on:
       - "scripts/verify-published-native-runtime.mjs"
       - "scripts/verify-compatibility-compile.luau"
       - "scripts/verify-native-ui-live-path.mjs"
+      - "scripts/verify-patched-place-interactions.luau"
 
 permissions:
   contents: read
@@ -58,6 +59,9 @@ jobs:
           grep -q '"worldGeometryRebuilt": false' brookhaven-compat-receipt.json
           grep -q '"existingGuiRestyled": false' brookhaven-compat-receipt.json
           mv Brookhaven-compat.rbxl Brookhaven.rbxl
+      - name: Verify generated Avatar and Shop interaction contracts
+        shell: bash
+        run: /tmp/starblox-lune/lune run scripts/verify-patched-place-interactions.luau Brookhaven.rbxl 2>&1 | tee patched-place-interactions.log
       - name: Publish private staging baseline
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
@@ -81,6 +85,7 @@ jobs:
             native-compile.log
             native-ui-contract.log
             controller-regressions.log
+            patched-place-interactions.log
             native-behavior.log
             brookhaven-compat-receipt.json
             published-version.txt
