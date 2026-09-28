@@ -97,3 +97,43 @@ jobs:
           if(!text.includes("STARBLOX_V49_AVATAR_SHOP_OK")) throw new Error("v49 sentinel missing");
           console.log(text);
           NODE
+
+      - name: Inventory Brookhaven vehicle menu and backups
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1600));return p;}
+          const script=[
+            'assert(game.PlaceVersion==49,"expected v49")',
+            'local SG=game:GetService("StarterGui")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'print("VEHICLE_DIAG_BEGIN")',
+            'local menu=SG:FindFirstChild("MainGUIHandler") and SG.MainGUIHandler:FindFirstChild("MainVehicleMenu")',
+            'if menu then',
+            ' for _,x in ipairs(menu:GetDescendants()) do',
+            '  if x:IsA("GuiButton") then',
+            '   local vals={}',
+            '   for _,v in ipairs(x:GetDescendants()) do if v:IsA("ValueBase") then table.insert(vals,v.Name.."="..tostring(v.Value)) end end',
+            '   print("VEHICLE_BUTTON "..x:GetFullName().." class="..x.ClassName.." vals="..table.concat(vals,","))',
+            '  end',
+            ' end',
+            'end',
+            'local backup=RS:FindFirstChild("003_CarBackup")',
+            'print("CAR_BACKUP "..tostring(backup~=nil).." class="..tostring(backup and backup.ClassName or "none").." count="..tostring(backup and #backup:GetChildren() or 0))',
+            'if backup then for _,x in ipairs(backup:GetChildren()) do print("CAR_TEMPLATE "..x.Name.." class="..x.ClassName.." descendants="..tostring(#x:GetDescendants())) end end',
+            'local vehicles=workspace:FindFirstChild("Vehicles")',
+            'print("LIVE_VEHICLES "..tostring(vehicles~=nil).." count="..tostring(vehicles and #vehicles:GetChildren() or 0))',
+            'if vehicles then for _,x in ipairs(vehicles:GetChildren()) do print("LIVE_VEHICLE "..x.Name.." class="..x.ClassName.." descendants="..tostring(#x:GetDescendants())) end end',
+            'print("VEHICLE_DIAG_END")'
+          ].join("\n");
+          let response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
+          let task=await parse(response,"create");
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
