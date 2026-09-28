@@ -44,6 +44,16 @@ const luau=[
   'assert(result.houseBusiness and result.houseBusiness.ok==true,"house business-sign behavior failed")',
   'local vehicleResult=result.vehicle',
   'assert(vehicleResult and vehicleResult.ok==true and vehicleResult.hasVehicleSeat==true,"vehicle clone/pivot/seat behavior failed")',
+  'assert(vehicleResult.driveReady and vehicleResult.driveReady.ok==true,"vehicle drivetrain preparation failed")',
+  'assert(vehicleResult.driveReady.seatAnchored==false,"vehicle seat remained anchored")',
+  'assert(vehicleResult.driveReady.driveConstraints==4,"vehicle drivetrain constraint count changed")',
+  'local backup=RS:WaitForChild("003_CarBackup")',
+  'local proofTemplate=backup:FindFirstChild(vehicleResult.vehicle)',
+  'local carHandler=proofTemplate and proofTemplate:FindFirstChild("CarHandler")',
+  'local carClient=carHandler and carHandler:FindFirstChild("CarClient")',
+  'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
+  'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
+  'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
   'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." vehicle="..tostring(vehicleResult.vehicle).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
