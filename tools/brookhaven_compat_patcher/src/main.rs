@@ -13,6 +13,16 @@ use sha2::{Digest, Sha256};
 
 const CLIENT_SOURCE: &str = include_str!("../../../compatibility/client/BrookhavenCompat.client.luau");
 const SERVER_SOURCE: &str = include_str!("../../../compatibility/server/BrookhavenHouseCompat.server.luau");
+const BOOT_SENTINEL_SOURCE: &str = r#"
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local proof = ReplicatedStorage:FindFirstChild("StarBloxServerBootProof")
+if proof then proof:Destroy() end
+proof = Instance.new("BoolValue")
+proof.Name = "StarBloxServerBootProof"
+proof.Value = true
+proof.Parent = ReplicatedStorage
+print("STARBLOX_SERVER_BOOT_SENTINEL_READY")
+"#;
 
 fn read_dom(path: &Path) -> Result<WeakDom, Box<dyn std::error::Error>> {
     let input = BufReader::new(File::open(path)?);
@@ -159,6 +169,14 @@ fn insert_compat_scripts(dom: &mut WeakDom) -> Result<Ref, Box<dyn std::error::E
             .with_name("BrookhavenHouseCompat")
             .with_property("Disabled", false)
             .with_property("Source", SERVER_SOURCE.to_string()),
+    );
+
+    dom.insert(
+        server_scripts,
+        InstanceBuilder::new("Script")
+            .with_name("StarBloxBootSentinel")
+            .with_property("Disabled", false)
+            .with_property("Source", BOOT_SENTINEL_SOURCE.to_string()),
     );
 
     Ok(avatar_clone)
