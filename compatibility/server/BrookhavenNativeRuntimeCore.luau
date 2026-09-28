@@ -344,6 +344,74 @@ end
 
 
 
+
+local function normalizeAssetId(value)
+	local digits = string.match(tostring(value or ""), "(%d+)")
+	local id = digits and tonumber(digits) or nil
+	if not id or id <= 0 then
+		return nil
+	end
+	return math.floor(id)
+end
+
+local function houseMusicSound(house)
+	local existing = house:FindFirstChild("BrookhavenHouseMusic", true)
+	if existing and existing:IsA("Sound") then
+		return existing
+	end
+	local emitter = house.PrimaryPart
+	if not emitter then
+		for _, item in ipairs(house:GetDescendants()) do
+			if item:IsA("BasePart") then
+				emitter = item
+				break
+			end
+		end
+	end
+	if not emitter then
+		return nil
+	end
+	local sound = Instance.new("Sound")
+	sound.Name = "BrookhavenHouseMusic"
+	sound.Looped = true
+	sound.Volume = 0.5
+	sound.RollOffMaxDistance = 90
+	sound.Parent = emitter
+	return sound
+end
+
+function RuntimeCore.applyHouseMusicMutation(house, action, value)
+	if not (house and house:IsA("Model")) then
+		return {ok = false, code = "house_missing"}
+	end
+	local sound = houseMusicSound(house)
+	if not sound then
+		return {ok = false, code = "house_music_emitter_missing"}
+	end
+	if action == "PickingHouseMusicText" then
+		local id = normalizeAssetId(value)
+		if not id then
+			return {ok = false, code = "invalid_house_music_asset"}
+		end
+		sound.SoundId = "rbxassetid://" .. tostring(id)
+		return {ok = sound.SoundId == "rbxassetid://" .. tostring(id), action = action, assetId = id}
+	elseif action == "PickingHouseMusicPlay" then
+		if sound.SoundId == "" then
+			return {ok = false, code = "house_music_asset_missing"}
+		end
+		local ok = pcall(function()
+			sound:Play()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing, soundId = sound.SoundId}
+	elseif action == "PickingHouseMusicStop" then
+		local ok = pcall(function()
+			sound:Stop()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing, soundId = sound.SoundId}
+	end
+	return {ok = false, code = "unknown_house_music_action"}
+end
+
 function RuntimeCore.toggleCurtains(house)
 	if not (house and house:IsA("Model")) then
 		return {ok = false, code = "house_missing"}
@@ -416,6 +484,21 @@ function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local musicFixture = Instance.new("Model")
+	local musicPart = Instance.new("Part")
+	musicPart.Name = "MusicEmitter"
+	musicPart.Parent = musicFixture
+	musicFixture.PrimaryPart = musicPart
+	local musicSet = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicText", "123456")
+	local musicPlay = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicPlay", "Play")
+	local musicSound = musicFixture:FindFirstChild("BrookhavenHouseMusic", true)
+	local musicStop = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicStop", "Stop")
+	local houseMusicOk = musicSet.ok and musicPlay.ok and musicStop.ok
+		and musicSound ~= nil
+		and musicSound.SoundId == "rbxassetid://123456"
+		and musicSound.Looped == true
+	musicFixture:Destroy()
+
 	local curtainFixture = Instance.new("Model")
 	local curtainState = Instance.new("Script")
 	curtainState.Name = "MainHouseScript"
@@ -541,7 +624,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
 		clock = {ok = clockOk, noon = clockNoon, midnight = clockMidnight, day = dayName},
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
