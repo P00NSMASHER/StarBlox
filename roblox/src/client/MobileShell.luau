@@ -69,13 +69,13 @@ local function sync()
 	end
 	for id, gui in overlays do
 		if gui.Parent ~= nil then
-			gui.Enabled = activeOverlay == id
+			gui.Enabled = activeOverlay == id and not suppressed
 		end
 	end
 	for id, setVisible in surfaceOverlays do
-		setVisible(activeOverlay == id)
+		setVisible(activeOverlay == id and not suppressed)
 	end
-	setRoleplayTagVisible(activeOverlay == nil)
+	setRoleplayTagVisible(activeOverlay == nil and not suppressed)
 end
 
 function MobileShell.RegisterPersistent(id: string, gui: ScreenGui)
@@ -99,7 +99,7 @@ end
 
 function MobileShell.RegisterSurfaceOverlay(id: string, setVisible: (boolean) -> ())
 	surfaceOverlays[id] = setVisible
-	setVisible(activeOverlay == id)
+	setVisible(activeOverlay == id and not suppressed)
 	sync()
 end
 
