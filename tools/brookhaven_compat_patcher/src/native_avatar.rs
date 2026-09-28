@@ -58,6 +58,7 @@ fn validate(dom: &WeakDom, script: Ref) -> Result<(), Error> {
     }
     let button = typed(dom, script, "Button", "ModuleScript")?;
     if source(dom, button)?.len() < 100 { return Err("AvatarEditor Button module source too small".into()); }
+    typed(dom, button, "ImageButton", "ImageButton")?;
     typed(dom, script, "CharacterSizeNumber", "NumberValue")?;
     Ok(())
 }
@@ -96,7 +97,7 @@ pub fn restore(dom: &mut WeakDom) -> Result<serde_json::Value, Error> {
         "destination": "StarterPlayer/StarterPlayerScripts/AvatarEditor",
         "moved": moved,
         "sourceSha256": source_sha256,
-        "dependencies": ["Button", "CharacterSizeNumber"],
+        "dependencies": ["Button", "Button/ImageButton", "CharacterSizeNumber"],
         "callbacks": ["UpdateAvatar", "Clothes", "wearPremium", "CharacterSizeUp", "CharacterSizeDown"],
         "duplicateStarterGuiClone": false,
         "validation": "serialized-controller-placement-and-callback-contract",
@@ -120,8 +121,9 @@ mod tests {
         let src = "-- UpdateAvatar Clothes wearPremium CharacterSizeUp CharacterSizeDown script.Button ".repeat(3);
         let avatar = d.insert(scripts, InstanceBuilder::new("LocalScript").with_name("AvatarEditor")
             .with_property("Source", src).with_property("Disabled", false));
-        d.insert(avatar, InstanceBuilder::new("ModuleScript").with_name("Button")
+        let button = d.insert(avatar, InstanceBuilder::new("ModuleScript").with_name("Button")
             .with_property("Source", "return { callback = function() end } ".repeat(6)));
+        d.insert(button, InstanceBuilder::new("ImageButton").with_name("ImageButton"));
         d.insert(avatar, InstanceBuilder::new("NumberValue").with_name("CharacterSizeNumber").with_property("Value", 1.0));
         (d, target, scripts, avatar)
     }
