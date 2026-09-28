@@ -586,6 +586,7 @@ local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 local horseRemote = remotes:WaitForChild("HorseRemote")
 local babyFollowRemote = remotes:WaitForChild("BabyFollow")
+local playerTriggerRemote = remotes:WaitForChild("PlayerTriggerEvent")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -1779,6 +1780,176 @@ clearToolsRemote.OnServerEvent:Connect(function(player, action)
 	clearToolsRemote:FireClient(player, "AllGreenChecksOff")
 end)
 
+local pendingSocialRequests = {}
+local pendingToolOffers = {}
+
+local SOCIAL_REQUEST_TO_MODE = {
+	["Request: Piggyback!"] = "Piggyback",
+	["Request: Shoulders!"] = "Shoulders",
+	["Request: Carry!"] = "Carry",
+}
+
+local SOCIAL_ACCEPT_TO_REQUEST = {
+	BothWantPiggyBackRide = "Request: Piggyback!",
+	BothWantShoulders = "Request: Shoulders!",
+	BothWantCarryHurt = "Request: Carry!",
+}
+
+local function playerRoot(player)
+	local character = player and player.Character
+	return character and character:FindFirstChild("HumanoidRootPart") or nil
+end
+
+local function playersAreClose(a, b, maxDistance)
+	local ar = playerRoot(a)
+	local br = playerRoot(b)
+	return ar and br and (ar.Position - br.Position).Magnitude <= (maxDistance or 20)
+end
+
+local function pairedPlayer(player)
+	local bag = player and player:FindFirstChild("PlayersBag")
+	local pair = bag and bag:FindFirstChild("Client2Client")
+	if pair and pair:IsA("ObjectValue") and pair.Value and pair.Value:IsA("Player") then
+		return pair.Value
+	end
+	return nil
+end
+
+local function clearSocialPair(player, explicitPartner)
+	local partner = explicitPartner
+	if not (partner and partner:IsA("Player")) then
+		partner = pairedPlayer(player)
+	end
+
+	if player and player.Character then
+		RuntimeCore.clearClient2ClientWeld(player.Character)
+	end
+	if partner and partner.Character then
+		RuntimeCore.clearClient2ClientWeld(partner.Character)
+	end
+	if player then
+		RuntimeCore.clearClient2ClientPairValue(ensureBag(player))
+		pcall(function()
+			playerTriggerRemote:FireClient(player, "DropButtonStopAnimations")
+			playerTriggerRemote:FireClient(player, "JumpedPlayer/DropButtonOff")
+		end)
+	end
+	if partner then
+		RuntimeCore.clearClient2ClientPairValue(ensureBag(partner))
+		pcall(function()
+			playerTriggerRemote:FireClient(partner, "DropButtonStopAnimations")
+			playerTriggerRemote:FireClient(partner, "JumpedPlayer/DropButtonOff")
+		end)
+	end
+	return true
+end
+
+local function acceptSocialPair(passenger, carrier, acceptAction)
+	if not (passenger and carrier and passenger:IsA("Player") and carrier:IsA("Player")) then
+		return {ok = false, code = "player_missing"}
+	end
+	if passenger == carrier or not playersAreClose(passenger, carrier, 22) then
+		return {ok = false, code = "players_not_close"}
+	end
+	local expectedRequest = SOCIAL_ACCEPT_TO_REQUEST[acceptAction]
+	local pending = pendingSocialRequests[passenger]
+	if not expectedRequest or not pending or pending.from ~= carrier or pending.request ~= expectedRequest or pending.expiresAt < os.clock() then
+		return {ok = false, code = "request_not_pending"}
+	end
+	local mode = SOCIAL_REQUEST_TO_MODE[expectedRequest]
+	local carrierCharacter = carrier.Character
+	local passengerCharacter = passenger.Character
+	if not carrierCharacter or not passengerCharacter then
+		return {ok = false, code = "character_missing"}
+	end
+
+	clearSocialPair(passenger, carrier)
+	local result = RuntimeCore.createClient2ClientWeld(carrierCharacter, passengerCharacter, mode)
+	if not result.ok then
+		return result
+	end
+	RuntimeCore.setClient2ClientPairValue(ensureBag(passenger), carrier)
+	RuntimeCore.setClient2ClientPairValue(ensureBag(carrier), passenger)
+	pendingSocialRequests[passenger] = nil
+
+	if mode == "Carry" then
+		playerTriggerRemote:FireClient(carrier, "ReturnAnimationCarryHurt")
+	else
+		playerTriggerRemote:FireClient(carrier, "DropButtonOn")
+	end
+	return result
+end
+
+playerTriggerRemote.OnServerEvent:Connect(function(player, action, a, b, c)
+	if action == "Client2Client" then
+		local request = tostring(a or "")
+		local target = b
+		if not SOCIAL_REQUEST_TO_MODE[request] or not (target and target:IsA("Player")) or target == player then
+			return
+		end
+		if not playersAreClose(player, target, 18) or pairedPlayer(player) or pairedPlayer(target) then
+			return
+		end
+		pendingSocialRequests[target] = {
+			from = player,
+			request = request,
+			expiresAt = os.clock() + 10,
+		}
+		playerTriggerRemote:FireClient(target, request, player)
+		return
+	end
+
+	if SOCIAL_ACCEPT_TO_REQUEST[action] then
+		acceptSocialPair(player, a, action)
+		return
+	end
+
+	if action == "DropButtonStopAll"
+		or action == "JumpButtonStopAll"
+		or action == "NoAnimationDied"
+		or action == "StopCarryHurtDied"
+	then
+		clearSocialPair(player, a)
+		return
+	end
+
+	if action == "ToolGiveToServer" then
+		local target = a
+		local textureId = tostring(b or "")
+		local toolName = tostring(c or "")
+		if not (target and target:IsA("Player")) or target == player or toolName == "" or not playersAreClose(player, target, 18) then
+			return
+		end
+		local tool = findOwnedTool(player, toolName)
+		if not tool then
+			return
+		end
+		pendingToolOffers[target] = {
+			giver = player,
+			toolName = toolName,
+			expiresAt = os.clock() + 10,
+		}
+		playerTriggerRemote:FireClient(target, "ToolGiveToClient", player, textureId, toolName)
+		return
+	end
+
+	if action == "AcceptedToolToServer" then
+		local toolName = tostring(a or "")
+		local giver = b
+		local pending = pendingToolOffers[player]
+		if not pending or pending.expiresAt < os.clock() or pending.giver ~= giver or pending.toolName ~= toolName then
+			return
+		end
+		pendingToolOffers[player] = nil
+		local tool = findOwnedTool(giver, toolName)
+		local backpack = player:FindFirstChildOfClass("Backpack")
+		if tool and backpack then
+			tool.Parent = backpack
+		end
+		return
+	end
+end)
+
 local function setupNativePlayer(player)
 	ensureBag(player)
 	seedAppearance(player)
@@ -1793,6 +1964,22 @@ end
 
 Players.PlayerAdded:Connect(setupNativePlayer)
 Players.PlayerRemoving:Connect(function(player)
+	local partner = pairedPlayer(player)
+	if partner then
+		clearSocialPair(player, partner)
+	end
+	pendingSocialRequests[player] = nil
+	pendingToolOffers[player] = nil
+	for target, pending in pairs(pendingSocialRequests) do
+		if pending.from == player then
+			pendingSocialRequests[target] = nil
+		end
+	end
+	for target, pending in pairs(pendingToolOffers) do
+		if pending.giver == player then
+			pendingToolOffers[target] = nil
+		end
+	end
 	removePlayerVehicle(player)
 	removeNoMotorVehicle(player)
 	destroyActiveHorse(player)
@@ -1825,4 +2012,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1")
