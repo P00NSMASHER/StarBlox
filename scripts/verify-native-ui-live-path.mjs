@@ -27,6 +27,8 @@ requireAll(client, "client", [
   'invokeNativeUi("avatar_scale"',
   'invokeNativeUi("avatar_skintone"',
   'invokeNativeUi("avatar_reset"',
+  'local function currentCatalogMatches',
+  'appearance.SkinTone',
   'STARBLOX_NATIVE_SHOP_AVATAR_FALLBACK_READY',
 ]);
 requireAll(server, "server", [
@@ -61,6 +63,7 @@ console.log(JSON.stringify({
   ok: true,
   shopActions: shopActions.length,
   avatarFallbacks: 5,
+  catalogSelectionValidation: true,
   serverSideDedupe: true,
   existingBrookhavenUiPreserved: true,
 }, null, 2));
