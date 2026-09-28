@@ -1,0 +1,57 @@
+name: Repair native probe compile failure
+on:
+  push:
+    branches: [repair/native-weather-controller-v52]
+    paths: [.github/workflows/repair-native-probe-compile.yml]
+permissions:
+  contents: write
+jobs:
+  repair-exact-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install checksum-pinned Luau runner
+        shell: bash
+        run: |
+          curl --fail --location --silent --show-error https://github.com/lune-org/lune/releases/download/v0.10.5/lune-0.10.5-linux-x86_64.zip -o /tmp/lune.zip
+          echo '1fb5dee6a1afa1d300092805c6e660fe06144d29dd68c45cf6956f040667f791  /tmp/lune.zip' | sha256sum --check
+          mkdir -p /tmp/starblox-lune
+          unzip -q /tmp/lune.zip -d /tmp/starblox-lune
+          chmod +x /tmp/starblox-lune/lune
+      - name: Reproduce exact compile error, repair scopes, and compile every compatibility script
+        shell: bash
+        run: |
+          cp compatibility/server/BrookhavenNativeRuntimeCore.luau /tmp/core-before-scope.luau
+          if /tmp/starblox-lune/lune run scripts/verify-compatibility-compile.luau /tmp/core-before-scope.luau > compile-negative.log 2>&1; then
+            echo 'Expected original register-limit failure was not reproduced'; exit 1
+          fi
+          grep -q 'Out of local registers' compile-negative.log
+          node scripts/repair-native-probe-scopes.mjs compatibility/server/BrookhavenNativeRuntimeCore.luau | tee scope-repair.json
+          /tmp/starblox-lune/lune run scripts/verify-compatibility-compile.luau 2>&1 | tee compile-positive.log
+          test "$(git diff --name-only)" = 'compatibility/server/BrookhavenNativeRuntimeCore.luau'
+          git diff -- compatibility/server/BrookhavenNativeRuntimeCore.luau > scope-repair.diff
+      - name: Commit only the verified runtime source to the repair branch
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add compatibility/server/BrookhavenNativeRuntimeCore.luau
+          git commit -m 'Fix native runtime module load by scoping probe fixture temporaries'
+          git push origin HEAD:refs/heads/repair/native-weather-controller-v52
+          git rev-parse HEAD > repaired-revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-probe-compile-repair
+          path: |
+            compile-negative.log
+            compile-positive.log
+            scope-repair.json
+            scope-repair.diff
+            repaired-revision.txt
+          retention-days: 30
+          if-no-files-found: error
