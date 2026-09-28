@@ -1620,6 +1620,8 @@ playersCarRemote.OnServerEvent:Connect(function(player, action, value)
 		toggleNamedEffects(model, "fire")
 	elseif action == "Smoke" then
 		toggleNamedEffects(model, "smoke")
+	elseif action == "Duke" or action == "Duke1" then
+		RuntimeCore.playNativeVehicleSpecialSound(model, action)
 	end
 end)
 
