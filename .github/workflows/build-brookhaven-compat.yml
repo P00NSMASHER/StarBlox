@@ -24,6 +24,19 @@ jobs:
         with:
           node-version: "22"
       - uses: dtolnay/rust-toolchain@stable
+      - name: Parse native compatibility Luau
+        shell: bash
+        run: |
+          set +e
+          npx --yes @johnnymorganz/stylua-bin@2.5.2 --syntax Luau --check compatibility/server/BrookhavenHouseCompat.server.luau > /tmp/stylua-check.log 2>&1
+          status=$?
+          set -e
+          cat /tmp/stylua-check.log
+          if [ "$status" -gt 1 ]; then
+            echo "Luau parse failed with status $status"
+            exit "$status"
+          fi
+          echo "Luau parsed successfully (format-only diff status=$status)"
       - name: Fetch exact clean Brookhaven baseline
         run: node scripts/fetch-brookhaven.mjs
       - name: Inject compatibility scripts without rebuilding world geometry
