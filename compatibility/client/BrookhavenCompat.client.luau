@@ -8,7 +8,22 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
-local nativeUiAction = remotes:WaitForChild("StarBloxNativeUiAction")
+local nativeUiAction = remotes:FindFirstChild("StarBloxNativeUiAction")
+
+local function resolveNativeUiAction()
+	if nativeUiAction and nativeUiAction:IsA("RemoteFunction") then
+		return nativeUiAction
+	end
+	for _ = 1, 20 do
+		local candidate = remotes:FindFirstChild("StarBloxNativeUiAction")
+		if candidate and candidate:IsA("RemoteFunction") then
+			nativeUiAction = candidate
+			return candidate
+		end
+		task.wait(0.05)
+	end
+	return nil
+end
 
 local main = playerGui:WaitForChild("MainGUIHandler")
 local noReset = playerGui:WaitForChild("NoResetGUIHandler")
@@ -104,9 +119,14 @@ for _, button in ipairs(buttons:GetChildren()) do
 end
 
 local function invokeNativeUi(kind, ...)
+	local remote = resolveNativeUiAction()
+	if not remote then
+		warn("STARBLOX_NATIVE_UI_FALLBACK_FAILED", kind, "ui_remote_missing")
+		return false, {ok = false, code = "ui_remote_missing"}
+	end
 	local args = table.pack(...)
 	local ok, result = pcall(function()
-		return nativeUiAction:InvokeServer(kind, table.unpack(args, 1, args.n))
+		return remote:InvokeServer(kind, table.unpack(args, 1, args.n))
 	end)
 	if not ok or type(result) ~= "table" or result.ok ~= true then
 		warn("STARBLOX_NATIVE_UI_FALLBACK_FAILED", kind, ok and result and result.code or tostring(result))
