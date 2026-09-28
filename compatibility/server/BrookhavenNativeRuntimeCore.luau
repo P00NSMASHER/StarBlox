@@ -278,6 +278,70 @@ function RuntimeCore.applyJobStateToBag(bag, action, jobName, titlePic, jobOrStu
 	return {ok = false, code = "unknown_job_action"}
 end
 
+
+local function resolvedColor3(value)
+	if typeof(value) == "Color3" then
+		return value
+	end
+	if typeof(value) == "BrickColor" then
+		return value.Color
+	end
+	if typeof(value) == "Instance" then
+		if value:IsA("Color3Value") then
+			return value.Value
+		elseif value:IsA("BrickColorValue") then
+			return value.Value.Color
+		elseif value:IsA("StringValue") then
+			local ok, brick = pcall(BrickColor.new, value.Value)
+			return ok and brick.Color or nil
+		end
+		local ok, raw = pcall(function()
+			return value.Value
+		end)
+		if ok then
+			if typeof(raw) == "Color3" then
+				return raw
+			elseif typeof(raw) == "BrickColor" then
+				return raw.Color
+			elseif type(raw) == "string" then
+				local parsed, brick = pcall(BrickColor.new, raw)
+				return parsed and brick.Color or nil
+			end
+		end
+	end
+	if type(value) == "string" then
+		local ok, brick = pcall(BrickColor.new, value)
+		return ok and brick.Color or nil
+	end
+	return nil
+end
+
+function RuntimeCore.applyHomeBusinessMutation(house, action, value)
+	if not (house and house:IsA("Model")) then
+		return {ok = false, code = "house_missing"}
+	end
+	local business = house:FindFirstChild("001_HomeBasedBusiness", true)
+	if not business then
+		return {ok = false, code = "business_model_missing"}
+	end
+	local textBox = business:FindFirstChild("TextBox", true)
+	if not (textBox and textBox:IsA("TextBox")) then
+		return {ok = false, code = "business_textbox_missing"}
+	end
+	if action == "BusinessName" then
+		textBox.Text = boundedText(value, 48)
+		return {ok = true, action = action, text = textBox.Text}
+	elseif action == "PickingBusinessNameColor" then
+		local color = resolvedColor3(value)
+		if not color then
+			return {ok = false, code = "invalid_business_color"}
+		end
+		textBox.TextColor3 = color
+		return {ok = true, action = action, color = color}
+	end
+	return {ok = false, code = "unknown_business_action"}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
@@ -318,6 +382,28 @@ function RuntimeCore.runBehaviorProbe()
 	profileOk = profileOk and quitJob.ok and profileBag.Job.Value == false
 	profileBag:Destroy()
 
+	local houseFixture = Instance.new("Model")
+	local business = Instance.new("Model")
+	business.Name = "001_HomeBasedBusiness"
+	business.Parent = houseFixture
+	local pole = Instance.new("Part")
+	pole.Name = "Pole"
+	pole.Parent = business
+	local surface = Instance.new("SurfaceGui")
+	surface.Name = "SurfaceGUI"
+	surface.Parent = pole
+	local frame = Instance.new("Frame")
+	frame.Parent = surface
+	local businessText = Instance.new("TextBox")
+	businessText.Name = "TextBox"
+	businessText.Parent = frame
+	local businessName = RuntimeCore.applyHomeBusinessMutation(houseFixture, "BusinessName", "Brookhaven Clinic")
+	local businessColor = RuntimeCore.applyHomeBusinessMutation(houseFixture, "PickingBusinessNameColor", Color3.fromRGB(255, 0, 0))
+	local houseBusinessOk = businessName.ok and businessColor.ok
+		and businessText.Text == "Brookhaven Clinic"
+		and businessText.TextColor3 == Color3.fromRGB(255, 0, 0)
+	houseFixture:Destroy()
+
 	local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
 	local singleVehicles = ReplicatedStorage:FindFirstChild("SingleVehicles")
 	local children = carBackup:GetChildren()
@@ -352,12 +438,15 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Car"):IsA("RemoteEvent")
 		and remotes:WaitForChild("KeyFab"):IsA("RemoteFunction")
 		and remotes:WaitForChild("Tools"):IsA("RemoteFunction")
+		and remotes:WaitForChild("RPHouseEvent"):IsA("RemoteEvent")
+		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = avatarOk and shopOk and profileOk and vehicleOk and contractsOk,
+		ok = avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
 		shop = {ok = shopOk, music = music, speed = speed},
 		profile = {ok = profileOk, rolePlayName = rpName, rolePlayBio = rpBio, rolePlayColor = rpColor, job = job, quitJob = quitJob},
+		houseBusiness = {ok = houseBusinessOk, name = businessName, color = businessColor},
 		vehicle = {ok = vehicleOk, vehicle = vehicleName, descendants = descendants, hasVehicleSeat = hasVehicleSeat, driveReady = driveReady},
 		contracts = {ok = contractsOk},
 	}
