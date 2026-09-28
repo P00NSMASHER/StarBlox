@@ -1289,6 +1289,71 @@ function RuntimeCore.buildHelicopterGui(heli)
 	}
 end
 
+
+function RuntimeCore.setHelicopterFlightEnabled(heli, enabled)
+	local inspected = RuntimeCore.inspectNativeHelicopter(heli)
+	if not inspected.ok then
+		return inspected
+	end
+	local force = math.max(0, tonumber(inspected.maxForce) or 0)
+	if enabled then
+		local fullForce = Vector3.new(force, force, force)
+		inspected.bodyGyro.MaxTorque = fullForce
+		inspected.bodyGyro.CFrame = inspected.seat.CFrame
+		inspected.bodyVelocity.MaxForce = fullForce
+		inspected.takeOffBool.Value = false
+		inspected.landing.Value = false
+	else
+		inspected.bodyVelocity.Velocity = Vector3.zero
+		inspected.bodyVelocity.MaxForce = Vector3.zero
+		inspected.bodyGyro.MaxTorque = Vector3.zero
+		inspected.takeOffBool.Value = true
+		inspected.landing.Value = true
+	end
+	local active = inspected.bodyVelocity.MaxForce.Magnitude > 0 and inspected.bodyGyro.MaxTorque.Magnitude > 0
+	return {
+		ok = enabled and active and inspected.takeOffBool.Value == false and inspected.landing.Value == false
+			or (not enabled and not active and inspected.takeOffBool.Value == true and inspected.landing.Value == true),
+		enabled = enabled == true,
+		maxForce = force,
+	}
+end
+
+function RuntimeCore.adjustHelicopterSpeed(heli, delta)
+	local inspected = RuntimeCore.inspectNativeHelicopter(heli)
+	if not inspected.ok then
+		return inspected
+	end
+	local limit = math.max(5, tonumber(inspected.maxSpeed) or 80)
+	local current = tonumber(inspected.seat.MaxSpeed) or 25
+	local speed = math.clamp(current + (tonumber(delta) or 0), 5, limit)
+	inspected.seat.MaxSpeed = speed
+	return {ok = inspected.seat.MaxSpeed == speed, speed = speed, limit = limit}
+end
+
+function RuntimeCore.updateHelicopterVelocity(heli, verticalVelocity)
+	local inspected = RuntimeCore.inspectNativeHelicopter(heli)
+	if not inspected.ok then
+		return inspected
+	end
+	if inspected.bodyVelocity.MaxForce.Magnitude <= 0 then
+		return {ok = false, code = "heli_flight_disabled"}
+	end
+	if verticalVelocity ~= nil then
+		inspected.bodyVelocity.Velocity = Vector3.new(0, tonumber(verticalVelocity) or 0, 0)
+	else
+		local look = inspected.seat.CFrame.LookVector
+		local horizontal = Vector3.new(look.X, 0, look.Z)
+		if horizontal.Magnitude > 0.001 then
+			horizontal = horizontal.Unit
+		else
+			horizontal = Vector3.new(0, 0, -1)
+		end
+		inspected.bodyVelocity.Velocity = horizontal * inspected.seat.Throttle * inspected.seat.MaxSpeed
+	end
+	return {ok = true, velocity = inspected.bodyVelocity.Velocity, speed = inspected.seat.MaxSpeed}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
@@ -1351,6 +1416,12 @@ function RuntimeCore.runBehaviorProbe()
 	heliTakeOff.Parent = heliControls
 	local heliInspect = RuntimeCore.inspectNativeHelicopter(heliFixture)
 	local heliGuiBuild = RuntimeCore.buildHelicopterGui(heliFixture)
+	local heliFlightOn = RuntimeCore.setHelicopterFlightEnabled(heliFixture, true)
+	local heliLift = RuntimeCore.updateHelicopterVelocity(heliFixture, 18)
+	local heliSpeedUp = RuntimeCore.adjustHelicopterSpeed(heliFixture, 10)
+	local heliSpeedCap = RuntimeCore.adjustHelicopterSpeed(heliFixture, 1000)
+	local heliFlightOff = RuntimeCore.setHelicopterFlightEnabled(heliFixture, false)
+	local heliFinal = RuntimeCore.inspectNativeHelicopter(heliFixture)
 	local heliGuiOk = heliInspect.ok
 		and heliInspect.maxSpeed == 80
 		and heliInspect.maxForce == 100000000
@@ -1360,6 +1431,14 @@ function RuntimeCore.runBehaviorProbe()
 		and heliGuiBuild.controls.Disabled == false
 		and heliGuiBuild.takeOffBool.Value == false
 		and heliGuiBuild.gui:GetAttribute("BrookhavenNativeHeliGui") == true
+		and heliFlightOn.ok
+		and heliLift.ok and heliLift.velocity.Y == 18
+		and heliSpeedUp.ok and heliSpeedUp.speed > 25
+		and heliSpeedCap.ok and heliSpeedCap.speed == 80
+		and heliFlightOff.ok
+		and heliFinal.bodyVelocity.MaxForce == Vector3.zero
+		and heliFinal.bodyGyro.MaxTorque == Vector3.zero
+		and heliFinal.landing.Value == true
 	if heliGuiBuild.gui then
 		heliGuiBuild.gui:Destroy()
 	end
@@ -1805,9 +1884,13 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Tools"):IsA("RemoteFunction")
 		and remotes:WaitForChild("RPHouseEvent"):IsA("RemoteEvent")
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
+		and remotes:WaitForChild("HeliControls"):IsA("RemoteEvent")
+		and remotes:WaitForChild("Faster"):IsA("RemoteEvent")
+		and remotes:WaitForChild("Slower"):IsA("RemoteEvent")
 
 	return {
 		ok = heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		helicopter = {ok = heliGuiOk, inspected = heliInspect, gui = heliGuiBuild, flightOn = heliFlightOn, lift = heliLift, speedUp = heliSpeedUp, speedCap = heliSpeedCap, flightOff = heliFlightOff},
 		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
 		helicopterGui = {ok = heliGuiOk, inspected = heliInspect},
 		follower = {ok = followerOk, sourceName = followerBuild.sourceName, selected = followerName and followerName.Value or nil},
