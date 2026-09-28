@@ -83,6 +83,41 @@ fn collect_follow_candidates(dom: &WeakDom, current: Ref, out: &mut BTreeSet<Str
     }
 }
 
+
+fn collect_vehicle_control_paths(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    out: &mut BTreeSet<String>,
+) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    let class = instance.class.as_str();
+    let lower = instance.name.to_ascii_lowercase();
+    let interesting = matches!(
+        class,
+        "Sound" | "PointLight" | "SpotLight" | "SurfaceLight" | "Fire" | "Smoke" | "ParticleEmitter" | "VehicleSeat"
+    ) || lower.contains("horn")
+        || lower.contains("siren")
+        || lower.contains("hazard")
+        || lower.contains("light")
+        || lower.contains("body")
+        || lower.contains("paint")
+        || lower.contains("color");
+    if interesting {
+        out.insert(format!("{}:{}", path, class));
+    }
+    for child in instance.children() {
+        collect_vehicle_control_paths(dom, *child, &path, out);
+    }
+}
+
 fn collect_interaction_paths(
     dom: &WeakDom,
     current: Ref,
@@ -167,6 +202,15 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         &mut horse_click_paths,
     );
 
+    let mut vehicle_control_paths = BTreeSet::new();
+    if let Some(replicated) = find_first(dom, dom.root_ref(), "ReplicatedStorage", None) {
+        if let Some(backup) = direct_child(dom, replicated, "003_CarBackup") {
+            if let Some(ambulance) = direct_child(dom, backup, "Ambulance") {
+                collect_vehicle_control_paths(dom, ambulance, "", &mut vehicle_control_paths);
+            }
+        }
+    }
+
     let workspace_ref = find_first(dom, dom.root_ref(), "Workspace", None);
     let common_ref = workspace_ref.and_then(|workspace| direct_child(dom, workspace, "WorkspaceCom"));
     let horse_ref = common_ref
@@ -205,6 +249,7 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
 
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
+        "ambulanceControlPaths": vehicle_control_paths.into_iter().collect::<Vec<_>>(),
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
         "followAssetPaths": follow_paths.into_iter().collect::<Vec<_>>(),
         "horseClickDetectorPaths": horse_click_paths.into_iter().collect::<Vec<_>>(),
