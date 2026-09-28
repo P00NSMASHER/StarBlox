@@ -2024,10 +2024,140 @@ local function setupNativeHelicopter()
 			if inspected.owner then
 				inspected.owner.Value = ""
 			end
+			RuntimeCore.setHelicopterFlightEnabled(nativeHelicopter, false)
 		end
 	end)
 	return true
 end
+
+
+local function setPilotTakeOffState(player, value)
+	local gui = activeHeliGuiByPlayer[player]
+	local frame = gui and gui:FindFirstChild("Frame")
+	local controls = frame and frame:FindFirstChild("VehicleControls")
+	local takeOff = controls and controls:FindFirstChild("TakeOffBool")
+	if takeOff and takeOff:IsA("BoolValue") then
+		takeOff.Value = value == true
+	end
+end
+
+local function pilotOwnsNativeHeli(player)
+	if player ~= activeHeliPilot or not nativeHelicopter then
+		return false
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if not inspected.ok then
+		return false
+	end
+	local occupant = inspected.seat.Occupant
+	return occupant ~= nil and Players:GetPlayerFromCharacter(occupant.Parent) == player
+end
+
+local function finishHeliLanding(player)
+	if not nativeHelicopter then
+		return
+	end
+	RuntimeCore.setHelicopterFlightEnabled(nativeHelicopter, false)
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if inspected.ok then
+		inspected.seat:SetAttribute("BrookhavenHeliFlying", false)
+		inspected.seat:SetAttribute("BrookhavenHeliTransition", false)
+	end
+	setPilotTakeOffState(player, true)
+end
+
+heliControlsRemote.OnServerEvent:Connect(function(player, requestedPlayerName, action)
+	if tostring(requestedPlayerName or "") ~= player.Name or not pilotOwnsNativeHeli(player) then
+		return
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if not inspected.ok then
+		return
+	end
+	if action == "TakeOff" then
+		local enabled = RuntimeCore.setHelicopterFlightEnabled(nativeHelicopter, true)
+		if not enabled.ok then
+			return
+		end
+		inspected.seat:SetAttribute("BrookhavenHeliFlying", true)
+		inspected.seat:SetAttribute("BrookhavenHeliTransition", true)
+		setPilotTakeOffState(player, false)
+		RuntimeCore.updateHelicopterVelocity(nativeHelicopter, 18)
+		task.delay(2.5, function()
+			if pilotOwnsNativeHeli(player)
+				and inspected.seat:GetAttribute("BrookhavenHeliFlying") == true
+			then
+				inspected.seat:SetAttribute("BrookhavenHeliTransition", false)
+				local current = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+				if current.ok then
+					current.bodyVelocity.Velocity = Vector3.zero
+				end
+			end
+		end)
+	elseif action == "Land" then
+		if inspected.bodyVelocity.MaxForce.Magnitude <= 0 then
+			finishHeliLanding(player)
+			return
+		end
+		inspected.seat:SetAttribute("BrookhavenHeliTransition", true)
+		RuntimeCore.updateHelicopterVelocity(nativeHelicopter, -12)
+		task.spawn(function()
+			local params = RaycastParams.new()
+			params.FilterType = Enum.RaycastFilterType.Exclude
+			params.FilterDescendantsInstances = {nativeHelicopter}
+			for _ = 1, 60 do
+				if not pilotOwnsNativeHeli(player) then
+					break
+				end
+				local current = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+				if not current.ok then
+					break
+				end
+				local hit = Workspace:Raycast(current.seat.Position, Vector3.new(0, -10, 0), params)
+				if hit and (current.seat.Position - hit.Position).Magnitude <= 4.5 then
+					break
+				end
+				task.wait(0.1)
+			end
+			finishHeliLanding(player)
+		end)
+	end
+end)
+
+fasterRemote.OnServerEvent:Connect(function(player, requestedPlayerName)
+	if tostring(requestedPlayerName or "") ~= player.Name or not pilotOwnsNativeHeli(player) then
+		return
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if inspected.ok and inspected.seat:GetAttribute("BrookhavenHeliFlying") == true then
+		RuntimeCore.adjustHelicopterSpeed(nativeHelicopter, 5)
+	end
+end)
+
+slowerRemote.OnServerEvent:Connect(function(player, requestedPlayerName)
+	if tostring(requestedPlayerName or "") ~= player.Name or not pilotOwnsNativeHeli(player) then
+		return
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if inspected.ok and inspected.seat:GetAttribute("BrookhavenHeliFlying") == true then
+		RuntimeCore.adjustHelicopterSpeed(nativeHelicopter, -5)
+	end
+end)
+
+task.spawn(function()
+	while true do
+		if activeHeliPilot and nativeHelicopter and pilotOwnsNativeHeli(activeHeliPilot) then
+			local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+			if inspected.ok
+				and inspected.seat:GetAttribute("BrookhavenHeliFlying") == true
+				and inspected.seat:GetAttribute("BrookhavenHeliTransition") ~= true
+			then
+				RuntimeCore.updateHelicopterVelocity(nativeHelicopter, nil)
+			end
+		end
+		task.wait(0.1)
+	end
+end)
 
 local nativeHeliHandoffReady = setupNativeHelicopter()
 
@@ -2097,4 +2227,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1 heliGui=" .. tostring(nativeHeliHandoffReady))
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1 heliGui=" .. tostring(nativeHeliHandoffReady) .. " heliFlight=1")
