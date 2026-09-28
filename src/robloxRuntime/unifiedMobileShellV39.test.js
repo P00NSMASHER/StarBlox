@@ -73,10 +73,10 @@ describe('v39 unified mobile presentation shell',()=>{
 
   it('prevents simultaneous major modal overlays by synchronizing all registered owners',()=>{
     const shell=read('roblox/src/client/MobileShell.luau');
-    expect(shell).toContain('gui.Enabled = activeOverlay == id');
-    expect(shell).toContain('setVisible(activeOverlay == id)');
+    expect(shell).toContain('gui.Enabled = activeOverlay == id and not suppressed');
+    expect(shell).toContain('setVisible(activeOverlay == id and not suppressed)');
     expect(shell).toContain('local showPersistent = activeOverlay == nil and not suppressed');
-    expect(shell).toContain('setRoleplayTagVisible(activeOverlay == nil)');
+    expect(shell).toContain('setRoleplayTagVisible(activeOverlay == nil and not suppressed)');
   });
 
   it('keeps the home store and furniture editor inside the same modal lifecycle',()=>{
