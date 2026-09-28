@@ -596,50 +596,59 @@ learningReward.Parent = ServerStorage
 local PACKS = {
 	fashion = {
 		Name = "Fashion Pack",
+		Description = "5 fashion & roleplay outfits",
 		Price = 60,
 		Outfits = {"WorkerPink", "WorkerWhite", "BlackSuit", "Maid", "CowGirl"},
 	},
 	rescue = {
 		Name = "Rescue & City Pack",
+		Description = "6 police, fire & medical outfits",
 		Price = 70,
 		Outfits = {"Chief", "FireRed", "FireYellow", "PoliceDarkBlue", "Ems", "FBI"},
 	},
 	roleplay = {
 		Name = "Roleplay Pack",
+		Description = "5 extra roleplay outfits",
 		Price = 60,
 		Outfits = {"CowBoy", "Criminal", "Criminal2", "Prisoner", "Homeless"},
 	},
 	holiday = {
 		Name = "Holiday Pack",
+		Description = "3 holiday outfits",
 		Price = 80,
 		Outfits = {"SantaRed", "Elf", "SantaBlack"},
 	},
 	premium = {
 		Name = "Premium House Pack",
+		Description = "Unlock premium house features",
 		Price = 180,
 		Outfits = {},
 		Passes = {SilverPass = true},
 	},
 	music = {
 		Name = "Music Pack",
+		Description = "Unlock Brookhaven music controls",
 		Price = 80,
 		Outfits = {},
 		Passes = {MusicPass = true},
 	},
 	fire = {
 		Name = "House Effects Pack",
+		Description = "Unlock on-demand house effects",
 		Price = 100,
 		Outfits = {},
 		Passes = {FirePass = true},
 	},
 	horse = {
 		Name = "Horse Style Pack",
+		Description = "Unlock horse styling controls",
 		Price = 100,
 		Outfits = {},
 		Passes = {HorsePass = true},
 	},
 	vehicle = {
 		Name = "Vehicle Upgrade",
+		Description = "Vehicle colors + faster driving",
 		Price = 120,
 		Outfits = {},
 		Passes = {ColorSpeedPassLower = true},
@@ -647,6 +656,7 @@ local PACKS = {
 	},
 	speed = {
 		Name = "200 MPH Speed",
+		Description = "Unlock 200 MPH street speed",
 		Price = 160,
 		Outfits = {},
 		Passes = {SpeedPass200 = true},
@@ -698,6 +708,14 @@ local SKIN_TONES = {
 	Color3.fromRGB(205, 133, 92),
 }
 
+local ACCESSORY_FIELDS = {
+	Hair = "HairAccessory",
+	Hats = "HatAccessory",
+	Face = "FaceAccessory",
+	Back = "BackAccessory",
+	Waist = "WaistAccessory",
+}
+
 local PRACTICE_QUESTIONS = {
 	{id="ela-short-vowel-1", prompt="Which word has the short a sound?", choices={"cat","cake","rain"}, answer="cat", hint="Think about the sound in apple."},
 	{id="ela-plural-1", prompt="Which plural is correct for box?", choices={"boxs","boxes","boxies"}, answer="boxes", hint="Words ending in x usually add -es."},
@@ -727,6 +745,7 @@ local function newEconomyState()
 		SelectedOutfit = nil,
 		Scale = 1,
 		SkinTone = nil,
+		AccessoryHidden = {},
 		PracticeDay = todayKey(),
 		CompletedPractice = {},
 		CurrentPractice = nil,
@@ -753,6 +772,13 @@ local function sanitizeEconomy(raw)
 	local tone = tonumber(raw.SkinTone)
 	if tone and SKIN_TONES[tone] then
 		state.SkinTone = tone
+	end
+	if type(raw.AccessoryHidden) == "table" then
+		for _, property in pairs(ACCESSORY_FIELDS) do
+			if raw.AccessoryHidden[property] == true then
+				state.AccessoryHidden[property] = true
+			end
+		end
 	end
 	state.PracticeDay = type(raw.PracticeDay) == "string" and raw.PracticeDay or todayKey()
 	if state.PracticeDay == todayKey() and type(raw.CompletedPractice) == "table" then
@@ -796,6 +822,7 @@ local function saveEconomy(player)
 		SelectedOutfit = state.SelectedOutfit,
 		Scale = state.Scale,
 		SkinTone = state.SkinTone,
+		AccessoryHidden = state.AccessoryHidden,
 		PracticeDay = state.PracticeDay,
 		CompletedPractice = state.CompletedPractice,
 	}
@@ -843,6 +870,7 @@ local function publicEconomyState(player)
 		table.insert(packs, {
 			Id = id,
 			Name = pack.Name,
+			Description = pack.Description,
 			Price = pack.Price,
 			Owned = state.OwnedPacks[id] == true,
 			Outfits = pack.Outfits,
@@ -937,6 +965,13 @@ local function applySavedAvatar(player)
 		description.RightLegColor = color
 		description.TorsoColor = color
 	end
+	for _, property in pairs(ACCESSORY_FIELDS) do
+		if state.AccessoryHidden[property] == true then
+			pcall(function()
+				description[property] = ""
+			end)
+		end
+	end
 	applyDescription(player, description)
 end
 
@@ -1017,6 +1052,64 @@ avatarAction.OnServerInvoke = function(player, action, value)
 		state.SkinTone = index
 		task.spawn(saveEconomy, player)
 		return {ok=true, skinTone=index}
+	elseif action == "SetScale" then
+		local target = math.clamp(tonumber(value) or 1, 0.75, 1.25)
+		state.Scale = target
+		local description = getAppliedDescription(player)
+		if not description then return {ok=false, code="avatar_unavailable"} end
+		description.HeightScale = target
+		description.WidthScale = math.clamp(0.9 + ((target - 1) * 0.55), 0.8, 1.05)
+		description.DepthScale = math.clamp(0.9 + ((target - 1) * 0.55), 0.8, 1.05)
+		description.HeadScale = math.clamp(1 - ((target - 1) * 0.25), 0.9, 1.08)
+		if not applyDescription(player, description) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		task.spawn(saveEconomy, player)
+		return {ok=true, scale=state.Scale}
+	elseif action == "ResetFace" then
+		local current = getAppliedDescription(player)
+		if not current then return {ok=false, code="avatar_unavailable"} end
+		local original = nil
+		local ok = pcall(function()
+			original = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+		end)
+		if not ok or not original then
+			current:Destroy()
+			return {ok=false, code="avatar_unavailable"}
+		end
+		current.Face = original.Face
+		original:Destroy()
+		if not applyDescription(player, current) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		return {ok=true, faceReset=true}
+	elseif action == "ToggleAccessory" then
+		if type(value) ~= "string" or ACCESSORY_FIELDS[value] == nil then
+			return {ok=false, code="invalid_accessory"}
+		end
+		local property = ACCESSORY_FIELDS[value]
+		state.AccessoryHidden[property] = state.AccessoryHidden[property] ~= true
+		local current = getAppliedDescription(player)
+		if not current then return {ok=false, code="avatar_unavailable"} end
+		local original = nil
+		local ok = pcall(function()
+			original = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+		end)
+		if not ok or not original then
+			current:Destroy()
+			return {ok=false, code="avatar_unavailable"}
+		end
+		if state.AccessoryHidden[property] then
+			current[property] = ""
+		else
+			current[property] = original[property]
+		end
+		original:Destroy()
+		if not applyDescription(player, current) then
+			return {ok=false, code="avatar_apply_failed"}
+		end
+		task.spawn(saveEconomy, player)
+		return {ok=true, accessory=value, hidden=state.AccessoryHidden[property]}
 	elseif action == "Reset" then
 		local description = nil
 		local ok = pcall(function()
@@ -1027,6 +1120,7 @@ avatarAction.OnServerInvoke = function(player, action, value)
 		state.SelectedOutfit = nil
 		state.Scale = 1
 		state.SkinTone = nil
+		state.AccessoryHidden = {}
 		task.spawn(saveEconomy, player)
 		return {ok=true, reset=true}
 	end
