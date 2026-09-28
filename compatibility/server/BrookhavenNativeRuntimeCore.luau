@@ -359,7 +359,19 @@ local function houseMusicSound(house)
 	if existing and existing:IsA("Sound") then
 		return existing
 	end
-	local emitter = house.PrimaryPart
+	local stereo = house:FindFirstChild("HouseStereo", true)
+	local emitter = nil
+	if stereo and stereo:IsA("Model") then
+		for _, item in ipairs(stereo:GetDescendants()) do
+			if item:IsA("BasePart") then
+				emitter = item
+				break
+			end
+		end
+	end
+	if not emitter then
+		emitter = house.PrimaryPart
+	end
 	if not emitter then
 		for _, item in ipairs(house:GetDescendants()) do
 			if item:IsA("BasePart") then
@@ -485,16 +497,19 @@ function RuntimeCore.runBehaviorProbe()
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
 	local musicFixture = Instance.new("Model")
+	local stereoFixture = Instance.new("Model")
+	stereoFixture.Name = "HouseStereo"
+	stereoFixture.Parent = musicFixture
 	local musicPart = Instance.new("Part")
 	musicPart.Name = "MusicEmitter"
-	musicPart.Parent = musicFixture
-	musicFixture.PrimaryPart = musicPart
+	musicPart.Parent = stereoFixture
 	local musicSet = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicText", "123456")
 	local musicPlay = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicPlay", "Play")
 	local musicSound = musicFixture:FindFirstChild("BrookhavenHouseMusic", true)
 	local musicStop = RuntimeCore.applyHouseMusicMutation(musicFixture, "PickingHouseMusicStop", "Stop")
 	local houseMusicOk = musicSet.ok and musicPlay.ok and musicStop.ok
 		and musicSound ~= nil
+		and musicSound:IsDescendantOf(stereoFixture)
 		and musicSound.SoundId == "rbxassetid://123456"
 		and musicSound.Looped == true
 	musicFixture:Destroy()
