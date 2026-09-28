@@ -221,8 +221,10 @@ local function applyVisualSettings()
 		return
 	end
 	local hideUi = settings.HideUI == true
-	MobileShell.SetSuppressed(hideUi)
 	setKnownGuiHidden(hideUi)
+	-- Reassert shell ownership after legacy GUI visibility restoration so
+	-- hidden/active modal state cannot be accidentally widened.
+	MobileShell.SetSuppressed(hideUi)
 
 	local runGui = playerGui:FindFirstChild("BrookhavenRunControlUI")
 	if runGui and runGui:IsA("ScreenGui") and not hideUi then
