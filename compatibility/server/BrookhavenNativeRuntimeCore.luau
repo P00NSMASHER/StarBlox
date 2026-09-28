@@ -1206,10 +1206,165 @@ function RuntimeCore.clearClient2ClientPairValue(bag)
 	return {ok = true, removed = false}
 end
 
+
+function RuntimeCore.inspectNativeHelicopter(heli)
+	if not (heli and heli:IsA("Model")) then
+		return {ok = false, code = "heli_missing"}
+	end
+	local seat = heli:FindFirstChild("VehicleSeat")
+	if not (seat and seat:IsA("VehicleSeat")) then
+		return {ok = false, code = "heli_seat_missing"}
+	end
+	local bodyGyro = seat:FindFirstChild("BodyGyro")
+	local bodyVelocity = seat:FindFirstChild("BodyVelocity")
+	local config = seat:FindFirstChild("Configuration")
+	local maxSpeed = config and config:FindFirstChild("MaxSpeed")
+	local maxForce = config and config:FindFirstChild("MaxForce")
+	local turnSpeed = config and config:FindFirstChild("TurnSpeed")
+	local gui = seat:FindFirstChild("HeliGui")
+	local carSeat = gui and gui:FindFirstChild("CarSeat")
+	local frame = gui and gui:FindFirstChild("Frame")
+	local controls = frame and frame:FindFirstChild("VehicleControls")
+	local takeOffBool = controls and controls:FindFirstChild("TakeOffBool")
+	local giver = seat:FindFirstChild("Gui Giver")
+	local owner = giver and giver:FindFirstChild("Owner")
+	local landing = giver and giver:FindFirstChild("Landing")
+
+	local ok = bodyGyro ~= nil and bodyGyro:IsA("BodyGyro")
+		and bodyVelocity ~= nil and bodyVelocity:IsA("BodyVelocity")
+		and config ~= nil and config:IsA("Configuration")
+		and maxSpeed ~= nil and maxSpeed:IsA("NumberValue")
+		and maxForce ~= nil and maxForce:IsA("NumberValue")
+		and turnSpeed ~= nil and turnSpeed:IsA("NumberValue")
+		and gui ~= nil and gui:IsA("ScreenGui")
+		and carSeat ~= nil and carSeat:IsA("ObjectValue")
+		and controls ~= nil and controls:IsA("LocalScript")
+		and takeOffBool ~= nil and takeOffBool:IsA("BoolValue")
+		and owner ~= nil and owner:IsA("StringValue")
+		and landing ~= nil and landing:IsA("BoolValue")
+
+	return {
+		ok = ok,
+		seat = seat,
+		bodyGyro = bodyGyro,
+		bodyVelocity = bodyVelocity,
+		gui = gui,
+		carSeat = carSeat,
+		controls = controls,
+		takeOffBool = takeOffBool,
+		owner = owner,
+		landing = landing,
+		maxSpeed = maxSpeed and maxSpeed.Value or nil,
+		maxForce = maxForce and maxForce.Value or nil,
+		turnSpeed = turnSpeed and turnSpeed.Value or nil,
+	}
+end
+
+function RuntimeCore.buildHelicopterGui(heli)
+	local inspected = RuntimeCore.inspectNativeHelicopter(heli)
+	if not inspected.ok then
+		return inspected
+	end
+	local gui = inspected.gui:Clone()
+	local carSeat = gui:FindFirstChild("CarSeat")
+	local frame = gui:FindFirstChild("Frame")
+	local controls = frame and frame:FindFirstChild("VehicleControls")
+	local takeOffBool = controls and controls:FindFirstChild("TakeOffBool")
+	if not (carSeat and carSeat:IsA("ObjectValue") and controls and controls:IsA("LocalScript") and takeOffBool and takeOffBool:IsA("BoolValue")) then
+		gui:Destroy()
+		return {ok = false, code = "heli_gui_contract_missing"}
+	end
+	gui.Name = "HeliGui"
+	carSeat.Value = inspected.seat
+	controls.Disabled = false
+	takeOffBool.Value = false
+	gui:SetAttribute("BrookhavenNativeHeliGui", true)
+	return {
+		ok = carSeat.Value == inspected.seat and controls.Disabled == false,
+		gui = gui,
+		seat = inspected.seat,
+		carSeat = carSeat,
+		controls = controls,
+		takeOffBool = takeOffBool,
+	}
+end
+
 function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local heliFixture = Instance.new("Model")
+	heliFixture.Name = "Heli"
+	local heliSeat = Instance.new("VehicleSeat")
+	heliSeat.Name = "VehicleSeat"
+	heliSeat.Parent = heliFixture
+	local heliGyro = Instance.new("BodyGyro")
+	heliGyro.Name = "BodyGyro"
+	heliGyro.P = 3000
+	heliGyro.D = 500
+	heliGyro.MaxTorque = Vector3.new(0, 0, 0)
+	heliGyro.Parent = heliSeat
+	local heliVelocity = Instance.new("BodyVelocity")
+	heliVelocity.Name = "BodyVelocity"
+	heliVelocity.P = 1250
+	heliVelocity.MaxForce = Vector3.new(0, 0, 0)
+	heliVelocity.Parent = heliSeat
+	local heliConfig = Instance.new("Configuration")
+	heliConfig.Name = "Configuration"
+	heliConfig.Parent = heliSeat
+	local heliMaxSpeed = Instance.new("NumberValue")
+	heliMaxSpeed.Name = "MaxSpeed"
+	heliMaxSpeed.Value = 80
+	heliMaxSpeed.Parent = heliConfig
+	local heliMaxForce = Instance.new("NumberValue")
+	heliMaxForce.Name = "MaxForce"
+	heliMaxForce.Value = 100000000
+	heliMaxForce.Parent = heliConfig
+	local heliTurnSpeed = Instance.new("NumberValue")
+	heliTurnSpeed.Name = "TurnSpeed"
+	heliTurnSpeed.Value = 4.5
+	heliTurnSpeed.Parent = heliConfig
+	local heliGiver = Instance.new("Script")
+	heliGiver.Name = "Gui Giver"
+	heliGiver.Parent = heliSeat
+	local heliOwner = Instance.new("StringValue")
+	heliOwner.Name = "Owner"
+	heliOwner.Parent = heliGiver
+	local heliLanding = Instance.new("BoolValue")
+	heliLanding.Name = "Landing"
+	heliLanding.Parent = heliGiver
+	local heliGui = Instance.new("ScreenGui")
+	heliGui.Name = "HeliGui"
+	heliGui.Parent = heliSeat
+	local heliCarSeat = Instance.new("ObjectValue")
+	heliCarSeat.Name = "CarSeat"
+	heliCarSeat.Parent = heliGui
+	local heliFrame = Instance.new("Frame")
+	heliFrame.Name = "Frame"
+	heliFrame.Parent = heliGui
+	local heliControls = Instance.new("LocalScript")
+	heliControls.Name = "VehicleControls"
+	heliControls.Disabled = false
+	heliControls.Parent = heliFrame
+	local heliTakeOff = Instance.new("BoolValue")
+	heliTakeOff.Name = "TakeOffBool"
+	heliTakeOff.Parent = heliControls
+	local heliInspect = RuntimeCore.inspectNativeHelicopter(heliFixture)
+	local heliGuiBuild = RuntimeCore.buildHelicopterGui(heliFixture)
+	local heliGuiOk = heliInspect.ok
+		and heliInspect.maxSpeed == 80
+		and heliInspect.maxForce == 100000000
+		and math.abs((heliInspect.turnSpeed or 0) - 4.5) < 0.001
+		and heliGuiBuild.ok
+		and heliGuiBuild.carSeat.Value == heliSeat
+		and heliGuiBuild.controls.Disabled == false
+		and heliGuiBuild.takeOffBool.Value == false
+		and heliGuiBuild.gui:GetAttribute("BrookhavenNativeHeliGui") == true
+	if heliGuiBuild.gui then
+		heliGuiBuild.gui:Destroy()
+	end
+	heliFixture:Destroy()
+
 	local socialCarrier = Instance.new("Model")
 	socialCarrier.Name = "Carrier"
 	local carrierTorso = Instance.new("Part")
@@ -1652,8 +1807,9 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
+		helicopterGui = {ok = heliGuiOk, inspected = heliInspect},
 		follower = {ok = followerOk, sourceName = followerBuild.sourceName, selected = followerName and followerName.Value or nil},
 		houseFire = {ok = houseFireOk, enabled = houseFireOn, disabled = houseFireOff},
 		toolVisual = {ok = toolVisualOk, sourceName = displayToolResult.sourceName, sourceClass = displayToolResult.sourceClass},
