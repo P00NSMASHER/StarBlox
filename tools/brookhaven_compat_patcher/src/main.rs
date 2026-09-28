@@ -123,6 +123,88 @@ fn collect_named_paths(
     }
 }
 
+
+fn collect_selected_state(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    exact_names: &[&str],
+    out: &mut Vec<String>,
+    limit: usize,
+) {
+    if out.len() >= limit {
+        return;
+    }
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    if exact_names.iter().any(|name| *name == instance.name) {
+        let mut props = Vec::new();
+        for key in [
+            "Transparency",
+            "CanCollide",
+            "Anchored",
+            "Size",
+            "CFrame",
+            "Color",
+            "BrickColor",
+            "Image",
+            "ImageColor3",
+            "Texture",
+            "Value",
+        ] {
+            if let Some(value) = instance.properties.get(&ustr(key)) {
+                props.push(format!("{key}={value:?}"));
+            }
+        }
+        out.push(format!(
+            "{}:{}{}",
+            path,
+            instance.class.as_str(),
+            if props.is_empty() { String::new() } else { format!(" {}", props.join(" ")) }
+        ));
+    }
+    for child in instance.children() {
+        collect_selected_state(dom, *child, &path, exact_names, out, limit);
+        if out.len() >= limit {
+            break;
+        }
+    }
+}
+
+fn collect_pool_cover_state(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    out: &mut Vec<String>,
+) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    if instance.class.as_str() == "Part" {
+        let mut props = Vec::new();
+        for key in ["Transparency", "CanCollide", "Anchored", "Size", "CFrame", "Color", "BrickColor"] {
+            if let Some(value) = instance.properties.get(&ustr(key)) {
+                props.push(format!("{key}={value:?}"));
+            }
+        }
+        out.push(format!("{}:Part {}", path, props.join(" ")));
+    }
+    for child in instance.children() {
+        collect_pool_cover_state(dom, *child, &path, out);
+    }
+}
+
 fn collect_vehicle_control_paths(
     dom: &WeakDom,
     current: Ref,
@@ -344,6 +426,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     let daycare_tools_ref = common_ref
         .and_then(|common| direct_child(dom, common, "001_DayCare"))
         .and_then(|daycare| direct_child(dom, daycare, "Tools"));
+    let pool_covers_ref = common_ref
+        .and_then(|common| direct_child(dom, common, "001_PoolCovers"));
     let replicated_ref = find_first(dom, dom.root_ref(), "ReplicatedStorage", None);
     let single_vehicles_ref = replicated_ref.and_then(|replicated| direct_child(dom, replicated, "SingleVehicles"));
     let banned_lots_ref = replicated_ref.and_then(|replicated| direct_child(dom, replicated, "BannedLots"));
@@ -369,6 +453,20 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     if let Some(daycare_tools) = daycare_tools_ref {
         collect_subtree_labels(dom, daycare_tools, "", &mut daycare_tools_subtree, 220);
     }
+    let mut pool_cover_state = Vec::new();
+    if let Some(pool_covers) = pool_covers_ref {
+        collect_pool_cover_state(dom, pool_covers, "", &mut pool_cover_state);
+    }
+    let mut bank_card_state = Vec::new();
+    collect_selected_state(
+        dom,
+        dom.root_ref(),
+        "",
+        &["CreditCardBoy", "CreditCardGirl", "BankKeyCard", "FakeBankKeyCard"],
+        &mut bank_card_state,
+        80,
+    );
+
     let mut heli_control_state = Vec::new();
     let mut heli_subtree = Vec::new();
     if let Some(heli) = heli_ref {
@@ -392,6 +490,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
         "remainingPoolPaths": remaining_pool_paths.into_iter().collect::<Vec<_>>(),
         "remainingBankCardPaths": remaining_bank_card_paths.into_iter().collect::<Vec<_>>(),
+        "poolCoverState": pool_cover_state,
+        "bankCardState": bank_card_state,
         "ambulanceControlPaths": vehicle_control_paths.into_iter().collect::<Vec<_>>(),
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
         "followAssetPaths": follow_paths.into_iter().collect::<Vec<_>>(),
