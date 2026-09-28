@@ -52,10 +52,9 @@ describe('Brookhaven recording parity: ephemeral family groups',()=>{
     expect(panel).toContain('removeMember:InvokeServer(memberId)');
     expect(panel).toContain('leave:InvokeServer()');
     expect(panel).toContain('stateChanged.OnClientEvent:Connect');
-    expect(panel).toContain('setWorldHudVisible(false)');
-    expect(panel).toContain('setWorldHudVisible(true)');
-    expect(panel).toContain('setRoleplayTagVisible(false)');
-    expect(panel).toContain('setRoleplayTagVisible(true)');
-    expect(panel).toContain('scrim.BackgroundTransparency = 0.36');
+    expect(panel).toContain('MobileShell.RegisterOverlay("family", gui)');
+    expect(panel).toContain('MobileShell.Open("family")');
+    expect(panel).toContain('MobileShell.Close("family")');
+    expect(panel).toContain('MobileShell.ApplyScrim(scrim, 0.30)');
   });
 });

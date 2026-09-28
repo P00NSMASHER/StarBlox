@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 
 local mirrorRemotes = ReplicatedStorage:WaitForChild("StarBloxMirror")
 local mirrorGetState = mirrorRemotes:WaitForChild("GetState") :: RemoteFunction
@@ -42,24 +43,8 @@ local returnWorld = shopRemotes:WaitForChild("ReturnWorld") :: RemoteFunction
 local shopGui = playerGui:WaitForChild("StarBloxShopUI", 10)
 local openStore = if shopGui then shopGui:FindFirstChild("OpenStore") else nil
 
-local UI = {
-	white = Color3.fromRGB(248, 249, 250),
-	tile = Color3.fromRGB(237, 240, 243),
-	tileSelected = Color3.fromRGB(218, 235, 244),
-	border = Color3.fromRGB(164, 174, 184),
-	text = Color3.fromRGB(40, 40, 40),
-	muted = Color3.fromRGB(90, 90, 90),
-	red = Color3.fromRGB(205, 36, 36),
-	green = Color3.fromRGB(69, 176, 88),
-	cyan = Color3.fromRGB(30, 203, 216),
-	blue = Color3.fromRGB(132, 211, 238),
-	dark = Color3.fromRGB(25, 30, 35),
-	glassTop = Color3.fromRGB(255, 255, 255),
-	glassBottom = Color3.fromRGB(237, 241, 245),
-	glassStroke = Color3.fromRGB(255, 255, 255),
-	selected = Color3.fromRGB(210, 235, 248),
-	icon = Color3.fromRGB(31, 38, 45),
-} 
+local UI = MobileShell.Theme
+
 
 local ICONS: {[string]: string} = table.freeze({
 	avatar = "rbxassetid://6022668898",
@@ -75,36 +60,15 @@ local ICONS: {[string]: string} = table.freeze({
 })
 
 local function round(guiObject: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = guiObject
+	MobileShell.Round(guiObject, radius)
 end
 
 local function stroke(guiObject: GuiObject, color: Color3?, thickness: number?, transparency: number?)
-	local line = Instance.new("UIStroke")
-	line.Color = color or UI.border
-	line.Thickness = thickness or 1
-	line.Transparency = transparency or 0.25
-	line.Parent = guiObject
+	MobileShell.Stroke(guiObject, color, thickness, transparency)
 end
 
 local function glass(guiObject: GuiObject, radius: number)
-	round(guiObject, radius)
-	local line = Instance.new("UIStroke")
-	line.Name = "GlassStroke"
-	line.Color = UI.glassStroke
-	line.Thickness = 1
-	line.Transparency = 0.52
-	line.Parent = guiObject
-
-	local gradient = Instance.new("UIGradient")
-	gradient.Name = "GlassGradient"
-	gradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, UI.glassTop),
-		ColorSequenceKeypoint.new(1, UI.glassBottom),
-	})
-	gradient.Rotation = 90
-	gradient.Parent = guiObject
+	MobileShell.Glass(guiObject, radius)
 end
 
 local function iconLabel(parent: GuiObject, name: string, image: string, size: number): ImageLabel
@@ -138,6 +102,7 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterPersistent("world", gui)
 
 -- The custom StarBlox opening runs before this client shell. Once gameplay is visible,
 -- the persistent chrome intentionally follows the Brookhaven reference recording.

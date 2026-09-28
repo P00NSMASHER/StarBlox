@@ -43,21 +43,18 @@ describe('v35 iPhone render-truth mobile parity repairs',()=>{
     const family=read('roblox/src/client/FamilyPanel.client.luau');
     const cams=read('roblox/src/client/HomeCams.client.luau');
 
-    expect(avatar).toContain('scrim.BackgroundTransparency = 0.22');
-    expect(avatar).toContain('setRoleplayTagVisible(false)');
-    expect(avatar).toContain('setWorldHudVisible(false)');
-    expect(avatar).toContain('setWorldHudVisible(true)');
+    expect(avatar).toContain('MobileShell.RegisterOverlay("avatar", gui)');
+    expect(avatar).toContain('MobileShell.Open("avatar")');
+    expect(avatar).toContain('MobileShell.Close("avatar")');
 
     expect(family).toContain('scrim.Name = "FamilyScrim"');
-    expect(family).toContain('setWorldHudVisible(false)');
-    expect(family).toContain('setWorldHudVisible(true)');
-    expect(family).toContain('setRoleplayTagVisible(false)');
-    expect(family).toContain('setRoleplayTagVisible(true)');
+    expect(family).toContain('MobileShell.RegisterOverlay("family", gui)');
+    expect(family).toContain('MobileShell.Open("family")');
+    expect(family).toContain('MobileShell.Close("family")');
 
-    expect(cams).toContain('setWorldHudVisible(false)');
-    expect(cams).toContain('setWorldHudVisible(true)');
-    expect(cams).toContain('setRoleplayTagVisible(false)');
-    expect(cams).toContain('setRoleplayTagVisible(true)');
+    expect(cams).toContain('MobileShell.RegisterOverlay("cams", gui)');
+    expect(cams).toContain('MobileShell.Open("cams")');
+    expect(cams).toContain('MobileShell.Close("cams")');
   });
 
   it('finds an exterior GO HOME point with ground and collision checks',()=>{

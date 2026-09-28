@@ -6,6 +6,7 @@ local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 
 local roleplayRemotes = ReplicatedStorage:WaitForChild("StarBloxRoleplay")
 local getState = roleplayRemotes:WaitForChild("GetState") :: RemoteFunction
@@ -16,31 +17,15 @@ local deleteOutfit = roleplayRemotes:WaitForChild("DeleteOutfit") :: RemoteFunct
 local applyAvatarPreset = roleplayRemotes:WaitForChild("ApplyAvatarPreset") :: RemoteFunction
 local removeAvatarItem = roleplayRemotes:WaitForChild("RemoveAvatarItem") :: RemoteFunction
 
-local COLORS = {
-	white = Color3.fromRGB(248, 249, 250),
-	tile = Color3.fromRGB(235, 238, 242),
-	tileSelected = Color3.fromRGB(211, 232, 244),
-	text = Color3.fromRGB(35, 35, 35),
-	muted = Color3.fromRGB(82, 82, 82),
-	border = Color3.fromRGB(158, 168, 178),
-	red = Color3.fromRGB(207, 36, 36),
-	green = Color3.fromRGB(70, 178, 88),
-	blue = Color3.fromRGB(113, 196, 231),
-	pink = Color3.fromRGB(236, 83, 158),
-}
+local COLORS = MobileShell.Theme
+
 
 local function round(object: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = object
+	MobileShell.Round(object, radius)
 end
 
 local function stroke(object: GuiObject, color: Color3?, thickness: number?, transparency: number?)
-	local line = Instance.new("UIStroke")
-	line.Color = color or COLORS.border
-	line.Thickness = thickness or 1
-	line.Transparency = transparency or 0.35
-	line.Parent = object
+	MobileShell.Stroke(object, color, thickness, transparency)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
@@ -60,6 +45,7 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterOverlay("avatar", gui)
 
 local openAvatarEditor = Instance.new("BindableEvent")
 openAvatarEditor.Name = "OpenAvatarEditor"
@@ -78,9 +64,7 @@ root.Parent = gui
 local scrim = Instance.new("Frame")
 scrim.Name = "EditorScrim"
 scrim.Size = UDim2.fromScale(1, 1)
-scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
-scrim.BackgroundTransparency = 0.22
-scrim.BorderSizePixel = 0
+MobileShell.ApplyScrim(scrim, 0.24)
 scrim.ZIndex = 85
 scrim.Parent = root
 
@@ -757,10 +741,8 @@ for id, button in tabButtons do
 end
 
 local function closeEditor()
-	gui.Enabled = false
 	restoreCamera()
-	setWorldHudVisible(true)
-	setRoleplayTagVisible(true)
+	MobileShell.Close("avatar")
 	setShellLabelsVisible(true)
 end
 
@@ -911,9 +893,7 @@ openAvatarEditor.Event:Connect(function()
 			end
 		end
 	end
-	setWorldHudVisible(false)
-	setRoleplayTagVisible(false)
-	gui.Enabled = true
+	MobileShell.Open("avatar")
 	setShellLabelsVisible(false)
 	updateOutfitSlots()
 	renderEquippedItems()

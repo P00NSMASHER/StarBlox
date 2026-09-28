@@ -6,6 +6,7 @@ local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 
 local familyRemotes = ReplicatedStorage:WaitForChild("StarBloxFamily")
 local getState = familyRemotes:WaitForChild("GetState") :: RemoteFunction
@@ -16,29 +17,15 @@ local leave = familyRemotes:WaitForChild("Leave") :: RemoteFunction
 local removeMember = familyRemotes:WaitForChild("RemoveMember") :: RemoteFunction
 local stateChanged = familyRemotes:WaitForChild("StateChanged") :: RemoteEvent
 
-local UI = {
-	white = Color3.fromRGB(248, 249, 250),
-	panel = Color3.fromRGB(233, 236, 240),
-	panelSoft = Color3.fromRGB(218, 223, 228),
-	text = Color3.fromRGB(35, 40, 46),
-	muted = Color3.fromRGB(98, 106, 114),
-	red = Color3.fromRGB(205, 37, 37),
-	green = Color3.fromRGB(61, 183, 79),
-	border = Color3.fromRGB(160, 170, 180),
-}
+local UI = MobileShell.Theme
+
 
 local function round(object: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = object
+	MobileShell.Round(object, radius)
 end
 
 local function stroke(object: GuiObject, transparency: number?)
-	local line = Instance.new("UIStroke")
-	line.Color = UI.border
-	line.Thickness = 1
-	line.Transparency = transparency or 0.4
-	line.Parent = object
+	MobileShell.Stroke(object, UI.border, 1, transparency or 0.4)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
@@ -58,6 +45,7 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterOverlay("family", gui)
 
 local openFamily = Instance.new("BindableEvent")
 openFamily.Name = "OpenFamilyPanel"
@@ -71,9 +59,7 @@ root.Parent = gui
 local scrim = Instance.new("Frame")
 scrim.Name = "FamilyScrim"
 scrim.Size = UDim2.fromScale(1, 1)
-scrim.BackgroundColor3 = Color3.fromRGB(18, 22, 27)
-scrim.BackgroundTransparency = 0.36
-scrim.BorderSizePixel = 0
+MobileShell.ApplyScrim(scrim, 0.30)
 scrim.ZIndex = 81
 scrim.Parent = root
 
@@ -376,9 +362,7 @@ local function setRoleplayTagVisible(visible: boolean)
 end
 
 local function closePanel()
-	gui.Enabled = false
-	setRoleplayTagVisible(true)
-	setWorldHudVisible(true)
+	MobileShell.Close("family")
 end
 
 close.Activated:Connect(closePanel)
@@ -396,9 +380,7 @@ openFamily.Event:Connect(function()
 		state = nil
 		render()
 	end
-	setWorldHudVisible(false)
-	setRoleplayTagVisible(false)
-	gui.Enabled = true
+	MobileShell.Open("family")
 end)
 
 stateChanged.OnClientEvent:Connect(function()

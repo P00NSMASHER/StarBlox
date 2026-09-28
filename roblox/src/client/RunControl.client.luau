@@ -7,6 +7,8 @@ local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
+local UI = MobileShell.Theme
 local movementRemotes = ReplicatedStorage:WaitForChild("StarBloxMovement")
 local toggleRun = movementRemotes:WaitForChild("ToggleRun") :: RemoteFunction
 
@@ -19,6 +21,7 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
+MobileShell.RegisterPersistent("run", gui)
 
 local root = Instance.new("Frame")
 root.Name = "Root"
@@ -35,7 +38,12 @@ local function updateScale()
 	if camera == nil then
 		return
 	end
-	scale.Scale = math.clamp(camera.ViewportSize.Y / 512, 0.72, 1.08)
+	local viewport = camera.ViewportSize
+	if viewport.X >= viewport.Y then
+		scale.Scale = 1
+	else
+		scale.Scale = math.clamp(viewport.X / 960, 0.72, 1)
+	end
 end
 updateScale()
 Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(updateScale)
@@ -43,40 +51,29 @@ if Workspace.CurrentCamera then
 	Workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(updateScale)
 end
 
-local button = Instance.new("TextButton")
+local button = Instance.new("ImageButton")
 button.Name = "Run"
 button.AnchorPoint = Vector2.new(1, 1)
-button.Position = UDim2.new(1, -282, 1, -62)
-button.Size = UDim2.fromOffset(56, 56)
-button.BackgroundColor3 = Color3.fromRGB(78, 78, 78)
-button.BackgroundTransparency = 0.48
-button.Text = "🏃"
-button.TextColor3 = Color3.fromRGB(225, 225, 225)
-button.TextTransparency = 0.25
-button.Font = Enum.Font.GothamBold
-button.TextScaled = true
+button.Position = UDim2.new(1, -76, 1, -58)
+button.Size = UDim2.fromOffset(52, 52)
+button.BackgroundColor3 = UI.white
+button.BackgroundTransparency = 0.28
+button.Image = "rbxassetid://6034754445"
+button.ImageColor3 = UI.icon
+button.ImageTransparency = 0.18
+button.ScaleType = Enum.ScaleType.Fit
 button.AutoButtonColor = true
 button.ZIndex = 35
 button.Parent = root
+MobileShell.Round(button, 26)
+MobileShell.Stroke(button, UI.glassStroke, 1.5, 0.42)
 
-local aspect = Instance.new("UIAspectRatioConstraint")
-aspect.AspectRatio = 1
-aspect.Parent = button
-
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(1, 0)
-corner.Parent = button
-
-local ring = Instance.new("UIStroke")
-ring.Color = Color3.fromRGB(100, 100, 100)
-ring.Thickness = 2
-ring.Transparency = 0.35
-ring.Parent = button
-
-local textLimit = Instance.new("UITextSizeConstraint")
-textLimit.MinTextSize = 20
-textLimit.MaxTextSize = 30
-textLimit.Parent = button
+local iconPadding = Instance.new("UIPadding")
+iconPadding.PaddingTop = UDim.new(0, 12)
+iconPadding.PaddingBottom = UDim.new(0, 12)
+iconPadding.PaddingLeft = UDim.new(0, 12)
+iconPadding.PaddingRight = UDim.new(0, 12)
+iconPadding.Parent = button
 
 local busy = false
 
@@ -84,9 +81,12 @@ local function render()
 	local running = player:GetAttribute("StarBloxRunning") == true
 	local sprintSetting = player:GetAttribute("StarBloxSetting_SprintButton")
 	button.Visible = UserInputService.TouchEnabled and sprintSetting ~= false
-	button.BackgroundTransparency = if running then 0.24 else 0.48
-	button.TextTransparency = if running then 0 else 0.25
-	ring.Transparency = if running then 0.1 else 0.35
+	button.BackgroundTransparency = if running then 0.10 else 0.28
+	button.ImageTransparency = if running then 0 else 0.18
+	local ring = button:FindFirstChildOfClass("UIStroke")
+	if ring ~= nil then
+		ring.Transparency = if running then 0.18 else 0.42
+	end
 end
 
 button.Activated:Connect(function()

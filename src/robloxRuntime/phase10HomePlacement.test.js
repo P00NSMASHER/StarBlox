@@ -64,7 +64,10 @@ describe('Phase 10: persistent Brookhaven-style home prop placement',()=>{
     expect(shop).toContain('editPlacement.Name = "EditPlacement"');
     expect(shop).toContain('editPlacement:Fire(id)');
     expect(build).toContain('gui.Name = "StarBloxHomeBuild"');
-    expect(build).toContain('panel.Size = UDim2.fromOffset(390, 126)');
+    expect(build).toContain('panel.Size = UDim2.fromOffset(420, 130)');
+    expect(build).toContain('MobileShell.RegisterOverlay("build", gui)');
+    expect(build).toContain('MobileShell.Open("build")');
+    expect(build).toContain('MobileShell.Close("build")');
     expect(build).toContain('button.Size = UDim2.fromOffset(44, 44)');
     expect(build).toContain('setPlacement:InvokeServer');
     expect(build).toContain('setVisibility:InvokeServer');

@@ -43,9 +43,8 @@ describe('Brookhaven recording parity: Home Cams',()=>{
     expect(avatar).toContain('closeAvatarEditor.Event:Connect(closeEditor)');
     expect(cams).toContain('avatarEditor:FindFirstChild("CloseAvatarEditor")');
     expect(cams).toContain('closeEditor:Fire()');
-    expect(cams).toContain('setWorldHudVisible(false)');
-    expect(cams).toContain('setWorldHudVisible(true)');
-    expect(cams).toContain('setRoleplayTagVisible(false)');
-    expect(cams).toContain('setRoleplayTagVisible(true)');
+    expect(cams).toContain('MobileShell.RegisterOverlay("cams", gui)');
+    expect(cams).toContain('MobileShell.Open("cams")');
+    expect(cams).toContain('MobileShell.Close("cams")');
   });
 });

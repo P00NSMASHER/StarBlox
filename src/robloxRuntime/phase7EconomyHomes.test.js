@@ -92,7 +92,12 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(client).toContain('shopButton.Visible = false');
     expect(client).toContain('homeButton.Visible = false');
     expect(client).toContain('closeButton.Size = UDim2.fromOffset(48,48)');
-    expect(client).toContain('panel.Size = UDim2.fromOffset(720,390)');
+    expect(client).toContain('panel.Size = UDim2.fromOffset(640,360)');
+    expect(client).toContain('constraint.MinSize = Vector2.new(520,330)');
+    expect(client).toContain('constraint.MaxSize = Vector2.new(660,380)');
+    expect(client).toContain('MobileShell.RegisterOverlay("shop", gui)');
+    expect(client).toContain('MobileShell.Open("shop")');
+    expect(client).toContain('MobileShell.Close("shop")');
     expect(client).toContain('grid.CellSize = UDim2.fromOffset(128,126)');
     expect(client).toContain('visit.Text = "GO HOME"');
     expect(client).toContain('visit.Visible = true');

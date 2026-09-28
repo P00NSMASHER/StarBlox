@@ -26,12 +26,10 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
 
     expect(editor).toContain('gui.Name = "BrookhavenAvatarEditorUI"');
     expect(editor).toContain('scrim.Name = "EditorScrim"');
-    expect(editor).toContain('scrim.BackgroundTransparency = 0.22');
-    expect(editor).toContain('local function setWorldHudVisible(visible: boolean)');
-    expect(editor).toContain('setWorldHudVisible(false)');
-    expect(editor).toContain('setWorldHudVisible(true)');
-    expect(editor).toContain('setRoleplayTagVisible(false)');
-    expect(editor).toContain('setRoleplayTagVisible(true)');
+    expect(editor).toContain('MobileShell.ApplyScrim(scrim, 0.24)');
+    expect(editor).toContain('MobileShell.RegisterOverlay("avatar", gui)');
+    expect(editor).toContain('MobileShell.Open("avatar")');
+    expect(editor).toContain('MobileShell.Close("avatar")');
     expect(editor).toContain('outfitsPanel.Name = "MyOutfits"');
     expect(editor).toContain('outfitsTitle.Text = "My Outfits"');
     expect(editor).toContain('presetsPanel.Name = "PresetPanel"');

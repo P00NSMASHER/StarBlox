@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 local Config = require(ReplicatedStorage.StarBlox.SchoolConfig)
 if Config.FeatureFlags.SchoolSystemEnabled ~= true then
 	return
@@ -26,32 +27,17 @@ pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = player:WaitForChild("PlayerGui")
+MobileShell.RegisterPersistent("school", gui)
 
-local COLORS = {
-	white = Color3.fromRGB(240, 240, 240),
-	panel = Color3.fromRGB(245, 245, 245),
-	tile = Color3.fromRGB(222, 222, 222),
-	text = Color3.fromRGB(42, 42, 42),
-	muted = Color3.fromRGB(92, 92, 92),
-	cyan = Color3.fromRGB(30, 203, 216),
-	red = Color3.fromRGB(205, 36, 36),
-	border = Color3.fromRGB(112, 112, 112),
-	navy = Color3.fromRGB(27, 48, 79),
-	green = Color3.fromRGB(63, 190, 103),
-}
+local COLORS = MobileShell.Theme
+
 
 local function round(object: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = object
+	MobileShell.Round(object, radius)
 end
 
 local function stroke(object: GuiObject, transparency: number?)
-	local line = Instance.new("UIStroke")
-	line.Color = COLORS.border
-	line.Thickness = 1
-	line.Transparency = transparency or 0.4
-	line.Parent = object
+	MobileShell.Stroke(object, COLORS.border, 1, transparency or 0.4)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
