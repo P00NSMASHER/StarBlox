@@ -909,6 +909,7 @@ local activeNoMotorByPlayer = {}
 local vehicleSeatConnections = {}
 local vehicleLockState = {}
 local lastVehicleSpawn = {}
+local activeCarClientByPlayer = {}
 
 local function disconnectVehicle(model)
 	local connections = vehicleSeatConnections[model]
@@ -930,7 +931,59 @@ local function removeVehicleModel(model)
 	end
 end
 
+local function stopNativeCarClient(player)
+	local state = activeCarClientByPlayer[player]
+	activeCarClientByPlayer[player] = nil
+	if not state or not state.script then
+		return
+	end
+	local client = state.script
+	local stop = client:FindFirstChild("Stop")
+	if stop and stop:IsA("BoolValue") then
+		stop.Value = true
+	end
+	task.delay(1, function()
+		if client and client.Parent then
+			client:Destroy()
+		end
+	end)
+end
+
+local function startNativeCarClient(player, model)
+	local active = activeCarClientByPlayer[player]
+	if active and active.model == model and active.script and active.script.Parent then
+		return true
+	end
+	stopNativeCarClient(player)
+
+	local handler = model:FindFirstChild("CarHandler")
+	local source = handler and handler:FindFirstChild("CarClient")
+	if not (source and source:IsA("LocalScript")) then
+		return false
+	end
+	local client = source:Clone()
+	client.Name = "BrookhavenCarClient"
+	local car = client:FindFirstChild("Car")
+	local stop = client:FindFirstChild("Stop")
+	if not (car and car:IsA("ObjectValue") and stop and stop:IsA("BoolValue")) then
+		client:Destroy()
+		return false
+	end
+	car.Value = model
+	stop.Value = false
+	client.Disabled = false
+	local playerGui = player:FindFirstChildOfClass("PlayerGui") or player:WaitForChild("PlayerGui", 5)
+	if not playerGui then
+		client:Destroy()
+		return false
+	end
+	client.Parent = playerGui
+	activeCarClientByPlayer[player] = {script = client, model = model}
+	return true
+end
+
 local function removePlayerVehicle(player)
+	stopNativeCarClient(player)
 	removeVehicleModel(activeVehicleByPlayer[player])
 	activeVehicleByPlayer[player] = nil
 	playersCarRemote:FireClient(player, "CloseCarGUI")
@@ -992,6 +1045,7 @@ local function bindVehicleSeats(player, model)
 			table.insert(connections, item:GetPropertyChangedSignal("Occupant"):Connect(function()
 				local occupant = item.Occupant
 				if not occupant then
+					stopNativeCarClient(player)
 					playersCarRemote:FireClient(player, "CloseCarGUI")
 					return
 				end
@@ -1001,6 +1055,7 @@ local function bindVehicleSeats(player, model)
 					return
 				end
 				if seatedPlayer == player then
+					startNativeCarClient(player, model)
 					playersCarRemote:FireClient(player, "OpenCarGUI")
 				end
 			end))
@@ -1024,6 +1079,7 @@ local function normalizeVehicle(player, model, requestedName, noMotor)
 			item.Value = player.Name
 		end
 	end
+	return RuntimeCore.prepareNativeVehicle(model)
 end
 
 local function assignVehicleNetworkOwner(player, model)
@@ -1059,7 +1115,11 @@ local function spawnVehicle(player, requestedName, noMotor)
 		removePlayerVehicle(player)
 	end
 	local clone = result.model
-	normalizeVehicle(player, clone, requestedName, noMotor)
+	local driveReady = normalizeVehicle(player, clone, requestedName, noMotor)
+	if not driveReady.ok then
+		clone:Destroy()
+		return driveReady
+	end
 	clone.Parent = liveVehicles
 	assignVehicleNetworkOwner(player, clone)
 	local ok, reason = pcall(function()
@@ -1080,6 +1140,8 @@ local function spawnVehicle(player, requestedName, noMotor)
 		vehicle = requestedName,
 		modelName = clone.Name,
 		hasVehicleSeat = primaryVehicleSeat(clone) ~= nil,
+		driveReady = driveReady,
+		nativeCarClientAvailable = (clone:FindFirstChild("CarHandler") and clone.CarHandler:FindFirstChild("CarClient")) ~= nil,
 	}
 end
 
@@ -1344,6 +1406,7 @@ Players.PlayerRemoving:Connect(function(player)
 	removeNoMotorVehicle(player)
 	appearanceAssets[player] = nil
 	lastVehicleSpawn[player] = nil
+	activeCarClientByPlayer[player] = nil
 end)
 for _, player in ipairs(Players:GetPlayers()) do
 	task.spawn(setupNativePlayer, player)
