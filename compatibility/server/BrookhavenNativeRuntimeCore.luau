@@ -518,6 +518,84 @@ local function orderedHairAccessories(character)
 	return rows
 end
 
+
+local VEHICLE_MUSIC_TEXT_ACTIONS = {
+	PickingCarMusicText = true,
+	PickingScooterMusicText = true,
+}
+local VEHICLE_MUSIC_PLAY_ACTIONS = {
+	CarMusicPlay = true,
+	PickingScooterMusicPlay = true,
+}
+local VEHICLE_MUSIC_STOP_ACTIONS = {
+	CarMusicStop = true,
+	PickingScooterMusicStop = true,
+}
+
+local function vehicleMusicSound(model)
+	if not (model and model:IsA("Model")) then
+		return nil
+	end
+	local existing = model:FindFirstChild("BrookhavenVehicleMusic", true)
+	if existing and existing:IsA("Sound") then
+		return existing
+	end
+	local emitter = RuntimeCore.primaryVehicleSeat(model)
+	if not emitter then
+		for _, item in ipairs(model:GetDescendants()) do
+			if item:IsA("BasePart") then
+				emitter = item
+				break
+			end
+		end
+	end
+	if not emitter then
+		return nil
+	end
+	local sound = Instance.new("Sound")
+	sound.Name = "BrookhavenVehicleMusic"
+	sound.Looped = true
+	sound.Volume = 0.5
+	sound.RollOffMaxDistance = 80
+	sound.Parent = emitter
+	return sound
+end
+
+function RuntimeCore.applyVehicleMusicMutation(model, action, value)
+	local sound = vehicleMusicSound(model)
+	if not sound then
+		return {ok = false, code = "vehicle_music_emitter_missing"}
+	end
+	if VEHICLE_MUSIC_TEXT_ACTIONS[action] then
+		local id = normalizeAssetId(value)
+		if not id then
+			return {ok = false, code = "invalid_vehicle_music_asset"}
+		end
+		sound.SoundId = "rbxassetid://" .. tostring(id)
+		return {ok = sound.SoundId == "rbxassetid://" .. tostring(id), action = action, assetId = id}
+	elseif VEHICLE_MUSIC_PLAY_ACTIONS[action] then
+		if sound.SoundId == "" then
+			return {ok = false, code = "vehicle_music_asset_missing"}
+		end
+		local ok = pcall(function()
+			sound:Play()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing, soundId = sound.SoundId}
+	elseif VEHICLE_MUSIC_STOP_ACTIONS[action] then
+		local ok = pcall(function()
+			sound:Stop()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing, soundId = sound.SoundId}
+	end
+	return {ok = false, code = "unknown_vehicle_music_action"}
+end
+
+function RuntimeCore.isVehicleMusicAction(action)
+	return VEHICLE_MUSIC_TEXT_ACTIONS[action] == true
+		or VEHICLE_MUSIC_PLAY_ACTIONS[action] == true
+		or VEHICLE_MUSIC_STOP_ACTIONS[action] == true
+end
+
 function RuntimeCore.applyHairColor(character, action, value)
 	if not (character and character:IsA("Model")) then
 		return {ok = false, code = "character_missing"}
@@ -625,6 +703,22 @@ function RuntimeCore.runBehaviorProbe()
 	local curtainCloseResult = RuntimeCore.toggleCurtains(curtainFixture)
 	local curtainOk = curtainOpened and curtainCloseResult.ok and curtainCloseResult.open == false and math.abs(curtainPart.Transparency - 0.25) < 0.001 and curtainPart.CanCollide == true and curtainOpen.Value == false
 	curtainFixture:Destroy()
+
+	local vehicleMusicFixture = Instance.new("Model")
+	local vehicleMusicSeat = Instance.new("VehicleSeat")
+	vehicleMusicSeat.Name = "VehicleSeat"
+	vehicleMusicSeat.Parent = vehicleMusicFixture
+	local vehicleMusicSet = RuntimeCore.applyVehicleMusicMutation(vehicleMusicFixture, "PickingCarMusicText", "987654")
+	local vehicleMusicPlay = RuntimeCore.applyVehicleMusicMutation(vehicleMusicFixture, "CarMusicPlay", "Play")
+	local vehicleMusicSound = vehicleMusicFixture:FindFirstChild("BrookhavenVehicleMusic", true)
+	local vehicleMusicStop = RuntimeCore.applyVehicleMusicMutation(vehicleMusicFixture, "CarMusicStop", "Stop")
+	local scooterActionRecognized = RuntimeCore.isVehicleMusicAction("PickingScooterMusicPlay")
+	local vehicleMusicOk = vehicleMusicSet.ok and vehicleMusicPlay.ok and vehicleMusicStop.ok
+		and scooterActionRecognized
+		and vehicleMusicSound ~= nil
+		and vehicleMusicSound.SoundId == "rbxassetid://987654"
+		and vehicleMusicSound.Looped == true
+	vehicleMusicFixture:Destroy()
 
 	local hairFixture = Instance.new("Model")
 	for i = 1, 3 do
@@ -747,7 +841,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = vehicleMusicOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
 		hairColor = {ok = hairColorOk, result = hairResult},
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
