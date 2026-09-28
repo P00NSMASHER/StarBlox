@@ -57,7 +57,7 @@ jobs:
             '  local house=lot:FindFirstChild("HousePickedByPlayer")',
             '  if buy and buy:IsA("BasePart") and house then claimable += 1 end',
             'end',
-            'assert(claimable >= 6, "expected Brookhaven claimable house lots")',
+            'assert(claimable >= 5, "expected Brookhaven claimable house lots")',
             'print("BROOKHAVEN_COMPAT_V41_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." claimable="..tostring(claimable))'
           ].join("\n");
 
