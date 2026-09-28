@@ -577,6 +577,8 @@ local noMotorRemote = remotes:WaitForChild("NoMotorVehicles")
 local rpNameRemote = remotes:WaitForChild("RPNameEvent")
 local rpNameColorRemote = remotes:WaitForChild("RPNameEventColor")
 local jobsRemote = remotes:WaitForChild("Jobs")
+local rpHouseRemote = remotes:WaitForChild("RPHouseEvent")
+local rpHouseColorRemote = remotes:WaitForChild("RPHouseEventColor")
 
 local function getHumanoid(player)
 	local character = player.Character
@@ -893,6 +895,28 @@ end)
 jobsRemote.OnServerEvent:Connect(function(player, action, jobName, titlePic, jobOrStudent)
 	local bag = ensureBag(player)
 	RuntimeCore.applyJobStateToBag(bag, tostring(action), jobName, titlePic, jobOrStudent)
+end)
+
+local function playerHouseForNativeControl(player)
+	local record = playerLot[player]
+	if not record or record.owner ~= player then
+		return nil
+	end
+	return currentHouse(record)
+end
+
+rpHouseRemote.OnServerEvent:Connect(function(player, action, value)
+	local house = playerHouseForNativeControl(player)
+	if house then
+		RuntimeCore.applyHomeBusinessMutation(house, tostring(action), value)
+	end
+end)
+
+rpHouseColorRemote.OnServerEvent:Connect(function(player, action, value)
+	local house = playerHouseForNativeControl(player)
+	if house then
+		RuntimeCore.applyHomeBusinessMutation(house, tostring(action), value)
+	end
 end)
 
 local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
@@ -1432,4 +1456,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1")
