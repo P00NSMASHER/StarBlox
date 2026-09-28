@@ -900,6 +900,66 @@ function RuntimeCore.applyHorseCustomization(horse, action, value)
 end
 
 
+
+function RuntimeCore.buildFollowerFromDisplayPart(displayPart, followerName)
+	if not (displayPart and displayPart:IsA("BasePart")) then
+		return {ok = false, code = "display_part_missing"}
+	end
+
+	local model = Instance.new("Model")
+	model.Name = "FollowCharacter"
+	model:SetAttribute("BrookhavenNativeDisplaySource", true)
+	model:SetAttribute("BrookhavenNativeDisplayName", displayPart.Name)
+
+	local torso = displayPart:Clone()
+	torso.Name = "Torso"
+	torso.Anchored = false
+	torso.CanCollide = false
+	torso.CanTouch = false
+	torso.Massless = true
+	pcall(function()
+		torso.CanQuery = false
+	end)
+	for _, item in ipairs(torso:GetDescendants()) do
+		if item:IsA("ClickDetector")
+			or item:IsA("ProximityPrompt")
+			or item:IsA("BillboardGui")
+			or item:IsA("SurfaceGui")
+		then
+			item:Destroy()
+		end
+	end
+	torso.Parent = model
+	model.PrimaryPart = torso
+
+	local humanoid = Instance.new("Humanoid")
+	humanoid.Name = "Humanoid"
+	humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+	humanoid.RequiresNeck = false
+	humanoid.Parent = model
+	local animator = Instance.new("Animator")
+	animator.Parent = humanoid
+
+	local followName = Instance.new("StringValue")
+	followName.Name = "FollowName"
+	followName.Value = tostring(followerName or displayPart.Name)
+	followName.Parent = model
+
+	return {
+		ok = model.PrimaryPart == torso
+			and torso.Parent == model
+			and torso.Anchored == false
+			and torso.CanCollide == false
+			and humanoid.Parent == model
+			and followName.Parent == model,
+		model = model,
+		torso = torso,
+		humanoid = humanoid,
+		followName = followName,
+		sourceName = displayPart.Name,
+	}
+end
+
 function RuntimeCore.buildToolFromDisplayPart(displayPart, toolName)
 	if not (displayPart and displayPart:IsA("BasePart")) then
 		return {ok = false, code = "display_part_missing"}
@@ -1170,6 +1230,39 @@ function RuntimeCore.runBehaviorProbe()
 	lifecycleWorld:Destroy()
 	lifecycleCharacter:Destroy()
 
+	local followerDisplay = Instance.new("Part")
+	followerDisplay.Name = "BabyGirl"
+	followerDisplay.Size = Vector3.new(1.4, 2.3, 0.9)
+	followerDisplay.Color = Color3.fromRGB(255, 170, 204)
+	followerDisplay.Anchored = true
+	followerDisplay.CanCollide = true
+	local followerMesh = Instance.new("SpecialMesh")
+	followerMesh.Parent = followerDisplay
+	local followerClick = Instance.new("ClickDetector")
+	followerClick.Parent = followerDisplay
+	local followerBuild = RuntimeCore.buildFollowerFromDisplayPart(followerDisplay, "BabyGirl2")
+	local followerModel = followerBuild.model
+	local followerTorso = followerModel and followerModel:FindFirstChild("Torso")
+	local followerHumanoid = followerModel and followerModel:FindFirstChildOfClass("Humanoid")
+	local followerName = followerModel and followerModel:FindFirstChild("FollowName")
+	local followerOk = followerBuild.ok
+		and followerModel ~= nil
+		and followerModel.Name == "FollowCharacter"
+		and followerModel.PrimaryPart == followerTorso
+		and followerTorso ~= nil and followerTorso:IsA("BasePart")
+		and followerTorso.Size == Vector3.new(1.4, 2.3, 0.9)
+		and followerTorso.Anchored == false
+		and followerTorso.CanCollide == false
+		and followerTorso:FindFirstChildOfClass("SpecialMesh") ~= nil
+		and followerTorso:FindFirstChildOfClass("ClickDetector") == nil
+		and followerHumanoid ~= nil
+		and followerName ~= nil and followerName:IsA("StringValue") and followerName.Value == "BabyGirl2"
+		and followerModel:GetAttribute("BrookhavenNativeDisplaySource") == true
+	if followerModel then
+		followerModel:Destroy()
+	end
+	followerDisplay:Destroy()
+
 	local displayPart = Instance.new("Part")
 	displayPart.Name = "Basketball"
 	displayPart.Size = Vector3.new(2, 2, 2)
@@ -1428,7 +1521,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		follower = {ok = followerOk, sourceName = followerBuild.sourceName, selected = followerName and followerName.Value or nil},
 		houseFire = {ok = houseFireOk, enabled = houseFireOn, disabled = houseFireOff},
 		toolVisual = {ok = toolVisualOk, sourceName = displayToolResult.sourceName, sourceClass = displayToolResult.sourceClass},
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
