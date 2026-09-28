@@ -102,6 +102,130 @@ for _, button in ipairs(buttons:GetChildren()) do
 	end
 end
 
+
+-- Native Shop fallback.
+-- PlayerHandler normally owns these exact Brookhaven controls. If that legacy
+-- controller does not change Shop state, preserve the original UI and execute
+-- the same category/pass actions using touch-friendly GuiButton.Activated.
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local passRemote = ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("Pass")
+local shop = main:WaitForChild("Shop")
+local shopMainButtons = shop:WaitForChild("MainButtons")
+local shopMainOpen = shopMainButtons:WaitForChild("MainOpen")
+
+local shopCategories = {
+	shop:WaitForChild("CatagoryMusic"),
+	shop:WaitForChild("CatagoryVehicleUpgrade"),
+	shop:WaitForChild("CatagoryVehicleSpeed"),
+	shop:WaitForChild("CatagoryPremium"),
+	shop:WaitForChild("CatagoryHorse"),
+	shop:WaitForChild("CatagoryFire"),
+}
+
+local shopCategoryByButton = {
+	ColorSpeedLower = shop.CatagoryVehicleUpgrade,
+	Speed200 = shop.CatagoryVehicleSpeed,
+	Premium = shop.CatagoryPremium,
+	Music = shop.CatagoryMusic,
+	Horse = shop.CatagoryHorse,
+	Fire = shop.CatagoryFire,
+}
+
+local function shopSignature()
+	local parts = {shopMainButtons.Visible and "1" or "0"}
+	for _, category in ipairs(shopCategories) do
+		table.insert(parts, category.Visible and "1" or "0")
+	end
+	return table.concat(parts)
+end
+
+local function closeShopCategories(except)
+	for _, category in ipairs(shopCategories) do
+		if category ~= except then
+			category.Visible = false
+		end
+	end
+end
+
+local shopOpenButton = shop:WaitForChild("OpenButton"):WaitForChild("MainOpen"):WaitForChild("Open")
+shopOpenButton.Activated:Connect(function()
+	local before = shopSignature()
+	local wasVisible = shopMainButtons.Visible
+	task.delay(0.08, function()
+		if shopSignature() ~= before then
+			return
+		end
+		closeShopCategories(nil)
+		shopMainButtons.Visible = not wasVisible
+		if shopMainButtons.Visible then
+			closeAll(nil)
+		end
+	end)
+end)
+
+for buttonName, category in pairs(shopCategoryByButton) do
+	local button = shopMainOpen:FindFirstChild(buttonName)
+	if button and button:IsA("GuiButton") then
+		button.Activated:Connect(function()
+			local before = shopSignature()
+			local wasVisible = category.Visible
+			task.delay(0.08, function()
+				if shopSignature() ~= before then
+					return
+				end
+				closeShopCategories(category)
+				category.Visible = not wasVisible
+			end)
+		end)
+	end
+end
+
+local passButtons = {
+	{button = shop.CatagoryMusic:WaitForChild("MainOpen"):WaitForChild("Music"), action = "BoughtMusic", flag = "MusicPass"},
+	{button = shop.CatagoryPremium:WaitForChild("MainOpen"):WaitForChild("Premium"), action = "BoughtPremium", flag = "SilverPass"},
+	{button = shop.CatagoryVehicleUpgrade:WaitForChild("MainOpen"):WaitForChild("VehicleUpgrade"), action = "BoughtColorSpeedLower", flag = "ColorSpeedPassLower"},
+	{button = shop.CatagoryVehicleSpeed:WaitForChild("MainOpen"):WaitForChild("Speed"), action = "BoughtSpeed200", flag = "SpeedPass200"},
+	{button = shop.CatagoryHorse:WaitForChild("MainOpen"):WaitForChild("Horse"), action = "BoughtHorse", flag = "HorsePass"},
+	{button = shop.CatagoryFire:WaitForChild("MainOpen"):WaitForChild("Fire"), action = "BoughtFire", flag = "FirePass"},
+}
+
+local function hasPassFlag(flagName)
+	local bag = player:FindFirstChild("PlayersBag")
+	local flag = bag and bag:FindFirstChild(flagName)
+	return flag and flag:IsA("BoolValue") and flag.Value == true
+end
+
+for _, row in ipairs(passButtons) do
+	if row.button:IsA("GuiButton") then
+		row.button.Activated:Connect(function()
+			task.delay(0.12, function()
+				-- If native PlayerHandler already completed the action, do not duplicate it.
+				if not hasPassFlag(row.flag) then
+					passRemote:FireServer(row.action)
+				end
+				shopMainButtons.Visible = false
+				closeShopCategories(nil)
+			end)
+		end)
+	end
+end
+
+local closeButton = shopMainOpen:FindFirstChild("ColorSpeedLower")
+closeButton = closeButton and closeButton:FindFirstChild("Close")
+if closeButton and closeButton:IsA("GuiButton") then
+	closeButton.Activated:Connect(function()
+		local before = shopSignature()
+		task.delay(0.08, function()
+			if shopSignature() == before then
+				shopMainButtons.Visible = false
+				closeShopCategories(nil)
+			end
+		end)
+	end)
+end
+
+print("STARBLOX_BROOKHAVEN_NATIVE_SHOP_FALLBACK_READY")
+
 print("STARBLOX_BROOKHAVEN_COMPAT_CLIENT_READY")
 
 -- Native Brookhaven owns avatar editor, shop, tool, animation, and vehicle menus.
