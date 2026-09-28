@@ -596,6 +596,83 @@ function RuntimeCore.isVehicleMusicAction(action)
 		or VEHICLE_MUSIC_STOP_ACTIONS[action] == true
 end
 
+
+function RuntimeCore.applyHorseCustomization(horse, action, value)
+	if not (horse and horse:IsA("Model")) then
+		return {ok = false, code = "horse_missing"}
+	end
+
+	local head = horse:FindFirstChild("Head")
+	local nameGui = head and head:FindFirstChild("NameGUI")
+	local nameText = nameGui and nameGui:FindFirstChild("NameTxt")
+
+	if action == "HorseName" then
+		if not (nameText and (nameText:IsA("TextBox") or nameText:IsA("TextLabel"))) then
+			return {ok = false, code = "horse_name_target_missing"}
+		end
+		nameText.Text = boundedText(value, 48)
+		return {ok = true, action = action, text = nameText.Text}
+	elseif action == "HorseNameColor" then
+		if not (nameText and (nameText:IsA("TextBox") or nameText:IsA("TextLabel"))) then
+			return {ok = false, code = "horse_name_target_missing"}
+		end
+		local color = resolvedColor3(value)
+		if not color then
+			return {ok = false, code = "invalid_horse_name_color"}
+		end
+		nameText.TextColor3 = color
+		return {ok = true, action = action, color = color}
+	end
+
+	local color = resolvedColor3(value)
+	if not color then
+		return {ok = false, code = "invalid_horse_color"}
+	end
+	local brickName = BrickColor.new(color).Name
+	local changed = 0
+
+	if action == "PickingHorseBodyColor" then
+		for _, item in ipairs(horse:GetDescendants()) do
+			if item:IsA("BasePart") then
+				local state = item:FindFirstChild("Color")
+				if state and state:IsA("StringValue") then
+					item.Color = color
+					state.Value = brickName
+					changed += 1
+				end
+			end
+		end
+	elseif action == "PickingHorseHairColor" then
+		for _, partName in ipairs({"Mane", "Tail"}) do
+			local item = horse:FindFirstChild(partName)
+			if item and item:IsA("BasePart") then
+				item.Color = color
+				local state = item:FindFirstChild("HairColor")
+				if state and state:IsA("StringValue") then
+					state.Value = brickName
+				end
+				changed += 1
+			end
+		end
+	elseif action == "PickingSaddleColor" then
+		local saddle = horse:FindFirstChild("Saddle")
+		if saddle and saddle:IsA("BasePart") then
+			saddle.Color = color
+			changed = 1
+		end
+	else
+		return {ok = false, code = "unknown_horse_action"}
+	end
+
+	return {
+		ok = changed > 0,
+		action = action,
+		changed = changed,
+		color = color,
+		colorName = brickName,
+	}
+end
+
 function RuntimeCore.applyHairColor(character, action, value)
 	if not (character and character:IsA("Model")) then
 		return {ok = false, code = "character_missing"}
@@ -720,6 +797,56 @@ function RuntimeCore.runBehaviorProbe()
 		and vehicleMusicSound.Looped == true
 	vehicleMusicFixture:Destroy()
 
+	local horseFixture = Instance.new("Model")
+	local horseHead = Instance.new("Part")
+	horseHead.Name = "Head"
+	horseHead.Parent = horseFixture
+	local horseNameGui = Instance.new("BillboardGui")
+	horseNameGui.Name = "NameGUI"
+	horseNameGui.Parent = horseHead
+	local horseNameText = Instance.new("TextBox")
+	horseNameText.Name = "NameTxt"
+	horseNameText.Parent = horseNameGui
+	local horseTorso = Instance.new("Part")
+	horseTorso.Name = "UpperTorso"
+	horseTorso.Parent = horseFixture
+	local horseBodyState = Instance.new("StringValue")
+	horseBodyState.Name = "Color"
+	horseBodyState.Parent = horseTorso
+	local horseMane = Instance.new("Part")
+	horseMane.Name = "Mane"
+	horseMane.Parent = horseFixture
+	local horseManeState = Instance.new("StringValue")
+	horseManeState.Name = "HairColor"
+	horseManeState.Parent = horseMane
+	local horseTail = Instance.new("Part")
+	horseTail.Name = "Tail"
+	horseTail.Parent = horseFixture
+	local horseTailState = Instance.new("StringValue")
+	horseTailState.Name = "HairColor"
+	horseTailState.Parent = horseTail
+	local horseSaddle = Instance.new("Part")
+	horseSaddle.Name = "Saddle"
+	horseSaddle.Parent = horseFixture
+	local horseNameResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseName", "Comet")
+	local horseNameColorResult = RuntimeCore.applyHorseCustomization(horseFixture, "HorseNameColor", Color3.fromRGB(255, 0, 0))
+	local horseBodyResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseBodyColor", Color3.fromRGB(163, 162, 165))
+	local horseHairResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseHairColor", Color3.fromRGB(17, 17, 17))
+	local horseSaddleResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingSaddleColor", Color3.fromRGB(124, 92, 70))
+	local horseCustomizationOk = horseNameResult.ok
+		and horseNameColorResult.ok
+		and horseBodyResult.ok
+		and horseHairResult.ok
+		and horseSaddleResult.ok
+		and horseNameText.Text == "Comet"
+		and horseNameText.TextColor3 == Color3.fromRGB(255, 0, 0)
+		and horseTorso.Color == Color3.fromRGB(163, 162, 165)
+		and horseBodyState.Value == "Medium stone grey"
+		and horseMane.Color == Color3.fromRGB(17, 17, 17)
+		and horseTail.Color == Color3.fromRGB(17, 17, 17)
+		and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
+	horseFixture:Destroy()
+
 	local hairFixture = Instance.new("Model")
 	for i = 1, 3 do
 		local accessory = Instance.new("Accessory")
@@ -841,8 +968,9 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = vehicleMusicOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = vehicleMusicOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		vehicleMusic = {ok = vehicleMusicOk, configured = vehicleMusicSet, played = vehicleMusicPlay, stopped = vehicleMusicStop},
+		horseCustomization = {ok = horseCustomizationOk, name = horseNameResult, nameColor = horseNameColorResult, body = horseBodyResult, hair = horseHairResult, saddle = horseSaddleResult},
 		hairColor = {ok = hairColorOk, result = hairResult},
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
