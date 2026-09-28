@@ -1,0 +1,36 @@
+name: Publish Clean Brookhaven Baseline
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-clean-brookhaven.yml"
+      - "brookhaven-source.json"
+      - "scripts/fetch-brookhaven.mjs"
+      - "scripts/publish-private.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clean-brookhaven-baseline
+  cancel-in-progress: true
+
+jobs:
+  publish-private:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Fetch pinned Brookhaven source
+        run: node scripts/fetch-brookhaven.mjs
+      - name: Publish private staging baseline
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/publish-private.mjs
