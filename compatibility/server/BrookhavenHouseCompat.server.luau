@@ -1214,3 +1214,150 @@ game:BindToClose(function()
 end)
 
 print("STARBLOX_LEARNING_ECONOMY_READY packs=10 outfits=23 questions="..tostring(#PRACTICE_QUESTIONS))
+
+
+-- ---------------------------------------------------------------------------
+-- Brookhaven vehicle spawning compatibility.
+-- The legacy UI names match the original models in ReplicatedStorage/003_CarBackup.
+-- ---------------------------------------------------------------------------
+
+local vehicleCompat = ReplicatedStorage:FindFirstChild("StarBloxVehicleCompat")
+if vehicleCompat then
+	vehicleCompat:Destroy()
+end
+vehicleCompat = Instance.new("RemoteFunction")
+vehicleCompat.Name = "StarBloxVehicleCompat"
+vehicleCompat.Parent = ReplicatedStorage
+
+local carBackup = ReplicatedStorage:WaitForChild("003_CarBackup")
+local singleVehicles = ReplicatedStorage:FindFirstChild("SingleVehicles")
+local liveVehicles = Workspace:FindFirstChild("Vehicles")
+if not liveVehicles then
+	liveVehicles = Instance.new("Folder")
+	liveVehicles.Name = "Vehicles"
+	liveVehicles.Parent = Workspace
+end
+
+local MOTOR_VEHICLES = {
+	Ambulance=true, Bus=true, Cadillac=true, Challenger=true, CopChallenger=true,
+	CopLambo=true, CopUnderCoverSUV=true, FireTruck=true, Ford4x4Truck=true,
+	GolfCart=true, Jeep=true, Lambo=true, Limo=true, Quad=true, QuadStock=true, Van=true,
+}
+local SINGLE_VEHICLES = {
+	Scooter=true,
+	SkateBoard=true,
+}
+local activeVehicleByPlayer = {}
+local lastVehicleSpawn = {}
+
+local function removePlayerVehicle(player)
+	local current = activeVehicleByPlayer[player]
+	if current and current.Parent then
+		current:Destroy()
+	end
+	activeVehicleByPlayer[player] = nil
+
+	-- Clean up a stale compatibility vehicle from an earlier character life/server call.
+	for _, model in ipairs(liveVehicles:GetChildren()) do
+		if model:IsA("Model") and model:GetAttribute("StarBloxVehicleOwnerUserId") == player.UserId then
+			model:Destroy()
+		end
+	end
+end
+
+local function vehicleSpawnCFrame(player)
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	if not root or not root:IsA("BasePart") then return nil end
+
+	-- Spawn ahead and slightly above the player so it does not intersect the avatar.
+	local origin = root.CFrame * CFrame.new(0, 2.5, -18)
+	local rayOrigin = origin.Position + Vector3.new(0, 20, 0)
+	local rayDirection = Vector3.new(0, -80, 0)
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = {character, liveVehicles}
+	local hit = Workspace:Raycast(rayOrigin, rayDirection, params)
+	if hit then
+		return CFrame.new(hit.Position + Vector3.new(0, 2.8, 0), hit.Position + root.CFrame.LookVector * 10 + Vector3.new(0, 2.8, 0))
+	end
+	return origin
+end
+
+local function normalizeSpawnedVehicle(player, clone, requestedName)
+	clone.Name = player.Name .. "Car"
+	clone:SetAttribute("StarBloxVehicleOwnerUserId", player.UserId)
+	clone:SetAttribute("StarBloxVehicleType", requestedName)
+
+	-- Old vehicle scripts commonly identify the driver/owner through values on the model.
+	for _, item in ipairs(clone:GetDescendants()) do
+		if item:IsA("ObjectValue") and (item.Name == "Player" or item.Name == "Owner") then
+			pcall(function() item.Value = player end)
+		elseif item:IsA("StringValue") and (item.Name == "PlayerName" or item.Name == "OwnerName") then
+			item.Value = player.Name
+		end
+	end
+end
+
+local function spawnVehicle(player, requestedName)
+	local template = nil
+	if MOTOR_VEHICLES[requestedName] then
+		template = carBackup:FindFirstChild(requestedName)
+	elseif SINGLE_VEHICLES[requestedName] and singleVehicles then
+		template = singleVehicles:FindFirstChild(requestedName)
+	end
+	if not template or not template:IsA("Model") then
+		return {ok=false, code="vehicle_unavailable", vehicle=requestedName}
+	end
+
+	local now = os.clock()
+	if lastVehicleSpawn[player] and now - lastVehicleSpawn[player] < 0.8 then
+		return {ok=false, code="rate_limited"}
+	end
+	lastVehicleSpawn[player] = now
+
+	local spawnAt = vehicleSpawnCFrame(player)
+	if not spawnAt then
+		return {ok=false, code="character_unavailable"}
+	end
+
+	removePlayerVehicle(player)
+	local clone = template:Clone()
+	normalizeSpawnedVehicle(player, clone, requestedName)
+	clone.Parent = liveVehicles
+
+	local ok, reason = pcall(function()
+		clone:PivotTo(spawnAt)
+	end)
+	if not ok then
+		clone:Destroy()
+		return {ok=false, code="spawn_failed", reason=tostring(reason)}
+	end
+
+	activeVehicleByPlayer[player] = clone
+	return {
+		ok=true,
+		vehicle=requestedName,
+		modelName=clone.Name,
+	}
+end
+
+vehicleCompat.OnServerInvoke = function(player, action, requestedName)
+	if action == "Spawn" then
+		if type(requestedName) ~= "string" then
+			return {ok=false, code="invalid_vehicle"}
+		end
+		return spawnVehicle(player, requestedName)
+	elseif action == "Remove" then
+		removePlayerVehicle(player)
+		return {ok=true, removed=true}
+	end
+	return {ok=false, code="unknown_action"}
+end
+
+Players.PlayerRemoving:Connect(function(player)
+	removePlayerVehicle(player)
+	lastVehicleSpawn[player] = nil
+end)
+
+print("STARBLOX_VEHICLE_COMPAT_READY motor=16 single=2")

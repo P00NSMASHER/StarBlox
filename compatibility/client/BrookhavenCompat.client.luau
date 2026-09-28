@@ -806,3 +806,72 @@ refreshEconomy()
 updateEditorCoins()
 
 print("STARBLOX_AVATAR_SHOP_CLIENT_READY")
+
+
+-- Brookhaven vehicle picker compatibility.
+local vehicleCompat = ReplicatedStorage:WaitForChild("StarBloxVehicleCompat")
+local vehicleMenu = main:WaitForChild("MainVehicleMenu")
+local vehicleScroller = vehicleMenu:WaitForChild("Catalog"):WaitForChild("Container"):WaitForChild("ScrollingFrame")
+local vehicleStatus = Instance.new("TextLabel")
+vehicleStatus.Name = "StarBloxVehicleStatus"
+vehicleStatus.AnchorPoint = Vector2.new(0.5,1)
+vehicleStatus.Position = UDim2.new(0.5,0,1,-8)
+vehicleStatus.Size = UDim2.fromOffset(330,30)
+vehicleStatus.BackgroundColor3 = Color3.fromRGB(255,255,255)
+vehicleStatus.BackgroundTransparency = 0.12
+vehicleStatus.TextColor3 = Color3.fromRGB(35,35,35)
+vehicleStatus.Font = Enum.Font.GothamBold
+vehicleStatus.TextScaled = true
+vehicleStatus.Visible = false
+vehicleStatus.ZIndex = 250
+vehicleStatus.Parent = vehicleMenu
+local vehicleCorner = Instance.new("UICorner")
+vehicleCorner.CornerRadius = UDim.new(0,10)
+vehicleCorner.Parent = vehicleStatus
+
+local function vehicleMessage(textValue, good)
+	vehicleStatus.Text = textValue
+	vehicleStatus.TextColor3 = good and Color3.fromRGB(45,150,70) or Color3.fromRGB(120,45,45)
+	vehicleStatus.Visible = true
+	task.delay(1.6,function()
+		if vehicleStatus and vehicleStatus.Text == textValue then vehicleStatus.Visible = false end
+	end)
+end
+
+local spawnableVehicles = {
+	Ambulance=true, Bus=true, Cadillac=true, Challenger=true, CopChallenger=true,
+	CopLambo=true, CopUnderCoverSUV=true, FireTruck=true, Ford4x4Truck=true,
+	GolfCart=true, Jeep=true, Lambo=true, Limo=true, Quad=true, QuadStock=true, Van=true,
+	Scooter=true, SkateBoard=true,
+}
+
+for _, button in ipairs(vehicleScroller:GetChildren()) do
+	if button:IsA("GuiButton") then
+		if spawnableVehicles[button.Name] then
+			button.Activated:Connect(function()
+				local result = invoke(vehicleCompat, "Spawn", button.Name)
+				if result and result.ok then
+					vehicleMessage(button.Name.." spawned", true)
+					vehicleMenu.Visible = false
+				else
+					vehicleMessage("Couldn't spawn "..button.Name, false)
+				end
+			end)
+		elseif button.Name == "SegwaySmall" then
+			button.Activated:Connect(function()
+				vehicleMessage("Segway isn't present in this Brookhaven source", false)
+			end)
+		end
+	end
+end
+
+local vehicleTabs = vehicleMenu:WaitForChild("Catalog"):WaitForChild("Header"):WaitForChild("CategoryTabs")
+local removeVehicle = vehicleTabs:FindFirstChild("NoCar")
+if removeVehicle and removeVehicle:IsA("GuiButton") then
+	removeVehicle.Activated:Connect(function()
+		local result = invoke(vehicleCompat, "Remove")
+		vehicleMessage(result and result.ok and "Vehicle removed" or "Couldn't remove vehicle", result and result.ok)
+	end)
+end
+
+print("STARBLOX_VEHICLE_CLIENT_READY")

@@ -123,11 +123,15 @@ fn ensure_script_container(
 }
 
 fn insert_compat_scripts(dom: &mut WeakDom) -> Result<(), Box<dyn std::error::Error>> {
-    let starter_scripts = ensure_script_container(dom, "StarterPlayer", Some("StarterPlayerScripts"))?;
+    // This legacy Brookhaven snapshot reliably runs LocalScripts cloned from StarterGui.
+    // StarterPlayerScripts exists in the file but did not execute our compatibility client
+    // in the native mobile client, which left the editor/shop/vehicle internals dead.
+    let starter_gui = find_first(dom, dom.root_ref(), "StarterGui", None)
+        .ok_or("StarterGui service missing")?;
     let server_scripts = ensure_script_container(dom, "ServerScriptService", None)?;
 
     dom.insert(
-        starter_scripts,
+        starter_gui,
         InstanceBuilder::new("LocalScript")
             .with_name("BrookhavenCompat")
             .with_property("Disabled", false)
@@ -201,7 +205,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         },
         "playerHandlerStartupStatementsGuarded": player_handler_patch_count,
         "injected": {
-            "client": "StarterPlayer/StarterPlayerScripts/BrookhavenCompat",
+            "client": "StarterGui/BrookhavenCompat",
             "clientSourceBytes": client_source_len,
             "server": "ServerScriptService/BrookhavenHouseCompat",
             "serverSourceBytes": server_source_len
