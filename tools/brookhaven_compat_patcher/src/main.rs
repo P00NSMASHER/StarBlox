@@ -345,6 +345,7 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         .and_then(|common| direct_child(dom, common, "001_DayCare"))
         .and_then(|daycare| direct_child(dom, daycare, "Tools"));
     let replicated_ref = find_first(dom, dom.root_ref(), "ReplicatedStorage", None);
+    let single_vehicles_ref = replicated_ref.and_then(|replicated| direct_child(dom, replicated, "SingleVehicles"));
     let banned_lots_ref = replicated_ref.and_then(|replicated| direct_child(dom, replicated, "BannedLots"));
     let permission_players_ref = find_named(dom, dom.root_ref(), "PermissionPlayers");
 
@@ -373,6 +374,10 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     if let Some(heli) = heli_ref {
         collect_heli_control_state(dom, heli, "", &mut heli_control_state, 260);
         collect_subtree_labels(dom, heli, "", &mut heli_subtree, 360);
+    }
+    let mut single_vehicles_subtree = Vec::new();
+    if let Some(single_vehicles) = single_vehicles_ref {
+        collect_subtree_labels(dom, single_vehicles, "", &mut single_vehicles_subtree, 420);
     }
     let mut banned_lots_subtree = Vec::new();
     if let Some(banned_lots) = banned_lots_ref {
@@ -404,6 +409,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "heliFound": heli_ref.is_some(),
         "heliControlState": heli_control_state,
         "heliSubtree": heli_subtree,
+        "singleVehiclesFound": single_vehicles_ref.is_some(),
+        "singleVehiclesSubtree": single_vehicles_subtree,
         "bannedLotsFound": banned_lots_ref.is_some(),
         "bannedLotsSubtree": banned_lots_subtree,
         "permissionPlayersFound": permission_players_ref.is_some(),
