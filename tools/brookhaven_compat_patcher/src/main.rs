@@ -174,6 +174,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         .and_then(|backup| direct_child(dom, backup, "Horse"));
     let horse_stall_ref = common_ref
         .and_then(|common| direct_child(dom, common, "000001HorseStall"));
+    let horse_doors_ref = common_ref
+        .and_then(|common| direct_child(dom, common, "001_HorseStableDoors"));
 
     let mut horse_subtree = Vec::new();
     if let Some(horse) = horse_ref {
@@ -182,6 +184,10 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     let mut horse_stall_subtree = Vec::new();
     if let Some(stall) = horse_stall_ref {
         collect_subtree_labels(dom, stall, "", &mut horse_stall_subtree, 220);
+    }
+    let mut horse_doors_subtree = Vec::new();
+    if let Some(doors) = horse_doors_ref {
+        collect_subtree_labels(dom, doors, "", &mut horse_doors_subtree, 220);
     }
 
     serde_json::json!({
@@ -192,7 +198,9 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "horseTemplateFound": horse_ref.is_some(),
         "horseTemplateSubtree": horse_subtree,
         "horseStallFound": horse_stall_ref.is_some(),
-        "horseStallSubtree": horse_stall_subtree
+        "horseStallSubtree": horse_stall_subtree,
+        "horseStableDoorsFound": horse_doors_ref.is_some(),
+        "horseStableDoorsSubtree": horse_doors_subtree
     })
 }
 
