@@ -73,6 +73,16 @@ const houseStorageCandidates=rows.filter(r=>{
 }).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)})).slice(0,500);
 const horseTemplateNode=rows.find(r=>r.pathText==='DataModel/Workspace/WorkspaceCom/003_CarBackup/Horse')?.node||null;
 const horseTemplate=horseTemplateNode?compact(horseTemplateNode,0,6):null;
+const horseInteractionCandidates=rows.filter(r=>{
+  const p=r.pathText.toLowerCase();
+  if(!p.includes('horse')) return false;
+  return ['ClickDetector','ProximityPrompt','Part','MeshPart','UnionOperation','Model','Folder'].includes(cls(r.node));
+}).map(r=>({
+  path:r.pathText,
+  className:cls(r.node),
+  name:name(r.node),
+  template:compact(r.node,0,2)
+})).slice(0,500);
 
 const sourceStats={
   scripts:scripts.length,
@@ -99,6 +109,7 @@ const result={
     remotes,
     tools,
     horseTemplate,
+    horseInteractionCandidates,
     houseStyleCandidates,
     houseStorageCandidates,
     sourceStats
@@ -118,5 +129,6 @@ console.log(JSON.stringify({
   remotes:result.templates.remotes.length,
   tools:result.templates.tools.length,
   horseTemplate:Boolean(result.templates.horseTemplate),
+  horseInteractions:result.templates.horseInteractionCandidates.length,
   output
 },null,2));
