@@ -2200,6 +2200,9 @@ Players.PlayerRemoving:Connect(function(player)
 	activeCarClientByPlayer[player] = nil
 	clearNativeHeliGui(player)
 	if activeHeliPilot == player then
+		if nativeHelicopter then
+			RuntimeCore.setHelicopterFlightEnabled(nativeHelicopter, false)
+		end
 		activeHeliPilot = nil
 	end
 end)
