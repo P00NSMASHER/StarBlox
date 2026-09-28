@@ -1,3 +1,4 @@
+// Interactive Avatar/Shop repair verification revision.
 const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
 const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
 const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
