@@ -1,0 +1,77 @@
+name: Verify Clean Brookhaven Baseline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify private place boot
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          if(!key) throw new Error("missing API key");
+          if(universe!=="6027194615"||place!=="17602626136") throw new Error("unexpected target");
+
+          const script = [
+            'local Workspace = game:GetService("Workspace")',
+            'assert(game.PlaceVersion == 40, "expected version 40")',
+            'local descendants = Workspace:GetDescendants()',
+            'local scripts = 0',
+            'local localScripts = 0',
+            'local spawns = 0',
+            'for _,x in game:GetDescendants() do',
+            '  if x:IsA("Script") then scripts += 1 end',
+            '  if x:IsA("LocalScript") then localScripts += 1 end',
+            '  if x:IsA("SpawnLocation") then spawns += 1 end',
+            'end',
+            'assert(#descendants > 20000, "world too small")',
+            'assert(scripts > 0, "no server scripts")',
+            'assert(localScripts > 0, "no client scripts")',
+            'assert(spawns > 0, "no spawns")',
+            'print("CLEAN_BROOKHAVEN_BOOT_OK version=" .. tostring(game.PlaceVersion) .. " descendants=" .. tostring(#descendants) .. " scripts=" .. tostring(scripts) .. " localScripts=" .. tostring(localScripts) .. " spawns=" .. tostring(spawns))'
+          ].join("\n");
+
+          async function parse(r,label){
+            const t=await r.text();
+            let p={};
+            try{p=t?JSON.parse(t):{};}catch{throw new Error(label+" non-JSON "+r.status);}
+            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(p).slice(0,1500));
+            return p;
+          }
+
+          let task=await parse(await fetch(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
+          ),"create");
+
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("missing task path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          const deadline=Date.now()+90000;
+          while(String(task.state||"")==="PROCESSING"){
+            if(Date.now()>deadline) throw new Error("verification timeout");
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
+          }
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
+          const text=JSON.stringify(logs);
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1500));
+          if(!text.includes("CLEAN_BROOKHAVEN_BOOT_OK")) throw new Error("verification sentinel missing");
+          console.log(text);
+          NODE
