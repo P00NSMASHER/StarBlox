@@ -38,6 +38,7 @@ const luau=[
   'local result=core.runBehaviorProbe()',
   'assert(result and result.ok==true,"native runtime behavior probe failed")',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
+  'assert(result.houseMusic and result.houseMusic.ok==true,"house music behavior failed")',
   'assert(result.curtains and result.curtains.ok==true,"curtain behavior failed")',
   'assert(result.clock and result.clock.ok==true,"clock/day behavior failed")',
   'assert(result.avatar and result.avatar.ok==true,"avatar mutation behavior failed")',
@@ -56,7 +57,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
