@@ -1207,6 +1207,62 @@ function RuntimeCore.clearClient2ClientPairValue(bag)
 end
 
 
+
+function RuntimeCore.attachNoMotorVehicle(model, character)
+	if not (model and model:IsA("Model")) then
+		return {ok = false, code = "no_motor_model_missing"}
+	end
+	if not (character and character:IsA("Model")) then
+		return {ok = false, code = "character_missing"}
+	end
+	local root = character:FindFirstChild("HumanoidRootPart")
+	local middle = model:FindFirstChild("Middle", true)
+	if not (root and root:IsA("BasePart")) then
+		return {ok = false, code = "character_root_missing"}
+	end
+	if not (middle and middle:IsA("BasePart")) then
+		return {ok = false, code = "no_motor_middle_missing"}
+	end
+
+	model.Name = "NoMotorVehicleModel"
+	model.Parent = character
+	for _, item in ipairs(model:GetDescendants()) do
+		if item:IsA("BasePart") then
+			item.Anchored = false
+			item.CanCollide = false
+			item.Massless = true
+			if item ~= middle then
+				local weld = Instance.new("WeldConstraint")
+				weld.Name = "StarBloxNoMotorPartWeld"
+				weld.Part0 = middle
+				weld.Part1 = item
+				weld.Parent = item
+			end
+		elseif item:IsA("BaseScript") then
+			item.Disabled = true
+		end
+	end
+
+	middle.CFrame = root.CFrame * CFrame.new(0, -2.5, 0)
+	local rootWeld = Instance.new("WeldConstraint")
+	rootWeld.Name = "StarBloxNoMotorRootWeld"
+	rootWeld.Part0 = root
+	rootWeld.Part1 = middle
+	rootWeld.Parent = middle
+	model:SetAttribute("BrookhavenNativeNoMotor", true)
+	model:SetAttribute("BrookhavenNoMotorSourceName", model:GetAttribute("BrookhavenNoMotorSourceName") or "")
+	return {
+		ok = model.Parent == character
+			and model.Name == "NoMotorVehicleModel"
+			and rootWeld.Part0 == root
+			and rootWeld.Part1 == middle
+			and middle.Anchored == false,
+		model = model,
+		middle = middle,
+		rootWeld = rootWeld,
+	}
+end
+
 function RuntimeCore.inspectNativeHelicopter(heli)
 	if not (heli and heli:IsA("Model")) then
 		return {ok = false, code = "heli_missing"}
@@ -1546,6 +1602,40 @@ function RuntimeCore.runBehaviorProbe()
 	bannedLotsFixture:Destroy()
 	permissionFolder:Destroy()
 	permissionTarget:Destroy()
+
+	local singleVehicles = ReplicatedStorage:WaitForChild("SingleVehicles")
+	local noMotorKinds = {"Scooter", "SegwaySmall", "SkateBoard"}
+	local noMotorResults = {}
+	local noMotorOk = true
+	for _, kind in ipairs(noMotorKinds) do
+		local template = singleVehicles:FindFirstChild(kind)
+		if not (template and template:IsA("Model")) then
+			noMotorOk = false
+			table.insert(noMotorResults, {kind = kind, ok = false, code = "template_missing"})
+		else
+			local character = Instance.new("Model")
+			local root = Instance.new("Part")
+			root.Name = "HumanoidRootPart"
+			root.Anchored = true
+			root.CFrame = CFrame.new(0, 50, 0)
+			root.Parent = character
+			local clone = template:Clone()
+			clone:SetAttribute("BrookhavenNoMotorSourceName", kind)
+			local attached = RuntimeCore.attachNoMotorVehicle(clone, character)
+			local middle = clone:FindFirstChild("Middle", true)
+			local expected = attached.ok
+				and clone.Parent == character
+				and clone.Name == "NoMotorVehicleModel"
+				and clone:GetAttribute("BrookhavenNativeNoMotor") == true
+				and middle and middle:IsA("BasePart")
+				and middle.Anchored == false
+				and middle.CanCollide == false
+				and middle:FindFirstChild("StarBloxNoMotorRootWeld") ~= nil
+			noMotorOk = noMotorOk and expected == true
+			table.insert(noMotorResults, {kind = kind, ok = expected == true})
+			character:Destroy()
+		end
+	end
 
 	local heliFixture = Instance.new("Model")
 	heliFixture.Name = "Heli"
@@ -2078,10 +2168,11 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Slower"):IsA("RemoteEvent")
 
 	return {
-		ok = heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		poolCover = {ok = poolCoverOk, off = poolOff, on = poolOn},
 		bankCard = {ok = bankCardOk, boy = boyCard, girl = girlCard},
 		houseAccess = {ok = houseAccessOk, ban = banInspect, permissionOn = permissionOn, permissionOff = permissionOff},
+		noMotorVehicles = {ok = noMotorOk, results = noMotorResults},
 		helicopter = {ok = heliGuiOk, inspected = heliInspect, gui = heliGuiBuild, flightOn = heliFlightOn, lift = heliLift, speedUp = heliSpeedUp, speedCap = heliSpeedCap, flightOff = heliFlightOff},
 		social = {ok = socialOk, pair = socialPair, pairValue = pairValueCreated, cleanup = socialClear},
 		helicopterGui = {ok = heliGuiOk, inspected = heliInspect},
