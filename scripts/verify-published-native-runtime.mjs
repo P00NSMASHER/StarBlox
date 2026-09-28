@@ -32,6 +32,10 @@ const luau=[
   'local server=SSS:FindFirstChild("BrookhavenHouseCompat")',
   'assert(server and server:IsA("Script") and server.Disabled==false,"native server bridge missing")',
   'assert(string.find(server.Source,"BrookhavenNativeRuntimeCore",1,true),"live server is not wired to shared runtime core")',
+  'assert(string.find(server.Source,"spawnNativeHorse",1,true),"live server horse spawn handler missing")',
+  'assert(string.find(server.Source,"RuntimeCore.mountHorseToCharacter",1,true),"live server horse mount handoff missing")',
+  'assert(string.find(server.Source,"RuntimeCore.dismountHorseToWorld",1,true),"live server horse dismount handoff missing")',
+  'assert(string.find(server.Source,"CheckPlayeForHorse",1,true) and string.find(server.Source,"HorseStart",1,true) and string.find(server.Source,"HorseDismountPlayer",1,true),"native horse client event sequence missing")',
   'local coreModule=SSS:WaitForChild("BrookhavenNativeRuntimeCore")',
   'assert(coreModule:IsA("ModuleScript"),"native runtime core ModuleScript missing")',
   'local core=require(coreModule)',
@@ -39,6 +43,7 @@ const luau=[
   'assert(result and result.ok==true,"native runtime behavior probe failed")',
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
   'assert(result.vehicleMusic and result.vehicleMusic.ok==true,"vehicle music behavior failed")',
+  'assert(result.horseLifecycle and result.horseLifecycle.ok==true,"horse mount/dismount lifecycle behavior failed")',
   'assert(result.horseCustomization and result.horseCustomization.ok==true,"horse customization behavior failed")',
   'assert(result.hairColor and result.hairColor.ok==true,"hair color behavior failed")',
   'assert(result.houseMusic and result.houseMusic.ok==true,"house music behavior failed")',
@@ -60,7 +65,7 @@ const luau=[
   'assert(carClient and carClient:IsA("LocalScript"),"native CarClient handoff source missing")',
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
-  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
+  'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." avatar="..tostring(result.avatar.ok).." vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
 ].join("\n");
 
 let response;
