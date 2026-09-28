@@ -40,6 +40,7 @@ const luau=[
   'assert(result.contracts and result.contracts.ok==true,"native contract behavior failed")',
   'assert(result.avatar and result.avatar.ok==true,"avatar mutation behavior failed")',
   'assert(result.shop and result.shop.ok==true,"shop pass behavior failed")',
+  'assert(result.profile and result.profile.ok==true,"profile/job behavior failed")',
   'local vehicleResult=result.vehicle',
   'assert(vehicleResult and vehicleResult.ok==true and vehicleResult.hasVehicleSeat==true,"vehicle clone/pivot/seat behavior failed")',
   'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." vehicle="..tostring(vehicleResult.vehicle).." descendants="..tostring(vehicleResult.descendants))'
