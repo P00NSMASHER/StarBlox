@@ -19,7 +19,8 @@ function forbidAll(source, label, needles) {
 }
 
 requireAll(client, "client", [
-  'WaitForChild("StarBloxNativeUiAction")',
+  'local function resolveNativeUiAction',
+  'ui_remote_missing',
   'shop:WaitForChild("OpenButton")',
   'invokeNativeUi("shop_pass"',
   'invokeNativeUi("avatar_asset"',
@@ -45,7 +46,7 @@ requireAll(server, "server", [
   'recentSuccessfulUiAction(player, receiptKey, "native")',
   'recentSuccessfulUiAction(player, key, "fallback")',
 ]);
-forbidAll(client, "client", ["StarCoinShop", "hideLegacyShopPages", "successfulActionSince", "actionSequence()"]);
+forbidAll(client, "client", ["StarCoinShop", "hideLegacyShopPages", "successfulActionSince", "actionSequence()", 'WaitForChild("StarBloxNativeUiAction")']);
 forbidAll(server, "server", ["StarCoinShop", "hideLegacyShopPages"]);
 
 const shopActions = [
@@ -67,6 +68,7 @@ console.log(JSON.stringify({
   shopActions: shopActions.length,
   avatarFallbacks: 5,
   catalogSelectionValidation: true,
+  nonBlockingServerStartup: true,
   serverSideDedupe: true,
   sourceAwareDedupe: true,
   existingBrookhavenUiPreserved: true,
