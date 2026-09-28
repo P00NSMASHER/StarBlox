@@ -83,6 +83,42 @@ fn collect_follow_candidates(dom: &WeakDom, current: Ref, out: &mut BTreeSet<Str
     }
 }
 
+fn collect_interaction_paths(
+    dom: &WeakDom,
+    current: Ref,
+    prefix: &str,
+    follow_out: &mut BTreeSet<String>,
+    horse_clicks: &mut BTreeSet<String>,
+) {
+    let Some(instance) = dom.get_by_ref(current) else {
+        return;
+    };
+    let path = if prefix.is_empty() {
+        instance.name.clone()
+    } else {
+        format!("{prefix}/{}", instance.name)
+    };
+    let lower_name = instance.name.to_ascii_lowercase();
+    let lower_path = path.to_ascii_lowercase();
+    if lower_name.contains("babyboy")
+        || lower_name.contains("babygirl")
+        || lower_name.contains("followcharacter")
+        || lower_name.contains("followname")
+    {
+        follow_out.insert(format!("{}:{}", path, instance.class.as_str()));
+    }
+    if instance.class.as_str() == "ClickDetector"
+        && (lower_path.contains("horse")
+            || lower_path.contains("stable")
+            || lower_path.contains("stall"))
+    {
+        horse_clicks.insert(format!("{}:{}", path, instance.class.as_str()));
+    }
+    for child in instance.children() {
+        collect_interaction_paths(dom, *child, &path, follow_out, horse_clicks);
+    }
+}
+
 fn collect_subtree_labels(
     dom: &WeakDom,
     current: Ref,
@@ -121,6 +157,15 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
 
     let mut follow_candidates = BTreeSet::new();
     collect_follow_candidates(dom, dom.root_ref(), &mut follow_candidates);
+    let mut follow_paths = BTreeSet::new();
+    let mut horse_click_paths = BTreeSet::new();
+    collect_interaction_paths(
+        dom,
+        dom.root_ref(),
+        "",
+        &mut follow_paths,
+        &mut horse_click_paths,
+    );
 
     let workspace_ref = find_first(dom, dom.root_ref(), "Workspace", None);
     let common_ref = workspace_ref.and_then(|workspace| direct_child(dom, workspace, "WorkspaceCom"));
@@ -142,6 +187,8 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
     serde_json::json!({
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
         "followAssetCandidates": follow_candidates.into_iter().collect::<Vec<_>>(),
+        "followAssetPaths": follow_paths.into_iter().collect::<Vec<_>>(),
+        "horseClickDetectorPaths": horse_click_paths.into_iter().collect::<Vec<_>>(),
         "horseTemplateFound": horse_ref.is_some(),
         "horseTemplateSubtree": horse_subtree,
         "horseStallFound": horse_stall_ref.is_some(),
