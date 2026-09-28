@@ -343,6 +343,52 @@ function RuntimeCore.applyHomeBusinessMutation(house, action, value)
 end
 
 
+
+function RuntimeCore.toggleCurtains(house)
+	if not (house and house:IsA("Model")) then
+		return {ok = false, code = "house_missing"}
+	end
+	local curtains = house:FindFirstChild("001_Curtains", true)
+	if not (curtains and curtains:IsA("Model")) then
+		return {ok = false, code = "curtains_unavailable"}
+	end
+	local main = house:FindFirstChild("MainHouseScript", true)
+	local curtainOpen = main and main:FindFirstChild("CurtainOpen")
+	local currentOpen = curtains:GetAttribute("StarBloxCurtainOpen") == true
+	if curtainOpen and curtainOpen:IsA("BoolValue") then
+		currentOpen = curtainOpen.Value
+	end
+	local nextOpen = not currentOpen
+	local changed = 0
+	for _, item in ipairs(curtains:GetDescendants()) do
+		if item:IsA("BasePart") then
+			if item:GetAttribute("StarBloxCurtainClosedTransparency") == nil then
+				item:SetAttribute("StarBloxCurtainClosedTransparency", item.Transparency)
+			end
+			if item:GetAttribute("StarBloxCurtainClosedCanCollide") == nil then
+				item:SetAttribute("StarBloxCurtainClosedCanCollide", item.CanCollide)
+			end
+			if nextOpen then
+				item.Transparency = 1
+				item.CanCollide = false
+			else
+				item.Transparency = tonumber(item:GetAttribute("StarBloxCurtainClosedTransparency")) or 0
+				item.CanCollide = item:GetAttribute("StarBloxCurtainClosedCanCollide") == true
+			end
+			changed += 1
+		end
+	end
+	curtains:SetAttribute("StarBloxCurtainOpen", nextOpen)
+	if curtainOpen and curtainOpen:IsA("BoolValue") then
+		curtainOpen.Value = nextOpen
+	end
+	local changing = main and main:FindFirstChild("CurtainchangingState")
+	if changing and changing:IsA("BoolValue") then
+		changing.Value = false
+	end
+	return {ok = changed > 0, open = nextOpen, parts = changed}
+end
+
 function RuntimeCore.formatClockTime(clockTime)
 	local raw = tonumber(clockTime) or 0
 	raw = raw % 24
@@ -370,6 +416,30 @@ function RuntimeCore.runBehaviorProbe()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerStorage = game:GetService("ServerStorage")
 	local remotes = ReplicatedStorage:WaitForChild("RemoteEvents")
+	local curtainFixture = Instance.new("Model")
+	local curtainState = Instance.new("Script")
+	curtainState.Name = "MainHouseScript"
+	curtainState.Parent = curtainFixture
+	local curtainOpen = Instance.new("BoolValue")
+	curtainOpen.Name = "CurtainOpen"
+	curtainOpen.Value = false
+	curtainOpen.Parent = curtainState
+	local curtainChanging = Instance.new("BoolValue")
+	curtainChanging.Name = "CurtainchangingState"
+	curtainChanging.Parent = curtainState
+	local curtainModel = Instance.new("Model")
+	curtainModel.Name = "001_Curtains"
+	curtainModel.Parent = curtainFixture
+	local curtainPart = Instance.new("Part")
+	curtainPart.Transparency = 0.25
+	curtainPart.CanCollide = true
+	curtainPart.Parent = curtainModel
+	local curtainOpenResult = RuntimeCore.toggleCurtains(curtainFixture)
+	local curtainOpened = curtainOpenResult.ok and curtainOpenResult.open == true and curtainPart.Transparency == 1 and curtainPart.CanCollide == false and curtainOpen.Value == true
+	local curtainCloseResult = RuntimeCore.toggleCurtains(curtainFixture)
+	local curtainOk = curtainOpened and curtainCloseResult.ok and curtainCloseResult.open == false and math.abs(curtainPart.Transparency - 0.25) < 0.001 and curtainPart.CanCollide == true and curtainOpen.Value == false
+	curtainFixture:Destroy()
+
 	local clockNoon = RuntimeCore.formatClockTime(12.5)
 	local clockMidnight = RuntimeCore.formatClockTime(0)
 	local dayName = RuntimeCore.dayNameFromWeekday(2)
@@ -471,7 +541,8 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("RPHouseEventColor"):IsA("RemoteEvent")
 
 	return {
-		ok = clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
 		clock = {ok = clockOk, noon = clockNoon, midnight = clockMidnight, day = dayName},
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
 		shop = {ok = shopOk, music = music, speed = speed},
