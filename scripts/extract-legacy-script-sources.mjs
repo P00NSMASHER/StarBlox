@@ -68,7 +68,10 @@ const result={
   }
 };
 await mkdir(dirname(output),{recursive:true});
-await writeFile(output,JSON.stringify(result,null,2)+'\n');
+await writeFile(output,JSON.stringify(result,null,2)+'\\n');
+const templateOutput=resolve('docs/diagnostics/BROOKHAVEN_TEMPLATE_EXTRACT.json');
+await mkdir(dirname(templateOutput),{recursive:true});
+await writeFile(templateOutput,JSON.stringify({schemaVersion:1,status:'brookhaven-template-extracted',templates:result.templates},null,2)+'\\n');
 console.log(JSON.stringify({
   status:result.status,
   totalScripts:result.totalScripts,
