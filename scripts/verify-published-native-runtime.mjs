@@ -40,7 +40,7 @@ const luau=[
   'assert(string.find(server.Source,"RuntimeCore.mountHorseToCharacter",1,true),"live server horse mount handoff missing")',
   'assert(string.find(server.Source,"RuntimeCore.dismountHorseToWorld",1,true),"live server horse dismount handoff missing")',
   'assert(string.find(server.Source,"CheckPlayeForHorse",1,true) and string.find(server.Source,"HorseStart",1,true) and string.find(server.Source,"HorseDismountPlayer",1,true),"native horse client event sequence missing")',
-  'assert(string.find(server.Source,"giveNativeHeliGui",1,true) and string.find(server.Source,"BrookhavenNativeHeliGui",1,true),"native helicopter GUI handoff missing")',
+  'assert(string.find(server.Source,"giveNativeHeliGui",1,true) and string.find(server.Source,"RuntimeCore.buildHelicopterGui",1,true),"native helicopter GUI handoff missing")',
   'assert(string.find(server.Source,"heliControlsRemote.OnServerEvent",1,true) and string.find(server.Source,"fasterRemote.OnServerEvent",1,true) and string.find(server.Source,"slowerRemote.OnServerEvent",1,true),"native helicopter flight remotes missing")',
   'assert(string.find(server.Source,"RuntimeCore.setHelicopterFlightEnabled",1,true) and string.find(server.Source,"RuntimeCore.updateHelicopterVelocity",1,true),"native helicopter flight physics bridge missing")',
   'assert(string.find(server.Source,"RuntimeCore.attachNoMotorVehicle",1,true) and string.find(server.Source,"NoMotorVehicleModel",1,true),"native no-motor attachment bridge missing")',
