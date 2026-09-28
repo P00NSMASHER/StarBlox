@@ -42,6 +42,14 @@ assert(string.find(avatar.Source, 'Clothes', 1, true), 'AvatarEditor Clothes cal
 assert(string.find(avatar.Source, 'wearPremium', 1, true), 'AvatarEditor premium callback missing')
 assert(string.find(avatar.Source, 'CharacterSizeUp', 1, true), 'AvatarEditor size-up callback missing')
 assert(string.find(avatar.Source, 'CharacterSizeDown', 1, true), 'AvatarEditor size-down callback missing')
+assert(string.find(avatar.Source, 'STARBLOX_AVATAR_NETWORK_INDEPENDENT_PATCH', 1, true), 'AvatarEditor network-independent patch missing')
+assert(string.find(avatar.Source, 'wearDirect', 1, true), 'AvatarEditor direct asset route missing')
+assert(string.find(avatar.Source, 'StarBloxAvatarDirectField', 1, true), 'AvatarEditor direct field mapper missing')
+assert(string.find(avatar.Source, 'STARBLOX_AVATAR_EDITOR_READY', 1, true), 'AvatarEditor readiness sentinel missing')
+assert(not string.find(avatar.Source, 'GetCharacterAppearanceInfoAsync(l__LocalPlayer__1.UserId)', 1, true), 'blocking avatar appearance lookup still present')
+assert(string.find(avatar.Source, 'v49.Activated:Connect', 1, true), 'outfit touch callback not using Activated')
+assert(string.find(avatar.Source, 'Buttons.Smaller.Activated:Connect', 1, true), 'avatar smaller control not using Activated')
+assert(string.find(avatar.Source, 'Buttons.Bigger.Activated:Connect', 1, true), 'avatar bigger control not using Activated')
 compile('AvatarEditor', avatar.Source)
 
 local buttonModule = child(avatar, 'Button', 'ModuleScript')
@@ -61,6 +69,9 @@ assert(starterGui:FindFirstChild('AvatarEditor') == nil, 'duplicate StarterGui A
 local compat = child(starterGui, 'BrookhavenCompat', 'LocalScript')
 compile('BrookhavenCompat', compat.Source)
 assert(string.find(compat.Source, 'STARBLOX_BROOKHAVEN_NATIVE_SHOP_FALLBACK_READY', 1, true), 'Shop fallback source missing')
+assert(string.find(compat.Source, 'bindPassTarget', 1, true), 'Shop child-button binder missing')
+assert(string.find(compat.Source, 'descendant.Name == "Label"', 1, true), 'Shop active Label routing missing')
+assert(string.find(compat.Source, 'STARBLOX_UI_ACTION shop_pass', 1, true), 'Shop pass tap telemetry missing')
 
 local main = child(starterGui, 'MainGUIHandler', 'ScreenGui')
 local shop = child(main, 'Shop')
@@ -96,6 +107,13 @@ for _, row in ipairs(purchasePaths) do
 	child(open, row[3], 'ImageButton')
 	assert(string.find(compat.Source, row[4], 1, true), 'Shop action missing from fallback: ' .. row[4])
 end
+
+local serverScripts = root('ServerScriptService', 'ServerScriptService')
+assert(serverScripts, 'ServerScriptService missing')
+local server = child(serverScripts, 'BrookhavenHouseCompat', 'Script')
+assert(string.find(server.Source, 'toggleAvatarAssetDirect', 1, true), 'direct avatar server mutation missing')
+assert(string.find(server.Source, 'action == "wearDirect"', 1, true), 'direct avatar remote route missing')
+assert(string.find(server.Source, 'currentAppearanceState', 1, true), 'nonblocking avatar state store missing')
 
 local noReset = child(starterGui, 'NoResetGUIHandler', 'ScreenGui')
 local editor = child(noReset, 'MainEditor')
