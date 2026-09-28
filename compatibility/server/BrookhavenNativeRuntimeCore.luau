@@ -164,7 +164,7 @@ function RuntimeCore.prepareNativeVehicle(model)
 
 	seat.Anchored = false
 	return {
-		ok = bankCardOk and poolCoverOk and houseAccessOk and socialOk and seat.Anchored == false,
+		ok = seat.Anchored == false,
 		seat = seat.Name,
 		seatAnchored = seat.Anchored,
 		driveConstraints = constraintCount,
@@ -2168,7 +2168,7 @@ function RuntimeCore.runBehaviorProbe()
 		and remotes:WaitForChild("Slower"):IsA("RemoteEvent")
 
 	return {
-		ok = noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
+		ok = bankCardOk and poolCoverOk and houseAccessOk and socialOk and noMotorOk and heliGuiOk and followerOk and houseFireOk and toolVisualOk and vehicleMusicOk and horseLifecycleOk and horseCustomizationOk and hairColorOk and houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		poolCover = {ok = poolCoverOk, off = poolOff, on = poolOn},
 		bankCard = {ok = bankCardOk, boy = boyCard, girl = girlCard},
 		houseAccess = {ok = houseAccessOk, ban = banInspect, permissionOn = permissionOn, permissionOff = permissionOff},
