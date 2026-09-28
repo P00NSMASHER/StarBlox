@@ -260,3 +260,38 @@ jobs:
           }
           console.log('SOURCE_DIAG_END matched='+matched);
           NODE
+
+      - name: Check PlayerHandler startup dependencies
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY,universe=process.env.ROBLOX_UNIVERSE_ID,place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,l){const t=await r.text();let p={};try{p=t?JSON.parse(t):{};}catch{throw new Error(l+" non-json");}if(!r.ok)throw new Error(l+" "+r.status+" "+t.slice(0,1200));return p;}
+          const script=[
+            'assert(game.PlaceVersion==40,"expected v40")',
+            'local R=game:GetService("ReplicatedStorage")',
+            'local S=game:GetService("StarterGui")',
+            'local W=game:GetService("Workspace")',
+            'local rem=R:FindFirstChild("RemoteEvents")',
+            'local names={"PlayerHouseChoice","ChatAnimations","PlayerTriggerEvent","RPNameEvent","RPNameEventColor","GettingHouse","PlayersHouse","Tools","KeyFab","ClearTools","NoMotorVehicles","Car","Clothes","Messages","PlayersCar","Flying","Pass","GiveAnimationTools","BabyFollow","Jobs"}',
+            'for _,n in ipairs(names) do local x=rem and rem:FindFirstChild(n); print("DEP_REMOTE "..n.."="..tostring(x~=nil).." class="..tostring(x and x.ClassName or "none")) end',
+            'print("DEP_REPL NoCarsRegions="..tostring(R:FindFirstChild("NoCarsRegions")~=nil))',
+            'local wc=W:FindFirstChild("WorkspaceCom")',
+            'print("DEP_WORLD WorkspaceCom="..tostring(wc~=nil).." mapCameras="..tostring(wc and wc:FindFirstChild("001_MapCameras")~=nil).." houseTeleports="..tostring(wc and wc:FindFirstChild("001_MapHouseTeleports")~=nil))',
+            'local paths={"MainGUIHandler","NoResetGUIHandler","IntroGui"}',
+            'for _,n in ipairs(paths) do print("DEP_GUI "..n.."="..tostring(S:FindFirstChild(n)~=nil)) end',
+            'local m=S:FindFirstChild("MainGUIHandler"); local nr=S:FindFirstChild("NoResetGUIHandler")',
+            'for _,n in ipairs({"MainVehicleMenu","MainAnimationsMenu","MainAvatarMenu","MainHouseMenu","MainNoHouseMenu","MainMotelMenu","MainButtons","Client2Client","Menu","Shop","HouseSpinner","BuyHouse","Messages","CarControl","NoMotorControl","HouseControl","HorseControl","HouseControlMotel","CarControlSiren"}) do print("DEP_MAIN "..n.."="..tostring(m and m:FindFirstChild(n)~=nil)) end',
+            'for _,n in ipairs({"MainEditor","MainToolMenu","JobMenuWorkspace","HouseKey"}) do print("DEP_NORESET "..n.."="..tostring(nr and nr:FindFirstChild(n)~=nil)) end',
+            'local startup=R:FindFirstChild("PlayersStartup"); print("PLAYERS_STARTUP="..tostring(startup~=nil).." children="..tostring(startup and #startup:GetChildren() or 0))',
+            'if startup then for _,x in startup:GetDescendants() do local n=string.lower(x.Name); if string.find(n,"house") or string.find(n,"bag") then print("STARTUP_CHILD "..x:GetFullName().." class="..x.ClassName) end end end'
+          ].join("\n");
+          let task=await parse(await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}),"create");
+          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
+          console.log(JSON.stringify(await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs")));
+          NODE
