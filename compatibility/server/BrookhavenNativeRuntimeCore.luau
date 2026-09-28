@@ -1220,14 +1220,12 @@ function RuntimeCore.runBehaviorProbe()
 	local horseHairResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseHairColor", Color3.fromRGB(17, 17, 17))
 	local horseSaddleResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingSaddleColor", Color3.fromRGB(124, 92, 70))
 	local horseTextureResult = RuntimeCore.applyHorseCustomization(horseFixture, "PickingHorseTexture", Color3.fromRGB(255, 0, 0))
-	local horsePresetResult = RuntimeCore.applyHorseCustomization(horseFixture, "BlackHorseFree")
-	local horseCustomizationOk = horseNameResult.ok
+	local horseManualCustomizationOk = horseNameResult.ok
 		and horseNameColorResult.ok
 		and horseBodyResult.ok
 		and horseHairResult.ok
 		and horseSaddleResult.ok
 		and horseTextureResult.ok
-		and horsePresetResult.ok
 		and horseNameText.Text == "Comet"
 		and horseNameText.TextColor3 == Color3.fromRGB(255, 0, 0)
 		and horseTorso.Color == Color3.fromRGB(163, 162, 165)
@@ -1235,6 +1233,14 @@ function RuntimeCore.runBehaviorProbe()
 		and horseMane.Color == Color3.fromRGB(17, 17, 17)
 		and horseTail.Color == Color3.fromRGB(17, 17, 17)
 		and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
+	local horsePresetResult = RuntimeCore.applyHorseCustomization(horseFixture, "BlackHorseFree")
+	local horsePresetOk = horsePresetResult.ok
+		and horseTorso.Color == Color3.fromRGB(17, 17, 17)
+		and horseBodyState.Value == "Really black"
+		and horseMane.Color == Color3.fromRGB(17, 17, 17)
+		and horseTail.Color == Color3.fromRGB(17, 17, 17)
+		and horseSaddle.Color == Color3.fromRGB(124, 92, 70)
+	local horseCustomizationOk = horseManualCustomizationOk and horsePresetOk
 	horseFixture:Destroy()
 
 	local hairFixture = Instance.new("Model")
