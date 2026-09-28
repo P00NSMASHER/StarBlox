@@ -71,6 +71,9 @@ const houseStorageCandidates=rows.filter(r=>{
     (n.includes('house')||n.includes('motel')) &&
     ['Folder','Model'].includes(cls(r.node));
 }).map(r=>({path:r.pathText,className:cls(r.node),name:name(r.node)})).slice(0,500);
+const horseTemplateNode=rows.find(r=>r.pathText==='DataModel/Workspace/WorkspaceCom/003_CarBackup/Horse')?.node||null;
+const horseTemplate=horseTemplateNode?compact(horseTemplateNode,0,6):null;
+
 const sourceStats={
   scripts:scripts.length,
   nonEmptyScripts:scripts.filter(r=>String(r.node?.properties?.Source?.String||'').trim().length>0).length,
@@ -95,6 +98,7 @@ const result={
     lots,
     remotes,
     tools,
+    horseTemplate,
     houseStyleCandidates,
     houseStorageCandidates,
     sourceStats
@@ -113,5 +117,6 @@ console.log(JSON.stringify({
   lots:result.templates.lots.length,
   remotes:result.templates.remotes.length,
   tools:result.templates.tools.length,
+  horseTemplate:Boolean(result.templates.horseTemplate),
   output
 },null,2));
