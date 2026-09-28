@@ -586,6 +586,9 @@ local hairColorRemote = remotes:WaitForChild("HairColor")
 local horseRemotePass = remotes:WaitForChild("HorseRemotePass")
 local horseRemote = remotes:WaitForChild("HorseRemote")
 local babyFollowRemote = remotes:WaitForChild("BabyFollow")
+local heliControlsRemote = remotes:WaitForChild("HeliControls")
+local fasterRemote = remotes:WaitForChild("Faster")
+local slowerRemote = remotes:WaitForChild("Slower")
 local playerTriggerRemote = remotes:WaitForChild("PlayerTriggerEvent")
 
 local function getHumanoid(player)
@@ -1950,6 +1953,84 @@ playerTriggerRemote.OnServerEvent:Connect(function(player, action, a, b, c)
 	end
 end)
 
+
+local heliStorage = worldCommon:FindFirstChild("001_HeliStorage")
+local nativeHelicopter = heliStorage and heliStorage:FindFirstChild("Heli")
+local activeHeliGuiByPlayer = {}
+local activeHeliPilot = nil
+
+local function clearNativeHeliGui(player)
+	local gui = activeHeliGuiByPlayer[player]
+	activeHeliGuiByPlayer[player] = nil
+	if gui and gui.Parent then
+		gui:Destroy()
+	end
+end
+
+local function setHeliNetworkOwner(player, heli)
+	for _, item in ipairs(heli:GetDescendants()) do
+		if item:IsA("BasePart") then
+			pcall(function()
+				item:SetNetworkOwner(player)
+			end)
+		end
+	end
+end
+
+local function giveNativeHeliGui(player, heli)
+	clearNativeHeliGui(player)
+	local built = RuntimeCore.buildHelicopterGui(heli)
+	if not built.ok or not built.gui then
+		return built
+	end
+	local playerGui = player:FindFirstChildOfClass("PlayerGui") or player:WaitForChild("PlayerGui", 5)
+	if not playerGui then
+		built.gui:Destroy()
+		return {ok = false, code = "player_gui_missing"}
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(heli)
+	if inspected.ok and inspected.owner then
+		inspected.owner.Value = player.Name
+	end
+	setHeliNetworkOwner(player, heli)
+	built.gui.Parent = playerGui
+	activeHeliGuiByPlayer[player] = built.gui
+	return {
+		ok = built.gui.Parent == playerGui and built.carSeat.Value == built.seat,
+		gui = built.gui,
+		seat = built.seat,
+	}
+end
+
+local function setupNativeHelicopter()
+	if not (nativeHelicopter and nativeHelicopter:IsA("Model")) then
+		return false
+	end
+	local inspected = RuntimeCore.inspectNativeHelicopter(nativeHelicopter)
+	if not inspected.ok then
+		return false
+	end
+	local seat = inspected.seat
+	seat:GetPropertyChangedSignal("Occupant"):Connect(function()
+		local occupant = seat.Occupant
+		local nextPilot = occupant and Players:GetPlayerFromCharacter(occupant.Parent) or nil
+		if activeHeliPilot and activeHeliPilot ~= nextPilot then
+			clearNativeHeliGui(activeHeliPilot)
+		end
+		activeHeliPilot = nextPilot
+		if nextPilot then
+			giveNativeHeliGui(nextPilot, nativeHelicopter)
+		else
+			if inspected.owner then
+				inspected.owner.Value = ""
+			end
+		end
+	end)
+	return true
+end
+
+local nativeHeliHandoffReady = setupNativeHelicopter()
+
 local function setupNativePlayer(player)
 	ensureBag(player)
 	seedAppearance(player)
@@ -1987,6 +2068,10 @@ Players.PlayerRemoving:Connect(function(player)
 	appearanceAssets[player] = nil
 	lastVehicleSpawn[player] = nil
 	activeCarClientByPlayer[player] = nil
+	clearNativeHeliGui(player)
+	if activeHeliPilot == player then
+		activeHeliPilot = nil
+	end
 end)
 for _, player in ipairs(Players:GetPlayers()) do
 	task.spawn(setupNativePlayer, player)
@@ -2012,4 +2097,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 toolVisual=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 houseFire=1 hairColor=1 vehicleMusic=1 horseCustomization=1 horseLifecycle=1 social=1 heliGui=" .. tostring(nativeHeliHandoffReady))
