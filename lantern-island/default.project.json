@@ -1,0 +1,34 @@
+{
+  "name": "Lantern Island",
+  "servePlaceIds": [0],
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": { "LanternIslandShared": { "$path": "src/shared" } },
+    "ServerScriptService": {
+      "LanternIslandServer": {
+        "$path": "src/server",
+        "BuildIdentity": { "$className": "StringValue", "$properties": { "Value": "unbuilt-source" } }
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": { "LanternIslandClient": { "$path": "src/client" } }
+    },
+    "Workspace": {
+      "$properties": { "FilteringEnabled": true },
+      "FoundationGround": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true, "Size": [80, 2, 80], "Position": [0, -1, 0],
+          "Color": [0.28, 0.47, 0.36], "Material": "Grass"
+        }
+      },
+      "FoundationSpawn": {
+        "$className": "SpawnLocation",
+        "$properties": {
+          "Anchored": true, "Neutral": true, "Size": [6, 1, 6],
+          "Position": [0, 0.5, 14], "Transparency": 1, "Duration": 0
+        }
+      }
+    }
+  }
+}
