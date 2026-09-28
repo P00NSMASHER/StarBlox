@@ -412,6 +412,57 @@ function RuntimeCore.applyHouseMusicMutation(house, action, value)
 	return {ok = false, code = "unknown_house_music_action"}
 end
 
+
+local function houseMusicSound(house)
+	if not (house and house:IsA("Model")) then
+		return nil, "house_missing"
+	end
+	local stereo = house:FindFirstChild("HouseStereo", true)
+	if not (stereo and stereo:IsA("Model")) then
+		return nil, "house_stereo_missing"
+	end
+	local sound = stereo:FindFirstChildWhichIsA("Sound", true)
+	if not sound then
+		sound = Instance.new("Sound")
+		sound.Name = "Music"
+		sound.Looped = true
+		sound.Volume = 0.5
+		sound.RollOffMaxDistance = 100
+		sound.Parent = stereo
+	end
+	return sound, nil
+end
+
+function RuntimeCore.applyHouseMusic(house, action, value)
+	local sound, err = houseMusicSound(house)
+	if not sound then
+		return {ok = false, code = err}
+	end
+	if action == "PickingHouseMusicText" then
+		local id = string.match(tostring(value or ""), "(%d+)")
+		if not id then
+			return {ok = false, code = "invalid_music_id"}
+		end
+		sound.SoundId = "rbxassetid://" .. id
+		sound.Looped = true
+		return {ok = true, action = action, soundId = sound.SoundId}
+	elseif action == "PickingHouseMusicPlay" then
+		if sound.SoundId == "" then
+			return {ok = false, code = "music_id_missing"}
+		end
+		local ok = pcall(function()
+			sound:Play()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing}
+	elseif action == "PickingHouseMusicStop" then
+		local ok = pcall(function()
+			sound:Stop()
+		end)
+		return {ok = ok, action = action, playing = sound.Playing}
+	end
+	return {ok = false, code = "unknown_house_music_action"}
+end
+
 function RuntimeCore.toggleCurtains(house)
 	if not (house and house:IsA("Model")) then
 		return {ok = false, code = "house_missing"}
@@ -497,6 +548,22 @@ function RuntimeCore.runBehaviorProbe()
 		and musicSound ~= nil
 		and musicSound.SoundId == "rbxassetid://123456"
 		and musicSound.Looped == true
+	musicFixture:Destroy()
+
+	local musicFixture = Instance.new("Model")
+	musicFixture.Parent = ServerStorage
+	local stereo = Instance.new("Model")
+	stereo.Name = "HouseStereo"
+	stereo.Parent = musicFixture
+	local musicSet = RuntimeCore.applyHouseMusic(musicFixture, "PickingHouseMusicText", "123456789")
+	local musicPlay = RuntimeCore.applyHouseMusic(musicFixture, "PickingHouseMusicPlay", "Play")
+	local musicSound = stereo:FindFirstChildWhichIsA("Sound", true)
+	local musicStop = RuntimeCore.applyHouseMusic(musicFixture, "PickingHouseMusicStop", "Stop")
+	local houseMusicOk = musicSet.ok and musicPlay.ok and musicStop.ok
+		and musicSound ~= nil
+		and musicSound.SoundId == "rbxassetid://123456789"
+		and musicSound.Looped == true
+		and musicSound.Playing == false
 	musicFixture:Destroy()
 
 	local curtainFixture = Instance.new("Model")
@@ -626,6 +693,7 @@ function RuntimeCore.runBehaviorProbe()
 	return {
 		ok = houseMusicOk and curtainOk and clockOk and avatarOk and shopOk and profileOk and houseBusinessOk and vehicleOk and contractsOk,
 		houseMusic = {ok = houseMusicOk, configured = musicSet, played = musicPlay, stopped = musicStop},
+		houseMusic = {ok = houseMusicOk, set = musicSet, play = musicPlay, stop = musicStop},
 		curtains = {ok = curtainOk, opened = curtainOpenResult, closed = curtainCloseResult},
 		clock = {ok = clockOk, noon = clockNoon, midnight = clockMidnight, day = dayName},
 		avatar = {ok = avatarOk, outfit = outfit, scale = scale, skin = skin},
