@@ -1,0 +1,42 @@
+name: Build Brookhaven Compatibility Patch
+
+on:
+  push:
+    branches:
+      - fix/brookhaven-v40-controls-houses
+    paths:
+      - "compatibility/**"
+      - "tools/brookhaven_compat_patcher/**"
+      - ".github/workflows/build-brookhaven-compat.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Fetch exact clean Brookhaven baseline
+        run: node scripts/fetch-brookhaven.mjs
+      - name: Inject compatibility scripts without rebuilding world geometry
+        run: |
+          cargo run --quiet --manifest-path tools/brookhaven_compat_patcher/Cargo.toml -- \
+            Brookhaven.rbxl Brookhaven-compat.rbxl brookhaven-compat-receipt.json
+          test -s Brookhaven-compat.rbxl
+          grep -q '"status": "brookhaven-compat-patched"' brookhaven-compat-receipt.json
+          grep -q '"worldGeometryRebuilt": false' brookhaven-compat-receipt.json
+          grep -q '"existingGuiRestyled": false' brookhaven-compat-receipt.json
+      - name: Upload patch proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: brookhaven-compat-build
+          path: brookhaven-compat-receipt.json
+          if-no-files-found: error
+          retention-days: 7
