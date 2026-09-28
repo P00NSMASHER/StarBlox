@@ -6,33 +6,21 @@ local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local MobileShell = require(script.Parent:WaitForChild("MobileShell"))
 
 local settingsRemotes = ReplicatedStorage:WaitForChild("StarBloxSettings")
 local getSettings = settingsRemotes:WaitForChild("GetState") :: RemoteFunction
 local setSetting = settingsRemotes:WaitForChild("SetSetting") :: RemoteFunction
 
-local UI = {
-	white = Color3.fromRGB(239, 239, 239),
-	tile = Color3.fromRGB(215, 215, 215),
-	text = Color3.fromRGB(38, 38, 38),
-	muted = Color3.fromRGB(93, 93, 93),
-	red = Color3.fromRGB(205, 36, 36),
-	green = Color3.fromRGB(59, 179, 78),
-	border = Color3.fromRGB(105, 105, 105),
-}
+local UI = MobileShell.Theme
+
 
 local function round(object: GuiObject, radius: number)
-	local c = Instance.new("UICorner")
-	c.CornerRadius = UDim.new(0, radius)
-	c.Parent = object
+	MobileShell.Round(object, radius)
 end
 
 local function stroke(object: GuiObject, transparency: number?)
-	local s = Instance.new("UIStroke")
-	s.Color = UI.border
-	s.Thickness = 1
-	s.Transparency = transparency or 0.4
-	s.Parent = object
+	MobileShell.Stroke(object, UI.border, 1, transparency or 0.4)
 end
 
 local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
@@ -76,8 +64,14 @@ panel.BackgroundTransparency = 0.06
 panel.Visible = false
 panel.ZIndex = 121
 panel.Parent = gui
-round(panel, 9)
-stroke(panel, 0.25)
+MobileShell.ApplyModalCard(panel, 14)
+
+MobileShell.RegisterPersistentSurface("settings-gear", function(visible: boolean)
+	gear.Visible = visible
+end)
+MobileShell.RegisterSurfaceOverlay("settings", function(visible: boolean)
+	panel.Visible = visible
+end)
 
 local title = Instance.new("TextLabel")
 title.Name = "Title"
@@ -227,6 +221,7 @@ local function applyVisualSettings()
 		return
 	end
 	local hideUi = settings.HideUI == true
+	MobileShell.SetSuppressed(hideUi)
 	setKnownGuiHidden(hideUi)
 
 	local runGui = playerGui:FindFirstChild("BrookhavenRunControlUI")
@@ -342,16 +337,20 @@ render = function()
 end
 
 gear.Activated:Connect(function()
+	if MobileShell.IsOverlayOpen("settings") then
+		MobileShell.Close("settings")
+		return
+	end
 	if settings == nil then
 		fetchSettings()
 	end
 	applyVisualSettings()
 	render()
-	panel.Visible = not panel.Visible
+	MobileShell.Open("settings")
 end)
 
 close.Activated:Connect(function()
-	panel.Visible = false
+	MobileShell.Close("settings")
 end)
 
 playerGui.ChildAdded:Connect(function(child)
