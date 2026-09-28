@@ -13,7 +13,7 @@ async function parse(response,label){
   return payload;
 }
 
-const luau=[
+const luauLines=[
   'local SG=game:GetService("StarterGui")',
   'local SP=game:GetService("StarterPlayer")',
   'local SSS=game:GetService("ServerScriptService")',
@@ -177,42 +177,73 @@ const luau=[
   'assert(carClient:FindFirstChild("Car") and carClient.Car:IsA("ObjectValue"),"native CarClient Car state missing")',
   'assert(carClient:FindFirstChild("Stop") and carClient.Stop:IsA("BoolValue"),"native CarClient Stop state missing")',
   'print("STARBLOX_NATIVE_BEHAVIOR_OK version="..tostring(game.PlaceVersion).." weather="..tostring(result.weather.ok).." noMotorVehicles="..tostring(result.noMotorVehicles.ok).." helicopter="..tostring(result.helicopter.ok).." helicopterGui="..tostring(result.helicopterGui.ok).." realHeliGui=true realHeliFlight=true avatar="..tostring(result.avatar.ok).." toolVisual="..tostring(result.toolVisual.ok).." nativeToolVisual=true vehicleMusic="..tostring(result.vehicleMusic.ok).." horseLifecycle="..tostring(result.horseLifecycle.ok).." realHorse=true horseCustomization="..tostring(result.horseCustomization.ok).." hairColor="..tostring(result.hairColor.ok).." shop="..tostring(result.shop.ok).." profile="..tostring(result.profile.ok).." houseBusiness="..tostring(result.houseBusiness.ok).." houseFire="..tostring(result.houseFire.ok).." houseMusic="..tostring(result.houseMusic.ok).." curtains="..tostring(result.curtains.ok).." clock="..tostring(result.clock.ok).." vehicle="..tostring(vehicleResult.vehicle).." driveConstraints="..tostring(vehicleResult.driveReady.driveConstraints).." duke="..tostring(vehicleResult.duke.ok).." duke1="..tostring(vehicleResult.duke1.ok).." seatAnchored="..tostring(vehicleResult.driveReady.seatAnchored).." descendants="..tostring(vehicleResult.descendants))'
-].join("\n");
+];
 
-let response;
-for(let attempt=0;attempt<12;attempt++){
-  response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{
-    method:"POST",
-    headers:{"x-api-key":key,"content-type":"application/json"},
-    body:JSON.stringify({script:luau,timeout:"60s"})
-  });
-  if(response.status!==429&&response.status!==500) break;
-  if(attempt===11) break;
-  const retryAfterSeconds=Number(response.headers.get("retry-after")||0);
-  const fallbackMs=Math.min(30000,5000*(attempt+1));
-  const waitMs=Math.max(retryAfterSeconds*1000,fallbackMs);
-  console.log("native verifier backing off after HTTP "+response.status+" for "+waitMs+"ms");
-  await new Promise(resolve=>setTimeout(resolve,waitMs));
+const splitMarker='local bannedLots=RS:WaitForChild("BannedLots")';
+const coreTailMarker='assert(result.ok==true,"native runtime behavior probe failed")';
+const splitIndex=luauLines.indexOf(splitMarker);
+const coreTailIndex=luauLines.indexOf(coreTailMarker);
+if(splitIndex<0||coreTailIndex<0||coreTailIndex<=splitIndex){
+  throw new Error("native verifier split markers missing or out of order");
 }
 
-let task=await parse(response,"create");
-const raw=String(task.path||"");
-const url="https://apis.roblox.com/cloud/v2/"+raw
-  .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
-  .replace(/^\/?cloud\/v2\//,"")
-  .replace(/^\//,"");
+const coreLuau=luauLines
+  .slice(0,splitIndex)
+  .concat(luauLines.slice(coreTailIndex))
+  .join("\n");
 
-while(String(task.state||"")==="PROCESSING"){
-  await new Promise(resolve=>setTimeout(resolve,1000));
-  task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
+const worldPrelude=[
+  'local SSS=game:GetService("ServerScriptService")',
+  'local RS=game:GetService("ReplicatedStorage")',
+  'local coreModule=SSS:WaitForChild("BrookhavenNativeRuntimeCore")',
+  'assert(coreModule:IsA("ModuleScript"),"native runtime core ModuleScript missing")',
+  'local core=require(coreModule)'
+];
+const worldLuau=worldPrelude
+  .concat(luauLines.slice(splitIndex,coreTailIndex))
+  .concat(['print("STARBLOX_NATIVE_WORLD_BEHAVIOR_OK version="..tostring(game.PlaceVersion))'])
+  .join("\n");
+
+async function runLuauTask(script,label,sentinel){
+  let response;
+  for(let attempt=0;attempt<12;attempt++){
+    response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{
+      method:"POST",
+      headers:{"x-api-key":key,"content-type":"application/json"},
+      body:JSON.stringify({script,timeout:"60s"})
+    });
+    if(response.status!==429&&response.status!==500) break;
+    if(attempt===11) break;
+    const retryAfterSeconds=Number(response.headers.get("retry-after")||0);
+    const fallbackMs=Math.min(30000,5000*(attempt+1));
+    const waitMs=Math.max(retryAfterSeconds*1000,fallbackMs);
+    console.log(label+" verifier backing off after HTTP "+response.status+" for "+waitMs+"ms");
+    await new Promise(resolve=>setTimeout(resolve,waitMs));
+  }
+
+  let task=await parse(response,label+" create");
+  const raw=String(task.path||"");
+  const url="https://apis.roblox.com/cloud/v2/"+raw
+    .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+    .replace(/^\/?cloud\/v2\//,"")
+    .replace(/^\//,"");
+
+  while(String(task.state||"")==="PROCESSING"){
+    await new Promise(resolve=>setTimeout(resolve,1000));
+    task=await parse(await fetch(url,{headers:{"x-api-key":key}}),label+" status");
+  }
+
+  const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),label+" logs");
+  const output=JSON.stringify(logs);
+  if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))){
+    throw new Error(label+" runtime task failed "+JSON.stringify(task).slice(0,2200));
+  }
+  if(!output.includes(sentinel)){
+    throw new Error(label+" behavior sentinel missing: "+output.slice(0,4000));
+  }
+  console.log(label+" "+output);
 }
 
-const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
-const text=JSON.stringify(logs);
-if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))){
-  throw new Error("runtime task failed "+JSON.stringify(task).slice(0,2200));
-}
-if(!text.includes("STARBLOX_NATIVE_BEHAVIOR_OK")){
-  throw new Error("native behavior sentinel missing: "+text.slice(0,4000));
-}
-console.log(text);
+await runLuauTask(coreLuau,"core","STARBLOX_NATIVE_BEHAVIOR_OK");
+await runLuauTask(worldLuau,"world","STARBLOX_NATIVE_WORLD_BEHAVIOR_OK");
+
