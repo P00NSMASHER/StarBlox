@@ -9,6 +9,8 @@ on:
       - "brookhaven-source.json"
       - "scripts/fetch-brookhaven.mjs"
       - "scripts/publish-private.mjs"
+      - "compatibility/**"
+      - "tools/brookhaven_compat_patcher/**"
 
 permissions:
   contents: read
@@ -20,17 +22,36 @@ concurrency:
 jobs:
   publish-private:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
       - name: Fetch pinned Brookhaven source
         run: node scripts/fetch-brookhaven.mjs
+      - name: Add control and house compatibility without rebuilding the world
+        run: |
+          cargo run --quiet --manifest-path tools/brookhaven_compat_patcher/Cargo.toml -- \
+            Brookhaven.rbxl Brookhaven-compat.rbxl brookhaven-compat-receipt.json
+          test -s Brookhaven-compat.rbxl
+          grep -q '"worldGeometryRebuilt": false' brookhaven-compat-receipt.json
+          grep -q '"existingGuiRestyled": false' brookhaven-compat-receipt.json
+          mv Brookhaven-compat.rbxl Brookhaven.rbxl
       - name: Publish private staging baseline
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: node scripts/publish-private.mjs
+      - name: Upload compatibility receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: brookhaven-compat-publish
+          path: |
+            brookhaven-compat-receipt.json
+            published-version.txt
+            publish-response.json
+          if-no-files-found: error
+          retention-days: 30
