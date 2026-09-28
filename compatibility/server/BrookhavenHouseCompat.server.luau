@@ -1068,6 +1068,12 @@ local function removeNoMotorVehicle(player)
 	activeNoMotorByPlayer[player] = nil
 end
 
+local function playerHasMusicPass(player)
+	local bag = ensureBag(player)
+	local pass = bag:FindFirstChild("MusicPass")
+	return pass and pass:IsA("BoolValue") and pass.Value == true
+end
+
 local function vehicleSpawnCFrame(player)
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
@@ -1330,10 +1336,22 @@ carRemote.OnServerEvent:Connect(function(player, action, requestedName)
 	end
 end)
 
-noMotorRemote.OnServerEvent:Connect(function(player, action)
+noMotorRemote.OnServerEvent:Connect(function(player, action, value)
 	if action == "Delete NoMotorVehicle" then
 		removeNoMotorVehicle(player)
-	elseif type(action) == "string" then
+		return
+	end
+	if RuntimeCore.isVehicleMusicAction(action) then
+		if not playerHasMusicPass(player) then
+			return
+		end
+		local model = activeNoMotorByPlayer[player]
+		if model and model.Parent then
+			RuntimeCore.applyVehicleMusicMutation(model, action, value)
+		end
+		return
+	end
+	if type(action) == "string" then
 		spawnVehicle(player, action, true)
 	end
 end)
@@ -1374,6 +1392,10 @@ playersCarRemote.OnServerEvent:Connect(function(player, action, value)
 		flipVehicle(model)
 	elseif action == "PickingCarColor" then
 		colorVehicle(model, value)
+	elseif RuntimeCore.isVehicleMusicAction(action) then
+		if playerHasMusicPass(player) then
+			RuntimeCore.applyVehicleMusicMutation(model, action, value)
+		end
 	elseif action == "RegPlayerGiveSpeed" or action == "PlayerGiveSpeedLower" or action == "200PlayerGiveSpeed" then
 		setVehicleSpeed(model, value)
 	elseif action == "Fire" then
@@ -1506,4 +1528,4 @@ runtimeTest.OnInvoke = function(testName)
 	return {ok = false, code = "unknown_test"}
 end
 
-print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1")
+print("STARBLOX_NATIVE_BROOKHAVEN_RUNTIME_READY avatar=1 shop=1 vehicles=1 tools=1 profile=1 jobs=1 houseBusiness=1 clock=1 curtains=1 houseMusic=1 hairColor=1 vehicleMusic=1")
