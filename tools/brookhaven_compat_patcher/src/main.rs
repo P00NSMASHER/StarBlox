@@ -397,8 +397,10 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
 
     let mut remaining_pool_paths = BTreeSet::new();
     let mut remaining_bank_card_paths = BTreeSet::new();
+    let mut drone_named_paths = BTreeSet::new();
     collect_named_paths(dom, dom.root_ref(), "", &["pool", "cover"], &mut remaining_pool_paths);
     collect_named_paths(dom, dom.root_ref(), "", &["creditcard", "credit_card", "bankcard", "bankkeycard", "credit card"], &mut remaining_bank_card_paths);
+    collect_named_paths(dom, dom.root_ref(), "", &["drone"], &mut drone_named_paths);
 
     let mut wheel_control_state = Vec::new();
     collect_selected_state(
@@ -516,6 +518,7 @@ fn build_native_source_inventory(dom: &WeakDom) -> serde_json::Value {
         "replicatedStorageTools": tool_names.into_iter().collect::<Vec<_>>(),
         "remainingPoolPaths": remaining_pool_paths.into_iter().collect::<Vec<_>>(),
         "remainingBankCardPaths": remaining_bank_card_paths.into_iter().collect::<Vec<_>>(),
+        "droneNamedPaths": drone_named_paths.into_iter().collect::<Vec<_>>(),
         "poolCoverState": pool_cover_state,
         "bankCardState": bank_card_state,
         "ambulanceControlPaths": vehicle_control_paths.into_iter().collect::<Vec<_>>(),
