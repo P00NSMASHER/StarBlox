@@ -9,7 +9,10 @@ local function text(parent,name,value,size)
  local t=Instance.new("TextLabel");t.Name=name;t.BackgroundTransparency=1;t.Size=UDim2.new(1,0,0,0);t.AutomaticSize=Enum.AutomaticSize.Y;t.Font=Enum.Font.GothamMedium;t.TextSize=size or 17;t.TextColor3=DARK;t.TextWrapped=true;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextYAlignment=Enum.TextYAlignment.Top;t.Text=value;t.Parent=parent;return t
 end
 local function button(parent,name,value,color)
- local b=Instance.new("TextButton");b.Name=name;b.Size=UDim2.new(1,0,0,48);b.Font=Enum.Font.GothamBold;b.TextSize=17;b.TextWrapped=true;b.TextColor3=DARK;b.Text=value;b.BackgroundColor3=color or GOLD;b.AutoButtonColor=true;b.Parent=parent;corner(b,13);return b
+ local b=Instance.new("TextButton");b.Name=name;b.Size=UDim2.new(1,0,0,48);b.Font=Enum.Font.GothamBold;b.TextSize=17;b.TextWrapped=true;b.TextColor3=DARK;b.Text=value;b.BackgroundColor3=color or GOLD;b.AutoButtonColor=true;b.BorderSizePixel=0;b.Parent=parent;corner(b,13)
+ local stroke=Instance.new("UIStroke");stroke.Color=DARK;stroke.Transparency=.82;stroke.Thickness=1.1;stroke.Parent=b
+ local base=b.BackgroundColor3;local gradient=Instance.new("UIGradient");gradient.Color=ColorSequence.new(base:Lerp(WHITE,.18),base);gradient.Rotation=90;gradient.Parent=b
+ return b
 end
 local function pad(parent,n)
  local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,n);p.PaddingBottom=UDim.new(0,n);p.PaddingLeft=UDim.new(0,n);p.PaddingRight=UDim.new(0,n);p.Parent=parent
@@ -30,7 +33,9 @@ function UIController:_command(command)
 end
 function UIController:mount(playerGui)
  local gui=Instance.new("ScreenGui");gui.Name="LanternIslandUI";gui.ResetOnSpawn=false;gui.IgnoreGuiInset=false;gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;gui.Parent=playerGui;self.gui=gui
- local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.06;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
+ local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.04;tracker.BorderSizePixel=0;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
+ local trackerStroke=Instance.new("UIStroke");trackerStroke.Color=Color3.fromRGB(121,142,181);trackerStroke.Transparency=.55;trackerStroke.Thickness=1.2;trackerStroke.Parent=tracker
+ local trackerGradient=Instance.new("UIGradient");trackerGradient.Color=ColorSequence.new(DARK:Lerp(BLUE,.12),DARK);trackerGradient.Rotation=120;trackerGradient.Parent=tracker
  local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None
  local objective=text(tracker,"Objective","Pick a trail and explore with Pip.",14);objective.Position=UDim2.fromOffset(0,27);objective.Size=UDim2.new(1,0,0,40);objective.AutomaticSize=Enum.AutomaticSize.None;objective.TextColor3=WHITE;self.trackerText=objective
  local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,98);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;self.open=open
@@ -39,7 +44,8 @@ function UIController:mount(playerGui)
   local b=button(nav,entry[1],entry[2],i==2 and PINK or MINT);b.Size=UDim2.new(1/3,-5,1,0);b.Position=UDim2.new((i-1)/3,0,0,0);b.TextSize=13
   self:_connect(b.Activated,function() self.mode=self.mode==entry[1] and nil or entry[1];self:_draw() end)
  end
- local panel=Instance.new("Frame");panel.Name="ContextCard";panel.BackgroundColor3=WHITE;panel.Visible=false;panel.Parent=gui;corner(panel,20);self.panel=panel
+ local panel=Instance.new("Frame");panel.Name="ContextCard";panel.BackgroundColor3=WHITE;panel.BorderSizePixel=0;panel.Visible=false;panel.Parent=gui;corner(panel,20);self.panel=panel
+ local panelStroke=Instance.new("UIStroke");panelStroke.Color=DARK;panelStroke.Transparency=.78;panelStroke.Thickness=1.1;panelStroke.Parent=panel
  local title=text(panel,"CardTitle","Adventure",20);title.Position=UDim2.fromOffset(16,14);title.Size=UDim2.new(1,-76,0,44);title.AutomaticSize=Enum.AutomaticSize.None;title.Font=Enum.Font.GothamBold;self.heading=title
  local close=button(panel,"CloseCard","X",PINK);close.AnchorPoint=Vector2.new(1,0);close.Position=UDim2.new(1,-10,0,10);close.Size=UDim2.fromOffset(44,44);self.close=close
  local scroll=Instance.new("ScrollingFrame");scroll.Name="CardContent";scroll.BackgroundTransparency=1;scroll.BorderSizePixel=0;scroll.Position=UDim2.fromOffset(14,66);scroll.Size=UDim2.new(1,-28,1,-132);scroll.CanvasSize=UDim2.new();scroll.AutomaticCanvasSize=Enum.AutomaticSize.Y;scroll.ScrollBarThickness=5;scroll.ScrollingDirection=Enum.ScrollingDirection.Y;scroll.Parent=panel;self.scroll=scroll
@@ -125,8 +131,10 @@ function UIController:_draw()
   self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
   for _,q in ipairs(UIModel.quests) do
    local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
-   local b=self:_addButton("Quest_"..q.id,q.title.."\n"..q.subtitle..(owned and "  •  Outfit earned ✓" or "  •  New island change ahead"),color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
-   b.Size=UDim2.new(1,0,0,58)
+   local symbol=q.id=="lantern-lift" and "✦" or (q.id=="ribbon-studio" and "Aa" or "☾")
+   local b=self:_addButton("Quest_"..q.id,symbol.."   "..q.title.."\n      "..q.subtitle..(owned and "  •  Restored ✓" or "  •  Island change ahead"),color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
+   b.Size=UDim2.new(1,0,0,62);b.TextXAlignment=Enum.TextXAlignment.Left
+   local inset=Instance.new("UIPadding");inset.PaddingLeft=UDim.new(0,14);inset.PaddingRight=UDim.new(0,10);inset.Parent=b
   end
  elseif self.mode=="wardrobe" then
   self.heading.Text="Pip's dress-up box"
