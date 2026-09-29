@@ -20,7 +20,21 @@ local function label(parent,text,width,height)
  local gui=Instance.new("BillboardGui");gui.Size=UDim2.fromOffset(width or 190,height or 50);gui.StudsOffset=Vector3.new(0,2.8,0);gui.AlwaysOnTop=true;gui.MaxDistance=65;gui.Parent=parent
  local t=Instance.new("TextLabel");t.BackgroundColor3=Color3.fromRGB(44,62,75);t.BackgroundTransparency=.15;t.Size=UDim2.fromScale(1,1);t.Text=text;t.TextColor3=C.cream;t.TextSize=16;t.TextWrapped=true;t.Font=Enum.Font.GothamBold;t.Parent=gui;Instance.new("UICorner",t).CornerRadius=UDim.new(0,12)
 end
+
+local function glowOrb(parent,name,position,color,size)
+ local n=size or .8
+ local orb=part(parent,name,Vector3.new(n,n,n),position,color,Enum.PartType.Ball,false)
+ orb.Material=Enum.Material.Neon;orb.Transparency=.14
+ local light=Instance.new("PointLight");light.Brightness=.25;light.Range=6;light.Color=color;light.Parent=orb
+ return orb
+end
+local function milestoneFolder(root,mid,index)
+ local name="Milestone_"..mid.."_"..index
+ local existing=root:FindFirstChild(name);if existing then return existing,false end
+ local folder=Instance.new("Folder");folder.Name=name;folder.Parent=root;return folder,true
+end
 local function makePip()
+
  local pip=Instance.new("Model");pip.Name="Pip"
  local body=part(pip,"Body",Vector3.new(2.6,2.4,2.3),Vector3.zero,C.cream,Enum.PartType.Ball,false);pip.PrimaryPart=body
  for _,x in ipairs({-.78,.78}) do
@@ -46,6 +60,30 @@ function WorldBuilder:build()
  local f=Instance.new("Folder");f.Name="LanternIslandWorld";f.Parent=workspace;self.folder=f
  disk(f,"IslandRock",45,8,Vector3.new(0,-5,0),C.rock);disk(f,"IslandGrass",43,4,Vector3.new(0,-1,0),C.grass)
  local pond=disk(f,"Pond",9,.2,Vector3.new(-23,1.12,-18),C.blue);pond.CanCollide=false
+ local plaza=Instance.new("Folder");plaza.Name="PipsPlaza";plaza.Parent=f;self.plaza=plaza
+ disk(plaza,"PlazaBase",7,.35,Vector3.new(0,1.05,14),C.cream)
+ disk(plaza,"PlazaCenter",4.7,.16,Vector3.new(0,1.26,14),C.mint)
+ local compass=glowOrb(plaza,"AdventureCompass",Vector3.new(0,3.1,14),C.gold,1.25);compass:SetAttribute("AmbientFloat",true);compass:SetAttribute("FloatBaseY",3.1);compass:SetAttribute("FloatPhase",0)
+ for _,gate in ipairs({
+  {name="GoldenTrail",pos=Vector3.new(5.5,2,9),color=C.gold},
+  {name="RibbonTrail",pos=Vector3.new(7.4,2,17.5),color=C.pink},
+  {name="MoonTrail",pos=Vector3.new(-7.4,2,17.5),color=C.blue},
+ }) do
+  local m=Instance.new("Model");m.Name=gate.name;m.Parent=plaza
+  part(m,"Left",Vector3.new(.6,3,.6),gate.pos+Vector3.new(-1.4,0,0),gate.color,nil,false)
+  part(m,"Right",Vector3.new(.6,3,.6),gate.pos+Vector3.new(1.4,0,0),gate.color,nil,false)
+  local top=part(m,"Top",Vector3.new(3.4,.55,.6),gate.pos+Vector3.new(0,1.45,0),gate.color,nil,false)
+ end
+ local ambient=Instance.new("Folder");ambient.Name="AmbientFireflies";ambient.Parent=f
+ for i=1,14 do
+  local angle=i*2.399;local radius=16+(i%5)*4;local y=2.8+(i%4)*.65
+  local color=i%3==0 and C.pink or (i%3==1 and C.gold or C.blue)
+  local orb=glowOrb(ambient,"Firefly"..i,Vector3.new(math.cos(angle)*radius,y,math.sin(angle)*radius),color,.35)
+  orb:SetAttribute("AmbientFloat",true);orb:SetAttribute("FloatBaseY",y);orb:SetAttribute("FloatPhase",i*.73)
+ end
+ for i=1,7 do
+  local angle=i*.88;local pad=disk(f,"LilyPad"..i,1.1,.12,Vector3.new(-23+math.cos(angle)*5.3,1.25,-18+math.sin(angle)*5.3),i%2==0 and C.mint or C.grass);pad.CanCollide=false
+ end
  for _,station in pairs(STATIONS) do for i=1,9 do
   local position=Vector3.new(0,1.15,14):Lerp(Vector3.new(station.pos.X,1.15,station.pos.Z),i/10)
   disk(f,"PathStone",1.4,.2,position,C.path)
@@ -103,6 +141,28 @@ end
 function WorldBuilder:onCheckpoint(_player,mid,index)
  local orb=self.folder and self.folder:FindFirstChild(mid.."-spark-"..index)
  if orb then orb.Color=orb:GetAttribute("RestColor");orb.Material=Enum.Material.Neon end
+ self:revealMilestone(mid,index)
+end
+function WorldBuilder:revealMilestone(mid,index)
+ if not self.folder then return end
+ local d=STATIONS[mid];if not d or not d.points[index] then return end
+ local folder,created=milestoneFolder(self.folder,mid,index);if not created then return end
+ local pos=d.points[index]
+ if mid=="lantern-lift" then
+  local pole=part(folder,"GlowPost",Vector3.new(.35,2.6,.35),pos+Vector3.new(2.2,1.1,0),C.wood,nil,false)
+  glowOrb(folder,"WarmOrb",pole.Position+Vector3.new(0,1.55,0),C.gold,.7)
+  for j=1,3 do glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22) end
+ elseif mid=="ribbon-studio" then
+  part(folder,"RibbonPostL",Vector3.new(.28,2.5,.28),pos+Vector3.new(-1.4,1,1.4),C.wood,nil,false)
+  part(folder,"RibbonPostR",Vector3.new(.28,2.5,.28),pos+Vector3.new(1.4,1,1.4),C.wood,nil,false)
+  local ribbon=part(folder,"Ribbon",Vector3.new(3.1,.36,.18),pos+Vector3.new(0,2.15,1.4),index%2==0 and C.blue or C.pink,nil,false)
+  glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+ elseif mid=="moon-picnic" then
+  local pad=disk(folder,"MoonPad",1.4,.12,pos+Vector3.new(1.8,-1.68,1.2),index%2==0 and C.mint or C.blue);pad.CanCollide=false
+  local stem=part(folder,"MoonStem",Vector3.new(.28,1.1,.28),pos+Vector3.new(-1.7,-.8,1),C.cream,nil,false)
+  glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+ end
+ folder:SetAttribute("Revealed",true)
 end
 function WorldBuilder:restoreMission(mid)
  if self.restored[mid] or not self.folder then return end;self.restored[mid]=true
@@ -133,6 +193,18 @@ function WorldBuilder:updateCollection(player)
  local owned={};for _,id in ipairs(profile.ownedItemIds or {}) do owned[id]=true end
  local unlocked=owned["firefly-scarf"] and owned["rainbow-bow"] and owned["moon-crown"] or false
  pip:SetAttribute("StarlightTrailUnlocked",unlocked)
+ if unlocked and self.folder and not self.folder:FindFirstChild("StarlightGarden") then
+  local garden=Instance.new("Folder");garden.Name="StarlightGarden";garden.Parent=self.folder
+  local ring=disk(garden,"GardenRing",6,.16,Vector3.new(0,1.42,14),C.cream);ring.CanCollide=false
+  for i=1,10 do
+   local angle=i*math.pi/5;local color=i%3==0 and C.blue or (i%3==1 and C.gold or C.pink)
+   local bloom=glowOrb(garden,"StarBloom"..i,Vector3.new(math.cos(angle)*4.8,1.8,14+math.sin(angle)*4.8),color,.42)
+   bloom:SetAttribute("AmbientFloat",true);bloom:SetAttribute("FloatBaseY",1.8);bloom:SetAttribute("FloatPhase",i*.51)
+  end
+  local star=glowOrb(garden,"CollectionStar",Vector3.new(0,4.2,14),C.gold,1.5)
+  star:SetAttribute("AmbientFloat",true);star:SetAttribute("FloatBaseY",4.2);star:SetAttribute("FloatPhase",1.3)
+  garden:SetAttribute("CollectionComplete",true)
+ end
  local body=pip:FindFirstChild("Body");if not body then return end
  local trail=body:FindFirstChild("StarlightTrail")
  if not trail and unlocked then
@@ -154,3 +226,5 @@ function WorldBuilder:removePlayer(player)
  local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil
 end
 return WorldBuilder
+
+[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]

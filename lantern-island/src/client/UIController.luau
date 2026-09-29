@@ -3,7 +3,7 @@ local RunService=game:GetService("RunService")
 local UIModel=require(script.Parent:WaitForChild("UIModel"))
 local RewardView=require(script.Parent:WaitForChild("RewardView"))
 local UIController={};UIController.__index=UIController
-local DARK=Color3.fromRGB(43,53,78);local WHITE=Color3.fromRGB(255,250,244);local PINK=Color3.fromRGB(246,180,207);local GOLD=Color3.fromRGB(255,214,123);local MINT=Color3.fromRGB(187,232,208)
+local DARK=Color3.fromRGB(43,53,78);local WHITE=Color3.fromRGB(255,250,244);local PINK=Color3.fromRGB(246,180,207);local GOLD=Color3.fromRGB(255,214,123);local MINT=Color3.fromRGB(187,232,208);local BLUE=Color3.fromRGB(177,220,239)
 local function corner(gui,r) Instance.new("UICorner",gui).CornerRadius=UDim.new(0,r or 14) end
 local function text(parent,name,value,size)
  local t=Instance.new("TextLabel");t.Name=name;t.BackgroundTransparency=1;t.Size=UDim2.new(1,0,0,0);t.AutomaticSize=Enum.AutomaticSize.Y;t.Font=Enum.Font.GothamMedium;t.TextSize=size or 17;t.TextColor3=DARK;t.TextWrapped=true;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextYAlignment=Enum.TextYAlignment.Top;t.Text=value;t.Parent=parent;return t
@@ -122,8 +122,12 @@ function UIController:_draw()
  local state=self.state;local m=state.mission;local profile=state.profile
  if self.mode=="map" then
   self.heading.Text="Pick your adventure"
-  self:_addText("Invitation","Explore with Pip. Follow a glow, solve its clue, and see what changes.",17)
-  for _,q in ipairs(UIModel.quests) do self:_addButton("Quest_"..q.id,q.title.." - "..q.subtitle..(UIModel.owns(profile,q.reward) and "  [outfit earned]" or ""),MINT,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end) end
+  self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
+  for _,q in ipairs(UIModel.quests) do
+   local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
+   local b=self:_addButton("Quest_"..q.id,q.title.."\n"..q.subtitle..(owned and "  •  Outfit earned ✓" or "  •  New island change ahead"),color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
+   b.Size=UDim2.new(1,0,0,58)
+  end
  elseif self.mode=="wardrobe" then
   self.heading.Text="Pip's dress-up box"
   self:_addText("OutfitIntro","Your adventure rewards are free. Choose one for your very own Pip.",17)
@@ -178,3 +182,5 @@ function UIController:destroy()
  if self.gui then self.gui:Destroy() end
 end
 return UIController
+
+[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]
