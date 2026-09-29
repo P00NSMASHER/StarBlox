@@ -7,7 +7,14 @@ local function owns(p,id) for _,owned in ipairs(p.ownedItemIds) do if owned==id 
 function RewardService:grant(player,itemId)
  local p=self.context.services.ProfileService:get(player)
  if not p or not ITEMS[itemId] then return false,"REWARD_UNAVAILABLE" end
- if not owns(p,itemId) then table.insert(p.ownedItemIds,itemId);p.currency=#p.ownedItemIds*25 end
+ if not owns(p,itemId) then
+  table.insert(p.ownedItemIds,itemId);p.currency=#p.ownedItemIds*25
+  local world=self.context.services.WorldBuilder
+  if world and world.celebrateReward then
+   local ok=pcall(function() world:celebrateReward(player,itemId) end)
+   if not ok then warn("LANTERN_REWARD_COSMETIC_UNAVAILABLE") end
+  end
+ end
  return true,"REWARD_GRANTED"
 end
 function RewardService:handle(player,request)

@@ -1,6 +1,7 @@
 --!nonstrict
 local RunService=game:GetService("RunService")
 local UIModel=require(script.Parent:WaitForChild("UIModel"))
+local RewardView=require(script.Parent:WaitForChild("RewardView"))
 local UIController={};UIController.__index=UIController
 local DARK=Color3.fromRGB(43,53,78);local WHITE=Color3.fromRGB(255,250,244);local PINK=Color3.fromRGB(246,180,207);local GOLD=Color3.fromRGB(255,214,123);local MINT=Color3.fromRGB(187,232,208)
 local function corner(gui,r) Instance.new("UICorner",gui).CornerRadius=UDim.new(0,r or 14) end
@@ -32,7 +33,7 @@ function UIController:mount(playerGui)
  local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.06;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
  local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None
  local objective=text(tracker,"Objective","Pick a trail and explore with Pip.",14);objective.Position=UDim2.fromOffset(0,27);objective.Size=UDim2.new(1,0,0,40);objective.AutomaticSize=Enum.AutomaticSize.None;objective.TextColor3=WHITE;self.trackerText=objective
- local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,72);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;self.open=open
+ local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,98);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;self.open=open
  local nav=Instance.new("Frame");nav.Name="ExploreButtons";nav.BackgroundTransparency=1;nav.Position=UDim2.fromOffset(12,136);nav.Size=UDim2.fromOffset(290,42);nav.Parent=gui;self.nav=nav
  for i,entry in ipairs({{"map","Adventures"},{"wardrobe","Dress Pip"},{"journal","Journal"}}) do
   local b=button(nav,entry[1],entry[2],i==2 and PINK or MINT);b.Size=UDim2.new(1/3,-5,1,0);b.Position=UDim2.new((i-1)/3,0,0,0);b.TextSize=13
@@ -70,6 +71,7 @@ function UIController:mount(playerGui)
  self:_connect(RunService.RenderStepped,function(dt)
   tick+=dt;if tick<.2 then return end;tick=0;self:_layout();self:_track()
  end)
+ self.rewards=RewardView.new(self.context);self.rewards:mount(self)
  self:_layout()
 end
 function UIController:_layout()
@@ -77,7 +79,7 @@ function UIController:_layout()
  local v=camera.ViewportSize;local l=UIModel.layout(v.X,v.Y)
  self.panel.Size=UDim2.fromOffset(l.width,l.height);self.panel.AnchorPoint=Vector2.new(l.center and .5 or 1,0)
  self.panel.Position=l.center and UDim2.new(.5,0,0,l.top) or UDim2.new(1,-12,0,l.top)
- self.tracker.Size=UDim2.fromOffset(l.trackerWidth,132);self.nav.Size=UDim2.fromOffset(l.trackerWidth,42);self.nav.Position=UDim2.fromOffset(12,146)
+ self.tracker.Size=UDim2.fromOffset(l.trackerWidth,158);self.nav.Size=UDim2.fromOffset(l.trackerWidth,42);self.nav.Position=UDim2.fromOffset(12,172)
  -- Keep exploration controls clear when a narrow portrait card is open.
  self.tracker.Visible=not (l.center and self.panel.Visible);self.nav.Visible=self.tracker.Visible
 end
@@ -152,6 +154,7 @@ function UIController:_draw()
    local command=UIModel.primary(state);self.primary.Text=command and command.label or "Continue"
   end
  end
+ if self.rewards then self.rewards:decorate(self) end
  self:_pending()
 end
 function UIController:_pending()
@@ -170,6 +173,7 @@ function UIController:showToast(message)
  task.delay(3.2,function() if self.toast and self.toastSerial==serial then self.toast.Visible=false end end)
 end
 function UIController:destroy()
+ if self.rewards then self.rewards:destroy() end
  for _,c in ipairs(self.connections) do c:Disconnect() end;for _,c in ipairs(self.contentConnections) do c:Disconnect() end
  if self.gui then self.gui:Destroy() end
 end

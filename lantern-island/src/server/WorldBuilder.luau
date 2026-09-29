@@ -125,6 +125,30 @@ function WorldBuilder:setEquipped(player,itemId)
   end)
  end
  for _,p in ipairs(pip:GetChildren()) do if p:IsA("BasePart") and (p.Name=="firefly-scarf" or p.Name=="rainbow-bow" or p.Name=="moon-crown") then p.Transparency=p.Name==itemId and 0 or 1 end end
+ self:updateCollection(player)
+end
+function WorldBuilder:updateCollection(player)
+ local pip=self.companions[player];if not pip then return end
+ local profile=self.context.services.ProfileService:get(player);if not profile then return end
+ local owned={};for _,id in ipairs(profile.ownedItemIds or {}) do owned[id]=true end
+ local unlocked=owned["firefly-scarf"] and owned["rainbow-bow"] and owned["moon-crown"] or false
+ pip:SetAttribute("StarlightTrailUnlocked",unlocked)
+ local body=pip:FindFirstChild("Body");if not body then return end
+ local trail=body:FindFirstChild("StarlightTrail")
+ if not trail and unlocked then
+  local top=Instance.new("Attachment");top.Name="StarlightTop";top.Position=Vector3.new(0,.4,1.05);top.Parent=body
+  local bottom=Instance.new("Attachment");bottom.Name="StarlightBottom";bottom.Position=Vector3.new(0,-.35,1.05);bottom.Parent=body
+  trail=Instance.new("Trail");trail.Name="StarlightTrail";trail.Attachment0=top;trail.Attachment1=bottom;trail.Lifetime=.65;trail.MinLength=.06;trail.FaceCamera=true
+  trail.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,C.gold),ColorSequenceKeypoint.new(.5,C.pink),ColorSequenceKeypoint.new(1,C.blue)})
+  trail.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,.18),NumberSequenceKeypoint.new(1,1)})
+  trail.WidthScale=NumberSequence.new({NumberSequenceKeypoint.new(0,.8),NumberSequenceKeypoint.new(1,0)});trail.Parent=body
+ end
+ if trail then trail.Enabled=unlocked end
+end
+function WorldBuilder:celebrateReward(player,_itemId)
+ local profile=self.context.services.ProfileService:get(player);if not profile then return end
+ self:setEquipped(player,profile.equippedItemId)
+ self.petTimes[player]=os.clock()+1.8
 end
 function WorldBuilder:removePlayer(player)
  local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil
