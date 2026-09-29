@@ -57,6 +57,10 @@ function WorldBuilder:build()
  local foundation=workspace:FindFirstChild("FoundationGround");if foundation then foundation.Transparency=1;foundation.CanCollide=false end
  Lighting.Brightness=2.3;Lighting.ClockTime=17.2;Lighting.Ambient=Color3.fromRGB(145,141,167);Lighting.OutdoorAmbient=Color3.fromRGB(170,171,175)
  local atmosphere=Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere");atmosphere.Density=.18;atmosphere.Color=Color3.fromRGB(229,221,242);atmosphere.Parent=Lighting
+ local terrain=workspace:FindFirstChildOfClass("Terrain")
+ if terrain then
+  local clouds=terrain:FindFirstChild("LanternClouds") or Instance.new("Clouds");clouds.Name="LanternClouds";clouds.Cover=.34;clouds.Density=.22;clouds.Color=Color3.fromRGB(247,240,255);clouds.Parent=terrain
+ end
  local f=Instance.new("Folder");f.Name="LanternIslandWorld";f.Parent=workspace;self.folder=f
  disk(f,"IslandRock",45,8,Vector3.new(0,-5,0),C.rock);disk(f,"IslandGrass",43,4,Vector3.new(0,-1,0),C.grass)
  local pond=disk(f,"Pond",9,.2,Vector3.new(-23,1.12,-18),C.blue);pond.CanCollide=false
@@ -73,6 +77,15 @@ function WorldBuilder:build()
   part(m,"Left",Vector3.new(.6,3,.6),gate.pos+Vector3.new(-1.4,0,0),gate.color,nil,false)
   part(m,"Right",Vector3.new(.6,3,.6),gate.pos+Vector3.new(1.4,0,0),gate.color,nil,false)
   local top=part(m,"Top",Vector3.new(3.4,.55,.6),gate.pos+Vector3.new(0,1.45,0),gate.color,nil,false)
+ end
+ local pedestal=Instance.new("Model");pedestal.Name="IslandMagicPedestal";pedestal.Parent=plaza
+ disk(pedestal,"PedestalBase",2.6,.32,Vector3.new(0,1.35,20),C.cream)
+ local post=part(pedestal,"PedestalPost",Vector3.new(1.2,1.5,1.2),Vector3.new(0,2,20),C.rock,nil,false)
+ label(post,"ISLAND MAGIC",118,30)
+ self.magicSlots={}
+ for i,color in ipairs({C.gold,C.pink,C.blue}) do
+  local slot=part(pedestal,"MagicSlot"..i,Vector3.new(.72,.72,.72),Vector3.new((i-2)*1.05,3,20),C.rock,Enum.PartType.Ball,false)
+  slot:SetAttribute("RestColor",color);slot:SetAttribute("Restored",false);self.magicSlots[i]=slot
  end
  local ambient=Instance.new("Folder");ambient.Name="AmbientFireflies";ambient.Parent=f
  for i=1,14 do
@@ -151,24 +164,35 @@ function WorldBuilder:revealMilestone(mid,index)
  if mid=="lantern-lift" then
   local pole=part(folder,"GlowPost",Vector3.new(.35,2.6,.35),pos+Vector3.new(2.2,1.1,0),C.wood,nil,false)
   glowOrb(folder,"WarmOrb",pole.Position+Vector3.new(0,1.55,0),C.gold,.7)
-  for j=1,3 do glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22) end
+  for j=1,3 do
+   local firefly=glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22)
+   firefly:SetAttribute("AmbientFloat",true);firefly:SetAttribute("FloatBaseY",firefly.Position.Y);firefly:SetAttribute("FloatPhase",j*.81+index)
+  end
  elseif mid=="ribbon-studio" then
   part(folder,"RibbonPostL",Vector3.new(.28,2.5,.28),pos+Vector3.new(-1.4,1,1.4),C.wood,nil,false)
   part(folder,"RibbonPostR",Vector3.new(.28,2.5,.28),pos+Vector3.new(1.4,1,1.4),C.wood,nil,false)
   local ribbon=part(folder,"Ribbon",Vector3.new(3.1,.36,.18),pos+Vector3.new(0,2.15,1.4),index%2==0 and C.blue or C.pink,nil,false)
-  glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+  local spark=glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+  spark:SetAttribute("AmbientFloat",true);spark:SetAttribute("FloatBaseY",spark.Position.Y);spark:SetAttribute("FloatPhase",index*.9)
  elseif mid=="moon-picnic" then
   local pad=disk(folder,"MoonPad",1.4,.12,pos+Vector3.new(1.8,-1.68,1.2),index%2==0 and C.mint or C.blue);pad.CanCollide=false
   local stem=part(folder,"MoonStem",Vector3.new(.28,1.1,.28),pos+Vector3.new(-1.7,-.8,1),C.cream,nil,false)
-  glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+  local bloom=glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+  bloom:SetAttribute("AmbientFloat",true);bloom:SetAttribute("FloatBaseY",bloom.Position.Y);bloom:SetAttribute("FloatPhase",index*.67)
  end
  folder:SetAttribute("Revealed",true)
 end
 function WorldBuilder:activateTrailGate(mid)
  if not self.plaza then return end
  local names={["lantern-lift"]="GoldenTrail",["ribbon-studio"]="RibbonTrail",["moon-picnic"]="MoonTrail"}
+ local slotIndex={["lantern-lift"]=1,["ribbon-studio"]=2,["moon-picnic"]=3}
  local gate=self.plaza:FindFirstChild(names[mid] or "");if not gate or gate:GetAttribute("Restored") then return end
  gate:SetAttribute("Restored",true)
+ local slot=self.magicSlots and self.magicSlots[slotIndex[mid]]
+ if slot and not slot:GetAttribute("Restored") then
+  slot:SetAttribute("Restored",true);slot.Color=slot:GetAttribute("RestColor");slot.Material=Enum.Material.Neon
+  local light=Instance.new("PointLight");light.Name="MagicSlotGlow";light.Brightness=.55;light.Range=8;light.Color=slot.Color;light.Parent=slot
+ end
  for _,p in ipairs(gate:GetChildren())do if p:IsA("BasePart")then p.Material=Enum.Material.Neon end end
  local top=gate:FindFirstChild("Top")
  if top then
