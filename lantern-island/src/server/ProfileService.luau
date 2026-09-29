@@ -6,7 +6,8 @@ local ProfileService={}
 ProfileService.__index=ProfileService
 function ProfileService.new(context)
  local self=setmetatable({context=context,profiles={},studioPersist={},status={},saving={},revisions={}},ProfileService)
- self.store=DataStoreService:GetDataStore(context.dataStoreNamespace.."_profiles")
+ -- Studio uses the session-only adapter; a local unpublished place cannot request a cloud DataStore handle.
+ if not RunService:IsStudio() then self.store=DataStoreService:GetDataStore(context.dataStoreNamespace.."_profiles") end
  return self
 end
 function ProfileService:load(player)
@@ -42,7 +43,7 @@ function ProfileService:save(player)
  local ok=pcall(function()
   self.store:UpdateAsync("u:"..player.UserId,function(old)
    matched=false;local revision=type(old)=="table" and (old.revision or 0) or 0
-   if revision~=expected then return nil end -- Never clobber a newer session.
+   if revision~=expected then return nil end
    matched=true;return snapshot
   end)
  end)
