@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "productionSourceCommit": "95eb213339a775e340816e9f75eaee149860b988",
+  "sourceFingerprint": "378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332",
+  "sourceHashes": {
+    "default.project.json": "f4ded9b284ac791ba12441d954ddf93e21229433dbbca104f05af0fc2e37b6bc",
+    "src/client/FeedbackController.luau": "7c1e648dd01a30ba88db992e559f95b9a055a14b5272a427e354f3439f5cda9d",
+    "src/client/InteractionController.luau": "8299363f0c38e2da9772fadfdbc25293b509c91930b2320ce47ac49e9ce96799",
+    "src/client/Main.client.luau": "6df33c04d6e285f3ceee1617e10f79f614414dc545af520cadf4f0434060deb3",
+    "src/client/RewardJourney.luau": "51b95bc9fe1fd4131719cf479db980f7fa783d8376caa18320985790b35cec27",
+    "src/client/RewardView.luau": "144a6a6f9bcccde1a3cec9f08e6b1da28eb427e06bf570a5990efd5151ccfa01",
+    "src/client/UIController.luau": "af257b8e331f22d94aa6060647d45c52a03491b084d80df21ce7943644136070",
+    "src/client/UIModel.luau": "495d86fc7186c513132dcd0320bc62b71cbc1baf3148d5a2d8bd28e5487becba",
+    "src/server/LessonService.luau": "a083f071e8a4ae47049d5be175fe5154d61b7cdef35763ebacf25fcc62614944",
+    "src/server/Main.server.luau": "87e2994640f6e5a7f7bd24d548d71c5a0f74657601b91eee37b60a0ccddb584a",
+    "src/server/MissionService.luau": "fde0499ad88d4aa175b19a118926a224d54b709d2174315ca2a6712029d06613",
+    "src/server/ProfileData.luau": "5e20455c34c9b8190b5c496812e0ed193774f8e1c4401e0528f68283ef739a34",
+    "src/server/ProfileService.luau": "e70c28201e53106aecb7e1b5fe0736f0c79c4303f2d5dd95d529fb18eca57bff",
+    "src/server/RewardService.luau": "7dd22b44ca324869e7aa5fc90abd5e8b93a5e56adc69d99cf00d46c119c2bec1",
+    "src/server/TargetPolicy.luau": "3019f5c1801d44f14a0e3009ed44e282bb159a0e0721ffb696727f4f19b94998",
+    "src/server/WorldBuilder.luau": "e077dd11dc32ef0178f25a2e6ac8872dd0870f68dcd2377ed243af5aee2e4268",
+    "src/shared/Protocol.luau": "0a26fa130c92b38fc1fbc1117053dec45a3da48dee6ff8614b8c01480d9574aa",
+    "tests/answer_layout.spec.luau": "7a643a855db2f5ee2c5ae99a767439885ecc23d2234fe9479161e3b6b81b5d4b",
+    "tests/mission_reward.spec.luau": "90ca3d9d859806f3cae847c284af040e62515dc1a29f864db5630b4722dbd4aa",
+    "tests/profile_persistence.spec.luau": "1c8c454204fe9f588d3d6e9ec0be1284f44388cc1160d7739dc6bf6ae89f18ea",
+    "tests/reward_journey.spec.luau": "d9315c0671624c3ab1a8ff4e6e36106d65adf38dff7e91da3f891f6b4f521374",
+    "tests/runtime_protocol.spec.luau": "98ca28ca4e29daf68a16e3bbffeca8a08106a868b35b485e2cf5e4e10c07a266",
+    "tools/build.mjs": "ad06e636f2b583750be134e31b52f733fae835a1bdf4fc639dff3e15d4b63932",
+    "tools/test-profile.mjs": "94d74b410eac4dcce4a838d23a593198074ee433eb24bd3139e08074e8c6e60f"
+  },
+  "appendTrailingLf": [
+    "src/client/UIModel.luau",
+    "src/server/Main.server.luau",
+    "src/server/TargetPolicy.luau"
+  ],
+  "artifact": {
+    "path": "dist/LanternIsland-Adventures.rbxlx",
+    "sha256": "1b3032a38c69293f1347430a4342dd100efddbaf3c9ae9e3614b86e8c154bb0d",
+    "bytes": 126395
+  },
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "channel": "private-staging"
+  }
+}
