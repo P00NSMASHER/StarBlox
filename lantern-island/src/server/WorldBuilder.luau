@@ -103,9 +103,14 @@ function WorldBuilder:build()
   local angle=i*.72;local rock=part(pondRocks,"ShoreRock"..i,Vector3.new(1.5+(i%3)*.35,.7+(i%2)*.3,1.2+(i%4)*.2),Vector3.new(-23+math.cos(angle)*10.2,1.45,-18+math.sin(angle)*10.2),C.rock,Enum.PartType.Ball,false)
   rock.Material=Enum.Material.Slate;rock.Orientation=Vector3.new((i*13)%24,(i*37)%180,(i*7)%18)
  end
- for _,station in pairs(STATIONS) do for i=1,9 do
+ for mid,station in pairs(STATIONS) do for i=1,9 do
   local position=Vector3.new(0,1.15,14):Lerp(Vector3.new(station.pos.X,1.15,station.pos.Z),i/10)
-  local stone=disk(f,"PathStone",1.4,.2,position,C.path);stone.Material=Enum.Material.Sandstone
+  local stoneColor=C.path:Lerp(station.color,.22)
+  local stone=disk(f,mid.."-trail-stone-"..i,1.4,.2,position,stoneColor);stone.Material=Enum.Material.Sandstone
+  if i%3==0 then
+   local guide=glowOrb(f,mid.."-trail-guide-"..i,position+Vector3.new(0,.75,0),station.color,.18)
+   guide:SetAttribute("AmbientFloat",true);guide:SetAttribute("FloatBaseY",guide.Position.Y);guide:SetAttribute("FloatPhase",i*.43)
+  end
  end end
  for i=1,10 do
   local angle=i*math.pi/5;local x,z=math.cos(angle)*35,math.sin(angle)*35
