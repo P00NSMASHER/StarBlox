@@ -98,7 +98,7 @@ local function mountControllers()
     end
     local created = {}
     local ok = pcall(function()
-        for _, name in ipairs({ "UIController", "InteractionController", "SpellingController", "ReadingController", "FeedbackController" }) do
+        for _, name in ipairs({ "UIController", "InteractionController", "SpellingController", "ReadingController", "SessionCollectiblesController", "FeedbackController" }) do
             local found = script.Parent:FindFirstChild(name)
             if found and found:IsA("ModuleScript") then
                 local definition = require(found)
