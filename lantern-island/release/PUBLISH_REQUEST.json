@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "requestId": "lantern-private-staging-v2-bootstrap-20260929",
+  "releaseId": "lantern-island-private-staging-20260929-v2",
+  "artifactSha256": "5beee39e9ac2cb0acb44cd9482470eec67056290acd7b304b5d731595925a183",
+  "sourceFingerprint": "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f",
+  "productionSourceCommit": "1f562a85bb54cf338fae60bf4e75533878f6cc70",
+  "target": {"universeId":"6027194615","placeId":"17602626136","channel":"private-staging"},
+  "authority": {"visibilityChange":false,"publicAccessChange":false,"newPlaceVersionOnly":true}
+}
