@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "status": "published-private-staging-server-verified",
+  "releaseId": "lantern-island-private-staging-20260929-v2",
+  "productionSourceCommit": "1f562a85bb54cf338fae60bf4e75533878f6cc70",
+  "sourceFingerprint": "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f",
+  "artifact": {
+    "path": "lantern-island/release/LanternIsland-Adventures.rbxlx",
+    "sha256": "5beee39e9ac2cb0acb44cd9482470eec67056290acd7b304b5d731595925a183",
+    "bytes": 127409
+  },
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "channel": "private-staging",
+    "visibilityChanged": false,
+    "publicAccessChanged": false
+  },
+  "publishedVersion": 128,
+  "verification": {
+    "scope": "headless-production-server-boot-via-packaged-Bootstrap.start",
+    "state": "COMPLETE",
+    "taskPath": "universes/6027194615/places/17602626136/versions/128/luau-execution-sessions/4a3f1abc-02f1-4711-9643-f90851c1b016/tasks/4a3f1abc-02f1-4711-9643-f90851c1b016",
+    "workflowRunId": 36616621807
+  },
+  "clientProof": {
+    "nativeGameplayChecks": 114,
+    "smallScreenInputChecks": 127,
+    "physicalPhoneTouch": false
+  },
+  "rollback": {
+    "mechanism": "Roblox place version history",
+    "automaticRollbackAttempted": false
+  }
+}
