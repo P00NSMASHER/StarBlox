@@ -18,7 +18,7 @@ try{
  verify(project.tree);
  const sources=walk(path.join(root,'src')).filter(f=>/\.lua(u)?$/.test(f));
  const tests=walk(path.join(root,'tests')).filter(f=>/\.spec\.luau$/.test(f));
- const files=[projectFile,...sources,...tests,path.join(root,'tools/build.mjs')];
+ const files=[projectFile,...sources,...tests,path.join(root,'tools/build.mjs'),path.join(root,'tools/test-profile.mjs')];
  const hashes=Object.fromEntries(files.map(f=>[path.relative(root,f).replaceAll('\\','/'),sha(fs.readFileSync(f))]));
  const sourceFingerprint=sha(JSON.stringify(hashes));
  run(commands.compile,['--null',...sources,...tests]);
@@ -30,6 +30,9 @@ try{
  if(!layoutMatch)throw Error('Answer-layout regression suite did not complete');
  const p=protocol.match(/RESULT (\d+) protocol behavior tests passed/);const m=gameplay.match(/RESULT (\d+) mission\/reward behavior tests passed/);
  if(!p||!m)throw Error('A required test suite did not report completion');
+ const persistence=run(process.execPath,['tools/test-profile.mjs','--luau',commands.luau]);
+ const persistenceMatch=persistence.match(/RESULT (\d+) profile persistence tests passed; 0 failed/);
+ if(!persistenceMatch)throw Error('Profile persistence regression suite did not complete');
  const rojoVersion=run(commands.rojo,['--version']).trim();
  project.tree.ServerScriptService.LanternIslandServer.BuildIdentity.$properties.Value=sourceFingerprint;
  const generated=path.join(root,'.adventure-build.project.json');const dist=path.join(root,'dist');fs.mkdirSync(dist,{recursive:true});fs.writeFileSync(generated,JSON.stringify(project,null,2));
@@ -38,10 +41,10 @@ try{
  const bytes=fs.readFileSync(artifact);if(!bytes.toString('utf8',0,100).includes('<roblox'))throw Error('Not a Roblox XML package');
  const receipt={schemaVersion:2,status:'OFFLINE_TESTED_CANDIDATE',sourceCommit:arg('--source-commit',null),builtAt:new Date().toISOString(),sourceFingerprint,sourceHashes:hashes,
  artifact:path.basename(artifact),artifactSha256:sha(bytes),artifactBytes:bytes.length,toolchain:{rojo:rojoVersion,luau:'0.740'},
- checks:{productionFilesCompiled:sources.length,testFilesCompiled:tests.length,protocolBehaviorTests:Number(p[1]),missionRewardAndUIModelTests:Number(m[1]),answerLayoutTests:Number(layoutMatch[1]),protocolStrictTypecheck:'PASS',repeatArtifactHashMatched:true},
+ checks:{productionFilesCompiled:sources.length,testFilesCompiled:tests.length,protocolBehaviorTests:Number(p[1]),missionRewardAndUIModelTests:Number(m[1]),answerLayoutTests:Number(layoutMatch[1]),profilePersistenceTests:Number(persistenceMatch[1]),protocolStrictTypecheck:'PASS',repeatArtifactHashMatched:true},
  scope:'Actual pure production modules executed with fake world/save adapters; package compilation is not client proof.',
  nativeRobloxEngineExecution:'NOT_RUN_BY_THIS_SCRIPT',physicalDeviceInput:'NOT_RUN',realDataStoreLeaveRejoin:'NOT_RUN',schoolworkIntegration:'ORIGINAL_SAMPLE_ONLY',publishedTarget:null};
  fs.writeFileSync(path.join(dist,'offline-receipt.json'),JSON.stringify(receipt,null,2)+'\n');
- fs.writeFileSync(path.join(dist,'offline-test-output.txt'),protocol+'\n'+gameplay+'\n'+answerLayout);
+ fs.writeFileSync(path.join(dist,'offline-test-output.txt'),protocol+'\n'+gameplay+'\n'+answerLayout+'\n'+persistence);
  console.log(JSON.stringify(receipt,null,2));
 }catch(e){console.error(`BUILD FAILED: ${e.message}`);process.exitCode=1;}
