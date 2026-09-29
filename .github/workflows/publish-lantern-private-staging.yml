@@ -20,11 +20,11 @@ jobs:
       ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
       EXPECTED_UNIVERSE_ID: "6027194615"
       EXPECTED_PLACE_ID: "17602626136"
-      EXPECTED_ARTIFACT_SHA256: "1b3032a38c69293f1347430a4342dd100efddbaf3c9ae9e3614b86e8c154bb0d"
-      EXPECTED_ARTIFACT_BYTES: "126395"
-      EXPECTED_BUILD_FINGERPRINT: "378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332"
-      EXPECTED_PRODUCTION_SOURCE: "95eb213339a775e340816e9f75eaee149860b988"
-      RELEASE_ID: "lantern-island-private-staging-20260929-v1"
+      EXPECTED_ARTIFACT_SHA256: "5beee39e9ac2cb0acb44cd9482470eec67056290acd7b304b5d731595925a183"
+      EXPECTED_ARTIFACT_BYTES: "127409"
+      EXPECTED_BUILD_FINGERPRINT: "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f"
+      EXPECTED_PRODUCTION_SOURCE: "1f562a85bb54cf338fae60bf4e75533878f6cc70"
+      RELEASE_ID: "lantern-island-private-staging-20260929-v2"
       ARTIFACT_PATH: "lantern-island/release/LanternIsland-Adventures.rbxlx"
 
     steps:
@@ -167,7 +167,11 @@ jobs:
             'local root=SS:WaitForChild("LanternIslandServer",15)',
             'assert(root:WaitForChild("BuildIdentity",5).Value=="'+process.env.EXPECTED_BUILD_FINGERPRINT+'","build identity mismatch")',
             'assert(root:FindFirstChild("TargetPolicy")~=nil,"TargetPolicy missing")',
+            'local bootstrap=root:WaitForChild("Bootstrap",5)',
+            'local okBoot,bootResult=xpcall(function() return require(bootstrap).start() end,function(err) return debug.traceback(tostring(err),2) end)',
+            'assert(okBoot,"explicit Bootstrap.start failed: "..tostring(bootResult))',
             'local remotes=RS:WaitForChild("LanternIslandRemotes",15)',
+            'assert(remotes~=nil,"LanternIslandRemotes missing after explicit Bootstrap.start")',
             'assert(remotes:GetAttribute("RuntimeStatus")=="READY","runtime not READY: "..tostring(remotes:GetAttribute("RuntimeStatus")))',
             'assert(RS:FindFirstChild("LanternIslandShared")~=nil,"shared runtime missing")',
             'assert(SP:WaitForChild("StarterPlayerScripts"):FindFirstChild("LanternIslandClient")~=nil,"client runtime missing")',
