@@ -56,6 +56,7 @@ function FeedbackController:mount(_playerGui)
  Lighting.ExposureCompensation=-.25
  self.bloom=Instance.new("BloomEffect");self.bloom.Name="LanternClientBloom";self.bloom.Intensity=.08;self.bloom.Size=14;self.bloom.Threshold=1.85;self.bloom.Parent=Lighting
  self.color=Instance.new("ColorCorrectionEffect");self.color.Name="LanternClientColor";self.color.Saturation=.06;self.color.Contrast=.025;self.color.Brightness=.01;self.color.Parent=Lighting
+ self.sun=Instance.new("SunRaysEffect");self.sun.Name="LanternClientSun";self.sun.Intensity=.03;self.sun.Spread=.7;self.sun.Parent=Lighting
  local reduced=false;pcall(function() reduced=GuiService.ReducedMotionEnabled==true end)
  if not reduced then
   table.insert(self.connections,RunService.RenderStepped:Connect(function()
@@ -89,7 +90,7 @@ end
 function FeedbackController:destroy()
  self.destroyed=true
  for _,c in ipairs(self.connections) do c:Disconnect() end
- if self.bloom then self.bloom:Destroy() end;if self.color then self.color:Destroy() end
+ if self.bloom then self.bloom:Destroy() end;if self.color then self.color:Destroy() end;if self.sun then self.sun:Destroy() end
  if self.previousExposure~=nil and Lighting.ExposureCompensation==-.25 then Lighting.ExposureCompensation=self.previousExposure end
 end
 return FeedbackController

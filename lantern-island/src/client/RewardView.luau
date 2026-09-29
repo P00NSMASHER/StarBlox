@@ -36,7 +36,10 @@ function View:_state(state)
  if last.kind=="collection" then self:celebrate("The whole collection is yours!\nPip's Starlight Trail is unlocked.",true)
  elseif last.kind=="unlock" then
   local item=Journey.item(last.itemId);self:celebrate(item.title.." unlocked!\n"..item.message,true)
- elseif last.kind=="checkpoint" then self:celebrate("Another glow brought back!\n"..last.solved.." of 4 clues solved.",false) end
+ elseif last.kind=="checkpoint" then
+  local messages={["firefly-scarf"]="The hill glows brighter!",["rainbow-bow"]="The ribbon studio is coming alive!",["moon-crown"]="The picnic trail is waking up!"}
+  self:celebrate((messages[last.itemId] or "The island changed!").."\n"..last.solved.." of 4 clues restored.",false)
+ end
 end
 function View:updateProgress(state)
  local progress=Journey.progress(state.mission,state.profile)
@@ -99,7 +102,9 @@ function View:decorate(ui)
   local t=ui:_addText("CollectionProgress",collection.count.." / 3 outfits in your collection",18);t.LayoutOrder=-6;t.Font=Enum.Font.GothamBold
   ui:_addText("CollectionBonus",collection.bonusUnlocked and "BONUS UNLOCKED: Starlight Trail\nPip's trail comes with the whole collection. No extra coins or purchases." or "Your collection bonus: Pip's Starlight Trail.\nEarn all three outfits. Hints are always welcome and never reduce your prize.",16)
  elseif ui.mode=="map" then
-  ui:_addText("AdventureRewardGoal","Four clues, one outfit, and a brighter island.\nThree outfits unlock Pip's Starlight Trail. Take breaks whenever you like.",16)
+  local restored=collection.count.." / 3 adventures restored"
+  ui:_addText("IslandRestoration",restored,18).Font=Enum.Font.GothamBold
+  ui:_addText("AdventureRewardGoal",collection.bonusUnlocked and "The Starlight Garden is awake! Replay any trail for fresh practice questions." or "Four clues transform a trail and earn its outfit. Restore all three to wake the Starlight Garden. Take breaks whenever you like.",16)
  end
 end
 function View:destroy()

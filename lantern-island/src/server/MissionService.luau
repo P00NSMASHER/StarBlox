@@ -10,7 +10,7 @@ function MissionService:_state(player)
  p.questProgress=p.questProgress or {};p.learning=p.learning or {}
  local lesson=self.context.services.LessonService;local selected=lesson:quests()[1].id
  for _,q in ipairs(lesson:quests()) do if not p.completions[q.id] then selected=q.id;break end end
- s={selected=selected,status=p.completions[selected] and "COMPLETED" or "AVAILABLE",feedback="",practice=false};self.state[player]=s
+ s={selected=selected,status=p.completions[selected] and "COMPLETED" or "AVAILABLE",feedback="",practice=false,practiceCycles={}};self.state[player]=s
  local world=self.context.services.WorldBuilder
  for _,quest in ipairs(lesson:quests()) do
   if p.completions[quest.id] and world.restoreMission then world:restoreMission(quest.id) end
@@ -30,7 +30,7 @@ function MissionService:_save(player) return self.context.services.ProfileServic
 function MissionService:publicState(player)
  local s=self:_state(player);local p=self:_profile(player);local lesson=self.context.services.LessonService
  local quest=lesson:getQuest(s.selected);local q=self:_progress(player,s)
- local stepId=quest.steps[math.min(q.index,#quest.steps)];local activityId=s.practice and lesson:practiceActivityId(stepId) or stepId
+ local stepId=quest.steps[math.min(q.index,#quest.steps)];local activityId=s.practice and lesson:practiceActivityId(stepId,s.practiceCycles[quest.id]) or stepId
  local a=lesson:getActivity(activityId)
  local completed,independent,supported,transfer=0,0,0,0
  for _,e in pairs(p.learning) do completed+=1;if e.assisted then supported+=1 else independent+=1;if e.transfer then transfer+=1 end end end
@@ -52,7 +52,7 @@ function MissionService:handle(player,request)
   if s.selected~=quest.id then
    s.selected=quest.id;s.practice=false;s.feedback="";s.status=p.completions[quest.id] and "COMPLETED" or "AVAILABLE"
    if s.status=="COMPLETED" then return {ok=true,code="MISSION_ALREADY_COMPLETE"} end
-  elseif s.status=="COMPLETED" then s.practice=true;s.practiceProgress={index=1,attempts=0,hintLevel=0};s.status="AVAILABLE";s.feedback="" end
+  elseif s.status=="COMPLETED" then s.practice=true;s.practiceCycles[quest.id]=((s.practiceCycles[quest.id] or 0)%2)+1;s.practiceProgress={index=1,attempts=0,hintLevel=0};s.status="AVAILABLE";s.feedback="" end
   if s.status=="ACTIVE" then return {ok=true,code="MISSION_RESUMED"} end
   local world=self.context.services.WorldBuilder;local progress=self:_progress(player,s)
   if world.isNearMission and not world:isNearMission(player,quest.id,progress.index) then
@@ -66,7 +66,7 @@ function MissionService:handle(player,request)
   local saved=self:_save(player);return {ok=true,code=saved and "MISSION_PAUSED" or "PROGRESS_SAVE_PENDING"}
  end
  if s.status~="ACTIVE" then return {ok=false,code="MISSION_NOT_ACTIVE"} end
- local q=self:_progress(player,s);local stepId=quest.steps[q.index];local activityId=s.practice and lesson:practiceActivityId(stepId) or stepId;local a=lesson:getActivity(activityId)
+ local q=self:_progress(player,s);local stepId=quest.steps[q.index];local activityId=s.practice and lesson:practiceActivityId(stepId,s.practiceCycles[quest.id]) or stepId;local a=lesson:getActivity(activityId)
  if not a then return {ok=false,code="CONTENT_UNAVAILABLE"} end
  if request.action=="RequestHint" then
   q.hintLevel=math.min(3,q.hintLevel+1);self:_save(player);return {ok=true,code="HINT_READY"}

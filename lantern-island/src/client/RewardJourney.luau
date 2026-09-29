@@ -48,7 +48,7 @@ function Journey.newObserver()
   end
   if collection.bonusUnlocked and not bonusSeen then bonusSeen=true;table.insert(events,{kind="collection",count=3}) end
   if clues>mostClues and #events==0 and not state.mission.practice then
-   table.insert(events,{kind="checkpoint",solved=Journey.progress(state.mission,state.profile).solved})
+   table.insert(events,{kind="checkpoint",solved=Journey.progress(state.mission,state.profile).solved,itemId=state.mission.rewardItemId,missionId=state.mission.missionId})
   end
   mostClues=math.max(mostClues,clues)
   return events

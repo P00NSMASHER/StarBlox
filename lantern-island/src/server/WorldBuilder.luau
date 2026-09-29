@@ -9,6 +9,7 @@ local STATIONS={
  ["ribbon-studio"]={name="RibbonConsole",pos=Vector3.new(23,3,6),color=C.pink,label="PIP'S RIBBON STUDIO",points={Vector3.new(23,3,6),Vector3.new(29,3,0),Vector3.new(24,3,-9),Vector3.new(17,3,-2)}},
  ["moon-picnic"]={name="PicnicConsole",pos=Vector3.new(-23,3,-6),color=C.blue,label="THE MISSING PICNIC",points={Vector3.new(-23,3,-6),Vector3.new(-30,3,-14),Vector3.new(-18,3,-27),Vector3.new(-16,3,4)}},
 }
+local PET_LINES={"Purrfect!","Let's find another glow!","Adventure buddies!","I saw something sparkle!","You found me!"}
 local function part(parent,name,size,position,color,shape,collide)
  local p=Instance.new("Part");p.Name=name;p.Anchored=true;p.CanCollide=collide~=false;p.Size=size;p.Position=position;p.Color=color;p.Material=Enum.Material.SmoothPlastic
  p.TopSurface=Enum.SurfaceType.Smooth;p.BottomSurface=Enum.SurfaceType.Smooth;if shape then p.Shape=shape end;p.Parent=parent;return p
@@ -49,20 +50,27 @@ local function makePip()
  for _,x in ipairs({-.38,.38}) do part(pip,"rainbow-bow",Vector3.new(.85,.65,.35),Vector3.new(x,1.2,-.65),x<0 and C.pink or C.blue,Enum.PartType.Ball,false).Transparency=1 end
  for i=-1,1 do local p=part(pip,"moon-crown",Vector3.new(.36,.68-math.abs(i)*.18,.4),Vector3.new(i*.45,1.4,-.15),C.gold,nil,false);p.Orientation=Vector3.new(0,0,i*12);p.Transparency=1 end
  local pet=Instance.new("ProximityPrompt");pet.Name="PetPip";pet.ActionText="Pet Pip";pet.ObjectText="Your adventure pal";pet.HoldDuration=0;pet.MaxActivationDistance=8;pet.RequiresLineOfSight=false;pet.KeyboardKeyCode=Enum.KeyCode.F;pet.Parent=body
+ local speech=Instance.new("BillboardGui");speech.Name="PipSpeech";speech.Size=UDim2.fromOffset(170,46);speech.StudsOffset=Vector3.new(0,3.1,0);speech.AlwaysOnTop=false;speech.MaxDistance=12;speech.Enabled=false;speech.Parent=body
+ local bubble=Instance.new("TextLabel");bubble.Name="BubbleText";bubble.Size=UDim2.fromScale(1,1);bubble.BackgroundColor3=Color3.fromRGB(255,250,244);bubble.BackgroundTransparency=.08;bubble.TextColor3=Color3.fromRGB(43,53,78);bubble.TextWrapped=true;bubble.Font=Enum.Font.GothamBold;bubble.TextSize=14;bubble.Text="";bubble.Parent=speech;Instance.new("UICorner",bubble).CornerRadius=UDim.new(0,13)
  label(body,"Pip",65,25);return pip
 end
-function WorldBuilder.new(context) return setmetatable({context=context,restored={},companions={},stations={},petTimes={}},WorldBuilder) end
+function WorldBuilder.new(context) return setmetatable({context=context,restored={},companions={},stations={},petTimes={},petCounts={}},WorldBuilder) end
 function WorldBuilder:build()
  local old=workspace:FindFirstChild("LanternIslandWorld");if old then old:Destroy() end
  local foundation=workspace:FindFirstChild("FoundationGround");if foundation then foundation.Transparency=1;foundation.CanCollide=false end
  Lighting.Brightness=2.3;Lighting.ClockTime=17.2;Lighting.Ambient=Color3.fromRGB(145,141,167);Lighting.OutdoorAmbient=Color3.fromRGB(170,171,175)
  local atmosphere=Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere");atmosphere.Density=.18;atmosphere.Color=Color3.fromRGB(229,221,242);atmosphere.Parent=Lighting
+ local terrain=workspace:FindFirstChildOfClass("Terrain")
+ if terrain then
+  local clouds=terrain:FindFirstChild("LanternClouds") or Instance.new("Clouds");clouds.Name="LanternClouds";clouds.Cover=.34;clouds.Density=.22;clouds.Color=Color3.fromRGB(247,240,255);clouds.Parent=terrain
+ end
  local f=Instance.new("Folder");f.Name="LanternIslandWorld";f.Parent=workspace;self.folder=f
- disk(f,"IslandRock",45,8,Vector3.new(0,-5,0),C.rock);disk(f,"IslandGrass",43,4,Vector3.new(0,-1,0),C.grass)
- local pond=disk(f,"Pond",9,.2,Vector3.new(-23,1.12,-18),C.blue);pond.CanCollide=false
+ local islandRock=disk(f,"IslandRock",45,8,Vector3.new(0,-5,0),C.rock);islandRock.Material=Enum.Material.Slate
+ local islandGrass=disk(f,"IslandGrass",43,4,Vector3.new(0,-1,0),C.grass);islandGrass.Material=Enum.Material.Grass
+ local pond=disk(f,"Pond",9,.2,Vector3.new(-23,1.12,-18),C.blue);pond.CanCollide=false;pond.Material=Enum.Material.Glass;pond.Transparency=.28;pond.Reflectance=.06
  local plaza=Instance.new("Folder");plaza.Name="PipsPlaza";plaza.Parent=f;self.plaza=plaza
- disk(plaza,"PlazaBase",7,.35,Vector3.new(0,1.05,14),C.cream)
- disk(plaza,"PlazaCenter",4.7,.16,Vector3.new(0,1.26,14),C.mint)
+ local plazaBase=disk(plaza,"PlazaBase",7,.35,Vector3.new(0,1.05,14),C.cream);plazaBase.Material=Enum.Material.Sandstone
+ local plazaCenter=disk(plaza,"PlazaCenter",4.7,.16,Vector3.new(0,1.26,14),C.mint);plazaCenter.Material=Enum.Material.Grass
  local compass=glowOrb(plaza,"AdventureCompass",Vector3.new(0,3.1,14),C.gold,1.25);compass:SetAttribute("AmbientFloat",true);compass:SetAttribute("FloatBaseY",3.1);compass:SetAttribute("FloatPhase",0)
  for _,gate in ipairs({
   {name="GoldenTrail",pos=Vector3.new(5.5,2,9),color=C.gold},
@@ -70,9 +78,18 @@ function WorldBuilder:build()
   {name="MoonTrail",pos=Vector3.new(-7.4,2,17.5),color=C.blue},
  }) do
   local m=Instance.new("Model");m.Name=gate.name;m.Parent=plaza
-  part(m,"Left",Vector3.new(.6,3,.6),gate.pos+Vector3.new(-1.4,0,0),gate.color,nil,false)
-  part(m,"Right",Vector3.new(.6,3,.6),gate.pos+Vector3.new(1.4,0,0),gate.color,nil,false)
-  local top=part(m,"Top",Vector3.new(3.4,.55,.6),gate.pos+Vector3.new(0,1.45,0),gate.color,nil,false)
+  local left=part(m,"Left",Vector3.new(.6,3,.6),gate.pos+Vector3.new(-1.4,0,0),gate.color,nil,false);left.Material=Enum.Material.Wood
+  local right=part(m,"Right",Vector3.new(.6,3,.6),gate.pos+Vector3.new(1.4,0,0),gate.color,nil,false);right.Material=Enum.Material.Wood
+  local top=part(m,"Top",Vector3.new(3.4,.55,.6),gate.pos+Vector3.new(0,1.45,0),gate.color,nil,false);top.Material=Enum.Material.SmoothPlastic
+ end
+ local pedestal=Instance.new("Model");pedestal.Name="IslandMagicPedestal";pedestal.Parent=plaza
+ local pedestalBase=disk(pedestal,"PedestalBase",2.6,.32,Vector3.new(0,1.35,20),C.cream);pedestalBase.Material=Enum.Material.Marble
+ local post=part(pedestal,"PedestalPost",Vector3.new(1.2,1.5,1.2),Vector3.new(0,2,20),C.rock,nil,false);post.Material=Enum.Material.Slate
+ label(post,"ISLAND MAGIC",118,30)
+ self.magicSlots={}
+ for i,color in ipairs({C.gold,C.pink,C.blue}) do
+  local slot=part(pedestal,"MagicSlot"..i,Vector3.new(.72,.72,.72),Vector3.new((i-2)*1.05,3,20),C.rock,Enum.PartType.Ball,false)
+  slot:SetAttribute("RestColor",color);slot:SetAttribute("Restored",false);self.magicSlots[i]=slot
  end
  local ambient=Instance.new("Folder");ambient.Name="AmbientFireflies";ambient.Parent=f
  for i=1,14 do
@@ -82,24 +99,36 @@ function WorldBuilder:build()
   orb:SetAttribute("AmbientFloat",true);orb:SetAttribute("FloatBaseY",y);orb:SetAttribute("FloatPhase",i*.73)
  end
  for i=1,7 do
-  local angle=i*.88;local pad=disk(f,"LilyPad"..i,1.1,.12,Vector3.new(-23+math.cos(angle)*5.3,1.25,-18+math.sin(angle)*5.3),i%2==0 and C.mint or C.grass);pad.CanCollide=false
+  local angle=i*.88;local pad=disk(f,"LilyPad"..i,1.1,.12,Vector3.new(-23+math.cos(angle)*5.3,1.25,-18+math.sin(angle)*5.3),i%2==0 and C.mint or C.grass);pad.CanCollide=false;pad.Material=Enum.Material.Grass
  end
- for _,station in pairs(STATIONS) do for i=1,9 do
+ local pondRocks=Instance.new("Folder");pondRocks.Name="PondRocks";pondRocks.Parent=f
+ for i=1,9 do
+  local angle=i*.72;local rock=part(pondRocks,"ShoreRock"..i,Vector3.new(1.5+(i%3)*.35,.7+(i%2)*.3,1.2+(i%4)*.2),Vector3.new(-23+math.cos(angle)*10.2,1.45,-18+math.sin(angle)*10.2),C.rock,Enum.PartType.Ball,false)
+  rock.Material=Enum.Material.Slate;rock.Orientation=Vector3.new((i*13)%24,(i*37)%180,(i*7)%18)
+ end
+ for mid,station in pairs(STATIONS) do for i=1,9 do
   local position=Vector3.new(0,1.15,14):Lerp(Vector3.new(station.pos.X,1.15,station.pos.Z),i/10)
-  disk(f,"PathStone",1.4,.2,position,C.path)
+  local stoneColor=C.path:Lerp(station.color,.22)
+  local stone=disk(f,mid.."-trail-stone-"..i,1.4,.2,position,stoneColor);stone.Material=Enum.Material.Sandstone
+  if i%3==0 then
+   local guide=glowOrb(f,mid.."-trail-guide-"..i,position+Vector3.new(0,.75,0),station.color,.18)
+   guide:SetAttribute("AmbientFloat",true);guide:SetAttribute("FloatBaseY",guide.Position.Y);guide:SetAttribute("FloatPhase",i*.43)
+  end
  end end
  for i=1,10 do
   local angle=i*math.pi/5;local x,z=math.cos(angle)*35,math.sin(angle)*35
-  part(f,"TreeTrunk",Vector3.new(1.3,5,1.3),Vector3.new(x,3,z),C.wood)
-  part(f,"TreeCanopy",Vector3.new(6,6,6),Vector3.new(x,7,z),i%2==0 and C.mint or C.pink,Enum.PartType.Ball)
+  local trunk=part(f,"TreeTrunk",Vector3.new(1.3,5,1.3),Vector3.new(x,3,z),C.wood);trunk.Material=Enum.Material.Wood
+  local baseColor=i%2==0 and C.mint or C.pink
+  local canopy=part(f,"TreeCanopy",Vector3.new(6,5.2,6),Vector3.new(x,7,z),baseColor,Enum.PartType.Ball);canopy.Material=Enum.Material.Grass
+  local crown=part(f,"TreeCrown",Vector3.new(4.2,3.8,4.2),Vector3.new(x+.55*math.cos(angle*2),9.1,z+.55*math.sin(angle*2)),i%2==0 and C.grass or C.cream,Enum.PartType.Ball);crown.Material=Enum.Material.Grass
  end
- for i=1,36 do local a=i*2.4;local r=12+(i%6)*4;local p=part(f,"Flower",Vector3.new(.7,.4,.7),Vector3.new(math.cos(a)*r,1.3,math.sin(a)*r),i%2==0 and C.pink or C.gold,Enum.PartType.Ball,false) end
- disk(f,"LanternHill",11,5,Vector3.new(0,2.5,-25),C.mint)
+ for i=1,36 do local a=i*2.4;local r=12+(i%6)*4;local p=part(f,"Flower",Vector3.new(.7,.4,.7),Vector3.new(math.cos(a)*r,1.3,math.sin(a)*r),i%2==0 and C.pink or C.gold,Enum.PartType.Ball,false);p.Material=Enum.Material.Neon;p.Transparency=.08 end
+ local hill=disk(f,"LanternHill",11,5,Vector3.new(0,2.5,-25),C.mint);hill.Material=Enum.Material.Grass
  -- Wide low steps are the dependable route. A completed lift also offers a ride.
- for i=1,9 do part(f,"HillStep",Vector3.new(6,.65,2.8),Vector3.new(-8,1+i*.5,-8-i*1.9),C.path) end
- local platform=part(f,"LiftPlatform",Vector3.new(7,.7,7),Vector3.new(1,1.5,-13),C.gold)
- part(f,"LanternPost",Vector3.new(.9,6,.9),Vector3.new(0,8,-25),C.wood)
- local glow=part(f,"LanternGlow",Vector3.new(3,3.5,3),Vector3.new(0,12,-25),C.rock,nil,false)
+ for i=1,9 do local step=part(f,"HillStep",Vector3.new(6,.65,2.8),Vector3.new(-8,1+i*.5,-8-i*1.9),C.path);step.Material=Enum.Material.Sandstone end
+ local platform=part(f,"LiftPlatform",Vector3.new(7,.7,7),Vector3.new(1,1.5,-13),C.gold);platform.Material=Enum.Material.Metal;platform.Reflectance=.08
+ local lanternPost=part(f,"LanternPost",Vector3.new(.9,6,.9),Vector3.new(0,8,-25),C.wood);lanternPost.Material=Enum.Material.Wood
+ local glow=part(f,"LanternGlow",Vector3.new(3,3.5,3),Vector3.new(0,12,-25),C.rock,nil,false);glow.Material=Enum.Material.Glass;glow.Transparency=.18
  local light=Instance.new("PointLight");light.Name="WarmLight";light.Enabled=false;light.Range=32;light.Brightness=3;light.Color=C.gold;light.Parent=glow
  for mid,d in pairs(STATIONS) do
   for i,pos in ipairs(d.points) do
@@ -116,8 +145,8 @@ function WorldBuilder:build()
   if p and p.completions["lantern-lift"] and root and (root.Position-platform.Position).Magnitude<=12 then player.Character:PivotTo(CFrame.new(0,8,-22)) end
  end)
  local picnic=Instance.new("Folder");picnic.Name="PicnicReward";picnic.Parent=f;self.picnic=picnic
- part(picnic,"Blanket",Vector3.new(9,.15,7),Vector3.new(-16,1.25,4),C.pink).Transparency=1
- for i=1,3 do part(picnic,"Cup",Vector3.new(.6,.8,.6),Vector3.new(-19+i*1.5,1.75,4),i%2==0 and C.blue or C.cream,nil,false).Transparency=1 end
+ local blanket=part(picnic,"Blanket",Vector3.new(9,.15,7),Vector3.new(-16,1.25,4),C.pink);blanket.Material=Enum.Material.Fabric;blanket.Transparency=1
+ for i=1,3 do local cup=part(picnic,"Cup",Vector3.new(.6,.8,.6),Vector3.new(-19+i*1.5,1.75,4),i%2==0 and C.blue or C.cream,nil,false);cup.Material=Enum.Material.Glass;cup.Transparency=1 end
  self.template=makePip()
  self.heartbeat=RunService.Heartbeat:Connect(function(dt)
   for player,pip in pairs(self.companions) do
@@ -151,22 +180,47 @@ function WorldBuilder:revealMilestone(mid,index)
  if mid=="lantern-lift" then
   local pole=part(folder,"GlowPost",Vector3.new(.35,2.6,.35),pos+Vector3.new(2.2,1.1,0),C.wood,nil,false)
   glowOrb(folder,"WarmOrb",pole.Position+Vector3.new(0,1.55,0),C.gold,.7)
-  for j=1,3 do glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22) end
+  for j=1,3 do
+   local firefly=glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22)
+   firefly:SetAttribute("AmbientFloat",true);firefly:SetAttribute("FloatBaseY",firefly.Position.Y);firefly:SetAttribute("FloatPhase",j*.81+index)
+  end
  elseif mid=="ribbon-studio" then
   part(folder,"RibbonPostL",Vector3.new(.28,2.5,.28),pos+Vector3.new(-1.4,1,1.4),C.wood,nil,false)
   part(folder,"RibbonPostR",Vector3.new(.28,2.5,.28),pos+Vector3.new(1.4,1,1.4),C.wood,nil,false)
   local ribbon=part(folder,"Ribbon",Vector3.new(3.1,.36,.18),pos+Vector3.new(0,2.15,1.4),index%2==0 and C.blue or C.pink,nil,false)
-  glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+  local spark=glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+  spark:SetAttribute("AmbientFloat",true);spark:SetAttribute("FloatBaseY",spark.Position.Y);spark:SetAttribute("FloatPhase",index*.9)
  elseif mid=="moon-picnic" then
   local pad=disk(folder,"MoonPad",1.4,.12,pos+Vector3.new(1.8,-1.68,1.2),index%2==0 and C.mint or C.blue);pad.CanCollide=false
   local stem=part(folder,"MoonStem",Vector3.new(.28,1.1,.28),pos+Vector3.new(-1.7,-.8,1),C.cream,nil,false)
-  glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+  local bloom=glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+  bloom:SetAttribute("AmbientFloat",true);bloom:SetAttribute("FloatBaseY",bloom.Position.Y);bloom:SetAttribute("FloatPhase",index*.67)
  end
  folder:SetAttribute("Revealed",true)
+end
+function WorldBuilder:activateTrailGate(mid)
+ if not self.plaza then return end
+ local names={["lantern-lift"]="GoldenTrail",["ribbon-studio"]="RibbonTrail",["moon-picnic"]="MoonTrail"}
+ local slotIndex={["lantern-lift"]=1,["ribbon-studio"]=2,["moon-picnic"]=3}
+ local gate=self.plaza:FindFirstChild(names[mid] or "");if not gate or gate:GetAttribute("Restored") then return end
+ gate:SetAttribute("Restored",true)
+ local slot=self.magicSlots and self.magicSlots[slotIndex[mid]]
+ if slot and not slot:GetAttribute("Restored") then
+  slot:SetAttribute("Restored",true);slot.Color=slot:GetAttribute("RestColor");slot.Material=Enum.Material.Neon
+  local light=Instance.new("PointLight");light.Name="MagicSlotGlow";light.Brightness=.55;light.Range=8;light.Color=slot.Color;light.Parent=slot
+ end
+ for _,p in ipairs(gate:GetChildren())do if p:IsA("BasePart")then p.Material=Enum.Material.Neon end end
+ local top=gate:FindFirstChild("Top")
+ if top then
+  local light=Instance.new("PointLight");light.Name="RestoredGlow";light.Brightness=.65;light.Range=10;light.Color=top.Color;light.Parent=top
+  local star=glowOrb(gate,"RestoredStar",top.Position+Vector3.new(0,1.15,0),top.Color,.48)
+  star:SetAttribute("AmbientFloat",true);star:SetAttribute("FloatBaseY",star.Position.Y);star:SetAttribute("FloatPhase",#mid)
+ end
 end
 function WorldBuilder:restoreMission(mid)
  if self.restored[mid] or not self.folder then return end;self.restored[mid]=true
  for i=1,4 do self:onCheckpoint(nil,mid,i) end
+ self:activateTrailGate(mid)
  if mid=="lantern-lift" then local glow=self.folder:FindFirstChild("LanternGlow");glow.Color=C.gold;glow.Material=Enum.Material.Neon;glow.WarmLight.Enabled=true;self.ride.Enabled=true
  elseif mid=="ribbon-studio" then for i=1,5 do local flag=part(self.folder,"FestivalRibbon",Vector3.new(.2,2.4,1.3),Vector3.new(25,6,1+i*2),i%2==0 and C.pink or C.blue,nil,false);flag.Orientation=Vector3.new(0,0,-25) end
  elseif mid=="moon-picnic" then for _,p in ipairs(self.picnic:GetChildren()) do p.Transparency=0 end end
@@ -181,7 +235,14 @@ function WorldBuilder:setEquipped(player,itemId)
   pip:PivotTo(CFrame.new(root and root.Position+Vector3.new(3,0,0) or Vector3.new(3,3,14)));self.companions[player]=pip
   pip.Body.PetPip.Triggered:Connect(function(visitor)
    local r=visitor.Character and visitor.Character:FindFirstChild("HumanoidRootPart")
-   if visitor==player and r and (r.Position-pip:GetPivot().Position).Magnitude<=10 then self.petTimes[player]=os.clock()+2 end
+   if visitor==player and r and (r.Position-pip:GetPivot().Position).Magnitude<=10 then
+    self.petTimes[player]=os.clock()+2;self.petCounts[player]=(self.petCounts[player] or 0)+1
+    local speech=pip.Body:FindFirstChild("PipSpeech");local bubble=speech and speech:FindFirstChild("BubbleText")
+    if speech and bubble then
+     local serial=(speech:GetAttribute("Serial") or 0)+1;speech:SetAttribute("Serial",serial);bubble.Text=PET_LINES[((self.petCounts[player]-1)%#PET_LINES)+1];speech.Enabled=true
+     task.delay(2.1,function() if speech.Parent and speech:GetAttribute("Serial")==serial then speech.Enabled=false end end)
+    end
+   end
   end)
  end
  for _,p in ipairs(pip:GetChildren()) do if p:IsA("BasePart") and (p.Name=="firefly-scarf" or p.Name=="rainbow-bow" or p.Name=="moon-crown") then p.Transparency=p.Name==itemId and 0 or 1 end end
@@ -223,6 +284,6 @@ function WorldBuilder:celebrateReward(player,_itemId)
  self.petTimes[player]=os.clock()+1.8
 end
 function WorldBuilder:removePlayer(player)
- local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil
+ local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil;self.petCounts[player]=nil
 end
 return WorldBuilder

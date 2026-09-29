@@ -133,4 +133,11 @@ check("practice replay uses fresh questions without new rewards or learning cred
  for i=1,4 do local answer=f:answer(true);assert(answer.ok);if i<4 then assert(f:act("StartMission","lantern-lift").ok)end end
  assert(f.profiles[f.player].currency==25 and #f.profiles[f.player].ownedItemIds==1 and f:state().completedCount==4)
 end)
-print("RESULT "..passed.." mission/reward behavior tests passed; Roblox client NOT exercised")
+check("second replay rotates to another fresh deck without extra reward",function()
+ local f=fixture();f:complete("lantern-lift")
+ assert(f:act("StartMission","lantern-lift").ok)
+ for i=1,4 do assert(f:answer(true).ok);if i<4 then assert(f:act("StartMission","lantern-lift").ok) end end
+ assert(f:act("StartMission","lantern-lift").ok)
+ local second=f:state();assert(second.practice and second.activityId=="liftq-1" and second.prompt:find("18",1,true))
+ assert(f.profiles[f.player].currency==25 and #f.profiles[f.player].ownedItemIds==1 and second.completedCount==4)
+end)print("RESULT "..passed.." mission/reward behavior tests passed; Roblox client NOT exercised")
