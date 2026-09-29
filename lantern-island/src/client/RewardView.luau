@@ -36,7 +36,10 @@ function View:_state(state)
  if last.kind=="collection" then self:celebrate("The whole collection is yours!\nPip's Starlight Trail is unlocked.",true)
  elseif last.kind=="unlock" then
   local item=Journey.item(last.itemId);self:celebrate(item.title.." unlocked!\n"..item.message,true)
- elseif last.kind=="checkpoint" then self:celebrate("Another glow brought back!\n"..last.solved.." of 4 clues solved.",false) end
+ elseif last.kind=="checkpoint" then
+  local messages={["firefly-scarf"]="The hill glows brighter!",["rainbow-bow"]="The ribbon studio is coming alive!",["moon-crown"]="The picnic trail is waking up!"}
+  self:celebrate((messages[last.itemId] or "The island changed!").."\n"..last.solved.." of 4 clues restored.",false)
+ end
 end
 function View:updateProgress(state)
  local progress=Journey.progress(state.mission,state.profile)
