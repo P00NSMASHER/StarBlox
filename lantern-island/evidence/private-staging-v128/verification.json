@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "status": "PRIVATE_STAGING_VERIFIED",
+  "roblox": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "publishedVersion": 128,
+    "visibilityChanged": false,
+    "publicAccessChanged": false
+  },
+  "release": {
+    "releaseId": "lantern-island-private-staging-20260929-v2",
+    "productionSourceCommit": "1f562a85bb54cf338fae60bf4e75533878f6cc70",
+    "sourceFingerprint": "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f",
+    "artifactSha256": "5beee39e9ac2cb0acb44cd9482470eec67056290acd7b304b5d731595925a183",
+    "artifactBytes": 127409
+  },
+  "verification": {
+    "guardedPublishRun": 36616621807,
+    "serverBoot": {
+      "status": "PASS",
+      "publishedVersion": 128,
+      "scope": "headless production server boot using packaged Bootstrap entrypoint"
+    },
+    "clientAndGameplay": {
+      "nativeGameplayChecks": 114,
+      "smallScreenInputChecks": 127,
+      "smallScreenViewport": [810, 410],
+      "guiActivatedEvents": 61,
+      "walkingSegments": 21,
+      "note": "Client/input proof was established on the immediately preceding mobile-tested source. The v2 production change only extracted the identical server bootstrap into a reusable module; the published v2 server bootstrap was separately production-verified."
+    },
+    "cloudPersistence": {
+      "status": "PASS",
+      "run": 36619278913,
+      "scope": "production namespace save-unload-reload-concurrency-cleanup",
+      "productionNamespace": "LanternIsland_DEV_v1_profiles",
+      "roundtrips": 2,
+      "finalSyntheticState": {
+        "currency": 75,
+        "outfits": 3
+      },
+      "staleConcurrentWriterRejected": true,
+      "syntheticKeysCleaned": true
+    }
+  },
+  "remainingLimits": {
+    "physicalPhoneTouch": "NOT_RUN",
+    "realHumanJoinFromRobloxClient": "NOT_RUN_ON_THIS_PC",
+    "childPlaytest": "NOT_RUN",
+    "publicRelease": false
+  }
+}
