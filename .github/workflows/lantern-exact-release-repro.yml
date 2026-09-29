@@ -1,0 +1,57 @@
+name: Lantern Exact Release Reproduction
+
+on:
+  push:
+    branches: [lantern-private-staging-release-20260929]
+    paths:
+      - ".github/workflows/lantern-exact-release-repro.yml"
+      - "scripts/build-lantern-tested-artifact.mjs"
+      - "lantern-island/release/tested-release-manifest.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lantern-exact-release-repro
+  cancel-in-progress: true
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Prove production source did not drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 95eb213339a775e340816e9f75eaee149860b988 --             lantern-island/default.project.json             lantern-island/src             lantern-island/tests             lantern-island/tools/build.mjs             lantern-island/tools/test-profile.mjs
+
+      - name: Install exact Rojo toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo install rojo --version 7.7.0 --locked
+          rojo --version
+
+      - name: Reproduce exact tested Lantern artifact
+        run: node scripts/build-lantern-tested-artifact.mjs
+
+      - name: Upload exact reproduction evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: lantern-exact-release-repro
+          path: |
+            lantern-island/dist/LanternIsland-Adventures.rbxlx
+            lantern-island/dist/ci-repro-receipt.json
+          if-no-files-found: error
+          retention-days: 30
