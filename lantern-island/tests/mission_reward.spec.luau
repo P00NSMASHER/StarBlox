@@ -7,6 +7,7 @@ local Reward=require("../src/server/RewardService")
 local Data=require("../src/server/ProfileData")
 local UI=require("../src/client/UIModel")
 local TargetPolicy=require("../src/server/TargetPolicy")
+local Bootstrap=require("../src/server/Bootstrap")
 local passed=0
 local function check(name,fn) local ok,err=pcall(fn);if not ok then error("FAIL "..name..": "..tostring(err)) end;passed+=1;print("PASS "..name) end
 local function fixture(id)
@@ -149,7 +150,8 @@ check("second replay rotates to another fresh deck without extra reward",functio
  assert(f:act("StartMission","lantern-lift").ok)
  local second=f:state();assert(second.practice and second.activityId=="liftq-1" and second.prompt:find("18",1,true))
  assert(f.profiles[f.player].currency==25 and #f.profiles[f.player].ownedItemIds==1 and second.completedCount==4)
-end)check("release target policy allows Studio without weakening published target checks",function()
+end)check("server bootstrap is exposed as one reusable packaged entrypoint",function() assert(type(Bootstrap)=="table" and type(Bootstrap.start)=="function") end)
+check("release target policy allows Studio without weakening published target checks",function()
  assert(TargetPolicy.allowed(0,0,true))
  assert(TargetPolicy.allowed(6027194615,17602626136,true))
 end)
