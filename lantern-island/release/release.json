@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "lantern-island-private-staging-20260929-v1",
+  "productionSourceCommit": "95eb213339a775e340816e9f75eaee149860b988",
+  "sourceFingerprint": "378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332",
+  "artifactPath": "lantern-island/release/LanternIsland-Adventures.rbxlx",
+  "artifactSha256": "1b3032a38c69293f1347430a4342dd100efddbaf3c9ae9e3614b86e8c154bb0d",
+  "artifactBytes": 126395,
+  "target": {
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "channel": "private-staging"
+  },
+  "authority": {
+    "visibilityChangeAllowed": false,
+    "publicAccessChangeAllowed": false,
+    "onlyNewPlaceVersionAllowed": true
+  },
+  "localVerification": {
+    "buildInputsMatchedGitHub": 24,
+    "nativeGameplayChecksPassed": 114,
+    "releaseInputRepeat": "blocked_by_locked_desktop",
+    "equivalentMobileInputChecksPassedBeforeTargetPolicyOnlyChange": 127
+  }
+}
