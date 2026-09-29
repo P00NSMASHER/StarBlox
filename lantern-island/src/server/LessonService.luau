@@ -55,16 +55,31 @@ readingCard("picnicp-1","Pip packs three apples. Next, Pip adds two sandwiches. 
 readingCard("picnicp-2","A blue ribbon blows off the stand and lands beside the pond. Pip follows it to the water.","Where does Pip find the ribbon?","Beside the pond",{"On the hill","Beside the pond","Under the blanket","At the lift"},"Find the words that tell where the ribbon landed.","The passage says it lands beside the pond, so that is where Pip finds it.")
 readingCard("picnicp-3","The grass is wet after the rain, so Pip moves the picnic onto a dry wooden platform.","Why does Pip move the picnic?","The grass is wet",{"The grass is wet","The basket is empty","The moon is bright","The cat is sleepy"},"Look for the reason after the word so.","The passage explains that the grass is wet, so Pip chooses a dry place.")
 readingCard("picnicp-4","First, Pip lights the lantern. Next, the path glows. Then, Pip waves to the cat.","What happens right after Pip lights the lantern?","The path glows",{"The path glows","Pip closes the basket","The cat runs away","Rain starts"},"Read what comes after the word Next.","The next event is that the path glows.",true)
+
+-- A second replay deck gives each adventure another full pass of the same skill
+-- without creating a new entitlement or pretending repeated practice is mastery.
+mathCard("liftq-1",18,7,{"24","25","15","35"})
+mathCard("liftq-2",42,16,{"58","48","68","56"})
+mathCard("liftq-3",39,24,{"53","63","73","62"})
+mathCard("liftq-4",47,28,{"75","65","74","85"},true)
+wordCard("ribbonq-1","Which word means simple or not decorated?","plain",{"plan","plain","plane","plum"},"Look for ai making the long a sound.","Plain is pl-ai-n. The letters ai make the long a sound.")
+wordCard("ribbonq-2","Which word means stay until something happens?","wait",{"wet","wait","wit","weight"},"The word starts with w and uses ai.","Wait is w-ai-t. The letters ai make the long a sound.")
+wordCard("ribbonq-3","Which word means a small seed such as wheat?","grain",{"green","grain","grin","grown"},"Start with gr and listen for long a.","Grain is gr-ai-n. The ai team makes the long a sound.")
+wordCard("ribbonq-4","Which word means money was given for work?","paid",{"pad","paid","pied","pod"},"The word starts with p and ends with d.","Paid is p-ai-d. It uses ai for the long a sound.",true)
+readingCard("picnicq-1","First, Pip fills a bottle. Next, Pip packs fruit. Last, Pip closes the picnic bag.","What does Pip do after filling the bottle?","Packs fruit",{"Packs fruit","Closes the bag","Lights the hill","Finds a ribbon"},"Look at the action after Next.","Pip packs fruit next, immediately after filling the bottle.")
+readingCard("picnicq-2","The cat hides beneath the pink ribbon stand while the wind blows across the island.","Where is the cat?","Beneath the ribbon stand",{"Beside the pond","Beneath the ribbon stand","On the hill","Inside the basket"},"Find the words that tell where the cat hides.","The passage says the cat hides beneath the pink ribbon stand.")
+readingCard("picnicq-3","The lantern path is dark, so Pip carries a small light while walking toward the hill.","Why does Pip carry a light?","The path is dark",{"The path is dark","The cat is hungry","The basket is heavy","The ribbon is blue"},"Look for the reason before the word so.","The path is dark, so Pip carries a light to see.")
+readingCard("picnicq-4","Pip finds the blanket, then places the basket on it, and finally sits beside the cat.","What happens before Pip sits down?","Pip places the basket",{"Pip places the basket","Pip lights the lantern","The cat runs away","Pip finds a bow"},"Follow the order: blanket, basket, sit.","Pip places the basket before sitting beside the cat.",true)
 local PRACTICE={
- ["lift-1"]="liftp-1",["lift-2"]="liftp-2",["lift-3"]="liftp-3",["lift-4"]="liftp-4",
- ["ribbon-1"]="ribbonp-1",["ribbon-2"]="ribbonp-2",["ribbon-3"]="ribbonp-3",["ribbon-4"]="ribbonp-4",
- ["picnic-1"]="picnicp-1",["picnic-2"]="picnicp-2",["picnic-3"]="picnicp-3",["picnic-4"]="picnicp-4",
+ ["lift-1"]={"liftp-1","liftq-1"},["lift-2"]={"liftp-2","liftq-2"},["lift-3"]={"liftp-3","liftq-3"},["lift-4"]={"liftp-4","liftq-4"},
+ ["ribbon-1"]={"ribbonp-1","ribbonq-1"},["ribbon-2"]={"ribbonp-2","ribbonq-2"},["ribbon-3"]={"ribbonp-3","ribbonq-3"},["ribbon-4"]={"ribbonp-4","ribbonq-4"},
+ ["picnic-1"]={"picnicp-1","picnicq-1"},["picnic-2"]={"picnicp-2","picnicq-2"},["picnic-3"]={"picnicp-3","picnicq-3"},["picnic-4"]={"picnicp-4","picnicq-4"},
 }
 function LessonService.new(_context) return setmetatable({},LessonService) end
 function LessonService:quests() return QUESTS end
 function LessonService:getQuest(id) for _,q in ipairs(QUESTS) do if q.id==id then return q end end end
 function LessonService:getActivity(id) return ACTIVITIES[id] end
-function LessonService:practiceActivityId(id) return PRACTICE[id] end
+function LessonService:practiceActivityId(id,cycle) local decks=PRACTICE[id];if not decks then return nil end;local n=((tonumber(cycle) or 1)-1)%#decks+1;return decks[n] end
 function LessonService:publicState(_player)
  return {id="lantern-original-grade2",version="sample-v2",title="Pip's Island Adventures",sourceLabel="Original sample practice - not current homework",reviewStatus="SAMPLE"}
 end

@@ -14,7 +14,7 @@ end
 local function pad(parent,n)
  local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,n);p.PaddingBottom=UDim.new(0,n);p.PaddingLeft=UDim.new(0,n);p.PaddingRight=UDim.new(0,n);p.Parent=parent
 end
-function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0},UIController) end
+function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0,welcomed=false},UIController) end
 function UIController:_connect(signal,callback,content)
  local c=signal:Connect(callback);table.insert(content and self.contentConnections or self.connections,c);return c
 end
@@ -168,6 +168,14 @@ function UIController:_pending()
 end
 function UIController:render(state)
  local previous=self.state and self.state.mission;self.state=state;local m=state and state.mission
+ if not self.welcomed and state and state.profileStatus=="LOADED" and m then
+  self.welcomed=true
+  local owned=state.profile and state.profile.ownedItemIds or {}
+  if #owned==0 and (m.completedCount or 0)==0 and m.status=="AVAILABLE" then
+   self.mode="map"
+   task.delay(.2,function() if self.gui and self.mode=="map" then self:showToast("Pip found three glowing trails. Pick the one that looks fun!") end end)
+  end
+ end
  if m and (m.status=="ACTIVE" or m.status=="BETWEEN" or m.status=="COMPLETED") and (not previous or previous.status~=m.status or previous.missionId~=m.missionId or previous.activityId~=m.activityId) then self.mode="quest" end
  if m and m.status=="AVAILABLE" and self.mode=="quest" then self.mode=nil end
  self:_draw()

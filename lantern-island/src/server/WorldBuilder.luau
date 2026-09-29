@@ -164,9 +164,23 @@ function WorldBuilder:revealMilestone(mid,index)
  end
  folder:SetAttribute("Revealed",true)
 end
+function WorldBuilder:activateTrailGate(mid)
+ if not self.plaza then return end
+ local names={["lantern-lift"]="GoldenTrail",["ribbon-studio"]="RibbonTrail",["moon-picnic"]="MoonTrail"}
+ local gate=self.plaza:FindFirstChild(names[mid] or "");if not gate or gate:GetAttribute("Restored") then return end
+ gate:SetAttribute("Restored",true)
+ for _,p in ipairs(gate:GetChildren())do if p:IsA("BasePart")then p.Material=Enum.Material.Neon end end
+ local top=gate:FindFirstChild("Top")
+ if top then
+  local light=Instance.new("PointLight");light.Name="RestoredGlow";light.Brightness=.65;light.Range=10;light.Color=top.Color;light.Parent=top
+  local star=glowOrb(gate,"RestoredStar",top.Position+Vector3.new(0,1.15,0),top.Color,.48)
+  star:SetAttribute("AmbientFloat",true);star:SetAttribute("FloatBaseY",star.Position.Y);star:SetAttribute("FloatPhase",#mid)
+ end
+end
 function WorldBuilder:restoreMission(mid)
  if self.restored[mid] or not self.folder then return end;self.restored[mid]=true
  for i=1,4 do self:onCheckpoint(nil,mid,i) end
+ self:activateTrailGate(mid)
  if mid=="lantern-lift" then local glow=self.folder:FindFirstChild("LanternGlow");glow.Color=C.gold;glow.Material=Enum.Material.Neon;glow.WarmLight.Enabled=true;self.ride.Enabled=true
  elseif mid=="ribbon-studio" then for i=1,5 do local flag=part(self.folder,"FestivalRibbon",Vector3.new(.2,2.4,1.3),Vector3.new(25,6,1+i*2),i%2==0 and C.pink or C.blue,nil,false);flag.Orientation=Vector3.new(0,0,-25) end
  elseif mid=="moon-picnic" then for _,p in ipairs(self.picnic:GetChildren()) do p.Transparency=0 end end
