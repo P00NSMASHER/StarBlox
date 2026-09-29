@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "status": "NATIVE_TESTED_LOCAL_CANDIDATE",
+  "verifiedAt": "2026-09-29T14:41:59.525Z",
+  "sourceCommit": "4ddbfeba21e1fe75e1a3f7a769b96587ef61578e",
+  "sourceFingerprint": "087b28ae9cdc2028cfbc2768983e8d156fb39077adee4385dc909cf4a07c485e",
+  "artifact": "LanternIsland-Adventures.rbxlx",
+  "artifactSha256": "b5eca140fd46101a1a99783de5c4ec4426515550288d7756f1409a3d2436a50b",
+  "artifactBytes": 84207,
+  "offlineTests": {
+    "productionFilesCompiled": 13,
+    "testFilesCompiled": 3,
+    "protocolBehaviorTests": 38,
+    "missionRewardAndUIModelTests": 32,
+    "answerLayoutTests": 3,
+    "protocolStrictTypecheck": "PASS",
+    "repeatArtifactHashMatched": true
+  },
+  "nativeAcceptance": {
+    "status": "PASS_PROGRAMMATIC_NATIVE_ACCEPTANCE",
+    "checks": 69,
+    "failures": 0,
+    "scope": "Actual Roblox client/server requests and returned state, with scripted positioning. Not physical input or full travel-path proof.",
+    "covered": ["server and profile ready", "exact build identity", "production UI mounted", "all twelve clues", "wrong answer creates teaching hint", "pause/resume preserves assistance", "three unique rewards", "duplicate requests do not repeat rewards", "three outfits visibly replicate on Pip", "world restoration", "honest supported/independent practice counts"]
+  },
+  "simulatedInputAndWalking": {
+    "status": "PASS",
+    "checks": 128,
+    "clicks": 62,
+    "walkingSegments": 21,
+    "teleportUsed": false,
+    "scriptedScrollReveal": true,
+    "viewport": [810, 410],
+    "scope": "Actual Roblox client GuiButton.Activated events driven by VirtualInput. Scrolling was positioned by the harness; walking used Humanoid.MoveTo. Not a physical-device or child playtest.",
+    "covered": ["close/back buttons", "adventure menu", "three wardrobe equip buttons", "practice journal", "E proximity interaction", "help button", "all twelve answer buttons during replay", "full island route including hill steps", "replay does not inflate rewards or learning evidence"]
+  },
+  "answerLayoutRegression": {
+    "reproducedBeforeFix": true,
+    "beforeError": "lantern-lift lets player 0 reuse the same answer slot",
+    "after": "PASS",
+    "property": "Each four-clue quest uses all four correct-answer positions; layouts stay stable across hint, retry and repeated reads.",
+    "testedIds": "1 through 500 plus 0, -1, 22281248, 2147483647 and 9999999999"
+  },
+  "localRawEvidenceHashes": {
+    "dist/offline-receipt.json": "8864296398aebf720381b3a38811cc61fd3b392fd9be1b53ea227100bcbb4601",
+    "dist/offline-test-output.txt": "4efe499e99d6a50dc7beb24f08f5b0564fcd760157478c9a96368e592edc01ab",
+    "dist/native-acceptance-receipt.json": "4da058da8c51d918ed88285e18acdf98515329040ea4cff4e82b83252eca2a01",
+    "dist/native-input-walk-receipt.json": "10c63ec89e326f39dd37361cb5464b31a0ede64970cadeed7adc8c1d580ef3b2",
+    "tools/native_client_acceptance.luau": "6ebbc672f28d22113999c2a9cec588e1b9bea6f26fb4c7e5ff7ca5c9c1d44744",
+    "tools/native-input-walk.client.luau": "42f5f0ec50fb1e561403aa03c622a135637debfd95f1434ce2d139d9c5673026",
+    "tools/run-final-native-qa.mjs": "8a7b24aac9b74724171eb3f3d3d0b0f8966ff801649d670edafd6e3250a13a1a",
+    "dist/answer-layout-before.txt": "09d7f6265a3d09cb590fad0ff24da4c3386fb0fb9e89727883cb204fef95103b",
+    "dist/answer-layout-after.txt": "1680aa2c1f23b5528fb3afa5dda0460915da3088c36e971e825e99cfa7aab797"
+  },
+  "localEvidenceDirectory": "%USERPROFILE%/LanternIslandBuilds/answer-layout-fix/lantern-island",
+  "verificationAuthor": "Implementation agent executing the actual tools; not independent certification",
+  "limits": {
+    "physicalDeviceInput": "NOT_RUN",
+    "liveCloudRejoin": "NOT_RUN",
+    "childPlaytest": "NOT_RUN",
+    "publishedRobloxTarget": null,
+    "currentSchoolwork": "ORIGINAL_SAMPLE_ONLY",
+    "durableStudioProgress": "SESSION_ONLY"
+  },
+  "publication": "No merge or Roblox publish was performed by this verification. This evidence-only commit does not alter the tested production source."
+}
