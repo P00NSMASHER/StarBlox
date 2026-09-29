@@ -34,6 +34,91 @@ local function milestoneFolder(root,mid,index)
  local existing=root:FindFirstChild(name);if existing then return existing,false end
  local folder=Instance.new("Folder");folder.Name=name;folder.Parent=root;return folder,true
 end
+local function lanternPost(parent,name,position,color,height)
+ local h=height or 2.8
+ local post=part(parent,name.."Post",Vector3.new(.28,h,.28),position+Vector3.new(0,h/2,0),C.wood,nil,false);post.Material=Enum.Material.Wood
+ local cap=part(parent,name.."Cap",Vector3.new(.7,.18,.7),position+Vector3.new(0,h+.06,0),C.rock,nil,false);cap.Material=Enum.Material.Slate
+ local orb=glowOrb(parent,name.."Glow",position+Vector3.new(0,h+.48,0),color,.5)
+ orb:SetAttribute("AmbientFloat",true);orb:SetAttribute("FloatBaseY",orb.Position.Y);orb:SetAttribute("FloatPhase",position.X*.07+position.Z*.09)
+ return orb
+end
+local function pavilionPost(parent,name,position,color)
+ local p=part(parent,name,Vector3.new(.55,5.2,.55),position+Vector3.new(0,2.6,0),color,nil,false);p.Material=Enum.Material.Wood
+ return p
+end
+local function buildLanternShrine(parent)
+ local shrine=Instance.new("Folder");shrine.Name="LanternShrine";shrine.Parent=parent
+ local floor=disk(shrine,"ShrineFloor",7,.28,Vector3.new(0,5.18,-25),C.path);floor.Material=Enum.Material.Sandstone
+ local inset=disk(shrine,"ShrineInset",5.2,.12,Vector3.new(0,5.36,-25),C.mint);inset.Material=Enum.Material.Grass;inset.CanCollide=false
+ for _,offset in ipairs({Vector3.new(-4.2,0,-3.8),Vector3.new(4.2,0,-3.8),Vector3.new(-4.2,0,3.8),Vector3.new(4.2,0,3.8)}) do
+  pavilionPost(shrine,"ShrinePost",Vector3.new(0,5.4,-25)+offset,C.wood)
+ end
+ for _,z in ipairs({-28.8,-21.2}) do
+  local beam=part(shrine,"ShrineBeam",Vector3.new(9.4,.5,.65),Vector3.new(0,10.25,z),C.wood,nil,false);beam.Material=Enum.Material.Wood
+ end
+ for _,x in ipairs({-4.2,4.2}) do
+  local beam=part(shrine,"ShrineSideBeam",Vector3.new(.65,.5,8.2),Vector3.new(x,10.25,-25),C.wood,nil,false);beam.Material=Enum.Material.Wood
+ end
+ local roof=part(shrine,"ShrineRoof",Vector3.new(10.5,.42,9.4),Vector3.new(0,11,-25),Color3.fromRGB(92,79,112),nil,false);roof.Material=Enum.Material.Slate
+ local crown=part(shrine,"ShrineRoofCrown",Vector3.new(7.6,.28,6.6),Vector3.new(0,11.28,-25),C.cream,nil,false);crown.Material=Enum.Material.Sandstone
+ for _,offset in ipairs({Vector3.new(-3.5,0,-3),Vector3.new(3.5,0,-3),Vector3.new(-3.5,0,3),Vector3.new(3.5,0,3)}) do
+  lanternPost(shrine,"CornerLantern",Vector3.new(0,5.42,-25)+offset,C.gold,1.8)
+ end
+ return shrine
+end
+local function buildRibbonPavilion(parent)
+ local pavilion=Instance.new("Folder");pavilion.Name="RibbonPavilion";pavilion.Parent=parent
+ local center=Vector3.new(24,1.28,4)
+ local floor=disk(pavilion,"RibbonFloor",7,.26,center,C.cream);floor.Material=Enum.Material.Marble
+ local rug=part(pavilion,"RibbonRug",Vector3.new(7.5,.08,4),center+Vector3.new(0,.2,0),C.pink,nil,false);rug.Material=Enum.Material.Fabric
+ for _,offset in ipairs({Vector3.new(-4.5,0,-4),Vector3.new(4.5,0,-4),Vector3.new(-4.5,0,4),Vector3.new(4.5,0,4)}) do
+  pavilionPost(pavilion,"RibbonPost",center+offset,C.wood)
+ end
+ local roof=part(pavilion,"RibbonCanopy",Vector3.new(10.4,.35,9.2),center+Vector3.new(0,5.35,0),C.pink,nil,false);roof.Material=Enum.Material.Fabric
+ roof.Transparency=.08
+ for i=1,7 do
+  local x=-4.2+(i-1)*1.4
+  local ribbon=part(pavilion,"HangingRibbon"..i,Vector3.new(.18,1.8,.35),center+Vector3.new(x,4.25,3.7),i%2==0 and C.blue or C.pink,nil,false)
+  ribbon.Material=Enum.Material.Neon;ribbon.Transparency=.12;ribbon.Orientation=Vector3.new(0,0,(i-4)*4)
+ end
+ local tableTop=part(pavilion,"CraftTable",Vector3.new(5.5,.35,2.1),center+Vector3.new(0,1.15,-.8),C.wood,nil,false);tableTop.Material=Enum.Material.Wood
+ for _,x in ipairs({-2.1,2.1}) do
+  local leg=part(pavilion,"CraftTableLeg",Vector3.new(.35,1.6,.35),center+Vector3.new(x,.45,-.8),C.wood,nil,false);leg.Material=Enum.Material.Wood
+ end
+ for i,color in ipairs({C.pink,C.blue,C.gold}) do glowOrb(pavilion,"SpoolGlow"..i,center+Vector3.new((i-2)*1.25,1.6,-.8),color,.34) end
+ return pavilion
+end
+local function buildMoonGazebo(parent)
+ local gazebo=Instance.new("Folder");gazebo.Name="MoonGazebo";gazebo.Parent=parent
+ local center=Vector3.new(-16,1.28,4)
+ local floor=disk(gazebo,"MoonFloor",7,.26,center,C.cream);floor.Material=Enum.Material.Sandstone
+ local inner=disk(gazebo,"MoonInner",5.3,.1,center+Vector3.new(0,.18,0),Color3.fromRGB(184,221,235));inner.Material=Enum.Material.Glass;inner.Transparency=.2;inner.CanCollide=false
+ for _,offset in ipairs({Vector3.new(-4.5,0,-3.8),Vector3.new(4.5,0,-3.8),Vector3.new(-4.5,0,3.8),Vector3.new(4.5,0,3.8)}) do
+  pavilionPost(gazebo,"MoonPost",center+offset,C.wood)
+ end
+ for i=0,8 do
+  local angle=math.rad(205+i*16)
+  local pos=center+Vector3.new(math.cos(angle)*4.2,5.1+math.sin(angle)*4.2,3.5)
+  local moon=glowOrb(gazebo,"MoonArch"..i,pos,C.cream,.62);moon.Material=Enum.Material.Neon
+ end
+ for _,x in ipairs({-3,0,3}) do lanternPost(gazebo,"MoonLantern",center+Vector3.new(x,0,-3.3),C.blue,1.55) end
+ local bench=part(gazebo,"MoonBench",Vector3.new(5.8,.45,1.5),center+Vector3.new(0,.7,2.7),C.wood,nil,false);bench.Material=Enum.Material.Wood
+ return gazebo
+end
+local function buildUnderstory(parent)
+ local foliage=Instance.new("Folder");foliage.Name="Understory";foliage.Parent=parent
+ for i=1,26 do
+  local a=i*2.07;local r=20+(i%7)*2.6
+  local pos=Vector3.new(math.cos(a)*r,1.65,math.sin(a)*r)
+  local shrub=part(foliage,"Shrub"..i,Vector3.new(2.1+(i%3)*.45,1.4+(i%2)*.35,2.1+(i%4)*.35),pos,i%4==0 and C.mint or C.grass,Enum.PartType.Ball,false)
+  shrub.Material=Enum.Material.Grass
+  if i%3==0 then
+   local bloom=glowOrb(foliage,"Bloom"..i,pos+Vector3.new(.4,1.05,-.2),i%2==0 and C.pink or C.gold,.22)
+   bloom.Transparency=.06
+  end
+ end
+ return foliage
+end
 local function makePip()
 
  local pip=Instance.new("Model");pip.Name="Pip"
@@ -111,10 +196,15 @@ function WorldBuilder:build()
   local stoneColor=C.path:Lerp(station.color,.22)
   local stone=disk(f,mid.."-trail-stone-"..i,1.4,.2,position,stoneColor);stone.Material=Enum.Material.Sandstone
   if i%3==0 then
-   local guide=glowOrb(f,mid.."-trail-guide-"..i,position+Vector3.new(0,.75,0),station.color,.18)
+   local stake=part(f,mid.."-trail-stake-"..i,Vector3.new(.16,1.05,.16),position+Vector3.new(0,.56,0),C.wood,nil,false);stake.Material=Enum.Material.Wood
+   local guide=glowOrb(f,mid.."-trail-guide-"..i,position+Vector3.new(0,1.32,0),station.color,.24)
    guide:SetAttribute("AmbientFloat",true);guide:SetAttribute("FloatBaseY",guide.Position.Y);guide:SetAttribute("FloatPhase",i*.43)
   end
  end end
+ buildLanternShrine(f)
+ buildRibbonPavilion(f)
+ buildMoonGazebo(f)
+ buildUnderstory(f)
  for i=1,10 do
   local angle=i*math.pi/5;local x,z=math.cos(angle)*35,math.sin(angle)*35
   local trunk=part(f,"TreeTrunk",Vector3.new(1.3,5,1.3),Vector3.new(x,3,z),C.wood);trunk.Material=Enum.Material.Wood

@@ -5,7 +5,14 @@ local UIModel=require(script.Parent:WaitForChild("UIModel"))
 local RewardView=require(script.Parent:WaitForChild("RewardView"))
 local UIController={};UIController.__index=UIController
 local DARK=Color3.fromRGB(43,53,78);local WHITE=Color3.fromRGB(255,250,244);local PINK=Color3.fromRGB(246,180,207);local GOLD=Color3.fromRGB(255,214,123);local MINT=Color3.fromRGB(187,232,208);local BLUE=Color3.fromRGB(177,220,239)
+local function missionColor(mid) return mid=="lantern-lift" and GOLD or (mid=="ribbon-studio" and PINK or (mid=="moon-picnic" and BLUE or MINT)) end
 local function corner(gui,r) Instance.new("UICorner",gui).CornerRadius=UDim.new(0,r or 14) end
+local function shadow(parent,name)
+ local s=Instance.new("Frame");s.Name=name;s.BackgroundColor3=Color3.fromRGB(19,24,40);s.BackgroundTransparency=.78;s.BorderSizePixel=0;s.ZIndex=0;s.Parent=parent;corner(s,20);return s
+end
+local function inset(label,padding)
+ local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,padding);p.PaddingBottom=UDim.new(0,padding);p.PaddingLeft=UDim.new(0,padding);p.PaddingRight=UDim.new(0,padding);p.Parent=label
+end
 local function text(parent,name,value,size)
  local t=Instance.new("TextLabel");t.Name=name;t.BackgroundTransparency=1;t.Size=UDim2.new(1,0,0,0);t.AutomaticSize=Enum.AutomaticSize.Y;t.Font=Enum.Font.GothamMedium;t.TextSize=size or 17;t.TextColor3=DARK;t.TextWrapped=true;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextYAlignment=Enum.TextYAlignment.Top;t.Text=value;t.Parent=parent;return t
 end
@@ -17,6 +24,16 @@ local function button(parent,name,value,color)
 end
 local function pad(parent,n)
  local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,n);p.PaddingBottom=UDim.new(0,n);p.PaddingLeft=UDim.new(0,n);p.PaddingRight=UDim.new(0,n);p.Parent=parent
+end
+local function tintButton(b,color)
+ b.BackgroundColor3=color
+ local gradient=b:FindFirstChildOfClass("UIGradient")
+ if gradient then gradient.Color=ColorSequence.new(color:Lerp(WHITE,.18),color) end
+end
+local function cardLabel(label,color,transparency)
+ label.BackgroundColor3=color;label.BackgroundTransparency=transparency or .18;label.BorderSizePixel=0
+ corner(label,12);inset(label,10)
+ return label
 end
 function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0,welcomed=false},UIController) end
 function UIController:_connect(signal,callback,content)
@@ -34,7 +51,8 @@ function UIController:_command(command)
 end
 function UIController:mount(playerGui)
  local gui=Instance.new("ScreenGui");gui.Name="LanternIslandUI";gui.ResetOnSpawn=false;gui.IgnoreGuiInset=false;gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;gui.Parent=playerGui;self.gui=gui
- local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.04;tracker.BorderSizePixel=0;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
+ local trackerShadow=shadow(gui,"AdventureTrackerShadow");trackerShadow.Position=UDim2.fromOffset(16,12);trackerShadow.Size=UDim2.fromOffset(290,120);self.trackerShadow=trackerShadow
+ local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.04;tracker.BorderSizePixel=0;tracker.ZIndex=1;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
  local trackerStroke=Instance.new("UIStroke");trackerStroke.Color=Color3.fromRGB(121,142,181);trackerStroke.Transparency=.55;trackerStroke.Thickness=1.2;trackerStroke.Parent=tracker
  local trackerGradient=Instance.new("UIGradient");trackerGradient.Color=ColorSequence.new(DARK:Lerp(BLUE,.12),DARK);trackerGradient.Rotation=120;trackerGradient.Parent=tracker
  local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None
@@ -45,8 +63,11 @@ function UIController:mount(playerGui)
   local b=button(nav,entry[1],entry[2],i==2 and PINK or MINT);b.Size=UDim2.new(1/3,-5,1,0);b.Position=UDim2.new((i-1)/3,0,0,0);b.TextSize=13
   self:_connect(b.Activated,function() self.mode=self.mode==entry[1] and nil or entry[1];self:_draw() end)
  end
- local panel=Instance.new("Frame");panel.Name="ContextCard";panel.BackgroundColor3=WHITE;panel.BorderSizePixel=0;panel.Visible=false;panel.Parent=gui;corner(panel,20);self.panel=panel
+ local panelShadow=shadow(gui,"ContextCardShadow");panelShadow.Visible=false;self.panelShadow=panelShadow
+ local panel=Instance.new("Frame");panel.Name="ContextCard";panel.BackgroundColor3=WHITE;panel.BorderSizePixel=0;panel.ZIndex=1;panel.Visible=false;panel.Parent=gui;corner(panel,20);self.panel=panel
+ local panelGradient=Instance.new("UIGradient");panelGradient.Color=ColorSequence.new(WHITE,Color3.fromRGB(246,248,255));panelGradient.Rotation=110;panelGradient.Parent=panel
  local panelStroke=Instance.new("UIStroke");panelStroke.Color=DARK;panelStroke.Transparency=.78;panelStroke.Thickness=1.1;panelStroke.Parent=panel
+ local accent=Instance.new("Frame");accent.Name="AdventureAccent";accent.Position=UDim2.fromOffset(14,60);accent.Size=UDim2.new(1,-28,0,5);accent.BackgroundColor3=GOLD;accent.BorderSizePixel=0;accent.ZIndex=3;accent.Parent=panel;corner(accent,4);self.accent=accent
  local title=text(panel,"CardTitle","Adventure",20);title.Position=UDim2.fromOffset(16,14);title.Size=UDim2.new(1,-76,0,44);title.AutomaticSize=Enum.AutomaticSize.None;title.Font=Enum.Font.GothamBold;self.heading=title
  local close=button(panel,"CloseCard","X",PINK);close.AnchorPoint=Vector2.new(1,0);close.Position=UDim2.new(1,-10,0,10);close.Size=UDim2.fromOffset(44,44);self.close=close
  local scroll=Instance.new("ScrollingFrame");scroll.Name="CardContent";scroll.BackgroundTransparency=1;scroll.BorderSizePixel=0;scroll.Position=UDim2.fromOffset(14,66);scroll.Size=UDim2.new(1,-28,1,-132);scroll.CanvasSize=UDim2.new();scroll.AutomaticCanvasSize=Enum.AutomaticSize.Y;scroll.ScrollBarThickness=5;scroll.ScrollingDirection=Enum.ScrollingDirection.Y;scroll.Parent=panel;self.scroll=scroll
@@ -87,7 +108,12 @@ function UIController:_layout()
  self.touchLayout=l.mobile
  self.panel.Size=UDim2.fromOffset(l.width,l.height);self.panel.AnchorPoint=Vector2.new(l.center and .5 or 1,0)
  self.panel.Position=l.center and UDim2.new(.5,0,0,l.top) or UDim2.new(1,-12,0,l.top)
+ if self.panelShadow then
+  self.panelShadow.Size=self.panel.Size;self.panelShadow.AnchorPoint=self.panel.AnchorPoint
+  self.panelShadow.Position=l.center and UDim2.new(.5,4,0,l.top+5) or UDim2.new(1,-8,0,l.top+5)
+ end
  self.tracker.Size=UDim2.fromOffset(l.trackerWidth,l.trackerHeight)
+ if self.trackerShadow then self.trackerShadow.Size=self.tracker.Size;self.trackerShadow.Position=UDim2.fromOffset(16,13) end
  self.open.Position=UDim2.fromOffset(0,l.trackerHeight-l.openHeight-24);self.open.Size=UDim2.new(1,0,0,l.openHeight);self.open.TextSize=l.mobile and 16 or 15
  self.nav.Size=UDim2.fromOffset(l.trackerWidth,l.navHeight);self.nav.Position=UDim2.fromOffset(12,l.trackerHeight+14)
  self.close.Size=UDim2.fromOffset(l.closeSize,l.closeSize)
@@ -97,6 +123,8 @@ function UIController:_layout()
  for _,b in ipairs(self.nav:GetChildren()) do if b:IsA("TextButton") then b.TextSize=l.mobile and 14 or 13 end end
  -- Keep exploration controls clear when a narrow portrait card is open.
  self.tracker.Visible=not (l.center and self.panel.Visible);self.nav.Visible=self.tracker.Visible
+ if self.trackerShadow then self.trackerShadow.Visible=self.tracker.Visible end
+ if self.panelShadow then self.panelShadow.Visible=self.panel.Visible end
 end
 function UIController:_track()
  local m=self.state and self.state.mission;if not m then return end
@@ -104,8 +132,10 @@ function UIController:_track()
  local root=self.context.player.Character and self.context.player.Character:FindFirstChild("HumanoidRootPart")
  local distance=root and target and math.floor((root.Position-target.Position).Magnitude) or nil
  self.trackerText.Text=m.title.."  "..(m.checkpointIndex or 1).."/"..(m.checkpointTotal or 4).."\n"..(m.status=="COMPLETED" and "Outfit earned! Dress Pip or explore." or ((distance and distance<=11) and "You're here! Open the clue." or "Follow your glow"..(distance and " - "..distance.." steps" or "")))
- if not self.highlight then local h=Instance.new("Highlight");h.Name="MyNextClue";h.FillColor=GOLD;h.OutlineColor=WHITE;h.FillTransparency=.55;h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop;h.Parent=self.gui;self.highlight=h end
+ if not self.highlight then local h=Instance.new("Highlight");h.Name="MyNextClue";h.FillColor=GOLD;h.OutlineColor=WHITE;h.FillTransparency=.62;h.OutlineTransparency=.2;h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop;h.Parent=self.gui;self.highlight=h end
+ local color=missionColor(m.missionId);self.highlight.FillColor=color
  self.highlight.Adornee=target;self.highlight.Enabled=target~=nil and m.status~="COMPLETED"
+ tintButton(self.open,color)
  self.open.Text=m.status=="COMPLETED" and "See my reward" or (m.status=="BETWEEN" and "Pip's discovery" or "Open clue")
 end
 function UIController:_clear()
@@ -133,12 +163,16 @@ function UIController:_blocks(r)
 end
 function UIController:_draw()
  if not self.panel or not self.state or not self.state.mission then return end
- self.panel.Visible=self.mode~=nil;self:_layout();self:_track();if not self.mode then return end
+ self.panel.Visible=self.mode~=nil
+ if self.panelShadow then self.panelShadow.Visible=self.panel.Visible end
+ self:_layout();self:_track();if not self.mode then return end
  self:_clear();self.primary.Text="Back to exploring"
  local state=self.state;local m=state.mission;local profile=state.profile
+ local accentColor=self.mode=="wardrobe" and PINK or (self.mode=="journal" and BLUE or (self.mode=="map" and MINT or missionColor(m.missionId)))
+ if self.accent then self.accent.BackgroundColor3=accentColor end
  if self.mode=="map" then
   self.heading.Text="Pick your adventure"
-  self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
+  cardLabel(self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17),MINT:Lerp(WHITE,.45),.18)
   local rewardNames={["firefly-scarf"]="Firefly Scarf",["rainbow-bow"]="Rainbow Bow",["moon-crown"]="Moon Crown"}
   for _,q in ipairs(UIModel.quests) do
    local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
@@ -165,12 +199,16 @@ function UIController:_draw()
   self.heading.Text=m.title
   if m.practice then self:_addText("ReplayLabel","Practice replay - no extra stars or new learning credit",14) end
   if m.status=="ACTIVE" then
-   self:_addText("Passage",m.passage or "",17);self:_addText("Question",m.prompt or "",20);self:_blocks(m.representation or {})
-   if m.hint and m.hint~="" then self:_addText("PipHint","Pip's clue: "..m.hint,17) end
-   for _,option in ipairs(m.options or {}) do self:_addButton("Answer_"..option.id,option.label,GOLD,function() self:_command(UIModel.answer(self.state,option.id)) end) end
+   local theme=missionColor(m.missionId)
+   local passage=cardLabel(self:_addText("Passage",m.passage or "",17),Color3.fromRGB(247,244,238),.08);passage.TextColor3=DARK:Lerp(Color3.new(0,0,0),.08)
+   local question=cardLabel(self:_addText("Question",m.prompt or "",20),theme:Lerp(WHITE,.62),.05);question.Font=Enum.Font.GothamBold
+   self:_blocks(m.representation or {})
+   if m.hint and m.hint~="" then cardLabel(self:_addText("PipHint","Pip's clue: "..m.hint,17),MINT:Lerp(WHITE,.4),.08) end
+   for _,option in ipairs(m.options or {}) do self:_addButton("Answer_"..option.id,option.label,theme,function() self:_command(UIModel.answer(self.state,option.id)) end) end
+   tintButton(self.primary,theme:Lerp(WHITE,.12))
    self.primary.Text=m.hint~="" and "Another clue, Pip" or "Help me, Pip"
   else
-   self:_addText("Explanation",m.objective or "",18)
+   cardLabel(self:_addText("Explanation",m.objective or "",18),missionColor(m.missionId):Lerp(WHITE,.58),.08)
    if m.status=="COMPLETED" then
     self:_addText("RewardMessage",m.practice and "Great practicing! Your original rewards are safe." or "A new outfit is in your dress-up box.",17)
     self:_addButton("ReplayQuest","Practice this adventure again",MINT,function() self.mode=nil;self:_send("StartMission",{missionId=m.missionId});self:_draw() end)
