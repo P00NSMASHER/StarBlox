@@ -47,10 +47,29 @@ function LessonService:getActivity(id) return ACTIVITIES[id] end
 function LessonService:publicState(_player)
  return {id="lantern-original-grade2",version="sample-v2",title="Pip's Island Adventures",sourceLabel="Original sample practice - not current homework",reviewStatus="SAMPLE"}
 end
+-- Stable per-learner decks put the correct answer in each slot once per quest.
+-- The old activity-character sum canceled the authored answer positions, leaving
+-- all four math answers in one slot. Do not infer learning from repeated taps.
+local function shuffle(values,seed)
+ local out=table.clone(values)
+ for i=#out,2,-1 do seed=(seed*48271)%2147483647;local j=(seed%i)+1;out[i],out[j]=out[j],out[i] end
+ return out
+end
+local function seedFor(text,userId)
+ local seed=(math.abs(tonumber(userId) or 0)%2147483646)+1
+ for i=1,#text do seed=(seed*131+string.byte(text,i))%2147483647 end
+ return seed==0 and 1 or seed
+end
 function LessonService:options(id,userId)
  local a=ACTIVITIES[id];if not a then return {} end
- local seed=math.abs(tonumber(userId) or 0);for i=1,#id do seed+=string.byte(id,i) end
- local result={};for i=1,#a.options do table.insert(result,{id="choice-"..i,label=a.options[((i-1+seed)%#a.options)+1]}) end
+ local questId,step=id:match("^(.-)%-(%d+)$");local index=tonumber(step)
+ assert(questId and index and index>=1 and index<=4 and #a.options==4,"Unknown option layout")
+ local slots=shuffle({1,2,3,4},seedFor(questId,userId))
+ local distractors={};local matches=0
+ for _,label in ipairs(a.options)do if label==a.answer then matches+=1 else table.insert(distractors,label) end end
+ assert(matches==1,"Activity must contain one answer")
+ local labels=shuffle(distractors,seedFor(id,userId));table.insert(labels,slots[index],a.answer)
+ local result={};for i,label in ipairs(labels)do table.insert(result,{id="choice-"..i,label=label}) end
  return result
 end
 function LessonService:check(id,answer,userId)
