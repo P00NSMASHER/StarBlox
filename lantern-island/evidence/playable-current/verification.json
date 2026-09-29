@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "status": "PLAYABLE_LOCAL_STUDIO_CANDIDATE",
+  "sourceCommit": "0e5ffa2d07f57e3149e8adaab73841d921407689",
+  "sourceFingerprint": "06fc480b63c5903e696b01b5cbb3c112be5d0df0fcfb9d4456734dcd20ac5c0b",
+  "artifact": "LanternIsland-Adventures.rbxlx",
+  "artifactSha256": "7bbffb6b0ad0afa66f0b836dd5065664850025f9d21281a4f795f0c5ffa6461a",
+  "artifactBytes": 124409,
+  "offline": {
+    "productionFilesCompiled": 15,
+    "testFilesCompiled": 5,
+    "protocolBehaviorTests": 38,
+    "missionRewardAndUIModelTests": 35,
+    "answerLayoutTests": 3,
+    "rewardJourneyTests": 18,
+    "profilePersistenceTests": 19,
+    "protocolStrictTypecheck": "PASS",
+    "repeatArtifactHashMatched": true
+  },
+  "native": {
+    "status": "PASS_PROGRAMMATIC_NATIVE_ACCEPTANCE",
+    "passed": 114,
+    "failed": 0,
+    "final": {"currency":75,"outfits":3,"clues":12,"supported":1,"independent":11,"saveStatus":"STUDIO_SESSION_ONLY"},
+    "scope": "Native Roblox client/server request-result acceptance with scripted positioning; not physical input or full travel-path proof"
+  },
+  "input": {
+    "status": "PASS",
+    "passed": 127,
+    "clicks": 61,
+    "routes": 21,
+    "viewport": [810,410],
+    "final": {"saveStatus":"STUDIO_SESSION_ONLY","clues":12,"coins":75},
+    "scope": "Real Roblox client buttons driven by VirtualInput, with scripted scroll reveal and Humanoid MoveTo walking. No teleport; not a physical-device or child playtest."
+  },
+  "limits": {
+    "physicalPhoneInput": "NOT_RUN",
+    "realCloudSaveLeaveRejoin": "NOT_RUN",
+    "publishedTarget": null,
+    "childPlaytest": "NOT_RUN"
+  },
+  "verifiedAt": "2026-09-29T18:07:41.042Z"
+}

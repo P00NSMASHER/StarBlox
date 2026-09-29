@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "status": "NATIVE_TESTED_LOCAL_CANDIDATE",
+  "verifiedAt": "2026-09-29T14:50:21.992Z",
+  "sourceCommit": "3d01584ca1da018b9160b0bddd12e3f376a25a03",
+  "sourceFingerprint": "62e2d8101e21c40ced02a78dfa8d1e66bc57ed0730a61eaac454a800732b99c8",
+  "artifact": "LanternIsland-Adventures.rbxlx",
+  "artifactSha256": "db8289720df1fc53a6a3349ce44b0f42beccafe7e437a7efa819eba8356cb5d3",
+  "artifactBytes": 86588,
+  "sourceVerification": "All 18 build-input files were fetched at the exact source commit and matched the local source hashes. The packaged file hash was rechecked after native testing.",
+  "offline": {
+    "productionFilesCompiled": 13,
+    "testFilesCompiled": 3,
+    "protocolBehaviorTests": 38,
+    "missionRewardAndUIModelTests": 32,
+    "answerLayoutTests": 3,
+    "protocolStrictTypecheck": "PASS",
+    "repeatArtifactHashMatched": true
+  },
+  "nativeRequestStateAcceptance": {
+    "status": "PASS_PROGRAMMATIC_NATIVE_ACCEPTANCE",
+    "checks": 69,
+    "failures": 0,
+    "scope": "Actual Roblox client/server requests with scripted positioning; all twelve clues, incorrect-answer feedback, pause/resume assistance, distinct rewards, idempotent duplicate requests, visibly equipped outfits and world restoration. Not physical input."
+  },
+  "simulatedInputAndWalking": {
+    "status": "PASS",
+    "checks": 128,
+    "clicks": 62,
+    "walkingSegments": 21,
+    "teleportUsedByHarness": false,
+    "viewport": [810, 410],
+    "scope": "Actual GuiButton.Activated signals driven by VirtualInput, E-key proximity interaction, all twelve replay answers, hint button, menus, dress-up and journal. Walking used Humanoid.MoveTo; the harness positioned scrolling to reveal buttons. Not physical-device input."
+  },
+  "clientPresentationObserved": {
+    "exposureCompensation": -0.25,
+    "lanternBrightness": 0.8500000238418579,
+    "lanternLightRange": 18,
+    "stationLabelMaxDistance": 24,
+    "petLabelMaxDistance": 12,
+    "labelsAlwaysOnTop": false,
+    "cameraSubject": "Humanoid",
+    "cameraDistanceObserved": 12.969438552856445
+  },
+  "gameContent": {
+    "adventures": 3,
+    "clues": 12,
+    "earnedOutfits": ["firefly-scarf", "rainbow-bow", "moon-crown"],
+    "skillsPracticed": ["addition within 100 with tens/ones representations and regrouping", "long-a ai word patterns", "reading details, sequence and cause"],
+    "sourceLabel": "Original sample practice - not current homework",
+    "learningLimits": "Counts distinguish first-try independent answers from hints/retries. Replays do not create new learning credit. This is not evidence of a child's mastery or retention."
+  },
+  "rawEvidenceHashes": {
+    "dist/offline-receipt.json": "93ad9682f635ba21446362e731536570b95324f119492b3c76d312375578f417",
+    "dist/native-acceptance-receipt.json": "b0362addd799ab3e249819f2075e9f790d36ba21f7a8860b1ca3afe786240259",
+    "dist/native-input-walk-receipt.json": "e7d89d2bce1005a5c5583c9df101f4cd1350a5ad9fb51f6cf34253f2eb3022da",
+    "tools/native_client_acceptance.luau": "2fbb9d96832772ee73e6c1c8700347b8f942891e3f90c12f9f4e77f3df7b5dcd",
+    "tools/native-input-walk.client.luau": "a563432b558927b6ea4d54265bfc5df64bb23acaf1a9261ae184af3935df0c43"
+  },
+  "localBuildAndEvidenceDirectory": "%USERPROFILE%/LanternIslandBuilds/visual-3d01584/lantern-island",
+  "desktopShortcut": "Lantern Island - Test Build",
+  "shortcutAction": "Opens the exact local .rbxlx in Roblox Studio; press F5 to play.",
+  "remaining": {
+    "physicalPhoneInput": "NOT_RUN",
+    "realCloudSaveAndRejoin": "NOT_RUN",
+    "childPlaytest": "NOT_RUN",
+    "currentSchoolworkIntegration": "NOT_INTEGRATED",
+    "publicRobloxRelease": "NOT_PUBLISHED"
+  },
+  "studioPersistence": "Session-only; progress does not survive stopping the test server.",
+  "verificationScope": "Producer-executed tests; not independent certification. Earlier verification.json records the pre-visual build, not this final candidate. No production merge or Roblox publication was performed."
+}
