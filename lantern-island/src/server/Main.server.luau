@@ -6,8 +6,10 @@ local RunService=game:GetService("RunService")
 local shared=ReplicatedStorage:WaitForChild("LanternIslandShared",15)
 assert(shared,"LanternIslandShared missing; build the isolated project")
 local Protocol=require(shared:WaitForChild("Protocol",15))
--- This candidate remains an isolated test build, not an automatic production overwrite.
-if game.PlaceId==17602626136 or game.GameId==6027194615 then error("LANTERN_TARGET_BLOCKED: isolated development build") end
+local TargetPolicy=require(script.Parent:WaitForChild("TargetPolicy",15))
+if not TargetPolicy.allowed(game.GameId,game.PlaceId,RunService:IsStudio()) then
+ error("LANTERN_TARGET_UNEXPECTED: release target is not authorized")
+end
 assert(not ReplicatedStorage:FindFirstChild(Protocol.REMOTE_FOLDER),"Duplicate Lantern Island bootstrap")
 local remotes=Instance.new("Folder");remotes.Name=Protocol.REMOTE_FOLDER
 remotes:SetAttribute("ProtocolVersion",Protocol.VERSION);remotes:SetAttribute("RuntimeStatus","BOOTING")
