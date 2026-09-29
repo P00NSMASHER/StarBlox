@@ -1,80 +1,44 @@
-/** Offline-only build/test entry point. No deployment, credentials, downloads or paid calls. */
+/** Offline build: compile production, execute real pure modules, package twice, retain hashes. */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const argv = process.argv.slice(2);
-function argument(name, fallback) {
-  const at = argv.indexOf(name);
-  if (at === -1) return fallback;
-  if (!argv[at + 1] || argv[at + 1].startsWith('--')) throw new Error(`Missing ${name} value`);
-  return argv[at + 1];
-}
-const commands = {
-  rojo: argument('--rojo', 'rojo'), luau: argument('--luau', 'luau'),
-  compile: argument('--compile', 'luau-compile'), analyze: argument('--analyze', 'luau-analyze'),
-};
-function run(executable, args) {
-  const result = spawnSync(executable, args, { cwd: root, encoding: 'utf8', timeout: 60000, maxBuffer: 4 * 1024 * 1024 });
-  if (result.error || result.status !== 0) throw new Error(`${path.basename(executable)} failed: ${result.error?.message ?? ''}\n${result.stdout ?? ''}\n${result.stderr ?? ''}`);
-  if (result.stdout?.trim()) console.log(result.stdout.trim());
-  if (result.stderr?.trim()) console.log(result.stderr.trim());
-  return result.stdout ?? '';
-}
-function filesUnder(directory) {
-  return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-    const full = path.join(directory, entry.name);
-    if (entry.isSymbolicLink()) throw new Error(`Symlink forbidden in isolated build: ${full}`);
-    return entry.isDirectory() ? filesUnder(full) : [full];
-  }).sort();
-}
-const sha = data => crypto.createHash('sha256').update(data).digest('hex');
-try {
-  const projectFile = path.join(root, 'default.project.json');
-  const project = JSON.parse(fs.readFileSync(projectFile, 'utf8'));
-  const approvedPaths = new Set(['src/shared', 'src/server', 'src/client']);
-  function verify(node) {
-    if (!node || typeof node !== 'object') return;
-    if ('$path' in node) {
-      if (!approvedPaths.has(node.$path)) throw new Error(`Unapproved project mapping: ${node.$path}`);
-      const resolved = fs.realpathSync(path.resolve(root, node.$path));
-      if (!resolved.startsWith(root + path.sep)) throw new Error('Project mapping escapes isolated directory');
-    }
-    for (const value of Object.values(node)) verify(value);
-  }
-  verify(project.tree);
-  const sources = filesUnder(path.join(root, 'src')).filter(name => name.endsWith('.luau') || name.endsWith('.lua'));
-  const hashes = Object.fromEntries([projectFile, ...sources].map(file => [path.relative(root, file).replaceAll('\\', '/'), sha(fs.readFileSync(file))]));
-  const sourceFingerprint = sha(JSON.stringify(hashes));
-  run(commands.compile, ['--null', ...sources]);
-  run(commands.analyze, ['src/shared/Protocol.luau', 'tests/runtime_protocol.spec.luau']);
-  const output = run(commands.luau, ['tests/runtime_protocol.spec.luau']);
-  const match = output.match(/RESULT (\d+) protocol behavior tests passed/);
-  if (!match) throw new Error('Missing explicit protocol-test completion');
-  const rojoVersion = run(commands.rojo, ['--version']).trim();
-  project.tree.ServerScriptService.LanternIslandServer.BuildIdentity.$properties.Value = sourceFingerprint;
-  const generatedProject = path.join(root, '.foundation-build.project.json');
-  const dist = path.join(root, 'dist');
-  fs.mkdirSync(dist, { recursive: true });
-  fs.writeFileSync(generatedProject, JSON.stringify(project, null, 2));
-  const artifact = path.join(dist, 'LanternIsland-Foundation.rbxlx');
-  try { run(commands.rojo, ['build', generatedProject, '-o', artifact]); }
-  finally { fs.rmSync(generatedProject, { force: true }); }
-  const bytes = fs.readFileSync(artifact);
-  if (!bytes.toString('utf8', 0, 100).includes('<roblox')) throw new Error('Output is not an XML Roblox artifact');
-  const receipt = {
-    status: 'FOUNDATION_ONLY', builtAt: new Date().toISOString(), sourceFingerprint, sourceHashes: hashes,
-    artifact: path.basename(artifact), artifactSha256: sha(bytes), bytes: bytes.length,
-    toolchain: { rojo: rojoVersion, luau: '0.740 (externally checksum-verified)' },
-    tests: { protocolBehaviorPassed: Number(match[1]), sourcesCompiled: sources.length, pureProtocolTypecheck: 'PASS' },
-    robloxEngineExecution: 'NOT_RUN', physicalDeviceInput: 'NOT_RUN', dataStoreRejoin: 'NOT_RUN',
-    schoolworkIntegration: 'NOT_INTEGRATED', playableMission: 'NOT_INTEGRATED', publishedTarget: null,
-  };
-  fs.writeFileSync(path.join(dist, 'foundation-receipt.json'), JSON.stringify(receipt, null, 2) + '\n');
-  console.log(JSON.stringify(receipt, null, 2));
-} catch (error) {
-  console.error(`BUILD FAILED: ${error.message}`);
-  process.exitCode = 1;
-}
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const argv=process.argv.slice(2);
+function arg(name,fallback){const i=argv.indexOf(name);if(i<0)return fallback;if(!argv[i+1]||argv[i+1].startsWith('--'))throw Error(`Missing ${name}`);return argv[i+1];}
+const commands={rojo:arg('--rojo','rojo'),luau:arg('--luau','luau'),compile:arg('--compile','luau-compile'),analyze:arg('--analyze','luau-analyze')};
+const sha=data=>crypto.createHash('sha256').update(data).digest('hex');
+function run(exe,args){const r=spawnSync(exe,args,{cwd:root,encoding:'utf8',timeout:60000,maxBuffer:8*1024*1024});if(r.error||r.status!==0)throw Error(`${path.basename(exe)} failed: ${r.error?.message??''}\n${r.stdout??''}\n${r.stderr??''}`);if(r.stdout?.trim())console.log(r.stdout.trim());if(r.stderr?.trim())console.log(r.stderr.trim());return r.stdout??'';}
+function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{const f=path.join(dir,e.name);if(e.isSymbolicLink())throw Error('Symlink forbidden');return e.isDirectory()?walk(f):[f];}).sort();}
+try{
+ const projectFile=path.join(root,'default.project.json');const project=JSON.parse(fs.readFileSync(projectFile,'utf8'));
+ if(JSON.stringify(project.servePlaceIds)!=='[0]')throw Error('Isolated unpublished-place restriction changed');
+ function verify(node){if(!node||typeof node!=='object')return;if('$path'in node){if(!['src/shared','src/server','src/client'].includes(node.$path))throw Error('Unexpected project mapping');const p=fs.realpathSync(path.resolve(root,node.$path));if(!p.startsWith(root+path.sep))throw Error('Mapping escapes project');}for(const v of Object.values(node))verify(v);}
+ verify(project.tree);
+ const sources=walk(path.join(root,'src')).filter(f=>/\.lua(u)?$/.test(f));
+ const tests=walk(path.join(root,'tests')).filter(f=>/\.spec\.luau$/.test(f));
+ const files=[projectFile,...sources,...tests,path.join(root,'tools/build.mjs')];
+ const hashes=Object.fromEntries(files.map(f=>[path.relative(root,f).replaceAll('\\','/'),sha(fs.readFileSync(f))]));
+ const sourceFingerprint=sha(JSON.stringify(hashes));
+ run(commands.compile,['--null',...sources,...tests]);
+ run(commands.analyze,['src/shared/Protocol.luau','tests/runtime_protocol.spec.luau']);
+ const protocol=run(commands.luau,['tests/runtime_protocol.spec.luau']);
+ const gameplay=run(commands.luau,['tests/mission_reward.spec.luau']);
+ const p=protocol.match(/RESULT (\d+) protocol behavior tests passed/);const m=gameplay.match(/RESULT (\d+) mission\/reward behavior tests passed/);
+ if(!p||!m)throw Error('A required test suite did not report completion');
+ const rojoVersion=run(commands.rojo,['--version']).trim();
+ project.tree.ServerScriptService.LanternIslandServer.BuildIdentity.$properties.Value=sourceFingerprint;
+ const generated=path.join(root,'.adventure-build.project.json');const dist=path.join(root,'dist');fs.mkdirSync(dist,{recursive:true});fs.writeFileSync(generated,JSON.stringify(project,null,2));
+ const artifact=path.join(dist,'LanternIsland-Adventures.rbxlx');const repeated=path.join(dist,'.repeat.rbxlx');
+ try{run(commands.rojo,['build',generated,'-o',artifact]);run(commands.rojo,['build',generated,'-o',repeated]);if(sha(fs.readFileSync(artifact))!==sha(fs.readFileSync(repeated)))throw Error('Repeat artifact hash mismatch');}finally{fs.rmSync(generated,{force:true});fs.rmSync(repeated,{force:true});}
+ const bytes=fs.readFileSync(artifact);if(!bytes.toString('utf8',0,100).includes('<roblox'))throw Error('Not a Roblox XML package');
+ const receipt={schemaVersion:2,status:'OFFLINE_TESTED_CANDIDATE',sourceCommit:arg('--source-commit',null),builtAt:new Date().toISOString(),sourceFingerprint,sourceHashes:hashes,
+ artifact:path.basename(artifact),artifactSha256:sha(bytes),artifactBytes:bytes.length,toolchain:{rojo:rojoVersion,luau:'0.740'},
+ checks:{productionFilesCompiled:sources.length,testFilesCompiled:tests.length,protocolBehaviorTests:Number(p[1]),missionRewardAndUIModelTests:Number(m[1]),protocolStrictTypecheck:'PASS',repeatArtifactHashMatched:true},
+ scope:'Actual pure production modules executed with fake world/save adapters; package compilation is not client proof.',
+ nativeRobloxEngineExecution:'NOT_RUN_BY_THIS_SCRIPT',physicalDeviceInput:'NOT_RUN',realDataStoreLeaveRejoin:'NOT_RUN',schoolworkIntegration:'ORIGINAL_SAMPLE_ONLY',publishedTarget:null};
+ fs.writeFileSync(path.join(dist,'offline-receipt.json'),JSON.stringify(receipt,null,2)+'\n');
+ fs.writeFileSync(path.join(dist,'offline-test-output.txt'),protocol+'\n'+gameplay);
+ console.log(JSON.stringify(receipt,null,2));
+}catch(e){console.error(`BUILD FAILED: ${e.message}`);process.exitCode=1;}
