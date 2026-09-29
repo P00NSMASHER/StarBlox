@@ -1,0 +1,82 @@
+name: Diagnose Lantern Private Staging
+
+on:
+  push:
+    branches:
+      - lantern-private-staging-release-20260929
+    paths:
+      - ".github/workflows/diagnose-lantern-private-staging.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Inspect published Lantern bootstrap
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,label){
+            const text=await r.text();let p={};
+            try{p=text?JSON.parse(text):{};}catch{throw new Error(label+' non-json '+r.status)}
+            if(!r.ok)throw new Error(label+' '+r.status+' '+JSON.stringify(p).slice(0,2000));
+            return p;
+          }
+          function taskUrl(path){return 'https://apis.roblox.com/cloud/v2/'+String(path||'').replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,'').replace(/^\/?cloud\/v2\//,'').replace(/^\//,'')}
+          const script=[
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SS=game:GetService("ServerScriptService")',
+            'local RunService=game:GetService("RunService")',
+            'print("DIAG ids game="..tostring(game.GameId).." place="..tostring(game.PlaceId).." version="..tostring(game.PlaceVersion).." studio="..tostring(RunService:IsStudio()))',
+            'local root=SS:FindFirstChild("LanternIslandServer")',
+            'print("DIAG serverRoot="..tostring(root))',
+            'if root then',
+            '  local names={}',
+            '  for _,x in ipairs(root:GetChildren()) do table.insert(names,x.Name..":"..x.ClassName) end',
+            '  table.sort(names)',
+            '  print("DIAG serverChildren="..table.concat(names,","))',
+            '  local identity=root:FindFirstChild("BuildIdentity")',
+            '  print("DIAG identity="..tostring(identity and identity.Value))',
+            '  local policy=root:FindFirstChild("TargetPolicy")',
+            '  print("DIAG policyModule="..tostring(policy))',
+            '  if policy then',
+            '    local ok,result=pcall(require,policy)',
+            '    print("DIAG policyRequire ok="..tostring(ok).." result="..tostring(result))',
+            '    if ok and type(result)=="table" and type(result.allowed)=="function" then',
+            '      local ok2,allowed=pcall(result.allowed,game.GameId,game.PlaceId,RunService:IsStudio())',
+            '      print("DIAG policyAllowed callOk="..tostring(ok2).." allowed="..tostring(allowed))',
+            '    end',
+            '  end',
+            'end',
+            'local shared=RS:FindFirstChild("LanternIslandShared")',
+            'print("DIAG shared="..tostring(shared))',
+            'if shared then local p=shared:FindFirstChild("Protocol");print("DIAG protocol="..tostring(p));if p then local ok,m=pcall(require,p);print("DIAG protocolRequire ok="..tostring(ok).." resultType="..typeof(m)) end end',
+            'for i=1,4 do',
+            '  task.wait(3)',
+            '  local rem=RS:FindFirstChild("LanternIslandRemotes")',
+            '  local world=workspace:FindFirstChild("LanternIslandWorld")',
+            '  print("DIAG tick="..i.." remotes="..tostring(rem).." status="..tostring(rem and rem:GetAttribute("RuntimeStatus")).." world="..tostring(world))',
+            'end',
+            'print("LANTERN_DIAG_DONE")'
+          ].join('\n');
+          let response=await fetch('https://apis.roblox.com/cloud/v2/universes/'+universe+'/places/'+place+'/luau-execution-session-tasks',{method:'POST',headers:{'x-api-key':key,'content-type':'application/json'},body:JSON.stringify({script,timeout:'30s'})});
+          let task=await parse(response,'create');const url=taskUrl(task.path);
+          while(String(task.state||'')==='PROCESSING'){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{'x-api-key':key}}),'status')}
+          const logs=await parse(await fetch(url+'/logs',{headers:{'x-api-key':key}}),'logs');
+          console.log(JSON.stringify({task,logs},null,2));
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||'')))process.exitCode=2;
+          NODE
