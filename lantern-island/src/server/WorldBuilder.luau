@@ -9,6 +9,7 @@ local STATIONS={
  ["ribbon-studio"]={name="RibbonConsole",pos=Vector3.new(23,3,6),color=C.pink,label="PIP'S RIBBON STUDIO",points={Vector3.new(23,3,6),Vector3.new(29,3,0),Vector3.new(24,3,-9),Vector3.new(17,3,-2)}},
  ["moon-picnic"]={name="PicnicConsole",pos=Vector3.new(-23,3,-6),color=C.blue,label="THE MISSING PICNIC",points={Vector3.new(-23,3,-6),Vector3.new(-30,3,-14),Vector3.new(-18,3,-27),Vector3.new(-16,3,4)}},
 }
+local PET_LINES={"Purrfect!","Let's find another glow!","Adventure buddies!","I saw something sparkle!","You found me!"}
 local function part(parent,name,size,position,color,shape,collide)
  local p=Instance.new("Part");p.Name=name;p.Anchored=true;p.CanCollide=collide~=false;p.Size=size;p.Position=position;p.Color=color;p.Material=Enum.Material.SmoothPlastic
  p.TopSurface=Enum.SurfaceType.Smooth;p.BottomSurface=Enum.SurfaceType.Smooth;if shape then p.Shape=shape end;p.Parent=parent;return p
@@ -49,9 +50,11 @@ local function makePip()
  for _,x in ipairs({-.38,.38}) do part(pip,"rainbow-bow",Vector3.new(.85,.65,.35),Vector3.new(x,1.2,-.65),x<0 and C.pink or C.blue,Enum.PartType.Ball,false).Transparency=1 end
  for i=-1,1 do local p=part(pip,"moon-crown",Vector3.new(.36,.68-math.abs(i)*.18,.4),Vector3.new(i*.45,1.4,-.15),C.gold,nil,false);p.Orientation=Vector3.new(0,0,i*12);p.Transparency=1 end
  local pet=Instance.new("ProximityPrompt");pet.Name="PetPip";pet.ActionText="Pet Pip";pet.ObjectText="Your adventure pal";pet.HoldDuration=0;pet.MaxActivationDistance=8;pet.RequiresLineOfSight=false;pet.KeyboardKeyCode=Enum.KeyCode.F;pet.Parent=body
+ local speech=Instance.new("BillboardGui");speech.Name="PipSpeech";speech.Size=UDim2.fromOffset(170,46);speech.StudsOffset=Vector3.new(0,3.1,0);speech.AlwaysOnTop=false;speech.MaxDistance=12;speech.Enabled=false;speech.Parent=body
+ local bubble=Instance.new("TextLabel");bubble.Name="BubbleText";bubble.Size=UDim2.fromScale(1,1);bubble.BackgroundColor3=Color3.fromRGB(255,250,244);bubble.BackgroundTransparency=.08;bubble.TextColor3=Color3.fromRGB(43,53,78);bubble.TextWrapped=true;bubble.Font=Enum.Font.GothamBold;bubble.TextSize=14;bubble.Text="";bubble.Parent=speech;Instance.new("UICorner",bubble).CornerRadius=UDim.new(0,13)
  label(body,"Pip",65,25);return pip
 end
-function WorldBuilder.new(context) return setmetatable({context=context,restored={},companions={},stations={},petTimes={}},WorldBuilder) end
+function WorldBuilder.new(context) return setmetatable({context=context,restored={},companions={},stations={},petTimes={},petCounts={}},WorldBuilder) end
 function WorldBuilder:build()
  local old=workspace:FindFirstChild("LanternIslandWorld");if old then old:Destroy() end
  local foundation=workspace:FindFirstChild("FoundationGround");if foundation then foundation.Transparency=1;foundation.CanCollide=false end
@@ -232,7 +235,14 @@ function WorldBuilder:setEquipped(player,itemId)
   pip:PivotTo(CFrame.new(root and root.Position+Vector3.new(3,0,0) or Vector3.new(3,3,14)));self.companions[player]=pip
   pip.Body.PetPip.Triggered:Connect(function(visitor)
    local r=visitor.Character and visitor.Character:FindFirstChild("HumanoidRootPart")
-   if visitor==player and r and (r.Position-pip:GetPivot().Position).Magnitude<=10 then self.petTimes[player]=os.clock()+2 end
+   if visitor==player and r and (r.Position-pip:GetPivot().Position).Magnitude<=10 then
+    self.petTimes[player]=os.clock()+2;self.petCounts[player]=(self.petCounts[player] or 0)+1
+    local speech=pip.Body:FindFirstChild("PipSpeech");local bubble=speech and speech:FindFirstChild("BubbleText")
+    if speech and bubble then
+     local serial=(speech:GetAttribute("Serial") or 0)+1;speech:SetAttribute("Serial",serial);bubble.Text=PET_LINES[((self.petCounts[player]-1)%#PET_LINES)+1];speech.Enabled=true
+     task.delay(2.1,function() if speech.Parent and speech:GetAttribute("Serial")==serial then speech.Enabled=false end end)
+    end
+   end
   end)
  end
  for _,p in ipairs(pip:GetChildren()) do if p:IsA("BasePart") and (p.Name=="firefly-scarf" or p.Name=="rainbow-bow" or p.Name=="moon-crown") then p.Transparency=p.Name==itemId and 0 or 1 end end
@@ -274,6 +284,6 @@ function WorldBuilder:celebrateReward(player,_itemId)
  self.petTimes[player]=os.clock()+1.8
 end
 function WorldBuilder:removePlayer(player)
- local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil
+ local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil;self.petCounts[player]=nil
 end
 return WorldBuilder
