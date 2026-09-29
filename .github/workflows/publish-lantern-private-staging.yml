@@ -1,9 +1,6 @@
 name: Publish Lantern Island Private Staging
 
 on:
-  push:
-    branches:
-      - lantern-private-staging-release-20260929
   workflow_dispatch:
 
 permissions:
