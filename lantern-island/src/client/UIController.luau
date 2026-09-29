@@ -1,5 +1,6 @@
 --!nonstrict
 local RunService=game:GetService("RunService")
+local UserInputService=game:GetService("UserInputService")
 local UIModel=require(script.Parent:WaitForChild("UIModel"))
 local RewardView=require(script.Parent:WaitForChild("RewardView"))
 local UIController={};UIController.__index=UIController
@@ -82,10 +83,18 @@ function UIController:mount(playerGui)
 end
 function UIController:_layout()
  local camera=workspace.CurrentCamera;if not camera or not self.panel then return end
- local v=camera.ViewportSize;local l=UIModel.layout(v.X,v.Y)
+ local v=camera.ViewportSize;local l=UIModel.layout(v.X,v.Y,UserInputService.TouchEnabled)
+ self.touchLayout=l.mobile
  self.panel.Size=UDim2.fromOffset(l.width,l.height);self.panel.AnchorPoint=Vector2.new(l.center and .5 or 1,0)
  self.panel.Position=l.center and UDim2.new(.5,0,0,l.top) or UDim2.new(1,-12,0,l.top)
- self.tracker.Size=UDim2.fromOffset(l.trackerWidth,158);self.nav.Size=UDim2.fromOffset(l.trackerWidth,42);self.nav.Position=UDim2.fromOffset(12,172)
+ self.tracker.Size=UDim2.fromOffset(l.trackerWidth,l.trackerHeight)
+ self.open.Position=UDim2.fromOffset(0,l.trackerHeight-l.openHeight-24);self.open.Size=UDim2.new(1,0,0,l.openHeight);self.open.TextSize=l.mobile and 16 or 15
+ self.nav.Size=UDim2.fromOffset(l.trackerWidth,l.navHeight);self.nav.Position=UDim2.fromOffset(12,l.trackerHeight+14)
+ self.close.Size=UDim2.fromOffset(l.closeSize,l.closeSize)
+ self.heading.Size=UDim2.new(1,-(l.closeSize+32),0,44)
+ self.primary.Size=UDim2.new(1,-28,0,l.primaryHeight);self.primary.Position=UDim2.new(0,14,1,-(l.primaryHeight+12))
+ self.scroll.Size=UDim2.new(1,-28,1,-(l.primaryHeight+86));self.scroll.ScrollBarThickness=l.mobile and 7 or 5
+ for _,b in ipairs(self.nav:GetChildren()) do if b:IsA("TextButton") then b.TextSize=l.mobile and 14 or 13 end end
  -- Keep exploration controls clear when a narrow portrait card is open.
  self.tracker.Visible=not (l.center and self.panel.Visible);self.nav.Visible=self.tracker.Visible
 end
@@ -109,6 +118,7 @@ function UIController:_addText(name,value,size)
 end
 function UIController:_addButton(name,value,color,callback,enabled)
  self.order+=1;local b=button(self.scroll,name,value,color);b.LayoutOrder=self.order;b:SetAttribute("ActionEnabled",enabled~=false)
+ if self.touchLayout then b.Size=UDim2.new(1,0,0,54);b.TextSize=18 end
  self:_connect(b.Activated,function() if b:GetAttribute("ActionEnabled") and not self.pending then callback() end end,true);return b
 end
 function UIController:_blocks(r)

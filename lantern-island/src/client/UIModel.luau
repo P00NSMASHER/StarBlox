@@ -36,15 +36,22 @@ function UIModel.target(m)
  for _,quest in ipairs(UIModel.quests) do if quest.id==m.missionId then return index==1 and quest.station or (quest.id.."-checkpoint-"..index) end end
  return nil
 end
-function UIModel.layout(width,height)
+function UIModel.layout(width,height,touch)
  width=math.max(width,1);height=math.max(height,1)
  local narrow=width<620;local landscape=width>height and height<560
- local panelWidth=math.min(380,width-24)
- if landscape then panelWidth=math.min(360,math.floor(width*.49)) end
- local panelHeight=math.max(180,math.min(520,math.floor(height*(landscape and .73 or .59))))
- local top=landscape and 8 or math.floor(height*.14)
- return {width=panelWidth,height=panelHeight,top=top,center=narrow and not landscape,landscape=landscape,
-  trackerWidth=math.min(300,landscape and width-panelWidth-36 or width-24)}
+ local mobile=touch==true or math.min(width,height)<520
+ local panelWidth=math.min(mobile and 392 or 380,width-24)
+ if landscape then panelWidth=math.min(mobile and 374 or 360,math.floor(width*.49)) end
+ local ratio=landscape and (mobile and .82 or .73) or (mobile and .72 or .59)
+ local panelHeight=math.max(180,math.min(mobile and 590 or 520,math.floor(height*ratio)))
+ local top=landscape and 6 or math.floor(height*(mobile and .10 or .14))
+ return {
+  width=panelWidth,height=panelHeight,top=top,center=narrow and not landscape,landscape=landscape,mobile=mobile,
+  trackerWidth=math.min(mobile and 316 or 300,landscape and width-panelWidth-36 or width-24),
+  trackerHeight=mobile and 170 or 158,navHeight=mobile and 52 or 42,openHeight=mobile and 44 or 36,
+  closeSize=mobile and 50 or 44,primaryHeight=mobile and 54 or 46,contentButtonHeight=mobile and 54 or 48,
+  contentTextSize=mobile and 18 or 17,
+ }
 end
 function UIModel.saveText(status)
  if status=="STUDIO_SESSION_ONLY" then return "Studio practice: saves last only while this test server stays open." end
