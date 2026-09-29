@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 1,
-  "releaseId": "lantern-island-private-staging-20260929-v1",
-  "productionSourceCommit": "95eb213339a775e340816e9f75eaee149860b988",
-  "sourceFingerprint": "378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332",
+  "schemaVersion": 2,
+  "releaseId": "lantern-island-private-staging-20260929-v2",
+  "productionSourceCommit": "1f562a85bb54cf338fae60bf4e75533878f6cc70",
+  "sourceFingerprint": "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f",
   "artifactPath": "lantern-island/release/LanternIsland-Adventures.rbxlx",
-  "artifactSha256": "1b3032a38c69293f1347430a4342dd100efddbaf3c9ae9e3614b86e8c154bb0d",
-  "artifactBytes": 126395,
+  "artifactSha256": "5beee39e9ac2cb0acb44cd9482470eec67056290acd7b304b5d731595925a183",
+  "artifactBytes": 127409,
   "target": {
     "universeId": "6027194615",
     "placeId": "17602626136",
@@ -14,12 +14,17 @@
   "authority": {
     "visibilityChangeAllowed": false,
     "publicAccessChangeAllowed": false,
-    "onlyNewPlaceVersionAllowed": true
+    "onlyNewPlaceVersionAllowed": true,
+    "publishRequiresExplicitWorkflowDispatch": true
   },
   "localVerification": {
-    "buildInputsMatchedGitHub": 24,
+    "buildInputsMatchedGitHub": 25,
     "nativeGameplayChecksPassed": 114,
-    "releaseInputRepeat": "blocked_by_locked_desktop",
-    "equivalentMobileInputChecksPassedBeforeTargetPolicyOnlyChange": 127
+    "bootstrapModuleNativeChecked": true,
+    "equivalentMobileInputChecksPassedBeforeServerOnlyBootstrapRefactor": 127
+  },
+  "verificationModel": {
+    "normalServerEntrypoint": "Main -> Bootstrap.start()",
+    "openCloudExecutionSession": "explicit require(Bootstrap).start() because packaged Scripts do not auto-run in Luau execution sessions"
   }
 }
