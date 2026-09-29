@@ -1,10 +1,7 @@
 name: Lantern Private Staging Publish
 
 on:
-  push:
-    branches: [lantern-private-staging-release-20260929]
-    paths:
-      - "lantern-island/release/PUBLISH_REQUEST.json"
+  workflow_dispatch:
 
 permissions:
   contents: read
