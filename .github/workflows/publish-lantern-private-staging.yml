@@ -44,9 +44,9 @@ jobs:
           test -n "$ROBLOX_OPEN_CLOUD_API_KEY"
           test "$ROBLOX_UNIVERSE_ID" = "$EXPECTED_UNIVERSE_ID"
           test "$ROBLOX_PLACE_ID" = "$EXPECTED_PLACE_ID"
-          node <<'NODE'
-          const fs=require('fs');
-          const crypto=require('crypto');
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
           const meta=JSON.parse(fs.readFileSync('lantern-island/release/release.json','utf8'));
           const bytes=fs.readFileSync(process.env.ARTIFACT_PATH);
           const sha=crypto.createHash('sha256').update(bytes).digest('hex');
@@ -67,8 +67,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs=require('fs');
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
           const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
           const universe=process.env.ROBLOX_UNIVERSE_ID;
           const place=process.env.ROBLOX_PLACE_ID;
@@ -116,8 +116,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs=require('fs');
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
           const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
           const universe=process.env.ROBLOX_UNIVERSE_ID;
           const place=process.env.ROBLOX_PLACE_ID;
@@ -144,8 +144,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs=require('fs');
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
           const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
           const universe=process.env.ROBLOX_UNIVERSE_ID;
           const place=process.env.ROBLOX_PLACE_ID;
@@ -201,8 +201,8 @@ jobs:
       - name: Write release receipt
         shell: bash
         run: |
-          node <<'NODE'
-          const fs=require('fs');
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
           const meta=JSON.parse(fs.readFileSync('lantern-island/release/release.json','utf8'));
           const publish=JSON.parse(fs.readFileSync('lantern-publish-response.json','utf8'));
           const verify=JSON.parse(fs.readFileSync('lantern-server-verification.json','utf8'));
