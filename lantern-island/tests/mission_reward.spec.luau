@@ -114,6 +114,14 @@ check("UI target advances through the world clues",function() assert(UI.target({
 check("portrait and landscape card bounds leave room for controls",function()
  for _,v in ipairs({{320,568},{390,844},{844,390},{1024,768},{1920,1080}}) do local l=UI.layout(v[1],v[2]);assert(l.width<=v[1]-24 and l.top+l.height<v[2]-60 and l.trackerWidth>0) end
 end)
+check("mobile layouts keep generous tap targets in portrait and landscape",function()
+ for _,v in ipairs({{320,568},{390,844},{844,390},{1024,768}}) do
+  local l=UI.layout(v[1],v[2],true)
+  assert(l.mobile and l.contentButtonHeight>=54 and l.primaryHeight>=54 and l.closeSize>=50 and l.navHeight>=52 and l.openHeight>=44)
+  assert(l.width<=v[1]-24 and l.top+l.height<v[2]-60)
+ end
+ local desktop=UI.layout(1440,900,false);assert(not desktop.mobile and desktop.contentButtonHeight==48)
+end)
 check("Studio-only and failed saves cannot be labeled durable",function() assert(UI.saveText("STUDIO_SESSION_ONLY"):find("test server",1,true));assert(UI.saveText("SAVE_FAILED"):find("not confirmed",1,true));assert(UI.saveText("SAVED")=="Progress saved.") end)
 
 check("every completed quest replays with four fresh alternate activities",function()

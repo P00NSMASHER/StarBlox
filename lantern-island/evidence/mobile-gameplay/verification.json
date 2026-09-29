@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "MOBILE_LAYOUT_NATIVE_TESTED",
+  "productionSourceCommit": "e70e44da1563503996be44452146fd9d71cf0e9a",
+  "sourceFingerprint": "1406f7afc49153396475fd41112a0e08fe6d731a1c5cf98b6b35710d784e9301",
+  "artifactSha256": "d315ddf1cd25c45999db5978d720806c662b40e0409a8a6f81d28589d2c41a87",
+  "offline": {
+    "protocolBehaviorTests": 38,
+    "missionRewardAndUIModelTests": 36,
+    "answerLayoutTests": 3,
+    "rewardJourneyTests": 18,
+    "profilePersistenceTests": 19,
+    "protocolStrictTypecheck": "PASS",
+    "repeatArtifactHashMatched": true
+  },
+  "native": {
+    "status": "PASS_PROGRAMMATIC_NATIVE_ACCEPTANCE",
+    "passed": 114,
+    "failed": 0,
+    "final": {"currency":75,"outfits":3,"clues":12,"supported":1,"independent":11,"saveStatus":"STUDIO_SESSION_ONLY"}
+  },
+  "smallScreenInput": {
+    "status": "PASS",
+    "passed": 127,
+    "viewport": [810,410],
+    "clicks": 61,
+    "walkingSegments": 21,
+    "final": {"coins":75,"clues":12,"saveStatus":"STUDIO_SESSION_ONLY"},
+    "note": "The responsive model uses mobile/large-target layout when the shorter viewport dimension is under 520 px, so this run exercises the new larger-control layout path. VirtualInput drove actual GuiButton.Activated events; walking used Humanoid.MoveTo with no teleport."
+  },
+  "mobileLayoutRules": {
+    "contentButtonHeightMin": 54,
+    "primaryButtonHeightMin": 54,
+    "closeButtonSizeMin": 50,
+    "navigationHeightMin": 52,
+    "openClueHeightMin": 44
+  },
+  "limits": {
+    "physicalPhoneTouch": "NOT_RUN",
+    "publishedCloudSaveLeaveRejoin": "NOT_RUN",
+    "publicRobloxPublication": null,
+    "childPlaytest": "NOT_RUN"
+  }
+}
