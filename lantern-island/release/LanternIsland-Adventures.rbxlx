@@ -1,0 +1,1929 @@
+<roblox version="4">
+  <Item class="ReplicatedStorage" referent="0">
+    <Properties>
+      <string name="Name">ReplicatedStorage</string>
+    </Properties>
+    <Item class="Folder" referent="1">
+      <Properties>
+        <string name="Name">LanternIslandShared</string>
+      </Properties>
+      <Item class="ModuleScript" referent="2">
+        <Properties>
+          <string name="Name">Protocol</string>
+          <string name="Source"><![CDATA[--!strict
+-- Original Lantern Island wire contract. No answers or learner data live here.
+local Protocol = {}
+Protocol.VERSION = 1
+Protocol.REMOTE_FOLDER = "LanternIslandRemotes"
+Protocol.ACTION_REMOTE = "Action"
+Protocol.STATE_REMOTE = "State"
+Protocol.REQUEST_TIMEOUT = 12
+
+local allowedActions: { [string]: boolean } = {
+    GetState = true, StartMission = true, SubmitAnswer = true,
+    RequestHint = true, CancelMission = true, EquipItem = true,
+}
+local envelopeKeys: { [string]: boolean } = { requestId = true, action = true, missionId = true, itemId = true, payload = true }
+local payloadKeys: { [string]: boolean } = { answer = true, activityId = true, contentVersion = true }
+
+local function identifier(value: any): boolean
+    return type(value) == "string" and #value > 0 and #value <= 64
+        and string.match(value, "^[%w_.:%-]+$") ~= nil
+end
+
+local function integer(value: any, lo: number, hi: number): boolean
+    return type(value) == "number" and value == value and value > -math.huge
+        and value < math.huge and value % 1 == 0 and value >= lo and value <= hi
+end
+
+local function knownKeys(value: any, allowed: { [string]: boolean }, maximum: number): boolean
+    if type(value) ~= "table" or getmetatable(value) ~= nil then return false end
+    local count = 0
+    for key in pairs(value) do
+        count += 1
+        if count > maximum or type(key) ~= "string" or allowed[key] ~= true then return false end
+    end
+    return true
+end
+
+-- A fresh bounded copy is returned; callers never store the supplied table.
+function Protocol.validate(raw: any): (boolean, string, any)
+    if not knownKeys(raw, envelopeKeys, 5) then return false, "INVALID_ENVELOPE", nil end
+    if not identifier(raw.requestId) then return false, "INVALID_REQUEST_ID", nil end
+    if not identifier(raw.action) or allowedActions[raw.action] ~= true then
+        return false, "UNKNOWN_ACTION", nil
+    end
+    local request: any = { requestId = raw.requestId, action = raw.action }
+    local missionAction = raw.action == "StartMission" or raw.action == "SubmitAnswer"
+        or raw.action == "RequestHint" or raw.action == "CancelMission"
+    if missionAction then
+        if not identifier(raw.missionId) then return false, "INVALID_MISSION_ID", nil end
+        request.missionId = raw.missionId
+    elseif raw.missionId ~= nil then
+        return false, "UNEXPECTED_MISSION_ID", nil
+    end
+    if raw.action == "EquipItem" then
+        if not identifier(raw.itemId) then return false, "INVALID_ITEM_ID", nil end
+        request.itemId = raw.itemId
+    elseif raw.itemId ~= nil then
+        return false, "UNEXPECTED_ITEM_ID", nil
+    end
+    if raw.action == "SubmitAnswer" then
+        local payload = raw.payload
+        if not knownKeys(payload, payloadKeys, 3) or not identifier(payload.activityId)
+            or not identifier(payload.contentVersion) then
+            return false, "INVALID_PAYLOAD", nil
+        end
+        local answer = payload.answer
+        if type(answer) == "string" then
+            if #answer < 1 or #answer > 128 or string.find(answer, "%c") ~= nil then
+                return false, "INVALID_ANSWER", nil
+            end
+        elseif type(answer) == "number" then
+            if not integer(answer, -1000000, 1000000) then return false, "INVALID_ANSWER", nil end
+        elseif type(answer) == "table" then
+            if not knownKeys(answer, { tens = true, ones = true }, 2)
+                or not integer(answer.tens, 0, 100) or not integer(answer.ones, 0, 9) then
+                return false, "INVALID_ANSWER", nil
+            end
+            answer = { tens = answer.tens, ones = answer.ones }
+        else
+            return false, "INVALID_ANSWER", nil
+        end
+        request.payload = { activityId = payload.activityId, contentVersion = payload.contentVersion, answer = answer }
+    elseif raw.payload ~= nil then
+        return false, "UNEXPECTED_PAYLOAD", nil
+    end
+    return true, "VALID", request
+end
+
+function Protocol.sameRequest(a: any, b: any): boolean
+    if a.requestId ~= b.requestId or a.action ~= b.action or a.missionId ~= b.missionId
+        or a.itemId ~= b.itemId then return false end
+    local x, y = a.payload, b.payload
+    if x == nil or y == nil then return x == y end
+    if x.activityId ~= y.activityId or x.contentVersion ~= y.contentVersion then return false end
+    if type(x.answer) ~= type(y.answer) then return false end
+    if type(x.answer) == "table" then
+        return x.answer.tens == y.answer.tens and x.answer.ones == y.answer.ones
+    end
+    return x.answer == y.answer
+end
+
+-- Per-session token bucket: consume BEFORE validation to bound malformed spam too.
+function Protocol.newLimiter(clock: () -> number, capacity: number?, rate: number?): any
+    local cap, refill = capacity or 8, rate or 4
+    assert(cap > 0 and refill > 0, "positive limiter bounds required")
+    local tokens, last = cap, clock()
+    return {
+        take = function(): boolean
+            local now = clock()
+            tokens = math.min(cap, tokens + math.max(0, now - last) * refill)
+            last = math.max(last, now)
+            if tokens < 1 then return false end
+            tokens -= 1
+            return true
+        end,
+    }
+end
+
+-- Bounded same-session replay guard. Durable entitlements remain Profile/RewardService's job.
+function Protocol.newReplayCache(maximum: number?): any
+    local limit = maximum or 64
+    assert(limit >= 1 and limit % 1 == 0, "positive integer replay limit required")
+    local entries: { [string]: any } = {}
+    local order: { string } = {}
+    local api: any = {}
+    function api.begin(request: any): (boolean, string, any)
+        local old = entries[request.requestId]
+        if old then
+            if not Protocol.sameRequest(old.request, request) then return false, "REQUEST_ID_REUSED", nil end
+            if old.result == nil then return false, "IN_PROGRESS", nil end
+            return false, "REPLAY", old.result
+        end
+        if #order >= limit then
+            local removed = false
+            for i, key in ipairs(order) do
+                if entries[key].result ~= nil then
+                    entries[key] = nil
+                    table.remove(order, i)
+                    removed = true
+                    break
+                end
+            end
+            if not removed then return false, "BUSY", nil end
+        end
+        local valid, _, copy = Protocol.validate(request)
+        if not valid then return false, "INVALID_ENVELOPE", nil end
+        entries[copy.requestId] = { request = copy, result = nil }
+        table.insert(order, copy.requestId)
+        return true, "NEW", nil
+    end
+    function api.finish(requestId: string, result: any): boolean
+        local entry = entries[requestId]
+        if not entry or entry.result ~= nil then return false end
+        if type(result) ~= "table" or type(result.ok) ~= "boolean" or not identifier(result.code) then return false end
+        -- Cache only safe outcome fields. Never cache raw profile or server answer objects.
+        entry.result = table.freeze({ ok = result.ok, code = result.code })
+        return true
+    end
+    function api.size(): number return #order end
+    return api
+end
+
+return table.freeze(Protocol)
+]]></string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="ServerScriptService" referent="3">
+    <Properties>
+      <string name="Name">ServerScriptService</string>
+    </Properties>
+    <Item class="Folder" referent="4">
+      <Properties>
+        <string name="Name">LanternIslandServer</string>
+      </Properties>
+      <Item class="ModuleScript" referent="5">
+        <Properties>
+          <string name="Name">LessonService</string>
+          <string name="Source">--!nonstrict
+-- Original, reviewed sample questions; answer keys stay on the server.
+local LessonService = {}
+LessonService.__index = LessonService
+local QUESTS = {
+ {id="lantern-lift",title="Light the hill",reward="firefly-scarf",station="LiftConsole",steps={"lift-1","lift-2","lift-3","lift-4"},objective="Follow the gold trail. Help Pip light the hill and earn a Firefly Scarf."},
+ {id="ribbon-studio",title="Pip's ribbon studio",reward="rainbow-bow",station="RibbonConsole",steps={"ribbon-1","ribbon-2","ribbon-3","ribbon-4"},objective="Follow the pink trail. Solve word clues to make Pip a Rainbow Bow."},
+ {id="moon-picnic",title="The missing picnic",reward="moon-crown",station="PicnicConsole",steps={"picnic-1","picnic-2","picnic-3","picnic-4"},objective="Follow the blue trail. Read the clues to find Pip's picnic and earn a Moon Crown."},
+}
+local ACTIVITIES = {}
+local function mathCard(id,a,b,options,transfer)
+ local answer=a+b;local tens=math.floor(a/10)+math.floor(b/10);local ones=a%10+b%10
+ local explanation=a.." + "..b..": "..tens.." tens and "..ones.." ones. "
+ if ones&gt;=10 then explanation..="Trade 10 ones for 1 ten. " end
+ explanation..="That is "..math.floor(answer/10).." tens and "..(answer%10).." ones: "..answer.."."
+ ACTIVITIES[id]={id=id,type="math",skill="addition-within-100",answer=tostring(answer),options=options,transfer=transfer==true,
+  prompt="Pip has "..a.." glowstones and finds "..b.." more. How many altogether?",
+  passage=transfer and "A new delivery! Try it on your own, or ask Pip for help." or "Each delivery lights one more part of the hill.",
+  representation={tensA=math.floor(a/10),onesA=a%10,tensB=math.floor(b/10),onesB=b%10,operation="+"},
+  hints={"Add the tens, then the ones. A group of 10 ones becomes 1 ten.","There are "..tens.." tens and "..ones.." ones before trading. Count their value together.",explanation},explanation=explanation}
+end
+mathCard("lift-1",12,5,{"16","17","7","22"})
+mathCard("lift-2",23,14,{"27","38","37","47"})
+mathCard("lift-3",27,15,{"41","32","52","42"})
+mathCard("lift-4",36,17,{"53","43","54","63"},true)
+local function wordCard(id,prompt,answer,options,hint,explanation,transfer)
+ ACTIVITIES[id]={id=id,type="word",skill="long-a-ai",answer=answer,options=options,transfer=transfer==true,prompt=prompt,
+  passage="Choose a label for Pip's outfit. Say each word aloud as you try it!",
+  hints={hint,"Read the choices slowly. Look for ai making the long a sound.",explanation},explanation=explanation}
+end
+wordCard("ribbon-1","Which word means water falling from clouds?","rain",{"ran","rain","rein","run"},"The long a sound in rain is spelled ai.","Rain is r-ai-n. The letters ai work together to make the long a sound.")
+wordCard("ribbon-2","Which word means cars pulled along a railroad? It uses ai like rain.","train",{"tree","trane","train","trail"},"Start with tr, then add ai and n.","Train is tr-ai-n. Rain and train both use ai for long a.")
+wordCard("ribbon-3","What can Pip use to color the ribbon stand? Pick the word with ai.","paint",{"point","pant","pent","paint"},"The word starts with p and ends with nt. Put ai in the middle.","Paint is p-ai-nt. The letters ai make the long a sound again.")
+wordCard("ribbon-4","New clue! Which word is a slow animal with a shell and uses ai for long a?","snail",{"snail","snell","snil","snul"},"The word starts with sn and ends with l. Listen for long a in the middle.","Snail is sn-ai-l. It uses the same ai pattern as rain, train and paint.",true)
+local function readingCard(id,passage,prompt,answer,options,hint,explanation,transfer)
+ ACTIVITIES[id]={id=id,type="reading",skill="reading-details-and-sequence",answer=answer,options=options,transfer=transfer==true,
+  passage=passage,prompt=prompt,hints={hint,"Read the clue again. Find the words that support your choice.",explanation},explanation=explanation}
+end
+readingCard("picnic-1","Pip left the basket beside the blue pond. A tiny cat is guarding it.","Where should we look?","By the blue pond",{"On the high hill","By the blue pond","In the pink shop","Under the lift"},"Find the words that tell where Pip left the basket.","The clue says 'beside the blue pond.' That tells us where to look.")
+readingCard("picnic-2","First, Pip spreads a blanket. Next, Pip puts cups on it. Last, Pip opens the basket.","What happens just before Pip opens the basket?","Pip puts cups down",{"Pip opens the basket","Pip finds the cat","Pip puts cups down","Pip leaves the island"},"Read in order: first, next, last.","Putting the cups down is next. It happens just before the last action, opening the basket.")
+readingCard("picnic-3","Dark clouds cover the moon. Rain begins to fall. Pip moves the picnic under a shelter.","Why does Pip move?","To keep the picnic dry",{"To count glowstones","To find a new ribbon","To make the rain fall","To keep the picnic dry"},"What changed just before Pip moved? Rain began.","Rain began to fall. The shelter helps Pip and the picnic stay dry.")
+readingCard("picnic-4","Pip ties a bow on the basket. Then Pip carries it to the shelter. The cat follows behind.","New clue! What happens after Pip ties the bow?","Pip carries the basket",{"Pip carries the basket","Pip goes for a swim","The cat ties a bow","Pip loses the basket"},"Find the action after the word 'Then.'","The next sentence says 'Then Pip carries it to the shelter.' That happens after tying the bow.",true)
+
+-- Fresh replay cards keep practice from becoming a memorized button pattern.
+-- They never award another outfit or add new learning credit.
+mathCard("liftp-1",14,6,{"19","20","21","24"})
+mathCard("liftp-2",31,16,{"47","46","37","57"})
+mathCard("liftp-3",28,16,{"34","44","54","42"})
+mathCard("liftp-4",45,18,{"63","53","62","73"},true)
+wordCard("ribbonp-1","Which word means letters and packages sent to you?","mail",{"mail","mall","mill","meal"},"Listen for the long a sound. Mail uses ai.","Mail is m-ai-l. The letters ai make the long a sound.")
+wordCard("ribbonp-2","Which word means the long part behind some animals?","tail",{"tell","tail","tall","tile"},"The word begins with t and uses ai.","Tail is t-ai-l. It uses the same long a pattern as mail.")
+wordCard("ribbonp-3","Which word means linked metal loops?","chain",{"chin","chain","chane","churn"},"Start with ch, then listen for the long a sound.","Chain is ch-ai-n. The ai team makes the long a sound.")
+wordCard("ribbonp-4","Which word catches the wind to move a boat?","sail",{"sail","seal","sell","soil"},"The word begins with s and uses ai.","Sail is s-ai-l. It uses the same ai pattern as mail, tail, and chain.",true)
+readingCard("picnicp-1","Pip packs three apples. Next, Pip adds two sandwiches. Last, Pip closes the basket.","What does Pip do just before closing the basket?","Adds sandwiches",{"Adds sandwiches","Lights a lantern","Feeds the cat","Folds the blanket"},"Look at the action after the word Next.","The sandwiches are added next, just before the basket is closed.")
+readingCard("picnicp-2","A blue ribbon blows off the stand and lands beside the pond. Pip follows it to the water.","Where does Pip find the ribbon?","Beside the pond",{"On the hill","Beside the pond","Under the blanket","At the lift"},"Find the words that tell where the ribbon landed.","The passage says it lands beside the pond, so that is where Pip finds it.")
+readingCard("picnicp-3","The grass is wet after the rain, so Pip moves the picnic onto a dry wooden platform.","Why does Pip move the picnic?","The grass is wet",{"The grass is wet","The basket is empty","The moon is bright","The cat is sleepy"},"Look for the reason after the word so.","The passage explains that the grass is wet, so Pip chooses a dry place.")
+readingCard("picnicp-4","First, Pip lights the lantern. Next, the path glows. Then, Pip waves to the cat.","What happens right after Pip lights the lantern?","The path glows",{"The path glows","Pip closes the basket","The cat runs away","Rain starts"},"Read what comes after the word Next.","The next event is that the path glows.",true)
+
+-- A second replay deck gives each adventure another full pass of the same skill
+-- without creating a new entitlement or pretending repeated practice is mastery.
+mathCard("liftq-1",18,7,{"24","25","15","35"})
+mathCard("liftq-2",42,16,{"58","48","68","56"})
+mathCard("liftq-3",39,24,{"53","63","73","62"})
+mathCard("liftq-4",47,28,{"75","65","74","85"},true)
+wordCard("ribbonq-1","Which word means simple or not decorated?","plain",{"plan","plain","plane","plum"},"Look for ai making the long a sound.","Plain is pl-ai-n. The letters ai make the long a sound.")
+wordCard("ribbonq-2","Which word means stay until something happens?","wait",{"wet","wait","wit","weight"},"The word starts with w and uses ai.","Wait is w-ai-t. The letters ai make the long a sound.")
+wordCard("ribbonq-3","Which word means a small seed such as wheat?","grain",{"green","grain","grin","grown"},"Start with gr and listen for long a.","Grain is gr-ai-n. The ai team makes the long a sound.")
+wordCard("ribbonq-4","Which word means money was given for work?","paid",{"pad","paid","pied","pod"},"The word starts with p and ends with d.","Paid is p-ai-d. It uses ai for the long a sound.",true)
+readingCard("picnicq-1","First, Pip fills a bottle. Next, Pip packs fruit. Last, Pip closes the picnic bag.","What does Pip do after filling the bottle?","Packs fruit",{"Packs fruit","Closes the bag","Lights the hill","Finds a ribbon"},"Look at the action after Next.","Pip packs fruit next, immediately after filling the bottle.")
+readingCard("picnicq-2","The cat hides beneath the pink ribbon stand while the wind blows across the island.","Where is the cat?","Beneath the ribbon stand",{"Beside the pond","Beneath the ribbon stand","On the hill","Inside the basket"},"Find the words that tell where the cat hides.","The passage says the cat hides beneath the pink ribbon stand.")
+readingCard("picnicq-3","The lantern path is dark, so Pip carries a small light while walking toward the hill.","Why does Pip carry a light?","The path is dark",{"The path is dark","The cat is hungry","The basket is heavy","The ribbon is blue"},"Look for the reason before the word so.","The path is dark, so Pip carries a light to see.")
+readingCard("picnicq-4","Pip finds the blanket, then places the basket on it, and finally sits beside the cat.","What happens before Pip sits down?","Pip places the basket",{"Pip places the basket","Pip lights the lantern","The cat runs away","Pip finds a bow"},"Follow the order: blanket, basket, sit.","Pip places the basket before sitting beside the cat.",true)
+local PRACTICE={
+ ["lift-1"]={"liftp-1","liftq-1"},["lift-2"]={"liftp-2","liftq-2"},["lift-3"]={"liftp-3","liftq-3"},["lift-4"]={"liftp-4","liftq-4"},
+ ["ribbon-1"]={"ribbonp-1","ribbonq-1"},["ribbon-2"]={"ribbonp-2","ribbonq-2"},["ribbon-3"]={"ribbonp-3","ribbonq-3"},["ribbon-4"]={"ribbonp-4","ribbonq-4"},
+ ["picnic-1"]={"picnicp-1","picnicq-1"},["picnic-2"]={"picnicp-2","picnicq-2"},["picnic-3"]={"picnicp-3","picnicq-3"},["picnic-4"]={"picnicp-4","picnicq-4"},
+}
+function LessonService.new(_context) return setmetatable({},LessonService) end
+function LessonService:quests() return QUESTS end
+function LessonService:getQuest(id) for _,q in ipairs(QUESTS) do if q.id==id then return q end end end
+function LessonService:getActivity(id) return ACTIVITIES[id] end
+function LessonService:practiceActivityId(id,cycle) local decks=PRACTICE[id];if not decks then return nil end;local n=((tonumber(cycle) or 1)-1)%#decks+1;return decks[n] end
+function LessonService:publicState(_player)
+ return {id="lantern-original-grade2",version="sample-v2",title="Pip's Island Adventures",sourceLabel="Original sample practice - not current homework",reviewStatus="SAMPLE"}
+end
+-- Stable per-learner decks put the correct answer in each slot once per quest.
+-- The old activity-character sum canceled the authored answer positions, leaving
+-- all four math answers in one slot. Do not infer learning from repeated taps.
+local function shuffle(values,seed)
+ local out=table.clone(values)
+ for i=#out,2,-1 do seed=(seed*48271)%2147483647;local j=(seed%i)+1;out[i],out[j]=out[j],out[i] end
+ return out
+end
+local function seedFor(text,userId)
+ local seed=(math.abs(tonumber(userId) or 0)%2147483646)+1
+ for i=1,#text do seed=(seed*131+string.byte(text,i))%2147483647 end
+ return seed==0 and 1 or seed
+end
+function LessonService:options(id,userId)
+ local a=ACTIVITIES[id];if not a then return {} end
+ local questId,step=id:match("^(.-)%-(%d+)$");local index=tonumber(step)
+ assert(questId and index and index&gt;=1 and index&lt;=4 and #a.options==4,"Unknown option layout")
+ local slots=shuffle({1,2,3,4},seedFor(questId,userId))
+ local distractors={};local matches=0
+ for _,label in ipairs(a.options)do if label==a.answer then matches+=1 else table.insert(distractors,label) end end
+ assert(matches==1,"Activity must contain one answer")
+ local labels=shuffle(distractors,seedFor(id,userId));table.insert(labels,slots[index],a.answer)
+ local result={};for i,label in ipairs(labels)do table.insert(result,{id="choice-"..i,label=label}) end
+ return result
+end
+function LessonService:check(id,answer,userId)
+ local a=ACTIVITIES[id];if not a then return false end
+ if type(answer)=="string" then
+  for _,option in ipairs(self:options(id,userId)) do if option.id==answer then return option.label==a.answer end end
+  return false
+ end
+ if a.type~="math" then return false end
+ if type(answer)=="table" then
+  if type(answer.tens)~="number" or type(answer.ones)~="number" or answer.tens%1~=0 or answer.ones%1~=0 or answer.tens&lt;0 or answer.ones&lt;0 or answer.ones&gt;9 then return false end
+  answer=answer.tens*10+answer.ones
+ end
+ return type(answer)=="number" and answer==tonumber(a.answer)
+end
+return LessonService</string>
+        </Properties>
+      </Item>
+      <Item class="Script" referent="6">
+        <Properties>
+          <string name="Name">Main</string>
+          <token name="RunContext">0</token>
+          <string name="Source"><![CDATA[--!nonstrict
+-- Single bounded transport owner. Answers and private profiles are never replicated.
+local Players=game:GetService("Players")
+local ReplicatedStorage=game:GetService("ReplicatedStorage")
+local RunService=game:GetService("RunService")
+local shared=ReplicatedStorage:WaitForChild("LanternIslandShared",15)
+assert(shared,"LanternIslandShared missing; build the isolated project")
+local Protocol=require(shared:WaitForChild("Protocol",15))
+local TargetPolicy=require(script.Parent:WaitForChild("TargetPolicy",15))
+if not TargetPolicy.allowed(game.GameId,game.PlaceId,RunService:IsStudio()) then
+ error("LANTERN_TARGET_UNEXPECTED: release target is not authorized")
+end
+assert(not ReplicatedStorage:FindFirstChild(Protocol.REMOTE_FOLDER),"Duplicate Lantern Island bootstrap")
+local remotes=Instance.new("Folder");remotes.Name=Protocol.REMOTE_FOLDER
+remotes:SetAttribute("ProtocolVersion",Protocol.VERSION);remotes:SetAttribute("RuntimeStatus","BOOTING")
+local actionRemote=Instance.new("RemoteEvent");actionRemote.Name=Protocol.ACTION_REMOTE;actionRemote.Parent=remotes
+local stateRemote=Instance.new("RemoteEvent");stateRemote.Name=Protocol.STATE_REMOTE;stateRemote.Parent=remotes;remotes.Parent=ReplicatedStorage
+local services,sessions,missing={},{},{}
+local runtimeStatus="BOOTING"
+local identity=script.Parent:FindFirstChild("BuildIdentity")
+local buildId=identity and identity.Value or "source-development"
+local context={services=services,protocol=Protocol,isStudio=RunService:IsStudio(),buildId=buildId,dataStoreNamespace="LanternIsland_DEV_v1",serverRoot=script.Parent}
+local function copyFields(value,keys)
+ local output={};if type(value)~="table" then return output end
+ for _,key in ipairs(keys) do local field=value[key]
+  if type(field)=="string" then output[key]=string.sub(field,1,1500)
+  elseif type(field)=="boolean" then output[key]=field
+  elseif type(field)=="number" and field==field and math.abs(field)<1000000000 then output[key]=field end
+ end
+ return output
+end
+local function publicState(player)
+ local session=sessions[player]
+ local state={runtimeStatus=runtimeStatus,buildId=buildId,missing=table.clone(missing),profileStatus=session and session.profileStatus or "NOT_LOADED",mutationPending=session and session.busy or false}
+ if not session or not session.loaded or runtimeStatus~="READY" then return state end
+ local profile=services.ProfileService:publicState(player)
+ state.profile=copyFields(profile,{"currency","equippedItemId","saveStatus"});state.profile.ownedItemIds={}
+ if type(profile)=="table" and type(profile.ownedItemIds)=="table" then for index,item in ipairs(profile.ownedItemIds) do
+  if index>100 then break end;if type(item)=="string" then table.insert(state.profile.ownedItemIds,string.sub(item,1,64)) end
+ end end
+ state.lesson=copyFields(services.LessonService:publicState(player),{"id","version","title","sourceLabel","reviewStatus"})
+ local mission=services.MissionService:publicState(player)
+ state.mission=copyFields(mission,{"missionId","activityId","contentVersion","activityType","title","objective","prompt","passage","status","hint","assistance","completedCount","checkpointIndex","checkpointTotal","rewardItemId","independentCount","supportedCount","transferCount","practice"})
+ state.mission.representation=copyFields(mission.representation,{"tensA","onesA","tensB","onesB","operation","displayWord","audioAssetId"})
+ state.mission.options={}
+ if type(mission.options)=="table" then for index,option in ipairs(mission.options) do
+  if index>12 then break end;table.insert(state.mission.options,copyFields(option,{"id","label"}))
+ end end
+ return state
+end
+local function reply(player,requestId,result)
+ local session=sessions[player];if not session or player.Parent~=Players then return end
+ session.sequence+=1
+ local ok,state=pcall(publicState,player)
+ if not ok then state={runtimeStatus="STATE_UNAVAILABLE",buildId=buildId};result={ok=false,code="STATE_UNAVAILABLE"};warn("LANTERN_STATE_UNAVAILABLE") end
+ stateRemote:FireClient(player,{requestId=requestId,ok=result.ok==true,code=result.code,sequence=session.sequence,state=state})
+end
+context.publish=function(player) reply(player,nil,{ok=true,code="STATE_CHANGED"}) end
+local function loadProfile(player,session)
+ if session.loading or session.loaded or runtimeStatus~="READY" then return end
+ session.loading=true;session.profileStatus="LOADING"
+ local ran,loaded=pcall(function() return services.ProfileService:load(player) end)
+ session.loading=false
+ if sessions[player]~=session then if ran and loaded==true then pcall(function() services.ProfileService:release(player) end) end;return end
+ session.loaded=ran and loaded==true;session.profileStatus=session.loaded and "LOADED" or "LOAD_FAILED"
+ reply(player,nil,{ok=session.loaded,code=session.loaded and "PROFILE_READY" or "PROFILE_LOAD_FAILED"})
+end
+local function addPlayer(player)
+ if sessions[player] then return end
+ local session={limiter=Protocol.newLimiter(os.clock),replay=Protocol.newReplayCache(64),sequence=0,loaded=false,loading=false,busy=false,profileStatus="NOT_LOADED"}
+ sessions[player]=session;task.spawn(loadProfile,player,session)
+end
+local function releaseProfile(player)
+ local ran,saved=pcall(function() return services.ProfileService:release(player) end)
+ if not ran or saved~=true then warn("LANTERN_PROFILE_RELEASE_UNCONFIRMED") end
+end
+local function removePlayer(player)
+ local session=sessions[player];sessions[player]=nil;if not session then return end
+ -- Finish the one in-flight handler before taking the final profile snapshot.
+ local untilTime=os.clock()+15;while session.busy and os.clock()<untilTime do task.wait(.1) end
+ if session.loaded then releaseProfile(player) end
+ if services.WorldBuilder then pcall(function() services.WorldBuilder:removePlayer(player) end) end
+ if services.MissionService then services.MissionService:removePlayer(player) end
+end
+Players.PlayerAdded:Connect(addPlayer);Players.PlayerRemoving:Connect(removePlayer)
+for _,player in ipairs(Players:GetPlayers()) do addPlayer(player) end
+
+actionRemote.OnServerEvent:Connect(function(player,raw)
+ local session=sessions[player];if not session or not session.limiter.take() then return end
+ local valid,_,request=Protocol.validate(raw);if not valid then return end
+ if request.action=="GetState" then reply(player,request.requestId,{ok=true,code="STATE"});return end
+ if runtimeStatus~="READY" then reply(player,request.requestId,{ok=false,code="RUNTIME_NOT_READY"});return end
+ if not session.loaded then reply(player,request.requestId,{ok=false,code="PROFILE_NOT_READY"});return end
+ if session.busy then reply(player,request.requestId,{ok=false,code="BUSY"});return end
+ local accepted,replayCode,previous=session.replay.begin(request)
+ if not accepted then reply(player,request.requestId,previous or {ok=false,code=replayCode});return end
+ session.busy=true
+ local ran,result=pcall(function()
+  if request.action=="EquipItem" then return services.RewardService:handle(player,request) end
+  return services.MissionService:handle(player,request)
+ end)
+ if not ran or type(result)~="table" or type(result.ok)~="boolean" or type(result.code)~="string" or #result.code>64 or not string.match(result.code,"^[%w_.:%-]+$") then
+  result={ok=false,code="ACTION_FAILED"};warn("LANTERN_ACTION_FAILED")
+ end
+ session.replay.finish(request.requestId,result);session.busy=false;reply(player,request.requestId,result)
+end)
+local contracts={
+ {name="ProfileService",methods={"load","publicState","release","get","save"}},
+ {name="LessonService",methods={"publicState","quests","getQuest","getActivity","check","options"}},
+ {name="WorldBuilder",methods={"build","setEquipped","onCheckpoint","restoreMission","isNearMission"}},
+ {name="RewardService",methods={"handle","grant"}},
+ {name="MissionService",methods={"handle","publicState","removePlayer"}},
+}
+for _,contract in ipairs(contracts) do local module=script.Parent:FindFirstChild(contract.name)
+ if not module or not module:IsA("ModuleScript") then table.insert(missing,contract.name) end
+end
+if #missing>0 then runtimeStatus="DEPENDENCIES_MISSING"
+else
+ local ok,err=pcall(function()
+  for _,contract in ipairs(contracts) do
+   local definition=require(script.Parent[contract.name]);assert(type(definition)=="table" and type(definition.new)=="function",contract.name..".new required")
+   local service=definition.new(context)
+   for _,method in ipairs(contract.methods) do assert(type(service[method])=="function",contract.name..":"..method.." required") end
+   services[contract.name]=service
+  end
+  services.WorldBuilder:build()
+ end)
+ runtimeStatus=ok and "READY" or "BOOT_FAILED"
+ if not ok then warn("LANTERN_BOOT_FAILED",tostring(err)) end
+end
+remotes:SetAttribute("RuntimeStatus",runtimeStatus)
+for player,session in pairs(sessions) do task.spawn(loadProfile,player,session) end
+print("LANTERN_RUNTIME_STATUS",runtimeStatus,buildId)
+game:BindToClose(function()
+ local pending=0
+ for player,session in pairs(sessions) do if session.loaded then
+  pending+=1;task.spawn(function()
+   local deadline=os.clock()+15;while session.busy and os.clock()<deadline do task.wait(.1) end
+   releaseProfile(player);pending-=1
+  end)
+ end end
+ local deadline=os.clock()+25;while pending>0 and os.clock()<deadline do task.wait(.1) end
+ if pending>0 then warn("LANTERN_CLOSE_SAVE_UNCONFIRMED") end
+end)
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="7">
+        <Properties>
+          <string name="Name">MissionService</string>
+          <string name="Source">--!nonstrict
+-- Server-owned checkpoints. Rewards are not a mastery score.
+local MissionService={}
+MissionService.__index=MissionService
+function MissionService.new(context) return setmetatable({context=context,state={}},MissionService) end
+function MissionService:_profile(player) return self.context.services.ProfileService:get(player) end
+function MissionService:_state(player)
+ local s=self.state[player];if s then return s end
+ local p=self:_profile(player);assert(p,"PROFILE_NOT_LOADED")
+ p.questProgress=p.questProgress or {};p.learning=p.learning or {}
+ local lesson=self.context.services.LessonService;local selected=lesson:quests()[1].id
+ for _,q in ipairs(lesson:quests()) do if not p.completions[q.id] then selected=q.id;break end end
+ s={selected=selected,status=p.completions[selected] and "COMPLETED" or "AVAILABLE",feedback="",practice=false,practiceCycles={}};self.state[player]=s
+ local world=self.context.services.WorldBuilder
+ for _,quest in ipairs(lesson:quests()) do
+  if p.completions[quest.id] and world.restoreMission then world:restoreMission(quest.id) end
+  local progress=p.questProgress[quest.id]
+  if progress and world.onCheckpoint then for i=1,math.min(4,progress.index-1) do world:onCheckpoint(player,quest.id,i) end end
+ end
+ if world.setEquipped then world:setEquipped(player,p.equippedItemId) end
+ return s
+end
+function MissionService:_progress(player,s)
+ if s.practice then return s.practiceProgress end
+ local p=self:_profile(player)
+ p.questProgress[s.selected]=p.questProgress[s.selected] or {index=1,attempts=0,hintLevel=0}
+ return p.questProgress[s.selected]
+end
+function MissionService:_save(player) return self.context.services.ProfileService:save(player)==true end
+function MissionService:publicState(player)
+ local s=self:_state(player);local p=self:_profile(player);local lesson=self.context.services.LessonService
+ local quest=lesson:getQuest(s.selected);local q=self:_progress(player,s)
+ local stepId=quest.steps[math.min(q.index,#quest.steps)];local activityId=s.practice and lesson:practiceActivityId(stepId,s.practiceCycles[quest.id]) or stepId
+ local a=lesson:getActivity(activityId)
+ local completed,independent,supported,transfer=0,0,0,0
+ for _,e in pairs(p.learning) do completed+=1;if e.assisted then supported+=1 else independent+=1;if e.transfer then transfer+=1 end end end
+ local objective=quest.objective
+ if s.status=="BETWEEN" then objective=s.feedback elseif s.status=="COMPLETED" then objective=(s.feedback~="" and s.feedback.."\n" or "").."You helped Pip! Try your new outfit or choose another adventure." end
+ return {missionId=quest.id,activityId=a.id,contentVersion="sample-v2",activityType=a.type,title=quest.title,
+  objective=objective,prompt=a.prompt,passage=a.passage,status=s.status,hint=q.hintLevel&gt;0 and a.hints[q.hintLevel] or "",
+  assistance=s.practice and "practice" or ((q.attempts&gt;0 or q.hintLevel&gt;0) and "supported" or "independent"),
+  completedCount=completed,checkpointIndex=math.min(q.index,4),checkpointTotal=#quest.steps,rewardItemId=quest.reward,
+  independentCount=independent,supportedCount=supported,transferCount=transfer,practice=s.practice,
+  representation=a.representation or {},options=s.status=="ACTIVE" and lesson:options(a.id,player.UserId) or {}}
+end
+function MissionService:handle(player,request)
+ local p=self:_profile(player);if not p then return {ok=false,code="PROFILE_NOT_READY"} end
+ local lesson=self.context.services.LessonService;local quest=lesson:getQuest(request.missionId)
+ if not quest then return {ok=false,code="MISSION_UNKNOWN"} end
+ local s=self:_state(player)
+ if request.action=="StartMission" then
+  if s.selected~=quest.id then
+   s.selected=quest.id;s.practice=false;s.feedback="";s.status=p.completions[quest.id] and "COMPLETED" or "AVAILABLE"
+   if s.status=="COMPLETED" then return {ok=true,code="MISSION_ALREADY_COMPLETE"} end
+  elseif s.status=="COMPLETED" then s.practice=true;s.practiceCycles[quest.id]=((s.practiceCycles[quest.id] or 0)%2)+1;s.practiceProgress={index=1,attempts=0,hintLevel=0};s.status="AVAILABLE";s.feedback="" end
+  if s.status=="ACTIVE" then return {ok=true,code="MISSION_RESUMED"} end
+  local world=self.context.services.WorldBuilder;local progress=self:_progress(player,s)
+  if world.isNearMission and not world:isNearMission(player,quest.id,progress.index) then
+   s.status="AVAILABLE";return {ok=true,code="FOLLOW_BEACON"}
+  end
+  s.status="ACTIVE";s.feedback="";return {ok=true,code="MISSION_STARTED"}
+ end
+ if request.missionId~=s.selected then return {ok=false,code="MISSION_NOT_SELECTED"} end
+ if request.action=="CancelMission" then
+  if s.status=="ACTIVE" or s.status=="BETWEEN" then s.status="AVAILABLE" end
+  local saved=self:_save(player);return {ok=true,code=saved and "MISSION_PAUSED" or "PROGRESS_SAVE_PENDING"}
+ end
+ if s.status~="ACTIVE" then return {ok=false,code="MISSION_NOT_ACTIVE"} end
+ local q=self:_progress(player,s);local stepId=quest.steps[q.index];local activityId=s.practice and lesson:practiceActivityId(stepId,s.practiceCycles[quest.id]) or stepId;local a=lesson:getActivity(activityId)
+ if not a then return {ok=false,code="CONTENT_UNAVAILABLE"} end
+ if request.action=="RequestHint" then
+  q.hintLevel=math.min(3,q.hintLevel+1);self:_save(player);return {ok=true,code="HINT_READY"}
+ end
+ if request.action~="SubmitAnswer" then return {ok=false,code="ACTION_UNSUPPORTED"} end
+ local payload=request.payload
+ if type(payload)~="table" or payload.activityId~=a.id or payload.contentVersion~="sample-v2" then return {ok=false,code="CONTENT_MISMATCH"} end
+ if not lesson:check(a.id,payload.answer,player.UserId) then
+  q.attempts=math.min(100,q.attempts+1);q.hintLevel=math.min(3,math.max(q.hintLevel,q.attempts));self:_save(player)
+  return {ok=false,code="TRY_AGAIN"}
+ end
+ if not s.practice and not p.learning[a.id] then p.learning[a.id]={assisted=q.attempts&gt;0 or q.hintLevel&gt;0,transfer=a.transfer} end
+ s.feedback=a.explanation;local finishedIndex=q.index;q.index+=1;q.attempts=0;q.hintLevel=0
+ local world=self.context.services.WorldBuilder;if world.onCheckpoint then world:onCheckpoint(player,quest.id,finishedIndex) end
+ if q.index&gt;#quest.steps then
+  if not s.practice then
+   local granted=self.context.services.RewardService:grant(player,quest.reward)
+   if not granted then q.index=finishedIndex;s.status="ACTIVE";return {ok=false,code="REWARD_UNAVAILABLE"} end
+   p.completions[quest.id]=true
+  end
+  s.status="COMPLETED";if world.restoreMission then world:restoreMission(quest.id) end
+  local saved=self:_save(player);return {ok=true,code=saved and (s.practice and "PRACTICE_COMPLETE" or "MISSION_COMPLETE") or "PROGRESS_SAVE_PENDING"}
+ end
+ s.status="BETWEEN";local saved=self:_save(player)
+ return {ok=true,code=saved and "CHECKPOINT_COMPLETE" or "PROGRESS_SAVE_PENDING"}
+end
+function MissionService:removePlayer(player) self.state[player]=nil end
+return MissionService</string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="8">
+        <Properties>
+          <string name="Name">ProfileData</string>
+          <string name="Source"><![CDATA[--!nonstrict
+-- Bounded, pure migration used by ProfileService and executed regression tests.
+local ProfileData={}
+local QUESTS={"lantern-lift","ribbon-studio","moon-picnic"}
+local ITEMS={["firefly-scarf"]=true,["rainbow-bow"]=true,["moon-crown"]=true}
+local function integer(v,lo,hi,default)
+ if type(v)~="number" or v~=v or v%1~=0 then return default end
+ return math.clamp(v,lo,hi)
+end
+function ProfileData.blank()
+ return {currency=0,equippedItemId="",ownedItemIds={},completions={},questProgress={},learning={},revision=0}
+end
+function ProfileData.copy(source)
+ local p=ProfileData.blank();if type(source)~="table" then return p end
+ p.revision=integer(source.revision,0,100000000,0)
+ local seen={}
+ if type(source.ownedItemIds)=="table" then for _,id in ipairs(source.ownedItemIds) do
+  if type(id)=="string" and ITEMS[id] and not seen[id] then seen[id]=true;table.insert(p.ownedItemIds,id) end
+ end end
+ p.currency=#p.ownedItemIds*25
+ if type(source.equippedItemId)=="string" and seen[source.equippedItemId] then p.equippedItemId=source.equippedItemId end
+ for _,mid in ipairs(QUESTS) do
+  if type(source.completions)=="table" and source.completions[mid]==true then p.completions[mid]=true end
+  local q=type(source.questProgress)=="table" and source.questProgress[mid]
+  if type(q)=="table" then p.questProgress[mid]={index=integer(q.index,1,p.completions[mid] and 5 or 4,1),attempts=integer(q.attempts,0,100,0),hintLevel=integer(q.hintLevel,0,3,0)} end
+ end
+ for _,prefix in ipairs({"lift","ribbon","picnic"}) do for n=1,4 do
+  local id=prefix.."-"..n;local e=type(source.learning)=="table" and source.learning[id]
+  if type(e)=="table" and type(e.assisted)=="boolean" then p.learning[id]={assisted=e.assisted,transfer=n==4} end
+ end end
+ return p
+end
+function ProfileData.summary(p)
+ local summary={total=0,independent=0,supported=0,transfer=0}
+ for _,e in pairs(p.learning or {}) do
+  summary.total+=1
+  if e.assisted then summary.supported+=1 else summary.independent+=1;if e.transfer then summary.transfer+=1 end end
+ end
+ return summary
+end
+return ProfileData
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="9">
+        <Properties>
+          <string name="Name">ProfileService</string>
+          <string name="Source"><![CDATA[--!nonstrict
+local DataStoreService=game:GetService("DataStoreService")
+local RunService=game:GetService("RunService")
+local HttpService=game:GetService("HttpService")
+local ProfileData=require(script.Parent:WaitForChild("ProfileData"))
+local ProfileService={};ProfileService.__index=ProfileService
+local function revisionOf(source)
+ if source==nil then return 0 end
+ if type(source)~="table" then return nil end
+ local r=source.revision;if r==nil then r=0 end
+ return type(r)=="number" and r==r and r%1==0 and r>=0 and r<100000000 and r or nil
+end
+local function equal(a,b)
+ if type(a)~=type(b) then return false end
+ if type(a)~="table" then return a==b end
+ for k,v in pairs(a) do if not equal(v,b[k]) then return false end end
+ for k in pairs(b) do if a[k]==nil then return false end end
+ return true
+end
+local function sameProgress(a,b)
+ -- Sanitized, bounded copies omit transaction metadata; revision is not progress.
+ local left,right=ProfileData.copy(a),ProfileData.copy(b)
+ left.revision=0;right.revision=0;return equal(left,right)
+end
+function ProfileService.new(context)
+ local self=setmetatable({context=context,profiles={},studioPersist={},status={},saving={},revisions={},pending={}},ProfileService)
+ if not RunService:IsStudio() then self.store=DataStoreService:GetDataStore(context.dataStoreNamespace.."_profiles") end
+ return self
+end
+function ProfileService:load(player)
+ if self.profiles[player] then return true,"ALREADY_LOADED" end
+ local source
+ if RunService:IsStudio() then source=self.studioPersist[player.UserId]
+ else
+  local options=Instance.new("DataStoreGetOptions");options.UseCache=false
+  local ok,data=pcall(function() return self.store:GetAsync("u:"..player.UserId,options) end)
+  if not ok then self.status[player]="LOAD_FAILED";return false,"LOAD_FAILED" end
+  source=data
+ end
+ if revisionOf(source)==nil then self.status[player]="LOAD_INVALID";return false,"LOAD_INVALID" end
+ local p=ProfileData.copy(source);self.profiles[player]=p;self.revisions[player]=p.revision
+ self.status[player]=RunService:IsStudio() and "STUDIO_SESSION_ONLY" or "LOADED"
+ return true,"LOADED"
+end
+function ProfileService:get(player) return self.profiles[player] end
+function ProfileService:publicState(player)
+ local p=self.profiles[player]
+ if not p then return {currency=0,equippedItemId="",ownedItemIds={},saveStatus=self.status[player] or "NOT_LOADED"} end
+ return {currency=p.currency,equippedItemId=p.equippedItemId,ownedItemIds=table.clone(p.ownedItemIds),saveStatus=self.status[player] or "UNCONFIRMED"}
+end
+function ProfileService:_commit(player,entry)
+ local ok,result=pcall(function()
+  return self.store:UpdateAsync("u:"..player.UserId,function(old)
+   local revision=revisionOf(old)
+   -- An acknowledgement can be lost after a successful write. Recognize only
+   -- this exact transaction, never a different session at the same revision.
+   if revision==entry.expected+1 and type(old)=="table" and old.writeToken==entry.token and sameProgress(old,entry.snapshot) then return old end
+   if revision~=entry.expected then return nil end
+   return entry.snapshot
+  end)
+ end)
+ if not ok then return false,"SAVE_FAILED" end
+ if type(result)~="table" or result.revision~=entry.expected+1 or result.writeToken~=entry.token or not sameProgress(result,entry.snapshot) then
+  return false,"SAVE_CONFLICT"
+ end
+ self.revisions[player]=result.revision;self.profiles[player].revision=result.revision;self.pending[player]=nil
+ return true,"SAVED"
+end
+function ProfileService:_saveUnlocked(player)
+ local p=self.profiles[player]
+ if RunService:IsStudio() then
+  local snapshot=ProfileData.copy(p);snapshot.revision=(self.revisions[player] or 0)+1
+  self.studioPersist[player.UserId]=snapshot;p.revision=snapshot.revision;self.revisions[player]=snapshot.revision
+  return true,"STUDIO_SESSION_ONLY"
+ end
+ local entry=self.pending[player]
+ if entry then
+  local ok,code=self:_commit(player,entry);if not ok then return false,code end
+  if sameProgress(p,entry.snapshot) then return true,"SAVED" end
+  -- Play can continue after a failed save. Reconcile the older write first,
+  -- then persist newer clues/outfits instead of dropping those later changes.
+ end
+ local snapshot=ProfileData.copy(p);local expected=self.revisions[player] or 0
+ if expected>=99999999 then return false,"SAVE_CONFLICT" end
+ local token=HttpService:GenerateGUID(false);snapshot.revision=expected+1;snapshot.writeToken=token
+ entry={expected=expected,token=token,snapshot=snapshot};self.pending[player]=entry
+ return self:_commit(player,entry)
+end
+function ProfileService:save(player)
+ if not self.profiles[player] then return false,"NOT_LOADED" end
+ if self.saving[player] then return false,"SAVE_IN_PROGRESS" end
+ if self.status[player]=="SAVE_CONFLICT" then return false,"SAVE_CONFLICT" end
+ self.saving[player]=true;self.status[player]="SAVING"
+ local ran,ok,code=pcall(function() return self:_saveUnlocked(player) end)
+ self.saving[player]=nil
+ if not ran then ok=false;code="SAVE_FAILED" end
+ self.status[player]=code;return ok==true,code
+end
+function ProfileService:release(player)
+ local deadline=os.clock()+15
+ while self.saving[player] and os.clock()<deadline do task.wait(.1) end
+ local ok,code=self:save(player)
+ if not ok and code=="SAVE_FAILED" then task.wait(1);ok,code=self:save(player) end
+ if ok then
+  self.profiles[player]=nil;self.revisions[player]=nil;self.status[player]=nil;self.pending[player]=nil
+  local mission=self.context.services.MissionService;if mission then mission:removePlayer(player) end
+ else warn("LANTERN_PROGRESS_NOT_SAVED",code) end
+ return ok,code
+end
+return ProfileService
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="10">
+        <Properties>
+          <string name="Name">RewardService</string>
+          <string name="Source"><![CDATA[--!nonstrict
+local RewardService={}
+RewardService.__index=RewardService
+local ITEMS={["firefly-scarf"]=true,["rainbow-bow"]=true,["moon-crown"]=true}
+function RewardService.new(context) return setmetatable({context=context},RewardService) end
+local function owns(p,id) for _,owned in ipairs(p.ownedItemIds) do if owned==id then return true end end;return false end
+function RewardService:grant(player,itemId)
+ local p=self.context.services.ProfileService:get(player)
+ if not p or not ITEMS[itemId] then return false,"REWARD_UNAVAILABLE" end
+ if not owns(p,itemId) then
+  table.insert(p.ownedItemIds,itemId);p.currency=#p.ownedItemIds*25
+  local world=self.context.services.WorldBuilder
+  if world and world.celebrateReward then
+   local ok=pcall(function() world:celebrateReward(player,itemId) end)
+   if not ok then warn("LANTERN_REWARD_COSMETIC_UNAVAILABLE") end
+  end
+ end
+ return true,"REWARD_GRANTED"
+end
+function RewardService:handle(player,request)
+ local p=self.context.services.ProfileService:get(player)
+ if not p or not ITEMS[request.itemId] then return {ok=false,code="ITEM_UNAVAILABLE"} end
+ if not owns(p,request.itemId) then return {ok=false,code="ITEM_NOT_OWNED"} end
+ p.equippedItemId=request.itemId;self.context.services.WorldBuilder:setEquipped(player,request.itemId)
+ local saved=self.context.services.ProfileService:save(player)
+ return {ok=true,code=saved and "ITEM_EQUIPPED" or "PROGRESS_SAVE_PENDING"}
+end
+return RewardService
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="11">
+        <Properties>
+          <string name="Name">TargetPolicy</string>
+          <string name="Source"><![CDATA[--!nonstrict
+-- Pure target policy. Publishing is allowed only to the known private staging place.
+local Policy={}
+Policy.PRIVATE_STAGING_UNIVERSE_ID=6027194615
+Policy.PRIVATE_STAGING_PLACE_ID=17602626136
+
+function Policy.allowed(gameId,placeId,isStudio)
+ if isStudio==true then return true end
+ return tonumber(gameId)==Policy.PRIVATE_STAGING_UNIVERSE_ID
+  and tonumber(placeId)==Policy.PRIVATE_STAGING_PLACE_ID
+end
+
+return table.freeze(Policy)
+]]></string>
+        </Properties>
+      </Item>
+      <Item class="ModuleScript" referent="12">
+        <Properties>
+          <string name="Name">WorldBuilder</string>
+          <string name="Source">--!nonstrict
+-- Original toy island and per-player pet. No marketplace assets or paid calls.
+local Lighting=game:GetService("Lighting")
+local RunService=game:GetService("RunService")
+local WorldBuilder={};WorldBuilder.__index=WorldBuilder
+local C={grass=Color3.fromRGB(123,181,140),rock=Color3.fromRGB(110,123,143),path=Color3.fromRGB(249,226,184),wood=Color3.fromRGB(145,99,87),gold=Color3.fromRGB(255,206,99),pink=Color3.fromRGB(244,144,187),blue=Color3.fromRGB(126,203,229),cream=Color3.fromRGB(255,242,212),mint=Color3.fromRGB(159,226,189)}
+local STATIONS={
+ ["lantern-lift"]={name="LiftConsole",pos=Vector3.new(7,3,-10),color=C.gold,label="LIGHT THE HILL",points={Vector3.new(7,3,-10),Vector3.new(-7,3,-11),Vector3.new(-8,6,-24),Vector3.new(0,7,-25)}},
+ ["ribbon-studio"]={name="RibbonConsole",pos=Vector3.new(23,3,6),color=C.pink,label="PIP'S RIBBON STUDIO",points={Vector3.new(23,3,6),Vector3.new(29,3,0),Vector3.new(24,3,-9),Vector3.new(17,3,-2)}},
+ ["moon-picnic"]={name="PicnicConsole",pos=Vector3.new(-23,3,-6),color=C.blue,label="THE MISSING PICNIC",points={Vector3.new(-23,3,-6),Vector3.new(-30,3,-14),Vector3.new(-18,3,-27),Vector3.new(-16,3,4)}},
+}
+local PET_LINES={"Purrfect!","Let's find another glow!","Adventure buddies!","I saw something sparkle!","You found me!"}
+local function part(parent,name,size,position,color,shape,collide)
+ local p=Instance.new("Part");p.Name=name;p.Anchored=true;p.CanCollide=collide~=false;p.Size=size;p.Position=position;p.Color=color;p.Material=Enum.Material.SmoothPlastic
+ p.TopSurface=Enum.SurfaceType.Smooth;p.BottomSurface=Enum.SurfaceType.Smooth;if shape then p.Shape=shape end;p.Parent=parent;return p
+end
+local function disk(parent,name,r,h,pos,color)
+ local p=part(parent,name,Vector3.new(h,r*2,r*2),pos,color,Enum.PartType.Cylinder);p.Orientation=Vector3.new(0,0,90);return p
+end
+local function label(parent,text,width,height)
+ local gui=Instance.new("BillboardGui");gui.Size=UDim2.fromOffset(width or 190,height or 50);gui.StudsOffset=Vector3.new(0,2.8,0);gui.AlwaysOnTop=true;gui.MaxDistance=65;gui.Parent=parent
+ local t=Instance.new("TextLabel");t.BackgroundColor3=Color3.fromRGB(44,62,75);t.BackgroundTransparency=.15;t.Size=UDim2.fromScale(1,1);t.Text=text;t.TextColor3=C.cream;t.TextSize=16;t.TextWrapped=true;t.Font=Enum.Font.GothamBold;t.Parent=gui;Instance.new("UICorner",t).CornerRadius=UDim.new(0,12)
+end
+
+local function glowOrb(parent,name,position,color,size)
+ local n=size or .8
+ local orb=part(parent,name,Vector3.new(n,n,n),position,color,Enum.PartType.Ball,false)
+ orb.Material=Enum.Material.Neon;orb.Transparency=.14
+ local light=Instance.new("PointLight");light.Brightness=.25;light.Range=6;light.Color=color;light.Parent=orb
+ return orb
+end
+local function milestoneFolder(root,mid,index)
+ local name="Milestone_"..mid.."_"..index
+ local existing=root:FindFirstChild(name);if existing then return existing,false end
+ local folder=Instance.new("Folder");folder.Name=name;folder.Parent=root;return folder,true
+end
+local function makePip()
+
+ local pip=Instance.new("Model");pip.Name="Pip"
+ local body=part(pip,"Body",Vector3.new(2.6,2.4,2.3),Vector3.zero,C.cream,Enum.PartType.Ball,false);pip.PrimaryPart=body
+ for _,x in ipairs({-.78,.78}) do
+  local ear=part(pip,"Ear",Vector3.new(.7,1,.65),Vector3.new(x,1.08,0),C.cream,Enum.PartType.Ball,false);ear.Orientation=Vector3.new(0,0,x*22)
+  part(pip,"Paw",Vector3.new(.7,.55,.85),Vector3.new(x,-.94,-.55),C.cream,Enum.PartType.Ball,false)
+  part(pip,"Eye",Vector3.new(.29,.38,.16),Vector3.new(x*.65,.12,-1.07),Color3.fromRGB(44,47,68),Enum.PartType.Ball,false)
+  part(pip,"EyeShine",Vector3.new(.09,.1,.08),Vector3.new(x*.65-.04,.21,-1.16),Color3.new(1,1,1),Enum.PartType.Ball,false)
+ end
+ part(pip,"Nose",Vector3.new(.24,.18,.15),Vector3.new(0,-.12,-1.17),C.pink,Enum.PartType.Ball,false)
+ part(pip,"Tail",Vector3.new(.55,.6,1.4),Vector3.new(1,-.4,.9),C.cream,Enum.PartType.Ball,false)
+ part(pip,"firefly-scarf",Vector3.new(2.4,.36,2.25),Vector3.new(0,-.5,0),C.gold,nil,false).Transparency=1
+ for _,x in ipairs({-.38,.38}) do part(pip,"rainbow-bow",Vector3.new(.85,.65,.35),Vector3.new(x,1.2,-.65),x&lt;0 and C.pink or C.blue,Enum.PartType.Ball,false).Transparency=1 end
+ for i=-1,1 do local p=part(pip,"moon-crown",Vector3.new(.36,.68-math.abs(i)*.18,.4),Vector3.new(i*.45,1.4,-.15),C.gold,nil,false);p.Orientation=Vector3.new(0,0,i*12);p.Transparency=1 end
+ local pet=Instance.new("ProximityPrompt");pet.Name="PetPip";pet.ActionText="Pet Pip";pet.ObjectText="Your adventure pal";pet.HoldDuration=0;pet.MaxActivationDistance=8;pet.RequiresLineOfSight=false;pet.KeyboardKeyCode=Enum.KeyCode.F;pet.Parent=body
+ local speech=Instance.new("BillboardGui");speech.Name="PipSpeech";speech.Size=UDim2.fromOffset(170,46);speech.StudsOffset=Vector3.new(0,3.1,0);speech.AlwaysOnTop=false;speech.MaxDistance=12;speech.Enabled=false;speech.Parent=body
+ local bubble=Instance.new("TextLabel");bubble.Name="BubbleText";bubble.Size=UDim2.fromScale(1,1);bubble.BackgroundColor3=Color3.fromRGB(255,250,244);bubble.BackgroundTransparency=.08;bubble.TextColor3=Color3.fromRGB(43,53,78);bubble.TextWrapped=true;bubble.Font=Enum.Font.GothamBold;bubble.TextSize=14;bubble.Text="";bubble.Parent=speech;Instance.new("UICorner",bubble).CornerRadius=UDim.new(0,13)
+ label(body,"Pip",65,25);return pip
+end
+function WorldBuilder.new(context) return setmetatable({context=context,restored={},companions={},stations={},petTimes={},petCounts={}},WorldBuilder) end
+function WorldBuilder:build()
+ local old=workspace:FindFirstChild("LanternIslandWorld");if old then old:Destroy() end
+ local foundation=workspace:FindFirstChild("FoundationGround");if foundation then foundation.Transparency=1;foundation.CanCollide=false end
+ Lighting.Brightness=2.3;Lighting.ClockTime=17.2;Lighting.Ambient=Color3.fromRGB(145,141,167);Lighting.OutdoorAmbient=Color3.fromRGB(170,171,175)
+ local atmosphere=Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere");atmosphere.Density=.18;atmosphere.Color=Color3.fromRGB(229,221,242);atmosphere.Parent=Lighting
+ local terrain=workspace:FindFirstChildOfClass("Terrain")
+ if terrain then
+  local clouds=terrain:FindFirstChild("LanternClouds") or Instance.new("Clouds");clouds.Name="LanternClouds";clouds.Cover=.34;clouds.Density=.22;clouds.Color=Color3.fromRGB(247,240,255);clouds.Parent=terrain
+ end
+ local f=Instance.new("Folder");f.Name="LanternIslandWorld";f.Parent=workspace;self.folder=f
+ local islandRock=disk(f,"IslandRock",45,8,Vector3.new(0,-5,0),C.rock);islandRock.Material=Enum.Material.Slate
+ local islandGrass=disk(f,"IslandGrass",43,4,Vector3.new(0,-1,0),C.grass);islandGrass.Material=Enum.Material.Grass
+ local pond=disk(f,"Pond",9,.2,Vector3.new(-23,1.12,-18),C.blue);pond.CanCollide=false;pond.Material=Enum.Material.Glass;pond.Transparency=.28;pond.Reflectance=.06
+ local plaza=Instance.new("Folder");plaza.Name="PipsPlaza";plaza.Parent=f;self.plaza=plaza
+ local plazaBase=disk(plaza,"PlazaBase",7,.35,Vector3.new(0,1.05,14),C.cream);plazaBase.Material=Enum.Material.Sandstone
+ local plazaCenter=disk(plaza,"PlazaCenter",4.7,.16,Vector3.new(0,1.26,14),C.mint);plazaCenter.Material=Enum.Material.Grass
+ local compass=glowOrb(plaza,"AdventureCompass",Vector3.new(0,3.1,14),C.gold,1.25);compass:SetAttribute("AmbientFloat",true);compass:SetAttribute("FloatBaseY",3.1);compass:SetAttribute("FloatPhase",0)
+ for _,gate in ipairs({
+  {name="GoldenTrail",pos=Vector3.new(5.5,2,9),color=C.gold},
+  {name="RibbonTrail",pos=Vector3.new(7.4,2,17.5),color=C.pink},
+  {name="MoonTrail",pos=Vector3.new(-7.4,2,17.5),color=C.blue},
+ }) do
+  local m=Instance.new("Model");m.Name=gate.name;m.Parent=plaza
+  local left=part(m,"Left",Vector3.new(.6,3,.6),gate.pos+Vector3.new(-1.4,0,0),gate.color,nil,false);left.Material=Enum.Material.Wood
+  local right=part(m,"Right",Vector3.new(.6,3,.6),gate.pos+Vector3.new(1.4,0,0),gate.color,nil,false);right.Material=Enum.Material.Wood
+  local top=part(m,"Top",Vector3.new(3.4,.55,.6),gate.pos+Vector3.new(0,1.45,0),gate.color,nil,false);top.Material=Enum.Material.SmoothPlastic
+ end
+ local pedestal=Instance.new("Model");pedestal.Name="IslandMagicPedestal";pedestal.Parent=plaza
+ local pedestalBase=disk(pedestal,"PedestalBase",2.6,.32,Vector3.new(0,1.35,20),C.cream);pedestalBase.Material=Enum.Material.Marble
+ local post=part(pedestal,"PedestalPost",Vector3.new(1.2,1.5,1.2),Vector3.new(0,2,20),C.rock,nil,false);post.Material=Enum.Material.Slate
+ label(post,"ISLAND MAGIC",118,30)
+ self.magicSlots={}
+ for i,color in ipairs({C.gold,C.pink,C.blue}) do
+  local slot=part(pedestal,"MagicSlot"..i,Vector3.new(.72,.72,.72),Vector3.new((i-2)*1.05,3,20),C.rock,Enum.PartType.Ball,false)
+  slot:SetAttribute("RestColor",color);slot:SetAttribute("Restored",false);self.magicSlots[i]=slot
+ end
+ local ambient=Instance.new("Folder");ambient.Name="AmbientFireflies";ambient.Parent=f
+ for i=1,14 do
+  local angle=i*2.399;local radius=16+(i%5)*4;local y=2.8+(i%4)*.65
+  local color=i%3==0 and C.pink or (i%3==1 and C.gold or C.blue)
+  local orb=glowOrb(ambient,"Firefly"..i,Vector3.new(math.cos(angle)*radius,y,math.sin(angle)*radius),color,.35)
+  orb:SetAttribute("AmbientFloat",true);orb:SetAttribute("FloatBaseY",y);orb:SetAttribute("FloatPhase",i*.73)
+ end
+ for i=1,7 do
+  local angle=i*.88;local pad=disk(f,"LilyPad"..i,1.1,.12,Vector3.new(-23+math.cos(angle)*5.3,1.25,-18+math.sin(angle)*5.3),i%2==0 and C.mint or C.grass);pad.CanCollide=false;pad.Material=Enum.Material.Grass
+ end
+ local pondRocks=Instance.new("Folder");pondRocks.Name="PondRocks";pondRocks.Parent=f
+ for i=1,9 do
+  local angle=i*.72;local rock=part(pondRocks,"ShoreRock"..i,Vector3.new(1.5+(i%3)*.35,.7+(i%2)*.3,1.2+(i%4)*.2),Vector3.new(-23+math.cos(angle)*10.2,1.45,-18+math.sin(angle)*10.2),C.rock,Enum.PartType.Ball,false)
+  rock.Material=Enum.Material.Slate;rock.Orientation=Vector3.new((i*13)%24,(i*37)%180,(i*7)%18)
+ end
+ for mid,station in pairs(STATIONS) do for i=1,9 do
+  local position=Vector3.new(0,1.15,14):Lerp(Vector3.new(station.pos.X,1.15,station.pos.Z),i/10)
+  local stoneColor=C.path:Lerp(station.color,.22)
+  local stone=disk(f,mid.."-trail-stone-"..i,1.4,.2,position,stoneColor);stone.Material=Enum.Material.Sandstone
+  if i%3==0 then
+   local guide=glowOrb(f,mid.."-trail-guide-"..i,position+Vector3.new(0,.75,0),station.color,.18)
+   guide:SetAttribute("AmbientFloat",true);guide:SetAttribute("FloatBaseY",guide.Position.Y);guide:SetAttribute("FloatPhase",i*.43)
+  end
+ end end
+ for i=1,10 do
+  local angle=i*math.pi/5;local x,z=math.cos(angle)*35,math.sin(angle)*35
+  local trunk=part(f,"TreeTrunk",Vector3.new(1.3,5,1.3),Vector3.new(x,3,z),C.wood);trunk.Material=Enum.Material.Wood
+  local baseColor=i%2==0 and C.mint or C.pink
+  local canopy=part(f,"TreeCanopy",Vector3.new(6,5.2,6),Vector3.new(x,7,z),baseColor,Enum.PartType.Ball);canopy.Material=Enum.Material.Grass
+  local crown=part(f,"TreeCrown",Vector3.new(4.2,3.8,4.2),Vector3.new(x+.55*math.cos(angle*2),9.1,z+.55*math.sin(angle*2)),i%2==0 and C.grass or C.cream,Enum.PartType.Ball);crown.Material=Enum.Material.Grass
+ end
+ for i=1,36 do local a=i*2.4;local r=12+(i%6)*4;local p=part(f,"Flower",Vector3.new(.7,.4,.7),Vector3.new(math.cos(a)*r,1.3,math.sin(a)*r),i%2==0 and C.pink or C.gold,Enum.PartType.Ball,false);p.Material=Enum.Material.Neon;p.Transparency=.08 end
+ local hill=disk(f,"LanternHill",11,5,Vector3.new(0,2.5,-25),C.mint);hill.Material=Enum.Material.Grass
+ -- Wide low steps are the dependable route. A completed lift also offers a ride.
+ for i=1,9 do local step=part(f,"HillStep",Vector3.new(6,.65,2.8),Vector3.new(-8,1+i*.5,-8-i*1.9),C.path);step.Material=Enum.Material.Sandstone end
+ local platform=part(f,"LiftPlatform",Vector3.new(7,.7,7),Vector3.new(1,1.5,-13),C.gold);platform.Material=Enum.Material.Metal;platform.Reflectance=.08
+ local lanternPost=part(f,"LanternPost",Vector3.new(.9,6,.9),Vector3.new(0,8,-25),C.wood);lanternPost.Material=Enum.Material.Wood
+ local glow=part(f,"LanternGlow",Vector3.new(3,3.5,3),Vector3.new(0,12,-25),C.rock,nil,false);glow.Material=Enum.Material.Glass;glow.Transparency=.18
+ local light=Instance.new("PointLight");light.Name="WarmLight";light.Enabled=false;light.Range=32;light.Brightness=3;light.Color=C.gold;light.Parent=glow
+ for mid,d in pairs(STATIONS) do
+  for i,pos in ipairs(d.points) do
+   local console=part(f,i==1 and d.name or (mid.."-checkpoint-"..i),Vector3.new(i==1 and 3 or 1.5,2,1.5),pos,d.color,nil,false)
+   console:SetAttribute("MissionId",mid);console:SetAttribute("CheckpointIndex",i)
+   if i==1 then self.stations[mid]=console;label(console,d.label) end
+   local orb=part(f,mid.."-spark-"..i,Vector3.new(.9,.9,.9),pos+Vector3.new(0,1.65,0),C.rock,Enum.PartType.Ball,false);orb:SetAttribute("RestColor",d.color)
+   local prompt=Instance.new("ProximityPrompt");prompt.ActionText="Open clue "..i;prompt.ObjectText=d.label;prompt.HoldDuration=0;prompt.MaxActivationDistance=9;prompt.RequiresLineOfSight=false;prompt:SetAttribute("MissionId",mid);prompt:SetAttribute("CheckpointIndex",i);prompt.Parent=console
+  end
+ end
+ local ride=Instance.new("ProximityPrompt");ride.Name="RideLift";ride.ActionText="Ride to lantern";ride.ObjectText="Repaired lift";ride.Enabled=false;ride.HoldDuration=0;ride.MaxActivationDistance=9;ride.RequiresLineOfSight=false;ride.KeyboardKeyCode=Enum.KeyCode.R;ride.Parent=platform;self.ride=ride
+ ride.Triggered:Connect(function(player)
+  local p=self.context.services.ProfileService:get(player);local root=player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+  if p and p.completions["lantern-lift"] and root and (root.Position-platform.Position).Magnitude&lt;=12 then player.Character:PivotTo(CFrame.new(0,8,-22)) end
+ end)
+ local picnic=Instance.new("Folder");picnic.Name="PicnicReward";picnic.Parent=f;self.picnic=picnic
+ local blanket=part(picnic,"Blanket",Vector3.new(9,.15,7),Vector3.new(-16,1.25,4),C.pink);blanket.Material=Enum.Material.Fabric;blanket.Transparency=1
+ for i=1,3 do local cup=part(picnic,"Cup",Vector3.new(.6,.8,.6),Vector3.new(-19+i*1.5,1.75,4),i%2==0 and C.blue or C.cream,nil,false);cup.Material=Enum.Material.Glass;cup.Transparency=1 end
+ self.template=makePip()
+ self.heartbeat=RunService.Heartbeat:Connect(function(dt)
+  for player,pip in pairs(self.companions) do
+   local character=player.Character;local root=character and character:FindFirstChild("HumanoidRootPart")
+   if root and pip.Parent then
+    if root.Position.Y &lt; -16 then character:PivotTo(CFrame.new(0,6,14)) end
+    local happy=(self.petTimes[player] or 0)&gt;os.clock()
+    local bob=happy and math.abs(math.sin(os.clock()*9))*.8 or math.sin(os.clock()*2)*.12
+    local target=root.Position+root.CFrame.RightVector*3.3-root.CFrame.LookVector*1.7+Vector3.new(0,-.9+bob,0)
+    local position=pip:GetPivot().Position:Lerp(target,math.min(1,dt*5));local facing=Vector3.new(root.Position.X,position.Y,root.Position.Z)
+    pip:PivotTo((facing-position).Magnitude&gt;.1 and CFrame.lookAt(position,facing) or CFrame.new(position))
+   end
+  end
+ end)
+ return true
+end
+function WorldBuilder:isNearMission(player,mid,index)
+ local root=player.Character and player.Character:FindFirstChild("HumanoidRootPart");local d=STATIONS[mid];local target=d and d.points[math.clamp(index or 1,1,4)]
+ return root~=nil and target~=nil and (root.Position-target).Magnitude&lt;=12
+end
+function WorldBuilder:onCheckpoint(_player,mid,index)
+ local orb=self.folder and self.folder:FindFirstChild(mid.."-spark-"..index)
+ if orb then orb.Color=orb:GetAttribute("RestColor");orb.Material=Enum.Material.Neon end
+ self:revealMilestone(mid,index)
+end
+function WorldBuilder:revealMilestone(mid,index)
+ if not self.folder then return end
+ local d=STATIONS[mid];if not d or not d.points[index] then return end
+ local folder,created=milestoneFolder(self.folder,mid,index);if not created then return end
+ local pos=d.points[index]
+ if mid=="lantern-lift" then
+  local pole=part(folder,"GlowPost",Vector3.new(.35,2.6,.35),pos+Vector3.new(2.2,1.1,0),C.wood,nil,false)
+  glowOrb(folder,"WarmOrb",pole.Position+Vector3.new(0,1.55,0),C.gold,.7)
+  for j=1,3 do
+   local firefly=glowOrb(folder,"Firefly"..j,pos+Vector3.new(1+j*.55,1.2+j*.3,(j-2)*.55),C.gold,.22)
+   firefly:SetAttribute("AmbientFloat",true);firefly:SetAttribute("FloatBaseY",firefly.Position.Y);firefly:SetAttribute("FloatPhase",j*.81+index)
+  end
+ elseif mid=="ribbon-studio" then
+  part(folder,"RibbonPostL",Vector3.new(.28,2.5,.28),pos+Vector3.new(-1.4,1,1.4),C.wood,nil,false)
+  part(folder,"RibbonPostR",Vector3.new(.28,2.5,.28),pos+Vector3.new(1.4,1,1.4),C.wood,nil,false)
+  local ribbon=part(folder,"Ribbon",Vector3.new(3.1,.36,.18),pos+Vector3.new(0,2.15,1.4),index%2==0 and C.blue or C.pink,nil,false)
+  local spark=glowOrb(folder,"RibbonSpark",ribbon.Position+Vector3.new(0,.55,0),index%2==0 and C.pink or C.blue,.28)
+  spark:SetAttribute("AmbientFloat",true);spark:SetAttribute("FloatBaseY",spark.Position.Y);spark:SetAttribute("FloatPhase",index*.9)
+ elseif mid=="moon-picnic" then
+  local pad=disk(folder,"MoonPad",1.4,.12,pos+Vector3.new(1.8,-1.68,1.2),index%2==0 and C.mint or C.blue);pad.CanCollide=false
+  local stem=part(folder,"MoonStem",Vector3.new(.28,1.1,.28),pos+Vector3.new(-1.7,-.8,1),C.cream,nil,false)
+  local bloom=glowOrb(folder,"MoonBloom",stem.Position+Vector3.new(0,.7,0),index%2==0 and C.blue or C.pink,.65)
+  bloom:SetAttribute("AmbientFloat",true);bloom:SetAttribute("FloatBaseY",bloom.Position.Y);bloom:SetAttribute("FloatPhase",index*.67)
+ end
+ folder:SetAttribute("Revealed",true)
+end
+function WorldBuilder:activateTrailGate(mid)
+ if not self.plaza then return end
+ local names={["lantern-lift"]="GoldenTrail",["ribbon-studio"]="RibbonTrail",["moon-picnic"]="MoonTrail"}
+ local slotIndex={["lantern-lift"]=1,["ribbon-studio"]=2,["moon-picnic"]=3}
+ local gate=self.plaza:FindFirstChild(names[mid] or "");if not gate or gate:GetAttribute("Restored") then return end
+ gate:SetAttribute("Restored",true)
+ local slot=self.magicSlots and self.magicSlots[slotIndex[mid]]
+ if slot and not slot:GetAttribute("Restored") then
+  slot:SetAttribute("Restored",true);slot.Color=slot:GetAttribute("RestColor");slot.Material=Enum.Material.Neon
+  local light=Instance.new("PointLight");light.Name="MagicSlotGlow";light.Brightness=.55;light.Range=8;light.Color=slot.Color;light.Parent=slot
+ end
+ for _,p in ipairs(gate:GetChildren())do if p:IsA("BasePart")then p.Material=Enum.Material.Neon end end
+ local top=gate:FindFirstChild("Top")
+ if top then
+  local light=Instance.new("PointLight");light.Name="RestoredGlow";light.Brightness=.65;light.Range=10;light.Color=top.Color;light.Parent=top
+  local star=glowOrb(gate,"RestoredStar",top.Position+Vector3.new(0,1.15,0),top.Color,.48)
+  star:SetAttribute("AmbientFloat",true);star:SetAttribute("FloatBaseY",star.Position.Y);star:SetAttribute("FloatPhase",#mid)
+ end
+end
+function WorldBuilder:restoreMission(mid)
+ if self.restored[mid] or not self.folder then return end;self.restored[mid]=true
+ for i=1,4 do self:onCheckpoint(nil,mid,i) end
+ self:activateTrailGate(mid)
+ if mid=="lantern-lift" then local glow=self.folder:FindFirstChild("LanternGlow");glow.Color=C.gold;glow.Material=Enum.Material.Neon;glow.WarmLight.Enabled=true;self.ride.Enabled=true
+ elseif mid=="ribbon-studio" then for i=1,5 do local flag=part(self.folder,"FestivalRibbon",Vector3.new(.2,2.4,1.3),Vector3.new(25,6,1+i*2),i%2==0 and C.pink or C.blue,nil,false);flag.Orientation=Vector3.new(0,0,-25) end
+ elseif mid=="moon-picnic" then for _,p in ipairs(self.picnic:GetChildren()) do p.Transparency=0 end end
+end
+function WorldBuilder:setRestored(value) if value then self:restoreMission("lantern-lift") end end
+function WorldBuilder:setEquipped(player,itemId)
+ if not self.folder or not self.template then return end
+ local pip=self.companions[player]
+ if not pip then
+  pip=self.template:Clone();pip.Name="Pip_"..player.UserId;pip:SetAttribute("OwnerUserId",player.UserId);pip.Parent=self.folder
+  local root=player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+  pip:PivotTo(CFrame.new(root and root.Position+Vector3.new(3,0,0) or Vector3.new(3,3,14)));self.companions[player]=pip
+  pip.Body.PetPip.Triggered:Connect(function(visitor)
+   local r=visitor.Character and visitor.Character:FindFirstChild("HumanoidRootPart")
+   if visitor==player and r and (r.Position-pip:GetPivot().Position).Magnitude&lt;=10 then
+    self.petTimes[player]=os.clock()+2;self.petCounts[player]=(self.petCounts[player] or 0)+1
+    local speech=pip.Body:FindFirstChild("PipSpeech");local bubble=speech and speech:FindFirstChild("BubbleText")
+    if speech and bubble then
+     local serial=(speech:GetAttribute("Serial") or 0)+1;speech:SetAttribute("Serial",serial);bubble.Text=PET_LINES[((self.petCounts[player]-1)%#PET_LINES)+1];speech.Enabled=true
+     task.delay(2.1,function() if speech.Parent and speech:GetAttribute("Serial")==serial then speech.Enabled=false end end)
+    end
+   end
+  end)
+ end
+ for _,p in ipairs(pip:GetChildren()) do if p:IsA("BasePart") and (p.Name=="firefly-scarf" or p.Name=="rainbow-bow" or p.Name=="moon-crown") then p.Transparency=p.Name==itemId and 0 or 1 end end
+ self:updateCollection(player)
+end
+function WorldBuilder:updateCollection(player)
+ local pip=self.companions[player];if not pip then return end
+ local profile=self.context.services.ProfileService:get(player);if not profile then return end
+ local owned={};for _,id in ipairs(profile.ownedItemIds or {}) do owned[id]=true end
+ local unlocked=owned["firefly-scarf"] and owned["rainbow-bow"] and owned["moon-crown"] or false
+ pip:SetAttribute("StarlightTrailUnlocked",unlocked)
+ if unlocked and self.folder and not self.folder:FindFirstChild("StarlightGarden") then
+  local garden=Instance.new("Folder");garden.Name="StarlightGarden";garden.Parent=self.folder
+  local ring=disk(garden,"GardenRing",6,.16,Vector3.new(0,1.42,14),C.cream);ring.CanCollide=false
+  for i=1,10 do
+   local angle=i*math.pi/5;local color=i%3==0 and C.blue or (i%3==1 and C.gold or C.pink)
+   local bloom=glowOrb(garden,"StarBloom"..i,Vector3.new(math.cos(angle)*4.8,1.8,14+math.sin(angle)*4.8),color,.42)
+   bloom:SetAttribute("AmbientFloat",true);bloom:SetAttribute("FloatBaseY",1.8);bloom:SetAttribute("FloatPhase",i*.51)
+  end
+  local star=glowOrb(garden,"CollectionStar",Vector3.new(0,4.2,14),C.gold,1.5)
+  star:SetAttribute("AmbientFloat",true);star:SetAttribute("FloatBaseY",4.2);star:SetAttribute("FloatPhase",1.3)
+  garden:SetAttribute("CollectionComplete",true)
+ end
+ local body=pip:FindFirstChild("Body");if not body then return end
+ local trail=body:FindFirstChild("StarlightTrail")
+ if not trail and unlocked then
+  local top=Instance.new("Attachment");top.Name="StarlightTop";top.Position=Vector3.new(0,.4,1.05);top.Parent=body
+  local bottom=Instance.new("Attachment");bottom.Name="StarlightBottom";bottom.Position=Vector3.new(0,-.35,1.05);bottom.Parent=body
+  trail=Instance.new("Trail");trail.Name="StarlightTrail";trail.Attachment0=top;trail.Attachment1=bottom;trail.Lifetime=.65;trail.MinLength=.06;trail.FaceCamera=true
+  trail.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,C.gold),ColorSequenceKeypoint.new(.5,C.pink),ColorSequenceKeypoint.new(1,C.blue)})
+  trail.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,.18),NumberSequenceKeypoint.new(1,1)})
+  trail.WidthScale=NumberSequence.new({NumberSequenceKeypoint.new(0,.8),NumberSequenceKeypoint.new(1,0)});trail.Parent=body
+ end
+ if trail then trail.Enabled=unlocked end
+end
+function WorldBuilder:celebrateReward(player,_itemId)
+ local profile=self.context.services.ProfileService:get(player);if not profile then return end
+ self:setEquipped(player,profile.equippedItemId)
+ self.petTimes[player]=os.clock()+1.8
+end
+function WorldBuilder:removePlayer(player)
+ local pip=self.companions[player];if pip then pip:Destroy() end;self.companions[player]=nil;self.petTimes[player]=nil;self.petCounts[player]=nil
+end
+return WorldBuilder</string>
+        </Properties>
+      </Item>
+      <Item class="StringValue" referent="13">
+        <Properties>
+          <string name="Name">BuildIdentity</string>
+          <string name="Value">378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332</string>
+        </Properties>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="StarterPlayer" referent="14">
+    <Properties>
+      <string name="Name">StarterPlayer</string>
+    </Properties>
+    <Item class="StarterPlayerScripts" referent="15">
+      <Properties>
+        <string name="Name">StarterPlayerScripts</string>
+      </Properties>
+      <Item class="Folder" referent="16">
+        <Properties>
+          <string name="Name">LanternIslandClient</string>
+        </Properties>
+        <Item class="ModuleScript" referent="17">
+          <Properties>
+            <string name="Name">FeedbackController</string>
+            <string name="Source">--!nonstrict
+-- Client presentation only. No answers, rewards, profiles or server rules change here.
+local Lighting=game:GetService("Lighting")
+local RunService=game:GetService("RunService")
+local GuiService=game:GetService("GuiService")
+local FeedbackController={}
+FeedbackController.__index=FeedbackController
+function FeedbackController.new(context)
+ local self=setmetatable({context=context,connections={},destroyed=false,ambient={},ambientSet={}},FeedbackController)
+ table.insert(self.connections,context.resultReceived:Connect(function(result)
+  if result.code=="MISSION_COMPLETE" then
+   local cam=workspace.CurrentCamera
+   if cam then
+    local original=cam.FieldOfView;cam.FieldOfView=original-3
+    task.delay(.18,function() if not self.destroyed and cam.Parent then cam.FieldOfView=original end end)
+   end
+  end
+ end))
+ return self
+end
+function FeedbackController:_present(instance)
+ if instance:IsA("PointLight") and instance.Name=="WarmLight" then
+  instance.Brightness=.65;instance.Range=16
+ elseif instance:IsA("BillboardGui") then
+  -- Distant station signs were covering the pet and the path across the island.
+  local pet=instance.Parent and instance.Parent.Name=="Body"
+  instance.MaxDistance=pet and 12 or 24
+  instance.AlwaysOnTop=false
+  if not pet then instance.Size=UDim2.fromOffset(154,42) end
+ elseif instance:IsA("ProximityPrompt") and instance.Name=="PetPip" then
+  instance.UIOffset=Vector2.new(0,64)
+ elseif instance:IsA("BasePart") and instance:GetAttribute("AmbientFloat")==true and not self.ambientSet[instance] then
+  self.ambientSet[instance]=true;table.insert(self.ambient,instance)
+ end
+end
+function FeedbackController:_prompts(state)
+ local mission=state and state.mission
+ if not mission or not self.world then return end
+ for _,p in ipairs(self.world:GetDescendants()) do
+  if p:IsA("ProximityPrompt") then
+   local mid=p:GetAttribute("MissionId")
+   if type(mid)=="string" then
+    local index=p:GetAttribute("CheckpointIndex")
+    p.Enabled=mission.status~="ACTIVE" and (
+     (mid==mission.missionId and mission.status~="COMPLETED" and index==mission.checkpointIndex)
+     or (mid~=mission.missionId and index==1))
+   elseif p.Name=="PetPip" then
+    local owner=p.Parent and p.Parent.Parent and p.Parent.Parent:GetAttribute("OwnerUserId")
+    p.Enabled=owner==self.context.player.UserId and mission.status~="ACTIVE"
+   end
+  end
+ end
+end
+function FeedbackController:mount(_playerGui)
+ self.previousExposure=Lighting.ExposureCompensation
+ Lighting.ExposureCompensation=-.25
+ self.bloom=Instance.new("BloomEffect");self.bloom.Name="LanternClientBloom";self.bloom.Intensity=.08;self.bloom.Size=14;self.bloom.Threshold=1.85;self.bloom.Parent=Lighting
+ self.color=Instance.new("ColorCorrectionEffect");self.color.Name="LanternClientColor";self.color.Saturation=.06;self.color.Contrast=.025;self.color.Brightness=.01;self.color.Parent=Lighting
+ self.sun=Instance.new("SunRaysEffect");self.sun.Name="LanternClientSun";self.sun.Intensity=.03;self.sun.Spread=.7;self.sun.Parent=Lighting
+ local reduced=false;pcall(function() reduced=GuiService.ReducedMotionEnabled==true end)
+ if not reduced then
+  table.insert(self.connections,RunService.RenderStepped:Connect(function()
+   local now=os.clock()
+   for i=#self.ambient,1,-1 do
+    local p=self.ambient[i]
+    if not p.Parent then self.ambientSet[p]=nil;table.remove(self.ambient,i)
+    else
+     local baseY=p:GetAttribute("FloatBaseY");local phase=p:GetAttribute("FloatPhase") or 0
+     if type(baseY)=="number" then
+      p.Position=Vector3.new(p.Position.X,baseY+math.sin(now*1.25+phase)*.32,p.Position.Z)
+      p.Transparency=.08+(.5+.5*math.sin(now*1.7+phase))*.16
+     end
+    end
+   end
+  end))
+ end
+ task.spawn(function()
+  local world=workspace:WaitForChild("LanternIslandWorld",10)
+  if not world or self.destroyed then return end
+  self.world=world
+  for _,instance in ipairs(world:GetDescendants()) do self:_present(instance) end
+  table.insert(self.connections,world.DescendantAdded:Connect(function(instance)
+   self:_present(instance)
+   if instance:IsA("ProximityPrompt") then self:_prompts(self.context.getState()) end
+  end))
+  table.insert(self.connections,self.context.stateChanged:Connect(function(state) self:_prompts(state) end))
+  self:_prompts(self.context.getState())
+ end)
+end
+function FeedbackController:destroy()
+ self.destroyed=true
+ for _,c in ipairs(self.connections) do c:Disconnect() end
+ if self.bloom then self.bloom:Destroy() end;if self.color then self.color:Destroy() end;if self.sun then self.sun:Destroy() end
+ if self.previousExposure~=nil and Lighting.ExposureCompensation==-.25 then Lighting.ExposureCompensation=self.previousExposure end
+end
+return FeedbackController</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="18">
+          <Properties>
+            <string name="Name">InteractionController</string>
+            <string name="Source"><![CDATA[--!nonstrict
+local ProximityPromptService=game:GetService("ProximityPromptService")
+local StarterGui=game:GetService("StarterGui")
+local InteractionController={};InteractionController.__index=InteractionController
+function InteractionController.new(context)
+ return setmetatable({context=context,connections={},coreGuiStates={}},InteractionController)
+end
+function InteractionController:mount(_playerGui)
+ -- This adventure has no chat or leaderboard gameplay. Their default overlays
+ -- cover the small-screen map and close button. Keep Roblox's menu/reporting,
+ -- movement, jump, health and other platform controls unchanged.
+ for _,kind in ipairs({Enum.CoreGuiType.Chat,Enum.CoreGuiType.PlayerList}) do
+  local readOk,previous=pcall(function() return StarterGui:GetCoreGuiEnabled(kind) end)
+  if readOk then
+   local changed=pcall(function() StarterGui:SetCoreGuiEnabled(kind,false) end)
+   if changed then self.coreGuiStates[kind]=previous else warn("LANTERN_OVERLAY_LAYOUT_UNCONFIRMED") end
+  end
+ end
+ table.insert(self.connections,ProximityPromptService.PromptTriggered:Connect(function(prompt,player)
+  if player~=self.context.player then return end
+  local world=workspace:FindFirstChild("LanternIslandWorld")
+  if not world or not prompt:IsDescendantOf(world) then return end
+  local mid=prompt:GetAttribute("MissionId");if type(mid)=="string" then self.context.send("StartMission",{missionId=mid}) end
+ end))
+ table.insert(self.connections,ProximityPromptService.PromptShown:Connect(function(prompt)
+  local mid=prompt:GetAttribute("MissionId")
+  local owner=prompt.Parent and prompt.Parent.Parent and prompt.Parent.Parent:GetAttribute("OwnerUserId")
+  if owner and owner~=self.context.player.UserId then prompt.Enabled=false end
+  if type(mid)~="string" then return end
+  local state=self.context.getState();local m=state and state.mission
+  local index=prompt:GetAttribute("CheckpointIndex")
+  prompt.ActionText=(m and m.missionId==mid and index~=m.checkpointIndex)
+   and "Follow your next glow" or ("Open clue "..tostring(index or 1))
+ end))
+end
+function InteractionController:destroy()
+ for _,c in ipairs(self.connections) do c:Disconnect() end;self.connections={}
+ for kind,previous in pairs(self.coreGuiStates) do
+  pcall(function() StarterGui:SetCoreGuiEnabled(kind,previous) end)
+ end
+ self.coreGuiStates={}
+end
+return InteractionController
+]]></string>
+          </Properties>
+        </Item>
+        <Item class="LocalScript" referent="19">
+          <Properties>
+            <string name="Name">Main</string>
+            <string name="Source"><![CDATA[--!nonstrict
+-- One network owner and one lifecycle. Gameplay controllers subscribe through context.
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HttpService = game:GetService("HttpService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+local statusGui = Instance.new("ScreenGui")
+statusGui.Name = "LanternIslandStartup"
+statusGui.ResetOnSpawn = false
+statusGui.IgnoreGuiInset = false
+statusGui.Parent = playerGui
+local status = Instance.new("TextLabel")
+status.Name = "Status"
+status.AnchorPoint = Vector2.new(0.5, 0)
+status.Position = UDim2.fromScale(0.5, 0.03)
+status.Size = UDim2.new(0.88, 0, 0, 110)
+status.BackgroundColor3 = Color3.fromRGB(22, 42, 51)
+status.TextColor3 = Color3.fromRGB(248, 245, 223)
+status.Font = Enum.Font.GothamMedium
+status.TextSize = 18
+status.TextWrapped = true
+status.Text = "Lantern Island\nConnecting to this development build..."
+status.Parent = statusGui
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = status
+local retry = Instance.new("TextButton")
+retry.Name = "RetryConnection"
+retry.AnchorPoint = Vector2.new(0.5, 0)
+retry.Position = UDim2.new(0.5, 0, 0.03, 118)
+retry.Size = UDim2.fromOffset(200, 48)
+retry.Font = Enum.Font.GothamMedium
+retry.TextSize = 18
+retry.Text = "Check connection"
+retry.BackgroundColor3 = Color3.fromRGB(243, 195, 99)
+retry.TextColor3 = Color3.fromRGB(22, 42, 51)
+retry.Parent = statusGui
+Instance.new("UICorner", retry).CornerRadius = UDim.new(0, 12)
+
+local shared = ReplicatedStorage:WaitForChild("LanternIslandShared", 15)
+if not shared then status.Text = "Lantern Island\nBuild connection unavailable. Rejoin this test build."; retry.Visible = false; return end
+local module = shared:WaitForChild("Protocol", 15)
+if not module then status.Text = "Lantern Island\nProtocol module missing. This build is incomplete."; retry.Visible = false; return end
+local Protocol = require(module)
+local remoteFolder = ReplicatedStorage:WaitForChild(Protocol.REMOTE_FOLDER, 15)
+if not remoteFolder then status.Text = "Lantern Island\nServer unavailable. This is not a playable release."; retry.Visible = false; return end
+local actionRemote = remoteFolder:WaitForChild(Protocol.ACTION_REMOTE, 10)
+local stateRemote = remoteFolder:WaitForChild(Protocol.STATE_REMOTE, 10)
+if not actionRemote or not actionRemote:IsA("RemoteEvent") or not stateRemote or not stateRemote:IsA("RemoteEvent") then
+    status.Text = "Lantern Island\nNetwork components missing. This build is incomplete."; retry.Visible = false; return
+end
+local stateChanged = Instance.new("BindableEvent")
+local resultReceived = Instance.new("BindableEvent")
+local pendingChanged = Instance.new("BindableEvent")
+local pending = nil
+local uncertainRequestId = nil
+local mountFailed = false
+local sequence = 0
+local latestState = nil
+local controllers = {}
+local context = {
+    player = player, playerGui = playerGui, protocol = Protocol,
+    stateChanged = stateChanged.Event, resultReceived = resultReceived.Event,
+    pendingChanged = pendingChanged.Event,
+}
+context.getState = function() return latestState end
+context.send = function(action, fields)
+    if pending then return nil, "BUSY" end
+    if uncertainRequestId and action ~= "GetState" then return nil, "REFRESH_REQUIRED" end
+    fields = fields or {}
+    local envelope = { requestId = HttpService:GenerateGUID(false), action = action,
+        missionId = fields.missionId, itemId = fields.itemId, payload = fields.payload }
+    local valid, code, clean = Protocol.validate(envelope)
+    if not valid then return nil, code end
+    pending = clean
+    pendingChanged:Fire(true)
+    actionRemote:FireServer(clean)
+    task.delay(Protocol.REQUEST_TIMEOUT, function()
+        if pending and pending.requestId == clean.requestId then
+            pending = nil
+            if clean.action ~= "GetState" then uncertainRequestId = clean.requestId end
+            pendingChanged:Fire(false)
+            -- An uncertain acknowledgment is NOT an unsuccessful transaction; never auto-resubmit.
+            resultReceived:Fire({ requestId = clean.requestId, ok = false, code = "ACK_UNCONFIRMED" })
+            statusGui.Enabled = true
+            status.Text = "Lantern Island\nConnection interrupted. Check your current progress before trying again."
+        end
+    end)
+    return clean.requestId, "SENT"
+end
+local function mountControllers()
+    if controllers.UIController then return true end
+    if mountFailed then return false end
+    for _, name in ipairs({ "UIController", "InteractionController" }) do
+        local found = script.Parent:FindFirstChild(name)
+        if not found or not found:IsA("ModuleScript") then return false end
+    end
+    local created = {}
+    local ok = pcall(function()
+        for _, name in ipairs({ "UIController", "InteractionController", "SpellingController", "ReadingController", "FeedbackController" }) do
+            local found = script.Parent:FindFirstChild(name)
+            if found and found:IsA("ModuleScript") then
+                local definition = require(found)
+                assert(type(definition.new) == "function", name .. ".new required")
+                local controller = definition.new(context)
+                assert(type(controller.destroy) == "function", name .. ":destroy required")
+                created[name] = controller
+                if controller.mount then controller:mount(playerGui) end
+            end
+        end
+        assert(type(created.UIController.render) == "function", "UIController:render required")
+    end)
+    if not ok then
+        mountFailed = true
+        for _, controller in pairs(created) do pcall(function() controller:destroy() end) end
+        return false
+    end
+    controllers = created
+    return true
+end
+stateRemote.OnClientEvent:Connect(function(packet)
+    if type(packet) ~= "table" or type(packet.sequence) ~= "number" or packet.sequence <= sequence then return end
+    sequence = packet.sequence
+    local wasRefresh = pending and packet.requestId == pending.requestId and pending.action == "GetState"
+    if pending and packet.requestId == pending.requestId then pending = nil; pendingChanged:Fire(false) end
+    if packet.requestId == uncertainRequestId or (wasRefresh and type(packet.state) == "table" and packet.state.mutationPending == false) then
+        uncertainRequestId = nil
+    end
+    if type(packet.state) == "table" then latestState = packet.state end
+    if latestState and latestState.runtimeStatus == "READY" and latestState.profileStatus == "LOADED" then
+        if mountControllers() then
+            local rendered = pcall(function() controllers.UIController:render(latestState) end)
+            statusGui.Enabled = not rendered
+            if not rendered then status.Text = "Lantern Island\nThe interface could not update. Please rejoin this test build." end
+        else
+            statusGui.Enabled = true
+            status.Text = "Lantern Island\nGameplay controls are not integrated yet. This is a development build."
+        end
+    else
+        statusGui.Enabled = true
+        local text = latestState and latestState.runtimeStatus or "STATE_UNAVAILABLE"
+        if latestState and latestState.runtimeStatus == "READY" then text = latestState.profileStatus end
+        status.Text = "Lantern Island\nDevelopment status: " .. tostring(text) .. "\nYour existing StarBlox game is unchanged."
+    end
+    stateChanged:Fire(latestState)
+    resultReceived:Fire({ requestId = packet.requestId, ok = packet.ok == true, code = packet.code })
+end)
+retry.Activated:Connect(function() context.send("GetState") end)
+player.CharacterAdded:Connect(function() context.send("GetState") end)
+context.send("GetState")
+script.Destroying:Connect(function()
+    for _, controller in pairs(controllers) do pcall(function() controller:destroy() end) end
+    stateChanged:Destroy(); resultReceived:Destroy(); pendingChanged:Destroy(); statusGui:Destroy()
+end)
+]]></string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="20">
+          <Properties>
+            <string name="Name">RewardJourney</string>
+            <string name="Source">--!nonstrict
+-- Pure presentation model. Only server-confirmed inventory drives celebrations.
+-- No random prizes, expiring streaks, lost lives, purchases, or mastery claims.
+local Journey={}
+Journey.catalog={
+ {id="firefly-scarf",title="Firefly Scarf",quest="Light the hill",color={255,207,116},message="You brought the hill's warm glow back!"},
+ {id="rainbow-bow",title="Rainbow Bow",quest="Ribbon studio",color={244,163,205},message="Your word clues made the ribbon studio shine!"},
+ {id="moon-crown",title="Moon Crown",quest="Missing picnic",color={175,190,255},message="You followed the story and found the picnic!"},
+}
+for _,item in ipairs(Journey.catalog) do table.freeze(item.color);table.freeze(item) end
+table.freeze(Journey.catalog)
+function Journey.item(id)
+ for _,item in ipairs(Journey.catalog) do if item.id==id then return item end end
+ return nil
+end
+function Journey.collection(profile)
+ local seen={};local count=0
+ if type(profile)=="table" and type(profile.ownedItemIds)=="table" then
+  for _,id in ipairs(profile.ownedItemIds) do if Journey.item(id) and not seen[id] then seen[id]=true;count+=1 end end
+ end
+ return {count=count,total=3,owned=seen,bonusUnlocked=count==3}
+end
+function Journey.progress(mission,profile)
+ local item=Journey.item(mission and mission.rewardItemId)
+ if not item then return {solved=0,total=4,title="Choose an adventure",owned=false,practice=false} end
+ local owned=Journey.collection(profile).owned[item.id]==true
+ local index=tonumber(mission.checkpointIndex) or 1
+ local solved=math.clamp(math.floor(index)-1,0,4)
+ if mission.status=="COMPLETED" then solved=4 end
+ return {solved=solved,total=4,title=item.title,itemId=item.id,owned=owned,practice=mission.practice==true}
+end
+function Journey.newObserver()
+ local initialized=false;local known={};local mostClues=0;local bonusSeen=false
+ local observer={}
+ function observer:observe(state)
+  if type(state)~="table" or state.runtimeStatus~="READY" or state.profileStatus~="LOADED" or type(state.profile)~="table" or type(state.mission)~="table" then return {} end
+  local collection=Journey.collection(state.profile)
+  local clues=math.clamp(tonumber(state.mission.completedCount) or 0,0,12)
+  if not initialized then
+   initialized=true;known=collection.owned;mostClues=clues;bonusSeen=collection.bonusUnlocked
+   return {} -- A reconnect is not a new reward.
+  end
+  local events={}
+  for _,item in ipairs(Journey.catalog) do
+   if collection.owned[item.id] and not known[item.id] then
+    known[item.id]=true;table.insert(events,{kind="unlock",itemId=item.id})
+   end
+  end
+  if collection.bonusUnlocked and not bonusSeen then bonusSeen=true;table.insert(events,{kind="collection",count=3}) end
+  if clues&gt;mostClues and #events==0 and not state.mission.practice then
+   table.insert(events,{kind="checkpoint",solved=Journey.progress(state.mission,state.profile).solved,itemId=state.mission.rewardItemId,missionId=state.mission.missionId})
+  end
+  mostClues=math.max(mostClues,clues)
+  return events
+ end
+ return observer
+end
+return table.freeze(Journey)</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="21">
+          <Properties>
+            <string name="Name">RewardView</string>
+            <string name="Source">--!nonstrict
+-- Reward presentation is cosmetic. It never sends a grant or edits a profile.
+local TweenService=game:GetService("TweenService")
+local GuiService=game:GetService("GuiService")
+local Journey=require(script.Parent:WaitForChild("RewardJourney"))
+local View={};View.__index=View
+local INK=Color3.fromRGB(43,53,78)
+local GOLD=Color3.fromRGB(255,214,123)
+local CREAM=Color3.fromRGB(255,250,244)
+local function round(parent,r) Instance.new("UICorner",parent).CornerRadius=UDim.new(0,r) end
+local function reducedMotion()
+ local ok,value=pcall(function() return GuiService.ReducedMotionEnabled end)
+ return ok and value==true
+end
+function View.new(context)
+ return setmetatable({context=context,observer=Journey.newObserver(),connections={},tweens={},destroyed=false,serial=0},View)
+end
+function View:mount(ui)
+ self.ui=ui
+ local rail=Instance.new("Frame");rail.Name="RewardProgress";rail.BackgroundTransparency=1;rail.Position=UDim2.fromOffset(0,72);rail.Size=UDim2.new(1,0,0,24);rail.Parent=ui.tracker;self.rail=rail
+ local label=Instance.new("TextLabel");label.Name="NextReward";label.Position=UDim2.fromOffset(67,0);label.Size=UDim2.new(1,-67,1,0);label.BackgroundTransparency=1;label.TextColor3=CREAM;label.Font=Enum.Font.GothamMedium;label.TextSize=12;label.TextXAlignment=Enum.TextXAlignment.Left;label.TextWrapped=true;label.Parent=rail;self.label=label
+ self.glows={}
+ for i=1,4 do local glow=Instance.new("Frame");glow.Name="Glow"..i;glow.Position=UDim2.fromOffset((i-1)*15,7);glow.Size=UDim2.fromOffset(10,10);glow.Rotation=45;glow.BackgroundColor3=GOLD;glow.BackgroundTransparency=.8;glow.BorderSizePixel=0;glow.Parent=rail;round(glow,3);table.insert(self.glows,glow) end
+ local effects=Instance.new("Frame");effects.Name="RewardEffects";effects.Size=UDim2.fromScale(1,1);effects.BackgroundTransparency=1;effects.Active=false;effects.ZIndex=20;effects.Parent=ui.gui;self.effects=effects
+ local banner=Instance.new("TextLabel");banner.Name="RewardCelebration";banner.AnchorPoint=Vector2.new(.5,0);banner.Position=UDim2.new(.5,0,0,68);banner.Size=UDim2.new(.84,0,0,60);banner.BackgroundColor3=INK;banner.TextColor3=CREAM;banner.TextWrapped=true;banner.Font=Enum.Font.GothamBold;banner.TextSize=17;banner.ZIndex=22;banner.Visible=false;banner.Active=false;banner.Parent=effects;round(banner,16);self.banner=banner
+ table.insert(self.connections,self.context.stateChanged:Connect(function(state) self:_state(state) end))
+ -- Prime from the actual loaded snapshot; never replay old unlocks on join.
+ self:_state(self.context.getState())
+end
+function View:_state(state)
+ if self.destroyed or not state or not state.mission then return end
+ self:updateProgress(state)
+ local events=self.observer:observe(state)
+ if #events==0 then return end
+ local last=events[#events]
+ if last.kind=="collection" then self:celebrate("The whole collection is yours!\nPip's Starlight Trail is unlocked.",true)
+ elseif last.kind=="unlock" then
+  local item=Journey.item(last.itemId);self:celebrate(item.title.." unlocked!\n"..item.message,true)
+ elseif last.kind=="checkpoint" then
+  local messages={["firefly-scarf"]="The hill glows brighter!",["rainbow-bow"]="The ribbon studio is coming alive!",["moon-crown"]="The picnic trail is waking up!"}
+  self:celebrate((messages[last.itemId] or "The island changed!").."\n"..last.solved.." of 4 clues restored.",false)
+ end
+end
+function View:updateProgress(state)
+ local progress=Journey.progress(state.mission,state.profile)
+ local count=progress.owned and not progress.practice and 4 or progress.solved
+ self.rail:SetAttribute("Solved",count);self.rail:SetAttribute("RewardId",progress.itemId or "")
+ self.label.Text=progress.practice and (progress.solved.."/4  Practice - outfit yours") or (progress.owned and (progress.title.." - yours!") or (progress.solved.."/4  "..progress.title))
+ for i,glow in ipairs(self.glows) do glow.BackgroundTransparency=i&lt;=count and 0 or .8 end
+end
+function View:celebrate(message,big)
+ if self.destroyed then return end
+ self.serial+=1;local serial=self.serial
+ self.banner.Text=message;self.banner.Visible=true;self.banner:SetAttribute("CelebrationCount",(self.banner:GetAttribute("CelebrationCount") or 0)+1)
+ for _,tween in ipairs(self.tweens) do tween:Cancel() end;self.tweens={}
+ for _,child in ipairs(self.effects:GetChildren()) do if child~=self.banner then child:Destroy() end end
+ if not reducedMotion() then
+  for i=1,(big and 14 or 6) do
+   local particle=Instance.new("Frame");particle.Name="RewardSpark";particle.Size=UDim2.fromOffset(big and 9 or 6,big and 9 or 6);particle.AnchorPoint=Vector2.new(.5,.5);particle.Position=UDim2.new(.5,0,0,112);particle.Rotation=45;particle.BorderSizePixel=0;particle.BackgroundColor3=i%2==0 and GOLD or Color3.fromRGB(244,163,205);particle.Active=false;particle.ZIndex=21;particle.Parent=self.effects;round(particle,2)
+   local angle=i*2.399;local target=UDim2.new(.5,math.cos(angle)*(big and 145 or 85),0,112+math.sin(angle)*65+50)
+   local tween=TweenService:Create(particle,TweenInfo.new(.8,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Position=target,BackgroundTransparency=1,Rotation=110+i*17});table.insert(self.tweens,tween);tween:Play()
+  end
+ end
+ task.delay(big and 3.5 or 1.8,function()
+  if self.destroyed or self.serial~=serial then return end
+  self.banner.Visible=false
+  for _,child in ipairs(self.effects:GetChildren()) do if child~=self.banner then child:Destroy() end end
+  self.tweens={}
+ end)
+end
+function View:_preview(ui,itemId)
+ local source=workspace:FindFirstChild("LanternIslandWorld")
+ source=source and source:FindFirstChild("Pip_"..self.context.player.UserId)
+ if not source then return end -- Text reward and equip still work if pet replication is late.
+ local viewport=Instance.new("ViewportFrame");viewport.Name="RewardPreview";viewport.Size=UDim2.new(1,0,0,154);viewport.LayoutOrder=-5;viewport.BackgroundColor3=Color3.fromRGB(231,225,247);viewport.Ambient=Color3.fromRGB(225,225,240);viewport.LightColor=Color3.new(1,1,1);viewport.LightDirection=Vector3.new(-1,-1,-2);viewport.Active=false;viewport.Parent=ui.scroll;round(viewport,16)
+ local model=source:Clone();model.Name="PreviewPip"
+ for _,inst in ipairs(model:GetDescendants()) do
+  if inst:IsA("LuaSourceContainer") or inst:IsA("ProximityPrompt") or inst:IsA("BillboardGui") or inst:IsA("Trail") or inst:IsA("ParticleEmitter") then inst:Destroy()
+  elseif inst:IsA("BasePart") then inst.Anchored=true;inst.CanCollide=false;if Journey.item(inst.Name) then inst.Transparency=inst.Name==itemId and 0 or 1 end end
+ end
+ model.Parent=viewport;model:PivotTo(CFrame.Angles(0,math.rad(-18),0))
+ local camera=Instance.new("Camera");camera.FieldOfView=33;camera.CFrame=CFrame.lookAt(Vector3.new(0,1,-8.2),Vector3.new(0,.2,0));camera.Parent=viewport;viewport.CurrentCamera=camera
+ viewport:SetAttribute("ItemId",itemId or "")
+end
+function View:decorate(ui)
+ if self.destroyed or not ui.state or not ui.state.mission then return end
+ local state=ui.state;local m=state.mission;local collection=Journey.collection(state.profile)
+ self:updateProgress(state)
+ if ui.mode=="quest" and m.status=="COMPLETED" then
+  local item=Journey.item(m.rewardItemId)
+  if item and collection.owned[item.id] then
+   local title=ui:_addText("RewardRevealTitle",m.practice and ("Your "..item.title) or (item.title.." is yours!"),21);title.LayoutOrder=-6;title.Font=Enum.Font.GothamBold
+   self:_preview(ui,item.id)
+   ui:_addText("RewardCollectionGoal",collection.bonusUnlocked and "Collection complete! Pip leaves a Starlight Trail when moving.\nTake a little victory walk together." or (collection.count.."/3 outfits collected. Collect all three to unlock Pip's Starlight Trail."),16)
+   if state.profile.saveStatus~="SAVED" and state.profile.saveStatus~="LOADED" then
+    ui:_addText("RewardSaveScope",state.profile.saveStatus=="STUDIO_SESSION_ONLY" and "Studio practice: your collection lasts while this test server stays open." or "Reward earned in this session; saving is not confirmed yet.",13)
+   end
+  end
+ elseif ui.mode=="wardrobe" then
+  local itemId=state.profile and state.profile.equippedItemId
+  if Journey.item(itemId) then self:_preview(ui,itemId) end
+  local t=ui:_addText("CollectionProgress",collection.count.." / 3 outfits in your collection",18);t.LayoutOrder=-6;t.Font=Enum.Font.GothamBold
+  ui:_addText("CollectionBonus",collection.bonusUnlocked and "BONUS UNLOCKED: Starlight Trail\nPip's trail comes with the whole collection. No extra coins or purchases." or "Your collection bonus: Pip's Starlight Trail.\nEarn all three outfits. Hints are always welcome and never reduce your prize.",16)
+ elseif ui.mode=="map" then
+  local restored=collection.count.." / 3 adventures restored"
+  ui:_addText("IslandRestoration",restored,18).Font=Enum.Font.GothamBold
+  ui:_addText("AdventureRewardGoal",collection.bonusUnlocked and "The Starlight Garden is awake! Replay any trail for fresh practice questions." or "Four clues transform a trail and earn its outfit. Restore all three to wake the Starlight Garden. Take breaks whenever you like.",16)
+ end
+end
+function View:destroy()
+ self.destroyed=true
+ for _,c in ipairs(self.connections) do c:Disconnect() end
+ for _,t in ipairs(self.tweens) do t:Cancel() end
+ self.connections={};self.tweens={}
+ if self.effects then self.effects:Destroy() end
+ if self.rail then self.rail:Destroy() end
+end
+return View</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="22">
+          <Properties>
+            <string name="Name">UIController</string>
+            <string name="Source">--!nonstrict
+local RunService=game:GetService("RunService")
+local UserInputService=game:GetService("UserInputService")
+local UIModel=require(script.Parent:WaitForChild("UIModel"))
+local RewardView=require(script.Parent:WaitForChild("RewardView"))
+local UIController={};UIController.__index=UIController
+local DARK=Color3.fromRGB(43,53,78);local WHITE=Color3.fromRGB(255,250,244);local PINK=Color3.fromRGB(246,180,207);local GOLD=Color3.fromRGB(255,214,123);local MINT=Color3.fromRGB(187,232,208);local BLUE=Color3.fromRGB(177,220,239)
+local function corner(gui,r) Instance.new("UICorner",gui).CornerRadius=UDim.new(0,r or 14) end
+local function text(parent,name,value,size)
+ local t=Instance.new("TextLabel");t.Name=name;t.BackgroundTransparency=1;t.Size=UDim2.new(1,0,0,0);t.AutomaticSize=Enum.AutomaticSize.Y;t.Font=Enum.Font.GothamMedium;t.TextSize=size or 17;t.TextColor3=DARK;t.TextWrapped=true;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextYAlignment=Enum.TextYAlignment.Top;t.Text=value;t.Parent=parent;return t
+end
+local function button(parent,name,value,color)
+ local b=Instance.new("TextButton");b.Name=name;b.Size=UDim2.new(1,0,0,48);b.Font=Enum.Font.GothamBold;b.TextSize=17;b.TextWrapped=true;b.TextColor3=DARK;b.Text=value;b.BackgroundColor3=color or GOLD;b.AutoButtonColor=true;b.BorderSizePixel=0;b.Parent=parent;corner(b,13)
+ local stroke=Instance.new("UIStroke");stroke.Color=DARK;stroke.Transparency=.82;stroke.Thickness=1.1;stroke.Parent=b
+ local base=b.BackgroundColor3;local gradient=Instance.new("UIGradient");gradient.Color=ColorSequence.new(base:Lerp(WHITE,.18),base);gradient.Rotation=90;gradient.Parent=b
+ return b
+end
+local function pad(parent,n)
+ local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,n);p.PaddingBottom=UDim.new(0,n);p.PaddingLeft=UDim.new(0,n);p.PaddingRight=UDim.new(0,n);p.Parent=parent
+end
+function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0,welcomed=false},UIController) end
+function UIController:_connect(signal,callback,content)
+ local c=signal:Connect(callback);table.insert(content and self.contentConnections or self.connections,c);return c
+end
+function UIController:_send(action,fields)
+ local id,code=self.context.send(action,fields)
+ if not id then self:showToast(code=="BUSY" and "Pip is checking that..." or "Please check the connection, then try again.") end
+ return id
+end
+function UIController:_command(command)
+ if not command then return end
+ if command.menu then self.mode=command.menu;self:_draw();return end
+ self:_send(command.action,command.fields)
+end
+function UIController:mount(playerGui)
+ local gui=Instance.new("ScreenGui");gui.Name="LanternIslandUI";gui.ResetOnSpawn=false;gui.IgnoreGuiInset=false;gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;gui.Parent=playerGui;self.gui=gui
+ local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.04;tracker.BorderSizePixel=0;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
+ local trackerStroke=Instance.new("UIStroke");trackerStroke.Color=Color3.fromRGB(121,142,181);trackerStroke.Transparency=.55;trackerStroke.Thickness=1.2;trackerStroke.Parent=tracker
+ local trackerGradient=Instance.new("UIGradient");trackerGradient.Color=ColorSequence.new(DARK:Lerp(BLUE,.12),DARK);trackerGradient.Rotation=120;trackerGradient.Parent=tracker
+ local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None
+ local objective=text(tracker,"Objective","Pick a trail and explore with Pip.",14);objective.Position=UDim2.fromOffset(0,27);objective.Size=UDim2.new(1,0,0,40);objective.AutomaticSize=Enum.AutomaticSize.None;objective.TextColor3=WHITE;self.trackerText=objective
+ local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,98);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;self.open=open
+ local nav=Instance.new("Frame");nav.Name="ExploreButtons";nav.BackgroundTransparency=1;nav.Position=UDim2.fromOffset(12,136);nav.Size=UDim2.fromOffset(290,42);nav.Parent=gui;self.nav=nav
+ for i,entry in ipairs({{"map","Adventures"},{"wardrobe","Dress Pip"},{"journal","Journal"}}) do
+  local b=button(nav,entry[1],entry[2],i==2 and PINK or MINT);b.Size=UDim2.new(1/3,-5,1,0);b.Position=UDim2.new((i-1)/3,0,0,0);b.TextSize=13
+  self:_connect(b.Activated,function() self.mode=self.mode==entry[1] and nil or entry[1];self:_draw() end)
+ end
+ local panel=Instance.new("Frame");panel.Name="ContextCard";panel.BackgroundColor3=WHITE;panel.BorderSizePixel=0;panel.Visible=false;panel.Parent=gui;corner(panel,20);self.panel=panel
+ local panelStroke=Instance.new("UIStroke");panelStroke.Color=DARK;panelStroke.Transparency=.78;panelStroke.Thickness=1.1;panelStroke.Parent=panel
+ local title=text(panel,"CardTitle","Adventure",20);title.Position=UDim2.fromOffset(16,14);title.Size=UDim2.new(1,-76,0,44);title.AutomaticSize=Enum.AutomaticSize.None;title.Font=Enum.Font.GothamBold;self.heading=title
+ local close=button(panel,"CloseCard","X",PINK);close.AnchorPoint=Vector2.new(1,0);close.Position=UDim2.new(1,-10,0,10);close.Size=UDim2.fromOffset(44,44);self.close=close
+ local scroll=Instance.new("ScrollingFrame");scroll.Name="CardContent";scroll.BackgroundTransparency=1;scroll.BorderSizePixel=0;scroll.Position=UDim2.fromOffset(14,66);scroll.Size=UDim2.new(1,-28,1,-132);scroll.CanvasSize=UDim2.new();scroll.AutomaticCanvasSize=Enum.AutomaticSize.Y;scroll.ScrollBarThickness=5;scroll.ScrollingDirection=Enum.ScrollingDirection.Y;scroll.Parent=panel;self.scroll=scroll
+ local layout=Instance.new("UIListLayout");layout.Padding=UDim.new(0,12);layout.SortOrder=Enum.SortOrder.LayoutOrder;layout.Parent=scroll;self.contentLayout=layout
+ local primary=button(panel,"PrimaryAction","Continue",GOLD);primary.Position=UDim2.new(0,14,1,-58);primary.Size=UDim2.new(1,-28,0,46);self.primary=primary
+ local toast=Instance.new("TextLabel");toast.Name="PipFeedback";toast.AnchorPoint=Vector2.new(.5,0);toast.Position=UDim2.new(.5,0,0,6);toast.Size=UDim2.new(.74,0,0,62);toast.BackgroundColor3=DARK;toast.TextColor3=WHITE;toast.TextWrapped=true;toast.Font=Enum.Font.GothamBold;toast.TextSize=16;toast.Visible=false;toast.ZIndex=15;toast.Parent=gui;corner(toast,16);self.toast=toast
+ self:_connect(open.Activated,function()
+  local m=self.state and self.state.mission
+  if m and (m.status=="ACTIVE" or m.status=="BETWEEN" or m.status=="COMPLETED") then self.mode="quest";self:_draw()
+  else self:_command(UIModel.primary(self.state)) end
+ end)
+ self:_connect(close.Activated,function()
+  if self.mode=="quest" and self.state and self.state.mission.status=="ACTIVE" then self:_send("CancelMission",{missionId=self.state.mission.missionId}) end
+  self.mode=nil;self:_draw()
+ end)
+ self:_connect(primary.Activated,function()
+  if self.mode=="quest" then
+   local m=self.state.mission
+   if m.status=="ACTIVE" then self:_send("RequestHint",{missionId=m.missionId})
+   else local command=UIModel.primary(self.state);if m.status=="BETWEEN" then self.mode=nil end;self:_command(command) end
+  else self.mode=nil;self:_draw() end
+ end)
+ self:_connect(self.context.pendingChanged,function(value) self.pending=value;self:_pending() end)
+ self:_connect(self.context.resultReceived,function(result)
+  local messages={TRY_AGAIN="Let's try another way. Pip added a clue.",CHECKPOINT_COMPLETE="A glow is back! Find the next one.",MISSION_COMPLETE="You helped Pip! A new outfit is yours.",PRACTICE_COMPLETE="Nice practice! Your outfits are still yours.",ITEM_EQUIPPED="Looking good, Pip!",FOLLOW_BEACON="Follow the glowing marker to your next clue.",PROGRESS_SAVE_PENDING="That worked, but saving is not confirmed yet.",ACK_UNCONFIRMED="Connection interrupted. Check progress before trying again.",ACTION_FAILED="That action did not finish. Please try again.",PROFILE_NOT_READY="Your progress is still loading."}
+  if messages[result.code] then self:showToast(messages[result.code]) end
+ end)
+ local tick=0
+ self:_connect(RunService.RenderStepped,function(dt)
+  tick+=dt;if tick&lt;.2 then return end;tick=0;self:_layout();self:_track()
+ end)
+ self.rewards=RewardView.new(self.context);self.rewards:mount(self)
+ self:_layout()
+end
+function UIController:_layout()
+ local camera=workspace.CurrentCamera;if not camera or not self.panel then return end
+ local v=camera.ViewportSize;local l=UIModel.layout(v.X,v.Y,UserInputService.TouchEnabled)
+ self.touchLayout=l.mobile
+ self.panel.Size=UDim2.fromOffset(l.width,l.height);self.panel.AnchorPoint=Vector2.new(l.center and .5 or 1,0)
+ self.panel.Position=l.center and UDim2.new(.5,0,0,l.top) or UDim2.new(1,-12,0,l.top)
+ self.tracker.Size=UDim2.fromOffset(l.trackerWidth,l.trackerHeight)
+ self.open.Position=UDim2.fromOffset(0,l.trackerHeight-l.openHeight-24);self.open.Size=UDim2.new(1,0,0,l.openHeight);self.open.TextSize=l.mobile and 16 or 15
+ self.nav.Size=UDim2.fromOffset(l.trackerWidth,l.navHeight);self.nav.Position=UDim2.fromOffset(12,l.trackerHeight+14)
+ self.close.Size=UDim2.fromOffset(l.closeSize,l.closeSize)
+ self.heading.Size=UDim2.new(1,-(l.closeSize+32),0,44)
+ self.primary.Size=UDim2.new(1,-28,0,l.primaryHeight);self.primary.Position=UDim2.new(0,14,1,-(l.primaryHeight+12))
+ self.scroll.Size=UDim2.new(1,-28,1,-(l.primaryHeight+86));self.scroll.ScrollBarThickness=l.mobile and 7 or 5
+ for _,b in ipairs(self.nav:GetChildren()) do if b:IsA("TextButton") then b.TextSize=l.mobile and 14 or 13 end end
+ -- Keep exploration controls clear when a narrow portrait card is open.
+ self.tracker.Visible=not (l.center and self.panel.Visible);self.nav.Visible=self.tracker.Visible
+end
+function UIController:_track()
+ local m=self.state and self.state.mission;if not m then return end
+ local world=workspace:FindFirstChild("LanternIslandWorld");local targetName=UIModel.target(m);local target=world and targetName and world:FindFirstChild(targetName)
+ local root=self.context.player.Character and self.context.player.Character:FindFirstChild("HumanoidRootPart")
+ local distance=root and target and math.floor((root.Position-target.Position).Magnitude) or nil
+ self.trackerText.Text=m.title.."  "..(m.checkpointIndex or 1).."/"..(m.checkpointTotal or 4).."\n"..(m.status=="COMPLETED" and "Outfit earned! Dress Pip or explore." or ((distance and distance&lt;=11) and "You're here! Open the clue." or "Follow your glow"..(distance and " - "..distance.." steps" or "")))
+ if not self.highlight then local h=Instance.new("Highlight");h.Name="MyNextClue";h.FillColor=GOLD;h.OutlineColor=WHITE;h.FillTransparency=.55;h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop;h.Parent=self.gui;self.highlight=h end
+ self.highlight.Adornee=target;self.highlight.Enabled=target~=nil and m.status~="COMPLETED"
+ self.open.Text=m.status=="COMPLETED" and "See my reward" or (m.status=="BETWEEN" and "Pip's discovery" or "Open clue")
+end
+function UIController:_clear()
+ for _,c in ipairs(self.contentConnections) do c:Disconnect() end;self.contentConnections={}
+ for _,child in ipairs(self.scroll:GetChildren()) do if child~=self.contentLayout then child:Destroy() end end
+ self.order=0;self.scroll.CanvasPosition=Vector2.zero
+end
+function UIController:_addText(name,value,size)
+ self.order+=1;local t=text(self.scroll,name,value,size);t.LayoutOrder=self.order;return t
+end
+function UIController:_addButton(name,value,color,callback,enabled)
+ self.order+=1;local b=button(self.scroll,name,value,color);b.LayoutOrder=self.order;b:SetAttribute("ActionEnabled",enabled~=false)
+ if self.touchLayout then b.Size=UDim2.new(1,0,0,54);b.TextSize=18 end
+ self:_connect(b.Activated,function() if b:GetAttribute("ActionEnabled") and not self.pending then callback() end end,true);return b
+end
+function UIController:_blocks(r)
+ if type(r.tensA)~="number" then return end
+ self:_addText("PlaceValue","Look at the tens and ones:",15)
+ for i,pair in ipairs({{r.tensA,r.onesA},{r.tensB,r.onesB}}) do
+  local frame=Instance.new("Frame");frame.Name="StoneGroups"..i;frame.Size=UDim2.new(1,0,0,54);frame.BackgroundColor3=MINT;frame.BackgroundTransparency=.45;self.order+=1;frame.LayoutOrder=self.order;frame.Parent=self.scroll;corner(frame,10)
+  local t=text(frame,"GroupLabel",pair[1].." tens + "..pair[2].." ones",14);t.Position=UDim2.fromOffset(8,3)
+  for j=1,pair[1] do local bar=Instance.new("Frame");bar.Size=UDim2.fromOffset(10,22);bar.Position=UDim2.fromOffset(10+(j-1)*15,26);bar.BackgroundColor3=DARK;bar.Parent=frame;corner(bar,3) end
+  for j=1,pair[2] do local dot=Instance.new("Frame");dot.Size=UDim2.fromOffset(8,8);dot.Position=UDim2.fromOffset(88+(j-1)*12,33);dot.BackgroundColor3=DARK;dot.Parent=frame;corner(dot,5) end
+ end
+end
+function UIController:_draw()
+ if not self.panel or not self.state or not self.state.mission then return end
+ self.panel.Visible=self.mode~=nil;self:_layout();self:_track();if not self.mode then return end
+ self:_clear();self.primary.Text="Back to exploring"
+ local state=self.state;local m=state.mission;local profile=state.profile
+ if self.mode=="map" then
+  self.heading.Text="Pick your adventure"
+  self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
+  local rewardNames={["firefly-scarf"]="Firefly Scarf",["rainbow-bow"]="Rainbow Bow",["moon-crown"]="Moon Crown"}
+  for _,q in ipairs(UIModel.quests) do
+   local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
+   local symbol=q.id=="lantern-lift" and "✦" or (q.id=="ribbon-studio" and "Aa" or "☾")
+   local detail=owned and ("Restored ✓  •  Fresh practice available") or ("Earn "..(rewardNames[q.reward] or "an outfit").."  •  Change the island")
+   local b=self:_addButton("Quest_"..q.id,symbol.."   "..q.title.."\n      "..q.subtitle.."  •  "..detail,color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
+   b.Size=UDim2.new(1,0,0,64);b.TextXAlignment=Enum.TextXAlignment.Left
+   local inset=Instance.new("UIPadding");inset.PaddingLeft=UDim.new(0,14);inset.PaddingRight=UDim.new(0,10);inset.Parent=b
+  end
+ elseif self.mode=="wardrobe" then
+  self.heading.Text="Pip's dress-up box"
+  self:_addText("OutfitIntro","Your adventure rewards are free. Choose one for your very own Pip.",17)
+  for _,item in ipairs(UIModel.items) do
+   local owned=UIModel.owns(profile,item.id);local equipped=profile and profile.equippedItemId==item.id
+   self:_addButton("Outfit_"..item.id,item.title..(equipped and "  [wearing]" or (owned and "  - Wear it!" or "\nEarn in "..item.quest)),owned and PINK or MINT,function() self:_send("EquipItem",{itemId=item.id}) end,owned and not equipped)
+  end
+ elseif self.mode=="journal" then
+  self.heading.Text="Practice journal"
+  self:_addText("Counts",(m.completedCount or 0).." clues solved\n"..(m.independentCount or 0).." first-try answers without hints\n"..(m.supportedCount or 0).." answers with help or retries\n"..(m.transferCount or 0).." new final clues solved first try",17)
+  self:_addText("EvidenceLimit","These are practice results, not a mastery score. Replaying familiar clues does not add new learning credit.",16)
+  self:_addText("Source",state.lesson and state.lesson.sourceLabel or "Original sample practice - not current homework",14)
+  self:_addText("SaveState",UIModel.saveText(profile and profile.saveStatus),14)
+ else
+  self.heading.Text=m.title
+  if m.practice then self:_addText("ReplayLabel","Practice replay - no extra stars or new learning credit",14) end
+  if m.status=="ACTIVE" then
+   self:_addText("Passage",m.passage or "",17);self:_addText("Question",m.prompt or "",20);self:_blocks(m.representation or {})
+   if m.hint and m.hint~="" then self:_addText("PipHint","Pip's clue: "..m.hint,17) end
+   for _,option in ipairs(m.options or {}) do self:_addButton("Answer_"..option.id,option.label,GOLD,function() self:_command(UIModel.answer(self.state,option.id)) end) end
+   self.primary.Text=m.hint~="" and "Another clue, Pip" or "Help me, Pip"
+  else
+   self:_addText("Explanation",m.objective or "",18)
+   if m.status=="COMPLETED" then
+    self:_addText("RewardMessage",m.practice and "Great practicing! Your original rewards are safe." or "A new outfit is in your dress-up box.",17)
+    self:_addButton("ReplayQuest","Practice this adventure again",MINT,function() self.mode=nil;self:_send("StartMission",{missionId=m.missionId});self:_draw() end)
+   elseif m.status=="BETWEEN" then self:_addText("NextHint","Time to explore! Follow the next glowing marker.",17) end
+   local command=UIModel.primary(state);self.primary.Text=command and command.label or "Continue"
+  end
+ end
+ if self.rewards then self.rewards:decorate(self) end
+ self:_pending()
+end
+function UIController:_pending()
+ if not self.gui then return end
+ for _,b in ipairs(self.scroll:GetChildren()) do if b:IsA("TextButton") then b.Active=not self.pending and b:GetAttribute("ActionEnabled")~=false;b.AutoButtonColor=b.Active;b.TextTransparency=b.Active and 0 or .35 end end
+ self.primary.Active=not self.pending;self.primary.AutoButtonColor=not self.pending;self.open.Active=not self.pending
+end
+function UIController:render(state)
+ local previous=self.state and self.state.mission;self.state=state;local m=state and state.mission
+ if not self.welcomed and state and state.profileStatus=="LOADED" and m then
+  self.welcomed=true
+  local owned=state.profile and state.profile.ownedItemIds or {}
+  if #owned==0 and (m.completedCount or 0)==0 and m.status=="AVAILABLE" then
+   self.mode="map"
+   task.delay(.2,function() if self.gui and self.mode=="map" then self:showToast("Pip found three glowing trails. Pick the one that looks fun!") end end)
+  end
+ end
+ if m and (m.status=="ACTIVE" or m.status=="BETWEEN" or m.status=="COMPLETED") and (not previous or previous.status~=m.status or previous.missionId~=m.missionId or previous.activityId~=m.activityId) then self.mode="quest" end
+ if m and m.status=="AVAILABLE" and self.mode=="quest" then self.mode=nil end
+ self:_draw()
+end
+function UIController:showToast(message)
+ if not self.toast then return end;self.toastSerial+=1;local serial=self.toastSerial;self.toast.Text=message;self.toast.Visible=true
+ task.delay(3.2,function() if self.toast and self.toastSerial==serial then self.toast.Visible=false end end)
+end
+function UIController:destroy()
+ if self.rewards then self.rewards:destroy() end
+ for _,c in ipairs(self.connections) do c:Disconnect() end;for _,c in ipairs(self.contentConnections) do c:Disconnect() end
+ if self.gui then self.gui:Destroy() end
+end
+return UIController</string>
+          </Properties>
+        </Item>
+        <Item class="ModuleScript" referent="23">
+          <Properties>
+            <string name="Name">UIModel</string>
+            <string name="Source"><![CDATA[--!nonstrict
+-- Pure view/action model shared by production controls and behavior tests.
+local UIModel={}
+UIModel.quests={
+ {id="lantern-lift",title="Light the hill",subtitle="Glowstone math",reward="firefly-scarf",station="LiftConsole"},
+ {id="ribbon-studio",title="Ribbon studio",subtitle="Word clues",reward="rainbow-bow",station="RibbonConsole"},
+ {id="moon-picnic",title="Missing picnic",subtitle="Reading mystery",reward="moon-crown",station="PicnicConsole"},
+}
+UIModel.items={
+ {id="firefly-scarf",title="Firefly Scarf",quest="Light the hill"},
+ {id="rainbow-bow",title="Rainbow Bow",quest="Ribbon studio"},
+ {id="moon-crown",title="Moon Crown",quest="Missing picnic"},
+}
+function UIModel.owns(profile,id)
+ for _,owned in ipairs(profile and profile.ownedItemIds or {}) do if owned==id then return true end end
+ return false
+end
+function UIModel.primary(state)
+ local m=state and state.mission;if not m then return nil end
+ if m.status=="COMPLETED" then
+  if UIModel.owns(state.profile,m.rewardItemId) and state.profile.equippedItemId~=m.rewardItemId then return {label="Dress Pip in your reward",action="EquipItem",fields={itemId=m.rewardItemId}} end
+  return {label="Choose another adventure",menu="map"}
+ end
+ return {label=m.status=="BETWEEN" and "Find the next glow" or "Open my clue",action="StartMission",fields={missionId=m.missionId}}
+end
+function UIModel.answer(state,optionId)
+ local m=state and state.mission;if not m or m.status~="ACTIVE" then return nil end
+ for _,option in ipairs(m.options or {}) do if option.id==optionId then
+  return {action="SubmitAnswer",fields={missionId=m.missionId,payload={activityId=m.activityId,contentVersion=m.contentVersion,answer=optionId}}}
+ end end
+ return nil
+end
+function UIModel.target(m)
+ if not m then return nil end
+ local index=m.checkpointIndex or 1
+ for _,quest in ipairs(UIModel.quests) do if quest.id==m.missionId then return index==1 and quest.station or (quest.id.."-checkpoint-"..index) end end
+ return nil
+end
+function UIModel.layout(width,height,touch)
+ width=math.max(width,1);height=math.max(height,1)
+ local narrow=width<620;local landscape=width>height and height<560
+ local mobile=touch==true or math.min(width,height)<520
+ local panelWidth=math.min(mobile and 392 or 380,width-24)
+ if landscape then panelWidth=math.min(mobile and 374 or 360,math.floor(width*.49)) end
+ local ratio=landscape and (mobile and .82 or .73) or (mobile and .72 or .59)
+ local panelHeight=math.max(180,math.min(mobile and 590 or 520,math.floor(height*ratio)))
+ local top=landscape and 6 or math.floor(height*(mobile and .10 or .14))
+ return {
+  width=panelWidth,height=panelHeight,top=top,center=narrow and not landscape,landscape=landscape,mobile=mobile,
+  trackerWidth=math.min(mobile and 316 or 300,landscape and width-panelWidth-36 or width-24),
+  trackerHeight=mobile and 170 or 158,navHeight=mobile and 52 or 42,openHeight=mobile and 44 or 36,
+  closeSize=mobile and 50 or 44,primaryHeight=mobile and 54 or 46,contentButtonHeight=mobile and 54 or 48,
+  contentTextSize=mobile and 18 or 17,
+ }
+end
+function UIModel.saveText(status)
+ if status=="STUDIO_SESSION_ONLY" then return "Studio practice: saves last only while this test server stays open." end
+ if status=="SAVED" or status=="LOADED" then return "Progress saved." end
+ if status=="SAVING" then return "Saving progress..." end
+ return "Progress is not confirmed saved. Please keep this session open."
+end
+return UIModel
+]]></string>
+          </Properties>
+        </Item>
+      </Item>
+    </Item>
+  </Item>
+  <Item class="Workspace" referent="24">
+    <Properties>
+      <string name="Name">Workspace</string>
+      <bool name="FilteringEnabled">true</bool>
+      <bool name="NeedsPivotMigration">false</bool>
+    </Properties>
+    <Item class="Part" referent="25">
+      <Properties>
+        <string name="Name">FoundationGround</string>
+        <bool name="Anchored">true</bool>
+        <Color3uint8 name="Color3uint8">4683868</Color3uint8>
+        <token name="Material">1280</token>
+        <Vector3 name="Position">
+          <X>0</X>
+          <Y>-1</Y>
+          <Z>0</Z>
+        </Vector3>
+        <Vector3 name="size">
+          <X>80</X>
+          <Y>2</Y>
+          <Z>80</Z>
+        </Vector3>
+      </Properties>
+    </Item>
+    <Item class="SpawnLocation" referent="26">
+      <Properties>
+        <string name="Name">FoundationSpawn</string>
+        <bool name="Anchored">true</bool>
+        <int name="Duration">0</int>
+        <bool name="Neutral">true</bool>
+        <Vector3 name="Position">
+          <X>0</X>
+          <Y>0.5</Y>
+          <Z>14</Z>
+        </Vector3>
+        <Vector3 name="size">
+          <X>6</X>
+          <Y>1</Y>
+          <Z>6</Z>
+        </Vector3>
+        <float name="Transparency">1</float>
+      </Properties>
+    </Item>
+  </Item>
+</roblox>
