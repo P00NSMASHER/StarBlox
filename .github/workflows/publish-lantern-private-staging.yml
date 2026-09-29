@@ -1,0 +1,238 @@
+name: Publish Lantern Island Private Staging
+
+on:
+  push:
+    branches:
+      - lantern-private-staging-release-20260929
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lantern-private-staging
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      EXPECTED_UNIVERSE_ID: "6027194615"
+      EXPECTED_PLACE_ID: "17602626136"
+      EXPECTED_ARTIFACT_SHA256: "1b3032a38c69293f1347430a4342dd100efddbaf3c9ae9e3614b86e8c154bb0d"
+      EXPECTED_ARTIFACT_BYTES: "126395"
+      EXPECTED_BUILD_FINGERPRINT: "378ec64d8122fc782b6ce796829dfd8cc879c2b0b7a303662177ea191197f332"
+      EXPECTED_PRODUCTION_SOURCE: "95eb213339a775e340816e9f75eaee149860b988"
+      RELEASE_ID: "lantern-island-private-staging-20260929-v1"
+      ARTIFACT_PATH: "lantern-island/release/LanternIsland-Adventures.rbxlx"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Guard exact target, source, and artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ROBLOX_OPEN_CLOUD_API_KEY"
+          test "$ROBLOX_UNIVERSE_ID" = "$EXPECTED_UNIVERSE_ID"
+          test "$ROBLOX_PLACE_ID" = "$EXPECTED_PLACE_ID"
+          node <<'NODE'
+          const fs=require('fs');
+          const crypto=require('crypto');
+          const meta=JSON.parse(fs.readFileSync('lantern-island/release/release.json','utf8'));
+          const bytes=fs.readFileSync(process.env.ARTIFACT_PATH);
+          const sha=crypto.createHash('sha256').update(bytes).digest('hex');
+          if(meta.productionSourceCommit!==process.env.EXPECTED_PRODUCTION_SOURCE) throw new Error('production source drift');
+          if(meta.sourceFingerprint!==process.env.EXPECTED_BUILD_FINGERPRINT) throw new Error('build fingerprint drift');
+          if(meta.artifactSha256!==process.env.EXPECTED_ARTIFACT_SHA256) throw new Error('release metadata hash drift');
+          if(meta.target.universeId!==process.env.EXPECTED_UNIVERSE_ID || meta.target.placeId!==process.env.EXPECTED_PLACE_ID) throw new Error('release target drift');
+          if(sha!==process.env.EXPECTED_ARTIFACT_SHA256) throw new Error('artifact SHA mismatch '+sha);
+          if(bytes.length!==Number(process.env.EXPECTED_ARTIFACT_BYTES)) throw new Error('artifact byte count mismatch '+bytes.length);
+          const xml=bytes.toString('utf8');
+          if(!xml.includes('<roblox')) throw new Error('artifact is not Roblox XML');
+          if(!xml.includes(process.env.EXPECTED_BUILD_FINGERPRINT)) throw new Error('artifact build identity missing');
+          if(!xml.includes('TargetPolicy')) throw new Error('release target policy missing');
+          console.log('LANTERN_RELEASE_ARTIFACT_OK sha='+sha+' bytes='+bytes.length);
+          NODE
+
+      - name: Preflight Open Cloud credentials and exact private target
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs');
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,label){
+            const text=await r.text();let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+' non-JSON HTTP '+r.status);}
+            if(!r.ok)throw new Error(label+' HTTP '+r.status+' '+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+          function taskUrl(path){
+            return 'https://apis.roblox.com/cloud/v2/'+String(path||'').replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,'').replace(/^\/?cloud\/v2\//,'').replace(/^\//,'');
+          }
+          async function run(script){
+            let response;
+            for(let attempt=0;attempt<8;attempt++){
+              response=await fetch('https://apis.roblox.com/cloud/v2/universes/'+universe+'/places/'+place+'/luau-execution-session-tasks',{
+                method:'POST',headers:{'x-api-key':key,'content-type':'application/json'},body:JSON.stringify({script,timeout:'30s'})
+              });
+              if(![429,500,502,503,504].includes(response.status))break;
+              await new Promise(r=>setTimeout(r,2000*(attempt+1)));
+            }
+            let task=await parse(response,'preflight create');
+            const url=taskUrl(task.path);
+            while(String(task.state||'')==='PROCESSING'){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{'x-api-key':key}}),'preflight status');}
+            const logs=await parse(await fetch(url+'/logs',{headers:{'x-api-key':key}}),'preflight logs');
+            if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||'')))throw new Error('preflight task failed '+JSON.stringify(task).slice(0,1800));
+            return {task,logs};
+          }
+          const script=[
+            'local RunService=game:GetService("RunService")',
+            'assert(RunService:IsServer(),"expected server runtime")',
+            'assert(not RunService:IsStudio(),"expected headless runtime")',
+            'assert(tostring(game.GameId)=="'+universe+'","universe mismatch")',
+            'assert(tostring(game.PlaceId)=="'+place+'","place mismatch")',
+            'print("LANTERN_PREFLIGHT_OK version="..tostring(game.PlaceVersion))'
+          ].join('\n');
+          const out=await run(script);
+          const text=JSON.stringify(out.logs);
+          if(!text.includes('LANTERN_PREFLIGHT_OK'))throw new Error('preflight sentinel missing');
+          fs.writeFileSync('lantern-preflight.json',JSON.stringify({state:out.task.state,path:out.task.path,logs:out.logs},null,2)+'\n');
+          console.log('LANTERN_OPEN_CLOUD_PREFLIGHT_OK');
+          NODE
+
+      - name: Publish exact tested artifact as one private place version
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs');
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const bytes=fs.readFileSync(process.env.ARTIFACT_PATH);
+          const url='https://apis.roblox.com/universes/v1/'+universe+'/places/'+place+'/versions?versionType=Published';
+          let response,text='';
+          for(let attempt=0;attempt<8;attempt++){
+            response=await fetch(url,{method:'POST',headers:{'x-api-key':key,'content-type':'application/xml'},body:bytes});
+            text=await response.text();
+            if(response.ok)break;
+            if(![409,429,500,502,503,504].includes(response.status)||attempt===7)throw new Error('Roblox publish HTTP '+response.status+': '+text.slice(0,2000));
+            const retry=Number(response.headers.get('retry-after')||0)*1000;
+            await new Promise(r=>setTimeout(r,Math.max(retry,2500*(attempt+1))));
+          }
+          const payload=JSON.parse(text);
+          const version=Number(payload.versionNumber);
+          if(!Number.isInteger(version)||version<1)throw new Error('publish response missing versionNumber');
+          fs.writeFileSync('lantern-publish-response.json',JSON.stringify(payload,null,2)+'\n');
+          fs.writeFileSync('lantern-published-version.txt',String(version)+'\n');
+          console.log('LANTERN_PRIVATE_STAGING_PUBLISHED version='+version);
+          NODE
+
+      - name: Verify newly published Lantern server boot and exact identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs');
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const version=Number(fs.readFileSync('lantern-published-version.txt','utf8').trim());
+          async function parse(r,label){
+            const text=await r.text();let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+' non-JSON HTTP '+r.status);}
+            if(!r.ok)throw new Error(label+' HTTP '+r.status+' '+JSON.stringify(payload).slice(0,1800));
+            return payload;
+          }
+          function taskUrl(path){
+            return 'https://apis.roblox.com/cloud/v2/'+String(path||'').replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,'').replace(/^\/?cloud\/v2\//,'').replace(/^\//,'');
+          }
+          const script=[
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SS=game:GetService("ServerScriptService")',
+            'local SP=game:GetService("StarterPlayer")',
+            'local W=game:GetService("Workspace")',
+            'assert(tostring(game.GameId)=="'+universe+'","universe mismatch")',
+            'assert(tostring(game.PlaceId)=="'+place+'","place mismatch")',
+            'assert(game.PlaceVersion=='+version+',"published version mismatch "..tostring(game.PlaceVersion))',
+            'local root=SS:WaitForChild("LanternIslandServer",15)',
+            'assert(root:WaitForChild("BuildIdentity",5).Value=="'+process.env.EXPECTED_BUILD_FINGERPRINT+'","build identity mismatch")',
+            'assert(root:FindFirstChild("TargetPolicy")~=nil,"TargetPolicy missing")',
+            'local remotes=RS:WaitForChild("LanternIslandRemotes",15)',
+            'assert(remotes:GetAttribute("RuntimeStatus")=="READY","runtime not READY: "..tostring(remotes:GetAttribute("RuntimeStatus")))',
+            'assert(RS:FindFirstChild("LanternIslandShared")~=nil,"shared runtime missing")',
+            'assert(SP:WaitForChild("StarterPlayerScripts"):FindFirstChild("LanternIslandClient")~=nil,"client runtime missing")',
+            'local world=W:WaitForChild("LanternIslandWorld",15)',
+            'assert(world:FindFirstChild("PipsPlaza")~=nil,"PipsPlaza missing")',
+            'assert(world:FindFirstChild("AmbientFireflies")~=nil,"ambient fireflies missing")',
+            'print("LANTERN_PRIVATE_STAGING_BOOT_OK version="..tostring(game.PlaceVersion).." build='+process.env.EXPECTED_BUILD_FINGERPRINT+'")'
+          ].join('\n');
+          let response;
+          for(let attempt=0;attempt<8;attempt++){
+            response=await fetch('https://apis.roblox.com/cloud/v2/universes/'+universe+'/places/'+place+'/luau-execution-session-tasks',{
+              method:'POST',headers:{'x-api-key':key,'content-type':'application/json'},body:JSON.stringify({script,timeout:'30s'})
+            });
+            if(![429,500,502,503,504].includes(response.status))break;
+            await new Promise(r=>setTimeout(r,2500*(attempt+1)));
+          }
+          let task=await parse(response,'verify create');
+          const url=taskUrl(task.path);
+          while(String(task.state||'')==='PROCESSING'){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{'x-api-key':key}}),'verify status');}
+          const logs=await parse(await fetch(url+'/logs',{headers:{'x-api-key':key}}),'verify logs');
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||'')))throw new Error('verification task failed '+JSON.stringify(task).slice(0,1800)+' logs='+JSON.stringify(logs).slice(0,3000));
+          const text=JSON.stringify(logs);
+          if(!text.includes('LANTERN_PRIVATE_STAGING_BOOT_OK'))throw new Error('published boot sentinel missing '+text.slice(0,3000));
+          fs.writeFileSync('lantern-server-verification.json',JSON.stringify({version,state:task.state,path:task.path,logs},null,2)+'\n');
+          console.log('LANTERN_PRIVATE_STAGING_VERIFIED version='+version);
+          NODE
+
+      - name: Write release receipt
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const meta=JSON.parse(fs.readFileSync('lantern-island/release/release.json','utf8'));
+          const publish=JSON.parse(fs.readFileSync('lantern-publish-response.json','utf8'));
+          const verify=JSON.parse(fs.readFileSync('lantern-server-verification.json','utf8'));
+          const receipt={
+            schemaVersion:1,
+            status:'published-private-staging-server-verified',
+            releaseId:meta.releaseId,
+            productionSourceCommit:meta.productionSourceCommit,
+            sourceFingerprint:meta.sourceFingerprint,
+            artifact:{path:meta.artifactPath,sha256:meta.artifactSha256,bytes:meta.artifactBytes},
+            target:{...meta.target,visibilityChanged:false,publicAccessChanged:false},
+            publishedVersion:Number(publish.versionNumber),
+            verification:{scope:'headless-production-server-boot',state:verify.state,taskPath:verify.path},
+            clientProof:{nativeGameplayChecks:114,smallScreenInputChecks:127,physicalPhoneTouch:false},
+            rollback:{mechanism:'Roblox place version history',automaticRollbackAttempted:false}
+          };
+          fs.writeFileSync('lantern-private-staging-receipt.json',JSON.stringify(receipt,null,2)+'\n');
+          console.log(JSON.stringify(receipt,null,2));
+          NODE
+
+      - name: Upload private staging receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lantern-private-staging-receipts
+          path: |
+            lantern-island/release/release.json
+            lantern-preflight.json
+            lantern-publish-response.json
+            lantern-published-version.txt
+            lantern-server-verification.json
+            lantern-private-staging-receipt.json
+          if-no-files-found: error
+          retention-days: 30
