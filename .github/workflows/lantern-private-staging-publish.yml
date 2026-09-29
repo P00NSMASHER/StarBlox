@@ -16,7 +16,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     env:
       ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
       ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -29,8 +29,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-
-      - uses: dtolnay/rust-toolchain@stable
 
       - name: Validate immutable publish request
         shell: bash
@@ -70,12 +68,21 @@ jobs:
           test "$ROBLOX_PLACE_ID" = "17602626136"
           echo "LANTERN_PUBLISH_AUTHORITY_OK"
 
-      - name: Install exact Rojo toolchain
+      - name: Install official Rojo 7.7.0 Linux binary
         shell: bash
         run: |
           set -euo pipefail
-          cargo install rojo --version 7.7.0 --locked
-          rojo --version
+          url="https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip"
+          curl -fL "$url" -o /tmp/rojo.zip
+          echo "22503e5839864f9d7c2171c48b536fc229f2cc4d8774c9cc149f60941d864073  /tmp/rojo.zip" | sha256sum -c -
+          rm -rf /tmp/rojo-unpack
+          mkdir -p /tmp/rojo-unpack "$HOME/.local/bin"
+          unzip -q /tmp/rojo.zip -d /tmp/rojo-unpack
+          binary="$(find /tmp/rojo-unpack -type f -name rojo -print -quit)"
+          test -n "$binary"
+          install -m 755 "$binary" "$HOME/.local/bin/rojo"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/rojo" --version
 
       - name: Reproduce exact Studio-tested artifact
         run: node scripts/build-lantern-tested-artifact.mjs
