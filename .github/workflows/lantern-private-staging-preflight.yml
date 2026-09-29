@@ -1,0 +1,28 @@
+name: Lantern Private Staging Preflight
+
+on:
+  push:
+    branches: [lantern-private-staging-release-20260929]
+    paths:
+      - ".github/workflows/lantern-private-staging-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      HAS_ROBLOX_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY != '' }}
+    steps:
+      - name: Confirm private staging publish authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$HAS_ROBLOX_KEY" = "true"
+          test "$ROBLOX_UNIVERSE_ID" = "6027194615"
+          test "$ROBLOX_PLACE_ID" = "17602626136"
+          echo "LANTERN_PUBLISH_PREFLIGHT_OK universe=$ROBLOX_UNIVERSE_ID place=$ROBLOX_PLACE_ID key_present=true"
