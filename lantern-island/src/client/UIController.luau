@@ -129,11 +129,13 @@ function UIController:_draw()
  if self.mode=="map" then
   self.heading.Text="Pick your adventure"
   self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
+  local rewardNames={["firefly-scarf"]="Firefly Scarf",["rainbow-bow"]="Rainbow Bow",["moon-crown"]="Moon Crown"}
   for _,q in ipairs(UIModel.quests) do
    local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
    local symbol=q.id=="lantern-lift" and "✦" or (q.id=="ribbon-studio" and "Aa" or "☾")
-   local b=self:_addButton("Quest_"..q.id,symbol.."   "..q.title.."\n      "..q.subtitle..(owned and "  •  Restored ✓" or "  •  Island change ahead"),color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
-   b.Size=UDim2.new(1,0,0,62);b.TextXAlignment=Enum.TextXAlignment.Left
+   local detail=owned and ("Restored ✓  •  Fresh practice available") or ("Earn "..(rewardNames[q.reward] or "an outfit").."  •  Change the island")
+   local b=self:_addButton("Quest_"..q.id,symbol.."   "..q.title.."\n      "..q.subtitle.."  •  "..detail,color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
+   b.Size=UDim2.new(1,0,0,64);b.TextXAlignment=Enum.TextXAlignment.Left
    local inset=Instance.new("UIPadding");inset.PaddingLeft=UDim.new(0,14);inset.PaddingRight=UDim.new(0,10);inset.Parent=b
   end
  elseif self.mode=="wardrobe" then
