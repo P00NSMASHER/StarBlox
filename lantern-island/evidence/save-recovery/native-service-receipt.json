@@ -1,0 +1,29 @@
+{
+  "sourceCommit": "8e249454bbc5e8ea1794e9c0f159f358780f2eb3",
+  "status": "PASS_NATIVE_SERVICE_ACCEPTANCE",
+  "passed": 17,
+  "failed": 0,
+  "physicalDevice": "NOT_RUN",
+  "cloudRejoin": "NOT_RUN",
+  "scope": "Exact production ProfileService in Roblox Studio; real module, session reload, real GUID/cache APIs and simulated datastore acknowledgement failure. No production gameplay replacement or cloud calls.",
+  "checks": [
+    "actual ProfileService module loads in Roblox",
+    "unpublished Studio does not open a cloud datastore",
+    "real cache-bypass options API is supported",
+    "native Studio profile loads",
+    "native session save succeeds",
+    "native save is labeled session-only",
+    "native release succeeds",
+    "native released profile unloads",
+    "fresh player object loads saved session",
+    "native outfit and completed mission survive reload",
+    "native help history survives reload",
+    "another player receives separate progress",
+    "transaction uses only the isolated test key",
+    "native commit reports lost acknowledgement as unconfirmed",
+    "transaction uses only the isolated test key",
+    "native commit recognizes and recovers its own write",
+    "native recovery clears pending write"
+  ],
+  "cleanup": "Temporary test modules removed after the receipt was retained; existing gameplay scripts were not replaced."
+}
