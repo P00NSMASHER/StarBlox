@@ -40,11 +40,11 @@ function UIModel.layout(width,height,touch)
  width=math.max(width,1);height=math.max(height,1)
  local narrow=width<620;local landscape=width>height and height<560
  local mobile=touch==true or math.min(width,height)<520
- local panelWidth=math.min(mobile and 392 or 380,width-24)
- if landscape then panelWidth=math.min(mobile and 374 or 360,math.floor(width*.49)) end
- local ratio=landscape and (mobile and .82 or .73) or (mobile and .72 or .59)
- local panelHeight=math.max(180,math.min(mobile and 590 or 520,math.floor(height*ratio)))
- local top=landscape and 6 or math.floor(height*(mobile and .10 or .14))
+ local panelWidth=math.min(mobile and 360 or 380,width-24)
+ if landscape then panelWidth=math.min(mobile and 320 or 360,math.floor(width*.42)) end
+ local ratio=landscape and (mobile and .68 or .73) or (mobile and .62 or .59)
+ local panelHeight=math.max(180,math.min(mobile and 500 or 520,math.floor(height*ratio)))
+ local top=landscape and math.max(6,math.floor((height-panelHeight)/2)) or math.floor(height*(mobile and .16 or .14))
  return {
   width=panelWidth,height=panelHeight,top=top,center=narrow and not landscape,landscape=landscape,mobile=mobile,
   trackerWidth=math.min(mobile and 316 or 300,landscape and width-panelWidth-36 or width-24),

@@ -18,7 +18,7 @@ end
 local function pad(parent,n)
  local p=Instance.new("UIPadding");p.PaddingTop=UDim.new(0,n);p.PaddingBottom=UDim.new(0,n);p.PaddingLeft=UDim.new(0,n);p.PaddingRight=UDim.new(0,n);p.Parent=parent
 end
-function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0,welcomed=false},UIController) end
+function UIController.new(context) return setmetatable({context=context,connections={},contentConnections={},mode=nil,state=nil,pending=false,toastSerial=0,welcomed=false,trackerExpanded=false},UIController) end
 function UIController:_connect(signal,callback,content)
  local c=signal:Connect(callback);table.insert(content and self.contentConnections or self.connections,c);return c
 end
@@ -37,9 +37,11 @@ function UIController:mount(playerGui)
  local tracker=Instance.new("Frame");tracker.Name="AdventureTracker";tracker.Position=UDim2.fromOffset(12,8);tracker.Size=UDim2.fromOffset(290,120);tracker.BackgroundColor3=DARK;tracker.BackgroundTransparency=.04;tracker.BorderSizePixel=0;tracker.Parent=gui;corner(tracker,18);pad(tracker,12);self.tracker=tracker
  local trackerStroke=Instance.new("UIStroke");trackerStroke.Color=Color3.fromRGB(121,142,181);trackerStroke.Transparency=.55;trackerStroke.Thickness=1.2;trackerStroke.Parent=tracker
  local trackerGradient=Instance.new("UIGradient");trackerGradient.Color=ColorSequence.new(DARK:Lerp(BLUE,.12),DARK);trackerGradient.Rotation=120;trackerGradient.Parent=tracker
- local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None
+ local name=text(tracker,"Title","Pip's Island",19);name.TextColor3=WHITE;name.Size=UDim2.new(1,0,0,23);name.AutomaticSize=Enum.AutomaticSize.None;self.trackerTitle=name
  local objective=text(tracker,"Objective","Pick a trail and explore with Pip.",14);objective.Position=UDim2.fromOffset(0,27);objective.Size=UDim2.new(1,0,0,40);objective.AutomaticSize=Enum.AutomaticSize.None;objective.TextColor3=WHITE;self.trackerText=objective
- local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,98);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;self.open=open
+ local toggle=Instance.new("TextButton");toggle.Name="TrackerToggle";toggle.BackgroundTransparency=1;toggle.Text="";toggle.AutoButtonColor=false;toggle.Size=UDim2.fromScale(1,1);toggle.ZIndex=1;toggle.Parent=tracker;self.trackerToggle=toggle
+ local open=button(tracker,"OpenClue","Open clue",GOLD);open.Position=UDim2.fromOffset(0,98);open.Size=UDim2.new(1,0,0,36);open.TextSize=15;open.ZIndex=3;self.open=open
+ name.ZIndex=2;objective.ZIndex=2
  local nav=Instance.new("Frame");nav.Name="ExploreButtons";nav.BackgroundTransparency=1;nav.Position=UDim2.fromOffset(12,136);nav.Size=UDim2.fromOffset(290,42);nav.Parent=gui;self.nav=nav
  for i,entry in ipairs({{"map","Adventures"},{"wardrobe","Dress Pip"},{"journal","Journal"}}) do
   local b=button(nav,entry[1],entry[2],i==2 and PINK or MINT);b.Size=UDim2.new(1/3,-5,1,0);b.Position=UDim2.new((i-1)/3,0,0,0);b.TextSize=13
@@ -53,6 +55,9 @@ function UIController:mount(playerGui)
  local layout=Instance.new("UIListLayout");layout.Padding=UDim.new(0,12);layout.SortOrder=Enum.SortOrder.LayoutOrder;layout.Parent=scroll;self.contentLayout=layout
  local primary=button(panel,"PrimaryAction","Continue",GOLD);primary.Position=UDim2.new(0,14,1,-58);primary.Size=UDim2.new(1,-28,0,46);self.primary=primary
  local toast=Instance.new("TextLabel");toast.Name="PipFeedback";toast.AnchorPoint=Vector2.new(.5,0);toast.Position=UDim2.new(.5,0,0,6);toast.Size=UDim2.new(.74,0,0,62);toast.BackgroundColor3=DARK;toast.TextColor3=WHITE;toast.TextWrapped=true;toast.Font=Enum.Font.GothamBold;toast.TextSize=16;toast.Visible=false;toast.ZIndex=15;toast.Parent=gui;corner(toast,16);self.toast=toast
+ self:_connect(toggle.Activated,function()
+  if self.touchLayout and not self.panel.Visible then self.trackerExpanded=not self.trackerExpanded;self:_layout();self:_track() end
+ end)
  self:_connect(open.Activated,function()
   local m=self.state and self.state.mission
   if m and (m.status=="ACTIVE" or m.status=="BETWEEN" or m.status=="COMPLETED") then self.mode="quest";self:_draw()
@@ -87,16 +92,47 @@ function UIController:_layout()
  self.touchLayout=l.mobile
  self.panel.Size=UDim2.fromOffset(l.width,l.height);self.panel.AnchorPoint=Vector2.new(l.center and .5 or 1,0)
  self.panel.Position=l.center and UDim2.new(.5,0,0,l.top) or UDim2.new(1,-12,0,l.top)
- self.tracker.Size=UDim2.fromOffset(l.trackerWidth,l.trackerHeight)
- self.open.Position=UDim2.fromOffset(0,l.trackerHeight-l.openHeight-24);self.open.Size=UDim2.new(1,0,0,l.openHeight);self.open.TextSize=l.mobile and 16 or 15
- self.nav.Size=UDim2.fromOffset(l.trackerWidth,l.navHeight);self.nav.Position=UDim2.fromOffset(12,l.trackerHeight+14)
+ if l.mobile then
+  local trackerWidth=math.min(270,v.X-24)
+  local trackerHeight=self.trackerExpanded and 104 or 58
+  self.tracker.Size=UDim2.fromOffset(trackerWidth,trackerHeight)
+  self.trackerTitle.Position=UDim2.fromOffset(0,0);self.trackerTitle.Size=UDim2.new(1,-78,0,20);self.trackerTitle.TextSize=self.trackerExpanded and 16 or 14
+  self.trackerText.Position=UDim2.fromOffset(0,23);self.trackerText.Size=UDim2.new(1,-78,0,self.trackerExpanded and 34 or 24);self.trackerText.TextSize=self.trackerExpanded and 13 or 12
+  self.open.AnchorPoint=Vector2.zero;self.open.Position=UDim2.new(1,-70,0,9);self.open.Size=UDim2.fromOffset(64,40);self.open.TextSize=14
+  if self.rewards and self.rewards.rail then
+   self.rewards.rail.Position=UDim2.fromOffset(0,61);self.rewards.rail.Size=UDim2.new(1,0,0,24);self.rewards.rail.Visible=self.trackerExpanded
+  end
+  self.nav.Size=UDim2.fromOffset(174,40);self.nav.Position=UDim2.fromOffset(12,trackerHeight+8)
+ else
+  self.tracker.Size=UDim2.fromOffset(l.trackerWidth,l.trackerHeight)
+  self.trackerTitle.Position=UDim2.fromOffset(0,0);self.trackerTitle.Size=UDim2.new(1,0,0,23);self.trackerTitle.TextSize=19
+  self.trackerText.Position=UDim2.fromOffset(0,27);self.trackerText.Size=UDim2.new(1,0,0,40);self.trackerText.TextSize=14
+  self.open.AnchorPoint=Vector2.zero;self.open.Position=UDim2.fromOffset(0,l.trackerHeight-l.openHeight-24);self.open.Size=UDim2.new(1,0,0,l.openHeight);self.open.TextSize=15
+  if self.rewards and self.rewards.rail then
+   self.rewards.rail.Position=UDim2.fromOffset(0,72);self.rewards.rail.Size=UDim2.new(1,0,0,24);self.rewards.rail.Visible=true
+  end
+  self.nav.Size=UDim2.fromOffset(l.trackerWidth,l.navHeight);self.nav.Position=UDim2.fromOffset(12,l.trackerHeight+14)
+ end
  self.close.Size=UDim2.fromOffset(l.closeSize,l.closeSize)
  self.heading.Size=UDim2.new(1,-(l.closeSize+32),0,44)
+ local hasPrimary=self.mode=="quest"
+ self.primary.Visible=hasPrimary
  self.primary.Size=UDim2.new(1,-28,0,l.primaryHeight);self.primary.Position=UDim2.new(0,14,1,-(l.primaryHeight+12))
- self.scroll.Size=UDim2.new(1,-28,1,-(l.primaryHeight+86));self.scroll.ScrollBarThickness=l.mobile and 7 or 5
- for _,b in ipairs(self.nav:GetChildren()) do if b:IsA("TextButton") then b.TextSize=l.mobile and 14 or 13 end end
- -- Keep exploration controls clear when a narrow portrait card is open.
- self.tracker.Visible=not (l.center and self.panel.Visible);self.nav.Visible=self.tracker.Visible
+ self.scroll.Size=hasPrimary and UDim2.new(1,-28,1,-(l.primaryHeight+86)) or UDim2.new(1,-28,1,-82)
+ self.scroll.ScrollBarThickness=l.mobile and 7 or 5
+ for _,b in ipairs(self.nav:GetChildren()) do
+  if b:IsA("TextButton") then
+   b.TextSize=l.mobile and 12 or 13
+   if l.mobile then
+    b.Text=b.Name=="map" and "Map" or (b.Name=="wardrobe" and "Pip" or "Log")
+   else
+    b.Text=b.Name=="map" and "Adventures" or (b.Name=="wardrobe" and "Dress Pip" or "Journal")
+   end
+  end
+ end
+ local hideForCard=self.panel.Visible and (l.mobile or l.center)
+ self.tracker.Visible=not hideForCard
+ self.nav.Visible=self.tracker.Visible and (not l.mobile or self.trackerExpanded)
 end
 function UIController:_track()
  local m=self.state and self.state.mission;if not m then return end
@@ -134,18 +170,17 @@ end
 function UIController:_draw()
  if not self.panel or not self.state or not self.state.mission then return end
  self.panel.Visible=self.mode~=nil;self:_layout();self:_track();if not self.mode then return end
- self:_clear();self.primary.Text="Back to exploring"
+ self:_clear()
  local state=self.state;local m=state.mission;local profile=state.profile
  if self.mode=="map" then
-  self.heading.Text="Pick your adventure"
-  self:_addText("Invitation","Pick a trail with Pip. Every solved clue changes the island, and completed adventures stay transformed.",17)
+  self.heading.Text="Choose a trail"
+  self:_addText("Invitation","Pick one. Pip will show you where to go.",15)
   local rewardNames={["firefly-scarf"]="Firefly Scarf",["rainbow-bow"]="Rainbow Bow",["moon-crown"]="Moon Crown"}
   for _,q in ipairs(UIModel.quests) do
    local owned=UIModel.owns(profile,q.reward);local color=q.id=="lantern-lift" and GOLD or (q.id=="ribbon-studio" and PINK or BLUE)
-   local symbol=q.id=="lantern-lift" and "✦" or (q.id=="ribbon-studio" and "Aa" or "☾")
-   local detail=owned and ("Restored ✓  •  Fresh practice available") or ("Earn "..(rewardNames[q.reward] or "an outfit").."  •  Change the island")
-   local b=self:_addButton("Quest_"..q.id,symbol.."   "..q.title.."\n      "..q.subtitle.."  •  "..detail,color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
-   b.Size=UDim2.new(1,0,0,64);b.TextXAlignment=Enum.TextXAlignment.Left
+   local detail=owned and "Fresh practice" or (rewardNames[q.reward] or "Outfit reward")
+   local b=self:_addButton("Quest_"..q.id,q.title.."\n"..q.subtitle.."  •  "..detail,color,function() self.mode=nil;self:_send("StartMission",{missionId=q.id});self:_draw() end)
+   b.Size=UDim2.new(1,0,0,58);b.TextXAlignment=Enum.TextXAlignment.Left
    local inset=Instance.new("UIPadding");inset.PaddingLeft=UDim.new(0,14);inset.PaddingRight=UDim.new(0,10);inset.Parent=b
   end
  elseif self.mode=="wardrobe" then
