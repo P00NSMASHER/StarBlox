@@ -1,0 +1,180 @@
+name: Verify Lantern Cloud Persistence
+
+on:
+  push:
+    branches:
+      - lantern-private-staging-release-20260929
+    paths:
+      - ".github/workflows/verify-lantern-cloud-persistence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-cloud-persistence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      EXPECTED_UNIVERSE_ID: "6027194615"
+      EXPECTED_PLACE_ID: "17602626136"
+      EXPECTED_BUILD_FINGERPRINT: "3b7990ab65c88f6c35b62f6310cf9fabe915b9e0c281da5fcd482c57fe97e19f"
+
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run real DataStore save-unload-reload roundtrip on synthetic QA key
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ROBLOX_OPEN_CLOUD_API_KEY"
+          test "$ROBLOX_UNIVERSE_ID" = "$EXPECTED_UNIVERSE_ID"
+          test "$ROBLOX_PLACE_ID" = "$EXPECTED_PLACE_ID"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const build=process.env.EXPECTED_BUILD_FINGERPRINT;
+
+          async function parse(response,label){
+            const text=await response.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+' non-JSON HTTP '+response.status);}
+            if(!response.ok){
+              const detail=payload?.message||payload?.error?.message||payload?.error||text;
+              throw new Error(label+' HTTP '+response.status+': '+String(detail).slice(0,1800));
+            }
+            return payload;
+          }
+          function taskUrl(path){
+            return 'https://apis.roblox.com/cloud/v2/'+String(path||'')
+              .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,'')
+              .replace(/^\/?cloud\/v2\//,'')
+              .replace(/^\//,'');
+          }
+
+          const script=[
+            'local DSS=game:GetService("DataStoreService")',
+            'local RunService=game:GetService("RunService")',
+            'local SS=game:GetService("ServerScriptService")',
+            'assert(RunService:IsServer() and not RunService:IsStudio(),"expected production headless server")',
+            'assert(tostring(game.GameId)=="'+universe+'","universe mismatch")',
+            'assert(tostring(game.PlaceId)=="'+place+'","place mismatch")',
+            'local root=SS:WaitForChild("LanternIslandServer",15)',
+            'assert(root:WaitForChild("BuildIdentity",5).Value=="'+build+'","build identity mismatch")',
+            'local TargetPolicy=require(root:WaitForChild("TargetPolicy",5))',
+            'assert(TargetPolicy.allowed(game.GameId,game.PlaceId,false),"target policy rejected private staging")',
+            'local ProfileService=require(root:WaitForChild("ProfileService",5))',
+            'local namespace="LanternIsland_STAGING_QA_v1"',
+            'local datastore=DSS:GetDataStore(namespace.."_profiles")',
+            'local userId=-20260929',
+            'local keyName="u:"..tostring(userId)',
+            'local function retry(label,fn)',
+            '  local last',
+            '  for i=1,6 do',
+            '    local ok,result=pcall(fn)',
+            '    if ok then return result end',
+            '    last=result',
+            '    task.wait(math.min(5,i))',
+            '  end',
+            '  error(label.." failed after retries: "..tostring(last))',
+            'end',
+            'retry("cleanup-before",function() return datastore:RemoveAsync(keyName) end)',
+            'task.wait(1)',
+            'local function context() return {services={},protocol={},isStudio=false,buildId="'+build+'",dataStoreNamespace=namespace,serverRoot=root} end',
+            'local first=ProfileService.new(context())',
+            'local p1={UserId=userId}',
+            'local ok1,code1=first:load(p1)',
+            'assert(ok1,"first load failed "..tostring(code1))',
+            'local d1=first:get(p1)',
+            'assert(d1.currency==0 and #d1.ownedItemIds==0 and d1.equippedItemId=="","synthetic key not blank after cleanup")',
+            'd1.ownedItemIds={"firefly-scarf"}',
+            'd1.equippedItemId="firefly-scarf"',
+            'd1.completions["lantern-lift"]=true',
+            'd1.questProgress["lantern-lift"]={index=5,attempts=0,hintLevel=0}',
+            'd1.learning["lift-1"]={assisted=false,transfer=false}',
+            'local saved1,saveCode1=first:save(p1)',
+            'assert(saved1,"first save failed "..tostring(saveCode1))',
+            'local released1,releaseCode1=first:release(p1)',
+            'assert(released1,"first release failed "..tostring(releaseCode1))',
+            'task.wait(1)',
+            'local second=ProfileService.new(context())',
+            'local p2={UserId=userId}',
+            'local ok2,code2=second:load(p2)',
+            'assert(ok2,"second load failed "..tostring(code2))',
+            'local d2=second:get(p2)',
+            'assert(d2.currency==25,"reloaded currency mismatch "..tostring(d2.currency))',
+            'assert(#d2.ownedItemIds==1 and d2.ownedItemIds[1]=="firefly-scarf","first entitlement did not survive reload")',
+            'assert(d2.equippedItemId=="firefly-scarf","equipped reward did not survive reload")',
+            'assert(d2.completions["lantern-lift"]==true,"mission completion did not survive reload")',
+            'assert(d2.learning["lift-1"] and d2.learning["lift-1"].assisted==false,"learning evidence did not survive reload")',
+            'd2.ownedItemIds={"firefly-scarf","rainbow-bow","moon-crown"}',
+            'd2.equippedItemId="moon-crown"',
+            'd2.completions["ribbon-studio"]=true',
+            'd2.completions["moon-picnic"]=true',
+            'd2.learning["ribbon-1"]={assisted=true,transfer=false}',
+            'd2.learning["picnic-4"]={assisted=false,transfer=true}',
+            'local saved2,saveCode2=second:save(p2)',
+            'assert(saved2,"second save failed "..tostring(saveCode2))',
+            'local released2,releaseCode2=second:release(p2)',
+            'assert(released2,"second release failed "..tostring(releaseCode2))',
+            'task.wait(1)',
+            'local third=ProfileService.new(context())',
+            'local p3={UserId=userId}',
+            'local ok3,code3=third:load(p3)',
+            'assert(ok3,"third load failed "..tostring(code3))',
+            'local d3=third:get(p3)',
+            'assert(d3.currency==75,"three-entitlement currency mismatch "..tostring(d3.currency))',
+            'assert(#d3.ownedItemIds==3,"three entitlements did not survive second reload")',
+            'assert(d3.equippedItemId=="moon-crown","second equipped reward did not survive reload")',
+            'assert(d3.completions["lantern-lift"] and d3.completions["ribbon-studio"] and d3.completions["moon-picnic"],"completion set did not survive reload")',
+            'assert(d3.learning["ribbon-1"] and d3.learning["ribbon-1"].assisted==true,"supported learning evidence missing")',
+            'assert(d3.learning["picnic-4"] and d3.learning["picnic-4"].transfer==true,"transfer evidence missing")',
+            'local released3,releaseCode3=third:release(p3)',
+            'assert(released3,"third release failed "..tostring(releaseCode3))',
+            'retry("cleanup-after",function() return datastore:RemoveAsync(keyName) end)',
+            'print("LANTERN_CLOUD_PERSISTENCE_OK version="..tostring(game.PlaceVersion).." currency=75 outfits=3 cleanup=true")'
+          ].join('\n');
+
+          let response;
+          for(let attempt=0;attempt<8;attempt++){
+            response=await fetch(
+              'https://apis.roblox.com/cloud/v2/universes/'+universe+'/places/'+place+'/luau-execution-session-tasks',
+              {method:'POST',headers:{'x-api-key':key,'content-type':'application/json'},body:JSON.stringify({script,timeout:'30s'})}
+            );
+            if(![429,500,502,503,504].includes(response.status))break;
+            await new Promise(r=>setTimeout(r,2500*(attempt+1)));
+          }
+          let task=await parse(response,'create');
+          const url=taskUrl(task.path);
+          while(String(task.state||'')==='PROCESSING'){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(url,{headers:{'x-api-key':key}}),'status');
+          }
+          const logs=await parse(await fetch(url+'/logs',{headers:{'x-api-key':key}}),'logs');
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||''))){
+            throw new Error('cloud persistence task failed '+JSON.stringify(task).slice(0,2000)+' logs='+JSON.stringify(logs).slice(0,4000));
+          }
+          const text=JSON.stringify(logs);
+          if(!text.includes('LANTERN_CLOUD_PERSISTENCE_OK')){
+            throw new Error('cloud persistence sentinel missing '+text.slice(0,5000));
+          }
+          const receipt={schemaVersion:1,status:'verified',scope:'real-datastore-save-unload-reload-cleanup',buildFingerprint:build,target:{universeId:universe,placeId:place},taskPath:task.path,state:task.state,logs};
+          fs.writeFileSync('lantern-cloud-persistence-receipt.json',JSON.stringify(receipt,null,2)+'\n');
+          console.log('LANTERN_CLOUD_PERSISTENCE_VERIFIED');
+          NODE
+
+      - name: Upload cloud persistence receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: lantern-cloud-persistence
+          path: lantern-cloud-persistence-receipt.json
+          if-no-files-found: error
+          retention-days: 30
