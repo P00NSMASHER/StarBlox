@@ -26,6 +26,8 @@ try{
  const protocol=run(commands.luau,['tests/runtime_protocol.spec.luau']);
  const gameplay=run(commands.luau,['tests/mission_reward.spec.luau']);
  const answerLayout=run(commands.luau,['tests/answer_layout.spec.luau']);
+ const rewards=run(commands.luau,['tests/reward_journey.spec.luau']);
+ const rewardMatch=rewards.match(/RESULT (\d+) reward journey tests passed/);if(!rewardMatch)throw Error('Reward regression suite did not complete');
  const layoutMatch=answerLayout.match(/RESULT (\d+) answer layout behavior tests passed/);
  if(!layoutMatch)throw Error('Answer-layout regression suite did not complete');
  const p=protocol.match(/RESULT (\d+) protocol behavior tests passed/);const m=gameplay.match(/RESULT (\d+) mission\/reward behavior tests passed/);
@@ -41,10 +43,10 @@ try{
  const bytes=fs.readFileSync(artifact);if(!bytes.toString('utf8',0,100).includes('<roblox'))throw Error('Not a Roblox XML package');
  const receipt={schemaVersion:2,status:'OFFLINE_TESTED_CANDIDATE',sourceCommit:arg('--source-commit',null),builtAt:new Date().toISOString(),sourceFingerprint,sourceHashes:hashes,
  artifact:path.basename(artifact),artifactSha256:sha(bytes),artifactBytes:bytes.length,toolchain:{rojo:rojoVersion,luau:'0.740'},
- checks:{productionFilesCompiled:sources.length,testFilesCompiled:tests.length,protocolBehaviorTests:Number(p[1]),missionRewardAndUIModelTests:Number(m[1]),answerLayoutTests:Number(layoutMatch[1]),profilePersistenceTests:Number(persistenceMatch[1]),protocolStrictTypecheck:'PASS',repeatArtifactHashMatched:true},
+ checks:{productionFilesCompiled:sources.length,testFilesCompiled:tests.length,protocolBehaviorTests:Number(p[1]),missionRewardAndUIModelTests:Number(m[1]),answerLayoutTests:Number(layoutMatch[1]),rewardJourneyTests:Number(rewardMatch[1]),profilePersistenceTests:Number(persistenceMatch[1]),protocolStrictTypecheck:'PASS',repeatArtifactHashMatched:true},
  scope:'Actual pure production modules executed with fake world/save adapters; package compilation is not client proof.',
  nativeRobloxEngineExecution:'NOT_RUN_BY_THIS_SCRIPT',physicalDeviceInput:'NOT_RUN',realDataStoreLeaveRejoin:'NOT_RUN',schoolworkIntegration:'ORIGINAL_SAMPLE_ONLY',publishedTarget:null};
  fs.writeFileSync(path.join(dist,'offline-receipt.json'),JSON.stringify(receipt,null,2)+'\n');
- fs.writeFileSync(path.join(dist,'offline-test-output.txt'),protocol+'\n'+gameplay+'\n'+answerLayout+'\n'+persistence);
+ fs.writeFileSync(path.join(dist,'offline-test-output.txt'),protocol+'\n'+gameplay+'\n'+answerLayout+'\n'+rewards+'\n'+persistence);
  console.log(JSON.stringify(receipt,null,2));
 }catch(e){console.error(`BUILD FAILED: ${e.message}`);process.exitCode=1;}
