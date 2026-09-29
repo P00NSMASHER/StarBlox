@@ -7,6 +7,7 @@ local Reward=require("../src/server/RewardService")
 local Data=require("../src/server/ProfileData")
 local UI=require("../src/client/UIModel")
 local TargetPolicy=require("../src/server/TargetPolicy")
+local SessionCollectibles=require("../src/client/SessionCollectiblesModel")
 local Bootstrap=require("../src/server/Bootstrap")
 local passed=0
 local function check(name,fn) local ok,err=pcall(fn);if not ok then error("FAIL "..name..": "..tostring(err)) end;passed+=1;print("PASS "..name) end
@@ -161,5 +162,25 @@ check("release target policy allows only the known private staging target outsid
  assert(not TargetPolicy.allowed(6027194614,17602626136,false))
  assert(not TargetPolicy.allowed(0,0,false))
  assert(not TargetPolicy.allowed(nil,nil,false))
+end)
+check("session firefly hunt defines nine unique reachable exploration points",function()
+ local points=SessionCollectibles.points();assert(#points==9 and SessionCollectibles.total()==9)
+ local ids={};local trails={gold=0,pink=0,blue=0}
+ for _,p in ipairs(points) do
+  assert(type(p.id)=="string" and not ids[p.id]);ids[p.id]=true
+  assert(trails[p.trail]~=nil);trails[p.trail]+=1
+  assert(type(p.x)=="number" and type(p.y)=="number" and type(p.z)=="number")
+  assert(p.y>1 and math.sqrt(p.x*p.x+p.z*p.z)<40)
+ end
+ assert(trails.gold==3 and trails.pink==3 and trails.blue==3)
+end)
+check("session firefly milestones are bounded and explicitly session-only",function()
+ local zero=SessionCollectibles.progress(-5);assert(zero.caught==0 and not zero.complete)
+ local mid=SessionCollectibles.progress(3);assert(mid.caught==3 and mid.total==9 and not mid.complete)
+ local done=SessionCollectibles.progress(99);assert(done.caught==9 and done.complete)
+ assert(SessionCollectibles.message(0):find("explore",1,true))
+ assert(SessionCollectibles.message(3):find("Three",1,true))
+ assert(SessionCollectibles.message(6):find("Six",1,true))
+ assert(SessionCollectibles.message(9):find("All 9",1,true))
 end)
 print("RESULT "..passed.." mission/reward behavior tests passed; Roblox client NOT exercised")
