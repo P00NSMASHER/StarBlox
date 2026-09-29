@@ -29,7 +29,9 @@ end
 function MissionService:_save(player) return self.context.services.ProfileService:save(player)==true end
 function MissionService:publicState(player)
  local s=self:_state(player);local p=self:_profile(player);local lesson=self.context.services.LessonService
- local quest=lesson:getQuest(s.selected);local q=self:_progress(player,s);local a=lesson:getActivity(quest.steps[math.min(q.index,#quest.steps)])
+ local quest=lesson:getQuest(s.selected);local q=self:_progress(player,s)
+ local stepId=quest.steps[math.min(q.index,#quest.steps)];local activityId=s.practice and lesson:practiceActivityId(stepId) or stepId
+ local a=lesson:getActivity(activityId)
  local completed,independent,supported,transfer=0,0,0,0
  for _,e in pairs(p.learning) do completed+=1;if e.assisted then supported+=1 else independent+=1;if e.transfer then transfer+=1 end end end
  local objective=quest.objective
@@ -64,7 +66,7 @@ function MissionService:handle(player,request)
   local saved=self:_save(player);return {ok=true,code=saved and "MISSION_PAUSED" or "PROGRESS_SAVE_PENDING"}
  end
  if s.status~="ACTIVE" then return {ok=false,code="MISSION_NOT_ACTIVE"} end
- local q=self:_progress(player,s);local a=lesson:getActivity(quest.steps[q.index])
+ local q=self:_progress(player,s);local stepId=quest.steps[q.index];local activityId=s.practice and lesson:practiceActivityId(stepId) or stepId;local a=lesson:getActivity(activityId)
  if not a then return {ok=false,code="CONTENT_UNAVAILABLE"} end
  if request.action=="RequestHint" then
   q.hintLevel=math.min(3,q.hintLevel+1);self:_save(player);return {ok=true,code="HINT_READY"}

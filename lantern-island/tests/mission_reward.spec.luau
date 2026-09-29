@@ -115,4 +115,22 @@ check("portrait and landscape card bounds leave room for controls",function()
  for _,v in ipairs({{320,568},{390,844},{844,390},{1024,768},{1920,1080}}) do local l=UI.layout(v[1],v[2]);assert(l.width<=v[1]-24 and l.top+l.height<v[2]-60 and l.trackerWidth>0) end
 end)
 check("Studio-only and failed saves cannot be labeled durable",function() assert(UI.saveText("STUDIO_SESSION_ONLY"):find("test server",1,true));assert(UI.saveText("SAVE_FAILED"):find("not confirmed",1,true));assert(UI.saveText("SAVED")=="Progress saved.") end)
+
+check("every completed quest replays with four fresh alternate activities",function()
+ local l=Lesson.new({})
+ for _,q in ipairs(l:quests())do
+  local seen={}
+  for _,base in ipairs(q.steps)do
+   local alt=l:practiceActivityId(base);assert(type(alt)=="string" and alt~=base and not seen[alt]);seen[alt]=true
+   local original,replay=l:getActivity(base),l:getActivity(alt);assert(replay and replay.skill==original.skill)
+   assert(replay.prompt~=original.prompt and #replay.options==4 and #replay.hints==3)
+  end
+ end
+end)
+check("practice replay uses fresh questions without new rewards or learning credit",function()
+ local f=fixture();f:complete("lantern-lift");assert(f:state().completedCount==4 and f.profiles[f.player].currency==25)
+ assert(f:act("StartMission","lantern-lift").ok);local replay=f:state();assert(replay.practice and replay.activityId=="liftp-1" and replay.prompt:find("14",1,true))
+ for i=1,4 do local answer=f:answer(true);assert(answer.ok);if i<4 then assert(f:act("StartMission","lantern-lift").ok)end end
+ assert(f.profiles[f.player].currency==25 and #f.profiles[f.player].ownedItemIds==1 and f:state().completedCount==4)
+end)
 print("RESULT "..passed.." mission/reward behavior tests passed; Roblox client NOT exercised")
