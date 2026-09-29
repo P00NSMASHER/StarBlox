@@ -182,5 +182,3 @@ function UIController:destroy()
  if self.gui then self.gui:Destroy() end
 end
 return UIController
-
-[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]

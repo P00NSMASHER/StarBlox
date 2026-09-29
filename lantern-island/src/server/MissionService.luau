@@ -95,5 +95,3 @@ function MissionService:handle(player,request)
 end
 function MissionService:removePlayer(player) self.state[player]=nil end
 return MissionService
-
-[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]

@@ -107,5 +107,3 @@ function LessonService:check(id,answer,userId)
  return type(answer)=="number" and answer==tonumber(a.answer)
 end
 return LessonService
-
-[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]

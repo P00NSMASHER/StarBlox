@@ -134,5 +134,3 @@ check("practice replay uses fresh questions without new rewards or learning cred
  assert(f.profiles[f.player].currency==25 and #f.profiles[f.player].ownedItemIds==1 and f:state().completedCount==4)
 end)
 print("RESULT "..passed.." mission/reward behavior tests passed; Roblox client NOT exercised")
-
-[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]

@@ -93,5 +93,3 @@ function FeedbackController:destroy()
  if self.previousExposure~=nil and Lighting.ExposureCompensation==-.25 then Lighting.ExposureCompensation=self.previousExposure end
 end
 return FeedbackController
-
-[executed on device: PAAM-L044 (c83a6c06-c0d3-4127-84de-311c7c6f1364)]
