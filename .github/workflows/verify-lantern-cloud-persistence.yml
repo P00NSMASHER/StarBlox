@@ -72,7 +72,7 @@ jobs:
             'local TargetPolicy=require(root:WaitForChild("TargetPolicy",5))',
             'assert(TargetPolicy.allowed(game.GameId,game.PlaceId,false),"target policy rejected private staging")',
             'local ProfileService=require(root:WaitForChild("ProfileService",5))',
-            'local namespace="LanternIsland_STAGING_QA_v1"',
+            'local namespace="LanternIsland_DEV_v1"',
             'local datastore=DSS:GetDataStore(namespace.."_profiles")',
             'local userId=-20260929',
             'local keyName="u:"..tostring(userId)',
@@ -140,7 +140,29 @@ jobs:
             'local released3,releaseCode3=third:release(p3)',
             'assert(released3,"third release failed "..tostring(releaseCode3))',
             'retry("cleanup-after",function() return datastore:RemoveAsync(keyName) end)',
-            'print("LANTERN_CLOUD_PERSISTENCE_OK version="..tostring(game.PlaceVersion).." currency=75 outfits=3 cleanup=true")'
+            'local conflictUserId=-20260930',
+            'local conflictKey="u:"..tostring(conflictUserId)',
+            'retry("conflict-cleanup-before",function() return datastore:RemoveAsync(conflictKey) end)',
+            'task.wait(1)',
+            'local a=ProfileService.new(context())',
+            'local b=ProfileService.new(context())',
+            'local pa={UserId=conflictUserId}',
+            'local pb={UserId=conflictUserId}',
+            'local oka,ca=a:load(pa);assert(oka,"conflict A load failed "..tostring(ca))',
+            'local okb,cb=b:load(pb);assert(okb,"conflict B load failed "..tostring(cb))',
+            'local da=a:get(pa);local db=b:get(pb)',
+            'da.ownedItemIds={"firefly-scarf"};da.equippedItemId="firefly-scarf"',
+            'db.ownedItemIds={"moon-crown"};db.equippedItemId="moon-crown"',
+            'local saveA,codeA=a:save(pa);assert(saveA,"conflict A save failed "..tostring(codeA))',
+            'local saveB,codeB=b:save(pb)',
+            'assert(not saveB and codeB=="SAVE_CONFLICT","stale concurrent writer was not rejected: "..tostring(saveB).." "..tostring(codeB))',
+            'local c3=ProfileService.new(context());local pc={UserId=conflictUserId}',
+            'local okc,cc=c3:load(pc);assert(okc,"conflict verification load failed "..tostring(cc))',
+            'local dc=c3:get(pc)',
+            'assert(dc.currency==25 and #dc.ownedItemIds==1 and dc.ownedItemIds[1]=="firefly-scarf","stale writer clobbered newer cloud state")',
+            'assert(dc.equippedItemId=="firefly-scarf","stale writer changed equipped item")',
+            'retry("conflict-cleanup-after",function() return datastore:RemoveAsync(conflictKey) end)',
+            'print("LANTERN_CLOUD_PERSISTENCE_OK version="..tostring(game.PlaceVersion).." currency=75 outfits=3 cleanup=true productionNamespace=true conflictRejected=true")'
           ].join('\n');
 
           let response;
@@ -166,7 +188,7 @@ jobs:
           if(!text.includes('LANTERN_CLOUD_PERSISTENCE_OK')){
             throw new Error('cloud persistence sentinel missing '+text.slice(0,5000));
           }
-          const receipt={schemaVersion:1,status:'verified',scope:'real-datastore-save-unload-reload-cleanup',buildFingerprint:build,target:{universeId:universe,placeId:place},taskPath:task.path,state:task.state,logs};
+          const receipt={schemaVersion:1,status:'verified',scope:'production-namespace-save-unload-reload-concurrency-cleanup',buildFingerprint:build,target:{universeId:universe,placeId:place},taskPath:task.path,state:task.state,logs};
           fs.writeFileSync('lantern-cloud-persistence-receipt.json',JSON.stringify(receipt,null,2)+'\n');
           console.log('LANTERN_CLOUD_PERSISTENCE_VERIFIED');
           NODE
