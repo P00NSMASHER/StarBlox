@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "status": "BIT_IDENTICAL_NATIVE_TESTED_VISUAL_REPLAY_BUILD",
+  "productionCommit": "e3fa0c92f5c443ce321ec63d8be118983f3f0806",
+  "sourceFingerprint": "9958599ec7d2723bb6f6f51f4ce58da4d4ddc689e33dfd4cdfa7f87dd499fe24",
+  "artifact": {
+    "name": "LanternIsland-Adventures.rbxlx",
+    "bytes": 112855,
+    "sha256": "9e6984674ea0febaec2da800a748f9f33ed4bf9b331e2739e1fb7cba2e6266e9"
+  },
+  "exactSourceVerification": {
+    "filesMatched": 23,
+    "proofSha256": "7ef7c62e6352b04f9f21adb4f74a36348648156fb522a99e418032be0e2d5e1a",
+    "note": "Exact GitHub production commit was materialized and rebuilt successfully."
+  },
+  "offlineChecks": {
+    "protocol": 38,
+    "missionRewardUI": 34,
+    "answerLayout": 3,
+    "rewardJourney": 18,
+    "profilePersistence": 19,
+    "total": 112,
+    "strictProtocolTypecheck": "PASS",
+    "repeatArtifactHashMatched": true
+  },
+  "nativeArtifactEvidence": {
+    "note": "Native receipts were produced before the repository mapping commit, but the tested artifact SHA256 and source fingerprint are exactly identical to the exact GitHub rebuild. The receipts are not relabeled as a new run.",
+    "nativeClientServer": {
+      "status": "PASS",
+      "checks": 102,
+      "failures": 0,
+      "receiptSha256": "5b3376f9571efdfb36b6d54a9499b6a9b6564f3e22d1b59ea80e33b3ce63de8b"
+    },
+    "simulatedInputWalking": {
+      "status": "PASS",
+      "checks": 127,
+      "viewport": [
+        810,
+        410
+      ],
+      "teleportUsed": false,
+      "receiptSha256": "c342d4fd5242bdab4c7e45a59b401da6debf3efe4def060b7b4a480d4afe11bf"
+    },
+    "actualStudioRenderInspected": true,
+    "screenshotSha256": "115a31e4058643a2b1fdcba4401158e9a3dd42e68b820800d0f4de9e5d44fd6c"
+  },
+  "improvements": [
+    "Pip's Plaza hub with three color-coded adventure trailheads.",
+    "Four visible world transformations per adventure; progress rebuilds from existing quest progress on rejoin.",
+    "Ambient floating fireflies, lily pads, subtle bloom and color grading with reduced-motion support.",
+    "All-three-outfit collection grows a Starlight Garden in the hub in addition to Pip's Starlight Trail.",
+    "Adventure picker uses stronger color identity and explicitly tells the player that every solved clue changes the island.",
+    "Completed adventures replay with twelve fresh alternate practice questions instead of the original memorized question set.",
+    "Fresh practice still grants no duplicate outfits, stars or learning credit."
+  ],
+  "engagementPrinciples": [
+    "No loot boxes, randomized paid rewards, expiring streaks, loss penalties, energy timers or FOMO.",
+    "Hints and retries never reduce cosmetic rewards.",
+    "Replay value comes from exploration, visible world restoration, collection completion and fresh educational practice."
+  ],
+  "limits": {
+    "physicalPhoneInput": "NOT_RUN",
+    "publishedCloudSaveLeaveRejoin": "NOT_RUN",
+    "childEnjoymentAndLearningRetention": "NOT_MEASURED",
+    "publicRobloxRelease": "NOT_PUBLISHED",
+    "currentSchoolwork": "ORIGINAL_SAMPLE_ONLY",
+    "freshStudioRestart": "A separate fresh Studio launch was attempted after exact GitHub rebuild but Roblox Studio stalled on a GUAC network timeout. This was preserved as an environment failure, not counted as a pass."
+  },
+  "localEvidenceHashes": {
+    "dist/offline-receipt.json": "db74339c09badff8c82f24eaf8afa9b7c2b60b4863202592f1fe4fca9d78658a",
+    "dist/exact-source-proof.json": "7ef7c62e6352b04f9f21adb4f74a36348648156fb522a99e418032be0e2d5e1a",
+    "dist/native-acceptance-receipt.json": "5b3376f9571efdfb36b6d54a9499b6a9b6564f3e22d1b59ea80e33b3ce63de8b",
+    "dist/native-input-walk-receipt.json": "c342d4fd5242bdab4c7e45a59b401da6debf3efe4def060b7b4a480d4afe11bf",
+    "dist/visual-toned-final.png": "115a31e4058643a2b1fdcba4401158e9a3dd42e68b820800d0f4de9e5d44fd6c"
+  }
+}
