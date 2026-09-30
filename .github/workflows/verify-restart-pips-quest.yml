@@ -1,0 +1,101 @@
+name: Verify and Restart Pips Quest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-restart-pips-quest.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pips-quest-live-verify-restart
+  cancel-in-progress: false
+
+jobs:
+  verify-restart:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      EXPECTED_VERSION: "129"
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify published Pips Quest structure
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const expected=Number(process.env.EXPECTED_VERSION);
+          if(universe!=="6027194615") throw new Error("unexpected universe "+universe);
+          if(place!=="17602626136") throw new Error("unexpected place "+place);
+          async function parse(r,label){
+            const text=await r.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,800));}
+            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+          const script=[
+            'local deadline=os.clock()+25',
+            'repeat task.wait(0.1) until (workspace:GetAttribute("PipsQuestCoreReady")==true and workspace:GetAttribute("PipsQuestFlowReady")==true) or os.clock()>deadline',
+            'assert(game.PlaceVersion==' + expected + ',"expected version '+expected+' got "..tostring(game.PlaceVersion))',
+            'assert(workspace:GetAttribute("PipsQuestCoreReady")==true,"PipsQuestCoreReady missing")',
+            'assert(workspace:GetAttribute("PipsQuestFlowReady")==true,"PipsQuestFlowReady missing")',
+            'local root=workspace:FindFirstChild("PipsQuestWorld")',
+            'assert(root,"PipsQuestWorld missing")',
+            'assert(root:FindFirstChild("LearningGate"),"LearningGate missing")',
+            'assert(root:FindFirstChild("MiniMaze"),"MiniMaze missing")',
+            'assert(root:FindFirstChild("LearningLanterns"),"LearningLanterns missing")',
+            'assert(root:FindFirstChild("RewardChest"),"RewardChest missing")',
+            'assert(root:FindFirstChild("FinishPad"),"FinishPad missing")',
+            'assert(root:FindFirstChild("ReplayPad"),"ReplayPad missing")',
+            'local shared=game:GetService("ReplicatedStorage"):FindFirstChild("PipsQuestShared")',
+            'assert(shared and shared:FindFirstChild("QuestionBank"),"QuestionBank missing")',
+            'print("PIPSQUEST_LIVE_OK version="..tostring(game.PlaceVersion))'
+          ].join("\n");
+          let response=await fetch(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${expected}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
+          );
+          let task=await parse(response,"create verify task");
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("verify task returned no path "+JSON.stringify(task));
+          const taskUrl="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(taskUrl,{headers:{"x-api-key":key}}),"verify status");
+          }
+          const logs=await parse(await fetch(taskUrl+"/logs",{headers:{"x-api-key":key}}),"verify logs");
+          const logText=JSON.stringify(logs);
+          if(task.error || /FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("verify failed "+JSON.stringify(task).slice(0,1800));
+          if(!logText.includes("PIPSQUEST_LIVE_OK version="+expected)) throw new Error("live sentinel missing "+logText.slice(0,3000));
+          console.log("PIPSQUEST_VERIFIED_LIVE version="+expected);
+          NODE
+
+      - name: Restart StarBlox servers onto Pips Quest
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const r=await fetch(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}:restartServers`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:"{}"}
+          );
+          const text=await r.text();
+          if(!r.ok) throw new Error("restart failed HTTP "+r.status+": "+text.slice(0,1800));
+          console.log("PIPSQUEST_SERVERS_RESTARTED "+(text||"OK"));
+          NODE
