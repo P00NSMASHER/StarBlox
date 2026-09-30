@@ -9970,38 +9970,41 @@ print("[PIPS][CORE_READY] Pip's Quest core world generated")
     <Item class="Script" referent="8">
       <Properties>
         <string name="Name">QuestFlow</string>
-        <string name="Source"><![CDATA[local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
+        <string name="Source">local Players = game:GetService(&quot;Players&quot;)
+local ReplicatedStorage = game:GetService(&quot;ReplicatedStorage&quot;)
+local TweenService = game:GetService(&quot;TweenService&quot;)
 
-local shared = ReplicatedStorage:WaitForChild("PipsQuestShared")
-local EducationEngine = require(shared:WaitForChild("EducationEngine"))
-local QuestionBank = require(shared:WaitForChild("QuestionBank"))
+local shared = ReplicatedStorage:WaitForChild(&quot;PipsQuestShared&quot;)
+local EducationEngine = require(shared:WaitForChild(&quot;EducationEngine&quot;))
+local QuestionBank = require(shared:WaitForChild(&quot;QuestionBank&quot;))
 
-local world = workspace:WaitForChild("PipsQuestWorld")
-local gate = world:WaitForChild("LearningGate")
-local star = world:WaitForChild("QuestStar")
-local trigger = world:WaitForChild("QuestionTrigger")
-local finish = world:WaitForChild("FinishPad")
-local replay = world:WaitForChild("ReplayPad")
-local lanterns = world:WaitForChild("LearningLanterns")
-local chest = world:WaitForChild("RewardChest")
-local chestBase = chest:WaitForChild("Base")
-local chestLid = chest:WaitForChild("Lid")
-local chestLock = chest:WaitForChild("Lock")
-local chestGlow = chest:WaitForChild("GlowCore")
-local chestPrompt = chestBase:WaitForChild("OpenPrompt")
+local world = workspace:WaitForChild(&quot;PipsQuestWorld&quot;)
+local gate = world:WaitForChild(&quot;LearningGate&quot;)
+local star = world:WaitForChild(&quot;QuestStar&quot;)
+local trigger = world:WaitForChild(&quot;QuestionTrigger&quot;)
+local finish = world:WaitForChild(&quot;FinishPad&quot;)
+local replay = world:WaitForChild(&quot;ReplayPad&quot;)
+local lanterns = world:WaitForChild(&quot;LearningLanterns&quot;)
+local chest = world:WaitForChild(&quot;RewardChest&quot;)
+local chestBase = chest:WaitForChild(&quot;Base&quot;)
+local chestLid = chest:WaitForChild(&quot;Lid&quot;)
+local chestLock = chest:WaitForChild(&quot;Lock&quot;)
+local chestGlow = chest:WaitForChild(&quot;GlowCore&quot;)
+local chestPrompt = chestBase:WaitForChild(&quot;OpenPrompt&quot;)
 local chestClosedCFrame = chestLid.CFrame
 local chestLockClosedCFrame = chestLock.CFrame
 local chestHingeCFrame = chestClosedCFrame * CFrame.new(0, 0, 1.8)
 local chestOpenCFrame = chestHingeCFrame
     * CFrame.Angles(math.rad(108), 0, 0)
     * CFrame.new(0, 0, -1.8)
+local gateClosedCFrame = gate.CFrame
+local gateOpenCFrame = gateClosedCFrame * CFrame.new(0, 7.5, 0)
+local starOriginalSize = star.Size
 
-local remote = ReplicatedStorage:FindFirstChild("PipsQuestEvent")
+local remote = ReplicatedStorage:FindFirstChild(&quot;PipsQuestEvent&quot;)
 if not remote then
-    remote = Instance.new("RemoteEvent")
-    remote.Name = "PipsQuestEvent"
+    remote = Instance.new(&quot;RemoteEvent&quot;)
+    remote.Name = &quot;PipsQuestEvent&quot;
     remote.Parent = ReplicatedStorage
 end
 
@@ -10013,7 +10016,7 @@ local function playerFromHit(hit)
     if not hit then
         return nil
     end
-    local character = hit:FindFirstAncestorOfClass("Model")
+    local character = hit:FindFirstAncestorOfClass(&quot;Model&quot;)
     if not character then
         return nil
     end
@@ -10044,7 +10047,7 @@ end
 local function recentlyTouched(state, key, delaySeconds)
     local now = os.clock()
     local last = state.touchTimes[key] or 0
-    if now - last < (delaySeconds or 0.75) then
+    if now - last &lt; (delaySeconds or 0.75) then
         return true
     end
     state.touchTimes[key] = now
@@ -10053,32 +10056,88 @@ end
 
 local function setGateOpen(isOpen)
     gate.CanCollide = not isOpen
-    gate.Transparency = isOpen and 0.72 or 0.18
-    gate.Color = isOpen and Color3.fromRGB(104, 235, 146) or Color3.fromRGB(59, 191, 210)
+    local target = isOpen and gateOpenCFrame or gateClosedCFrame
+    local transparency = isOpen and 0.96 or 0.42
+    local color = isOpen and Color3.fromRGB(133, 233, 184) or Color3.fromRGB(104, 211, 205)
+
+    if not isOpen then
+        gate.CFrame = gateClosedCFrame
+        gate.Transparency = 0.42
+        gate.Color = color
+        return
+    end
+
+    TweenService:Create(
+        gate,
+        TweenInfo.new(0.78, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+        { CFrame = target, Transparency = transparency, Color = color }
+    ):Play()
+
+    local sound = Instance.new(&quot;Sound&quot;)
+    sound.SoundId = &quot;rbxasset://sounds/electronicpingshort.wav&quot;
+    sound.Volume = 0.55
+    sound.PlaybackSpeed = 0.78
+    sound.Parent = gate
+    sound:Play()
+    task.delay(2, function()
+        if sound.Parent then sound:Destroy() end
+    end)
 end
 
 local function setWorldProgress(count)
     count = math.clamp(tonumber(count) or 0, 0, EducationEngine.QUEST_LENGTH)
     for index = 1, EducationEngine.QUEST_LENGTH do
-        local lantern = lanterns:FindFirstChild("Lantern" .. index)
+        local lantern = lanterns:FindFirstChild(&quot;Lantern&quot; .. index)
         if lantern then
-            local lit = index <= count
+            local lit = index &lt;= count
+            local wasLit = lantern:GetAttribute(&quot;Lit&quot;) == true
+            lantern:SetAttribute(&quot;Lit&quot;, lit)
             lantern.Material = lit and Enum.Material.Neon or Enum.Material.SmoothPlastic
-            local targetColor = lit and Color3.fromRGB(255, 220, 92) or Color3.fromRGB(67, 75, 87)
+            local targetColor = lit and Color3.fromRGB(255, 218, 92) or Color3.fromRGB(76, 82, 82)
+
             TweenService:Create(
                 lantern,
-                TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                { Color = targetColor, Transparency = lit and 0 or 0.18 }
+                TweenInfo.new(0.34, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                {
+                    Color = targetColor,
+                    Transparency = lit and 0 or 0.12,
+                    Size = lit and Vector3.new(1.25, 1.25, 1.25) or Vector3.new(1.05, 1.05, 1.05),
+                }
             ):Play()
-            local light = lantern:FindFirstChildOfClass("PointLight")
+
+            local light = lantern:FindFirstChildOfClass(&quot;PointLight&quot;)
             if not light then
-                light = Instance.new("PointLight")
+                light = Instance.new(&quot;PointLight&quot;)
                 light.Range = 9
                 light.Color = Color3.fromRGB(255, 220, 92)
                 light.Parent = lantern
             end
             light.Enabled = lit
-            light.Brightness = lit and 1.8 or 0
+            light.Brightness = lit and 1.6 or 0
+
+            if lit and not wasLit then
+                local emitter = Instance.new(&quot;ParticleEmitter&quot;)
+                emitter.Texture = &quot;rbxasset://textures/particles/sparkles_main.dds&quot;
+                emitter.Rate = 0
+                emitter.Lifetime = NumberRange.new(0.45, 0.8)
+                emitter.Speed = NumberRange.new(1.5, 3)
+                emitter.SpreadAngle = Vector2.new(360, 360)
+                emitter.LightEmission = 0.75
+                emitter.Parent = lantern
+                emitter:Emit(22)
+
+                local ping = Instance.new(&quot;Sound&quot;)
+                ping.SoundId = &quot;rbxasset://sounds/electronicpingshort.wav&quot;
+                ping.Volume = 0.34
+                ping.PlaybackSpeed = 0.9 + index * 0.06
+                ping.Parent = lantern
+                ping:Play()
+
+                task.delay(1.2, function()
+                    if emitter.Parent then emitter:Destroy() end
+                    if ping.Parent then ping:Destroy() end
+                end)
+            end
         end
     end
 end
@@ -10089,178 +10148,183 @@ local function closeChest()
     chestLock.Transparency = 0
     chestGlow.Transparency = 1
     chestPrompt.Enabled = false
-    local oldBeam = chest:FindFirstChild("RewardBeam")
-    if oldBeam then
-        oldBeam:Destroy()
+
+    local light = chestGlow:FindFirstChild(&quot;RewardLight&quot;) or chestGlow:FindFirstChildOfClass(&quot;PointLight&quot;)
+    if light then
+        light.Enabled = false
+        light.Brightness = 0
     end
-    local oldBanner = chest:FindFirstChild("RewardBanner")
-    if oldBanner then
-        oldBanner:Destroy()
+
+    for _, name in ipairs({ &quot;RewardBeam&quot;, &quot;RewardStar&quot;, &quot;RewardRing&quot; }) do
+        local old = chest:FindFirstChild(name)
+        if old then old:Destroy() end
     end
 end
 
 local function openChest()
     chestPrompt.Enabled = false
 
+    local openSound = Instance.new(&quot;Sound&quot;)
+    openSound.SoundId = &quot;rbxasset://sounds/electronicpingshort.wav&quot;
+    openSound.Volume = 0.5
+    openSound.PlaybackSpeed = 0.58
+    openSound.Parent = chestBase
+    openSound:Play()
+
     TweenService:Create(
         chestLock,
-        TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-        { Transparency = 1, CFrame = chestLockClosedCFrame * CFrame.new(0, -0.55, -0.25) }
+        TweenInfo.new(0.22, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        { Transparency = 1, CFrame = chestLockClosedCFrame * CFrame.new(0, -0.7, -0.35) }
     ):Play()
 
-    TweenService:Create(
-        chestLid,
-        TweenInfo.new(0.78, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-        { CFrame = chestOpenCFrame }
-    ):Play()
+    task.delay(0.16, function()
+        TweenService:Create(
+            chestLid,
+            TweenInfo.new(0.72, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+            { CFrame = chestOpenCFrame }
+        ):Play()
+    end)
 
-    chestGlow.Transparency = 0.08
-    local light = chestGlow:FindFirstChildOfClass("PointLight")
+    local light = chestGlow:FindFirstChild(&quot;RewardLight&quot;) or chestGlow:FindFirstChildOfClass(&quot;PointLight&quot;)
     if not light then
-        light = Instance.new("PointLight")
+        light = Instance.new(&quot;PointLight&quot;)
+        light.Name = &quot;RewardLight&quot;
         light.Color = Color3.fromRGB(255, 231, 103)
-        light.Range = 18
-        light.Brightness = 0
+        light.Range = 20
         light.Parent = chestGlow
     end
     light.Enabled = true
-    TweenService:Create(light, TweenInfo.new(0.35), { Brightness = 6 }):Play()
-    task.delay(1.3, function()
-        if light.Parent then
-            TweenService:Create(light, TweenInfo.new(1.1), { Brightness = 1.5 }):Play()
-        end
+
+    task.delay(0.36, function()
+        chestGlow.Transparency = 0.08
+        TweenService:Create(light, TweenInfo.new(0.28), { Brightness = 7 }):Play()
     end)
 
-    local beam = Instance.new("Part")
-    beam.Name = "RewardBeam"
-    beam.Anchored = true
-    beam.CanCollide = false
-    beam.CanTouch = false
-    beam.CanQuery = false
-    beam.Material = Enum.Material.Neon
-    beam.Color = Color3.fromRGB(255, 231, 103)
-    beam.Transparency = 0.32
-    beam.Size = Vector3.new(2.6, 0.25, 2.2)
-    beam.CFrame = chestGlow.CFrame * CFrame.new(0, 0.4, 0)
-    beam.Parent = chest
-    TweenService:Create(
-        beam,
-        TweenInfo.new(0.65, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-        {
-            Size = Vector3.new(3.2, 10, 2.8),
-            CFrame = chestGlow.CFrame * CFrame.new(0, 5.2, 0),
-            Transparency = 0.72,
-        }
-    ):Play()
-    task.delay(1.7, function()
-        if beam.Parent then
-            TweenService:Create(beam, TweenInfo.new(0.45), { Transparency = 1 }):Play()
-            task.delay(0.5, function()
-                if beam.Parent then
-                    beam:Destroy()
-                end
-            end)
-        end
-    end)
+    task.delay(0.5, function()
+        local rewardSound = Instance.new(&quot;Sound&quot;)
+        rewardSound.SoundId = &quot;rbxasset://sounds/electronicpingshort.wav&quot;
+        rewardSound.Volume = 0.9
+        rewardSound.PlaybackSpeed = 1.12
+        rewardSound.Parent = chestGlow
+        rewardSound:Play()
 
-    local sparkle = Instance.new("ParticleEmitter")
-    sparkle.Texture = "rbxasset://textures/particles/sparkles_main.dds"
-    sparkle.Rate = 0
-    sparkle.Lifetime = NumberRange.new(0.8, 1.5)
-    sparkle.Speed = NumberRange.new(6, 12)
-    sparkle.SpreadAngle = Vector2.new(360, 360)
-    sparkle.Rotation = NumberRange.new(0, 360)
-    sparkle.RotSpeed = NumberRange.new(-180, 180)
-    sparkle.Parent = chestGlow
-    sparkle:Emit(100)
+        local sparkle = Instance.new(&quot;ParticleEmitter&quot;)
+        sparkle.Name = &quot;ChestBurst&quot;
+        sparkle.Texture = &quot;rbxasset://textures/particles/sparkles_main.dds&quot;
+        sparkle.Rate = 0
+        sparkle.Lifetime = NumberRange.new(0.8, 1.55)
+        sparkle.Speed = NumberRange.new(7, 13)
+        sparkle.SpreadAngle = Vector2.new(360, 360)
+        sparkle.Rotation = NumberRange.new(0, 360)
+        sparkle.RotSpeed = NumberRange.new(-180, 180)
+        sparkle.LightEmission = 0.9
+        sparkle.Parent = chestGlow
+        sparkle:Emit(140)
 
-    local colors = {
-        Color3.fromRGB(255, 226, 79),
-        Color3.fromRGB(126, 245, 201),
-        Color3.fromRGB(255, 142, 197),
-    }
-    for index = 1, 16 do
-        local orb = Instance.new("Part")
-        orb.Name = "RewardSpark"
-        orb.Shape = Enum.PartType.Ball
-        orb.Size = Vector3.new(0.45, 0.45, 0.45)
-        orb.Anchored = true
-        orb.CanCollide = false
-        orb.CanTouch = false
-        orb.CanQuery = false
-        orb.Material = Enum.Material.Neon
-        orb.Color = colors[((index - 1) % #colors) + 1]
-        orb.CFrame = CFrame.new(chestGlow.Position)
-        orb.Parent = chest
-        local target = chestGlow.Position + Vector3.new(
-            math.random(-55, 55) / 10,
-            math.random(30, 85) / 10,
-            math.random(-40, 40) / 10
-        )
+        local ring = Instance.new(&quot;Part&quot;)
+        ring.Name = &quot;RewardRing&quot;
+        ring.Shape = Enum.PartType.Cylinder
+        ring.Anchored = true
+        ring.CanCollide = false
+        ring.CanTouch = false
+        ring.CanQuery = false
+        ring.Material = Enum.Material.Neon
+        ring.Color = Color3.fromRGB(255, 224, 90)
+        ring.Transparency = 0.18
+        ring.Size = Vector3.new(0.18, 1.8, 1.8)
+        ring.CFrame = CFrame.new(chestGlow.Position + Vector3.new(0, 0.15, 0)) * CFrame.Angles(0, 0, math.rad(90))
+        ring.Parent = chest
+        TweenService:Create(ring, TweenInfo.new(0.75, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+            Size = Vector3.new(0.18, 8.5, 8.5),
+            Transparency = 1,
+        }):Play()
+
+        local reward = Instance.new(&quot;Part&quot;)
+        reward.Name = &quot;RewardStar&quot;
+        reward.Shape = Enum.PartType.Ball
+        reward.Size = Vector3.new(0.9, 0.9, 0.9)
+        reward.Anchored = true
+        reward.CanCollide = false
+        reward.CanTouch = false
+        reward.CanQuery = false
+        reward.Material = Enum.Material.Neon
+        reward.Color = Color3.fromRGB(255, 221, 74)
+        reward.CFrame = CFrame.new(chestGlow.Position + Vector3.new(0, 0.45, 0))
+        reward.Parent = chest
+
+        local rewardLight = Instance.new(&quot;PointLight&quot;)
+        rewardLight.Range = 13
+        rewardLight.Brightness = 3.2
+        rewardLight.Color = reward.Color
+        rewardLight.Parent = reward
+
+        local gui = Instance.new(&quot;BillboardGui&quot;)
+        gui.Name = &quot;StarGlyph&quot;
+        gui.Size = UDim2.fromOffset(84, 84)
+        gui.AlwaysOnTop = true
+        gui.Parent = reward
+        local glyph = Instance.new(&quot;TextLabel&quot;)
+        glyph.Size = UDim2.fromScale(1, 1)
+        glyph.BackgroundTransparency = 1
+        glyph.Font = Enum.Font.GothamBlack
+        glyph.Text = &quot;★&quot;
+        glyph.TextColor3 = Color3.fromRGB(255, 241, 142)
+        glyph.TextStrokeColor3 = Color3.fromRGB(112, 77, 19)
+        glyph.TextStrokeTransparency = 0.25
+        glyph.TextScaled = true
+        glyph.Parent = gui
+
         TweenService:Create(
-            orb,
-            TweenInfo.new(0.75 + math.random() * 0.55, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-            { CFrame = CFrame.new(target), Transparency = 1, Size = Vector3.new(0.12, 0.12, 0.12) }
+            reward,
+            TweenInfo.new(1.0, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(chestGlow.Position + Vector3.new(0, 5.4, 0)),
+                Size = Vector3.new(1.65, 1.65, 1.65),
+            }
         ):Play()
-        task.delay(1.5, function()
-            if orb.Parent then
-                orb:Destroy()
+
+        task.delay(0.95, function()
+            if reward.Parent then
+                TweenService:Create(reward, TweenInfo.new(1.3, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+                    CFrame = CFrame.new(chestGlow.Position + Vector3.new(0, 5.9, 0)),
+                }):Play()
             end
         end)
-    end
 
-    local banner = Instance.new("BillboardGui")
-    banner.Name = "RewardBanner"
-    banner.Size = UDim2.fromOffset(360, 76)
-    banner.StudsOffset = Vector3.new(0, 6.5, 0)
-    banner.AlwaysOnTop = true
-    banner.Parent = chestGlow
-
-    local bannerText = Instance.new("TextLabel")
-    bannerText.Size = UDim2.fromScale(1, 1)
-    bannerText.BackgroundTransparency = 1
-    bannerText.Font = Enum.Font.GothamBlack
-    bannerText.Text = "★  STAR TRAIL UNLOCKED!  ★"
-    bannerText.TextColor3 = Color3.fromRGB(255, 235, 112)
-    bannerText.TextStrokeColor3 = Color3.fromRGB(42, 29, 9)
-    bannerText.TextStrokeTransparency = 0.15
-    bannerText.TextScaled = true
-    bannerText.Parent = banner
-
-    task.delay(2.5, function()
-        if banner.Parent then
-            banner:Destroy()
-        end
-        if sparkle.Parent then
-            sparkle:Destroy()
-        end
+        task.delay(2.6, function()
+            if ring.Parent then ring:Destroy() end
+            if sparkle.Parent then sparkle:Destroy() end
+            if rewardSound.Parent then rewardSound:Destroy() end
+            if openSound.Parent then openSound:Destroy() end
+            TweenService:Create(light, TweenInfo.new(0.8), { Brightness = 1.4 }):Play()
+        end)
     end)
 end
 
 local function setAnswerLabels(question)
     local optionCount = question and #question.options or 0
     for index = 1, 3 do
-        local pad = world:FindFirstChild("Answer" .. index)
+        local pad = world:FindFirstChild(&quot;Answer&quot; .. index)
         if pad then
-            local active = index <= optionCount
+            local active = index &lt;= optionCount
             pad.Transparency = active and 0 or 1
             pad.CanTouch = active
             pad.CanCollide = active
-            local gui = pad:FindFirstChild("Label")
+            local gui = pad:FindFirstChild(&quot;Label&quot;)
             if gui then
                 gui.Enabled = active
             end
-            local label = gui and gui:FindFirstChild("AnswerText")
+            local label = gui and gui:FindFirstChild(&quot;AnswerText&quot;)
             if label then
-                label.Text = active and question.options[index] or ""
+                label.Text = active and question.options[index] or &quot;&quot;
             end
         end
     end
 end
 
 local function setGateLabel(text)
-    local gui = gate:FindFirstChild("Label")
-    local label = gui and gui:FindFirstChild("Text")
+    local gui = gate:FindFirstChild(&quot;Label&quot;)
+    local label = gui and gui:FindFirstChild(&quot;Text&quot;)
     if label then
         label.Text = text
     end
@@ -10275,7 +10339,7 @@ local function chooseQuestion(state)
     EducationEngine.markShown(state.history, question)
     setAnswerLabels(question)
     setGateLabel(
-        ("LEARNING GATE %d/%d\nChoose the best answer!"):format(
+        (&quot;LANTERN %d/%d&quot;):format(
             state.history.resolvedCount + 1,
             EducationEngine.QUEST_LENGTH
         )
@@ -10286,11 +10350,11 @@ local function presentQuestion(player, state)
     local question = state.question or chooseQuestion(state)
     remote:FireClient(
         player,
-        "question",
+        &quot;question&quot;,
         EducationEngine.clientView(question, state.history.resolvedCount + 1)
     )
     print(
-        "[PIPS][QUESTION]",
+        &quot;[PIPS][QUESTION]&quot;,
         player.Name,
         question.id,
         state.history.resolvedCount + 1,
@@ -10325,19 +10389,19 @@ local function completeResolvedQuestion(player, state, question, supported)
     state.question = nil
     state.misses = 0
 
-    if state.history.resolvedCount >= EducationEngine.QUEST_LENGTH then
+    if state.history.resolvedCount &gt;= EducationEngine.QUEST_LENGTH then
         state.solved = true
         state.transitioning = false
         setGateOpen(true)
         setAnswerLabels(nil)
-        setGateLabel("QUEST CLEARED!\nThe path is open!")
-        remote:FireClient(player, "quest_ready", {
-            message = "Five questions complete! The gate is open - run to the finish.",
+        setGateLabel(&quot;PATH OPEN&quot;)
+        remote:FireClient(player, &quot;quest_ready&quot;, {
+            message = &quot;Gate open — keep going!&quot;,
             questionProgress = EducationEngine.QUEST_LENGTH,
             questionTotal = EducationEngine.QUEST_LENGTH,
         })
         print(
-            "[PIPS][QUEST_GATE_CLEARED]",
+            &quot;[PIPS][QUEST_GATE_CLEARED]&quot;,
             player.Name,
             state.independentCorrect,
             state.supportedResolved
@@ -10345,7 +10409,7 @@ local function completeResolvedQuestion(player, state, question, supported)
         return
     end
 
-    scheduleNextQuestion(player, state, supported and 1.6 or 1.05)
+    scheduleNextQuestion(player, state, supported and 1.05 or 0.72)
 end
 local function resetPlayer(player, teleport)
     local state = getState(player)
@@ -10365,19 +10429,22 @@ local function resetPlayer(player, teleport)
     setAnswerLabels(nil)
     setWorldProgress(0)
     closeChest()
-    setGateLabel("LEARNING GATE\nComplete five questions to open it!")
+    setGateLabel(&quot;LIGHT THE FIVE LANTERNS&quot;)
+    star.Size = starOriginalSize
     star.Transparency = 0
     star.CanTouch = true
+    local starFx = star:FindFirstChild(&quot;QuestSparkles&quot;)
+    if starFx then starFx.Enabled = true end
 
-    remote:FireClient(player, "reset", {
-        message = "New quest ready! Grab the glowing star.",
+    remote:FireClient(player, &quot;reset&quot;, {
+        message = &quot;Find the Quest Star&quot;,
         rewardCount = state.rewardCount,
         questionProgress = 0,
         questionTotal = EducationEngine.QUEST_LENGTH,
     })
 
     if teleport and player.Character then
-        local spawn = world:FindFirstChild("QuestSpawn")
+        local spawn = world:FindFirstChild(&quot;QuestSpawn&quot;)
         if spawn then
             player.Character:PivotTo(spawn.CFrame + Vector3.new(0, 4, 0))
         end
@@ -10390,20 +10457,29 @@ star.Touched:Connect(function(hit)
     end
 
     local state = getState(player)
-    if state.collected or recentlyTouched(state, "star") then
+    if state.collected or recentlyTouched(state, &quot;star&quot;) then
         return
     end
 
     state.collected = true
-    star.Transparency = 0.75
     star.CanTouch = false
-    remote:FireClient(player, "status", {
-        message = "Quest Star collected! Jump the hurdle and reach the Learning Gate.",
-        stage = "star",
+    local starFx = star:FindFirstChild(&quot;QuestSparkles&quot;)
+    if starFx then
+        starFx:Emit(45)
+        starFx.Enabled = false
+    end
+    TweenService:Create(
+        star,
+        TweenInfo.new(0.28, Enum.EasingStyle.Back, Enum.EasingDirection.In),
+        { Transparency = 1, Size = Vector3.new(0.22, 0.22, 0.22) }
+    ):Play()
+    remote:FireClient(player, &quot;status&quot;, {
+        message = &quot;Star found — jump the log!&quot;,
+        stage = &quot;star&quot;,
         questionProgress = 0,
         questionTotal = EducationEngine.QUEST_LENGTH,
     })
-    print("[PIPS][STAR_COLLECTED]", player.Name)
+    print(&quot;[PIPS][STAR_COLLECTED]&quot;, player.Name)
 end)
 
 trigger.Touched:Connect(function(hit)
@@ -10413,14 +10489,14 @@ trigger.Touched:Connect(function(hit)
     end
 
     local state = getState(player)
-    if recentlyTouched(state, "question", 0.6) then
+    if recentlyTouched(state, &quot;question&quot;, 0.6) then
         return
     end
 
     if not state.collected then
-        remote:FireClient(player, "status", {
-            message = "Grab the glowing Quest Star first!",
-            stage = "need_star",
+        remote:FireClient(player, &quot;status&quot;, {
+            message = &quot;Grab the glowing Quest Star first!&quot;,
+            stage = &quot;need_star&quot;,
             questionProgress = state.history.resolvedCount,
             questionTotal = EducationEngine.QUEST_LENGTH,
         })
@@ -10436,7 +10512,7 @@ end)
 
 local function handleAnswer(player, index, source)
     index = tonumber(index)
-    if not index or index % 1 ~= 0 or index < 1 then
+    if not index or index % 1 ~= 0 or index &lt; 1 then
         return
     end
 
@@ -10444,11 +10520,11 @@ local function handleAnswer(player, index, source)
     if state.transitioning or state.solved or not state.question then
         return
     end
-    if index > #state.question.options then
+    if index &gt; #state.question.options then
         return
     end
 
-    local touchKey = (source or "answer") .. tostring(index)
+    local touchKey = (source or &quot;answer&quot;) .. tostring(index)
     if recentlyTouched(state, touchKey, 0.3) then
         return
     end
@@ -10459,7 +10535,7 @@ local function handleAnswer(player, index, source)
             state.independentCorrect += 1
         end
 
-        remote:FireClient(player, "feedback", {
+        remote:FireClient(player, &quot;feedback&quot;, {
             correct = true,
             message = EducationEngine.getExplanation(question),
             questionProgress = state.history.resolvedCount + 1,
@@ -10467,12 +10543,12 @@ local function handleAnswer(player, index, source)
             independent = independent,
         })
         print(
-            "[PIPS][ANSWER_CORRECT]",
+            &quot;[PIPS][ANSWER_CORRECT]&quot;,
             player.Name,
             question.id,
             index,
-            source or "world",
-            independent and "independent" or "supported"
+            source or &quot;world&quot;,
+            independent and &quot;independent&quot; or &quot;supported&quot;
         )
         completeResolvedQuestion(player, state, question, not independent)
         return
@@ -10481,46 +10557,46 @@ local function handleAnswer(player, index, source)
     state.misses += 1
     local question = state.question
     local message, supportKind = EducationEngine.getWrongFeedback(question, index, state.misses)
-    remote:FireClient(player, "feedback", {
+    remote:FireClient(player, &quot;feedback&quot;, {
         correct = false,
         message = message,
         attempt = state.misses,
         supportKind = supportKind,
         questionProgress = state.history.resolvedCount,
         questionTotal = EducationEngine.QUEST_LENGTH,
-        modeled = state.misses >= 3,
+        modeled = state.misses &gt;= 3,
     })
 
     print(
-        "[PIPS][ANSWER_WRONG]",
+        &quot;[PIPS][ANSWER_WRONG]&quot;,
         player.Name,
         question.id,
         index,
         state.misses,
         supportKind,
-        source or "world"
+        source or &quot;world&quot;
     )
 
-    if state.misses >= 3 then
+    if state.misses &gt;= 3 then
         completeResolvedQuestion(player, state, question, true)
     end
 end
 
 for index = 1, 3 do
     local answerIndex = index
-    local pad = world:WaitForChild("Answer" .. answerIndex)
+    local pad = world:WaitForChild(&quot;Answer&quot; .. answerIndex)
     pad.Touched:Connect(function(hit)
         local player = playerFromHit(hit)
         if not player then
             return
         end
-        handleAnswer(player, answerIndex, "world")
+        handleAnswer(player, answerIndex, &quot;world&quot;)
     end)
 end
 
 remote.OnServerEvent:Connect(function(player, kind, value)
-    if kind == "answer" then
-        handleAnswer(player, value, "mobile")
+    if kind == &quot;answer&quot; then
+        handleAnswer(player, value, &quot;mobile&quot;)
     end
 end)
 
@@ -10531,13 +10607,13 @@ finish.Touched:Connect(function(hit)
     end
 
     local state = getState(player)
-    if state.finished or recentlyTouched(state, "finish") then
+    if state.finished or recentlyTouched(state, &quot;finish&quot;) then
         return
     end
 
     if not state.solved then
-        remote:FireClient(player, "status", {
-            message = "Complete all five Learning Gate questions before finishing!",
+        remote:FireClient(player, &quot;status&quot;, {
+            message = &quot;Light all five lanterns first&quot;,
             questionProgress = state.history.resolvedCount,
             questionTotal = EducationEngine.QUEST_LENGTH,
         })
@@ -10547,12 +10623,12 @@ finish.Touched:Connect(function(hit)
     if not state.finishReached then
         state.finishReached = true
         chestPrompt.Enabled = true
-        remote:FireClient(player, "status", {
-            message = "Chest unlocked! Walk up and tap Open Chest.",
+        remote:FireClient(player, &quot;status&quot;, {
+            message = &quot;Chest unlocked — open it!&quot;,
             questionProgress = EducationEngine.QUEST_LENGTH,
             questionTotal = EducationEngine.QUEST_LENGTH,
         })
-        print("[PIPS][CHEST_UNLOCKED]", player.Name)
+        print(&quot;[PIPS][CHEST_UNLOCKED]&quot;, player.Name)
     end
 end)
 
@@ -10567,12 +10643,12 @@ chestPrompt.Triggered:Connect(function(player)
     chestPrompt.Enabled = false
     openChest()
 
-    task.delay(0.35, function()
+    task.delay(1.05, function()
         if not player.Parent then
             return
         end
-        remote:FireClient(player, "reward", {
-            message = "Star Trail unlocked!",
+        remote:FireClient(player, &quot;reward&quot;, {
+            message = &quot;Star Trail unlocked!&quot;,
             rewardCount = state.rewardCount,
             independentCorrect = state.independentCorrect,
             supportedResolved = state.supportedResolved,
@@ -10582,7 +10658,7 @@ chestPrompt.Triggered:Connect(function(player)
     end)
 
     print(
-        "[PIPS][QUEST_FINISHED]",
+        &quot;[PIPS][QUEST_FINISHED]&quot;,
         player.Name,
         state.rewardCount,
         state.independentCorrect,
@@ -10597,12 +10673,12 @@ replay.Touched:Connect(function(hit)
     end
 
     local state = getState(player)
-    if not state.finished or recentlyTouched(state, "replay") then
+    if not state.finished or recentlyTouched(state, &quot;replay&quot;) then
         return
     end
 
     resetPlayer(player, true)
-    print("[PIPS][REPLAY]", player.Name)
+    print(&quot;[PIPS][REPLAY]&quot;, player.Name)
 end)
 
 Players.PlayerAdded:Connect(function(player)
@@ -10624,22 +10700,22 @@ end
 
 setGateOpen(false)
 setAnswerLabels(nil)
-workspace:SetAttribute("PipsQuestFlowReady", true)
-print("[PIPS][FLOW_READY] Five-question adaptive learning gate initialized")
-]]></string>
+workspace:SetAttribute(&quot;PipsQuestFlowReady&quot;, true)
+print(&quot;[PIPS][FLOW_READY] Five-question adaptive learning gate initialized&quot;)
+</string>
       </Properties>
     </Item>
     <Item class="ModuleScript" referent="9">
       <Properties>
         <string name="Name">WorldBuilder</string>
-        <string name="Source"><![CDATA[local Workspace = game:GetService("Workspace")
+        <string name="Source">local Workspace = game:GetService(&quot;Workspace&quot;)
+local Lighting = game:GetService(&quot;Lighting&quot;)
 
 local WorldBuilder = {}
-
-local ROOT_NAME = "PipsQuestWorld"
+local ROOT_NAME = &quot;PipsQuestWorld&quot;
 
 local function makePart(parent, name, size, cframe, color, material)
-    local part = Instance.new("Part")
+    local part = Instance.new(&quot;Part&quot;)
     part.Name = name
     part.Size = size
     part.CFrame = cframe
@@ -10653,93 +10729,199 @@ local function makePart(parent, name, size, cframe, color, material)
     return part
 end
 
-local function addBillboard(part, text, width, height, maxTextSize)
-    local gui = Instance.new("BillboardGui")
-    gui.Name = "Label"
-    gui.Size = UDim2.fromOffset(width or 220, height or 58)
-    gui.StudsOffset = Vector3.new(0, 3.2, 0)
+local function addBillboard(part, text, width, height, maxTextSize, maxDistance)
+    local gui = Instance.new(&quot;BillboardGui&quot;)
+    gui.Name = &quot;Label&quot;
+    gui.Size = UDim2.fromOffset(width or 170, height or 42)
+    gui.StudsOffset = Vector3.new(0, 2.8, 0)
     gui.AlwaysOnTop = false
-    gui.MaxDistance = 42
+    gui.MaxDistance = maxDistance or 28
     gui.LightInfluence = 0
     gui.Parent = part
 
-    local label = Instance.new("TextLabel")
-    label.Name = "Text"
+    local label = Instance.new(&quot;TextLabel&quot;)
+    label.Name = &quot;Text&quot;
     label.Size = UDim2.fromScale(1, 1)
-    label.BackgroundTransparency = 0.14
-    label.BackgroundColor3 = Color3.fromRGB(248, 251, 255)
-    label.TextColor3 = Color3.fromRGB(28, 39, 58)
+    label.BackgroundTransparency = 0.1
+    label.BackgroundColor3 = Color3.fromRGB(250, 252, 248)
+    label.TextColor3 = Color3.fromRGB(30, 44, 39)
     label.TextScaled = true
     label.Font = Enum.Font.GothamBold
     label.TextWrapped = true
     label.Text = text
     label.Parent = gui
 
-    local textLimit = Instance.new("UITextSizeConstraint")
-    textLimit.MinTextSize = 11
-    textLimit.MaxTextSize = maxTextSize or 18
+    local textLimit = Instance.new(&quot;UITextSizeConstraint&quot;)
+    textLimit.MinTextSize = 10
+    textLimit.MaxTextSize = maxTextSize or 16
     textLimit.Parent = label
 
-    local corner = Instance.new("UICorner")
+    local corner = Instance.new(&quot;UICorner&quot;)
     corner.CornerRadius = UDim.new(0, 10)
     corner.Parent = label
     return label
 end
 
+local function configureLighting()
+    Lighting.Brightness = 2.6
+    Lighting.ClockTime = 15.4
+    Lighting.GlobalShadows = true
+    Lighting.Ambient = Color3.fromRGB(116, 134, 125)
+    Lighting.OutdoorAmbient = Color3.fromRGB(150, 165, 153)
+
+    local oldColor = Lighting:FindFirstChild(&quot;PipsQuestColor&quot;)
+    if oldColor then oldColor:Destroy() end
+    local color = Instance.new(&quot;ColorCorrectionEffect&quot;)
+    color.Name = &quot;PipsQuestColor&quot;
+    color.Brightness = 0.025
+    color.Contrast = 0.07
+    color.Saturation = 0.08
+    color.TintColor = Color3.fromRGB(255, 249, 236)
+    color.Parent = Lighting
+
+    local oldBloom = Lighting:FindFirstChild(&quot;PipsQuestBloom&quot;)
+    if oldBloom then oldBloom:Destroy() end
+    local bloom = Instance.new(&quot;BloomEffect&quot;)
+    bloom.Name = &quot;PipsQuestBloom&quot;
+    bloom.Intensity = 0.22
+    bloom.Size = 18
+    bloom.Threshold = 1.25
+    bloom.Parent = Lighting
+end
+
 local function makeAnswerPad(parent, index, z)
     local colors = {
-        Color3.fromRGB(79, 148, 255),
-        Color3.fromRGB(255, 116, 166),
-        Color3.fromRGB(255, 196, 76),
+        Color3.fromRGB(103, 162, 221),
+        Color3.fromRGB(210, 123, 164),
+        Color3.fromRGB(221, 180, 83),
     }
     local pad = makePart(
         parent,
-        "Answer" .. index,
-        Vector3.new(5, 0.8, 3.4),
-        CFrame.new(-7, 0.8, z),
+        &quot;Answer&quot; .. index,
+        Vector3.new(4.8, 0.45, 3.2),
+        CFrame.new(-7.15, 0.78, z),
         colors[index],
         Enum.Material.Neon
     )
-    pad:SetAttribute("AnswerIndex", index)
-    local label = addBillboard(pad, "Answer " .. index, 150, 52, 14)
-    label.Name = "AnswerText"
+    pad.CanCollide = false
+    pad.Transparency = 1
+    pad:SetAttribute(&quot;AnswerIndex&quot;, index)
+    local label = addBillboard(pad, &quot;Answer &quot; .. index, 150, 44, 13, 22)
+    label.Name = &quot;AnswerText&quot;
+    label.Parent.Enabled = false
     return pad
 end
 
-function WorldBuilder.build()
-    local old = Workspace:FindFirstChild(ROOT_NAME)
-    if old then
-        old:Destroy()
-    end
+local function makeTree(parent, index, x, z, scale)
+    local trunk = makePart(parent, &quot;TreeTrunk&quot; .. index, Vector3.new(1.3, 5.6 * scale, 1.3), CFrame.new(x, 2.8 * scale, z), Color3.fromRGB(102, 72, 49), Enum.Material.Wood)
+    trunk.CanCollide = false
+    local crown = makePart(parent, &quot;TreeCrown&quot; .. index, Vector3.new(4.2 * scale, 4.2 * scale, 4.2 * scale), CFrame.new(x, 6.2 * scale, z), Color3.fromRGB(68, 129, 82), Enum.Material.Grass)
+    crown.Shape = Enum.PartType.Ball
+    crown.CanCollide = false
+end
 
-    local root = Instance.new("Model")
+local function makePathLantern(parent, index, x, z)
+    local post = makePart(parent, &quot;PathPost&quot; .. index, Vector3.new(0.45, 2.6, 0.45), CFrame.new(x, 1.3, z), Color3.fromRGB(91, 65, 46), Enum.Material.Wood)
+    post.CanCollide = false
+    local lamp = makePart(parent, &quot;PathLamp&quot; .. index, Vector3.new(0.8, 0.8, 0.8), CFrame.new(x, 2.95, z), Color3.fromRGB(255, 211, 116), Enum.Material.Neon)
+    lamp.Shape = Enum.PartType.Ball
+    lamp.CanCollide = false
+    local light = Instance.new(&quot;PointLight&quot;)
+    light.Range = 7
+    light.Brightness = 0.7
+    light.Color = lamp.Color
+    light.Parent = lamp
+end
+
+function WorldBuilder.build()
+    configureLighting()
+
+    local old = Workspace:FindFirstChild(ROOT_NAME)
+    if old then old:Destroy() end
+
+    local root = Instance.new(&quot;Model&quot;)
     root.Name = ROOT_NAME
     root.Parent = Workspace
 
-    makePart(root, "Ground", Vector3.new(20, 1, 110), CFrame.new(0, 0, 47), Color3.fromRGB(91, 173, 92), Enum.Material.Grass)
-    makePart(root, "LeftWall", Vector3.new(1, 8, 110), CFrame.new(-10.5, 4, 47), Color3.fromRGB(72, 92, 120), Enum.Material.Slate)
-    makePart(root, "RightWall", Vector3.new(1, 8, 110), CFrame.new(10.5, 4, 47), Color3.fromRGB(72, 92, 120), Enum.Material.Slate)
+    makePart(root, &quot;Ground&quot;, Vector3.new(23, 1, 112), CFrame.new(0, 0, 47), Color3.fromRGB(72, 137, 85), Enum.Material.Grass)
 
-    local spawn = Instance.new("SpawnLocation")
-    spawn.Name = "QuestSpawn"
-    spawn.Size = Vector3.new(8, 1, 8)
-    spawn.CFrame = CFrame.new(0, 1, 2) * CFrame.Angles(0, math.rad(180), 0)
+    local path = makePart(root, &quot;QuestPath&quot;, Vector3.new(7.4, 0.16, 108), CFrame.new(0, 0.58, 47), Color3.fromRGB(192, 170, 126), Enum.Material.Ground)
+    path.CanCollide = false
+
+    makePart(root, &quot;LeftBoundary&quot;, Vector3.new(1.1, 3.4, 112), CFrame.new(-11.5, 1.7, 47), Color3.fromRGB(55, 91, 68), Enum.Material.Grass)
+    makePart(root, &quot;RightBoundary&quot;, Vector3.new(1.1, 3.4, 112), CFrame.new(11.5, 1.7, 47), Color3.fromRGB(55, 91, 68), Enum.Material.Grass)
+
+    local scenery = Instance.new(&quot;Folder&quot;)
+    scenery.Name = &quot;Scenery&quot;
+    scenery.Parent = root
+
+    local treeIndex = 0
+    for z = 8, 96, 11 do
+        treeIndex += 1
+        makeTree(scenery, treeIndex, -14.2, z, 0.85 + ((treeIndex % 3) * 0.08))
+        treeIndex += 1
+        makeTree(scenery, treeIndex, 14.2, z + 4, 0.82 + ((treeIndex % 4) * 0.06))
+    end
+
+    local fireflies = Instance.new(&quot;Folder&quot;)
+    fireflies.Name = &quot;Fireflies&quot;
+    fireflies.Parent = scenery
+    for index = 1, 18 do
+        local side = index % 2 == 0 and -1 or 1
+        local z = 7 + index * 5.1
+        local y = 1.5 + (index % 4) * 0.55
+        local fly = makePart(fireflies, &quot;Firefly&quot; .. index, Vector3.new(0.24, 0.24, 0.24), CFrame.new(side * (5.2 + (index % 3)), y, z), Color3.fromRGB(255, 226, 118), Enum.Material.Neon)
+        fly.Shape = Enum.PartType.Ball
+        fly.CanCollide = false
+        local light = Instance.new(&quot;PointLight&quot;)
+        light.Range = 3.5
+        light.Brightness = 0.35
+        light.Color = fly.Color
+        light.Parent = fly
+    end
+
+    local spawn = Instance.new(&quot;SpawnLocation&quot;)
+    spawn.Name = &quot;QuestSpawn&quot;
+    spawn.Size = Vector3.new(6, 0.6, 6)
+    spawn.CFrame = CFrame.new(0, 0.9, 2) * CFrame.Angles(0, math.rad(180), 0)
     spawn.Anchored = true
     spawn.Neutral = true
-    spawn.Material = Enum.Material.Neon
-    spawn.Color = Color3.fromRGB(126, 245, 201)
+    spawn.Material = Enum.Material.SmoothPlastic
+    spawn.Color = Color3.fromRGB(152, 218, 190)
+    spawn.Transparency = 0.15
     spawn.Parent = root
-    addBillboard(spawn, "PIP'S FIRST QUEST\nRun forward to begin!", 260, 68, 18)
 
-    local star = makePart(root, "QuestStar", Vector3.new(3, 3, 3), CFrame.new(0, 3, 19), Color3.fromRGB(255, 226, 78), Enum.Material.Neon)
+    makePart(root, &quot;SpawnPostL&quot;, Vector3.new(0.8, 6, 0.8), CFrame.new(-4.2, 3.1, 5), Color3.fromRGB(101, 70, 45), Enum.Material.WoodPlanks)
+    makePart(root, &quot;SpawnPostR&quot;, Vector3.new(0.8, 6, 0.8), CFrame.new(4.2, 3.1, 5), Color3.fromRGB(101, 70, 45), Enum.Material.WoodPlanks)
+    local arch = makePart(root, &quot;SpawnArch&quot;, Vector3.new(9, 0.9, 0.9), CFrame.new(0, 6.0, 5), Color3.fromRGB(101, 70, 45), Enum.Material.WoodPlanks)
+    addBillboard(arch, &quot;PIP&apos;S QUEST&quot;, 170, 38, 15, 26)
+
+    local pedestal = makePart(root, &quot;StarPedestal&quot;, Vector3.new(3.2, 0.65, 3.2), CFrame.new(0, 0.92, 18.5), Color3.fromRGB(123, 118, 104), Enum.Material.Rock)
+    pedestal.CanCollide = false
+
+    local star = makePart(root, &quot;QuestStar&quot;, Vector3.new(2.3, 2.3, 2.3), CFrame.new(0, 3.0, 18.5), Color3.fromRGB(255, 220, 82), Enum.Material.Neon)
     star.Shape = Enum.PartType.Ball
     star.CanCollide = false
-    addBillboard(star, "Collect the quest star!", 190, 50, 16)
+    local starLight = Instance.new(&quot;PointLight&quot;)
+    starLight.Name = &quot;QuestLight&quot;
+    starLight.Range = 12
+    starLight.Brightness = 2.2
+    starLight.Color = star.Color
+    starLight.Parent = star
+    local starFx = Instance.new(&quot;ParticleEmitter&quot;)
+    starFx.Name = &quot;QuestSparkles&quot;
+    starFx.Texture = &quot;rbxasset://textures/particles/sparkles_main.dds&quot;
+    starFx.Rate = 8
+    starFx.Lifetime = NumberRange.new(0.7, 1.1)
+    starFx.Speed = NumberRange.new(0.3, 0.8)
+    starFx.SpreadAngle = Vector2.new(360, 360)
+    starFx.LightEmission = 0.8
+    starFx.Parent = star
 
-    local hurdle = makePart(root, "JumpHurdle", Vector3.new(15, 2.5, 1), CFrame.new(0, 1.25, 27), Color3.fromRGB(121, 79, 179), Enum.Material.WoodPlanks)
-    addBillboard(hurdle, "JUMP!", 120, 44, 17)
+    local hurdle = makePart(root, &quot;JumpHurdle&quot;, Vector3.new(14.5, 2.0, 1.8), CFrame.new(0, 1.2, 27), Color3.fromRGB(118, 82, 54), Enum.Material.WoodPlanks)
+    addBillboard(hurdle, &quot;JUMP&quot;, 92, 30, 13, 16)
 
-    local trigger = makePart(root, "QuestionTrigger", Vector3.new(18, 8, 3), CFrame.new(0, 4, 33), Color3.new(1, 1, 1), Enum.Material.SmoothPlastic)
+    local trigger = makePart(root, &quot;QuestionTrigger&quot;, Vector3.new(18, 8, 3), CFrame.new(0, 4, 33), Color3.new(1, 1, 1), Enum.Material.SmoothPlastic)
     trigger.Transparency = 1
     trigger.CanCollide = false
 
@@ -10747,76 +10929,85 @@ function WorldBuilder.build()
     makeAnswerPad(root, 2, 39)
     makeAnswerPad(root, 3, 43)
 
-    local gate = makePart(root, "LearningGate", Vector3.new(19, 9, 1.5), CFrame.new(0, 4.5, 47), Color3.fromRGB(59, 191, 210), Enum.Material.ForceField)
-    gate.Transparency = 0.18
-    addBillboard(gate, "LEARNING GATE\nComplete five questions to open it!", 250, 68, 17)
+    makePart(root, &quot;GatePillarL&quot;, Vector3.new(1.8, 7, 1.8), CFrame.new(-8.7, 3.5, 47), Color3.fromRGB(98, 101, 91), Enum.Material.Rock)
+    makePart(root, &quot;GatePillarR&quot;, Vector3.new(1.8, 7, 1.8), CFrame.new(8.7, 3.5, 47), Color3.fromRGB(98, 101, 91), Enum.Material.Rock)
+    local gateTop = makePart(root, &quot;GateTop&quot;, Vector3.new(18.8, 1.6, 1.8), CFrame.new(0, 7.0, 47), Color3.fromRGB(98, 101, 91), Enum.Material.Rock)
+    addBillboard(gateTop, &quot;LIGHT THE FIVE LANTERNS&quot;, 210, 38, 13, 26)
 
-    local lanterns = Instance.new("Folder")
-    lanterns.Name = "LearningLanterns"
+    local gate = makePart(root, &quot;LearningGate&quot;, Vector3.new(15.5, 5.4, 0.7), CFrame.new(0, 3.15, 47), Color3.fromRGB(104, 211, 205), Enum.Material.ForceField)
+    gate.Transparency = 0.42
+
+    local lanterns = Instance.new(&quot;Folder&quot;)
+    lanterns.Name = &quot;LearningLanterns&quot;
     lanterns.Parent = root
     for index = 1, 5 do
         local side = index % 2 == 0 and -1 or 1
-        local lantern = makePart(
-            lanterns,
-            "Lantern" .. index,
-            Vector3.new(1.4, 1.4, 1.4),
-            CFrame.new(side * 8.2, 2.3, 46 + index * 5),
-            Color3.fromRGB(67, 75, 87),
-            Enum.Material.SmoothPlastic
-        )
+        local z = 35 + index * 2.15
+        local x = side * 8.45
+        local post = makePart(lanterns, &quot;LanternPost&quot; .. index, Vector3.new(0.42, 2.5, 0.42), CFrame.new(x, 1.25, z), Color3.fromRGB(93, 65, 45), Enum.Material.Wood)
+        post.CanCollide = false
+        local lantern = makePart(lanterns, &quot;Lantern&quot; .. index, Vector3.new(1.05, 1.05, 1.05), CFrame.new(x, 2.85, z), Color3.fromRGB(76, 82, 82), Enum.Material.SmoothPlastic)
         lantern.Shape = Enum.PartType.Ball
         lantern.CanCollide = false
         lantern.CanTouch = false
     end
 
-    local maze = Instance.new("Folder")
-    maze.Name = "MiniMaze"
+    local maze = Instance.new(&quot;Folder&quot;)
+    maze.Name = &quot;MiniMaze&quot;
     maze.Parent = root
-    local mazeColor = Color3.fromRGB(98, 78, 132)
-    makePart(maze, "WallA", Vector3.new(14, 6, 1.4), CFrame.new(-3.25, 3, 56), mazeColor, Enum.Material.Slate)
-    makePart(maze, "WallB", Vector3.new(14, 6, 1.4), CFrame.new(3.25, 3, 65), mazeColor, Enum.Material.Slate)
-    makePart(maze, "WallC", Vector3.new(14, 6, 1.4), CFrame.new(-3.25, 3, 74), mazeColor, Enum.Material.Slate)
+    local hedgeColor = Color3.fromRGB(54, 110, 76)
+    makePart(maze, &quot;WallA&quot;, Vector3.new(14, 3.5, 1.6), CFrame.new(-3.25, 1.75, 56), hedgeColor, Enum.Material.Grass)
+    makePart(maze, &quot;WallB&quot;, Vector3.new(14, 3.5, 1.6), CFrame.new(3.25, 1.75, 65), hedgeColor, Enum.Material.Grass)
+    makePart(maze, &quot;WallC&quot;, Vector3.new(14, 3.5, 1.6), CFrame.new(-3.25, 1.75, 74), hedgeColor, Enum.Material.Grass)
 
-    local finish = makePart(root, "FinishPad", Vector3.new(12, 1, 8), CFrame.new(0, 0.8, 83), Color3.fromRGB(255, 176, 64), Enum.Material.Neon)
-    addBillboard(finish, "QUEST FINISH\nOpen Pip's reward chest!", 250, 68, 17)
+    makePathLantern(maze, 1, 7.2, 55.5)
+    makePathLantern(maze, 2, -7.2, 64.5)
+    makePathLantern(maze, 3, 7.2, 73.5)
+    makePathLantern(maze, 4, 0, 80.5)
 
-    local chest = Instance.new("Model")
-    chest.Name = "RewardChest"
+    local finish = makePart(root, &quot;FinishPad&quot;, Vector3.new(8, 0.22, 6), CFrame.new(0, 0.68, 83), Color3.fromRGB(239, 193, 90), Enum.Material.Neon)
+    finish.Transparency = 0.48
+    finish.CanCollide = false
+
+    local chestPlatform = makePart(root, &quot;ChestPlatform&quot;, Vector3.new(7.5, 0.75, 6.5), CFrame.new(0, 0.85, 89), Color3.fromRGB(107, 104, 91), Enum.Material.Rock)
+
+    local chest = Instance.new(&quot;Model&quot;)
+    chest.Name = &quot;RewardChest&quot;
     chest.Parent = root
-    local chestBase = makePart(chest, "Base", Vector3.new(5, 2.2, 3.6), CFrame.new(0, 1.6, 89), Color3.fromRGB(120, 67, 39), Enum.Material.WoodPlanks)
-    local lid = makePart(chest, "Lid", Vector3.new(5, 1.1, 3.6), CFrame.new(0, 3.25, 89), Color3.fromRGB(225, 157, 49), Enum.Material.WoodPlanks)
-    makePart(chest, "Lock", Vector3.new(1.1, 1.15, 0.35), CFrame.new(0, 2.35, 87.08), Color3.fromRGB(255, 226, 79), Enum.Material.Metal)
-    local glowCore = makePart(chest, "GlowCore", Vector3.new(3.8, 0.35, 2.5), CFrame.new(0, 2.65, 89), Color3.fromRGB(255, 231, 103), Enum.Material.Neon)
+    local chestBase = makePart(chest, &quot;Base&quot;, Vector3.new(5.2, 2.4, 3.8), CFrame.new(0, 2.35, 89), Color3.fromRGB(123, 72, 43), Enum.Material.WoodPlanks)
+    local lid = makePart(chest, &quot;Lid&quot;, Vector3.new(5.2, 1.15, 3.8), CFrame.new(0, 4.1, 89), Color3.fromRGB(151, 91, 48), Enum.Material.WoodPlanks)
+    makePart(chest, &quot;BandL&quot;, Vector3.new(0.42, 3.25, 3.92), CFrame.new(-1.55, 3.05, 89), Color3.fromRGB(219, 171, 70), Enum.Material.Metal)
+    makePart(chest, &quot;BandR&quot;, Vector3.new(0.42, 3.25, 3.92), CFrame.new(1.55, 3.05, 89), Color3.fromRGB(219, 171, 70), Enum.Material.Metal)
+    makePart(chest, &quot;Lock&quot;, Vector3.new(1.15, 1.2, 0.38), CFrame.new(0, 3.0, 87.0), Color3.fromRGB(255, 216, 87), Enum.Material.Metal)
+
+    local glowCore = makePart(chest, &quot;GlowCore&quot;, Vector3.new(3.9, 0.3, 2.6), CFrame.new(0, 3.35, 89), Color3.fromRGB(255, 229, 103), Enum.Material.Neon)
     glowCore.Transparency = 1
     glowCore.CanCollide = false
     glowCore.CanTouch = false
     glowCore.CanQuery = false
 
-    local prompt = Instance.new("ProximityPrompt")
-    prompt.Name = "OpenPrompt"
-    prompt.ActionText = "Open Chest"
-    prompt.ObjectText = "Pip's Reward"
-    prompt.HoldDuration = 0.12
+    local chestLight = Instance.new(&quot;PointLight&quot;)
+    chestLight.Name = &quot;RewardLight&quot;
+    chestLight.Color = glowCore.Color
+    chestLight.Range = 20
+    chestLight.Brightness = 0
+    chestLight.Enabled = false
+    chestLight.Parent = glowCore
+
+    local prompt = Instance.new(&quot;ProximityPrompt&quot;)
+    prompt.Name = &quot;OpenPrompt&quot;
+    prompt.ActionText = &quot;Open&quot;
+    prompt.ObjectText = &quot;Pip&apos;s Chest&quot;
+    prompt.HoldDuration = 0
     prompt.MaxActivationDistance = 9
     prompt.RequiresLineOfSight = false
     prompt.Enabled = false
     prompt.Parent = chestBase
 
-    addBillboard(lid, "PIP'S REWARD", 190, 48, 16)
-
-    local replay = makePart(root, "ReplayPad", Vector3.new(10, 1, 8), CFrame.new(0, 0.8, 97), Color3.fromRGB(123, 211, 255), Enum.Material.Neon)
-    addBillboard(replay, "PLAY AGAIN", 180, 52, 17)
-
-    local scenery = Instance.new("Folder")
-    scenery.Name = "Scenery"
-    scenery.Parent = root
-    for i = 1, 10 do
-        local side = i % 2 == 0 and -1 or 1
-        local z = 8 + i * 9
-        local orb = makePart(scenery, "GlowOrb" .. i, Vector3.new(1.5, 1.5, 1.5), CFrame.new(side * 8.3, 2.2, z), Color3.fromHSV(i / 10, 0.55, 1), Enum.Material.Neon)
-        orb.Shape = Enum.PartType.Ball
-        orb.CanCollide = false
-    end
+    local replay = makePart(root, &quot;ReplayPad&quot;, Vector3.new(6, 0.2, 4), CFrame.new(0, 0.68, 98), Color3.fromRGB(130, 190, 179), Enum.Material.SmoothPlastic)
+    replay.Transparency = 0.35
+    replay.CanCollide = false
+    addBillboard(replay, &quot;Play again&quot;, 110, 30, 12, 14)
 
     return {
         root = root,
@@ -10824,11 +11015,7 @@ function WorldBuilder.build()
         star = star,
         hurdle = hurdle,
         questionTrigger = trigger,
-        answerPads = {
-            root.Answer1,
-            root.Answer2,
-            root.Answer3,
-        },
+        answerPads = { root.Answer1, root.Answer2, root.Answer3 },
         gate = gate,
         lanterns = lanterns,
         maze = maze,
@@ -10839,7 +11026,7 @@ function WorldBuilder.build()
 end
 
 return WorldBuilder
-]]></string>
+</string>
       </Properties>
     </Item>
   </Item>
@@ -10854,338 +11041,263 @@ return WorldBuilder
       <Item class="LocalScript" referent="12">
         <Properties>
           <string name="Name">MobileHUD</string>
-          <string name="Source">local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
+          <string name="Source">local Players = game:GetService(&quot;Players&quot;)
+local ReplicatedStorage = game:GetService(&quot;ReplicatedStorage&quot;)
+local TweenService = game:GetService(&quot;TweenService&quot;)
 
 local player = Players.LocalPlayer
-local remote = ReplicatedStorage:WaitForChild("PipsQuestEvent")
-local playerGui = player:WaitForChild("PlayerGui")
+local remote = ReplicatedStorage:WaitForChild(&quot;PipsQuestEvent&quot;)
+local playerGui = player:WaitForChild(&quot;PlayerGui&quot;)
 
-local old = playerGui:FindFirstChild("PipsQuestHUD")
-if old then
-    old:Destroy()
-end
+local old = playerGui:FindFirstChild(&quot;PipsQuestHUD&quot;)
+if old then old:Destroy() end
 
-local gui = Instance.new("ScreenGui")
-gui.Name = "PipsQuestHUD"
+local gui = Instance.new(&quot;ScreenGui&quot;)
+gui.Name = &quot;PipsQuestHUD&quot;
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
 gui.DisplayOrder = 20
 gui.Parent = playerGui
 
 local function round(instance, radius)
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, radius or 18)
+    local corner = Instance.new(&quot;UICorner&quot;)
+    corner.CornerRadius = UDim.new(0, radius or 14)
     corner.Parent = instance
 end
 
 local function stroke(instance, transparency)
-    local item = Instance.new("UIStroke")
-    item.Thickness = 2
-    item.Transparency = transparency or 0.35
+    local item = Instance.new(&quot;UIStroke&quot;)
+    item.Thickness = 1.5
+    item.Transparency = transparency or 0.55
     item.Color = Color3.fromRGB(255, 255, 255)
     item.Parent = instance
 end
 
-local top = Instance.new("Frame")
-top.Name = "TopCard"
+local top = Instance.new(&quot;Frame&quot;)
+top.Name = &quot;ObjectivePill&quot;
 top.AnchorPoint = Vector2.new(0.5, 0)
-top.Position = UDim2.fromScale(0.5, 0.02)
-top.Size = UDim2.new(0.64, 0, 0, 54)
-top.BackgroundColor3 = Color3.fromRGB(248, 251, 255)
+top.Position = UDim2.new(0.5, 0, 0, 10)
+top.Size = UDim2.new(0.42, 0, 0, 38)
+top.BackgroundColor3 = Color3.fromRGB(250, 252, 248)
 top.BackgroundTransparency = 0.12
+top.Visible = false
 top.Parent = gui
-round(top, 18)
-stroke(top, 0.82)
+round(top, 16)
+stroke(top, 0.76)
 
-local topConstraint = Instance.new("UISizeConstraint")
-topConstraint.MaxSize = Vector2.new(520, 60)
-topConstraint.MinSize = Vector2.new(240, 52)
+local topConstraint = Instance.new(&quot;UISizeConstraint&quot;)
+topConstraint.MaxSize = Vector2.new(330, 40)
+topConstraint.MinSize = Vector2.new(205, 36)
 topConstraint.Parent = top
 
-local title = Instance.new("TextLabel")
-title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(18, 9)
-title.Size = UDim2.new(1, -36, 0, 30)
-title.Font = Enum.Font.GothamBold
-title.Text = ""
-title.Visible = false
-title.TextColor3 = Color3.fromRGB(25, 33, 48)
-title.TextSize = 16
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.Parent = top
-
-local status = Instance.new("TextLabel")
-status.Name = "Status"
+local status = Instance.new(&quot;TextLabel&quot;)
+status.Name = &quot;Status&quot;
 status.BackgroundTransparency = 1
-status.Position = UDim2.fromOffset(16, 8)
-status.Size = UDim2.new(1, -96, 1, -16)
-status.Font = Enum.Font.GothamBold
-status.Text = "Grab the glowing Quest Star."
-status.TextColor3 = Color3.fromRGB(32, 45, 66)
-status.TextSize = 14
-status.TextWrapped = true
+status.Position = UDim2.fromOffset(12, 3)
+status.Size = UDim2.new(1, -62, 1, -6)
+status.Font = Enum.Font.GothamSemibold
+status.Text = &quot;&quot;
+status.TextColor3 = Color3.fromRGB(38, 53, 48)
+status.TextSize = 13
+status.TextWrapped = false
+status.TextTruncate = Enum.TextTruncate.AtEnd
 status.TextXAlignment = Enum.TextXAlignment.Left
-status.TextYAlignment = Enum.TextYAlignment.Center
 status.Parent = top
 
-local progress = Instance.new("TextLabel")
-progress.Name = "Progress"
+local progress = Instance.new(&quot;TextLabel&quot;)
+progress.Name = &quot;Progress&quot;
 progress.AnchorPoint = Vector2.new(1, 0.5)
-progress.Position = UDim2.new(1, -10, 0.5, 0)
-progress.Size = UDim2.fromOffset(70, 34)
-progress.BackgroundColor3 = Color3.fromRGB(126, 245, 201)
-progress.TextColor3 = Color3.fromRGB(20, 36, 42)
+progress.Position = UDim2.new(1, -7, 0.5, 0)
+progress.Size = UDim2.fromOffset(44, 27)
+progress.BackgroundColor3 = Color3.fromRGB(126, 229, 191)
+progress.TextColor3 = Color3.fromRGB(25, 54, 47)
 progress.Font = Enum.Font.GothamBold
-progress.TextSize = 16
-progress.Text = "0 / 5"
+progress.TextSize = 13
+progress.Text = &quot;0/5&quot;
 progress.Parent = top
-round(progress, 16)
+round(progress, 13)
 
-local questionCard = Instance.new("Frame")
-questionCard.Name = "QuestionCard"
-questionCard.AnchorPoint = Vector2.new(0.5, 1)
-questionCard.Position = UDim2.new(0.5, 0, 1, -22)
-questionCard.Size = UDim2.new(0.94, 0, 0, 356)
-questionCard.BackgroundColor3 = Color3.fromRGB(247, 250, 255)
-questionCard.BackgroundTransparency = 0.06
+local questionCard = Instance.new(&quot;Frame&quot;)
+questionCard.Name = &quot;QuestionCard&quot;
+questionCard.AnchorPoint = Vector2.new(1, 0.5)
+questionCard.Position = UDim2.new(1, 80, 0.55, 0)
+questionCard.Size = UDim2.new(0.5, 0, 0, 238)
+questionCard.BackgroundColor3 = Color3.fromRGB(252, 253, 250)
+questionCard.BackgroundTransparency = 0.04
 questionCard.Visible = false
 questionCard.Parent = gui
-round(questionCard, 24)
-stroke(questionCard, 0.55)
+round(questionCard, 18)
+stroke(questionCard, 0.42)
 
-local cardConstraint = Instance.new("UISizeConstraint")
-cardConstraint.MaxSize = Vector2.new(620, 380)
-cardConstraint.MinSize = Vector2.new(290, 336)
+local cardConstraint = Instance.new(&quot;UISizeConstraint&quot;)
+cardConstraint.MaxSize = Vector2.new(430, 285)
+cardConstraint.MinSize = Vector2.new(325, 220)
 cardConstraint.Parent = questionCard
 
-local meta = Instance.new("TextLabel")
-meta.Name = "Meta"
+local accent = Instance.new(&quot;Frame&quot;)
+accent.Size = UDim2.new(0, 5, 1, -20)
+accent.Position = UDim2.fromOffset(8, 10)
+accent.BackgroundColor3 = Color3.fromRGB(91, 201, 169)
+accent.BorderSizePixel = 0
+accent.Parent = questionCard
+round(accent, 3)
+
+local meta = Instance.new(&quot;TextLabel&quot;)
+meta.Name = &quot;Meta&quot;
 meta.BackgroundTransparency = 1
-meta.Position = UDim2.fromOffset(18, 10)
-meta.Size = UDim2.new(1, -36, 0, 24)
+meta.Position = UDim2.fromOffset(22, 9)
+meta.Size = UDim2.new(1, -36, 0, 18)
 meta.Font = Enum.Font.GothamBold
-meta.Text = "Grade 2 challenge"
-meta.TextColor3 = Color3.fromRGB(25, 132, 110)
-meta.TextSize = 14
+meta.Text = &quot;1/5&quot;
+meta.TextColor3 = Color3.fromRGB(40, 132, 108)
+meta.TextSize = 12
 meta.TextXAlignment = Enum.TextXAlignment.Left
 meta.Parent = questionCard
 
-local prompt = Instance.new("TextLabel")
-prompt.Name = "Prompt"
+local prompt = Instance.new(&quot;TextLabel&quot;)
+prompt.Name = &quot;Prompt&quot;
 prompt.BackgroundTransparency = 1
-prompt.Position = UDim2.fromOffset(18, 34)
-prompt.Size = UDim2.new(1, -36, 0, 82)
+prompt.Position = UDim2.fromOffset(22, 27)
+prompt.Size = UDim2.new(1, -36, 0, 62)
 prompt.Font = Enum.Font.GothamBold
-prompt.TextColor3 = Color3.fromRGB(25, 33, 48)
-prompt.TextSize = 20
+prompt.TextColor3 = Color3.fromRGB(27, 37, 44)
+prompt.TextSize = 17
 prompt.TextWrapped = true
 prompt.TextYAlignment = Enum.TextYAlignment.Center
+prompt.TextXAlignment = Enum.TextXAlignment.Left
 prompt.Parent = questionCard
 
+local answerColors = {
+    Color3.fromRGB(225, 238, 250),
+    Color3.fromRGB(247, 228, 239),
+    Color3.fromRGB(249, 239, 210),
+    Color3.fromRGB(231, 237, 231),
+}
 local buttons = {}
-for index = 1, 3 do
-    local button = Instance.new("TextButton")
-    button.Name = "Answer" .. index
-    button.Position = UDim2.new(0, 18, 0, 120 + (index - 1) * 58)
-    button.Size = UDim2.new(1, -36, 0, 50)
-    button.BackgroundColor3 = Color3.fromRGB(229, 237, 249)
+for index = 1, 4 do
+    local button = Instance.new(&quot;TextButton&quot;)
+    button.Name = &quot;Answer&quot; .. index
+    button.Position = UDim2.new(0, 22, 0, 94 + (index - 1) * 43)
+    button.Size = UDim2.new(1, -36, 0, 36)
+    button.BackgroundColor3 = answerColors[index]
     button.AutoButtonColor = true
-    button.Font = Enum.Font.GothamBold
-    button.TextColor3 = Color3.fromRGB(25, 33, 48)
-    button.TextSize = 18
+    button.Font = Enum.Font.GothamSemibold
+    button.TextColor3 = Color3.fromRGB(31, 43, 55)
+    button.TextSize = 15
     button.TextWrapped = true
-    button.Text = "Answer " .. index
+    button.Text = &quot;&quot;
+    button.Visible = false
     button.Parent = questionCard
-    round(button, 15)
+    round(button, 11)
     buttons[index] = button
 end
 
-local feedback = Instance.new("TextLabel")
-feedback.Name = "Feedback"
+local feedback = Instance.new(&quot;TextLabel&quot;)
+feedback.Name = &quot;Feedback&quot;
 feedback.BackgroundTransparency = 1
-feedback.Position = UDim2.fromOffset(18, 300)
-feedback.Size = UDim2.new(1, -36, 0, 46)
+feedback.AnchorPoint = Vector2.new(0, 1)
+feedback.Position = UDim2.new(0, 22, 1, -7)
+feedback.Size = UDim2.new(1, -36, 0, 25)
 feedback.Font = Enum.Font.GothamMedium
-feedback.TextColor3 = Color3.fromRGB(55, 70, 94)
-feedback.TextSize = 15
+feedback.TextColor3 = Color3.fromRGB(70, 80, 83)
+feedback.TextSize = 12
 feedback.TextWrapped = true
-feedback.Text = "Tap the best answer."
+feedback.TextXAlignment = Enum.TextXAlignment.Left
+feedback.Text = &quot;&quot;
 feedback.Parent = questionCard
 
-local rewardLayer = Instance.new("Frame")
-rewardLayer.Name = "RewardCelebration"
-rewardLayer.Size = UDim2.fromScale(1, 1)
-rewardLayer.BackgroundTransparency = 1
-rewardLayer.Visible = false
-rewardLayer.ZIndex = 100
-rewardLayer.Parent = gui
+local rewardCard = Instance.new(&quot;Frame&quot;)
+rewardCard.Name = &quot;RewardCard&quot;
+rewardCard.AnchorPoint = Vector2.new(0.5, 0.5)
+rewardCard.Position = UDim2.fromScale(0.5, 0.42)
+rewardCard.Size = UDim2.new(0.52, 0, 0, 98)
+rewardCard.BackgroundColor3 = Color3.fromRGB(255, 251, 227)
+rewardCard.BackgroundTransparency = 0.06
+rewardCard.Visible = false
+rewardCard.ZIndex = 100
+rewardCard.Parent = gui
+round(rewardCard, 20)
+stroke(rewardCard, 0.32)
 
-local rewardFlash = Instance.new("Frame")
-rewardFlash.Size = UDim2.fromScale(1, 1)
-rewardFlash.BackgroundColor3 = Color3.fromRGB(255, 232, 117)
-rewardFlash.BackgroundTransparency = 1
-rewardFlash.ZIndex = 100
-rewardFlash.Parent = rewardLayer
+local rewardConstraint = Instance.new(&quot;UISizeConstraint&quot;)
+rewardConstraint.MaxSize = Vector2.new(430, 110)
+rewardConstraint.MinSize = Vector2.new(280, 92)
+rewardConstraint.Parent = rewardCard
 
-local rewardTitle = Instance.new("TextLabel")
-rewardTitle.AnchorPoint = Vector2.new(0.5, 0.5)
-rewardTitle.Position = UDim2.fromScale(0.5, 0.42)
-rewardTitle.Size = UDim2.new(0.92, 0, 0, 72)
+local rewardTitle = Instance.new(&quot;TextLabel&quot;)
+rewardTitle.Size = UDim2.new(1, -24, 0, 42)
+rewardTitle.Position = UDim2.fromOffset(12, 10)
 rewardTitle.BackgroundTransparency = 1
 rewardTitle.Font = Enum.Font.GothamBlack
-rewardTitle.Text = "QUEST COMPLETE!"
-rewardTitle.TextColor3 = Color3.fromRGB(255, 238, 115)
-rewardTitle.TextStrokeColor3 = Color3.fromRGB(43, 35, 16)
-rewardTitle.TextStrokeTransparency = 0.2
+rewardTitle.Text = &quot;STAR TRAIL!&quot;
+rewardTitle.TextColor3 = Color3.fromRGB(122, 87, 26)
 rewardTitle.TextScaled = true
-rewardTitle.ZIndex = 102
-rewardTitle.Parent = rewardLayer
+rewardTitle.ZIndex = 101
+rewardTitle.Parent = rewardCard
 
-local rewardSubtitle = Instance.new("TextLabel")
-rewardSubtitle.AnchorPoint = Vector2.new(0.5, 0.5)
-rewardSubtitle.Position = UDim2.fromScale(0.5, 0.54)
-rewardSubtitle.Size = UDim2.new(0.86, 0, 0, 52)
+local rewardSubtitle = Instance.new(&quot;TextLabel&quot;)
+rewardSubtitle.Size = UDim2.new(1, -24, 0, 30)
+rewardSubtitle.Position = UDim2.fromOffset(12, 55)
 rewardSubtitle.BackgroundTransparency = 1
 rewardSubtitle.Font = Enum.Font.GothamBold
-rewardSubtitle.Text = "★  STAR TRAIL UNLOCKED!  ★"
-rewardSubtitle.TextColor3 = Color3.fromRGB(126, 245, 201)
-rewardSubtitle.TextStrokeColor3 = Color3.fromRGB(18, 43, 47)
-rewardSubtitle.TextStrokeTransparency = 0.2
-rewardSubtitle.TextScaled = true
-rewardSubtitle.ZIndex = 102
-rewardSubtitle.Parent = rewardLayer
+rewardSubtitle.Text = &quot;Pip unlocked a new trail&quot;
+rewardSubtitle.TextColor3 = Color3.fromRGB(36, 121, 99)
+rewardSubtitle.TextSize = 15
+rewardSubtitle.ZIndex = 101
+rewardSubtitle.Parent = rewardCard
 
-local rewardSound = Instance.new("Sound")
-rewardSound.SoundId = "rbxasset://sounds/electronicpingshort.wav"
-rewardSound.Volume = 0.8
+local rewardSound = Instance.new(&quot;Sound&quot;)
+rewardSound.SoundId = &quot;rbxasset://sounds/electronicpingshort.wav&quot;
+rewardSound.Volume = 0.75
+rewardSound.PlaybackSpeed = 1.08
 rewardSound.Parent = gui
-
-local function showRewardCinematic()
-    rewardLayer.Visible = true
-    rewardTitle.TextTransparency = 1
-    rewardSubtitle.TextTransparency = 1
-    rewardTitle.Position = UDim2.fromScale(0.5, 0.47)
-    rewardSubtitle.Position = UDim2.fromScale(0.5, 0.58)
-    rewardFlash.BackgroundTransparency = 1
-
-    rewardSound:Play()
-    TweenService:Create(rewardFlash, TweenInfo.new(0.16), { BackgroundTransparency = 0.72 }):Play()
-    task.delay(0.16, function()
-        TweenService:Create(rewardFlash, TweenInfo.new(0.55), { BackgroundTransparency = 1 }):Play()
-    end)
-    TweenService:Create(
-        rewardTitle,
-        TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-        { TextTransparency = 0, Position = UDim2.fromScale(0.5, 0.40) }
-    ):Play()
-    TweenService:Create(
-        rewardSubtitle,
-        TweenInfo.new(0.55, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-        { TextTransparency = 0, Position = UDim2.fromScale(0.5, 0.52) }
-    ):Play()
-
-    local colors = {
-        Color3.fromRGB(255, 226, 79),
-        Color3.fromRGB(126, 245, 201),
-        Color3.fromRGB(255, 142, 197),
-    }
-    for index = 1, 20 do
-        local star = Instance.new("TextLabel")
-        star.AnchorPoint = Vector2.new(0.5, 0.5)
-        star.Position = UDim2.fromScale(0.5, 0.5)
-        star.Size = UDim2.fromOffset(44, 44)
-        star.BackgroundTransparency = 1
-        star.Font = Enum.Font.GothamBlack
-        star.Text = "★"
-        star.TextColor3 = colors[((index - 1) % #colors) + 1]
-        star.TextSize = math.random(22, 42)
-        star.Rotation = math.random(-30, 30)
-        star.ZIndex = 101
-        star.Parent = rewardLayer
-        local target = UDim2.fromScale(math.random(8, 92) / 100, math.random(8, 88) / 100)
-        TweenService:Create(
-            star,
-            TweenInfo.new(1.4 + math.random() * 0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-            {
-                Position = target,
-                Rotation = star.Rotation + math.random(-120, 120),
-                TextTransparency = 1,
-            }
-        ):Play()
-        task.delay(2.1, function()
-            if star.Parent then
-                star:Destroy()
-            end
-        end)
-    end
-
-    local camera = workspace.CurrentCamera
-    if camera then
-        local originalFov = camera.FieldOfView
-        TweenService:Create(camera, TweenInfo.new(0.22, Enum.EasingStyle.Back), {
-            FieldOfView = math.min(85, originalFov + 8),
-        }):Play()
-        task.delay(0.24, function()
-            if camera then
-                TweenService:Create(camera, TweenInfo.new(0.7, Enum.EasingStyle.Quad), {
-                    FieldOfView = originalFov,
-                }):Play()
-            end
-        end)
-    end
-
-    task.delay(2.6, function()
-        TweenService:Create(rewardTitle, TweenInfo.new(0.35), { TextTransparency = 1 }):Play()
-        TweenService:Create(rewardSubtitle, TweenInfo.new(0.35), { TextTransparency = 1 }):Play()
-        task.delay(0.4, function()
-            rewardLayer.Visible = false
-        end)
-    end)
-end
 
 local currentQuestion
 local currentProgress = 0
 local currentTotal = 5
 local sending = false
+local selectedIndex = nil
+local statusSerial = 0
+local questionSerial = 0
 
 local function setProgress(value, total)
     currentTotal = math.max(1, tonumber(total) or currentTotal or 5)
     currentProgress = math.clamp(tonumber(value) or currentProgress, 0, currentTotal)
-    progress.Text = string.format("%d / %d", currentProgress, currentTotal)
+    progress.Text = string.format(&quot;%d/%d&quot;, currentProgress, currentTotal)
 end
 
-local statusSerial = 0
+local function hideObjective()
+    top.Visible = false
+end
+
 local function setStatus(message, holdSeconds)
-    if type(message) == "string" and message ~= "" then
-        statusSerial += 1
-        local serial = statusSerial
-        status.Text = message
-        top.Visible = true
-        top.BackgroundTransparency = 0.12
-        status.TextTransparency = 0
-        progress.TextTransparency = 0
-        progress.BackgroundTransparency = 0
-        task.delay(holdSeconds or 2.8, function()
-            if serial ~= statusSerial then
-                return
+    if type(message) ~= &quot;string&quot; or message == &quot;&quot; then return end
+    statusSerial += 1
+    local serial = statusSerial
+    status.Text = message
+    top.Visible = true
+    top.BackgroundTransparency = 0.12
+    status.TextTransparency = 0
+    progress.TextTransparency = 0
+    progress.BackgroundTransparency = 0
+    task.delay(holdSeconds or 1.8, function()
+        if serial ~= statusSerial or currentQuestion then return end
+        TweenService:Create(top, TweenInfo.new(0.22), { BackgroundTransparency = 1 }):Play()
+        TweenService:Create(status, TweenInfo.new(0.22), { TextTransparency = 1 }):Play()
+        TweenService:Create(progress, TweenInfo.new(0.22), { TextTransparency = 1, BackgroundTransparency = 1 }):Play()
+        task.delay(0.24, function()
+            if serial == statusSerial and not currentQuestion then
+                top.Visible = false
             end
-            TweenService:Create(top, TweenInfo.new(0.3), { BackgroundTransparency = 1 }):Play()
-            TweenService:Create(status, TweenInfo.new(0.3), { TextTransparency = 1 }):Play()
-            TweenService:Create(progress, TweenInfo.new(0.3), {
-                TextTransparency = 1,
-                BackgroundTransparency = 1,
-            }):Play()
-            task.delay(0.34, function()
-                if serial == statusSerial then
-                    top.Visible = false
-                    status.TextTransparency = 0
-                    progress.TextTransparency = 0
-                    progress.BackgroundTransparency = 0
-                end
-            end)
         end)
+    end)
+end
+
+local function resetButtonLooks()
+    for index, button in ipairs(buttons) do
+        button.BackgroundColor3 = answerColors[index]
+        button.TextColor3 = Color3.fromRGB(31, 43, 55)
+        button.Rotation = 0
     end
 end
 
@@ -11197,270 +11309,367 @@ local function enableAnswers(enabled)
 end
 
 local function showQuestion(question)
+    questionSerial += 1
     currentQuestion = question
-    local subject = question.subject or "Grade 2"
-    local skill = tostring(question.skill or "challenge"):gsub("-", " ")
-    meta.Text = string.format("%d/%d  •  %s  •  %s", question.questionNumber or 1, question.questionTotal or 5, subject, skill)
+    selectedIndex = nil
+    hideObjective()
+    resetButtonLooks()
 
-    prompt.Text = question.prompt or "Choose the best answer."
-    feedback.Text = "Tap the best answer."
-    feedback.TextColor3 = Color3.fromRGB(55, 70, 94)
+    local subject = question.subject or &quot;Grade 2&quot;
+    local skill = tostring(question.skill or &quot;challenge&quot;):gsub(&quot;-&quot;, &quot; &quot;)
+    meta.Text = string.format(&quot;%d/%d  •  %s&quot;, question.questionNumber or 1, question.questionTotal or 5, skill)
+    prompt.Text = question.prompt or &quot;Choose the best answer.&quot;
+    feedback.Text = &quot;&quot;
+    feedback.TextColor3 = Color3.fromRGB(70, 80, 83)
+
+    local count = question.options and #question.options or 0
+    local height = count &gt;= 4 and 278 or 238
+    questionCard.Size = UDim2.new(0.5, 0, 0, height)
 
     for index, button in ipairs(buttons) do
         local option = question.options and question.options[index]
         button.Visible = option ~= nil
-        button.Text = option or ""
+        button.Text = option or &quot;&quot;
     end
     enableAnswers(true)
-
     setProgress(question.questionNumber or currentProgress, question.questionTotal or currentTotal)
+
     questionCard.Visible = true
-    questionCard.Position = UDim2.new(0.5, 0, 1, 18)
+    questionCard.Position = UDim2.new(1, 80, 0.55, 0)
     TweenService:Create(
         questionCard,
-        TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-        { Position = UDim2.new(0.5, 0, 1, -22) }
+        TweenInfo.new(0.22, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+        { Position = UDim2.new(1, -14, 0.55, 0) }
     ):Play()
 end
 
 local function hideQuestion(delaySeconds)
+    local serial = questionSerial
     task.delay(delaySeconds or 0, function()
-        questionCard.Visible = false
-        currentQuestion = nil
+        if serial ~= questionSerial then return end
+        TweenService:Create(
+            questionCard,
+            TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+            { Position = UDim2.new(1, 70, 0.55, 0) }
+        ):Play()
+        task.delay(0.2, function()
+            if serial == questionSerial then
+                questionCard.Visible = false
+                currentQuestion = nil
+            end
+        end)
+    end)
+end
+
+local function celebrateReward()
+    hideObjective()
+    questionCard.Visible = false
+    currentQuestion = nil
+
+    rewardCard.Visible = true
+    rewardCard.Size = UDim2.new(0.44, 0, 0, 72)
+    rewardCard.BackgroundTransparency = 0.3
+    rewardTitle.TextTransparency = 1
+    rewardSubtitle.TextTransparency = 1
+    rewardSound:Play()
+
+    TweenService:Create(
+        rewardCard,
+        TweenInfo.new(0.38, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        { Size = UDim2.new(0.52, 0, 0, 98), BackgroundTransparency = 0.06 }
+    ):Play()
+    TweenService:Create(rewardTitle, TweenInfo.new(0.28), { TextTransparency = 0 }):Play()
+    TweenService:Create(rewardSubtitle, TweenInfo.new(0.4), { TextTransparency = 0 }):Play()
+
+    task.delay(2.1, function()
+        TweenService:Create(
+            rewardCard,
+            TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+            { BackgroundTransparency = 1, Size = UDim2.new(0.46, 0, 0, 72) }
+        ):Play()
+        TweenService:Create(rewardTitle, TweenInfo.new(0.25), { TextTransparency = 1 }):Play()
+        TweenService:Create(rewardSubtitle, TweenInfo.new(0.25), { TextTransparency = 1 }):Play()
+        task.delay(0.32, function()
+            rewardCard.Visible = false
+        end)
     end)
 end
 
 for index, button in ipairs(buttons) do
     local answerIndex = index
     button.Activated:Connect(function()
-        if sending or not currentQuestion then
-            return
-        end
-
+        if sending or not currentQuestion or not button.Visible then return end
         sending = true
-        feedback.Text = "Checking..."
-        remote:FireServer("answer", answerIndex)
-        task.delay(0.3, function()
-            sending = false
-        end)
+        selectedIndex = answerIndex
+        feedback.Text = &quot;Checking…&quot;
+        remote:FireServer(&quot;answer&quot;, answerIndex)
+        task.delay(0.26, function() sending = false end)
     end)
 end
 
 remote.OnClientEvent:Connect(function(kind, payload)
     payload = payload or {}
-
     if payload.questionProgress ~= nil or payload.questionTotal ~= nil then
         setProgress(payload.questionProgress, payload.questionTotal)
     end
 
-    if kind == "reset" then
+    if kind == &quot;reset&quot; then
+        questionSerial += 1
+        questionCard.Visible = false
+        currentQuestion = nil
         setProgress(0, payload.questionTotal or 5)
-        setStatus(payload.message or "Grab the glowing Quest Star.")
-        hideQuestion()
+        setStatus(&quot;Find the Quest Star&quot;, 1.7)
         return
     end
 
-    if kind == "status" then
-        setStatus(payload.message)
+    if kind == &quot;status&quot; then
+        setStatus(payload.message, 1.7)
         return
     end
 
-    if kind == "question" then
-        setStatus("Learning Gate: solve five Grade 2 challenges.")
+    if kind == &quot;question&quot; then
         showQuestion(payload)
         return
     end
 
-    if kind == "feedback" then
-        feedback.Text = payload.message or (payload.correct and "Nice work!" or "Try again.")
-
+    if kind == &quot;feedback&quot; then
+        feedback.Text = payload.message or (payload.correct and &quot;Nice!&quot; or &quot;Try again.&quot;)
+        local button = selectedIndex and buttons[selectedIndex]
         if payload.correct then
-            feedback.TextColor3 = Color3.fromRGB(22, 148, 108)
-            enableAnswers(false)
-            if (payload.questionProgress or 0) &lt; (payload.questionTotal or 5) then
-                setStatus("Correct! Pip is finding the next challenge...")
-                hideQuestion(0.72)
-            else
-                setStatus("Five challenges complete! The gate is opening.")
-                hideQuestion(0.9)
+            feedback.TextColor3 = Color3.fromRGB(28, 142, 104)
+            if button then
+                button.BackgroundColor3 = Color3.fromRGB(184, 239, 214)
+                button.Text = &quot;✓  &quot; .. button.Text
             end
+            enableAnswers(false)
+            hideQuestion(0.46)
         else
-            feedback.TextColor3 = Color3.fromRGB(151, 99, 0)
-            if payload.supportKind == "clue" then
-                setStatus("Use the clue and try again.")
-            elseif payload.supportKind == "support" then
-                setStatus("Use the support step and try again.")
-            elseif payload.modeled then
-                setStatus("Answer explained. A same-skill comeback will appear later.")
+            feedback.TextColor3 = Color3.fromRGB(154, 101, 26)
+            if button then
+                button.BackgroundColor3 = Color3.fromRGB(255, 224, 182)
+                TweenService:Create(button, TweenInfo.new(0.08), { Rotation = -2 }):Play()
+                task.delay(0.08, function()
+                    TweenService:Create(button, TweenInfo.new(0.11), { Rotation = 2 }):Play()
+                    task.delay(0.11, function()
+                        TweenService:Create(button, TweenInfo.new(0.1), { Rotation = 0 }):Play()
+                    end)
+                end)
+            end
+            if payload.modeled then
                 enableAnswers(false)
-                hideQuestion(1.2)
-            else
-                setStatus("Try again.")
+                hideQuestion(1.0)
             end
         end
         return
     end
 
-    if kind == "quest_ready" then
-        setProgress(payload.questionProgress or 5, payload.questionTotal or 5)
-        setStatus(payload.message or "The gate is open. Reach the finish!")
-        hideQuestion()
+    if kind == &quot;quest_ready&quot; then
+        hideQuestion(0.25)
+        setStatus(&quot;Gate open — keep going!&quot;, 1.5)
         return
     end
 
-    if kind == "reward" then
+    if kind == &quot;reward&quot; then
         setProgress(payload.questionProgress or 5, payload.questionTotal or 5)
-        setStatus(payload.message or "Star Trail unlocked!", 2.2)
-        hideQuestion()
-        showRewardCinematic()
+        celebrateReward()
     end
 end)
 
-print("[PIPS][HUD_READY] Five-question mobile HUD initialized")</string>
+print(&quot;[PIPS][HUD_READY] Minimal landscape HUD initialized&quot;)
+</string>
         </Properties>
       </Item>
       <Item class="LocalScript" referent="13">
         <Properties>
           <string name="Name">PipCompanion</string>
-          <string name="Source">local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
+          <string name="Source">local Players = game:GetService(&quot;Players&quot;)
+local ReplicatedStorage = game:GetService(&quot;ReplicatedStorage&quot;)
+local RunService = game:GetService(&quot;RunService&quot;)
 
 local player = Players.LocalPlayer
-local remote = ReplicatedStorage:WaitForChild("PipsQuestEvent")
+local remote = ReplicatedStorage:WaitForChild(&quot;PipsQuestEvent&quot;)
 
-local pip
+local pipModel
+local pipRoot
 local trail
-local label
 local rootPart
 local rewardUnlocked = false
+local reactionUntil = 0
+local celebrateUntil = 0
+
+local function makePart(model, name, size, offset, color, material, shape)
+    local part = Instance.new(&quot;Part&quot;)
+    part.Name = name
+    part.Size = size
+    part.CFrame = offset
+    part.Anchored = true
+    part.CanCollide = false
+    part.CanTouch = false
+    part.CanQuery = false
+    part.Color = color
+    part.Material = material or Enum.Material.SmoothPlastic
+    if shape then part.Shape = shape end
+    part.Parent = model
+    return part
+end
 
 local function destroyPip()
-    if pip then
-        pip:Destroy()
-        pip = nil
+    if pipModel then
+        pipModel:Destroy()
+        pipModel = nil
+        pipRoot = nil
+        trail = nil
     end
+end
+
+local function addRewardCrown()
+    if not pipModel or pipModel:FindFirstChild(&quot;TrailStar&quot;) then return end
+    local star = makePart(
+        pipModel,
+        &quot;TrailStar&quot;,
+        Vector3.new(0.5, 0.5, 0.5),
+        CFrame.new(0, 2.0, 0),
+        Color3.fromRGB(255, 222, 79),
+        Enum.Material.Neon,
+        Enum.PartType.Ball
+    )
+    local light = Instance.new(&quot;PointLight&quot;)
+    light.Range = 6
+    light.Brightness = 1.4
+    light.Color = star.Color
+    light.Parent = star
 end
 
 local function createPip(character)
     destroyPip()
+    rootPart = character:WaitForChild(&quot;HumanoidRootPart&quot;, 10)
+    if not rootPart then return end
 
-    rootPart = character:WaitForChild("HumanoidRootPart", 10)
-    if not rootPart then
-        return
-    end
+    pipModel = Instance.new(&quot;Model&quot;)
+    pipModel.Name = &quot;PipCompanion&quot;
+    pipModel.Parent = workspace
 
-    pip = Instance.new("Part")
-    pip.Name = "PipCompanion"
-    pip.Shape = Enum.PartType.Ball
-    pip.Size = Vector3.new(1.8, 1.8, 1.8)
-    pip.Anchored = true
-    pip.CanCollide = false
-    pip.CanTouch = false
-    pip.CanQuery = false
-    pip.Material = Enum.Material.Neon
-    pip.Color = Color3.fromRGB(115, 235, 206)
-    pip.Parent = workspace
+    pipRoot = makePart(pipModel, &quot;Root&quot;, Vector3.new(0.2, 0.2, 0.2), CFrame.new(), Color3.new(1, 1, 1), Enum.Material.SmoothPlastic)
+    pipRoot.Transparency = 1
+    pipModel.PrimaryPart = pipRoot
 
-    local face = Instance.new("BillboardGui")
-    face.Name = "PipLabel"
-    face.Size = UDim2.fromOffset(120, 42)
-    face.StudsOffset = Vector3.new(0, 1.6, 0)
-    face.AlwaysOnTop = true
-    face.Parent = pip
+    makePart(pipModel, &quot;Body&quot;, Vector3.new(1.65, 1.8, 1.5), CFrame.new(0, 0, 0), Color3.fromRGB(77, 202, 174), Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+    makePart(pipModel, &quot;Head&quot;, Vector3.new(1.5, 1.35, 1.4), CFrame.new(0, 0.95, 0), Color3.fromRGB(132, 236, 205), Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+    makePart(pipModel, &quot;Belly&quot;, Vector3.new(1.05, 1.0, 0.35), CFrame.new(0, -0.08, -0.67), Color3.fromRGB(233, 250, 225), Enum.Material.SmoothPlastic, Enum.PartType.Ball)
 
-    label = Instance.new("TextLabel")
-    label.Size = UDim2.fromScale(1, 1)
-    label.BackgroundTransparency = 1
-    label.TextColor3 = Color3.new(1, 1, 1)
-    label.TextStrokeTransparency = 0.35
-    label.TextScaled = true
-    label.Font = Enum.Font.GothamBold
-    label.Text = rewardUnlocked and "Pip ★" or "Pip"
-    label.Parent = face
+    makePart(pipModel, &quot;EyeL&quot;, Vector3.new(0.22, 0.28, 0.16), CFrame.new(-0.28, 1.08, -0.68), Color3.fromRGB(30, 48, 51), Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+    makePart(pipModel, &quot;EyeR&quot;, Vector3.new(0.22, 0.28, 0.16), CFrame.new(0.28, 1.08, -0.68), Color3.fromRGB(30, 48, 51), Enum.Material.SmoothPlastic, Enum.PartType.Ball)
+    makePart(pipModel, &quot;CheekL&quot;, Vector3.new(0.24, 0.16, 0.11), CFrame.new(-0.5, 0.78, -0.66), Color3.fromRGB(247, 153, 172), Enum.Material.Neon, Enum.PartType.Ball)
+    makePart(pipModel, &quot;CheekR&quot;, Vector3.new(0.24, 0.16, 0.11), CFrame.new(0.5, 0.78, -0.66), Color3.fromRGB(247, 153, 172), Enum.Material.Neon, Enum.PartType.Ball)
+    makePart(pipModel, &quot;Smile&quot;, Vector3.new(0.34, 0.1, 0.1), CFrame.new(0, 0.72, -0.74), Color3.fromRGB(38, 60, 59), Enum.Material.SmoothPlastic)
 
-    local a0 = Instance.new("Attachment")
-    a0.Position = Vector3.new(0, 0.6, 0)
-    a0.Parent = pip
+    local wingL = makePart(pipModel, &quot;WingL&quot;, Vector3.new(0.22, 0.75, 1.05), CFrame.new(-0.92, 0.15, 0.18) * CFrame.Angles(0, 0, math.rad(-22)), Color3.fromRGB(221, 247, 243), Enum.Material.Glass)
+    wingL.Transparency = 0.22
+    local wingR = makePart(pipModel, &quot;WingR&quot;, Vector3.new(0.22, 0.75, 1.05), CFrame.new(0.92, 0.15, 0.18) * CFrame.Angles(0, 0, math.rad(22)), Color3.fromRGB(221, 247, 243), Enum.Material.Glass)
+    wingR.Transparency = 0.22
 
-    local a1 = Instance.new("Attachment")
-    a1.Position = Vector3.new(0, -0.6, 0)
-    a1.Parent = pip
+    local a0 = Instance.new(&quot;Attachment&quot;)
+    a0.Position = Vector3.new(0, 0.55, 0.45)
+    a0.Parent = pipRoot
+    local a1 = Instance.new(&quot;Attachment&quot;)
+    a1.Position = Vector3.new(0, -0.55, 0.45)
+    a1.Parent = pipRoot
 
-    trail = Instance.new("Trail")
+    trail = Instance.new(&quot;Trail&quot;)
     trail.Attachment0 = a0
     trail.Attachment1 = a1
-    trail.Lifetime = 0.7
-    trail.MinLength = 0.05
+    trail.Lifetime = 0.8
+    trail.MinLength = 0.04
     trail.FaceCamera = true
     trail.Enabled = rewardUnlocked
     trail.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 226, 79)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(126, 245, 201)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 225, 75)),
+        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(126, 245, 201)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(246, 151, 203)),
     })
-    trail.Parent = pip
+    trail.WidthScale = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 0.9),
+        NumberSequenceKeypoint.new(1, 0),
+    })
+    trail.Parent = pipRoot
 
-    local glow = Instance.new("PointLight")
-    glow.Brightness = 1.4
-    glow.Range = 8
-    glow.Color = pip.Color
-    glow.Parent = pip
+    local glow = Instance.new(&quot;PointLight&quot;)
+    glow.Brightness = 0.8
+    glow.Range = 7
+    glow.Color = Color3.fromRGB(126, 245, 201)
+    glow.Parent = pipRoot
+
+    if rewardUnlocked then addRewardCrown() end
 end
 
-local function rewardBurst()
-    if not pip then
-        return
-    end
-
-    local emitter = Instance.new("ParticleEmitter")
-    emitter.Texture = "rbxasset://textures/particles/sparkles_main.dds"
+local function burst(count)
+    if not pipRoot then return end
+    local emitter = Instance.new(&quot;ParticleEmitter&quot;)
+    emitter.Texture = &quot;rbxasset://textures/particles/sparkles_main.dds&quot;
     emitter.Rate = 0
-    emitter.Lifetime = NumberRange.new(0.7, 1.1)
-    emitter.Speed = NumberRange.new(4, 7)
+    emitter.Lifetime = NumberRange.new(0.55, 0.95)
+    emitter.Speed = NumberRange.new(3, 6)
     emitter.SpreadAngle = Vector2.new(360, 360)
-    emitter.Parent = pip
-    emitter:Emit(35)
-
-    task.delay(2, function()
-        if emitter then
-            emitter:Destroy()
-        end
+    emitter.LightEmission = 0.8
+    emitter.Parent = pipRoot
+    emitter:Emit(count or 18)
+    task.delay(1.4, function()
+        if emitter.Parent then emitter:Destroy() end
     end)
 end
 
 player.CharacterAdded:Connect(createPip)
-if player.Character then
-    task.defer(createPip, player.Character)
-end
+if player.Character then task.defer(createPip, player.Character) end
 
 RunService.RenderStepped:Connect(function()
-    if not pip or not rootPart or not rootPart.Parent then
-        return
+    if not pipModel or not pipRoot or not rootPart or not rootPart.Parent then return end
+
+    local now = os.clock()
+    local bob = math.sin(now * 3.6) * 0.26
+    local targetPosition
+
+    if now &lt; celebrateUntil then
+        local world = workspace:FindFirstChild(&quot;PipsQuestWorld&quot;)
+        local chest = world and world:FindFirstChild(&quot;RewardChest&quot;)
+        local glow = chest and chest:FindFirstChild(&quot;GlowCore&quot;)
+        if glow then
+            local angle = now * 4.4
+            targetPosition = glow.Position + Vector3.new(math.cos(angle) * 2.4, 2.2 + math.sin(now * 7) * 0.35, math.sin(angle) * 2.4)
+        end
     end
 
-    local t = os.clock()
-    local bob = math.sin(t * 3.2) * 0.45
-    local target = rootPart.CFrame * CFrame.new(-3.4, 2.6 + bob, 2.3)
-    pip.CFrame = pip.CFrame:Lerp(target, 0.14)
+    if not targetPosition then
+        targetPosition = (rootPart.CFrame * CFrame.new(-3.2, 2.35 + bob, 2.2)).Position
+    end
+
+    local camera = workspace.CurrentCamera
+    local lookTarget = camera and camera.CFrame.Position or (targetPosition + Vector3.new(0, 0, -6))
+    local desired = CFrame.lookAt(targetPosition, lookTarget)
+    if now &lt; reactionUntil then
+        desired = desired * CFrame.Angles(0, 0, math.sin(now * 18) * 0.22)
+    end
+
+    local current = pipModel:GetPivot()
+    pipModel:PivotTo(current:Lerp(desired, now &lt; celebrateUntil and 0.22 or 0.14))
 end)
 
 remote.OnClientEvent:Connect(function(kind, payload)
-    if kind == "reward" then
+    if kind == &quot;reward&quot; then
         rewardUnlocked = true
-        if trail then
-            trail.Enabled = true
-        end
-        if label then
-            label.Text = "Pip ★"
-        end
-        rewardBurst()
-        print("[PIPS][PIP_REWARD] Star Trail unlocked")
-    elseif kind == "feedback" and payload and payload.correct and pip then
-        rewardBurst()
+        if trail then trail.Enabled = true end
+        addRewardCrown()
+        celebrateUntil = os.clock() + 2.7
+        reactionUntil = celebrateUntil
+        burst(70)
+        print(&quot;[PIPS][PIP_REWARD] Star Trail unlocked&quot;)
+    elseif kind == &quot;feedback&quot; and payload and payload.correct then
+        reactionUntil = os.clock() + 0.62
+        burst(16)
     end
 end)
 
-print("[PIPS][PIP_READY] Companion initialized")</string>
+print(&quot;[PIPS][PIP_READY] Expressive companion initialized&quot;)
+</string>
         </Properties>
       </Item>
     </Item>
