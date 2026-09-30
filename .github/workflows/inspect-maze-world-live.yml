@@ -1,0 +1,129 @@
+name: Inspect Maze World Live Static
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-maze-world-live.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maze-world-live-static-inspection
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      EXPECTED_VERSION: "133"
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Inspect exact published Maze World version
+        shell: bash
+        run: |
+          node <<'NODE'
+          const {writeFile}=await import("node:fs/promises");
+          const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
+          const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
+          const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
+          const expected=Number(process.env.EXPECTED_VERSION);
+          if(!key) throw new Error("ROBLOX_OPEN_CLOUD_API_KEY missing");
+          if(universe!=="6027194615") throw new Error("unexpected universe "+universe);
+          if(place!=="17602626136") throw new Error("unexpected place "+place);
+
+          async function parse(response,label){
+            const text=await response.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}
+            catch{throw new Error(label+" non-JSON "+response.status+" "+text.slice(0,1000));}
+            if(!response.ok) throw new Error(label+" HTTP "+response.status+" "+JSON.stringify(payload).slice(0,1800));
+            return payload;
+          }
+
+          const script=[
+            'local function childNames(parent)',
+            '  local rows={}',
+            '  for _,child in ipairs(parent:GetChildren()) do',
+            '    table.insert(rows, child.Name..":"..child.ClassName)',
+            '  end',
+            '  table.sort(rows)',
+            '  return table.concat(rows,"|")',
+            'end',
+            'assert(game.PlaceVersion==' + expected + ',"expected version '+expected+' got "..tostring(game.PlaceVersion))',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SSS=game:GetService("ServerScriptService")',
+            'local SP=game:GetService("StarterPlayer")',
+            'print("MAZE_LIVE_VERSION="..tostring(game.PlaceVersion))',
+            'print("WORKSPACE_CHILDREN="..childNames(workspace))',
+            'print("REPLICATEDSTORAGE_CHILDREN="..childNames(RS))',
+            'print("SERVERSCRIPTSERVICE_CHILDREN="..childNames(SSS))',
+            'print("STARTERPLAYER_CHILDREN="..childNames(SP))',
+            'local placeObj=workspace:FindFirstChild("Place")',
+            'if placeObj then print("PLACE_CHILDREN="..childNames(placeObj)) else print("PLACE_CHILDREN=<missing>") end',
+            'local rooms=placeObj and placeObj:FindFirstChild("Rooms")',
+            'if rooms then print("ROOMS_CHILDREN="..childNames(rooms)) else print("ROOMS_CHILDREN=<missing>") end',
+            'local maps=placeObj and placeObj:FindFirstChild("Maps")',
+            'if maps then print("MAPS_CHILDREN="..childNames(maps)) else print("MAPS_CHILDREN=<missing>") end',
+            'print("MAZE_WORLD_STATIC_INSPECTION_OK version="..tostring(game.PlaceVersion))'
+          ].join("\n");
+
+          let response;
+          for(let attempt=0;attempt<8;attempt++){
+            response=await fetch(
+              `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${expected}/luau-execution-session-tasks`,
+              {
+                method:"POST",
+                headers:{"x-api-key":key,"content-type":"application/json"},
+                body:JSON.stringify({script,timeout:"30s"})
+              }
+            );
+            if(response.status!==429 && response.status!==500) break;
+            await new Promise(resolve=>setTimeout(resolve,2000*(attempt+1)));
+          }
+
+          let task=await parse(response,"create inspection task");
+          await writeFile("maze-world-live-inspection-task.json",JSON.stringify(task,null,2)+"\n");
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("task returned no path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(resolve=>setTimeout(resolve,1000));
+            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"inspection status");
+          }
+
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"inspection logs");
+          await writeFile("maze-world-live-inspection-logs.json",JSON.stringify(logs,null,2)+"\n");
+          const logText=JSON.stringify(logs);
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))){
+            throw new Error("inspection task failed "+JSON.stringify(task).slice(0,2000));
+          }
+          if(!logText.includes("MAZE_WORLD_STATIC_INSPECTION_OK version="+expected)){
+            throw new Error("inspection sentinel missing "+logText.slice(0,4000));
+          }
+          console.log(logText);
+          console.log("MAZE_WORLD_STATIC_INSPECTION_PASS version="+expected);
+          NODE
+
+      - name: Upload inspection receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: maze-world-live-static-inspection
+          path: |
+            maze-world-live-inspection-task.json
+            maze-world-live-inspection-logs.json
+          if-no-files-found: error
+          retention-days: 30
