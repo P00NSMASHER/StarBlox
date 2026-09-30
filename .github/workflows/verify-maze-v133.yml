@@ -1,0 +1,97 @@
+name: Verify Pristine Maze World v133
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-maze-v133.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      EXPECTED_VERSION: "133"
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify live Maze World chassis structure
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const version=Number(process.env.EXPECTED_VERSION);
+          if(universe!=="6027194615" || place!=="17602626136") throw new Error("unexpected Roblox target");
+
+          async function parse(r,label){
+            const text=await r.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,800));}
+            if(!r.ok) throw new Error(label+" HTTP "+r.status+" "+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+
+          const script=[
+            'assert(game.PlaceVersion==133,"expected version 133 got "..tostring(game.PlaceVersion))',
+            'local WS=game:GetService("Workspace")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local place=WS:FindFirstChild("Place")',
+            'assert(place,"Maze World Place model missing")',
+            'local maps=place:FindFirstChild("Maps")',
+            'local rooms=place:FindFirstChild("Rooms")',
+            'assert(maps,"Place.Maps missing")',
+            'assert(rooms,"Place.Rooms missing")',
+            'assert(#maps:GetChildren()>0,"no Maze World maps present")',
+            'assert(#rooms:GetChildren()>0,"no Maze World rooms present")',
+            'local modules=RS:FindFirstChild("Modules")',
+            'local models=RS:FindFirstChild("Models")',
+            'assert(modules,"ReplicatedStorage.Modules missing")',
+            'assert(models,"ReplicatedStorage.Models missing")',
+            'local src=modules:FindFirstChild("src")',
+            'assert(src,"Modules.src missing")',
+            'assert(src:FindFirstChild("MazeGenerator"),"MazeGenerator module missing")',
+            'assert(src:FindFirstChild("Maze"),"Maze module missing")',
+            'local thunks=src:FindFirstChild("thunks")',
+            'assert(thunks and thunks:FindFirstChild("startGame"),"startGame thunk missing")',
+            'assert(thunks and thunks:FindFirstChild("playerFinishedRoom"),"playerFinishedRoom thunk missing")',
+            'local prefabs=models:FindFirstChild("Prefabs")',
+            'local money=models:FindFirstChild("Money")',
+            'assert(prefabs and prefabs:FindFirstChild("SpawnPlaceholder"),"SpawnPlaceholder missing")',
+            'assert(prefabs and prefabs:FindFirstChild("FinishPlaceholder"),"FinishPlaceholder missing")',
+            'assert(money and money:FindFirstChild("Coin"),"Coin model missing")',
+            'assert(not WS:FindFirstChild("PipsQuestWorld"),"legacy custom PipsQuestWorld leaked into v133")',
+            'print("MAZE_V133_STRUCTURE_OK maps="..#maps:GetChildren().." rooms="..#rooms:GetChildren())'
+          ].join("\n");
+
+          let task=await parse(await fetch(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${version}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
+          ),"create");
+
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("no task path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
+          }
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
+          const logText=JSON.stringify(logs);
+          if(task.error || /FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1800));
+          if(!logText.includes("MAZE_V133_STRUCTURE_OK")) throw new Error("Maze World sentinel missing "+logText.slice(0,2400));
+          console.log(logText);
+          NODE
