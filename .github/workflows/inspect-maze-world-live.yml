@@ -130,6 +130,8 @@ jobs:
             'table.sort(coinIds)',
             'print("LIVE_NATIVE_COIN_IDS="..table.concat(coinIds,"|"))',
             'assert(#coinIds>=1,"no native CoinBrick assets found in ServerStorage.Money")',
+            'local sourceLines=string.split(mazeGenerator.Source,"\\n")',
+            'for lineNumber=105,130 do print("MAZEGENERATOR_LINE_"..tostring(lineNumber).."="..tostring(sourceLines[lineNumber])) end',
             'local requireOk, MazeGenerator=pcall(require,mazeGenerator)',
             'print("MAZEGENERATOR_REQUIRE_OK="..tostring(requireOk))',
             'assert(requireOk,"MazeGenerator require failed: "..tostring(MazeGenerator))',
@@ -190,13 +192,13 @@ jobs:
           const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"inspection logs");
           await writeFile("maze-world-live-inspection-logs.json",JSON.stringify(logs,null,2)+"\n");
           const logText=JSON.stringify(logs);
+          console.log(logText);
           if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))){
             throw new Error("inspection task failed "+JSON.stringify(task).slice(0,2000));
           }
           if(!logText.includes("MAZE_WORLD_STATIC_INSPECTION_OK version="+expected)){
             throw new Error("inspection sentinel missing "+logText.slice(0,4000));
           }
-          console.log(logText);
           console.log("MAZE_WORLD_STATIC_INSPECTION_PASS version="+expected);
           NODE
 
