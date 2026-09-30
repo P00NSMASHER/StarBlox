@@ -1,0 +1,86 @@
+name: Publish Pristine Maze World Chassis
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-pristine-maze-world.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pristine-maze-world-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MAZE_WORLD_COMMIT: "7ebfd2f81ddfc3d740eee1641b859f49dc087323"
+      MAZE_WORLD_BYTES: "434874"
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Fetch exact pristine Maze World baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            "https://raw.githubusercontent.com/P00NSMASHER/PipsQuestWorld/$MAZE_WORLD_COMMIT/game/maze-world.rbxl" \
+            --output MazeWorld-Pristine.rbxl
+          test -s MazeWorld-Pristine.rbxl
+          test "$(stat -c%s MazeWorld-Pristine.rbxl)" = "$MAZE_WORLD_BYTES"
+          sha256sum MazeWorld-Pristine.rbxl | tee maze-world-sha256.txt
+          printf '%s\n' "$MAZE_WORLD_COMMIT" > maze-world-source-commit.txt
+
+      - name: Publish pristine Maze World to StarBlox root place
+        shell: bash
+        run: |
+          node <<'NODE'
+          const {readFile,writeFile}=await import("node:fs/promises");
+          const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
+          const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
+          const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
+          if(!key) throw new Error("ROBLOX_OPEN_CLOUD_API_KEY missing");
+          if(universe!=="6027194615") throw new Error("unexpected universe "+universe);
+          if(place!=="17602626136") throw new Error("unexpected place "+place);
+          const bytes=await readFile("MazeWorld-Pristine.rbxl");
+          const response=await fetch(
+            "https://apis.roblox.com/universes/v1/"+universe+"/places/"+place+"/versions?versionType=Published",
+            {
+              method:"POST",
+              headers:{
+                "x-api-key":key,
+                "content-type":"application/octet-stream"
+              },
+              body:bytes
+            }
+          );
+          const text=await response.text();
+          if(!response.ok) throw new Error("Roblox publish failed HTTP "+response.status+": "+text.slice(0,2000));
+          const payload=JSON.parse(text);
+          if(!Number.isInteger(Number(payload.versionNumber))) throw new Error("missing versionNumber");
+          await writeFile("maze-world-publish-response.json",JSON.stringify(payload,null,2)+"\n");
+          await writeFile("maze-world-published-version.txt",String(payload.versionNumber)+"\n");
+          console.log("PRISTINE_MAZE_WORLD_PUBLISHED version="+payload.versionNumber);
+          NODE
+
+      - name: Upload publish receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: pristine-maze-world-publish
+          path: |
+            maze-world-source-commit.txt
+            maze-world-sha256.txt
+            maze-world-published-version.txt
+            maze-world-publish-response.json
+          if-no-files-found: error
+          retention-days: 30
