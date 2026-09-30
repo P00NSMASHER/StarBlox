@@ -1,8 +1,12 @@
 {
   "status": "BLOCKED",
   "candidateBaseSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
+  "owner": "P00NSMASHER",
   "rootCause": "RETIRED_TARGET_PRESENT",
   "expected": "original high-school life candidate",
   "observed": "Maze World and PipsQuest release surfaces remain on the candidate",
-  "regressionMarkers": ["maze-world", "pipsquest"]
+  "regressionMarkers": ["maze-world", "pipsquest"],
+  "changedSurfaceRunId": 36747365544,
+  "changedSurfaceResult": "FAIL_RESOURCE_EXHAUSTED",
+  "localOnlyRequired": false
 }
