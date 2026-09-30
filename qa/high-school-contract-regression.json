@@ -1,1 +1,5 @@
-{"status":"BLOCKED"}
+{
+  "status": "BLOCKED",
+  "candidateBaseSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
+  "rootCause": "RETIRED_TARGET_PRESENT"
+}
