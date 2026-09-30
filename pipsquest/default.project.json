@@ -1,0 +1,48 @@
+{
+  "name": "PipsQuestWorld",
+  "servePort": 8010,
+  "tree": {
+    "$className": "DataModel",
+    "Workspace": {
+      "$className": "Workspace",
+      "$properties": {
+        "Gravity": 196.2,
+        "StreamingEnabled": false
+      }
+    },
+    "Lighting": {
+      "$className": "Lighting",
+      "$properties": {
+        "Brightness": 2.2,
+        "ClockTime": 14,
+        "GlobalShadows": true,
+        "Technology": "ShadowMap",
+        "Ambient": [0.45, 0.45, 0.48],
+        "OutdoorAmbient": [0.62, 0.62, 0.66]
+      }
+    },
+    "Players": {
+      "$className": "Players",
+      "$properties": {
+        "CharacterAutoLoads": true
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "PipsQuestShared": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$path": "src/server"
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "src/client"
+      }
+    }
+  }
+}
