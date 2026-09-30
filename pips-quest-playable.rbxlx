@@ -9986,11 +9986,17 @@ local finish = world:WaitForChild("FinishPad")
 local replay = world:WaitForChild("ReplayPad")
 local lanterns = world:WaitForChild("LearningLanterns")
 local chest = world:WaitForChild("RewardChest")
+local chestBase = chest:WaitForChild("Base")
 local chestLid = chest:WaitForChild("Lid")
+local chestLock = chest:WaitForChild("Lock")
+local chestGlow = chest:WaitForChild("GlowCore")
+local chestPrompt = chestBase:WaitForChild("OpenPrompt")
 local chestClosedCFrame = chestLid.CFrame
-local chestOpenCFrame = chestClosedCFrame
-    * CFrame.new(0, 1.15, -0.45)
-    * CFrame.Angles(math.rad(-35), 0, 0)
+local chestLockClosedCFrame = chestLock.CFrame
+local chestHingeCFrame = chestClosedCFrame * CFrame.new(0, 0, 1.8)
+local chestOpenCFrame = chestHingeCFrame
+    * CFrame.Angles(math.rad(108), 0, 0)
+    * CFrame.new(0, 0, -1.8)
 
 local remote = ReplicatedStorage:FindFirstChild("PipsQuestEvent")
 if not remote then
@@ -10024,6 +10030,7 @@ local function getState(player)
             misses = 0,
             solved = false,
             finished = false,
+            finishReached = false,
             transitioning = false,
             rewardCount = 0,
             independentCorrect = 0,
@@ -10078,24 +10085,152 @@ end
 
 local function closeChest()
     chestLid.CFrame = chestClosedCFrame
+    chestLock.CFrame = chestLockClosedCFrame
+    chestLock.Transparency = 0
+    chestGlow.Transparency = 1
+    chestPrompt.Enabled = false
+    local oldBeam = chest:FindFirstChild("RewardBeam")
+    if oldBeam then
+        oldBeam:Destroy()
+    end
+    local oldBanner = chest:FindFirstChild("RewardBanner")
+    if oldBanner then
+        oldBanner:Destroy()
+    end
 end
 
 local function openChest()
+    chestPrompt.Enabled = false
+
+    TweenService:Create(
+        chestLock,
+        TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        { Transparency = 1, CFrame = chestLockClosedCFrame * CFrame.new(0, -0.55, -0.25) }
+    ):Play()
+
     TweenService:Create(
         chestLid,
-        TweenInfo.new(0.55, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        TweenInfo.new(0.78, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
         { CFrame = chestOpenCFrame }
     ):Play()
+
+    chestGlow.Transparency = 0.08
+    local light = chestGlow:FindFirstChildOfClass("PointLight")
+    if not light then
+        light = Instance.new("PointLight")
+        light.Color = Color3.fromRGB(255, 231, 103)
+        light.Range = 18
+        light.Brightness = 0
+        light.Parent = chestGlow
+    end
+    light.Enabled = true
+    TweenService:Create(light, TweenInfo.new(0.35), { Brightness = 6 }):Play()
+    task.delay(1.3, function()
+        if light.Parent then
+            TweenService:Create(light, TweenInfo.new(1.1), { Brightness = 1.5 }):Play()
+        end
+    end)
+
+    local beam = Instance.new("Part")
+    beam.Name = "RewardBeam"
+    beam.Anchored = true
+    beam.CanCollide = false
+    beam.CanTouch = false
+    beam.CanQuery = false
+    beam.Material = Enum.Material.Neon
+    beam.Color = Color3.fromRGB(255, 231, 103)
+    beam.Transparency = 0.32
+    beam.Size = Vector3.new(2.6, 0.25, 2.2)
+    beam.CFrame = chestGlow.CFrame * CFrame.new(0, 0.4, 0)
+    beam.Parent = chest
+    TweenService:Create(
+        beam,
+        TweenInfo.new(0.65, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+        {
+            Size = Vector3.new(3.2, 10, 2.8),
+            CFrame = chestGlow.CFrame * CFrame.new(0, 5.2, 0),
+            Transparency = 0.72,
+        }
+    ):Play()
+    task.delay(1.7, function()
+        if beam.Parent then
+            TweenService:Create(beam, TweenInfo.new(0.45), { Transparency = 1 }):Play()
+            task.delay(0.5, function()
+                if beam.Parent then
+                    beam:Destroy()
+                end
+            end)
+        end
+    end)
 
     local sparkle = Instance.new("ParticleEmitter")
     sparkle.Texture = "rbxasset://textures/particles/sparkles_main.dds"
     sparkle.Rate = 0
-    sparkle.Lifetime = NumberRange.new(0.7, 1.2)
-    sparkle.Speed = NumberRange.new(4, 8)
+    sparkle.Lifetime = NumberRange.new(0.8, 1.5)
+    sparkle.Speed = NumberRange.new(6, 12)
     sparkle.SpreadAngle = Vector2.new(360, 360)
-    sparkle.Parent = chestLid
-    sparkle:Emit(45)
-    task.delay(2, function()
+    sparkle.Rotation = NumberRange.new(0, 360)
+    sparkle.RotSpeed = NumberRange.new(-180, 180)
+    sparkle.Parent = chestGlow
+    sparkle:Emit(100)
+
+    local colors = {
+        Color3.fromRGB(255, 226, 79),
+        Color3.fromRGB(126, 245, 201),
+        Color3.fromRGB(255, 142, 197),
+    }
+    for index = 1, 16 do
+        local orb = Instance.new("Part")
+        orb.Name = "RewardSpark"
+        orb.Shape = Enum.PartType.Ball
+        orb.Size = Vector3.new(0.45, 0.45, 0.45)
+        orb.Anchored = true
+        orb.CanCollide = false
+        orb.CanTouch = false
+        orb.CanQuery = false
+        orb.Material = Enum.Material.Neon
+        orb.Color = colors[((index - 1) % #colors) + 1]
+        orb.CFrame = CFrame.new(chestGlow.Position)
+        orb.Parent = chest
+        local target = chestGlow.Position + Vector3.new(
+            math.random(-55, 55) / 10,
+            math.random(30, 85) / 10,
+            math.random(-40, 40) / 10
+        )
+        TweenService:Create(
+            orb,
+            TweenInfo.new(0.75 + math.random() * 0.55, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+            { CFrame = CFrame.new(target), Transparency = 1, Size = Vector3.new(0.12, 0.12, 0.12) }
+        ):Play()
+        task.delay(1.5, function()
+            if orb.Parent then
+                orb:Destroy()
+            end
+        end)
+    end
+
+    local banner = Instance.new("BillboardGui")
+    banner.Name = "RewardBanner"
+    banner.Size = UDim2.fromOffset(360, 76)
+    banner.StudsOffset = Vector3.new(0, 6.5, 0)
+    banner.AlwaysOnTop = true
+    banner.Parent = chestGlow
+
+    local bannerText = Instance.new("TextLabel")
+    bannerText.Size = UDim2.fromScale(1, 1)
+    bannerText.BackgroundTransparency = 1
+    bannerText.Font = Enum.Font.GothamBlack
+    bannerText.Text = "★  STAR TRAIL UNLOCKED!  ★"
+    bannerText.TextColor3 = Color3.fromRGB(255, 235, 112)
+    bannerText.TextStrokeColor3 = Color3.fromRGB(42, 29, 9)
+    bannerText.TextStrokeTransparency = 0.15
+    bannerText.TextScaled = true
+    bannerText.Parent = banner
+
+    task.delay(2.5, function()
+        if banner.Parent then
+            banner:Destroy()
+        end
         if sparkle.Parent then
             sparkle:Destroy()
         end
@@ -10220,6 +10355,7 @@ local function resetPlayer(player, teleport)
     state.misses = 0
     state.solved = false
     state.finished = false
+    state.finishReached = false
     state.transitioning = false
     state.independentCorrect = 0
     state.supportedResolved = 0
@@ -10408,18 +10544,42 @@ finish.Touched:Connect(function(hit)
         return
     end
 
+    if not state.finishReached then
+        state.finishReached = true
+        chestPrompt.Enabled = true
+        remote:FireClient(player, "status", {
+            message = "Chest unlocked! Walk up and tap Open Chest.",
+            questionProgress = EducationEngine.QUEST_LENGTH,
+            questionTotal = EducationEngine.QUEST_LENGTH,
+        })
+        print("[PIPS][CHEST_UNLOCKED]", player.Name)
+    end
+end)
+
+chestPrompt.Triggered:Connect(function(player)
+    local state = getState(player)
+    if state.finished or not state.solved or not state.finishReached then
+        return
+    end
+
     state.finished = true
     state.rewardCount += 1
+    chestPrompt.Enabled = false
     openChest()
 
-    remote:FireClient(player, "reward", {
-        message = "Quest complete! Pip unlocked the Star Trail!",
-        rewardCount = state.rewardCount,
-        independentCorrect = state.independentCorrect,
-        supportedResolved = state.supportedResolved,
-        questionProgress = EducationEngine.QUEST_LENGTH,
-        questionTotal = EducationEngine.QUEST_LENGTH,
-    })
+    task.delay(0.35, function()
+        if not player.Parent then
+            return
+        end
+        remote:FireClient(player, "reward", {
+            message = "Star Trail unlocked!",
+            rewardCount = state.rewardCount,
+            independentCorrect = state.independentCorrect,
+            supportedResolved = state.supportedResolved,
+            questionProgress = EducationEngine.QUEST_LENGTH,
+            questionTotal = EducationEngine.QUEST_LENGTH,
+        })
+    end)
 
     print(
         "[PIPS][QUEST_FINISHED]",
@@ -10506,9 +10666,9 @@ local function addBillboard(part, text, width, height, maxTextSize)
     local label = Instance.new("TextLabel")
     label.Name = "Text"
     label.Size = UDim2.fromScale(1, 1)
-    label.BackgroundTransparency = 0.08
-    label.BackgroundColor3 = Color3.fromRGB(22, 27, 38)
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 0.14
+    label.BackgroundColor3 = Color3.fromRGB(248, 251, 255)
+    label.TextColor3 = Color3.fromRGB(28, 39, 58)
     label.TextScaled = true
     label.Font = Enum.Font.GothamBold
     label.TextWrapped = true
@@ -10623,8 +10783,25 @@ function WorldBuilder.build()
     local chest = Instance.new("Model")
     chest.Name = "RewardChest"
     chest.Parent = root
-    makePart(chest, "Base", Vector3.new(5, 2.2, 3.6), CFrame.new(0, 1.6, 89), Color3.fromRGB(142, 82, 46), Enum.Material.WoodPlanks)
-    local lid = makePart(chest, "Lid", Vector3.new(5, 1.1, 3.6), CFrame.new(0, 3.25, 89), Color3.fromRGB(255, 196, 76), Enum.Material.WoodPlanks)
+    local chestBase = makePart(chest, "Base", Vector3.new(5, 2.2, 3.6), CFrame.new(0, 1.6, 89), Color3.fromRGB(120, 67, 39), Enum.Material.WoodPlanks)
+    local lid = makePart(chest, "Lid", Vector3.new(5, 1.1, 3.6), CFrame.new(0, 3.25, 89), Color3.fromRGB(225, 157, 49), Enum.Material.WoodPlanks)
+    makePart(chest, "Lock", Vector3.new(1.1, 1.15, 0.35), CFrame.new(0, 2.35, 87.08), Color3.fromRGB(255, 226, 79), Enum.Material.Metal)
+    local glowCore = makePart(chest, "GlowCore", Vector3.new(3.8, 0.35, 2.5), CFrame.new(0, 2.65, 89), Color3.fromRGB(255, 231, 103), Enum.Material.Neon)
+    glowCore.Transparency = 1
+    glowCore.CanCollide = false
+    glowCore.CanTouch = false
+    glowCore.CanQuery = false
+
+    local prompt = Instance.new("ProximityPrompt")
+    prompt.Name = "OpenPrompt"
+    prompt.ActionText = "Open Chest"
+    prompt.ObjectText = "Pip's Reward"
+    prompt.HoldDuration = 0.12
+    prompt.MaxActivationDistance = 9
+    prompt.RequiresLineOfSight = false
+    prompt.Enabled = false
+    prompt.Parent = chestBase
+
     addBillboard(lid, "PIP'S REWARD", 190, 48, 16)
 
     local replay = makePart(root, "ReplayPad", Vector3.new(10, 1, 8), CFrame.new(0, 0.8, 97), Color3.fromRGB(123, 211, 255), Enum.Material.Neon)
@@ -10715,16 +10892,16 @@ local top = Instance.new("Frame")
 top.Name = "TopCard"
 top.AnchorPoint = Vector2.new(0.5, 0)
 top.Position = UDim2.fromScale(0.5, 0.02)
-top.Size = UDim2.new(0.92, 0, 0, 92)
-top.BackgroundColor3 = Color3.fromRGB(25, 33, 48)
-top.BackgroundTransparency = 0.08
+top.Size = UDim2.new(0.64, 0, 0, 54)
+top.BackgroundColor3 = Color3.fromRGB(248, 251, 255)
+top.BackgroundTransparency = 0.12
 top.Parent = gui
-round(top, 22)
-stroke(top, 0.65)
+round(top, 18)
+stroke(top, 0.82)
 
 local topConstraint = Instance.new("UISizeConstraint")
-topConstraint.MaxSize = Vector2.new(640, 100)
-topConstraint.MinSize = Vector2.new(280, 86)
+topConstraint.MaxSize = Vector2.new(520, 60)
+topConstraint.MinSize = Vector2.new(240, 52)
 topConstraint.Parent = top
 
 local title = Instance.new("TextLabel")
@@ -10732,21 +10909,22 @@ title.BackgroundTransparency = 1
 title.Position = UDim2.fromOffset(18, 9)
 title.Size = UDim2.new(1, -36, 0, 30)
 title.Font = Enum.Font.GothamBold
-title.Text = "Pip's First Quest"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextSize = 22
+title.Text = ""
+title.Visible = false
+title.TextColor3 = Color3.fromRGB(25, 33, 48)
+title.TextSize = 16
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = top
 
 local status = Instance.new("TextLabel")
 status.Name = "Status"
 status.BackgroundTransparency = 1
-status.Position = UDim2.fromOffset(18, 40)
-status.Size = UDim2.new(1, -112, 0, 42)
-status.Font = Enum.Font.GothamMedium
+status.Position = UDim2.fromOffset(16, 8)
+status.Size = UDim2.new(1, -96, 1, -16)
+status.Font = Enum.Font.GothamBold
 status.Text = "Grab the glowing Quest Star."
-status.TextColor3 = Color3.fromRGB(219, 229, 242)
-status.TextSize = 16
+status.TextColor3 = Color3.fromRGB(32, 45, 66)
+status.TextSize = 14
 status.TextWrapped = true
 status.TextXAlignment = Enum.TextXAlignment.Left
 status.TextYAlignment = Enum.TextYAlignment.Center
@@ -10755,12 +10933,12 @@ status.Parent = top
 local progress = Instance.new("TextLabel")
 progress.Name = "Progress"
 progress.AnchorPoint = Vector2.new(1, 0.5)
-progress.Position = UDim2.new(1, -14, 0.64, 0)
-progress.Size = UDim2.fromOffset(82, 42)
-progress.BackgroundColor3 = Color3.fromRGB(91, 214, 173)
+progress.Position = UDim2.new(1, -10, 0.5, 0)
+progress.Size = UDim2.fromOffset(70, 34)
+progress.BackgroundColor3 = Color3.fromRGB(126, 245, 201)
 progress.TextColor3 = Color3.fromRGB(20, 36, 42)
 progress.Font = Enum.Font.GothamBold
-progress.TextSize = 18
+progress.TextSize = 16
 progress.Text = "0 / 5"
 progress.Parent = top
 round(progress, 16)
@@ -10770,8 +10948,8 @@ questionCard.Name = "QuestionCard"
 questionCard.AnchorPoint = Vector2.new(0.5, 1)
 questionCard.Position = UDim2.new(0.5, 0, 1, -22)
 questionCard.Size = UDim2.new(0.94, 0, 0, 356)
-questionCard.BackgroundColor3 = Color3.fromRGB(25, 33, 48)
-questionCard.BackgroundTransparency = 0.03
+questionCard.BackgroundColor3 = Color3.fromRGB(247, 250, 255)
+questionCard.BackgroundTransparency = 0.06
 questionCard.Visible = false
 questionCard.Parent = gui
 round(questionCard, 24)
@@ -10789,7 +10967,7 @@ meta.Position = UDim2.fromOffset(18, 10)
 meta.Size = UDim2.new(1, -36, 0, 24)
 meta.Font = Enum.Font.GothamBold
 meta.Text = "Grade 2 challenge"
-meta.TextColor3 = Color3.fromRGB(126, 245, 201)
+meta.TextColor3 = Color3.fromRGB(25, 132, 110)
 meta.TextSize = 14
 meta.TextXAlignment = Enum.TextXAlignment.Left
 meta.Parent = questionCard
@@ -10800,7 +10978,7 @@ prompt.BackgroundTransparency = 1
 prompt.Position = UDim2.fromOffset(18, 34)
 prompt.Size = UDim2.new(1, -36, 0, 82)
 prompt.Font = Enum.Font.GothamBold
-prompt.TextColor3 = Color3.fromRGB(255, 255, 255)
+prompt.TextColor3 = Color3.fromRGB(25, 33, 48)
 prompt.TextSize = 20
 prompt.TextWrapped = true
 prompt.TextYAlignment = Enum.TextYAlignment.Center
@@ -10812,10 +10990,10 @@ for index = 1, 3 do
     button.Name = "Answer" .. index
     button.Position = UDim2.new(0, 18, 0, 120 + (index - 1) * 58)
     button.Size = UDim2.new(1, -36, 0, 50)
-    button.BackgroundColor3 = Color3.fromRGB(57, 72, 98)
+    button.BackgroundColor3 = Color3.fromRGB(229, 237, 249)
     button.AutoButtonColor = true
     button.Font = Enum.Font.GothamBold
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextColor3 = Color3.fromRGB(25, 33, 48)
     button.TextSize = 18
     button.TextWrapped = true
     button.Text = "Answer " .. index
@@ -10830,11 +11008,142 @@ feedback.BackgroundTransparency = 1
 feedback.Position = UDim2.fromOffset(18, 300)
 feedback.Size = UDim2.new(1, -36, 0, 46)
 feedback.Font = Enum.Font.GothamMedium
-feedback.TextColor3 = Color3.fromRGB(224, 233, 245)
+feedback.TextColor3 = Color3.fromRGB(55, 70, 94)
 feedback.TextSize = 15
 feedback.TextWrapped = true
 feedback.Text = "Tap the best answer."
 feedback.Parent = questionCard
+
+local rewardLayer = Instance.new("Frame")
+rewardLayer.Name = "RewardCelebration"
+rewardLayer.Size = UDim2.fromScale(1, 1)
+rewardLayer.BackgroundTransparency = 1
+rewardLayer.Visible = false
+rewardLayer.ZIndex = 100
+rewardLayer.Parent = gui
+
+local rewardFlash = Instance.new("Frame")
+rewardFlash.Size = UDim2.fromScale(1, 1)
+rewardFlash.BackgroundColor3 = Color3.fromRGB(255, 232, 117)
+rewardFlash.BackgroundTransparency = 1
+rewardFlash.ZIndex = 100
+rewardFlash.Parent = rewardLayer
+
+local rewardTitle = Instance.new("TextLabel")
+rewardTitle.AnchorPoint = Vector2.new(0.5, 0.5)
+rewardTitle.Position = UDim2.fromScale(0.5, 0.42)
+rewardTitle.Size = UDim2.new(0.92, 0, 0, 72)
+rewardTitle.BackgroundTransparency = 1
+rewardTitle.Font = Enum.Font.GothamBlack
+rewardTitle.Text = "QUEST COMPLETE!"
+rewardTitle.TextColor3 = Color3.fromRGB(255, 238, 115)
+rewardTitle.TextStrokeColor3 = Color3.fromRGB(43, 35, 16)
+rewardTitle.TextStrokeTransparency = 0.2
+rewardTitle.TextScaled = true
+rewardTitle.ZIndex = 102
+rewardTitle.Parent = rewardLayer
+
+local rewardSubtitle = Instance.new("TextLabel")
+rewardSubtitle.AnchorPoint = Vector2.new(0.5, 0.5)
+rewardSubtitle.Position = UDim2.fromScale(0.5, 0.54)
+rewardSubtitle.Size = UDim2.new(0.86, 0, 0, 52)
+rewardSubtitle.BackgroundTransparency = 1
+rewardSubtitle.Font = Enum.Font.GothamBold
+rewardSubtitle.Text = "★  STAR TRAIL UNLOCKED!  ★"
+rewardSubtitle.TextColor3 = Color3.fromRGB(126, 245, 201)
+rewardSubtitle.TextStrokeColor3 = Color3.fromRGB(18, 43, 47)
+rewardSubtitle.TextStrokeTransparency = 0.2
+rewardSubtitle.TextScaled = true
+rewardSubtitle.ZIndex = 102
+rewardSubtitle.Parent = rewardLayer
+
+local rewardSound = Instance.new("Sound")
+rewardSound.SoundId = "rbxasset://sounds/electronicpingshort.wav"
+rewardSound.Volume = 0.8
+rewardSound.Parent = gui
+
+local function showRewardCinematic()
+    rewardLayer.Visible = true
+    rewardTitle.TextTransparency = 1
+    rewardSubtitle.TextTransparency = 1
+    rewardTitle.Position = UDim2.fromScale(0.5, 0.47)
+    rewardSubtitle.Position = UDim2.fromScale(0.5, 0.58)
+    rewardFlash.BackgroundTransparency = 1
+
+    rewardSound:Play()
+    TweenService:Create(rewardFlash, TweenInfo.new(0.16), { BackgroundTransparency = 0.72 }):Play()
+    task.delay(0.16, function()
+        TweenService:Create(rewardFlash, TweenInfo.new(0.55), { BackgroundTransparency = 1 }):Play()
+    end)
+    TweenService:Create(
+        rewardTitle,
+        TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        { TextTransparency = 0, Position = UDim2.fromScale(0.5, 0.40) }
+    ):Play()
+    TweenService:Create(
+        rewardSubtitle,
+        TweenInfo.new(0.55, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+        { TextTransparency = 0, Position = UDim2.fromScale(0.5, 0.52) }
+    ):Play()
+
+    local colors = {
+        Color3.fromRGB(255, 226, 79),
+        Color3.fromRGB(126, 245, 201),
+        Color3.fromRGB(255, 142, 197),
+    }
+    for index = 1, 20 do
+        local star = Instance.new("TextLabel")
+        star.AnchorPoint = Vector2.new(0.5, 0.5)
+        star.Position = UDim2.fromScale(0.5, 0.5)
+        star.Size = UDim2.fromOffset(44, 44)
+        star.BackgroundTransparency = 1
+        star.Font = Enum.Font.GothamBlack
+        star.Text = "★"
+        star.TextColor3 = colors[((index - 1) % #colors) + 1]
+        star.TextSize = math.random(22, 42)
+        star.Rotation = math.random(-30, 30)
+        star.ZIndex = 101
+        star.Parent = rewardLayer
+        local target = UDim2.fromScale(math.random(8, 92) / 100, math.random(8, 88) / 100)
+        TweenService:Create(
+            star,
+            TweenInfo.new(1.4 + math.random() * 0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+            {
+                Position = target,
+                Rotation = star.Rotation + math.random(-120, 120),
+                TextTransparency = 1,
+            }
+        ):Play()
+        task.delay(2.1, function()
+            if star.Parent then
+                star:Destroy()
+            end
+        end)
+    end
+
+    local camera = workspace.CurrentCamera
+    if camera then
+        local originalFov = camera.FieldOfView
+        TweenService:Create(camera, TweenInfo.new(0.22, Enum.EasingStyle.Back), {
+            FieldOfView = math.min(85, originalFov + 8),
+        }):Play()
+        task.delay(0.24, function()
+            if camera then
+                TweenService:Create(camera, TweenInfo.new(0.7, Enum.EasingStyle.Quad), {
+                    FieldOfView = originalFov,
+                }):Play()
+            end
+        end)
+    end
+
+    task.delay(2.6, function()
+        TweenService:Create(rewardTitle, TweenInfo.new(0.35), { TextTransparency = 1 }):Play()
+        TweenService:Create(rewardSubtitle, TweenInfo.new(0.35), { TextTransparency = 1 }):Play()
+        task.delay(0.4, function()
+            rewardLayer.Visible = false
+        end)
+    end)
+end
 
 local currentQuestion
 local currentProgress = 0
@@ -10847,9 +11156,36 @@ local function setProgress(value, total)
     progress.Text = string.format("%d / %d", currentProgress, currentTotal)
 end
 
-local function setStatus(message)
+local statusSerial = 0
+local function setStatus(message, holdSeconds)
     if type(message) == "string" and message ~= "" then
+        statusSerial += 1
+        local serial = statusSerial
         status.Text = message
+        top.Visible = true
+        top.BackgroundTransparency = 0.12
+        status.TextTransparency = 0
+        progress.TextTransparency = 0
+        progress.BackgroundTransparency = 0
+        task.delay(holdSeconds or 2.8, function()
+            if serial ~= statusSerial then
+                return
+            end
+            TweenService:Create(top, TweenInfo.new(0.3), { BackgroundTransparency = 1 }):Play()
+            TweenService:Create(status, TweenInfo.new(0.3), { TextTransparency = 1 }):Play()
+            TweenService:Create(progress, TweenInfo.new(0.3), {
+                TextTransparency = 1,
+                BackgroundTransparency = 1,
+            }):Play()
+            task.delay(0.34, function()
+                if serial == statusSerial then
+                    top.Visible = false
+                    status.TextTransparency = 0
+                    progress.TextTransparency = 0
+                    progress.BackgroundTransparency = 0
+                end
+            end)
+        end)
     end
 end
 
@@ -10864,11 +11200,11 @@ local function showQuestion(question)
     currentQuestion = question
     local subject = question.subject or "Grade 2"
     local skill = tostring(question.skill or "challenge"):gsub("-", " ")
-    meta.Text = subject .. " - " .. skill
+    meta.Text = string.format("%d/%d  •  %s  •  %s", question.questionNumber or 1, question.questionTotal or 5, subject, skill)
 
     prompt.Text = question.prompt or "Choose the best answer."
     feedback.Text = "Tap the best answer."
-    feedback.TextColor3 = Color3.fromRGB(224, 233, 245)
+    feedback.TextColor3 = Color3.fromRGB(55, 70, 94)
 
     for index, button in ipairs(buttons) do
         local option = question.options and question.options[index]
@@ -10939,7 +11275,7 @@ remote.OnClientEvent:Connect(function(kind, payload)
         feedback.Text = payload.message or (payload.correct and "Nice work!" or "Try again.")
 
         if payload.correct then
-            feedback.TextColor3 = Color3.fromRGB(126, 245, 201)
+            feedback.TextColor3 = Color3.fromRGB(22, 148, 108)
             enableAnswers(false)
             if (payload.questionProgress or 0) &lt; (payload.questionTotal or 5) then
                 setStatus("Correct! Pip is finding the next challenge...")
@@ -10949,7 +11285,7 @@ remote.OnClientEvent:Connect(function(kind, payload)
                 hideQuestion(0.9)
             end
         else
-            feedback.TextColor3 = Color3.fromRGB(255, 216, 114)
+            feedback.TextColor3 = Color3.fromRGB(151, 99, 0)
             if payload.supportKind == "clue" then
                 setStatus("Use the clue and try again.")
             elseif payload.supportKind == "support" then
@@ -10974,8 +11310,9 @@ remote.OnClientEvent:Connect(function(kind, payload)
 
     if kind == "reward" then
         setProgress(payload.questionProgress or 5, payload.questionTotal or 5)
-        setStatus(payload.message or "Quest complete!")
+        setStatus(payload.message or "Star Trail unlocked!", 2.2)
         hideQuestion()
+        showRewardCinematic()
     end
 end)
 
