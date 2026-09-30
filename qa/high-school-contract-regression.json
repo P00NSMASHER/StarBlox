@@ -1,5 +1,7 @@
 {
   "status": "BLOCKED",
   "candidateBaseSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
-  "rootCause": "RETIRED_TARGET_PRESENT"
+  "rootCause": "RETIRED_TARGET_PRESENT",
+  "expected": "original high-school life candidate",
+  "observed": "Maze World and PipsQuest release surfaces remain on the candidate"
 }
