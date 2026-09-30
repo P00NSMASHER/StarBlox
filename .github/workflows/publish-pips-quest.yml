@@ -1,0 +1,46 @@
+name: Publish Pips Quest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "pips-quest-playable.rbxlx"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pips-quest-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate Pips Quest build
+        run: |
+          test -s pips-quest-playable.rbxlx
+          grep -q 'PipsQuestWorld' pips-quest-playable.rbxlx
+          grep -q 'PipsQuestFlowReady' pips-quest-playable.rbxlx
+          grep -q 'QuestionBank' pips-quest-playable.rbxlx
+      - name: Publish Pips Quest to StarBlox
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/publish-pips-quest.mjs
+      - name: Upload publish receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: pips-quest-publish
+          path: |
+            pips-quest-published-version.txt
+            pips-quest-publish-response.json
+          if-no-files-found: error
+          retention-days: 30
