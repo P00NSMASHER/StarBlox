@@ -1,0 +1,222 @@
+name: Build Publish Full Maze World
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build-publish-full-maze-world.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-maze-world-publish
+  cancel-in-progress: false
+
+jobs:
+  build-publish-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_SHA: "b7eb3fbe1eb65f31f36bc08a1aeda7830f736a71"
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+      ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+      ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+    steps:
+      - name: Checkout exact Maze World rebuild source
+        uses: actions/checkout@v4
+        with:
+          repository: P00NSMASHER/PipsQuestWorld
+          ref: b7eb3fbe1eb65f31f36bc08a1aeda7830f736a71
+          path: maze
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned portable Rojo
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            "https://github.com/rojo-rbx/rojo/releases/download/v6.0.0-rc.1/rojo-6.0.0-rc.1-linux.zip" \
+            --output rojo.zip
+          unzip -q rojo.zip -d rojo-bin
+          chmod +x rojo-bin/rojo
+          rojo-bin/rojo --version
+
+      - name: Re-run foundation invariants
+        run: node maze/scripts/verify-foundation-static.mjs maze
+
+      - name: Build complete Maze World place
+        shell: bash
+        run: |
+          set -euo pipefail
+          rojo-bin/rojo build maze/game/default.project.json -o MazeWorld-Full.rbxlx
+          BYTES="$(stat -c%s MazeWorld-Full.rbxlx)"
+          echo "MAZE_FULL_BUILD_BYTES=$BYTES"
+          test "$BYTES" -gt 100000000
+          test "$BYTES" -lt 130000000
+          sha256sum MazeWorld-Full.rbxlx | tee maze-full-raw-sha256.txt
+
+      - name: Validate full build contains Maze World runtime
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require("node:fs");
+          const crypto=require("node:crypto");
+          const file="MazeWorld-Full.rbxlx";
+          const data=fs.readFileSync(file);
+          const text=data.toString("utf8");
+          const required=[
+            '<string name="Name">Place</string>',
+            '<string name="Name">Maps</string>',
+            '<string name="Name">Rooms</string>',
+            '<string name="Name">Models</string>',
+            '<string name="Name">Modules</string>',
+            '<string name="Name">Prefabs</string>',
+            '<string name="Name">SpawnPlaceholder</string>',
+            '<string name="Name">FinishPlaceholder</string>',
+            '<string name="Name">Money</string>',
+            '<string name="Name">MazeGenerator</string>',
+            '<string name="Name">startGame</string>',
+            '<string name="Name">playerFinishedRoom</string>'
+          ];
+          for(const marker of required){
+            if(!text.includes(marker)) throw new Error("full build missing "+marker);
+          }
+          for(const forbidden of ["PipsQuestWorld","PipsQuestHUD","RewardChest","LearningGate","QuestionTrigger","WorldBuilder"]){
+            if(text.includes(forbidden)) throw new Error("legacy custom-world marker leaked: "+forbidden);
+          }
+          const marker=Buffer.from("<SharedStrings>");
+          const offset=data.indexOf(marker);
+          if(offset<0) throw new Error("SharedStrings marker missing");
+          const structural=crypto.createHash("sha256").update(data.subarray(0,offset)).digest("hex");
+          const sharedCount=(data.subarray(offset).toString("utf8").match(/<SharedString md5=/g)||[]).length;
+          const receipt={
+            sourceSha:process.env.SOURCE_SHA,
+            bytes:data.length,
+            structuralPrefixBytes:offset,
+            structuralPrefixSha256:structural,
+            sharedStringCount:sharedCount,
+            requiredMarkers:required.length,
+            legacyCustomMarkers:0
+          };
+          fs.writeFileSync("maze-full-build-receipt.json",JSON.stringify(receipt,null,2)+"\n");
+          console.log("MAZE_FULL_BUILD_VALIDATED "+JSON.stringify(receipt));
+          NODE
+
+      - name: Publish complete Maze World place
+        shell: bash
+        run: |
+          node <<'NODE'
+          const {readFile,writeFile}=await import("node:fs/promises");
+          const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
+          const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
+          const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
+          if(!key) throw new Error("ROBLOX_OPEN_CLOUD_API_KEY missing");
+          if(universe!=="6027194615") throw new Error("unexpected universe "+universe);
+          if(place!=="17602626136") throw new Error("unexpected place "+place);
+          const bytes=await readFile("MazeWorld-Full.rbxlx");
+          const response=await fetch(
+            "https://apis.roblox.com/universes/v1/"+universe+"/places/"+place+"/versions?versionType=Published",
+            {
+              method:"POST",
+              headers:{"x-api-key":key,"content-type":"application/xml"},
+              body:bytes
+            }
+          );
+          const text=await response.text();
+          if(!response.ok) throw new Error("publish HTTP "+response.status+": "+text.slice(0,2000));
+          const payload=JSON.parse(text);
+          const version=Number(payload.versionNumber);
+          if(!Number.isInteger(version)||version<1) throw new Error("missing versionNumber");
+          await writeFile("maze-full-published-version.txt",String(version)+"\n");
+          await writeFile("maze-full-publish-response.json",JSON.stringify(payload,null,2)+"\n");
+          console.log("FULL_MAZE_WORLD_PUBLISHED version="+version);
+          NODE
+
+      - name: Verify exact published version structure
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require("node:fs");
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          const version=Number(fs.readFileSync("maze-full-published-version.txt","utf8").trim());
+
+          async function parse(r,label){
+            const text=await r.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,800));}
+            if(!r.ok) throw new Error(label+" HTTP "+r.status+" "+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+
+          const script=[
+            'assert(game.PlaceVersion=='+version+',"wrong version "..tostring(game.PlaceVersion))',
+            'local WS=game:GetService("Workspace")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local place=WS:FindFirstChild("Place")',
+            'assert(place,"Place model missing")',
+            'local maps=place:FindFirstChild("Maps")',
+            'local rooms=place:FindFirstChild("Rooms")',
+            'assert(maps and #maps:GetChildren()>0,"Maps missing/empty")',
+            'assert(rooms and #rooms:GetChildren()>0,"Rooms missing/empty")',
+            'local models=RS:FindFirstChild("Models")',
+            'local modules=RS:FindFirstChild("Modules")',
+            'assert(models,"ReplicatedStorage.Models missing")',
+            'assert(modules,"ReplicatedStorage.Modules missing")',
+            'local prefabs=models:FindFirstChild("Prefabs")',
+            'local money=models:FindFirstChild("Money")',
+            'assert(prefabs and prefabs:FindFirstChild("SpawnPlaceholder"),"SpawnPlaceholder missing")',
+            'assert(prefabs and prefabs:FindFirstChild("FinishPlaceholder"),"FinishPlaceholder missing")',
+            'assert(money and money:FindFirstChild("Coin"),"Coin missing")',
+            'local src=modules:FindFirstChild("src")',
+            'assert(src and src:FindFirstChild("Maze"),"Maze module missing")',
+            'assert(src and src:FindFirstChild("MazeGenerator"),"MazeGenerator missing")',
+            'local thunks=src and src:FindFirstChild("thunks")',
+            'assert(thunks and thunks:FindFirstChild("startGame"),"startGame missing")',
+            'assert(thunks and thunks:FindFirstChild("playerFinishedRoom"),"playerFinishedRoom missing")',
+            'assert(not WS:FindFirstChild("PipsQuestWorld"),"legacy custom world present")',
+            'print("FULL_MAZE_WORLD_LIVE_OK version="..tostring(game.PlaceVersion).." maps="..#maps:GetChildren().." rooms="..#rooms:GetChildren())'
+          ].join("\n");
+
+          let task=await parse(await fetch(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${version}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})}
+          ),"create");
+
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("verify task returned no path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
+          }
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
+          const logText=JSON.stringify(logs);
+          if(task.error||String(task.state)!=="COMPLETE") throw new Error("verification failed "+JSON.stringify(task).slice(0,1800));
+          if(!logText.includes("FULL_MAZE_WORLD_LIVE_OK")) throw new Error("live sentinel absent "+logText.slice(0,2400));
+          fs.writeFileSync("maze-full-live-verify.json",JSON.stringify({version,task,logs},null,2)+"\n");
+          console.log("FULL_MAZE_WORLD_VERIFIED version="+version);
+          NODE
+
+      - name: Upload build and publish receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-maze-world-publish
+          path: |
+            maze-full-raw-sha256.txt
+            maze-full-build-receipt.json
+            maze-full-published-version.txt
+            maze-full-publish-response.json
+            maze-full-live-verify.json
+          if-no-files-found: error
+          retention-days: 30
