@@ -1,0 +1,99 @@
+name: Verify Pips Quest Live
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-pips-quest.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify live Pips Quest structure
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
+          const universe=process.env.ROBLOX_UNIVERSE_ID;
+          const place=process.env.ROBLOX_PLACE_ID;
+          async function parse(r,label){
+            const text=await r.text(); let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,800));}
+            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+          const script=[
+            'assert(game.PlaceVersion>=129,"expected Pips Quest version >=129, got "..tostring(game.PlaceVersion))',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SS=game:GetService("ServerScriptService")',
+            'local SP=game:GetService("StarterPlayer")',
+            'local shared=RS:FindFirstChild("PipsQuestShared")',
+            'assert(shared,"PipsQuestShared missing")',
+            'local bank=shared:FindFirstChild("QuestionBank")',
+            'local engine=shared:FindFirstChild("EducationEngine")',
+            'assert(bank and bank:IsA("ModuleScript"),"QuestionBank module missing")',
+            'assert(engine and engine:IsA("ModuleScript"),"EducationEngine module missing")',
+            'local q=require(bank)',
+            'assert(#q>=156,"question bank unexpectedly small "..tostring(#q))',
+            'local material=0 local fallback=0',
+            'for _,item in ipairs(q) do if item.tier=="material" then material+=1 elseif item.tier=="star-fallback" then fallback+=1 end end',
+            'assert(material>=36,"current material bank missing "..tostring(material))',
+            'assert(fallback>=120,"STAR fallback bank missing "..tostring(fallback))',
+            'local core=SS:FindFirstChild("Core")',
+            'local flow=SS:FindFirstChild("QuestFlow")',
+            'local builder=SS:FindFirstChild("WorldBuilder")',
+            'assert(core and core:IsA("Script"),"Core server script missing")',
+            'assert(flow and flow:IsA("Script"),"QuestFlow server script missing")',
+            'assert(builder and builder:IsA("ModuleScript"),"WorldBuilder module missing")',
+            'assert(string.find(flow.Source,"PipsQuestFlowReady",1,true),"flow readiness marker missing")',
+            'assert(string.find(flow.Source,"QUEST_GATE_CLEARED",1,true),"five-question gate marker missing")',
+            'assert(string.find(builder.Source,"MiniMaze",1,true),"mini maze missing")',
+            'assert(string.find(builder.Source,"RewardChest",1,true),"reward chest missing")',
+            'local sps=SP:FindFirstChild("StarterPlayerScripts")',
+            'local hud=sps and sps:FindFirstChild("MobileHUD")',
+            'local pip=sps and sps:FindFirstChild("PipCompanion")',
+            'assert(hud and hud:IsA("LocalScript"),"MobileHUD missing")',
+            'assert(pip and pip:IsA("LocalScript"),"PipCompanion missing")',
+            'assert(string.find(hud.Source,"Five-question mobile HUD initialized",1,true),"five-question HUD marker missing")',
+            'assert(string.find(pip.Source,"Star Trail",1,true),"Pip Star Trail marker missing")',
+            'print("PIPS_QUEST_LIVE_OK version="..tostring(game.PlaceVersion).." questions="..tostring(#q).." material="..tostring(material).." fallback="..tostring(fallback))'
+          ].join("\n");
+          let response;
+          for(let attempt=0;attempt<8;attempt++){
+            response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{
+              method:"POST",
+              headers:{"x-api-key":key,"content-type":"application/json"},
+              body:JSON.stringify({script,timeout:"30s"})
+            });
+            if(response.status!==429 && response.status!==500) break;
+            await new Promise(r=>setTimeout(r,2500*(attempt+1)));
+          }
+          let task=await parse(response,"create");
+          const raw=String(task.path||"");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");
+          }
+          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
+          const text=JSON.stringify(logs);
+          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1800));
+          if(!text.includes("PIPS_QUEST_LIVE_OK")) throw new Error("Pips Quest live sentinel missing: "+text.slice(0,1800));
+          console.log(text);
+          NODE
