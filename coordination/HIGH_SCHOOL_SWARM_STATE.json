@@ -1,18 +1,22 @@
 {
-  "version": 3,
-  "updatedAt": "2026-10-01T11:28:00-04:00",
+  "version": 4,
+  "updatedAt": "2026-10-01T11:35:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "dcca6bf96fb3430c61de70c56de92677841bea19",
   "phase": "FOUNDATION_BUILD_WITH_SAFE_PARALLEL_PRODUCERS",
   "canonicalFoundationBranch": "rebuild/high-school-foundation",
-  "canonicalFoundationHead": "be9cb81ffd1eb6b69e86dcd8d9c9daa3c7fec909",
+  "canonicalFoundationHead": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
   "canonicalFoundationParent": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
   "canonicalFoundationContents": [
-    "highschool/README.md"
+    "highschool/README.md",
+    "highschool/default.project.json",
+    "highschool/src/ReplicatedStorage/HighSchool/FoundationConfig.lua",
+    "highschool/src/ServerScriptService/HighSchool/CampusBuilder.server.lua",
+    "highschool/tests/foundation/foundation_static_guard.py"
   ],
   "exactHeadCi": {
-    "status": "MISSING",
+    "status": "MISSING_FOR_5a6d676b117cb78fb7a43b239d7d85e77128337c",
     "workflowRunsOnCanonicalBranch": 0,
     "commitStatuses": 0
   },
@@ -24,10 +28,10 @@
     "claimedWorkflowRunLive": false,
     "verdict": "STALE_OR_NONLIVE_DO_NOT_USE"
   },
-  "currentReleaseBlocker": "Foundation is bootstrap-only: canonical highschool runtime has not yet been implemented.",
+  "currentReleaseBlocker": "Foundation runtime is now started; remaining P0 is authoritative SchoolClock + read-only FoundationState seam + exact-head CI certification.",
   "blockerState": "ACTIVE",
   "blockerOwner": "Roblox High School Foundation",
-  "blockerExitCriterion": "Commit an isolated highschool/default.project.json plus the first mapped original Foundation runtime slice and deterministic Foundation guard on rebuild/high-school-foundation; then obtain exact-head GitHub CI evidence.",
+  "blockerExitCriterion": "On rebuild/high-school-foundation, add exactly one authoritative SchoolClock/day-period service and a read-only FoundationState seam, extend deterministic guards, then obtain exact-head GitHub CI PASS for the resulting SHA.",
   "producerWipLimit": 3,
   "activeProducers": [
     "Roblox High School Foundation",
@@ -53,7 +57,7 @@
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "First real Foundation runtime commit; in parallel, first standalone Education Core commit and first original content-pack commit, all with deterministic tests.",
+  "nextMeasurableMilestone": "Foundation SchoolClock + FoundationState commit and exact-head CI; in parallel, standalone Education Core and original content-pack commits.",
   "safeParallelWork": {
     "foundation": "highschool/default.project.json + highschool/src/foundation/** + Foundation tests/provenance",
     "educationCore": "highschool/src/education/** + deterministic Education Core tests; no Foundation/world/clock/progression/UI binding before Foundation PASS",
