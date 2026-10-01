@@ -22,38 +22,48 @@ jobs:
     steps:
       - name: Check out exact integration candidate
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Run Foundation guard
         run: python school/tests/foundation/foundation_static_guard.py
+
       - name: Run Class & Education guard
         run: python school/tests/class_education/class_education_static_guard.py
+
       - name: Run Progression guard
         run: python school/tests/progression/progression_static_guard.py
+
       - name: Run Mobile guard
         run: python school/tests/mobile/mobile_static_guard.py
+
       - name: Run Integration guard
         run: python school/tests/integration/integration_static_guard.py
+
       - name: Install pinned Luau CLI
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error             "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip"             --output luau.zip
+          curl --fail --location --silent --show-error "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip" --output luau.zip
           unzip -q luau.zip -d luau-bin
           chmod +x luau-bin/luau*
           test -x luau-bin/luau
+
       - name: Execute pure Luau logic tests
         run: luau-bin/luau school/tests/logic/pure_logic_spec.luau
+
       - name: Install pinned portable Rojo
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error             "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip"             --output rojo.zip
+          curl --fail --location --silent --show-error "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" --output rojo.zip
           unzip -q rojo.zip -d rojo-bin
           chmod +x rojo-bin/rojo
           rojo-bin/rojo --version
+
       - name: Build canonical school place
         shell: bash
         run: |
@@ -67,8 +77,10 @@ jobs:
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          printf '{"sourceSha":"%s","bytes":%s}
-' "$GITHUB_SHA" "$BYTES" > high-school-build-receipt.json
+          python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["GITHUB_SHA"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+        env:
+          BYTES: "0"
+
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4
         with:
