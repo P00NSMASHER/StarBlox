@@ -1,5 +1,6 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
+local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
 local function assertEqual(actual, expected, message)
     if actual ~= expected then
@@ -65,9 +66,74 @@ local stateB, appliedB = ProgressionReducer.applyCompletion(duplicateState, comp
 assertEqual(appliedB, true, "second unique completion applies")
 assertEqual(stateB.points, 20, "two unique completions total points")
 
-local public = ProgressionReducer.toPublicSnapshot(stateB)
-assertEqual(public.points, 20, "public points")
-assertEqual(public.completedCount, 2, "public completed count")
-assert(public.completed == nil, "public snapshot must not expose completion ledger")
+local publicProgression = ProgressionReducer.toPublicSnapshot(stateB)
+assertEqual(publicProgression.points, 20, "public points")
+assertEqual(publicProgression.completedCount, 2, "public completed count")
+assert(publicProgression.completed == nil, "public snapshot must not expose completion ledger")
+
+-- Education session authority, idempotency, closure, and bounded receipt behavior.
+local activity = {
+    id = "math-add",
+    subject = "math",
+    skill = "addition",
+    difficulty = 1,
+    prompt = "What is 1 + 1?",
+    choices = {
+        { id = "a", text = "1" },
+        { id = "b", text = "2" },
+    },
+    correctChoiceId = "b",
+    hint = "Count one more.",
+    explanation = "One plus one equals two.",
+}
+
+local session = EducationSession.new("session-1", 123, "math", activity)
+assert(EducationSession.isOwnedBy(session, 123), "session ownership missing")
+
+local publicActivity = EducationSession.getPublicActivity(session)
+assertEqual(publicActivity.prompt, activity.prompt, "public prompt")
+assert(publicActivity.correctChoiceId == nil, "public activity leaked answer key")
+
+local wrong = EducationSession.submit(session, "submission-1", "a")
+assertEqual(wrong.accepted, true, "wrong answer accepted for feedback")
+assertEqual(wrong.resolved, false, "wrong answer must not resolve")
+assertEqual(wrong.hint, activity.hint, "wrong answer hint")
+assertEqual(session.uniqueSubmissionCount, 1, "wrong answer count")
+
+local wrongReplay = EducationSession.submit(session, "submission-1", "a")
+assert(wrongReplay == wrong, "duplicate submission should return cached receipt")
+assertEqual(session.uniqueSubmissionCount, 1, "duplicate must not grow receipt count")
+
+local closedSession = EducationSession.new("session-2", 123, "math", activity)
+local acceptedBeforeClose = EducationSession.submit(closedSession, "old-submission", "a")
+assertEqual(acceptedBeforeClose.accepted, true, "pre-close submission")
+assert(EducationSession.close(closedSession), "close should succeed")
+local staleReplay = EducationSession.submit(closedSession, "old-submission", "a")
+assertEqual(staleReplay.accepted, false, "stale replay after close")
+assertEqual(staleReplay.reason, "SESSION_CLOSED", "stale replay reason")
+assertEqual(EducationSession.isOwnedBy(closedSession, 123), false, "closed session ownership")
+
+local cappedSession = EducationSession.new("session-3", 123, "math", activity)
+for index = 1, EducationSession.MAX_UNIQUE_SUBMISSIONS_PER_SESSION do
+    local response = EducationSession.submit(
+        cappedSession,
+        "wrong-" .. tostring(index),
+        "a"
+    )
+    assertEqual(response.accepted, true, "bounded wrong submission")
+end
+local capped = EducationSession.submit(cappedSession, "wrong-overflow", "a")
+assertEqual(capped.accepted, false, "submission cap must reject overflow")
+assertEqual(capped.reason, "TOO_MANY_SUBMISSIONS", "submission cap reason")
+
+local resolvedSession = EducationSession.new("session-4", 123, "math", activity)
+local correct = EducationSession.submit(resolvedSession, "correct-1", "b")
+assertEqual(correct.accepted, true, "correct answer accepted")
+assertEqual(correct.resolved, true, "correct answer resolves")
+assertEqual(correct.score, 1, "correct answer score")
+assertEqual(EducationSession.isOwnedBy(resolvedSession, 123), false, "resolved session ownership")
+local afterResolved = EducationSession.submit(resolvedSession, "correct-2", "b")
+assertEqual(afterResolved.accepted, false, "resolved session must reject future submissions")
+assertEqual(afterResolved.reason, "SESSION_CLOSED", "resolved rejection reason")
 
 print("pure Luau logic tests: PASS")
