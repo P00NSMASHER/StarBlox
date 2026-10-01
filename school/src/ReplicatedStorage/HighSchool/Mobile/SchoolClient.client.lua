@@ -25,14 +25,19 @@ gui.Parent = playerGui
 
 local panel = Instance.new("Frame")
 panel.Name = "Panel"
-panel.AnchorPoint = Vector2.new(0.5, 1)
-panel.Position = UDim2.new(0.5, 0, 1, -18)
-panel.Size = UDim2.new(0.92, 0, 0, 228)
+panel.AnchorPoint = Vector2.new(0.5, 0)
+panel.Position = UDim2.new(0.5, 0, 0, 18)
+panel.Size = UDim2.new(0.86, 0, 0, 210)
 panel.BackgroundTransparency = 0.08
 panel.Parent = gui
 
+local sizeConstraint = Instance.new("UISizeConstraint")
+sizeConstraint.MaxSize = Vector2.new(380, 210)
+sizeConstraint.MinSize = Vector2.new(280, 190)
+sizeConstraint.Parent = panel
+
 local layout = Instance.new("UIListLayout")
-layout.Padding = UDim.new(0, 8)
+layout.Padding = UDim.new(0, 6)
 layout.FillDirection = Enum.FillDirection.Vertical
 layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 layout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -51,13 +56,13 @@ local function makeLabel(name, height, text)
     return label
 end
 
-local periodLabel = makeLabel("PeriodLabel", 28, "School period: loading…")
-local progressionLabel = makeLabel("ProgressionLabel", 28, "Points: loading…")
-local statusLabel = makeLabel("StatusLabel", 34, "Ready")
+local periodLabel = makeLabel("PeriodLabel", 26, "School period: loading…")
+local progressionLabel = makeLabel("ProgressionLabel", 26, "Points: loading…")
+local statusLabel = makeLabel("StatusLabel", 32, "Ready")
 
 local actionRow = Instance.new("Frame")
 actionRow.Name = "ActionRow"
-actionRow.Size = UDim2.new(1, -16, 0, 48)
+actionRow.Size = UDim2.new(1, -16, 0, 46)
 actionRow.BackgroundTransparency = 1
 actionRow.Parent = panel
 
@@ -82,7 +87,7 @@ local leaveButton = makeButton(actionRow, "LeaveClassButton", "Leave Class")
 
 local questionFrame = Instance.new("Frame")
 questionFrame.Name = "QuestionFrame"
-questionFrame.Size = UDim2.new(1, -16, 0, 74)
+questionFrame.Size = UDim2.new(1, -16, 0, 68)
 questionFrame.BackgroundTransparency = 1
 questionFrame.Visible = false
 questionFrame.Parent = panel
@@ -94,10 +99,10 @@ questionLayout.Parent = questionFrame
 
 local promptLabel = Instance.new("TextLabel")
 promptLabel.Name = "Prompt"
-promptLabel.Size = UDim2.new(1, 0, 0, 26)
+promptLabel.Size = UDim2.new(1, 0, 0, 22)
 promptLabel.BackgroundTransparency = 1
 promptLabel.TextWrapped = true
-promptLabel.TextSize = 18
+promptLabel.TextSize = 17
 promptLabel.Parent = questionFrame
 
 local choicesRow = Instance.new("Frame")
@@ -113,6 +118,7 @@ choicesLayout.Padding = UDim.new(0, 6)
 choicesLayout.Parent = choicesRow
 
 local currentSessionId = nil
+local lastCompletedCount = nil
 
 local function safeInvoke(remote, ...)
     local ok, result = pcall(function()
@@ -135,22 +141,51 @@ end
 local function refreshProgression()
     local result = safeInvoke(getProgression)
     if result and result.ok and result.progression then
+        lastCompletedCount = result.progression.completedCount or 0
         progressionLabel.Text = string.format(
             "Points: %d • Completed: %d",
             result.progression.points or 0,
-            result.progression.completedCount or 0
+            lastCompletedCount
         )
-    else
-        progressionLabel.Text = "Points: unavailable"
+        return true
     end
+
+    progressionLabel.Text = "Points: unavailable"
+    return false
 end
 
-local function finishSession(message)
+local function waitForProgressionAdvance(previousCompletedCount)
+    task.spawn(function()
+        for attempt = 1, 6 do
+            task.wait(math.min(0.5 * attempt, 2))
+            local before = lastCompletedCount
+            if refreshProgression() and previousCompletedCount ~= nil and lastCompletedCount > previousCompletedCount then
+                statusLabel.Text = "Class complete. Progress saved."
+                return
+            end
+
+            if previousCompletedCount == nil and before ~= lastCompletedCount then
+                statusLabel.Text = "Class complete. Progress saved."
+                return
+            end
+        end
+
+        statusLabel.Text = "Class complete. Progress is still saving."
+    end)
+end
+
+local function finishSession(message, shouldWaitForProgression)
+    local previousCompletedCount = lastCompletedCount
     currentSessionId = nil
     questionFrame.Visible = false
     clearChoices()
     statusLabel.Text = message
-    refreshProgression()
+
+    if shouldWaitForProgression then
+        waitForProgressionAdvance(previousCompletedCount)
+    else
+        refreshProgression()
+    end
 end
 
 local function submitChoice(choiceId)
@@ -166,12 +201,16 @@ local function submitChoice(choiceId)
     end
 
     if not response.accepted then
-        statusLabel.Text = response.reason or "Answer rejected."
+        if response.reason == "SESSION_NOT_ACTIVE" or response.reason == "CLASS_PERIOD_ENDED" then
+            finishSession("Class ended. Back to free roam.", false)
+        else
+            statusLabel.Text = response.reason or "Answer rejected."
+        end
         return
     end
 
     if response.resolved then
-        finishSession(response.explanation or "Class complete.")
+        finishSession(response.explanation or "Class complete. Saving progress…", true)
     else
         statusLabel.Text = response.hint or "Try again."
     end
@@ -217,7 +256,7 @@ end)
 leaveButton.Activated:Connect(function()
     local result = safeInvoke(leaveClass)
     if result and result.ok then
-        finishSession("Back to free roam.")
+        finishSession("Back to free roam.", false)
     else
         statusLabel.Text = "Could not leave class."
     end

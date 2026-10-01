@@ -22,6 +22,8 @@ getProgression.Name = "GetProgression"
 getProgression.Parent = remotes
 
 local cacheByPlayerId = {}
+local pendingByCompletionId = {}
+local RETRY_DELAYS_SECONDS = table.freeze({ 0, 1, 2, 4, 8 })
 
 local function loadIntoCache(playerId)
     local state, err = ProgressionStore.load(playerId)
@@ -33,8 +35,31 @@ local function loadIntoCache(playerId)
     return state
 end
 
+local function persistCompletion(completion)
+    if pendingByCompletionId[completion.completionId] then
+        return
+    end
+
+    pendingByCompletionId[completion.completionId] = completion
+
+    for _, delaySeconds in ipairs(RETRY_DELAYS_SECONDS) do
+        if delaySeconds > 0 then
+            task.wait(delaySeconds)
+        end
+
+        local state = ProgressionStore.applyCompletion(completion)
+        if state then
+            cacheByPlayerId[completion.playerId] = state
+            pendingByCompletionId[completion.completionId] = nil
+            return
+        end
+    end
+
+    warn("HighSchool progression persistence exhausted retries for " .. completion.completionId)
+end
+
 Players.PlayerAdded:Connect(function(player)
-    loadIntoCache(player.UserId)
+    task.spawn(loadIntoCache, player.UserId)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
@@ -42,10 +67,7 @@ Players.PlayerRemoving:Connect(function(player)
 end)
 
 classCompleted.Event:Connect(function(completion)
-    local state = ProgressionStore.applyCompletion(completion)
-    if state then
-        cacheByPlayerId[completion.playerId] = state
-    end
+    task.spawn(persistCompletion, completion)
 end)
 
 getProgression.OnServerInvoke = function(player)
@@ -66,3 +88,13 @@ getProgression.OnServerInvoke = function(player)
         progression = ProgressionReducer.toPublicSnapshot(state),
     })
 end
+
+game:BindToClose(function()
+    for completionId, completion in pairs(pendingByCompletionId) do
+        local state = ProgressionStore.applyCompletion(completion)
+        if state then
+            cacheByPlayerId[completion.playerId] = state
+            pendingByCompletionId[completionId] = nil
+        end
+    end
+end)

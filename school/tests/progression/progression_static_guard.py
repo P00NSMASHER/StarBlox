@@ -17,8 +17,12 @@ assert 'SetAsync' not in store, "SetAsync would allow stale-snapshot overwrite"
 assert 'ProgressionReducer.applyCompletion(currentState, completion)' in store
 
 assert 'classCompleted.Event:Connect' in service
+assert 'task.spawn(persistCompletion, completion)' in service, "completion persistence must not be single-shot"
+assert 'RETRY_DELAYS_SECONDS' in service
+assert 'pendingByCompletionId' in service
+assert 'game:BindToClose' in service, "pending completions need shutdown flush"
 assert 'Players.PlayerAdded:Connect' in service
-assert 'loadIntoCache(player.UserId)' in service
+assert 'task.spawn(loadIntoCache, player.UserId)' in service
 assert 'getProgression.Name = "GetProgression"' in service
 assert 'RemoteEvent' not in service, "client progression mutation channel is forbidden"
 assert 'OnServerEvent' not in service, "client progression mutation handler is forbidden"

@@ -15,10 +15,15 @@ assert 'InvokeServer' in client
 for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsync", "OnServerEvent"):
     assert forbidden not in client, f"client contains forbidden authority: {forbidden}"
 
-assert 'panel.Size = UDim2.new(0.92, 0, 0, 228)' in client
+assert 'panel.AnchorPoint = Vector2.new(0.5, 0)' in client
+assert 'panel.Position = UDim2.new(0.5, 0, 0, 18)' in client
+assert 'sizeConstraint.MaxSize = Vector2.new(380, 210)' in client
 assert '0, 44' in client, "touch targets must be at least 44px high"
 assert 'questionFrame.Visible = false' in client
-assert 'finishSession("Back to free roam.")' in client
+assert 'finishSession("Back to free roam.", false)' in client
+assert 'waitForProgressionAdvance' in client
+assert 'Progress is still saving.' in client
+assert 'response.reason == "SESSION_NOT_ACTIVE" or response.reason == "CLASS_PERIOD_ENDED"' in client
 
 assert 'WaitForChild("Mobile")' in bootstrap
 assert 'WaitForChild("SchoolClient")' in bootstrap
