@@ -7,6 +7,7 @@ local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
 local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
 local FoundationState = require(highSchool:WaitForChild("FoundationState"))
 local EducationCore = require(script.Parent:WaitForChild("EducationCore"))
+local foundationRuntime = highSchool:WaitForChild("FoundationRuntime")
 
 local remotes = highSchool:FindFirstChild("ClassRemotes")
 if remotes then
@@ -44,6 +45,18 @@ end
 
 local sessionsByUserId = {}
 local ATTENDANCE_RADIUS = 16
+local ACTIVE_CLASS_ID = "math"
+
+local function closeSessionForUser(userId)
+    local sessionId = sessionsByUserId[userId]
+    if not sessionId then
+        return false
+    end
+
+    EducationCore.closeSession(sessionId)
+    sessionsByUserId[userId] = nil
+    return true
+end
 
 local function getLocationMarker(locationId)
     local campus = Workspace:FindFirstChild(FoundationConfig.CAMPUS_NAME)
@@ -63,13 +76,29 @@ local function isAtAuthoritativeLocation(player, locationId)
     return (root.Position - marker.Position).Magnitude <= ATTENDANCE_RADIUS
 end
 
+local function closeSessionsOutsideActivePeriod()
+    local foundation = FoundationState.getSnapshot()
+    if foundation.periodId == ACTIVE_CLASS_ID then
+        return
+    end
+
+    local userIds = {}
+    for userId in pairs(sessionsByUserId) do
+        table.insert(userIds, userId)
+    end
+
+    for _, userId in ipairs(userIds) do
+        closeSessionForUser(userId)
+    end
+end
+
 beginClass.OnServerInvoke = function(player)
     if sessionsByUserId[player.UserId] then
         return table.freeze({ ok = false, reason = "SESSION_ACTIVE" })
     end
 
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId ~= "math" then
+    if foundation.periodId ~= ACTIVE_CLASS_ID then
         return table.freeze({ ok = false, reason = "NOT_CLASS_PERIOD" })
     end
 
@@ -97,8 +126,14 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
     end
 
+    local foundation = FoundationState.getSnapshot()
+    if foundation.periodId ~= ACTIVE_CLASS_ID then
+        closeSessionForUser(player.UserId)
+        return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
+    end
+
     if not EducationCore.isOwnedBy(sessionId, player.UserId) then
-        sessionsByUserId[player.UserId] = nil
+        closeSessionForUser(player.UserId)
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
     end
 
@@ -109,31 +144,23 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         classCompleted:Fire(table.freeze({
             completionId = sessionId,
             playerId = player.UserId,
-            classId = "math",
+            classId = ACTIVE_CLASS_ID,
             score = response.score,
             completedAt = os.time(),
         }))
+        EducationCore.closeSession(sessionId)
     end
 
     return response
 end
 
 leaveClass.OnServerInvoke = function(player)
-    local sessionId = sessionsByUserId[player.UserId]
-    if not sessionId then
-        return table.freeze({ ok = true, left = false })
-    end
-
-    EducationCore.closeSession(sessionId)
-    sessionsByUserId[player.UserId] = nil
-
-    return table.freeze({ ok = true, left = true })
+    local left = closeSessionForUser(player.UserId)
+    return table.freeze({ ok = true, left = left })
 end
 
+foundationRuntime:GetAttributeChangedSignal("PeriodId"):Connect(closeSessionsOutsideActivePeriod)
+
 Players.PlayerRemoving:Connect(function(player)
-    local sessionId = sessionsByUserId[player.UserId]
-    if sessionId then
-        EducationCore.closeSession(sessionId)
-        sessionsByUserId[player.UserId] = nil
-    end
+    closeSessionForUser(player.UserId)
 end)

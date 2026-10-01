@@ -18,13 +18,19 @@ closed_check = core.index("-- CLOSED_CHECK_BEFORE_RECEIPT_CACHE")
 receipt_lookup = core.index("local cached = session.receipts[submissionId]")
 assert closed_check < receipt_lookup, "closed/resolved session must be rejected before receipt replay"
 
-assert 'session.closed = true' in core
-assert 'session.receipts = {}' in core
+assert 'HttpService:GenerateGUID(false)' in core, "session IDs must survive server restarts without collision"
+assert "nextSessionNumber" not in core, "process-local counters are not durable completion IDs"
+assert 'sessions[sessionId] = nil' in core, "closed sessions must be removed from server memory"
+assert 'and not session.resolved' in core, "resolved sessions must not remain owned/active"
+
 assert 'FoundationState.getSnapshot()' in service
-assert 'foundation.periodId ~= "math"' in service
+assert 'foundation.periodId ~= ACTIVE_CLASS_ID' in service
 assert 'isAtAuthoritativeLocation(player, foundation.locationId)' in service
+assert 'GetAttributeChangedSignal("PeriodId")' in service
+assert 'closeSessionsOutsideActivePeriod' in service
+assert 'reason = "CLASS_PERIOD_ENDED"' in service
+assert 'closeSessionForUser(player.UserId)' in service
 assert 'EducationCore.closeSession(sessionId)' in service
-assert 'sessionsByUserId[player.UserId] = nil' in service
 assert 'classCompleted:Fire' in service
 assert 'completionId = sessionId' in service
 

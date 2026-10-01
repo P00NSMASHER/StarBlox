@@ -1,9 +1,10 @@
+local HttpService = game:GetService("HttpService")
+
 local ActivityCatalog = require(script.Parent:WaitForChild("ActivityCatalog"))
 
 local EducationCore = {}
 
 local sessions = {}
-local nextSessionNumber = 0
 
 local function cloneChoices(choices)
     local publicChoices = {}
@@ -39,8 +40,13 @@ function EducationCore.startSession(userId, classId)
         return nil, "NO_ACTIVITY"
     end
 
-    nextSessionNumber += 1
-    local sessionId = string.format("%d:%s:%d", userId, classId, nextSessionNumber)
+    local sessionId = string.format(
+        "%d:%s:%s",
+        userId,
+        classId,
+        HttpService:GenerateGUID(false)
+    )
+
     sessions[sessionId] = {
         id = sessionId,
         userId = userId,
@@ -56,7 +62,7 @@ end
 
 function EducationCore.getPublicActivity(sessionId)
     local session = sessions[sessionId]
-    if not session or session.closed then
+    if not session or session.closed or session.resolved then
         return nil
     end
     return toPublicActivity(session.activity)
@@ -126,12 +132,16 @@ function EducationCore.closeSession(sessionId)
 
     session.closed = true
     session.receipts = {}
+    sessions[sessionId] = nil
     return true
 end
 
 function EducationCore.isOwnedBy(sessionId, userId)
     local session = sessions[sessionId]
-    return session ~= nil and session.userId == userId and not session.closed
+    return session ~= nil
+        and session.userId == userId
+        and not session.closed
+        and not session.resolved
 end
 
 return table.freeze(EducationCore)
