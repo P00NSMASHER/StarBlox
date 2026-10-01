@@ -142,3 +142,17 @@ Prefer one coherent slice that can be reviewed and tested in one run. Do not spl
 
 ### Handoff consumption
 The next lane must consume the latest eligible exact-SHA handoff rather than re-discovering the same facts. Reviewers should validate new SHAs; they should not rerun unchanged evidence.
+
+
+## Producer branch discipline
+Safe parallel producers use dedicated branches so independent work cannot race the Foundation head:
+- Foundation: `rebuild/high-school-foundation`
+- Education Core: `rebuild/high-school-education-core`
+- Content: `rebuild/high-school-content`
+
+If an Education/Content branch is absent, that producer creates it from the **live canonical Foundation head at the moment of first write**, records that exact base SHA in its receipt, and then writes only its owned paths. Do not force-update or silently retarget another producer's branch. Foundation remains the only writer to the canonical Foundation branch.
+
+Before Foundation PASS, Education and Content branches may advance independently without rebasing on every Foundation commit because they must not import Foundation implementation. At the first real binding/integration step, Integration Director uses exact producer SHAs and current certified Foundation SHA; stale ancestry is not semantic permission to copy legacy runtime code.
+
+## NOOP write discipline
+A NOOP means no GitHub mutation when the input fingerprint and blocker are unchanged. Do not commit a fresh receipt merely to record the same NOOP again. A lane may update a receipt only when the candidate fingerprint, verdict, blocker, evidence identity, or LOCAL_ONLY_REQUIRED set materially changes.
