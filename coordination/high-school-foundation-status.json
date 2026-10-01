@@ -1,0 +1,8 @@
+{
+  "status": "BLOCKED",
+  "candidateBranch": "rebuild/high-school-foundation",
+  "candidateExists": false,
+  "baseSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
+  "currentReleaseBlocker": "No eligible canonical Foundation candidate exists.",
+  "localOnlyRequired": false
+}
