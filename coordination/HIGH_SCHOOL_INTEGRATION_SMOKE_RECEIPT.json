@@ -1,7 +1,9 @@
 {
-  "lane": "Roblox High School Integration Smoke",
-  "verdict": "NOOP",
-  "integrationSha": null,
-  "blockerOwner": "Roblox High School Foundation",
-  "localOnlyRequired": []
+  "lane":"Roblox High School Integration Smoke",
+  "verdict":"NOOP",
+  "integrationSha":null,
+  "checksActuallyRun":["protocol read","state read","integration receipt absent"],
+  "reusedEvidenceIds":["protocol:1ac1260687aca5b540889f05cd2ca485c4e10608","state:cb3a4cffec2220f0938f54713d6a57f8292ee59b"],
+  "blockerOwner":"Roblox High School Foundation",
+  "localOnlyRequired":[]
 }
