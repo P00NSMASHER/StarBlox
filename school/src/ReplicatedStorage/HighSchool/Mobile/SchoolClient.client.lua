@@ -214,7 +214,10 @@ local function submitChoice(choiceId)
     end
 
     if not response.accepted then
-        if response.reason == "SESSION_NOT_ACTIVE" or response.reason == "CLASS_PERIOD_ENDED" then
+        if response.reason == "SESSION_NOT_ACTIVE"
+            or response.reason == "CLASS_PERIOD_ENDED"
+            or response.reason == "LEFT_CLASS_LOCATION"
+        then
             finishSession("Class ended. Back to free roam.", false)
         else
             statusLabel.Text = response.reason or "Answer rejected."

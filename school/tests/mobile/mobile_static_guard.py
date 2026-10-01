@@ -26,7 +26,9 @@ assert 'questionFrame.Visible = false' in client
 assert 'finishSession("Back to free roam.", false)' in client
 assert 'waitForProgressionAdvance' in client
 assert 'Progress is still saving.' in client
-assert 'response.reason == "SESSION_NOT_ACTIVE" or response.reason == "CLASS_PERIOD_ENDED"' in client
+assert 'response.reason == "SESSION_NOT_ACTIVE"' in client
+assert 'response.reason == "CLASS_PERIOD_ENDED"' in client
+assert 'response.reason == "LEFT_CLASS_LOCATION"' in client
 assert 'attendButton.Active = classIsAvailable and currentSessionId == nil' in client
 assert 'attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"' in client
 assert 'locationDisplayName' in client

@@ -22,7 +22,6 @@ assert 'HttpService:GenerateGUID(false)' in core, "session IDs must survive serv
 assert "nextSessionNumber" not in core, "process-local counters are not durable completion IDs"
 assert 'sessions[sessionId] = nil' in core, "closed sessions must be removed from server memory"
 assert 'and not session.resolved' in core, "resolved sessions must not remain owned/active"
-
 assert 'MAX_UNIQUE_SUBMISSIONS_PER_SESSION = 12' in core
 assert '#submissionId > MAX_SUBMISSION_ID_LENGTH' in core
 assert '#choiceId > MAX_CHOICE_ID_LENGTH' in core
@@ -34,10 +33,12 @@ assert 'reason = "TOO_MANY_SUBMISSIONS"' in core
 
 assert 'FoundationState.getSnapshot()' in service
 assert 'foundation.periodId ~= ACTIVE_CLASS_ID' in service
-assert 'isAtAuthoritativeLocation(player, foundation.locationId)' in service
+assert service.count('isAtAuthoritativeLocation(player, foundation.locationId)') >= 2, "location must be checked at start and submit"
+assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
+assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
 assert 'EducationCore.closeSession(sessionId)' in service
 assert 'classCompleted:Fire' in service

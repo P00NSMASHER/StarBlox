@@ -92,6 +92,12 @@ local function closeSessionsOutsideActivePeriod()
     end
 end
 
+local function registerPlayer(player)
+    player.CharacterAdded:Connect(function()
+        closeSessionForUser(player.UserId)
+    end)
+end
+
 beginClass.OnServerInvoke = function(player)
     if sessionsByUserId[player.UserId] then
         return table.freeze({ ok = false, reason = "SESSION_ACTIVE" })
@@ -132,6 +138,11 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
     end
 
+    if not isAtAuthoritativeLocation(player, foundation.locationId) then
+        closeSessionForUser(player.UserId)
+        return table.freeze({ accepted = false, reason = "LEFT_CLASS_LOCATION" })
+    end
+
     if not EducationCore.isOwnedBy(sessionId, player.UserId) then
         closeSessionForUser(player.UserId)
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
@@ -160,6 +171,11 @@ leaveClass.OnServerInvoke = function(player)
 end
 
 foundationRuntime:GetAttributeChangedSignal("PeriodId"):Connect(closeSessionsOutsideActivePeriod)
+Players.PlayerAdded:Connect(registerPlayer)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    registerPlayer(player)
+end
 
 Players.PlayerRemoving:Connect(function(player)
     closeSessionForUser(player.UserId)
