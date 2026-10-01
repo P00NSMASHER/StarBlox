@@ -1,10 +1,10 @@
 {
-  "version": 4,
-  "updatedAt": "2026-10-01T11:35:00-04:00",
+  "version": 5,
+  "updatedAt": "2026-10-01T12:57:39-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
-  "protocolCommit": "dcca6bf96fb3430c61de70c56de92677841bea19",
-  "phase": "FOUNDATION_BUILD_WITH_SAFE_PARALLEL_PRODUCERS",
+  "protocolCommit": "f7b16d7425546fcc8f45b4ee80e52bb1feb0c029",
+  "phase": "MAX_THROUGHPUT_FOUNDATION_BUILD",
   "canonicalFoundationBranch": "rebuild/high-school-foundation",
   "canonicalFoundationHead": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
   "canonicalFoundationParent": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
@@ -18,7 +18,9 @@
   "exactHeadCi": {
     "status": "MISSING_FOR_5a6d676b117cb78fb7a43b239d7d85e77128337c",
     "workflowRunsOnCanonicalBranch": 0,
-    "commitStatuses": 0
+    "commitStatuses": 0,
+    "checkRuns": 0,
+    "owner": "Roblox High School DevEx"
   },
   "devExEvidenceAudit": {
     "receiptPresent": false,
@@ -28,22 +30,25 @@
     "claimedWorkflowRunLive": false,
     "verdict": "STALE_OR_NONLIVE_DO_NOT_USE"
   },
-  "currentReleaseBlocker": "Foundation runtime is now started; remaining P0 is authoritative SchoolClock + read-only FoundationState seam + exact-head CI certification.",
+  "currentReleaseBlocker": "Foundation still lacks the authoritative SchoolClock/day-period service and read-only FoundationState seam.",
   "blockerState": "ACTIVE",
   "blockerOwner": "Roblox High School Foundation",
-  "blockerExitCriterion": "On rebuild/high-school-foundation, add exactly one authoritative SchoolClock/day-period service and a read-only FoundationState seam, extend deterministic guards, then obtain exact-head GitHub CI PASS for the resulting SHA.",
-  "producerWipLimit": 3,
+  "blockerExitCriterion": "Commit exactly one authoritative SchoolClock/day-period service plus a read-only FoundationState seam on rebuild/high-school-foundation, extend deterministic Foundation guards, and hand off the exact resulting SHA. Exact-head CI remains a parallel DevEx support objective and becomes the release blocker only after the product seam is complete.",
   "activeProducers": [
     "Roblox High School Foundation",
-    "Roblox High School Class & Education (Education Core only until Foundation PASS)",
-    "Roblox High School Content QA"
+    "Roblox High School Class & Education — standalone Education Core only until Foundation PASS",
+    "Roblox High School Content QA — schema-v1 original content",
+    "Roblox High School Progression & Mobile — standalone neutral-contract progression/persistence/mobile only until Class/Education PASS"
   ],
   "desiredNextProducer": "Roblox High School Foundation",
   "taskStateConflicts": [],
   "supportLanes": [
     "Roblox High School Control Tower",
     "Roblox High School DevEx",
-    "Roblox High School QA & Contract"
+    "Roblox High School QA & Contract",
+    "Roblox High School Integration Director — rolling candidate only after QA-approved independent producer heads exist",
+    "Roblox High School Integration Smoke — changed rolling integration SHA only",
+    "Roblox High School Release & Package Gate — changed smoke-passed rolling candidate only; final READY remains fail-closed"
   ],
   "deferredUntilFoundationPass": [
     "Class attendance/world binding inside Roblox High School Class & Education",
@@ -57,10 +62,65 @@
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "Foundation SchoolClock + FoundationState commit and exact-head CI; in parallel, standalone Education Core and original content-pack commits.",
+  "nextMeasurableMilestone": "Four parallel deliverables: Foundation SchoolClock+FoundationState commit; first standalone Education Core commit; first schema-v1 content commit; first neutral-contract progression/persistence commit. In parallel DevEx must establish exact-head highschool CI.",
   "safeParallelWork": {
     "foundation": "highschool/default.project.json + highschool/src/foundation/** + Foundation tests/provenance",
     "educationCore": "highschool/src/education/** + deterministic Education Core tests; no Foundation/world/clock/progression/UI binding before Foundation PASS",
     "content": "highschool/content/** + schema/content QA tests"
-  }
+  },
+  "protocolDrift": {
+    "status": "WRITE_BLOCKED_THIS_CYCLE",
+    "issue": "Repository protocol still contains legacy WIP<=3/NOOP wording that conflicts with current max-throughput and NO-NOOP directive.",
+    "attemptedAction": "Replace arbitrary producer cap with continuous non-overlapping producers; replace NOOP with bounded fallback/WAITING semantics; authorize independent progression/mobile prep and rolling integration.",
+    "owner": "Roblox High School DevEx",
+    "exitCriterion": "Update HIGH_SCHOOL_SWARM_PROTOCOL.md to match current max-throughput/NO-NOOP rules without changing product gates, then record exact commit in HIGH_SCHOOL_DEVEX_RECEIPT.json."
+  },
+  "producerPolicy": "NO_ARBITRARY_WIP_CAP: all non-overlapping producers may work continuously inside owned paths/stable contracts; dependencies restrict only real binding/adapter work.",
+  "producerBranches": {
+    "foundation": {
+      "branch": "rebuild/high-school-foundation",
+      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
+      "status": "PRODUCT_COMMIT_PRESENT"
+    },
+    "educationCore": {
+      "branch": "rebuild/high-school-education-core",
+      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
+      "status": "BRANCH_BOOTSTRAPPED_NO_OWNED_PRODUCT_COMMIT_YET"
+    },
+    "content": {
+      "branch": "rebuild/high-school-content",
+      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
+      "status": "BRANCH_BOOTSTRAPPED_NO_OWNED_PRODUCT_COMMIT_YET"
+    },
+    "progressionMobile": {
+      "branch": "rebuild/high-school-progression",
+      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
+      "status": "BRANCH_BOOTSTRAPPED_NO_OWNED_PRODUCT_COMMIT_YET"
+    }
+  },
+  "producerAutomationDefects": [
+    {
+      "lane": "Roblox High School Class & Education",
+      "evidence": "Lane ran after safe Education Core work was authorized but produced no dedicated producer branch or owned product commit.",
+      "recoveryThisCycle": "Control Tower created rebuild/high-school-education-core at exact Foundation head 5a6d676b117cb78fb7a43b239d7d85e77128337c.",
+      "nextObjective": "Commit the first standalone Education Core slice under highschool/src/education/** with deterministic tests and zero Foundation/world/clock/progression/UI imports."
+    },
+    {
+      "lane": "Roblox High School Content QA",
+      "evidence": "Lane ran after schema-v1 content work was authorized but produced no dedicated producer branch or owned product commit.",
+      "recoveryThisCycle": "Control Tower created rebuild/high-school-content at exact Foundation head 5a6d676b117cb78fb7a43b239d7d85e77128337c.",
+      "nextObjective": "Commit the first original schema-v1 content slice under highschool/content/** with deterministic schema/content QA."
+    },
+    {
+      "lane": "Roblox High School DevEx",
+      "evidence": "Foundation head 5a6d676b117cb78fb7a43b239d7d85e77128337c still has 0 workflow runs, 0 statuses, and 0 check runs; no HIGH_SCHOOL_DEVEX_RECEIPT.json exists.",
+      "nextObjective": "Add/repair GitHub-native exact-head static CI for highschool/** on rebuild/high-school-foundation and write HIGH_SCHOOL_DEVEX_RECEIPT.json with exact run/check evidence."
+    }
+  ],
+  "deferredBindings": [
+    "Class/world attendance adapter waits for Foundation PASS",
+    "Progression gameplay binding waits for Class/Education PASS",
+    "Final release READY waits for all canonical stage gates and required runtime evidence"
+  ],
+  "integrationCandidates": []
 }
