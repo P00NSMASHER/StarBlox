@@ -1,0 +1,29 @@
+name: High School Foundation
+
+on:
+  push:
+    branches:
+      - rebuild/high-school-foundation
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-foundation.yml"
+  pull_request:
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-foundation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  foundation-static:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run canonical Foundation guard
+        run: python school/tests/foundation/foundation_static_guard.py

@@ -1,0 +1,21 @@
+{
+  "name": "HighSchool",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "HighSchool": {
+        "$path": "src/ReplicatedStorage/HighSchool"
+      }
+    },
+    "ServerScriptService": {
+      "HighSchool": {
+        "$path": "src/ServerScriptService/HighSchool"
+      }
+    },
+    "Workspace": {
+      "$properties": {
+        "StreamingEnabled": true
+      }
+    }
+  }
+}
