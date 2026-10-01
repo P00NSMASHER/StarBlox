@@ -1,9 +1,25 @@
 {
-  "lane":"Roblox High School Integration Smoke",
-  "verdict":"NOOP",
-  "integrationSha":null,
-  "checksActuallyRun":["protocol read","state read","integration receipt absent"],
-  "reusedEvidenceIds":["protocol:1ac1260687aca5b540889f05cd2ca485c4e10608","state:cb3a4cffec2220f0938f54713d6a57f8292ee59b"],
-  "blockerOwner":"Roblox High School Foundation",
-  "localOnlyRequired":[]
+  "lane": "Roblox High School Integration Smoke",
+  "verdict": "WAITING_DEPENDENCY",
+  "integrationSha": null,
+  "fingerprint": "protocol=126f47fb87c764d83b4d160345ee8f2f5ec42cb9|state=cb3a4cffec2220f0938f54713d6a57f8292ee59b|integrationReceipt=ABSENT|foundation=5a6d676b117cb78fb7a43b239d7d85e77128337c|foundationCommitStatuses=0",
+  "checksActuallyRun": [
+    "read current shared protocol from coordination/high-school-control-tower",
+    "read current shared state from coordination/high-school-control-tower",
+    "verified latest Integration receipt is absent from shared coordination and no high-school Integration Director branch is present",
+    "verified live Foundation head remains 5a6d676b117cb78fb7a43b239d7d85e77128337c",
+    "verified Foundation exact-head combined status has zero commit statuses"
+  ],
+  "reusedEvidenceIds": [
+    "protocolBlob:126f47fb87c764d83b4d160345ee8f2f5ec42cb9",
+    "stateBlob:cb3a4cffec2220f0938f54713d6a57f8292ee59b",
+    "controlTowerHead:f7b16d7425546fcc8f45b4ee80e52bb1feb0c029",
+    "foundationHead:5a6d676b117cb78fb7a43b239d7d85e77128337c"
+  ],
+  "checksNotRun": [
+    "headless integration smoke suite: no exact integration SHA is marked eligible"
+  ],
+  "blockerOwner": "Roblox High School Foundation",
+  "blockerExitCriterion": "On rebuild/high-school-foundation, add exactly one authoritative SchoolClock/day-period service and a read-only FoundationState seam, extend deterministic guards, then obtain exact-head GitHub CI PASS for the resulting SHA so QA/Integration can produce an eligible exact integration SHA.",
+  "localOnlyRequired": []
 }
