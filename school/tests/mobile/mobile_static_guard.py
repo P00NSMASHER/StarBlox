@@ -9,6 +9,7 @@ assert 'WaitForChild("BeginClass")' in client
 assert 'WaitForChild("SubmitAnswer")' in client
 assert 'WaitForChild("LeaveClass")' in client
 assert 'WaitForChild("GetProgression")' in client
+assert 'FoundationConfig = require' in client
 assert 'FoundationState.getSnapshot()' in client
 assert 'InvokeServer' in client
 
@@ -27,6 +28,9 @@ assert 'waitForProgressionAdvance' in client
 assert 'Progress is still saving.' in client
 assert 'response.reason == "SESSION_NOT_ACTIVE" or response.reason == "CLASS_PERIOD_ENDED"' in client
 assert 'attendButton.Active = classIsAvailable and currentSessionId == nil' in client
+assert 'attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"' in client
+assert 'locationDisplayName' in client
+assert 'Math is open — go to Math Classroom.' in client
 assert 'currentSessionId and periodId ~= nil and periodId ~= ACTIVE_CLASS_ID' in client
 assert 'finishSession("Class period ended. Back to free roam.", false)' in client
 

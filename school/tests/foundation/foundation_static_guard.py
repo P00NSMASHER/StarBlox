@@ -30,6 +30,11 @@ assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
 assert 'assert(not seen[location.id]' in builder
+assert 'wayfinding.Name = "Wayfinding"' in builder
+assert 'pad.Name = location.id .. "Pad"' in builder
+assert 'pad.Transparency = 0.35' in builder
+assert 'sign.Name = "LocationLabel"' in builder
+assert 'text.Text = location.name' in builder
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"

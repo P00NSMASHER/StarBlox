@@ -2,6 +2,7 @@ local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
 local FoundationState = require(highSchool:WaitForChild("FoundationState"))
 local classRemotes = highSchool:WaitForChild("ClassRemotes")
 local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
@@ -121,6 +122,16 @@ choicesLayout.Parent = choicesRow
 
 local currentSessionId = nil
 local lastCompletedCount = nil
+local lastPeriodId = nil
+
+local function locationDisplayName(locationId)
+    for _, location in ipairs(FoundationConfig.LOCATIONS) do
+        if location.id == locationId then
+            return location.name
+        end
+    end
+    return tostring(locationId or "unknown")
+end
 
 local function safeInvoke(remote, ...)
     local ok, result = pcall(function()
@@ -268,17 +279,30 @@ task.spawn(function()
     while gui.Parent do
         local snapshot = FoundationState.getSnapshot()
         local periodId = snapshot.periodId
+        local locationName = locationDisplayName(snapshot.locationId)
+        local secondsRemaining = math.max(0, math.ceil(tonumber(snapshot.secondsRemaining) or 0))
 
         periodLabel.Text = string.format(
-            "Day %s • %s • %s",
+            "Day %s • %s • %s • %ds",
             tostring(snapshot.dayIndex or "?"),
             tostring(periodId or "loading"),
-            tostring(snapshot.locationId or "unknown")
+            locationName,
+            secondsRemaining
         )
 
         local classIsAvailable = periodId == ACTIVE_CLASS_ID
         attendButton.Active = classIsAvailable and currentSessionId == nil
         attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
+        attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"
+
+        if periodId ~= lastPeriodId then
+            if periodId == ACTIVE_CLASS_ID and currentSessionId == nil then
+                statusLabel.Text = "Math is open — go to Math Classroom."
+            elseif currentSessionId == nil then
+                statusLabel.Text = "Free roam."
+            end
+            lastPeriodId = periodId
+        end
 
         if currentSessionId and periodId ~= nil and periodId ~= ACTIVE_CLASS_ID then
             safeInvoke(leaveClass)
