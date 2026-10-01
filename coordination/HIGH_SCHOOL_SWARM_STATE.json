@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "updatedAt": "2026-10-01T14:25:00-04:00",
+  "version": 12,
+  "updatedAt": "2026-10-01T14:37:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "27535c45e835f3e820d0b0ce73226ae8ed4f0c0c",
@@ -12,18 +12,18 @@
     "branch": "main",
     "head": "6eabd0cfb8543776adda4f89dd5e182e644cabb2"
   },
-  "phase": "CLOUD_VERTICAL_SLICE_READY_RUNTIME_REQUIRED",
+  "phase": "CLOUD_HARDENED_RUNTIME_REQUIRED",
   "primaryKpi": "spawn -> school clock/period -> attend one class -> one server-authoritative activity -> exactly-once progression -> free roam -> save/rejoin restores committed result",
   "currentPlayableStage": "CLOUD_BUILD_PASS_RUNTIME_UNVERIFIED",
   "lastEndToEndPlayableAdvance": null,
   "cyclesSinceLastEndToEndPlayableAdvance": "NOT_ESTABLISHED",
-  "currentReleaseBlocker": "LOCAL_ONLY_REQUIRED: fresh Roblox runtime validation is still required for the exact integration candidate; cloud static/build evidence is green but does not prove actual in-engine execution.",
+  "currentReleaseBlocker": "LOCAL_ONLY_REQUIRED: exact Roblox runtime validation is still required for the current hardened integration candidate.",
   "blockerState": "LOCAL_ONLY_REQUIRED",
   "blockerOwner": "Roblox High School Integration Smoke",
-  "blockerExitCriterion": "Using exact integration SHA c4503711c91a0639ed320786f9acb402e2689ebf and its built candidate artifact, obtain background-safe Roblox runtime evidence for: server boot without errors; MainSpawn/free-roam; SchoolClock period transition; attend math at authoritative location; wrong-answer hint; LeaveClass restores free roam; replay of the old submission after leave is rejected; one correct completion credits progression exactly once; save/rejoin restores the committed progression; mobile HUD remains usable without obstructing core controls.",
+  "blockerExitCriterion": "Using exact integration SHA 4800a818a22171ac013e4eb2b011494cc3ee9152 and its built artifact, obtain background-safe Roblox runtime evidence for server boot, visible wayfinding, MainSpawn/free-roam, SchoolClock transition, authoritative-location math attendance, wrong-answer hint, period/leave cleanup, stale replay rejection, exactly-once progression, save/rejoin restoration, and mobile HUD usability.",
   "wipCap": 3,
   "wipSlots": {
-    "canonicalBase": "rebuild/high-school-integration@c4503711c91a0639ed320786f9acb402e2689ebf (CLOUD INTEGRATION + BUILD PASS)",
+    "canonicalBase": "rebuild/high-school-integration@4800a818a22171ac013e4eb2b011494cc3ee9152 (CLOUD BUILD PASS)",
     "upstreamCriticalPath": null,
     "downstreamSpeculative": null
   },
@@ -108,16 +108,17 @@
   },
   "localOnlyRequired": {
     "required": true,
-    "exactSha": "c4503711c91a0639ed320786f9acb402e2689ebf",
-    "reason": "Roblox engine execution, save/rejoin behavior, and actual mobile runtime interaction cannot be proven by static GitHub checks or Rojo build alone.",
+    "exactSha": "4800a818a22171ac013e4eb2b011494cc3ee9152",
+    "reason": "Roblox engine execution, actual character/location behavior, DataStore save/rejoin, and device interaction cannot be proven by static GitHub checks or Rojo build alone.",
     "checks": [
       "server boots without runtime errors",
+      "visible room wayfinding appears",
       "MainSpawn and free-roam function",
       "SchoolClock advances period state",
-      "math class attendance requires authoritative location",
+      "math attendance requires authoritative location",
       "wrong answer returns hint",
-      "LeaveClass restores free roam",
-      "stale submission replay after leave fails closed",
+      "leaving/period ending closes the session and returns free roam",
+      "stale submission replay fails closed",
       "correct completion credits progression exactly once",
       "save/rejoin restores committed progression",
       "mobile HUD remains usable without obstructing core controls"
@@ -125,15 +126,13 @@
   },
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "Obtain exact-SHA runtime smoke evidence for c4503711c91a0639ed320786f9acb402e2689ebf without publishing or spending money.",
+  "nextMeasurableMilestone": "Exact-SHA runtime smoke evidence for 4800a818a22171ac013e4eb2b011494cc3ee9152, unless a newer cloud hardening fix supersedes it.",
   "integrationCandidates": [
     {
       "branch": "rebuild/high-school-integration",
-      "head": "c4503711c91a0639ed320786f9acb402e2689ebf",
-      "productParent": "fe0c10e4ce67115f8e595b383a2282476f287ed8",
-      "integrationGuardCommit": "02b9a4debeb15b6e9e333dc961f9939eb8a40775",
+      "head": "4800a818a22171ac013e4eb2b011494cc3ee9152",
       "cloudCi": {
-        "runId": 36906641599,
+        "runId": 36908123981,
         "workflow": "High School Integration",
         "conclusion": "success",
         "guards": [
@@ -147,18 +146,28 @@
         "build": "PASS"
       },
       "artifact": {
-        "id": 11184611409,
+        "id": 11185556992,
         "name": "high-school-integration-candidate",
-        "sizeBytes": 7250,
-        "digest": "sha256:784f9a04b31c68e0295237b2a3957ce3bd5a719597b22928050680ba24bc44a1",
-        "expiresAt": "2026-10-08T18:24:58Z"
-      }
+        "sizeBytes": 8569,
+        "digest": "sha256:21b1e1f499e420da9189cfc50c0c4c9be40de560c8ceb43515d6521f14ab9226",
+        "expiresAt": "2026-10-08T18:36:53Z"
+      },
+      "hardening": [
+        "globally unique server session IDs",
+        "period-end session cleanup",
+        "resolved-session memory cleanup",
+        "bounded unique submission receipts and input lengths",
+        "atomic progression UpdateAsync with background retries and shutdown flush",
+        "mobile progression-settle feedback",
+        "automatic client period-end cleanup",
+        "visible class wayfinding and room-name/countdown HUD"
+      ]
     }
   ],
   "cloudBuild": {
-    "exactSha": "c4503711c91a0639ed320786f9acb402e2689ebf",
-    "runId": 36906641599,
+    "exactSha": "4800a818a22171ac013e4eb2b011494cc3ee9152",
+    "runId": 36908123981,
     "status": "PASS",
-    "artifactDigest": "sha256:784f9a04b31c68e0295237b2a3957ce3bd5a719597b22928050680ba24bc44a1"
+    "artifactDigest": "sha256:21b1e1f499e420da9189cfc50c0c4c9be40de560c8ceb43515d6521f14ab9226"
   }
 }
