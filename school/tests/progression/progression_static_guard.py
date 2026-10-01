@@ -19,6 +19,8 @@ assert 'ProgressionReducer.applyCompletion(currentState, completion)' in store
 assert 'classCompleted.Event:Connect' in service
 assert 'task.spawn(persistCompletion, completion)' in service, "completion persistence must not be single-shot"
 assert 'RETRY_DELAYS_SECONDS' in service
+assert 'RETRY_CYCLE_DELAY_SECONDS = 30' in service
+assert 'task.delay(RETRY_CYCLE_DELAY_SECONDS' in service, "exhausted retry cycles must schedule recovery"
 assert 'pendingByCompletionId' in service
 assert 'game:BindToClose' in service, "pending completions need shutdown flush"
 assert 'Players.PlayerAdded:Connect' in service

@@ -24,6 +24,7 @@ getProgression.Parent = remotes
 local cacheByPlayerId = {}
 local pendingByCompletionId = {}
 local RETRY_DELAYS_SECONDS = table.freeze({ 0, 1, 2, 4, 8 })
+local RETRY_CYCLE_DELAY_SECONDS = 30
 
 local function loadIntoCache(playerId)
     local state, err = ProgressionStore.load(playerId)
@@ -55,7 +56,16 @@ local function persistCompletion(completion)
         end
     end
 
-    warn("HighSchool progression persistence exhausted retries for " .. completion.completionId)
+    warn("HighSchool progression persistence retry cycle exhausted for " .. completion.completionId)
+
+    task.delay(RETRY_CYCLE_DELAY_SECONDS, function()
+        if pendingByCompletionId[completion.completionId] ~= completion then
+            return
+        end
+
+        pendingByCompletionId[completion.completionId] = nil
+        persistCompletion(completion)
+    end)
 end
 
 Players.PlayerAdded:Connect(function(player)

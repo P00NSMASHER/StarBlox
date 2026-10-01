@@ -11,6 +11,8 @@ local submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
 local leaveClass = classRemotes:WaitForChild("LeaveClass")
 local getProgression = progressionRemotes:WaitForChild("GetProgression")
 
+local ACTIVE_CLASS_ID = "math"
+
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
 if existing then
@@ -224,7 +226,7 @@ local function showActivity(activity)
     for _, choice in ipairs(choices) do
         local button = Instance.new("TextButton")
         button.Name = "Choice_" .. tostring(choice.id)
-        button.Size = UDim2.new(0, math.max(64, math.floor(250 / math.max(1, #choices))), 0, 44)
+        button.Size = UDim2.new(1 / math.max(1, #choices), -6, 0, 44)
         button.TextSize = 17
         button.Text = tostring(choice.text)
         button.Parent = choicesRow
@@ -265,12 +267,24 @@ end)
 task.spawn(function()
     while gui.Parent do
         local snapshot = FoundationState.getSnapshot()
+        local periodId = snapshot.periodId
+
         periodLabel.Text = string.format(
             "Day %s • %s • %s",
             tostring(snapshot.dayIndex or "?"),
-            tostring(snapshot.periodId or "loading"),
+            tostring(periodId or "loading"),
             tostring(snapshot.locationId or "unknown")
         )
+
+        local classIsAvailable = periodId == ACTIVE_CLASS_ID
+        attendButton.Active = classIsAvailable and currentSessionId == nil
+        attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
+
+        if currentSessionId and periodId ~= nil and periodId ~= ACTIVE_CLASS_ID then
+            safeInvoke(leaveClass)
+            finishSession("Class period ended. Back to free roam.", false)
+        end
+
         task.wait(1)
     end
 end)
