@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "updatedAt": "2026-10-01T14:10:00-04:00",
+  "version": 8,
+  "updatedAt": "2026-10-01T14:16:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "27535c45e835f3e820d0b0ce73226ae8ed4f0c0c",
@@ -12,32 +12,37 @@
     "branch": "main",
     "head": "6eabd0cfb8543776adda4f89dd5e182e644cabb2"
   },
-  "phase": "CANONICAL_ROOT_BOOTSTRAP",
+  "phase": "FOUNDATION_PASS_CLASS_EDUCATION_NEXT",
   "primaryKpi": "spawn -> school clock/period -> attend one class -> one server-authoritative activity -> exactly-once progression -> free roam -> save/rejoin restores committed result",
-  "currentPlayableStage": "NO_CANONICAL_SCHOOL_ROOT_YET",
+  "currentPlayableStage": "FOUNDATION_PASS",
   "lastEndToEndPlayableAdvance": null,
   "cyclesSinceLastEndToEndPlayableAdvance": "NOT_ESTABLISHED",
-  "currentReleaseBlocker": "No canonical school/** runtime exists. The only current high-school implementation is staging under highschool/**.",
+  "currentReleaseBlocker": "No canonical school/** Class & Education candidate exists yet on the certified Foundation head.",
   "blockerState": "ACTIVE",
-  "blockerOwner": "Roblox High School Foundation",
-  "blockerExitCriterion": "On rebuild/high-school-foundation, deliberately rehome the minimum Foundation slice into canonical school/** without mapping highschool/**: school/default.project.json, original spawn/location registry, exactly one authoritative SchoolClock/day-period service, read-only FoundationState seam, provenance, and deterministic retired-runtime/authority guards; then obtain exact-head GitHub CI PASS.",
+  "blockerOwner": "Roblox High School Class & Education",
+  "blockerExitCriterion": "Advance rebuild/high-school-education-core to certified Foundation SHA 48cb03f729d1d649039df01863e3e2e88f742599, then commit the smallest canonical school/** server-authoritative Education/Class slice: one activity session with client-safe public view, server-only answer authority, duplicate/late/stale submission rejection, class exit/free-roam restoration, deterministic regression tests, and exact-head CI PASS.",
   "wipCap": 3,
   "wipSlots": {
-    "canonicalBase": "main@6eabd0cfb8543776adda4f89dd5e182e644cabb2",
-    "upstreamCriticalPath": "rebuild/high-school-foundation@5a6d676b117cb78fb7a43b239d7d85e77128337c (STAGING_ONLY until school/** rehome + exact-head CI)",
+    "canonicalBase": "rebuild/high-school-foundation@48cb03f729d1d649039df01863e3e2e88f742599 (FOUNDATION PASS)",
+    "upstreamCriticalPath": "rebuild/high-school-education-core@5a6d676b117cb78fb7a43b239d7d85e77128337c (STALE ANCESTRY; FAST-FORWARD REQUIRED)",
     "downstreamSpeculative": null
   },
   "unintegratedProductCandidates": 1,
   "producerHeads": {
     "foundation": {
       "branch": "rebuild/high-school-foundation",
-      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
-      "canonicalEligibility": "BLOCKED_STAGING_ROOT_ONLY"
+      "head": "48cb03f729d1d649039df01863e3e2e88f742599",
+      "canonicalEligibility": "FOUNDATION_PASS",
+      "exactHeadCi": {
+        "runId": 36905519052,
+        "workflow": "High School Foundation",
+        "conclusion": "success"
+      }
     },
     "educationCore": {
       "branch": "rebuild/high-school-education-core",
       "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
-      "canonicalEligibility": "REFERENCE_ONLY_NO_OWNED_PRODUCT_COMMIT"
+      "canonicalEligibility": "STALE_ANCESTRY_FAST_FORWARD_TO_CERTIFIED_FOUNDATION"
     },
     "content": {
       "branch": "rebuild/high-school-content",
@@ -51,11 +56,12 @@
     }
   },
   "exactHeadEvidence": {
-    "foundationHead": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
-    "workflowRuns": 0,
-    "commitStatuses": 0,
-    "checkRuns": 0,
-    "verdict": "NO_EXACT_HEAD_CI"
+    "foundationHead": "48cb03f729d1d649039df01863e3e2e88f742599",
+    "workflowRuns": 1,
+    "checkRuns": 1,
+    "runId": 36905519052,
+    "checkName": "foundation-static",
+    "verdict": "PASS"
   },
   "openPullRequests": {
     "total": 19,
@@ -71,9 +77,9 @@
   ],
   "laneDirections": {
     "controlTower": "Keep one blocker and WIP<=3; coordinate through this state only; never mutate automation definitions.",
-    "devEx": "After canonical school/** candidate exists, ensure exact-head GitHub static/headless CI; repair only reproduced tooling defects.",
-    "foundation": "Current blocker owner. Rehome minimum Foundation slice atomically into school/** and prove exact-head.",
-    "classEducation": "WAITING_DEPENDENCY for canonical Foundation contracts; may do only cheap delta checks or non-product test/contract preparation without creating another live product candidate.",
+    "devEx": "Foundation exact-head CI is healthy. Repair only new reproduced tooling defects.",
+    "foundation": "WAITING_UNCHANGED unless a reproducible Foundation regression appears; certified exact head is 48cb03f729d1d649039df01863e3e2e88f742599.",
+    "classEducation": "Current blocker owner. Fast-forward to certified Foundation and build one canonical school/** server-authoritative class/activity slice with deterministic lifecycle/idempotency tests.",
     "content": "Support-only until core vertical slice; no broad content expansion.",
     "progressionMobile": "Downstream speculative slot is currently empty. Do not accumulate product code until Control Tower assigns the slot behind a stable interface.",
     "qaContract": "Validate changed exact-SHA canonical candidates; stale receipts cannot authorize downstream work.",
@@ -92,5 +98,5 @@
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "First exact-head-green canonical Foundation candidate under school/** with no highschool/** mapping."
+  "nextMeasurableMilestone": "First canonical Class & Education product commit on a branch descended from Foundation PASS, with deterministic lifecycle/server-authority tests and exact-head CI."
 }
