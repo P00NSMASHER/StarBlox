@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "updatedAt": "2026-10-01T14:16:00-04:00",
+  "version": 9,
+  "updatedAt": "2026-10-01T14:19:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "27535c45e835f3e820d0b0ce73226ae8ed4f0c0c",
@@ -12,22 +12,22 @@
     "branch": "main",
     "head": "6eabd0cfb8543776adda4f89dd5e182e644cabb2"
   },
-  "phase": "FOUNDATION_PASS_CLASS_EDUCATION_NEXT",
+  "phase": "CLASS_EDUCATION_PASS_PROGRESSION_NEXT",
   "primaryKpi": "spawn -> school clock/period -> attend one class -> one server-authoritative activity -> exactly-once progression -> free roam -> save/rejoin restores committed result",
-  "currentPlayableStage": "FOUNDATION_PASS",
+  "currentPlayableStage": "CLASS_EDUCATION_PASS_STATIC",
   "lastEndToEndPlayableAdvance": null,
   "cyclesSinceLastEndToEndPlayableAdvance": "NOT_ESTABLISHED",
-  "currentReleaseBlocker": "No canonical school/** Class & Education candidate exists yet on the certified Foundation head.",
+  "currentReleaseBlocker": "Canonical progression/persistence is missing from the certified Foundation + Class/Education lineage.",
   "blockerState": "ACTIVE",
-  "blockerOwner": "Roblox High School Class & Education",
-  "blockerExitCriterion": "Advance rebuild/high-school-education-core to certified Foundation SHA 48cb03f729d1d649039df01863e3e2e88f742599, then commit the smallest canonical school/** server-authoritative Education/Class slice: one activity session with client-safe public view, server-only answer authority, duplicate/late/stale submission rejection, class exit/free-roam restoration, deterministic regression tests, and exact-head CI PASS.",
+  "blockerOwner": "Roblox High School Progression & Mobile",
+  "blockerExitCriterion": "Fast-forward rebuild/high-school-progression to 7dfe59de26b3ea605b36981541e87a849f62e85c, then add canonical school/** server-authoritative exactly-once progression using stable completionId and atomic persistence, expose read-only progression state, add deterministic guards for duplicate/replay/concurrent-safe UpdateAsync semantics and save/rejoin restoration, and obtain exact-head CI PASS.",
   "wipCap": 3,
   "wipSlots": {
-    "canonicalBase": "rebuild/high-school-foundation@48cb03f729d1d649039df01863e3e2e88f742599 (FOUNDATION PASS)",
-    "upstreamCriticalPath": "rebuild/high-school-education-core@5a6d676b117cb78fb7a43b239d7d85e77128337c (STALE ANCESTRY; FAST-FORWARD REQUIRED)",
+    "canonicalBase": "rebuild/high-school-education-core@7dfe59de26b3ea605b36981541e87a849f62e85c (FOUNDATION + CLASS/EDUCATION PASS)",
+    "upstreamCriticalPath": "rebuild/high-school-progression@5a6d676b117cb78fb7a43b239d7d85e77128337c (STALE ANCESTRY; FAST-FORWARD REQUIRED)",
     "downstreamSpeculative": null
   },
-  "unintegratedProductCandidates": 1,
+  "unintegratedProductCandidates": 2,
   "producerHeads": {
     "foundation": {
       "branch": "rebuild/high-school-foundation",
@@ -41,8 +41,14 @@
     },
     "educationCore": {
       "branch": "rebuild/high-school-education-core",
-      "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
-      "canonicalEligibility": "STALE_ANCESTRY_FAST_FORWARD_TO_CERTIFIED_FOUNDATION"
+      "head": "7dfe59de26b3ea605b36981541e87a849f62e85c",
+      "canonicalEligibility": "CLASS_EDUCATION_PASS",
+      "exactHeadCi": {
+        "runId": 36905821809,
+        "workflow": "High School Class Education",
+        "job": "class-education-static",
+        "conclusion": "success"
+      }
     },
     "content": {
       "branch": "rebuild/high-school-content",
@@ -52,7 +58,7 @@
     "progressionMobile": {
       "branch": "rebuild/high-school-progression",
       "head": "5a6d676b117cb78fb7a43b239d7d85e77128337c",
-      "canonicalEligibility": "REFERENCE_ONLY_NO_OWNED_PRODUCT_COMMIT"
+      "canonicalEligibility": "STALE_ANCESTRY_FAST_FORWARD_TO_CLASS_EDUCATION_PASS"
     }
   },
   "exactHeadEvidence": {
@@ -79,9 +85,9 @@
     "controlTower": "Keep one blocker and WIP<=3; coordinate through this state only; never mutate automation definitions.",
     "devEx": "Foundation exact-head CI is healthy. Repair only new reproduced tooling defects.",
     "foundation": "WAITING_UNCHANGED unless a reproducible Foundation regression appears; certified exact head is 48cb03f729d1d649039df01863e3e2e88f742599.",
-    "classEducation": "Current blocker owner. Fast-forward to certified Foundation and build one canonical school/** server-authoritative class/activity slice with deterministic lifecycle/idempotency tests.",
+    "classEducation": "WAITING_UNCHANGED unless a reproducible Class/Education regression appears; certified exact head is 7dfe59de26b3ea605b36981541e87a849f62e85c.",
     "content": "Support-only until core vertical slice; no broad content expansion.",
-    "progressionMobile": "Downstream speculative slot is currently empty. Do not accumulate product code until Control Tower assigns the slot behind a stable interface.",
+    "progressionMobile": "Current blocker owner. Fast-forward to certified Class/Education head and add exactly-once atomic persistence + save/rejoin + read-only state under school/**.",
     "qaContract": "Validate changed exact-SHA canonical candidates; stale receipts cannot authorize downstream work.",
     "integrationDirector": "WAITING_DEPENDENCY until QA-approved canonical school/** producer SHA exists.",
     "integrationSmoke": "WAITING_DEPENDENCY until a changed eligible integration SHA exists.",
@@ -98,5 +104,5 @@
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "First canonical Class & Education product commit on a branch descended from Foundation PASS, with deterministic lifecycle/server-authority tests and exact-head CI."
+  "nextMeasurableMilestone": "First exact-head-green canonical Progression/Persistence candidate on the certified Foundation + Class/Education lineage."
 }
