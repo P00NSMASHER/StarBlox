@@ -106,3 +106,39 @@ Every meaningful handoff/evidence record should include:
 - next exact exit criterion
 
 This file is the shared coordination contract. Individual task prompts may narrow ownership but must not contradict it.
+
+
+## Productive parallelism — required
+While the release blocker is upstream, the swarm may still run up to 3 product producers **only when their file ownership and interfaces are independent**. Safe parallel work that cannot create downstream rework is allowed; downstream integration is not.
+
+Current safe producer split until Foundation PASS:
+1. **Foundation** — owns only `highschool/default.project.json`, `highschool/src/foundation/**`, and Foundation-specific tests/provenance.
+2. **Class & Education** — before Foundation PASS, owns only standalone server-authoritative Education Core under `highschool/src/education/**` plus its deterministic tests. It MUST NOT bind to the world, clock, attendance, progression, UI, or Foundation implementation until Foundation PASS. After Foundation PASS it may add the class-attendance adapter.
+3. **Content QA** — owns only original/sanitized content under `highschool/content/**` and content-schema tests. It may produce content before Class integration only against the stable content schema below.
+
+### Stable Education content schema v1
+Each activity record contains:
+- `id`: stable unique string
+- `subject`: string
+- `skill`: string
+- `difficulty`: integer 1-5
+- `prompt`: original text
+- `choices`: array of at least 2 objects with stable `id` and `text`
+- `correctChoiceId`: server-only field; never included in client/public view
+- `hint`: original support text
+- `explanation`: original feedback text
+
+Education Core public/client view MUST omit `correctChoiceId`. Server-side evaluation may read it.
+
+### Producer cycle contract
+When a lane is ACTIVE or has safe independent prep authorized above, a run MUST do one of:
+- create a coherent product commit with relevant tests, or
+- repair a concrete defect and commit it with a regression test, or
+- produce a precise external/tooling blocker receipt after one failed write/tool attempt.
+A run that only rewrites status, repeats old evidence, or narrates the same blocker is a defect.
+
+### Work size
+Prefer one coherent slice that can be reviewed and tested in one run. Do not split trivial files into separate status commits. Do not wait for a perfect large feature when a smaller executable/tested slice advances the stage gate.
+
+### Handoff consumption
+The next lane must consume the latest eligible exact-SHA handoff rather than re-discovering the same facts. Reviewers should validate new SHAs; they should not rerun unchanged evidence.
