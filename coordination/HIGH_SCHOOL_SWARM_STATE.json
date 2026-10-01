@@ -1,6 +1,6 @@
 {
-  "version": 10,
-  "updatedAt": "2026-10-01T14:20:30-04:00",
+  "version": 11,
+  "updatedAt": "2026-10-01T14:25:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "27535c45e835f3e820d0b0ce73226ae8ed4f0c0c",
@@ -12,22 +12,22 @@
     "branch": "main",
     "head": "6eabd0cfb8543776adda4f89dd5e182e644cabb2"
   },
-  "phase": "PROGRESSION_PASS_MOBILE_CLIENT_NEXT",
+  "phase": "CLOUD_VERTICAL_SLICE_READY_RUNTIME_REQUIRED",
   "primaryKpi": "spawn -> school clock/period -> attend one class -> one server-authoritative activity -> exactly-once progression -> free roam -> save/rejoin restores committed result",
-  "currentPlayableStage": "PROGRESSION_PERSISTENCE_PASS_STATIC",
+  "currentPlayableStage": "CLOUD_BUILD_PASS_RUNTIME_UNVERIFIED",
   "lastEndToEndPlayableAdvance": null,
   "cyclesSinceLastEndToEndPlayableAdvance": "NOT_ESTABLISHED",
-  "currentReleaseBlocker": "The canonical lineage has no player-facing mobile client for class attendance/activity/progression, so the vertical slice is not yet playable.",
-  "blockerState": "ACTIVE",
-  "blockerOwner": "Roblox High School Progression & Mobile",
-  "blockerExitCriterion": "On rebuild/high-school-progression, add a minimal mapped mobile client under the existing school/** project that consumes only server-authoritative ClassRemotes, FoundationState, and read-only ProgressionRemotes; provide attend/leave/answer/progression UI without answer leakage or client grade mutation; add deterministic static guards and obtain exact-head CI PASS.",
+  "currentReleaseBlocker": "LOCAL_ONLY_REQUIRED: fresh Roblox runtime validation is still required for the exact integration candidate; cloud static/build evidence is green but does not prove actual in-engine execution.",
+  "blockerState": "LOCAL_ONLY_REQUIRED",
+  "blockerOwner": "Roblox High School Integration Smoke",
+  "blockerExitCriterion": "Using exact integration SHA c4503711c91a0639ed320786f9acb402e2689ebf and its built candidate artifact, obtain background-safe Roblox runtime evidence for: server boot without errors; MainSpawn/free-roam; SchoolClock period transition; attend math at authoritative location; wrong-answer hint; LeaveClass restores free roam; replay of the old submission after leave is rejected; one correct completion credits progression exactly once; save/rejoin restores the committed progression; mobile HUD remains usable without obstructing core controls.",
   "wipCap": 3,
   "wipSlots": {
-    "canonicalBase": "rebuild/high-school-education-core@7dfe59de26b3ea605b36981541e87a849f62e85c (FOUNDATION + CLASS/EDUCATION PASS)",
-    "upstreamCriticalPath": "rebuild/high-school-progression@31b2f82719b71daba59d58353934a317cbf77bbb (PROGRESSION/PERSISTENCE PASS; MOBILE CLIENT PENDING)",
+    "canonicalBase": "rebuild/high-school-integration@c4503711c91a0639ed320786f9acb402e2689ebf (CLOUD INTEGRATION + BUILD PASS)",
+    "upstreamCriticalPath": null,
     "downstreamSpeculative": null
   },
-  "unintegratedProductCandidates": 2,
+  "unintegratedProductCandidates": 1,
   "producerHeads": {
     "foundation": {
       "branch": "rebuild/high-school-foundation",
@@ -57,12 +57,11 @@
     },
     "progressionMobile": {
       "branch": "rebuild/high-school-progression",
-      "head": "31b2f82719b71daba59d58353934a317cbf77bbb",
-      "canonicalEligibility": "PROGRESSION_PERSISTENCE_PASS_MOBILE_PENDING",
+      "head": "fe0c10e4ce67115f8e595b383a2282476f287ed8",
+      "canonicalEligibility": "PROGRESSION_AND_MOBILE_PASS",
       "exactHeadCi": {
-        "runId": 36906026659,
+        "runId": 36906283529,
         "workflow": "High School Progression",
-        "job": "progression-static",
         "conclusion": "success"
       }
     }
@@ -93,11 +92,11 @@
     "foundation": "WAITING_UNCHANGED unless a reproducible Foundation regression appears; certified exact head is 48cb03f729d1d649039df01863e3e2e88f742599.",
     "classEducation": "WAITING_UNCHANGED unless a reproducible Class/Education regression appears; certified exact head is 7dfe59de26b3ea605b36981541e87a849f62e85c.",
     "content": "Support-only until core vertical slice; no broad content expansion.",
-    "progressionMobile": "Current blocker owner. Add minimal client UI under mapped school/** paths using only server-authoritative remotes/read-only state, then exact-head CI.",
-    "qaContract": "Validate changed exact-SHA canonical candidates; stale receipts cannot authorize downstream work.",
-    "integrationDirector": "WAITING_DEPENDENCY until QA-approved canonical school/** producer SHA exists.",
-    "integrationSmoke": "WAITING_DEPENDENCY until a changed eligible integration SHA exists.",
-    "releasePackage": "WAITING_DEPENDENCY until a changed smoke-passed integration SHA exists."
+    "progressionMobile": "WAITING_UNCHANGED unless a reproducible progression/mobile regression appears; certified product head is fe0c10e4ce67115f8e595b383a2282476f287ed8.",
+    "qaContract": "Cloud guards are green on the integration lineage. Do not rerun unchanged broad suites; only validate changed exact SHAs or a reproduced gap.",
+    "integrationDirector": "Cloud integration candidate is assembled and exact-head green at c4503711c91a0639ed320786f9acb402e2689ebf. WAITING_UNCHANGED unless product inputs change.",
+    "integrationSmoke": "LOCAL_ONLY_REQUIRED for exact runtime checks listed in blockerExitCriterion. Do not touch the desktop unless the user separately authorizes an appropriate background-safe local session.",
+    "releasePackage": "A deterministic cloud-built candidate artifact exists, but final READY remains blocked by runtime evidence. Do not rebuild unchanged fingerprint."
   },
   "receipts": {
     "authority": "CACHE_ONLY",
@@ -107,8 +106,59 @@
     "policy": "IMMUTABLE_FROM_SCHEDULED_RUNS",
     "rule": "Only explicit user chat instruction may enable/disable/pause/delete/rename/reschedule/rewrite Roblox tasks."
   },
-  "localOnlyRequired": false,
+  "localOnlyRequired": {
+    "required": true,
+    "exactSha": "c4503711c91a0639ed320786f9acb402e2689ebf",
+    "reason": "Roblox engine execution, save/rejoin behavior, and actual mobile runtime interaction cannot be proven by static GitHub checks or Rojo build alone.",
+    "checks": [
+      "server boots without runtime errors",
+      "MainSpawn and free-roam function",
+      "SchoolClock advances period state",
+      "math class attendance requires authoritative location",
+      "wrong answer returns hint",
+      "LeaveClass restores free roam",
+      "stale submission replay after leave fails closed",
+      "correct completion credits progression exactly once",
+      "save/rejoin restores committed progression",
+      "mobile HUD remains usable without obstructing core controls"
+    ]
+  },
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "Exact-head-green mobile client enabling attend -> answer -> leave/return -> read-only progression on the certified server lineage."
+  "nextMeasurableMilestone": "Obtain exact-SHA runtime smoke evidence for c4503711c91a0639ed320786f9acb402e2689ebf without publishing or spending money.",
+  "integrationCandidates": [
+    {
+      "branch": "rebuild/high-school-integration",
+      "head": "c4503711c91a0639ed320786f9acb402e2689ebf",
+      "productParent": "fe0c10e4ce67115f8e595b383a2282476f287ed8",
+      "integrationGuardCommit": "02b9a4debeb15b6e9e333dc961f9939eb8a40775",
+      "cloudCi": {
+        "runId": 36906641599,
+        "workflow": "High School Integration",
+        "conclusion": "success",
+        "guards": [
+          "Foundation",
+          "Class & Education",
+          "Progression",
+          "Mobile",
+          "Integration"
+        ],
+        "rojoVersion": "7.7.0",
+        "build": "PASS"
+      },
+      "artifact": {
+        "id": 11184611409,
+        "name": "high-school-integration-candidate",
+        "sizeBytes": 7250,
+        "digest": "sha256:784f9a04b31c68e0295237b2a3957ce3bd5a719597b22928050680ba24bc44a1",
+        "expiresAt": "2026-10-08T18:24:58Z"
+      }
+    }
+  ],
+  "cloudBuild": {
+    "exactSha": "c4503711c91a0639ed320786f9acb402e2689ebf",
+    "runId": 36906641599,
+    "status": "PASS",
+    "artifactDigest": "sha256:784f9a04b31c68e0295237b2a3957ce3bd5a719597b22928050680ba24bc44a1"
+  }
 }
