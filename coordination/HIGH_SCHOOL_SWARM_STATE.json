@@ -1,6 +1,6 @@
 {
-  "version": 12,
-  "updatedAt": "2026-10-01T14:37:00-04:00",
+  "version": 13,
+  "updatedAt": "2026-10-01T14:39:30-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "27535c45e835f3e820d0b0ce73226ae8ed4f0c0c",
@@ -20,10 +20,10 @@
   "currentReleaseBlocker": "LOCAL_ONLY_REQUIRED: exact Roblox runtime validation is still required for the current hardened integration candidate.",
   "blockerState": "LOCAL_ONLY_REQUIRED",
   "blockerOwner": "Roblox High School Integration Smoke",
-  "blockerExitCriterion": "Using exact integration SHA 4800a818a22171ac013e4eb2b011494cc3ee9152 and its built artifact, obtain background-safe Roblox runtime evidence for server boot, visible wayfinding, MainSpawn/free-roam, SchoolClock transition, authoritative-location math attendance, wrong-answer hint, period/leave cleanup, stale replay rejection, exactly-once progression, save/rejoin restoration, and mobile HUD usability.",
+  "blockerExitCriterion": "Using exact integration SHA e5c23b3115790f05d79309a908a9a5035cea125a and its built artifact, obtain background-safe Roblox runtime evidence for server boot, visible wayfinding, spawn/free-roam, SchoolClock transition, location-enforced math attendance, reset/leave/period cleanup, wrong-answer hint, stale replay rejection, exactly-once progression, save/rejoin restoration, and mobile HUD usability.",
   "wipCap": 3,
   "wipSlots": {
-    "canonicalBase": "rebuild/high-school-integration@4800a818a22171ac013e4eb2b011494cc3ee9152 (CLOUD BUILD PASS)",
+    "canonicalBase": "rebuild/high-school-integration@e5c23b3115790f05d79309a908a9a5035cea125a (CLOUD BUILD PASS)",
     "upstreamCriticalPath": null,
     "downstreamSpeculative": null
   },
@@ -108,7 +108,7 @@
   },
   "localOnlyRequired": {
     "required": true,
-    "exactSha": "4800a818a22171ac013e4eb2b011494cc3ee9152",
+    "exactSha": "e5c23b3115790f05d79309a908a9a5035cea125a",
     "reason": "Roblox engine execution, actual character/location behavior, DataStore save/rejoin, and device interaction cannot be proven by static GitHub checks or Rojo build alone.",
     "checks": [
       "server boots without runtime errors",
@@ -116,6 +116,8 @@
       "MainSpawn and free-roam function",
       "SchoolClock advances period state",
       "math attendance requires authoritative location",
+      "reset/respawn closes active class",
+      "walking away before submit closes/rejects the class",
       "wrong answer returns hint",
       "leaving/period ending closes the session and returns free roam",
       "stale submission replay fails closed",
@@ -126,38 +128,32 @@
   },
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "Exact-SHA runtime smoke evidence for 4800a818a22171ac013e4eb2b011494cc3ee9152, unless a newer cloud hardening fix supersedes it.",
+  "nextMeasurableMilestone": "Exact-SHA runtime smoke evidence for e5c23b3115790f05d79309a908a9a5035cea125a unless a newer verified hardening fix supersedes it.",
   "integrationCandidates": [
     {
       "branch": "rebuild/high-school-integration",
-      "head": "4800a818a22171ac013e4eb2b011494cc3ee9152",
+      "head": "e5c23b3115790f05d79309a908a9a5035cea125a",
       "cloudCi": {
-        "runId": 36908123981,
+        "runId": 36908397423,
         "workflow": "High School Integration",
         "conclusion": "success",
-        "guards": [
-          "Foundation",
-          "Class & Education",
-          "Progression",
-          "Mobile",
-          "Integration"
-        ],
         "rojoVersion": "7.7.0",
         "build": "PASS"
       },
       "artifact": {
-        "id": 11185556992,
+        "id": 11186031919,
         "name": "high-school-integration-candidate",
-        "sizeBytes": 8569,
-        "digest": "sha256:21b1e1f499e420da9189cfc50c0c4c9be40de560c8ceb43515d6521f14ab9226",
-        "expiresAt": "2026-10-08T18:36:53Z"
+        "sizeBytes": 8617,
+        "digest": "sha256:71603143968f3d11f2c95efcfeac4fcc241ed44e1e273abf1a60856c2fe7494f",
+        "expiresAt": "2026-10-08T18:39:06Z"
       },
       "hardening": [
         "globally unique server session IDs",
-        "period-end session cleanup",
+        "period-end and respawn session cleanup",
+        "classroom location revalidation on submit",
         "resolved-session memory cleanup",
         "bounded unique submission receipts and input lengths",
-        "atomic progression UpdateAsync with background retries and shutdown flush",
+        "atomic progression UpdateAsync with repeated background retries and shutdown flush",
         "mobile progression-settle feedback",
         "automatic client period-end cleanup",
         "visible class wayfinding and room-name/countdown HUD"
@@ -165,9 +161,9 @@
     }
   ],
   "cloudBuild": {
-    "exactSha": "4800a818a22171ac013e4eb2b011494cc3ee9152",
-    "runId": 36908123981,
+    "exactSha": "e5c23b3115790f05d79309a908a9a5035cea125a",
+    "runId": 36908397423,
     "status": "PASS",
-    "artifactDigest": "sha256:21b1e1f499e420da9189cfc50c0c4c9be40de560c8ceb43515d6521f14ab9226"
+    "artifactDigest": "sha256:71603143968f3d11f2c95efcfeac4fcc241ed44e1e273abf1a60856c2fe7494f"
   }
 }
