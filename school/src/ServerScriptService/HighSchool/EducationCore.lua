@@ -5,6 +5,9 @@ local ActivityCatalog = require(script.Parent:WaitForChild("ActivityCatalog"))
 local EducationCore = {}
 
 local sessions = {}
+local MAX_UNIQUE_SUBMISSIONS_PER_SESSION = 12
+local MAX_SUBMISSION_ID_LENGTH = 128
+local MAX_CHOICE_ID_LENGTH = 64
 
 local function cloneChoices(choices)
     local publicChoices = {}
@@ -53,6 +56,7 @@ function EducationCore.startSession(userId, classId)
         classId = classId,
         activity = activity,
         receipts = {},
+        uniqueSubmissionCount = 0,
         closed = false,
         resolved = false,
     }
@@ -79,13 +83,27 @@ function EducationCore.submit(sessionId, submissionId, choiceId)
         return table.freeze({ accepted = false, reason = "SESSION_CLOSED" })
     end
 
-    if type(submissionId) ~= "string" or submissionId == "" then
+    if type(submissionId) ~= "string"
+        or submissionId == ""
+        or #submissionId > MAX_SUBMISSION_ID_LENGTH
+    then
         return table.freeze({ accepted = false, reason = "INVALID_SUBMISSION_ID" })
     end
 
     local cached = session.receipts[submissionId]
     if cached then
         return cached
+    end
+
+    if session.uniqueSubmissionCount >= MAX_UNIQUE_SUBMISSIONS_PER_SESSION then
+        return table.freeze({ accepted = false, reason = "TOO_MANY_SUBMISSIONS" })
+    end
+
+    if type(choiceId) ~= "string"
+        or choiceId == ""
+        or #choiceId > MAX_CHOICE_ID_LENGTH
+    then
+        return table.freeze({ accepted = false, reason = "INVALID_CHOICE" })
     end
 
     local validChoice = false
@@ -99,6 +117,8 @@ function EducationCore.submit(sessionId, submissionId, choiceId)
     if not validChoice then
         return table.freeze({ accepted = false, reason = "INVALID_CHOICE" })
     end
+
+    session.uniqueSubmissionCount += 1
 
     local isCorrect = choiceId == session.activity.correctChoiceId
     local response

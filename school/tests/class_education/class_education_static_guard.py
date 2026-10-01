@@ -23,6 +23,15 @@ assert "nextSessionNumber" not in core, "process-local counters are not durable 
 assert 'sessions[sessionId] = nil' in core, "closed sessions must be removed from server memory"
 assert 'and not session.resolved' in core, "resolved sessions must not remain owned/active"
 
+assert 'MAX_UNIQUE_SUBMISSIONS_PER_SESSION = 12' in core
+assert '#submissionId > MAX_SUBMISSION_ID_LENGTH' in core
+assert '#choiceId > MAX_CHOICE_ID_LENGTH' in core
+cap_check = core.index("session.uniqueSubmissionCount >= MAX_UNIQUE_SUBMISSIONS_PER_SESSION")
+count_increment = core.index("session.uniqueSubmissionCount += 1")
+receipt_write = core.index("session.receipts[submissionId] = response")
+assert cap_check < count_increment < receipt_write, "submission cap must precede receipt growth"
+assert 'reason = "TOO_MANY_SUBMISSIONS"' in core
+
 assert 'FoundationState.getSnapshot()' in service
 assert 'foundation.periodId ~= ACTIVE_CLASS_ID' in service
 assert 'isAtAuthoritativeLocation(player, foundation.locationId)' in service
