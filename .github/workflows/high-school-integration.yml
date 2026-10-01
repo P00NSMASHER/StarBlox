@@ -41,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           curl --fail --location --silent --show-error \
-            "https://github.com/rojo-rbx/rojo/releases/download/v6.0.0-rc.1/rojo-6.0.0-rc.1-linux.zip" \
+            "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" \
             --output rojo.zip
           unzip -q rojo.zip -d rojo-bin
           chmod +x rojo-bin/rojo
