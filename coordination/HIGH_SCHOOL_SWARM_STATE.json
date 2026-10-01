@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "updatedAt": "2026-10-01T12:57:39-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
@@ -41,7 +41,16 @@
     "Roblox High School Progression & Mobile — standalone neutral-contract progression/persistence/mobile only until Class/Education PASS"
   ],
   "desiredNextProducer": "Roblox High School Foundation",
-  "taskStateConflicts": [],
+  "taskStateConflicts": [
+    {
+      "task": "Roblox High School Integration Director",
+      "observedEnabled": false,
+      "expectedRole": "rolling integration of QA-approved independent producer heads",
+      "consequence": "Rolling integration cannot execute even when QA produces an eligible candidate.",
+      "owner": "TASK_STATE_CONFLICT",
+      "exitCriterion": "Restore the existing Integration Director task to enabled without changing its schedule. This Control Tower run is prohibited from changing task enablement."
+    }
+  ],
   "supportLanes": [
     "Roblox High School Control Tower",
     "Roblox High School DevEx",
@@ -62,7 +71,7 @@
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "Four parallel deliverables: Foundation SchoolClock+FoundationState commit; first standalone Education Core commit; first schema-v1 content commit; first neutral-contract progression/persistence commit. In parallel DevEx must establish exact-head highschool CI.",
+  "nextMeasurableMilestone": "Foundation: SchoolClock + read-only FoundationState on existing mapped runtime paths. Education: first standalone Education Core commit. Content: first schema-v1 content commit. Progression: first neutral-contract exactly-once persistence commit. DevEx: exact-head highschool CI. Integration remains blocked by disabled Integration Director even after QA eligibility.",
   "safeParallelWork": {
     "foundation": "highschool/default.project.json + highschool/src/foundation/** + Foundation tests/provenance",
     "educationCore": "highschool/src/education/** + deterministic Education Core tests; no Foundation/world/clock/progression/UI binding before Foundation PASS",
@@ -115,6 +124,11 @@
       "lane": "Roblox High School DevEx",
       "evidence": "Foundation head 5a6d676b117cb78fb7a43b239d7d85e77128337c still has 0 workflow runs, 0 statuses, and 0 check runs; no HIGH_SCHOOL_DEVEX_RECEIPT.json exists.",
       "nextObjective": "Add/repair GitHub-native exact-head static CI for highschool/** on rebuild/high-school-foundation and write HIGH_SCHOOL_DEVEX_RECEIPT.json with exact run/check evidence."
+    },
+    {
+      "lane": "Roblox High School Foundation",
+      "evidence": "After the campus-runtime commit 5a6d676b117cb78fb7a43b239d7d85e77128337c, the next scheduled producer cycle produced no new Foundation commit despite eligible SchoolClock/FoundationState work.",
+      "nextObjective": "Extend the existing mapped HighSchool paths with SchoolClock + read-only FoundationState + service/bootstrap integration + deterministic guards. Do not create a second parallel Foundation runtime tree."
     }
   ],
   "deferredBindings": [
@@ -122,5 +136,22 @@
     "Progression gameplay binding waits for Class/Education PASS",
     "Final release READY waits for all canonical stage gates and required runtime evidence"
   ],
-  "integrationCandidates": []
+  "integrationCandidates": [],
+  "foundationOwnershipCompatibility": {
+    "status": "LIVE_PATHS_PRECEDE_LATER_PROMPT_SHORTHAND",
+    "issue": "Live Foundation code is already mapped under highschool/src/ReplicatedStorage/HighSchool/** and highschool/src/ServerScriptService/HighSchool/**, while later coordination shorthand says highschool/src/foundation/**.",
+    "rule": "Do not create a duplicate Foundation runtime tree solely to satisfy shorthand. Extend the existing mapped HighSchool runtime paths unless/until Foundation deliberately migrates them in one tested atomic change.",
+    "nextFiles": [
+      "highschool/src/ReplicatedStorage/HighSchool/SchoolClock.lua",
+      "highschool/src/ReplicatedStorage/HighSchool/FoundationState.lua",
+      "highschool/src/ServerScriptService/HighSchool/SchoolClockService.server.lua",
+      "highschool/tests/foundation/foundation_static_guard.py"
+    ]
+  },
+  "safeProducerHeads": {
+    "foundation": "rebuild/high-school-foundation@5a6d676b117cb78fb7a43b239d7d85e77128337c",
+    "educationCore": "rebuild/high-school-education-core@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)",
+    "content": "rebuild/high-school-content@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)",
+    "progressionMobile": "rebuild/high-school-progression@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)"
+  }
 }
