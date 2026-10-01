@@ -1,0 +1,137 @@
+local ActivityCatalog = require(script.Parent:WaitForChild("ActivityCatalog"))
+
+local EducationCore = {}
+
+local sessions = {}
+local nextSessionNumber = 0
+
+local function cloneChoices(choices)
+    local publicChoices = {}
+    for _, choice in ipairs(choices) do
+        table.insert(publicChoices, table.freeze({
+            id = choice.id,
+            text = choice.text,
+        }))
+    end
+    return table.freeze(publicChoices)
+end
+
+local function toPublicActivity(activity)
+    -- PUBLIC_ACTIVITY_BEGIN
+    return table.freeze({
+        id = activity.id,
+        subject = activity.subject,
+        skill = activity.skill,
+        difficulty = activity.difficulty,
+        prompt = activity.prompt,
+        choices = cloneChoices(activity.choices),
+        hint = activity.hint,
+    })
+    -- PUBLIC_ACTIVITY_END
+end
+
+function EducationCore.startSession(userId, classId)
+    assert(type(userId) == "number", "userId required")
+    assert(type(classId) == "string" and classId ~= "", "classId required")
+
+    local activity = ActivityCatalog.getForClass(classId)
+    if not activity then
+        return nil, "NO_ACTIVITY"
+    end
+
+    nextSessionNumber += 1
+    local sessionId = string.format("%d:%s:%d", userId, classId, nextSessionNumber)
+    sessions[sessionId] = {
+        id = sessionId,
+        userId = userId,
+        classId = classId,
+        activity = activity,
+        receipts = {},
+        closed = false,
+        resolved = false,
+    }
+
+    return sessionId
+end
+
+function EducationCore.getPublicActivity(sessionId)
+    local session = sessions[sessionId]
+    if not session or session.closed then
+        return nil
+    end
+    return toPublicActivity(session.activity)
+end
+
+function EducationCore.submit(sessionId, submissionId, choiceId)
+    local session = sessions[sessionId]
+    if not session then
+        return table.freeze({ accepted = false, reason = "UNKNOWN_SESSION" })
+    end
+
+    -- CLOSED_CHECK_BEFORE_RECEIPT_CACHE
+    if session.closed or session.resolved then
+        return table.freeze({ accepted = false, reason = "SESSION_CLOSED" })
+    end
+
+    if type(submissionId) ~= "string" or submissionId == "" then
+        return table.freeze({ accepted = false, reason = "INVALID_SUBMISSION_ID" })
+    end
+
+    local cached = session.receipts[submissionId]
+    if cached then
+        return cached
+    end
+
+    local validChoice = false
+    for _, choice in ipairs(session.activity.choices) do
+        if choice.id == choiceId then
+            validChoice = true
+            break
+        end
+    end
+
+    if not validChoice then
+        return table.freeze({ accepted = false, reason = "INVALID_CHOICE" })
+    end
+
+    local isCorrect = choiceId == session.activity.correctChoiceId
+    local response
+
+    if isCorrect then
+        session.resolved = true
+        response = table.freeze({
+            accepted = true,
+            resolved = true,
+            score = 1,
+            explanation = session.activity.explanation,
+        })
+    else
+        response = table.freeze({
+            accepted = true,
+            resolved = false,
+            score = 0,
+            hint = session.activity.hint,
+        })
+    end
+
+    session.receipts[submissionId] = response
+    return response
+end
+
+function EducationCore.closeSession(sessionId)
+    local session = sessions[sessionId]
+    if not session then
+        return false
+    end
+
+    session.closed = true
+    session.receipts = {}
+    return true
+end
+
+function EducationCore.isOwnedBy(sessionId, userId)
+    local session = sessions[sessionId]
+    return session ~= nil and session.userId == userId and not session.closed
+end
+
+return table.freeze(EducationCore)
