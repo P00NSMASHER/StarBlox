@@ -1,8 +1,14 @@
 {
   "status": "BLOCKED",
   "candidateBranch": "rebuild/high-school-foundation",
-  "candidateExists": false,
+  "candidateExists": true,
   "baseSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
-  "currentReleaseBlocker": "No eligible canonical Foundation candidate exists.",
-  "localOnlyRequired": false
+  "headSha": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
+  "phase": "FOUNDATION_BOOTSTRAPPED",
+  "rightsVerdict": "BLOCKED",
+  "ciRunIdentity": null,
+  "currentReleaseBlocker": "Foundation branch exists but has no isolated original high-school runtime or exact-head certification yet.",
+  "activeProducerWipLimit": 1,
+  "localOnlyRequired": false,
+  "nextMilestone": "Commit the isolated original Foundation runtime and obtain deterministic cloud test evidence."
 }
