@@ -1,0 +1,37 @@
+name: High School Integration
+
+on:
+  push:
+    branches:
+      - rebuild/high-school-integration
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-integration.yml"
+  pull_request:
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-integration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  integration-static:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact integration candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Foundation guard
+        run: python school/tests/foundation/foundation_static_guard.py
+      - name: Run Class & Education guard
+        run: python school/tests/class_education/class_education_static_guard.py
+      - name: Run Progression guard
+        run: python school/tests/progression/progression_static_guard.py
+      - name: Run Mobile guard
+        run: python school/tests/mobile/mobile_static_guard.py
+      - name: Run Integration guard
+        run: python school/tests/integration/integration_static_guard.py
