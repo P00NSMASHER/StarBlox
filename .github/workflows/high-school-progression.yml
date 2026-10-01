@@ -31,3 +31,5 @@ jobs:
         run: python school/tests/class_education/class_education_static_guard.py
       - name: Run Progression guard
         run: python school/tests/progression/progression_static_guard.py
+      - name: Run Mobile guard
+        run: python school/tests/mobile/mobile_static_guard.py
