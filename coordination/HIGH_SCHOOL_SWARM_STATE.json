@@ -1,10 +1,10 @@
 {
-  "version": 2,
-  "updatedAt": "2026-10-01T10:58:32-04:00",
+  "version": 3,
+  "updatedAt": "2026-10-01T11:28:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
-  "protocolCommit": "26361233868fe17ff9e3f98a0d06ebe113de5853",
-  "phase": "FOUNDATION_STALLED_TASK_STATE",
+  "protocolCommit": "dcca6bf96fb3430c61de70c56de92677841bea19",
+  "phase": "FOUNDATION_BUILD_WITH_SAFE_PARALLEL_PRODUCERS",
   "canonicalFoundationBranch": "rebuild/high-school-foundation",
   "canonicalFoundationHead": "be9cb81ffd1eb6b69e86dcd8d9c9daa3c7fec909",
   "canonicalFoundationParent": "6eabd0cfb8543776adda4f89dd5e182e644cabb2",
@@ -24,37 +24,39 @@
     "claimedWorkflowRunLive": false,
     "verdict": "STALE_OR_NONLIVE_DO_NOT_USE"
   },
-  "currentReleaseBlocker": "Foundation stage is STALLED: the canonical branch is still bootstrap-only and the Roblox High School Foundation producer task is disabled, so no active producer can create the first real Foundation runtime unit.",
-  "blockerState": "STALLED",
-  "blockerOwner": "TASK_STATE_CONFLICT: Roblox High School Foundation",
-  "blockerExitCriterion": "Restore the existing Roblox High School Foundation task to enabled without changing its schedule, then commit one real Foundation unit on rebuild/high-school-foundation: highschool/default.project.json plus the first mapped original runtime module and deterministic guard; after that record exact-head GitHub CI evidence.",
-  "producerWipLimit": 1,
-  "activeProducers": [],
-  "desiredNextProducer": "Roblox High School Foundation",
-  "taskStateConflicts": [
-    {
-      "task": "Roblox High School Foundation",
-      "expectedRole": "current blocker owner / only product producer",
-      "observedEnabled": false,
-      "consequence": "Cannot assign it ACTIVE under task-state safety."
-    }
+  "currentReleaseBlocker": "Foundation is bootstrap-only: canonical highschool runtime has not yet been implemented.",
+  "blockerState": "ACTIVE",
+  "blockerOwner": "Roblox High School Foundation",
+  "blockerExitCriterion": "Commit an isolated highschool/default.project.json plus the first mapped original Foundation runtime slice and deterministic Foundation guard on rebuild/high-school-foundation; then obtain exact-head GitHub CI evidence.",
+  "producerWipLimit": 3,
+  "activeProducers": [
+    "Roblox High School Foundation",
+    "Roblox High School Class & Education (Education Core only until Foundation PASS)",
+    "Roblox High School Content QA"
   ],
+  "desiredNextProducer": "Roblox High School Foundation",
+  "taskStateConflicts": [],
   "supportLanes": [
     "Roblox High School Control Tower",
-    "Roblox High School DevEx"
+    "Roblox High School DevEx",
+    "Roblox High School QA & Contract"
   ],
   "deferredUntilFoundationPass": [
-    "Roblox High School Class & Education",
-    "Roblox High School Progression & Mobile",
-    "Roblox High School QA & Contract",
+    "Class attendance/world binding inside Roblox High School Class & Education",
+    "Roblox High School Progression & Mobile product writes",
     "Roblox High School Integration Director",
     "Roblox High School Integration Smoke",
     "Roblox High School Release & Package Gate"
   ],
-  "contentLaneMode": "schema-aware preparation only; no schema-dependent writes before eligible Class/Education contract",
+  "contentLaneMode": "ACTIVE: build original/sanitized content against Education content schema v1 only.",
   "rightsStatus": "CURRENT_BOOTSTRAP_ONLY_NO_MAPPED_EXTERNAL_ASSETS_OBSERVED",
   "localOnlyRequired": false,
   "publishAuthorized": false,
   "spendAuthorized": false,
-  "nextMeasurableMilestone": "First non-README Foundation product commit on rebuild/high-school-foundation, followed by exact-head CI evidence."
+  "nextMeasurableMilestone": "First real Foundation runtime commit; in parallel, first standalone Education Core commit and first original content-pack commit, all with deterministic tests.",
+  "safeParallelWork": {
+    "foundation": "highschool/default.project.json + highschool/src/foundation/** + Foundation tests/provenance",
+    "educationCore": "highschool/src/education/** + deterministic Education Core tests; no Foundation/world/clock/progression/UI binding before Foundation PASS",
+    "content": "highschool/content/** + schema/content QA tests"
+  }
 }
