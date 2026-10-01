@@ -1,6 +1,6 @@
 {
   "version": 6,
-  "updatedAt": "2026-10-01T12:57:39-04:00",
+  "updatedAt": "2026-10-01T13:07:00-04:00",
   "stateOwner": "Roblox High School Control Tower",
   "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
   "protocolCommit": "f7b16d7425546fcc8f45b4ee80e52bb1feb0c029",
@@ -41,16 +41,7 @@
     "Roblox High School Progression & Mobile — standalone neutral-contract progression/persistence/mobile only until Class/Education PASS"
   ],
   "desiredNextProducer": "Roblox High School Foundation",
-  "taskStateConflicts": [
-    {
-      "task": "Roblox High School Integration Director",
-      "observedEnabled": false,
-      "expectedRole": "rolling integration of QA-approved independent producer heads",
-      "consequence": "Rolling integration cannot execute even when QA produces an eligible candidate.",
-      "owner": "TASK_STATE_CONFLICT",
-      "exitCriterion": "Restore the existing Integration Director task to enabled without changing its schedule. This Control Tower run is prohibited from changing task enablement."
-    }
-  ],
+  "taskStateConflicts": [],
   "supportLanes": [
     "Roblox High School Control Tower",
     "Roblox High School DevEx",
@@ -153,5 +144,12 @@
     "educationCore": "rebuild/high-school-education-core@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)",
     "content": "rebuild/high-school-content@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)",
     "progressionMobile": "rebuild/high-school-progression@5a6d676b117cb78fb7a43b239d7d85e77128337c (branch ready; first owned product commit pending)"
+  },
+  "integrationDirectorAvailability": {
+    "status": "TASK_CAP_PENDING",
+    "task": "Roblox High School Integration Director",
+    "reason": "Account is at the 15-active-task limit; enabling the existing Integration Director would require pausing another active task, which is prohibited.",
+    "recovery": "Control Tower will re-enable the existing Integration Director immediately when the active-task count naturally falls below 15, without changing its schedule or prompt.",
+    "currentImpact": "Not the current product blocker. Upstream Foundation/Class/Content/Progression work continues."
   }
 }
