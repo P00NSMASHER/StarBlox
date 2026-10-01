@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-01T09:00:00-04:00",
+  "stateOwner": "Roblox High School Control Tower",
+  "protocolPath": "coordination/HIGH_SCHOOL_SWARM_PROTOCOL.md",
+  "protocolCommit": "26361233868fe17ff9e3f98a0d06ebe113de5853",
+  "canonicalFoundationBranch": "rebuild/high-school-foundation",
+  "canonicalFoundationHead": "be9cb81ffd1eb6b69e86dcd8d9c9daa3c7fec909",
+  "currentReleaseBlocker": "Foundation lacks first real product implementation beyond bootstrap README",
+  "blockerOwner": "Roblox High School Foundation",
+  "blockerExitCriterion": "Commit isolated highschool/default.project.json plus the first mapped original Foundation runtime unit and deterministic guard, then record exact-head GitHub test evidence.",
+  "producerWipLimit": 1,
+  "activeProducers": [
+    "Roblox High School Foundation"
+  ],
+  "supportLanes": [
+    "Roblox High School Control Tower",
+    "Roblox High School DevEx"
+  ],
+  "deferredUntilFoundationPass": [
+    "Roblox High School Class & Education",
+    "Roblox High School Progression & Mobile",
+    "Roblox High School QA & Contract",
+    "Roblox High School Integration Director",
+    "Roblox High School Integration Smoke",
+    "Roblox High School Release & Package Gate"
+  ],
+  "contentLaneMode": "schema-aware preparation only; no schema-dependent writes before eligible Class/Education contract",
+  "localOnlyRequired": false,
+  "publishAuthorized": false,
+  "spendAuthorized": false
+}
