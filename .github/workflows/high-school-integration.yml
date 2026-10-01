@@ -36,13 +36,21 @@ jobs:
         run: python school/tests/mobile/mobile_static_guard.py
       - name: Run Integration guard
         run: python school/tests/integration/integration_static_guard.py
+      - name: Install pinned Luau CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error             "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip"             --output luau.zip
+          unzip -q luau.zip -d luau-bin
+          chmod +x luau-bin/luau*
+          test -x luau-bin/luau
+      - name: Execute pure Luau logic tests
+        run: luau-bin/luau school/tests/logic/pure_logic_spec.luau
       - name: Install pinned portable Rojo
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error \
-            "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" \
-            --output rojo.zip
+          curl --fail --location --silent --show-error             "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip"             --output rojo.zip
           unzip -q rojo.zip -d rojo-bin
           chmod +x rojo-bin/rojo
           rojo-bin/rojo --version
@@ -59,7 +67,8 @@ jobs:
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          printf '{"sourceSha":"%s","bytes":%s}\n' "$GITHUB_SHA" "$BYTES" > high-school-build-receipt.json
+          printf '{"sourceSha":"%s","bytes":%s}
+' "$GITHUB_SHA" "$BYTES" > high-school-build-receipt.json
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4
         with:
