@@ -31,6 +31,7 @@ jobs:
           use std::{collections::HashSet, env, fs};
           use anyhow::{Context, Result};
           use rbx_types::Variant;
+          use sha2::{Digest, Sha256};
           use ustr::ustr;
 
           fn main() -> Result<()> {
@@ -58,6 +59,8 @@ jobs:
                       Some(Variant::String(s)) => s.as_str(),
                       _ => "<NO_SOURCE>",
                   };
+                  let source_sha = format!("{:x}", Sha256::digest(source.as_bytes()));
+                  println!("RHS_SOURCE_SHA256 {} {}", p, source_sha);
                   println!("===== RHS_SOURCE_BEGIN {} [{}] =====", p, class);
                   println!("{}", source);
                   println!("===== RHS_SOURCE_END {} =====", p);
