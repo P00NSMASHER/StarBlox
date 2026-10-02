@@ -18,6 +18,13 @@ assert 'local UserInputService = game:GetService("UserInputService")' in client
 assert 'local function configureFocusableButton(button)' in client
 assert 'focusStroke.Name = "FocusStroke"' in client
 assert 'focusStroke.Color = Color3.fromRGB(255, 213, 74)' in client
+assert 'local ACTION_ENABLED_BACKGROUND = Color3.fromRGB(255, 213, 74)' in client
+assert 'local ACTION_ENABLED_TEXT = Color3.fromRGB(41, 35, 18)' in client
+assert 'local ACTION_DISABLED_BACKGROUND = Color3.fromRGB(83, 86, 92)' in client
+assert 'local ACTION_DISABLED_TEXT = Color3.fromRGB(222, 224, 228)' in client
+assert 'local function setActionButtonVisualState(button, isEnabled)' in client
+assert 'button.BackgroundColor3 = isEnabled and ACTION_ENABLED_BACKGROUND or ACTION_DISABLED_BACKGROUND' in client
+assert 'button.TextColor3 = isEnabled and ACTION_ENABLED_TEXT or ACTION_DISABLED_TEXT' in client
 assert 'button.SelectionGained:Connect' in client
 assert 'button.SelectionLost:Connect' in client
 assert 'local function usesSelectionNavigation()' in client
@@ -62,8 +69,12 @@ assert 'response.reason == "CLASS_PERIOD_ENDED"' in client
 assert 'response.reason == "LEFT_CLASS_LOCATION"' in client
 assert 'local function updateActionAvailability(classIsAvailable)' in client
 assert 'attendButton.Selectable = canAttend' in client
+assert 'setActionButtonVisualState(attendButton, canAttend)' in client
+assert 'attendButton.Text = canAttend and "Attend Math" or (canLeave and "Class In Progress" or "Class Unavailable")' in client
 assert 'leaveButton.Active = canLeave' in client
 assert 'leaveButton.Selectable = canLeave' in client
+assert 'setActionButtonVisualState(leaveButton, canLeave)' in client
+assert 'attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"' not in client
 assert 'attendButton.NextSelectionLeft = leaveButton' in client
 assert 'leaveButton.NextSelectionRight = attendButton' in client
 assert 'button.NextSelectionLeft = choiceButtons[index - 1] or choiceButtons[#choiceButtons]' in client

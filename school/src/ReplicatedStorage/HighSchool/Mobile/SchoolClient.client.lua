@@ -17,6 +17,10 @@ local getProgression = progressionRemotes:WaitForChild("GetProgression")
 local ACTIVE_CLASS_ID = "math"
 local COLLAPSED_PANEL_HEIGHT = 210
 local ACTIVE_PANEL_HEIGHT = 236
+local ACTION_ENABLED_BACKGROUND = Color3.fromRGB(255, 213, 74)
+local ACTION_ENABLED_TEXT = Color3.fromRGB(41, 35, 18)
+local ACTION_DISABLED_BACKGROUND = Color3.fromRGB(83, 86, 92)
+local ACTION_DISABLED_TEXT = Color3.fromRGB(222, 224, 228)
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -109,8 +113,17 @@ local function makeButton(parent, name, text)
     return button
 end
 
+local function setActionButtonVisualState(button, isEnabled)
+    button.BackgroundColor3 = isEnabled and ACTION_ENABLED_BACKGROUND or ACTION_DISABLED_BACKGROUND
+    button.BackgroundTransparency = isEnabled and 0.04 or 0.18
+    button.TextColor3 = isEnabled and ACTION_ENABLED_TEXT or ACTION_DISABLED_TEXT
+    button.TextTransparency = isEnabled and 0 or 0.08
+end
+
 local attendButton = makeButton(actionRow, "AttendClassButton", "Attend Class")
 local leaveButton = makeButton(actionRow, "LeaveClassButton", "Leave Class")
+setActionButtonVisualState(attendButton, false)
+setActionButtonVisualState(leaveButton, false)
 
 attendButton.NextSelectionLeft = leaveButton
 attendButton.NextSelectionRight = leaveButton
@@ -220,10 +233,13 @@ local function updateActionAvailability(classIsAvailable)
     attendButton.Active = canAttend
     attendButton.AutoButtonColor = canAttend
     attendButton.Selectable = canAttend
+    setActionButtonVisualState(attendButton, canAttend)
+    attendButton.Text = canAttend and "Attend Math" or (canLeave and "Class In Progress" or "Class Unavailable")
 
     leaveButton.Active = canLeave
     leaveButton.AutoButtonColor = canLeave
     leaveButton.Selectable = canLeave
+    setActionButtonVisualState(leaveButton, canLeave)
 end
 
 UserInputService.LastInputTypeChanged:Connect(function()
@@ -399,7 +415,6 @@ task.spawn(function()
 
         local classIsAvailable = periodId == ACTIVE_CLASS_ID
         updateActionAvailability(classIsAvailable)
-        attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"
 
         if periodId ~= lastPeriodId then
             if periodId == ACTIVE_CLASS_ID and currentSessionId == nil then
