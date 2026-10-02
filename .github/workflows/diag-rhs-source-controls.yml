@@ -1,0 +1,73 @@
+name: Diagnose RHS Source Controls
+
+on:
+  push:
+    branches:
+      - diag/rhs-input-house-20261002
+    paths:
+      - ".github/workflows/diag-rhs-source-controls.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: P00NSMASHER/PipsQuestWorld
+          ref: 862f62b874df9149a5cee753f173c66ccd546b74
+          path: rhs-source
+          fetch-depth: 1
+
+      - name: Add temporary binary script dumper
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p rhs-source/tools/rhs-binary-patcher/src/bin
+          cat > rhs-source/tools/rhs-binary-patcher/src/bin/dump.rs <<'RS'
+          use std::{collections::HashSet, env, fs};
+          use anyhow::{Context, Result};
+          use rbx_types::Variant;
+          use ustr::ustr;
+
+          fn main() -> Result<()> {
+              let args: Vec<String> = env::args().collect();
+              let path = args.get(1).context("missing rbxl path")?;
+              let bytes = fs::read(path)?;
+              let dom = rbx_binary::from_reader(bytes.as_slice())?;
+
+              let targets: HashSet<&str> = [
+                  "StarterPlayer/StarterPlayerScripts/ControlScript",
+                  "StarterGui/MainMenu/MainFrame/menu_House/EditButton/LocalScript",
+                  "StarterGui/MainMenu/MainFrame/menu_House/TeleportButton/LocalScript",
+                  "StarterGui/MainMenu/MainMenuScript",
+                  "StarterGui/MainMenu/MainFrame/House/LoadMenu",
+                  "StarterGui/HouseEditMode/HouseEditMenu",
+                  "ServerScriptService/CustomHouseScript_NEW",
+              ].into_iter().collect();
+
+              for inst in dom.descendants() {
+                  let class = inst.class.to_string();
+                  if class != "Script" && class != "LocalScript" && class != "ModuleScript" { continue; }
+                  let p = dom.full_path_of(inst.referent(), "/");
+                  if !targets.contains(p.as_str()) { continue; }
+                  let source = match inst.properties.get(&ustr("Source")) {
+                      Some(Variant::String(s)) => s.as_str(),
+                      _ => "<NO_SOURCE>",
+                  };
+                  println!("===== RHS_SOURCE_BEGIN {} [{}] =====", p, class);
+                  println!("{}", source);
+                  println!("===== RHS_SOURCE_END {} =====", p);
+              }
+              Ok(())
+          }
+          RS
+
+      - name: Dump reviewed script sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo run --quiet --release             --manifest-path rhs-source/tools/rhs-binary-patcher/Cargo.toml             --bin dump --             "rhs-source/rhs/working/ROBLOX High School.rbxl"
