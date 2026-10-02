@@ -77,6 +77,6 @@ The policy consumes only gameplay-state values needed for the current interactio
 
 ## Runtime dependency blocker
 
-No live NPC service is added in this increment. The deterministic policy, validated symbolic roster/anchor registry, bounded relationship model, deterministic dialogue catalog, and pure interaction resolver now exist on this branch, but the authoritative school-day runtime remains in open PR #179 and no accepted world binding currently maps symbolic anchors to classroom/social-space geometry. Wiring movement or spawning now would guess another lane's ownership.
+No live NPC service is added in this increment. No runtime NPC service is added in this increment. The deterministic policy, validated symbolic roster/anchor registry, bounded relationship model, deterministic dialogue catalog, and pure interaction resolver now exist on this branch, but the authoritative school-day runtime remains in open PR #179 and no accepted world binding currently maps symbolic anchors to classroom/social-space geometry. Wiring movement or spawning now would guess another lane's ownership.
 
 Next: once the PR #179 snapshot interface is accepted, add a thin server adapter that consumes its `periodId`, resolves schedules through the validated registry/policy pair, and emits movement intents to a separately owned world-anchor binding. Do not add persistence, networking, or player-data collection to that adapter.
