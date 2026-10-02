@@ -1,0 +1,117 @@
+name: Verify Licensed RHS Live Version 5
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-rhs-exact-live-v5.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ROBLOX_UNIVERSE_ID: "10768955678"
+      ROBLOX_PLACE_ID: "87245440673982"
+      ROBLOX_PLACE_VERSION: "5"
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+    steps:
+      - name: Probe published RHS structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+
+          const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
+          const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
+          const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
+          const version=Number(process.env.ROBLOX_PLACE_VERSION);
+          if(!key) throw new Error("ROBLOX_OPEN_CLOUD_API_KEY missing");
+          if(universe!=="10768955678") throw new Error("unexpected universe");
+          if(place!=="87245440673982") throw new Error("unexpected place");
+          if(version!==5) throw new Error("unexpected version");
+
+          async function parse(r,label){
+            const text=await r.text();
+            let payload={};
+            try { payload=text?JSON.parse(text):{}; }
+            catch { throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,800)); }
+            if(!r.ok) throw new Error(label+" HTTP "+r.status+" "+JSON.stringify(payload).slice(0,1600));
+            return payload;
+          }
+
+          async function request(url,opts,label){
+            for(let attempt=0;attempt<7;attempt++){
+              const r=await fetch(url,opts);
+              if(r.status!==429) return parse(r,label);
+              await new Promise(res=>setTimeout(res,Math.min(16000,1000*Math.pow(2,attempt))));
+            }
+            throw new Error(label+" remained rate-limited");
+          }
+
+          const script=[
+            'assert(game.PlaceVersion==5,"wrong version "..tostring(game.PlaceVersion))',
+            'local descendants=game:GetDescendants()',
+            'local gui=0 local scripts=0 local tools=0 local seats=0 local sounds=0',
+            'local names={ScheduleScript=false,ClassroomZones=false,ChangeClassSchedule=false,ClassTeleport=false,CarSpawnScript=false}',
+            'for _,v in ipairs(descendants) do',
+            ' if v:IsA("GuiObject") then gui+=1 end',
+            ' if v:IsA("Script") or v:IsA("LocalScript") or v:IsA("ModuleScript") then scripts+=1 end',
+            ' if v:IsA("Tool") then tools+=1 end',
+            ' if v:IsA("Seat") or v:IsA("VehicleSeat") then seats+=1 end',
+            ' if v:IsA("Sound") then sounds+=1 end',
+            ' if names[v.Name]~=nil then names[v.Name]=true end',
+            'end',
+            'assert(#descendants>30000,"RHS world too small "..#descendants)',
+            'assert(gui>1000,"RHS GUI surface missing "..gui)',
+            'assert(scripts>900,"RHS scripts missing "..scripts)',
+            'assert(tools>50,"RHS tools missing "..tools)',
+            'assert(seats>250,"RHS seats/vehicles missing "..seats)',
+            'assert(sounds>100,"RHS sounds missing "..sounds)',
+            'assert(#game:GetService("Teams"):GetChildren()>=8,"RHS teams missing")',
+            'for name,present in pairs(names) do assert(present,"missing RHS system "..name) end',
+            'print("RHS_EXACT_LIVE_OK version="..game.PlaceVersion.." descendants="..#descendants.." gui="..gui.." scripts="..scripts.." tools="..tools.." seats="..seats.." sounds="..sounds)'
+          ].join("\n");
+
+          let task=await request(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${version}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})},
+            "create"
+          );
+
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("probe task returned no path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await request(url,{headers:{"x-api-key":key}},"status");
+          }
+
+          const logs=await request(url+"/logs",{headers:{"x-api-key":key}},"logs");
+          const logText=JSON.stringify(logs);
+          fs.writeFileSync("rhs-live-v5.json",JSON.stringify({version,task,logs},null,2)+"\n");
+
+          if(task.error||String(task.state)!=="COMPLETE") {
+            throw new Error("probe failed "+JSON.stringify(task).slice(0,1800));
+          }
+          if(!logText.includes("RHS_EXACT_LIVE_OK")) {
+            throw new Error("live sentinel absent "+logText.slice(0,2400));
+          }
+          console.log("RHS_EXACT_LIVE_VERIFIED version=5");
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rhs-live-v5
+          path: rhs-live-v5.json
+          if-no-files-found: error
+          retention-days: 30
