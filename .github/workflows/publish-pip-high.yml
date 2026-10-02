@@ -1,0 +1,156 @@
+name: Publish Pip High
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-pip-high.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pip-high-publish
+  cancel-in-progress: false
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SOURCE_SHA: "2ab1584ee34e711828768cd999c86feba9202984"
+      ROBLOX_UNIVERSE_ID: "10768955678"
+      ROBLOX_PLACE_ID: "87245440673982"
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+
+    steps:
+      - name: Checkout exact Pip High source
+        uses: actions/checkout@v4
+        with:
+          repository: P00NSMASHER/PipsQuestWorld
+          ref: ${{ env.SOURCE_SHA }}
+          path: pip-high
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned Rojo
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            "https://github.com/rojo-rbx/rojo/releases/download/v6.0.0-rc.1/rojo-6.0.0-rc.1-linux.zip" \
+            --output rojo.zip
+          unzip -q rojo.zip -d rojo-bin
+          chmod +x rojo-bin/rojo
+          rojo-bin/rojo --version
+
+      - name: Re-run Pip High guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 pip-high/scripts/verify-school-pivot.py
+          lua5.4 --version >/dev/null 2>&1 || {
+            sudo apt-get update
+            sudo apt-get install -y lua5.4
+          }
+          lua5.4 pip-high/school/tests/education_engine_spec.lua
+          lua5.4 pip-high/school/tests/class_education_spec.lua
+          lua5.4 pip-high/school/tests/progression_repository_spec.lua
+          lua5.4 pip-high/school/tests/economy_repository_spec.lua
+          lua5.4 pip-high/school/tests/progression_binding_spec.lua
+          lua5.4 pip-high/school/tests/class_progression_integration_spec.lua
+
+      - name: Build Pip High place
+        shell: bash
+        run: |
+          set -euo pipefail
+          rojo-bin/rojo build pip-high/school/default.project.json -o PipHigh.rbxlx
+          test -s PipHigh.rbxlx
+          BYTES="$(stat -c%s PipHigh.rbxlx)"
+          echo "PIP_HIGH_BUILD_BYTES=$BYTES"
+          sha256sum PipHigh.rbxlx | tee pip-high-build-sha256.txt
+
+      - name: Validate build markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'PipHigh' PipHigh.rbxlx
+          grep -q 'SchoolFoundation' PipHigh.rbxlx
+          grep -q 'CanonicalSchoolClient' PipHigh.rbxlx
+          grep -q 'ClassEducation' PipHigh.rbxlx
+          grep -q 'CafeJob' PipHigh.rbxlx
+          node <<'NODE'
+          const fs = require("node:fs");
+          const crypto = require("node:crypto");
+          const file = "PipHigh.rbxlx";
+          const bytes = fs.readFileSync(file);
+          const receipt = {
+            sourceSha: process.env.SOURCE_SHA,
+            universeId: process.env.ROBLOX_UNIVERSE_ID,
+            placeId: process.env.ROBLOX_PLACE_ID,
+            bytes: bytes.length,
+            sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+            markers: ["PipHigh","SchoolFoundation","CanonicalSchoolClient","ClassEducation","CafeJob"]
+          };
+          fs.writeFileSync("pip-high-build-receipt.json", JSON.stringify(receipt, null, 2) + "\n");
+          console.log("PIP_HIGH_BUILD_VALIDATED " + JSON.stringify(receipt));
+          NODE
+
+      - name: Publish exact build to Pip High
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const {readFile, writeFile} = await import("node:fs/promises");
+          const key = String(process.env.ROBLOX_OPEN_CLOUD_API_KEY || "").trim();
+          const universe = String(process.env.ROBLOX_UNIVERSE_ID || "").trim();
+          const place = String(process.env.ROBLOX_PLACE_ID || "").trim();
+
+          if (!key) throw new Error("ROBLOX_OPEN_CLOUD_API_KEY missing");
+          if (universe !== "10768955678") throw new Error("refusing unexpected universe " + universe);
+          if (place !== "87245440673982") throw new Error("refusing unexpected place " + place);
+
+          const bytes = await readFile("PipHigh.rbxlx");
+          const response = await fetch(
+            `https://apis.roblox.com/universes/v1/${universe}/places/${place}/versions?versionType=Published`,
+            {
+              method: "POST",
+              headers: {
+                "x-api-key": key,
+                "content-type": "application/xml"
+              },
+              body: bytes
+            }
+          );
+
+          const body = await response.text();
+          if (!response.ok) {
+            throw new Error("Pip High publish HTTP " + response.status + ": " + body.slice(0, 2000));
+          }
+
+          const payload = JSON.parse(body);
+          const version = Number(payload.versionNumber);
+          if (!Number.isInteger(version) || version < 1) {
+            throw new Error("publish response missing versionNumber");
+          }
+
+          await writeFile("pip-high-published-version.txt", String(version) + "\n");
+          await writeFile("pip-high-publish-response.json", JSON.stringify(payload, null, 2) + "\n");
+          console.log("PIP_HIGH_PUBLISHED version=" + version + " source=" + process.env.SOURCE_SHA);
+          NODE
+
+      - name: Upload build and publish receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-high-publish
+          path: |
+            pip-high-build-sha256.txt
+            pip-high-build-receipt.json
+            pip-high-published-version.txt
+            pip-high-publish-response.json
+          if-no-files-found: error
+          retention-days: 30
