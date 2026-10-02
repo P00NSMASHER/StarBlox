@@ -52,17 +52,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 pip-high/scripts/verify-school-pivot.py
-          lua5.4 --version >/dev/null 2>&1 || {
+          if ! command -v lua5.4 >/dev/null 2>&1; then
             sudo apt-get update
             sudo apt-get install -y lua5.4
-          }
-          lua5.4 pip-high/school/tests/education_engine_spec.lua
-          lua5.4 pip-high/school/tests/class_education_spec.lua
-          lua5.4 pip-high/school/tests/progression_repository_spec.lua
-          lua5.4 pip-high/school/tests/economy_repository_spec.lua
-          lua5.4 pip-high/school/tests/progression_binding_spec.lua
-          lua5.4 pip-high/school/tests/class_progression_integration_spec.lua
+          fi
+          (
+            cd pip-high
+            python3 scripts/verify-school-pivot.py
+            lua5.4 school/tests/education_engine_spec.lua
+            lua5.4 school/tests/class_education_spec.lua
+            lua5.4 school/tests/progression_repository_spec.lua
+            lua5.4 school/tests/economy_repository_spec.lua
+            lua5.4 school/tests/progression_binding_spec.lua
+            lua5.4 school/tests/class_progression_integration_spec.lua
+          )
 
       - name: Build Pip High place
         shell: bash
