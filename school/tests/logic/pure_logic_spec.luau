@@ -126,6 +126,11 @@ local capped = EducationSession.submit(cappedSession, "wrong-overflow", "a")
 assertEqual(capped.accepted, false, "submission cap must reject overflow")
 assertEqual(capped.reason, "TOO_MANY_SUBMISSIONS", "submission cap reason")
 
+local correctAfterCap = EducationSession.submit(cappedSession, "correct-after-cap", "b")
+assertEqual(correctAfterCap.accepted, true, "correct answer accepted after retry cap")
+assertEqual(correctAfterCap.resolved, true, "correct answer resolves after retry cap")
+assertEqual(correctAfterCap.score, 1, "correct answer score after retry cap")
+
 local resolvedSession = EducationSession.new("session-4", 123, "math", activity)
 local correct = EducationSession.submit(resolvedSession, "correct-1", "b")
 assertEqual(correct.accepted, true, "correct answer accepted")
