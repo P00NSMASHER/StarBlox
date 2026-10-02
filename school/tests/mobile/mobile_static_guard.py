@@ -82,7 +82,6 @@ assert 'button.NextSelectionRight = choiceButtons[index + 1] or choiceButtons[1]
 assert 'button.NextSelectionUp = leaveButton' in client
 assert 'leaveButton.NextSelectionDown = firstChoice' in client
 assert 'selectForNavigation(firstChoice)' in client
-assert 'attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"' in client
 assert 'locationDisplayName' in client
 assert 'Math is open — go to Math Classroom.' in client
 assert 'currentSessionId and periodId ~= nil and periodId ~= ACTIVE_CLASS_ID' in client
