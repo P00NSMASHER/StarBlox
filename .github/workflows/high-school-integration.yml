@@ -1,0 +1,91 @@
+name: High School Integration
+
+on:
+  push:
+    branches:
+      - rebuild/high-school-integration
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-integration.yml"
+  pull_request:
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-integration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  integration-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact integration candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Foundation guard
+        run: python school/tests/foundation/foundation_static_guard.py
+
+      - name: Run Class & Education guard
+        run: python school/tests/class_education/class_education_static_guard.py
+
+      - name: Run Progression guard
+        run: python school/tests/progression/progression_static_guard.py
+
+      - name: Run Mobile guard
+        run: python school/tests/mobile/mobile_static_guard.py
+
+      - name: Run Integration guard
+        run: python school/tests/integration/integration_static_guard.py
+
+      - name: Install pinned Luau CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip" --output luau.zip
+          unzip -q luau.zip -d luau-bin
+          chmod +x luau-bin/luau*
+          test -x luau-bin/luau
+
+      - name: Execute pure Luau logic tests
+        run: luau-bin/luau school/tests/logic/pure_logic_spec.luau
+
+      - name: Install pinned portable Rojo
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" --output rojo.zip
+          unzip -q rojo.zip -d rojo-bin
+          chmod +x rojo-bin/rojo
+          rojo-bin/rojo --version
+
+      - name: Build canonical school place
+        shell: bash
+        run: |
+          set -euo pipefail
+          rojo-bin/rojo build school/default.project.json -o HighSchool-Integration.rbxlx
+          test -s HighSchool-Integration.rbxlx
+          BYTES="$(stat -c%s HighSchool-Integration.rbxlx)"
+          test "$BYTES" -gt 1000
+          sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256
+          grep -q 'SchoolClockService' HighSchool-Integration.rbxlx
+          grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
+          grep -q 'ProgressionService' HighSchool-Integration.rbxlx
+          grep -q 'SchoolClient' HighSchool-Integration.rbxlx
+          BYTES="$BYTES" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["GITHUB_SHA"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+
+      - name: Upload deterministic candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: high-school-integration-candidate
+          path: |
+            HighSchool-Integration.rbxlx
+            high-school-integration.sha256
+            high-school-build-receipt.json
+          if-no-files-found: error
+          retention-days: 7
