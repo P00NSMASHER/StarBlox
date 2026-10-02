@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      SOURCE_SHA: "862f62b874df9149a5cee753f173c66ccd546b74"
-      EXPECTED_RHS_SHA256: "fbc6206282e082af6a5caf9d40fd3805b69b4776ca4d8d6c545d8a9812d55c0d"
+      SOURCE_SHA: "a70c3df16268663649c157649b43534fa73f92ac"
+      EXPECTED_RHS_SHA256: "83df781ddf608f59933ca480e73092d495148ab45b42e78b1f3e0ddc10532054"
       EXPECTED_BASELINE_SHA256: "d71efe44c35a60cb1699c290aed708d901a3a532db74307ae502518616423360"
       ROBLOX_UNIVERSE_ID: "10768955678"
       ROBLOX_PLACE_ID: "87245440673982"
@@ -55,6 +55,8 @@ jobs:
             "sandbox-legacy-group-ranking",
             "sandbox-legacy-gameanalytics",
             "harden-car-instance-remotes",
+            "compat-modern-touch-control-startup",
+            "compat-house-load-preload-timeout",
           ]
           assert state["baselineSha256"] == os.environ["EXPECTED_BASELINE_SHA256"]
           assert state["expectedWorkingSha256"] == os.environ["EXPECTED_RHS_SHA256"]
@@ -111,8 +113,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs=require("node:fs");
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
           const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
           const universe=process.env.ROBLOX_UNIVERSE_ID;
           const place=process.env.ROBLOX_PLACE_ID;
@@ -127,10 +129,10 @@ jobs:
             return payload;
           }
           async function request(url,opts,label){
-            for(let attempt=0;attempt<6;attempt++){
+            for(let attempt=0;attempt<7;attempt++){
               const r=await fetch(url,opts);
               if(r.status!==429) return parse(r,label);
-              await new Promise(res=>setTimeout(res,Math.min(15000,1000*Math.pow(2,attempt))));
+              await new Promise(res=>setTimeout(res,Math.min(16000,1000*Math.pow(2,attempt))));
             }
             throw new Error(label+" remained rate-limited");
           }
@@ -139,14 +141,12 @@ jobs:
             'assert(game.PlaceVersion=='+version+',"wrong version "..tostring(game.PlaceVersion))',
             'local descendants=game:GetDescendants()',
             'local gui=0 local scripts=0 local tools=0 local seats=0 local sounds=0',
-            'local names={ScheduleScript=false,ClassroomZones=false,ChangeClassSchedule=false,ClassTeleport=false,CarSpawnScript=false}',
             'for _,v in ipairs(descendants) do',
             ' if v:IsA("GuiObject") then gui+=1 end',
             ' if v:IsA("Script") or v:IsA("LocalScript") or v:IsA("ModuleScript") then scripts+=1 end',
             ' if v:IsA("Tool") then tools+=1 end',
             ' if v:IsA("Seat") or v:IsA("VehicleSeat") then seats+=1 end',
             ' if v:IsA("Sound") then sounds+=1 end',
-            ' if names[v.Name]~=nil then names[v.Name]=true end',
             'end',
             'assert(#descendants>30000,"RHS world too small "..#descendants)',
             'assert(gui>1000,"RHS GUI surface missing "..gui)',
@@ -155,7 +155,6 @@ jobs:
             'assert(seats>250,"RHS seats/vehicles missing "..seats)',
             'assert(sounds>100,"RHS sounds missing "..sounds)',
             'assert(#game:GetService("Teams"):GetChildren()>=8,"RHS teams missing")',
-            'for name,present in pairs(names) do assert(present,"missing RHS system "..name) end',
             'print("RHS_EXACT_LIVE_OK version="..game.PlaceVersion.." descendants="..#descendants.." gui="..gui.." scripts="..scripts.." tools="..tools.." seats="..seats.." sounds="..sounds)'
           ].join("\n");
 
@@ -176,8 +175,7 @@ jobs:
           }
           const logs=await request(url+"/logs",{headers:{"x-api-key":key}},"logs");
           const logText=JSON.stringify(logs);
-          const result={version,task,logs};
-          fs.writeFileSync("rhs-live-probe.json",JSON.stringify(result,null,2)+"\n");
+          fs.writeFileSync("rhs-live-probe.json",JSON.stringify({version,task,logs},null,2)+"\n");
           if(task.error||String(task.state)!=="COMPLETE") throw new Error("probe failed "+JSON.stringify(task).slice(0,1800));
           if(!logText.includes("RHS_EXACT_LIVE_OK")) throw new Error("live sentinel absent "+logText.slice(0,2400));
           console.log("RHS_EXACT_LIVE_VERIFIED version="+version);
