@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "status": "BLOCKED_PENDING_APPROVED_ART",
+  "canonicalRoot": "school/**",
+  "sourceBaseline": "a8d7c3e4f7f25681f2d626d85c4d64ebf6a86e80",
+  "scope": "art-and-asset-integration-only",
+  "gaps": [
+    {
+      "id": "ART-WAYFINDING-001",
+      "runtimeFile": "school/src/ServerScriptService/HighSchool/CampusBuilder.server.lua",
+      "runtimeSurface": "Workspace/<campus>/Wayfinding + LocationLabel",
+      "currentFallback": "SmoothPlastic translucent location pad plus text-only BillboardGui label",
+      "requiredApprovedAsset": "Original high-school wayfinding sign treatment for canonical campus locations, including any frame/background/icon artwork needed to replace the text-only placeholder presentation.",
+      "acceptedAssetReference": null,
+      "exactHash": null,
+      "approvalEvidence": null,
+      "integrationRule": "Do not add Roblox asset IDs, copied third-party art, or new canonical visual design until approval evidence and an exact deterministic reference are present."
+    }
+  ]
+}
