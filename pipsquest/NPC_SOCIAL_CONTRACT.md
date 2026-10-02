@@ -67,6 +67,16 @@ Companion integration is a single companionPresent boolean. COMPANION_INTRO may 
 - `reputationContribution` is the resulting bounded per-NPC relationship score normalized to 0-100; it is not a persisted or global reputation record.
 - The resolver accepts only current gameplay-state fields and a current bounded relationship score. It owns no remotes, persistence, world Instances, random selection, player identifiers, profile data, or free-form text.
 
+## Bundle construction seam
+
+`NpcSocialBundle` is the configuration-time composition boundary for the registry, policy, dialogue catalog, and interaction resolver.
+
+- Every declared dialogue hook must have exactly one catalog entry; undeclared catalog entries are rejected.
+- Every interaction dialogue role must match the owning NPC role before the stack is returned.
+- Unsupported top-level bundle fields are rejected rather than retained.
+- Bundle construction validates the complete cross-contract configuration before returning the registry, policy, dialogue catalog, and resolver together.
+- Construction remains runtime-neutral and accepts no player identifiers, profile data, free-form text, persistence, networking, or world Instances.
+
 ## Relationship foundation
 
 The policy may output only a bounded relationship delta. Storage is owned elsewhere. Version 1 defines no negative delta.
