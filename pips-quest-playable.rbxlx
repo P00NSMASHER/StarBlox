@@ -11488,6 +11488,11 @@ local RunService = game:GetService(&quot;RunService&quot;)
 local player = Players.LocalPlayer
 local remote = ReplicatedStorage:WaitForChild(&quot;PipsQuestEvent&quot;)
 
+-- Resolve the static reward target once instead of walking the hierarchy every render frame.
+local pipsQuestWorld = workspace:WaitForChild(&quot;PipsQuestWorld&quot;)
+local rewardChest = pipsQuestWorld:WaitForChild(&quot;RewardChest&quot;)
+local celebrationGlow = rewardChest:WaitForChild(&quot;GlowCore&quot;)
+
 local pipModel
 local pipRoot
 local trail
@@ -11627,14 +11632,9 @@ RunService.RenderStepped:Connect(function()
     local bob = math.sin(now * 3.6) * 0.26
     local targetPosition
 
-    if now &lt; celebrateUntil then
-        local world = workspace:FindFirstChild(&quot;PipsQuestWorld&quot;)
-        local chest = world and world:FindFirstChild(&quot;RewardChest&quot;)
-        local glow = chest and chest:FindFirstChild(&quot;GlowCore&quot;)
-        if glow then
-            local angle = now * 4.4
-            targetPosition = glow.Position + Vector3.new(math.cos(angle) * 2.4, 2.2 + math.sin(now * 7) * 0.35, math.sin(angle) * 2.4)
-        end
+    if now &lt; celebrateUntil and celebrationGlow.Parent then
+        local angle = now * 4.4
+        targetPosition = celebrationGlow.Position + Vector3.new(math.cos(angle) * 2.4, 2.2 + math.sin(now * 7) * 0.35, math.sin(angle) * 2.4)
     end
 
     if not targetPosition then
