@@ -16,6 +16,20 @@ This is the integration contract for student and teacher NPC behavior. It stays 
 
 Input is a symbolic school period ID. Each NPC maps a period to one intent: IDLE, TRANSIT, LEARN, TEACH, or SOCIALIZE. Destinations are symbolic anchor IDs. This lane does not own classroom geometry or building bindings.
 
+## Roster and anchor registry
+
+`NpcSocialRegistry` is the runtime-neutral boundary for NPC definitions before they enter `NpcSocialPolicy`.
+
+- Roles are symbolic STUDENT or TEACHER values.
+- Non-IDLE schedule intents require a declared symbolic anchor ID.
+- IDLE may intentionally omit an anchor.
+- Dialogue is referenced only by predeclared dialogue hook IDs.
+- Unsupported NPC fields are rejected rather than retained.
+- Registry construction deep-copies and freezes the policy-facing schedule and interaction maps.
+- The registry owns no coordinates, Instances, spawning, remotes, persistence, player identifiers, usernames, or free-form conversation text.
+
+The registry deliberately does not define actual classroom coordinates or world object bindings. Those remain owned by the school/world lane and can later map reviewed symbolic anchors to geometry.
+
 ## Proximity seam
 
 Supported interaction kinds: GREET, CHAT, ASK_HELP, COMPANION_INTRO.
@@ -36,10 +50,10 @@ The policy may output only a bounded relationship delta. Storage is owned elsewh
 
 ## Safety and privacy
 
-The policy consumes only gameplay-state values needed for the current interaction. It does not collect real-player personal data, free-form conversation history, or external-account data.
+The policy consumes only gameplay-state values needed for the current interaction. It does not collect real-player personal data, free-form conversation history, or external-account data. The roster registry rejects unsupported fields instead of silently retaining arbitrary data.
 
 ## Runtime dependency blocker
 
-No runtime NPC service is added in this increment. The pure deterministic policy is now implemented at pipsquest/src/shared/NpcSocialPolicy.luau, but main still has no stable NPC roster or anchor registry, and the authoritative school-day runtime is still in open PR #179. Wiring live NPCs now would guess ownership and period-delivery interfaces and risk duplicating another lane.
+No live NPC service is added in this increment. The deterministic policy and validated symbolic roster/anchor registry now exist on this branch, but the authoritative school-day runtime remains in open PR #179 and no accepted world binding currently maps symbolic anchors to classroom/social-space geometry. Wiring movement or spawning now would guess another lane's ownership.
 
-Next: after the school-day snapshot contract is accepted, add one thin server adapter that maps its symbolic period ID into this policy plus a reviewed symbolic anchor registry. Do not add spawning, persistence, or networking until those contracts are explicit.
+Next: once the PR #179 snapshot interface is accepted, add a thin server adapter that consumes its `periodId`, resolves schedules through the validated registry/policy pair, and emits movement intents to a separately owned world-anchor binding. Do not add persistence, networking, or player-data collection to that adapter.
