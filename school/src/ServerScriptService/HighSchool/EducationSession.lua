@@ -71,10 +71,6 @@ function EducationSession.submit(session, submissionId, choiceId)
         return cached
     end
 
-    if session.uniqueSubmissionCount >= EducationSession.MAX_UNIQUE_SUBMISSIONS_PER_SESSION then
-        return table.freeze({ accepted = false, reason = "TOO_MANY_SUBMISSIONS" })
-    end
-
     if type(choiceId) ~= "string"
         or choiceId == ""
         or #choiceId > EducationSession.MAX_CHOICE_ID_LENGTH
@@ -94,9 +90,18 @@ function EducationSession.submit(session, submissionId, choiceId)
         return table.freeze({ accepted = false, reason = "INVALID_CHOICE" })
     end
 
-    session.uniqueSubmissionCount += 1
-
     local isCorrect = choiceId == session.activity.correctChoiceId
+    local atSubmissionLimit =
+        session.uniqueSubmissionCount >= EducationSession.MAX_UNIQUE_SUBMISSIONS_PER_SESSION
+
+    if atSubmissionLimit and not isCorrect then
+        return table.freeze({ accepted = false, reason = "TOO_MANY_SUBMISSIONS" })
+    end
+
+    if not atSubmissionLimit then
+        session.uniqueSubmissionCount += 1
+    end
+
     local response
 
     if isCorrect then
@@ -116,7 +121,9 @@ function EducationSession.submit(session, submissionId, choiceId)
         })
     end
 
-    session.receipts[submissionId] = response
+    if not atSubmissionLimit then
+        session.receipts[submissionId] = response
+    end
     return response
 end
 
