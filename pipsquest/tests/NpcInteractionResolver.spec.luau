@@ -85,7 +85,7 @@ return function()
 		end)
 
 		it("fails closed without relationship gain when approved dialogue is unavailable", function()
-			local config = dialogueConfig()
+			local config = dialogueConfig() :: any
 			config.STUDENT_A_GREET = nil
 			local result = buildResolver(config):resolve({npcId="STUDENT_A", kind="GREET", distanceStuds=5, cooldownReady=true, companionPresent=false}, 2)
 			expect(result.allowed).to.equal(false)
@@ -95,7 +95,7 @@ return function()
 		end)
 
 		it("fails closed on dialogue role mismatch instead of showing the wrong persona", function()
-			local config = dialogueConfig()
+			local config = dialogueConfig() :: any
 			config.STUDENT_A_GREET.role = "TEACHER"
 			local result = buildResolver(config):resolve({npcId="STUDENT_A", kind="GREET", distanceStuds=5, cooldownReady=true, companionPresent=false}, 2)
 			expect(result.allowed).to.equal(false)
