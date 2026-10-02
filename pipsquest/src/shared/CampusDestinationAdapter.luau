@@ -96,6 +96,8 @@ function CampusDestinationAdapter.fromSchoolBindings(bindings: SchoolBindings): 
 	local cafeteriaId = destinationId(buildingId, bindings.Cafeteria.SourcePartName)
 	local studyId = destinationId(buildingId, bindings.Library.SourcePartName)
 	assert(entranceId ~= cafeteriaId, "entrance and cafeteria must use distinct physical anchors")
+	assert(studyId ~= entranceId, "study room must not reuse the school entrance anchor")
+	assert(studyId ~= cafeteriaId, "study room must not reuse the cafeteria anchor")
 
 	local nodeSet: {[string]: boolean} = {
 		[entranceId] = true,

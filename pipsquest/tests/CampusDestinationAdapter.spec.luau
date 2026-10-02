@@ -90,6 +90,18 @@ return function()
 			end).to.throw()
 
 			bindings = verifiedBindings()
+			bindings.Library.SourcePartName = bindings.Entrance.SourcePartName
+			expect(function()
+				CampusDestinationAdapter.fromSchoolBindings(bindings)
+			end).to.throw()
+
+			bindings = verifiedBindings()
+			bindings.Library.SourcePartName = bindings.Cafeteria.SourcePartName
+			expect(function()
+				CampusDestinationAdapter.fromSchoolBindings(bindings)
+			end).to.throw()
+
+			bindings = verifiedBindings()
 			bindings.Classes.reading.SourcePartName = bindings.Entrance.SourcePartName
 			expect(function()
 				CampusDestinationAdapter.fromSchoolBindings(bindings)

@@ -12,6 +12,8 @@ const requiredProductionContracts = [
   "fallback school source must be disabled",
   "fallback campus must be disabled",
   "must be physically verified",
+  "study room must not reuse the school entrance anchor",
+  "study room must not reuse the cafeteria anchor",
   "class must not reuse the school entrance anchor:",
   "class must not reuse the cafeteria anchor:",
   "table.sort(classIds)",
@@ -81,6 +83,8 @@ function adapt(bindings) {
   const cafeteriaId = destinationId(buildingId, bindings.Cafeteria.SourcePartName);
   const studyId = destinationId(buildingId, bindings.Library.SourcePartName);
   assert.notEqual(entranceId, cafeteriaId);
+  assert.notEqual(studyId, entranceId);
+  assert.notEqual(studyId, cafeteriaId);
 
   const nodeSet = new Set([entranceId, cafeteriaId, studyId]);
   const sourcePartByDestinationId = {
@@ -147,8 +151,14 @@ assert.throws(() => adapt(unverified));
 const fallback = fixture();
 fallback.FallbackCampusEnabled = true;
 assert.throws(() => adapt(fallback));
+const studyEntranceCollision = fixture();
+studyEntranceCollision.Library.SourcePartName = studyEntranceCollision.Entrance.SourcePartName;
+assert.throws(() => adapt(studyEntranceCollision));
+const studyCafeteriaCollision = fixture();
+studyCafeteriaCollision.Library.SourcePartName = studyCafeteriaCollision.Cafeteria.SourcePartName;
+assert.throws(() => adapt(studyCafeteriaCollision));
 const collision = fixture();
 collision.Classes.reading.SourcePartName = collision.Entrance.SourcePartName;
 assert.throws(() => adapt(collision));
 
-console.log("CAMPUS_DESTINATION_ADAPTER_VERIFY_OK contracts=10 behaviorCases=6 modelChecks=9 nodes=5");
+console.log("CAMPUS_DESTINATION_ADAPTER_VERIFY_OK contracts=12 behaviorCases=6 modelChecks=11 nodes=5");
