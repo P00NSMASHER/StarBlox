@@ -1,0 +1,133 @@
+name: Diagnose RHS Input and House
+
+on:
+  push:
+    branches:
+      - diag/rhs-input-house-20261002
+    paths:
+      - ".github/workflows/diag-rhs-input-house.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ROBLOX_UNIVERSE_ID: "10768955678"
+      ROBLOX_PLACE_ID: "87245440673982"
+      ROBLOX_PLACE_VERSION: "5"
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+    steps:
+      - name: Inspect live RHS version 5
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const key=String(process.env.ROBLOX_OPEN_CLOUD_API_KEY||"").trim();
+          const universe=String(process.env.ROBLOX_UNIVERSE_ID||"").trim();
+          const place=String(process.env.ROBLOX_PLACE_ID||"").trim();
+          const version=Number(process.env.ROBLOX_PLACE_VERSION);
+          async function parse(r,label){
+            const text=await r.text();
+            let payload={};
+            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status+" "+text.slice(0,1200));}
+            if(!r.ok) throw new Error(label+" HTTP "+r.status+" "+JSON.stringify(payload).slice(0,1800));
+            return payload;
+          }
+          async function request(url,opts,label){
+            for(let attempt=0;attempt<7;attempt++){
+              const r=await fetch(url,opts);
+              if(r.status!==429) return parse(r,label);
+              await new Promise(res=>setTimeout(res,Math.min(16000,1000*Math.pow(2,attempt))));
+            }
+            throw new Error(label+" remained rate-limited");
+          }
+
+          const script=[
+            'print("RHS_DIAG_BEGIN version="..tostring(game.PlaceVersion))',
+            'local SP=game:GetService("StarterPlayer")',
+            'local Players=game:GetService("Players")',
+            'local RS=game:GetService("ReplicatedStorage")',
+            'local SG=game:GetService("StarterGui")',
+            'local function enumName(v) local ok,s=pcall(function() return tostring(v) end) return ok and s or "<err>" end',
+            'print("STARTER DevTouchMovementMode="..enumName(SP.DevTouchMovementMode))',
+            'print("STARTER DevComputerMovementMode="..enumName(SP.DevComputerMovementMode))',
+            'print("STARTER DevTouchCameraMode="..enumName(SP.DevTouchCameraMode))',
+            'print("STARTER DevComputerCameraMode="..enumName(SP.DevComputerCameraMode))',
+            'print("STARTER AutoJumpEnabled="..tostring(SP.AutoJumpEnabled))',
+            'print("STARTER CharacterWalkSpeed="..tostring(SP.CharacterWalkSpeed))',
+            'print("STARTER CharacterJumpPower="..tostring(SP.CharacterJumpPower))',
+            'print("STARTER CharacterJumpHeight="..tostring(SP.CharacterJumpHeight))',
+            'print("STARTER CharacterUseJumpPower="..tostring(SP.CharacterUseJumpPower))',
+            'print("STARTER EnableMouseLockOption="..tostring(SP.EnableMouseLockOption))',
+            'print("PLAYERS CharacterAutoLoads="..tostring(Players.CharacterAutoLoads))',
+            'local function pathOf(inst)',
+            ' local parts={}',
+            ' local cur=inst',
+            ' while cur and cur~=game do table.insert(parts,1,cur.Name); cur=cur.Parent end',
+            ' return table.concat(parts,"/")',
+            'end',
+            'for _,v in ipairs(SG:GetDescendants()) do',
+            ' if v:IsA("TextButton") then',
+            '  local t=string.lower(v.Text or "")',
+            '  if string.find(t,"house",1,true) or string.find(t,"teleport",1,true) or string.find(t,"edit",1,true) then',
+            '   print("HOUSE_BUTTON path="..pathOf(v).." text="..string.gsub(v.Text,"\n"," "))',
+            '   local a=v.Parent',
+            '   local depth=0',
+            '   while a and a~=SG and depth<4 do',
+            '    for _,c in ipairs(a:GetChildren()) do if c:IsA("LocalScript") then print("HOUSE_LOCAL ancestor="..pathOf(a).." script="..pathOf(c).." enabled="..tostring(c.Enabled)) end end',
+            '    a=a.Parent; depth+=1',
+            '   end',
+            '  end',
+            ' end',
+            'end',
+            'for _,v in ipairs(RS:GetDescendants()) do',
+            ' if v:IsA("RemoteFunction") or v:IsA("RemoteEvent") then',
+            '  local n=string.lower(v.Name)',
+            '  if string.find(n,"house",1,true) or string.find(n,"teleport",1,true) or string.find(n,"edit",1,true) or string.find(n,"furn",1,true) then',
+            '   print("HOUSE_REMOTE class="..v.ClassName.." path="..pathOf(v))',
+            '  end',
+            ' end',
+            'end',
+            'for _,v in ipairs(SG:GetDescendants()) do',
+            ' if v:IsA("LocalScript") then',
+            '  local n=string.lower(pathOf(v))',
+            '  if string.find(n,"house",1,true) or string.find(n,"home",1,true) or string.find(n,"furn",1,true) then',
+            '   print("HOUSE_LOCALSCRIPT path="..pathOf(v).." enabled="..tostring(v.Enabled))',
+            '  end',
+            ' end',
+            'end',
+            'for _,v in ipairs(Players:GetPlayers()) do',
+            ' print("LIVE_PLAYER "..v.Name.." devTouch="..enumName(v.DevTouchMovementMode).." devComputer="..enumName(v.DevComputerMovementMode))',
+            ' local ch=v.Character',
+            ' local hum=ch and ch:FindFirstChildOfClass("Humanoid")',
+            ' local root=ch and ch:FindFirstChild("HumanoidRootPart")',
+            ' if hum then print("LIVE_HUMANOID "..v.Name.." walk="..hum.WalkSpeed.." jump="..hum.JumpPower.." platform="..tostring(hum.PlatformStand).." autoRotate="..tostring(hum.AutoRotate)) end',
+            ' if root then print("LIVE_ROOT "..v.Name.." anchored="..tostring(root.Anchored).." pos="..tostring(root.Position)) end',
+            'end',
+            'print("RHS_DIAG_END")'
+          ].join("\n");
+
+          let task=await request(
+            `https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/versions/${version}/luau-execution-session-tasks`,
+            {method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})},
+            "create"
+          );
+          const raw=String(task.path||"");
+          if(!raw) throw new Error("missing task path");
+          const url="https://apis.roblox.com/cloud/v2/"+raw
+            .replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"")
+            .replace(/^\/?cloud\/v2\//,"")
+            .replace(/^\//,"");
+          while(String(task.state||"")==="PROCESSING"){
+            await new Promise(r=>setTimeout(r,1000));
+            task=await request(url,{headers:{"x-api-key":key}},"status");
+          }
+          const logs=await request(url+"/logs",{headers:{"x-api-key":key}},"logs");
+          console.log("TASK",JSON.stringify(task));
+          console.log("LOGS",JSON.stringify(logs));
+          if(task.error||String(task.state)!=="COMPLETE") throw new Error("diag failed "+JSON.stringify(task));
+          NODE
