@@ -1,5 +1,7 @@
+local GuiService = game:GetService("GuiService")
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
 local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
@@ -77,6 +79,25 @@ actionLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 actionLayout.Padding = UDim.new(0, 8)
 actionLayout.Parent = actionRow
 
+local function configureFocusableButton(button)
+    button.Selectable = true
+
+    local focusStroke = Instance.new("UIStroke")
+    focusStroke.Name = "FocusStroke"
+    focusStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    focusStroke.Color = Color3.fromRGB(255, 213, 74)
+    focusStroke.Thickness = 3
+    focusStroke.Transparency = 1
+    focusStroke.Parent = button
+
+    button.SelectionGained:Connect(function()
+        focusStroke.Transparency = 0
+    end)
+    button.SelectionLost:Connect(function()
+        focusStroke.Transparency = 1
+    end)
+end
+
 local function makeButton(parent, name, text)
     local button = Instance.new("TextButton")
     button.Name = name
@@ -84,11 +105,17 @@ local function makeButton(parent, name, text)
     button.TextSize = 18
     button.Text = text
     button.Parent = parent
+    configureFocusableButton(button)
     return button
 end
 
 local attendButton = makeButton(actionRow, "AttendClassButton", "Attend Class")
 local leaveButton = makeButton(actionRow, "LeaveClassButton", "Leave Class")
+
+attendButton.NextSelectionLeft = leaveButton
+attendButton.NextSelectionRight = leaveButton
+leaveButton.NextSelectionLeft = attendButton
+leaveButton.NextSelectionRight = attendButton
 
 local questionFrame = Instance.new("Frame")
 questionFrame.Name = "QuestionFrame"
@@ -132,9 +159,22 @@ local function setQuestionVisible(isVisible)
     )
 end
 
+local function usesSelectionNavigation()
+    local inputType = UserInputService:GetLastInputType()
+    return inputType == Enum.UserInputType.Keyboard
+        or string.find(inputType.Name, "Gamepad", 1, true) == 1
+end
+
+local function selectForNavigation(button)
+    if button and button.Selectable and button.Visible and usesSelectionNavigation() then
+        GuiService.SelectedObject = button
+    end
+end
+
 local currentSessionId = nil
 local lastCompletedCount = nil
 local lastPeriodId = nil
+local latestClassIsAvailable = false
 
 local function locationDisplayName(locationId)
     for _, location in ipairs(FoundationConfig.LOCATIONS) do
@@ -156,12 +196,47 @@ local function safeInvoke(remote, ...)
 end
 
 local function clearChoices()
+    local selectedObject = GuiService.SelectedObject
+    if selectedObject and selectedObject.Parent == choicesRow then
+        GuiService.SelectedObject = nil
+    end
+
     for _, child in ipairs(choicesRow:GetChildren()) do
         if child:IsA("TextButton") then
             child:Destroy()
         end
     end
+
+    attendButton.NextSelectionDown = nil
+    leaveButton.NextSelectionDown = nil
 end
+
+local function updateActionAvailability(classIsAvailable)
+    latestClassIsAvailable = classIsAvailable
+
+    local canAttend = classIsAvailable and currentSessionId == nil
+    local canLeave = currentSessionId ~= nil
+
+    attendButton.Active = canAttend
+    attendButton.AutoButtonColor = canAttend
+    attendButton.Selectable = canAttend
+
+    leaveButton.Active = canLeave
+    leaveButton.AutoButtonColor = canLeave
+    leaveButton.Selectable = canLeave
+end
+
+UserInputService.LastInputTypeChanged:Connect(function()
+    if not usesSelectionNavigation() or GuiService.SelectedObject ~= nil then
+        return
+    end
+
+    if currentSessionId then
+        selectForNavigation(leaveButton)
+    else
+        selectForNavigation(attendButton)
+    end
+end)
 
 local function refreshProgression()
     local result = safeInvoke(getProgression)
@@ -204,6 +279,8 @@ local function finishSession(message, shouldWaitForProgression)
     currentSessionId = nil
     setQuestionVisible(false)
     clearChoices()
+    updateActionAvailability(latestClassIsAvailable)
+    selectForNavigation(attendButton)
     statusLabel.Text = message
 
     if shouldWaitForProgression then
@@ -248,6 +325,7 @@ local function showActivity(activity)
     clearChoices()
     promptLabel.Text = activity.prompt or "Class activity"
     local choices = activity.choices or {}
+    local choiceButtons = {}
 
     for _, choice in ipairs(choices) do
         local button = Instance.new("TextButton")
@@ -256,12 +334,25 @@ local function showActivity(activity)
         button.TextSize = 17
         button.Text = tostring(choice.text)
         button.Parent = choicesRow
+        configureFocusableButton(button)
+        table.insert(choiceButtons, button)
         button.Activated:Connect(function()
             submitChoice(choice.id)
         end)
     end
 
+    for index, button in ipairs(choiceButtons) do
+        button.NextSelectionLeft = choiceButtons[index - 1] or choiceButtons[#choiceButtons]
+        button.NextSelectionRight = choiceButtons[index + 1] or choiceButtons[1]
+        button.NextSelectionUp = leaveButton
+    end
+
+    local firstChoice = choiceButtons[1]
+    attendButton.NextSelectionDown = firstChoice
+    leaveButton.NextSelectionDown = firstChoice
+
     setQuestionVisible(true)
+    selectForNavigation(firstChoice)
 end
 
 attendButton.Activated:Connect(function()
@@ -277,6 +368,7 @@ attendButton.Activated:Connect(function()
     end
 
     currentSessionId = result.sessionId
+    updateActionAvailability(latestClassIsAvailable)
     statusLabel.Text = "Class started."
     showActivity(result.activity or {})
 end)
@@ -306,8 +398,7 @@ task.spawn(function()
         )
 
         local classIsAvailable = periodId == ACTIVE_CLASS_ID
-        attendButton.Active = classIsAvailable and currentSessionId == nil
-        attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
+        updateActionAvailability(classIsAvailable)
         attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"
 
         if periodId ~= lastPeriodId then
@@ -315,6 +406,9 @@ task.spawn(function()
                 statusLabel.Text = "Math is open — go to Math Classroom."
             elseif currentSessionId == nil then
                 statusLabel.Text = "Free roam."
+            end
+            if currentSessionId == nil then
+                selectForNavigation(attendButton)
             end
             lastPeriodId = periodId
         end

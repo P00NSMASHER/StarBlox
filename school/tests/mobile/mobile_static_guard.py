@@ -13,6 +13,17 @@ assert 'WaitForChild("GetProgression")' in client
 assert 'FoundationConfig = require' in client
 assert 'FoundationState.getSnapshot()' in client
 assert 'InvokeServer' in client
+assert 'local GuiService = game:GetService("GuiService")' in client
+assert 'local UserInputService = game:GetService("UserInputService")' in client
+assert 'local function configureFocusableButton(button)' in client
+assert 'focusStroke.Name = "FocusStroke"' in client
+assert 'focusStroke.Color = Color3.fromRGB(255, 213, 74)' in client
+assert 'button.SelectionGained:Connect' in client
+assert 'button.SelectionLost:Connect' in client
+assert 'local function usesSelectionNavigation()' in client
+assert 'UserInputService:GetLastInputType()' in client
+assert 'UserInputService.LastInputTypeChanged:Connect' in client
+assert 'GuiService.SelectedObject = button' in client
 
 for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsync", "OnServerEvent"):
     assert forbidden not in client, f"client contains forbidden authority: {forbidden}"
@@ -49,7 +60,17 @@ assert 'Progress is still saving.' in client
 assert 'response.reason == "SESSION_NOT_ACTIVE"' in client
 assert 'response.reason == "CLASS_PERIOD_ENDED"' in client
 assert 'response.reason == "LEFT_CLASS_LOCATION"' in client
-assert 'attendButton.Active = classIsAvailable and currentSessionId == nil' in client
+assert 'local function updateActionAvailability(classIsAvailable)' in client
+assert 'attendButton.Selectable = canAttend' in client
+assert 'leaveButton.Active = canLeave' in client
+assert 'leaveButton.Selectable = canLeave' in client
+assert 'attendButton.NextSelectionLeft = leaveButton' in client
+assert 'leaveButton.NextSelectionRight = attendButton' in client
+assert 'button.NextSelectionLeft = choiceButtons[index - 1] or choiceButtons[#choiceButtons]' in client
+assert 'button.NextSelectionRight = choiceButtons[index + 1] or choiceButtons[1]' in client
+assert 'button.NextSelectionUp = leaveButton' in client
+assert 'leaveButton.NextSelectionDown = firstChoice' in client
+assert 'selectForNavigation(firstChoice)' in client
 assert 'attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"' in client
 assert 'locationDisplayName' in client
 assert 'Math is open — go to Math Classroom.' in client
