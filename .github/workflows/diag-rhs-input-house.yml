@@ -74,7 +74,7 @@ jobs:
             ' if v:IsA("TextButton") then',
             '  local t=string.lower(v.Text or "")',
             '  if string.find(t,"house",1,true) or string.find(t,"teleport",1,true) or string.find(t,"edit",1,true) then',
-            '   print("HOUSE_BUTTON path="..pathOf(v).." text="..string.gsub(v.Text,"\n"," "))',
+            '   print("HOUSE_BUTTON path="..pathOf(v).." text="..tostring(v.Text))',
             '   local a=v.Parent',
             '   local depth=0',
             '   while a and a~=SG and depth<4 do',
