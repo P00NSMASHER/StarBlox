@@ -56,6 +56,17 @@ Companion integration is a single companionPresent boolean. COMPANION_INTRO may 
 - Catalog construction deep-copies and freezes active dialogue entries.
 - The catalog performs no random selection, AI generation, networking, persistence, moderation logging, or external requests.
 
+## Interaction resolver seam
+
+`NpcInteractionResolver` is the pure composition boundary between the validated registry, social policy, dialogue catalog, and relationship model.
+
+- Policy denial returns immediately with no dialogue and no relationship change.
+- Allowed policy outcomes resolve preauthored dialogue using the pre-interaction relationship tier, so one interaction cannot promote itself into a friendlier line.
+- Missing dialogue, missing role metadata, or a dialogue/NPC role mismatch fails closed with no relationship gain.
+- Relationship deltas are applied only after policy acceptance and successful dialogue validation.
+- `reputationContribution` is the resulting bounded per-NPC relationship score normalized to 0-100; it is not a persisted or global reputation record.
+- The resolver accepts only current gameplay-state fields and a current bounded relationship score. It owns no remotes, persistence, world Instances, random selection, player identifiers, profile data, or free-form text.
+
 ## Relationship foundation
 
 The policy may output only a bounded relationship delta. Storage is owned elsewhere. Version 1 defines no negative delta.
@@ -66,6 +77,6 @@ The policy consumes only gameplay-state values needed for the current interactio
 
 ## Runtime dependency blocker
 
-No live NPC service is added in this increment. No runtime NPC service is added in this increment. The deterministic policy, validated symbolic roster/anchor registry, bounded relationship model, and deterministic dialogue catalog now exist on this branch, but the authoritative school-day runtime remains in open PR #179 and no accepted world binding currently maps symbolic anchors to classroom/social-space geometry. Wiring movement or spawning now would guess another lane's ownership.
+No live NPC service is added in this increment. The deterministic policy, validated symbolic roster/anchor registry, bounded relationship model, deterministic dialogue catalog, and pure interaction resolver now exist on this branch, but the authoritative school-day runtime remains in open PR #179 and no accepted world binding currently maps symbolic anchors to classroom/social-space geometry. Wiring movement or spawning now would guess another lane's ownership.
 
 Next: once the PR #179 snapshot interface is accepted, add a thin server adapter that consumes its `periodId`, resolves schedules through the validated registry/policy pair, and emits movement intents to a separately owned world-anchor binding. Do not add persistence, networking, or player-data collection to that adapter.
