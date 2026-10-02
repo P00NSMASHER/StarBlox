@@ -40,6 +40,6 @@ The policy consumes only gameplay-state values needed for the current interactio
 
 ## Runtime dependency blocker
 
-No runtime NPC service is added in this increment. Main has no stable NPC roster or anchor registry, and the authoritative school-day runtime is still in open PR #179. Wiring live NPCs now would guess ownership and period-delivery interfaces and risk duplicating another lane.
+No runtime NPC service is added in this increment. The pure deterministic policy is now implemented at pipsquest/src/shared/NpcSocialPolicy.luau, but main still has no stable NPC roster or anchor registry, and the authoritative school-day runtime is still in open PR #179. Wiring live NPCs now would guess ownership and period-delivery interfaces and risk duplicating another lane.
 
-Next: consume the accepted school-day snapshot contract and a reviewed NPC anchor registry, then implement one pure deterministic policy module before spawning, persistence, or networking.
+Next: after the school-day snapshot contract is accepted, add one thin server adapter that maps its symbolic period ID into this policy plus a reviewed symbolic anchor registry. Do not add spawning, persistence, or networking until those contracts are explicit.
