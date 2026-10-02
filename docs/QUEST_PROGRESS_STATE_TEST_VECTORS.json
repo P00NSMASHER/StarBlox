@@ -1,0 +1,43 @@
+{
+  "contract": "quest-progress-state",
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "name": "duplicate-event-is-idempotent",
+      "definition": {"id":"school-day-starter","revision":1,"objectives":[{"id":"attend-class","required":2}]},
+      "events": [
+        {"eventId":"evt-1","objectiveId":"attend-class","delta":1},
+        {"eventId":"evt-1","objectiveId":"attend-class","delta":1}
+      ],
+      "expected": {"status":"ACTIVE","objectiveProgress":{"attend-class":1},"receiptCount":1}
+    },
+    {
+      "name": "progress-clamps-to-target",
+      "definition": {"id":"school-day-starter","revision":1,"objectives":[{"id":"attend-class","required":2}]},
+      "events": [
+        {"eventId":"evt-1","objectiveId":"attend-class","delta":9}
+      ],
+      "expected": {"status":"COMPLETED","objectiveProgress":{"attend-class":2},"receiptCount":1}
+    },
+    {
+      "name": "all-objectives-required-for-completion",
+      "definition": {"id":"school-day-starter","revision":1,"objectives":[{"id":"attend-class","required":1},{"id":"complete-activity","required":1}]},
+      "events": [
+        {"eventId":"evt-1","objectiveId":"attend-class","delta":1}
+      ],
+      "expected": {"status":"ACTIVE","objectiveProgress":{"attend-class":1,"complete-activity":0},"receiptCount":1}
+    },
+    {
+      "name": "revision-mismatch-does-not-merge",
+      "definition": {"id":"school-day-starter","revision":2,"objectives":[{"id":"attend-class","required":1}]},
+      "saved": {"schemaVersion":1,"questId":"school-day-starter","questRevision":1,"status":"COMPLETED","objectiveProgress":{"attend-class":1},"receipts":{"evt-old":true}},
+      "expected": {"accepted":false}
+    },
+    {
+      "name": "saved-status-is-derived-from-objectives",
+      "definition": {"id":"school-day-starter","revision":1,"objectives":[{"id":"attend-class","required":2}]},
+      "saved": {"schemaVersion":1,"questId":"school-day-starter","questRevision":1,"status":"COMPLETED","objectiveProgress":{"attend-class":1},"receipts":{}},
+      "expected": {"accepted":true,"status":"ACTIVE","objectiveProgress":{"attend-class":1}}
+    }
+  ]
+}
