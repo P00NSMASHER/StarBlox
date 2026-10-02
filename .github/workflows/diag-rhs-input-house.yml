@@ -69,7 +69,7 @@ jobs:
             ' local container=SP:FindFirstChild(containerName)',
             ' if container then',
             '  for _,v in ipairs(container:GetDescendants()) do',
-            '   if v:IsA("LocalScript") or v:IsA("ModuleScript") then print("PLAYER_SCRIPT class="..v.ClassName.." path="..pathOf(v).." enabled="..tostring(not v:IsA("LocalScript") or v.Enabled)) end',
+            '   if v:IsA("LocalScript") or v:IsA("ModuleScript") then print("PLAYER_SCRIPT class="..v.ClassName.." path="..v:GetFullName().." enabled="..tostring(not v:IsA("LocalScript") or v.Enabled)) end',
             '  end',
             ' end',
             'end',
