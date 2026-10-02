@@ -24,7 +24,7 @@ assert 'panel.Size = UDim2.new(0.86, 0, 0, COLLAPSED_PANEL_HEIGHT)' in client
 assert 'sizeConstraint.MaxSize = Vector2.new(380, ACTIVE_PANEL_HEIGHT)' in client
 
 def int_constant(name):
-    match = re.search(rf"local {name} = (\\d+)", client)
+    match = re.search(rf"local {name} = (\d+)", client)
     assert match, f"missing numeric mobile layout constant: {name}"
     return int(match.group(1))
 
