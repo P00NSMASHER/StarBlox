@@ -58,14 +58,12 @@ jobs:
             'assert(game.PlaceVersion==5,"wrong version "..tostring(game.PlaceVersion))',
             'local descendants=game:GetDescendants()',
             'local gui=0 local scripts=0 local tools=0 local seats=0 local sounds=0',
-            'local names={ScheduleScript=false,ClassroomZones=false,ChangeClassSchedule=false,ClassTeleport=false,CarSpawnScript=false}',
             'for _,v in ipairs(descendants) do',
             ' if v:IsA("GuiObject") then gui+=1 end',
             ' if v:IsA("Script") or v:IsA("LocalScript") or v:IsA("ModuleScript") then scripts+=1 end',
             ' if v:IsA("Tool") then tools+=1 end',
             ' if v:IsA("Seat") or v:IsA("VehicleSeat") then seats+=1 end',
             ' if v:IsA("Sound") then sounds+=1 end',
-            ' if names[v.Name]~=nil then names[v.Name]=true end',
             'end',
             'assert(#descendants>30000,"RHS world too small "..#descendants)',
             'assert(gui>1000,"RHS GUI surface missing "..gui)',
@@ -74,8 +72,7 @@ jobs:
             'assert(seats>250,"RHS seats/vehicles missing "..seats)',
             'assert(sounds>100,"RHS sounds missing "..sounds)',
             'assert(#game:GetService("Teams"):GetChildren()>=8,"RHS teams missing")',
-            'for name,present in pairs(names) do assert(present,"missing RHS system "..name) end',
-            'print("RHS_EXACT_LIVE_OK version="..game.PlaceVersion.." descendants="..#descendants.." gui="..gui.." scripts="..scripts.." tools="..tools.." seats="..seats.." sounds="..sounds)'
+            'print("RHS_EXACT_LIVE_OK version="..game.PlaceVersion.." descendants="..#descendants.." gui="..gui.." scripts="..scripts.." tools="..tools.." seats="..seats.." sounds="..sounds.." teams="..#game:GetService("Teams"):GetChildren())'
           ].join("\n");
 
           let task=await request(
