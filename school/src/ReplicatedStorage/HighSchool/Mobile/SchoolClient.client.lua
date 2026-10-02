@@ -13,6 +13,8 @@ local leaveClass = classRemotes:WaitForChild("LeaveClass")
 local getProgression = progressionRemotes:WaitForChild("GetProgression")
 
 local ACTIVE_CLASS_ID = "math"
+local COLLAPSED_PANEL_HEIGHT = 210
+local ACTIVE_PANEL_HEIGHT = 236
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -30,12 +32,12 @@ local panel = Instance.new("Frame")
 panel.Name = "Panel"
 panel.AnchorPoint = Vector2.new(0.5, 0)
 panel.Position = UDim2.new(0.5, 0, 0, 18)
-panel.Size = UDim2.new(0.86, 0, 0, 210)
+panel.Size = UDim2.new(0.86, 0, 0, COLLAPSED_PANEL_HEIGHT)
 panel.BackgroundTransparency = 0.08
 panel.Parent = gui
 
 local sizeConstraint = Instance.new("UISizeConstraint")
-sizeConstraint.MaxSize = Vector2.new(380, 210)
+sizeConstraint.MaxSize = Vector2.new(380, ACTIVE_PANEL_HEIGHT)
 sizeConstraint.MinSize = Vector2.new(280, 190)
 sizeConstraint.Parent = panel
 
@@ -120,6 +122,16 @@ choicesLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 choicesLayout.Padding = UDim.new(0, 6)
 choicesLayout.Parent = choicesRow
 
+local function setQuestionVisible(isVisible)
+    questionFrame.Visible = isVisible
+    panel.Size = UDim2.new(
+        0.86,
+        0,
+        0,
+        isVisible and ACTIVE_PANEL_HEIGHT or COLLAPSED_PANEL_HEIGHT
+    )
+end
+
 local currentSessionId = nil
 local lastCompletedCount = nil
 local lastPeriodId = nil
@@ -190,7 +202,7 @@ end
 local function finishSession(message, shouldWaitForProgression)
     local previousCompletedCount = lastCompletedCount
     currentSessionId = nil
-    questionFrame.Visible = false
+    setQuestionVisible(false)
     clearChoices()
     statusLabel.Text = message
 
@@ -249,7 +261,7 @@ local function showActivity(activity)
         end)
     end
 
-    questionFrame.Visible = true
+    setQuestionVisible(true)
 end
 
 attendButton.Activated:Connect(function()

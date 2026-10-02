@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[2]
 client = (ROOT / "src/ReplicatedStorage/HighSchool/Mobile/SchoolClient.client.lua").read_text(encoding="utf-8")
@@ -19,7 +20,26 @@ for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsyn
 assert 'ACTIVE_CLASS_ID = "math"' in client
 assert 'panel.AnchorPoint = Vector2.new(0.5, 0)' in client
 assert 'panel.Position = UDim2.new(0.5, 0, 0, 18)' in client
-assert 'sizeConstraint.MaxSize = Vector2.new(380, 210)' in client
+assert 'panel.Size = UDim2.new(0.86, 0, 0, COLLAPSED_PANEL_HEIGHT)' in client
+assert 'sizeConstraint.MaxSize = Vector2.new(380, ACTIVE_PANEL_HEIGHT)' in client
+
+def int_constant(name):
+    match = re.search(rf"local {name} = (\\d+)", client)
+    assert match, f"missing numeric mobile layout constant: {name}"
+    return int(match.group(1))
+
+collapsed_panel_height = int_constant("COLLAPSED_PANEL_HEIGHT")
+active_panel_height = int_constant("ACTIVE_PANEL_HEIGHT")
+expanded_content_height = 26 + 26 + 32 + 46 + 68 + (4 * 6)
+
+assert collapsed_panel_height == 210
+assert active_panel_height > collapsed_panel_height
+assert active_panel_height >= expanded_content_height, "active class HUD content exceeds its panel background"
+assert active_panel_height <= 260, "active class HUD consumes too much of a 402px phone viewport"
+assert 'local function setQuestionVisible(isVisible)' in client
+assert 'isVisible and ACTIVE_PANEL_HEIGHT or COLLAPSED_PANEL_HEIGHT' in client
+assert 'setQuestionVisible(false)' in client
+assert 'setQuestionVisible(true)' in client
 assert '0, 44' in client, "touch targets must be at least 44px high"
 assert 'button.Size = UDim2.new(1 / math.max(1, #choices), -6, 0, 44)' in client
 assert 'questionFrame.Visible = false' in client
