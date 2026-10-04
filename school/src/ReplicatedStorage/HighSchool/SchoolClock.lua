@@ -8,6 +8,9 @@ local PERIODS = table.freeze({
     table.freeze({ id = "lunch", durationSeconds = 120, locationId = "cafeteria" }),
 })
 
+SchoolClock.START_MINUTE = 8 * 60
+SchoolClock.SCHOOL_MINUTES_PER_SECOND = 1
+
 local dayLengthSeconds = 0
 for _, period in ipairs(PERIODS) do
     assert(period.durationSeconds > 0, "period duration must be positive")
@@ -16,6 +19,21 @@ end
 
 SchoolClock.PERIODS = PERIODS
 SchoolClock.DAY_LENGTH_SECONDS = dayLengthSeconds
+
+function SchoolClock.getDisplay(state)
+    local elapsed = 0
+    for index = 1, (state.periodIndex or 1) - 1 do
+        elapsed += PERIODS[index].durationSeconds
+    end
+    elapsed += state.secondsIntoPeriod or 0
+    local minute = SchoolClock.START_MINUTE + math.floor(elapsed * SchoolClock.SCHOOL_MINUTES_PER_SECOND)
+    local hour = math.floor(minute / 60) % 24
+    local suffix = hour >= 12 and "PM" or "AM"
+    local displayHour = hour % 12
+    if displayHour == 0 then displayHour = 12 end
+    local nextPeriod = PERIODS[(state.periodIndex or 1) % #PERIODS + 1]
+    return string.format("%d:%02d %s", displayHour, minute % 60, suffix), nextPeriod.id
+end
 
 function SchoolClock.getState(elapsedSeconds)
     assert(type(elapsedSeconds) == "number" and elapsedSeconds >= 0, "elapsedSeconds must be non-negative")

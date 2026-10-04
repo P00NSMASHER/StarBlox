@@ -3,16 +3,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
 local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
-local FoundationState = require(highSchool:WaitForChild("FoundationState"))
-local classRemotes = highSchool:WaitForChild("ClassRemotes")
-local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
-
-local beginClass = classRemotes:WaitForChild("BeginClass")
-local submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
-local leaveClass = classRemotes:WaitForChild("LeaveClass")
-local getProgression = progressionRemotes:WaitForChild("GetProgression")
-
-local ACTIVE_CLASS_ID = "math"
+local FoundationState
+local SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
+local beginClass, submitAnswer, leaveClass, getProgression
+local CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science", arrival = "Arrival", lunch = "Lunch" }
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -30,13 +24,13 @@ local panel = Instance.new("Frame")
 panel.Name = "Panel"
 panel.AnchorPoint = Vector2.new(0.5, 0)
 panel.Position = UDim2.new(0.5, 0, 0, 18)
-panel.Size = UDim2.new(0.86, 0, 0, 210)
+panel.Size = UDim2.new(0.86, 0, 0, 264)
 panel.BackgroundTransparency = 0.08
 panel.Parent = gui
 
 local sizeConstraint = Instance.new("UISizeConstraint")
-sizeConstraint.MaxSize = Vector2.new(380, 210)
-sizeConstraint.MinSize = Vector2.new(280, 190)
+sizeConstraint.MaxSize = Vector2.new(380, 264)
+sizeConstraint.MinSize = Vector2.new(280, 244)
 sizeConstraint.Parent = panel
 
 local layout = Instance.new("UIListLayout")
@@ -60,6 +54,8 @@ local function makeLabel(name, height, text)
 end
 
 local periodLabel = makeLabel("PeriodLabel", 26, "School period: loading…")
+local clockLabel = makeLabel("ClockLabel", 26, "School clock: loading…")
+local nextLabel = makeLabel("NextLabel", 26, "Up next: loading…")
 local progressionLabel = makeLabel("ProgressionLabel", 26, "Points: loading…")
 local statusLabel = makeLabel("StatusLabel", 32, "Ready")
 
@@ -121,6 +117,7 @@ choicesLayout.Padding = UDim.new(0, 6)
 choicesLayout.Parent = choicesRow
 
 local currentSessionId = nil
+local currentClassId = nil
 local lastCompletedCount = nil
 local lastPeriodId = nil
 
@@ -134,6 +131,7 @@ local function locationDisplayName(locationId)
 end
 
 local function safeInvoke(remote, ...)
+    if not remote then return nil, "SERVER_UNAVAILABLE" end
     local ok, result = pcall(function()
         return remote:InvokeServer(...)
     end)
@@ -190,6 +188,7 @@ end
 local function finishSession(message, shouldWaitForProgression)
     local previousCompletedCount = lastCompletedCount
     currentSessionId = nil
+    currentClassId = nil
     questionFrame.Visible = false
     clearChoices()
     statusLabel.Text = message
@@ -265,6 +264,7 @@ attendButton.Activated:Connect(function()
     end
 
     currentSessionId = result.sessionId
+    currentClassId = FoundationState and FoundationState.getSnapshot().periodId
     statusLabel.Text = "Class started."
     showActivity(result.activity or {})
 end)
@@ -280,9 +280,14 @@ end)
 
 task.spawn(function()
     while gui.Parent do
-        local snapshot = FoundationState.getSnapshot()
+        local snapshot = FoundationState and FoundationState.getSnapshot() or {}
         local periodId = snapshot.periodId
         local locationName = locationDisplayName(snapshot.locationId)
+        if snapshot.periodIndex and snapshot.secondsIntoPeriod then
+            local displayTime, nextId = SchoolClock.getDisplay(snapshot)
+            clockLabel.Text = "School time: " .. displayTime
+            nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)
+        end
         local secondsRemaining = math.max(0, math.ceil(tonumber(snapshot.secondsRemaining) or 0))
 
         periodLabel.Text = string.format(
@@ -293,21 +298,21 @@ task.spawn(function()
             secondsRemaining
         )
 
-        local classIsAvailable = periodId == ACTIVE_CLASS_ID
+        local classIsAvailable = periodId == "math" or periodId == "ela" or periodId == "science"
         attendButton.Active = classIsAvailable and currentSessionId == nil
         attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
-        attendButton.Text = classIsAvailable and "Attend Math" or "Class Unavailable"
+        attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"
 
         if periodId ~= lastPeriodId then
-            if periodId == ACTIVE_CLASS_ID and currentSessionId == nil then
-                statusLabel.Text = "Math is open — go to Math Classroom."
+            if classIsAvailable and currentSessionId == nil then
+                statusLabel.Text = CLASS_NAMES[periodId] .. " is open — go to " .. locationName .. "."
             elseif currentSessionId == nil then
                 statusLabel.Text = "Free roam."
             end
             lastPeriodId = periodId
         end
 
-        if currentSessionId and periodId ~= nil and periodId ~= ACTIVE_CLASS_ID then
+        if currentSessionId and periodId ~= nil and periodId ~= currentClassId then
             safeInvoke(leaveClass)
             finishSession("Class period ended. Back to free roam.", false)
         end
@@ -316,4 +321,17 @@ task.spawn(function()
     end
 end)
 
-refreshProgression()
+task.spawn(function()
+    FoundationState = require(highSchool:WaitForChild("FoundationState"))
+end)
+task.spawn(function()
+    local classRemotes = highSchool:WaitForChild("ClassRemotes")
+    beginClass = classRemotes:WaitForChild("BeginClass")
+    submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
+    leaveClass = classRemotes:WaitForChild("LeaveClass")
+end)
+task.spawn(function()
+    local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
+    getProgression = progressionRemotes:WaitForChild("GetProgression")
+    refreshProgression()
+end)
