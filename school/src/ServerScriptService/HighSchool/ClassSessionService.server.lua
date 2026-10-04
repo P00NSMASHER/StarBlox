@@ -45,7 +45,8 @@ end
 
 local sessionsByUserId = {}
 local ATTENDANCE_RADIUS = 16
-local ACTIVE_CLASS_ID = "math"
+local CLASS_PERIODS = { math = true, ela = true, science = true }
+local sessionClassesByUserId = {}
 
 local function closeSessionForUser(userId)
     local sessionId = sessionsByUserId[userId]
@@ -55,6 +56,7 @@ local function closeSessionForUser(userId)
 
     EducationCore.closeSession(sessionId)
     sessionsByUserId[userId] = nil
+    sessionClassesByUserId[userId] = nil
     return true
 end
 
@@ -78,17 +80,15 @@ end
 
 local function closeSessionsOutsideActivePeriod()
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId == ACTIVE_CLASS_ID then
-        return
-    end
-
     local userIds = {}
     for userId in pairs(sessionsByUserId) do
         table.insert(userIds, userId)
     end
 
     for _, userId in ipairs(userIds) do
-        closeSessionForUser(userId)
+        if sessionClassesByUserId[userId] ~= foundation.periodId then
+            closeSessionForUser(userId)
+        end
     end
 end
 
@@ -104,7 +104,7 @@ beginClass.OnServerInvoke = function(player)
     end
 
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId ~= ACTIVE_CLASS_ID then
+    if not CLASS_PERIODS[foundation.periodId] then
         return table.freeze({ ok = false, reason = "NOT_CLASS_PERIOD" })
     end
 
@@ -118,6 +118,7 @@ beginClass.OnServerInvoke = function(player)
     end
 
     sessionsByUserId[player.UserId] = sessionId
+    sessionClassesByUserId[player.UserId] = foundation.periodId
 
     return table.freeze({
         ok = true,
@@ -133,7 +134,7 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     end
 
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId ~= ACTIVE_CLASS_ID then
+    if foundation.periodId ~= sessionClassesByUserId[player.UserId] then
         closeSessionForUser(player.UserId)
         return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
     end
@@ -152,10 +153,12 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
 
     if response.accepted and response.resolved then
         sessionsByUserId[player.UserId] = nil
+        local completedClassId = sessionClassesByUserId[player.UserId]
+        sessionClassesByUserId[player.UserId] = nil
         classCompleted:Fire(table.freeze({
             completionId = sessionId,
             playerId = player.UserId,
-            classId = ACTIVE_CLASS_ID,
+            classId = completedClassId,
             score = response.score,
             completedAt = os.time(),
         }))
