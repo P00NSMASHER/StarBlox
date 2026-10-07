@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import itertools
 import json
 import re
 from pathlib import Path
@@ -96,8 +97,24 @@ sign_text = palette_colors["SIGN_TEXT"]
 text_contrast = contrast_ratio(sign_text, sign_background)
 assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
 
+location_accents = {
+    location_id: palette_colors[location_id]
+    for location_id in location_ids
+}
+assert len(set(location_accents.values())) == len(location_accents), (
+    "destination accents must be unique"
+)
+for first_id, second_id in itertools.combinations(sorted(location_accents), 2):
+    first = location_accents[first_id]
+    second = location_accents[second_id]
+    max_channel_delta = max(abs(a - b) for a, b in zip(first, second))
+    assert max_channel_delta >= 48, (
+        f"{first_id} and {second_id} accents are too similar for categorical wayfinding: "
+        f"maximum channel delta {max_channel_delta}"
+    )
+
 for location_id in location_ids:
-    accent_contrast = contrast_ratio(palette_colors[location_id], sign_background)
+    accent_contrast = contrast_ratio(location_accents[location_id], sign_background)
     assert accent_contrast >= 3.0, (
         f"{location_id} sign outline contrast below 3:1: "
         f"{accent_contrast:.2f}:1"
