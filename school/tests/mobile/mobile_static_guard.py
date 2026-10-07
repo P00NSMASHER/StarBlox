@@ -19,9 +19,14 @@ for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsyn
 assert 'ACTIVE_CLASS_ID' not in client, "retired single-class client contract returned"
 assert 'CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science"' in client
 assert 'CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })' in client
-assert 'SchoolClock = require' in client
+assert 'local FoundationConfig\nlocal FoundationState\nlocal SchoolClock' in client
+assert 'FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))' in client
+assert 'SchoolClock = require(highSchool:WaitForChild("SchoolClock"))' in client
+assert 'local FoundationConfig = require' not in client
+assert 'local SchoolClock = require' not in client
 assert 'makeLabel("ClockLabel", 26, "School clock: loading…")' in client
 assert 'makeLabel("NextLabel", 26, "Up next: loading…")' in client
+assert 'if SchoolClock and snapshot.periodIndex and snapshot.secondsIntoPeriod then' in client
 assert 'SchoolClock.getDisplay(snapshot)' in client
 assert 'clockLabel.Text = "School time: " .. displayTime' in client
 assert 'nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)' in client
@@ -56,6 +61,15 @@ assert 'showActivity(activity)' in client
 assert 'if not remote then return nil, "SERVER_UNAVAILABLE" end' in client
 assert 'FoundationState and FoundationState.getSnapshot() or {}' in client
 assert 'FoundationState = require(highSchool:WaitForChild("FoundationState"))' in client
+gui_parent_index = client.index("gui.Parent = playerGui")
+for dependency_require in (
+    'FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))',
+    'FoundationState = require(highSchool:WaitForChild("FoundationState"))',
+    'SchoolClock = require(highSchool:WaitForChild("SchoolClock"))',
+):
+    assert gui_parent_index < client.index(dependency_require), (
+        f"HUD must render before delayed dependency: {dependency_require}"
+    )
 
 assert 'WaitForChild("Mobile")' in bootstrap
 assert 'WaitForChild("SchoolClient")' in bootstrap

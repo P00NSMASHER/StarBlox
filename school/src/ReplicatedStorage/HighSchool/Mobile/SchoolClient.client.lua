@@ -2,9 +2,9 @@ local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
-local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
+local FoundationConfig
 local FoundationState
-local SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
+local SchoolClock
 local beginClass, submitAnswer, leaveClass, getProgression
 local CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science", arrival = "Arrival", lunch = "Lunch" }
 local CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })
@@ -123,7 +123,7 @@ local lastCompletedCount = nil
 local lastPeriodId = nil
 
 local function locationDisplayName(locationId)
-    for _, location in ipairs(FoundationConfig.LOCATIONS) do
+    for _, location in ipairs(FoundationConfig and FoundationConfig.LOCATIONS or {}) do
         if location.id == locationId then
             return location.name
         end
@@ -290,7 +290,7 @@ task.spawn(function()
         local snapshot = FoundationState and FoundationState.getSnapshot() or {}
         local periodId = snapshot.periodId
         local locationName = locationDisplayName(snapshot.locationId)
-        if snapshot.periodIndex and snapshot.secondsIntoPeriod then
+        if SchoolClock and snapshot.periodIndex and snapshot.secondsIntoPeriod then
             local displayTime, nextId = SchoolClock.getDisplay(snapshot)
             clockLabel.Text = "School time: " .. displayTime
             nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)
@@ -329,7 +329,13 @@ task.spawn(function()
 end)
 
 task.spawn(function()
+    FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
+end)
+task.spawn(function()
     FoundationState = require(highSchool:WaitForChild("FoundationState"))
+end)
+task.spawn(function()
+    SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
 end)
 task.spawn(function()
     local classRemotes = highSchool:WaitForChild("ClassRemotes")
