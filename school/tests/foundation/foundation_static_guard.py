@@ -44,6 +44,7 @@ for rel in mapped_paths:
 config = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationConfig.lua").read_text(encoding="utf-8")
 clock = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolClock.lua").read_text(encoding="utf-8")
 state = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationState.lua").read_text(encoding="utf-8")
+route_layout = (ROOT / "src/ReplicatedStorage/HighSchool/CampusRouteLayout.lua").read_text(encoding="utf-8")
 visual_theme = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolVisualTheme.lua").read_text(encoding="utf-8")
 builder = (ROOT / "src/ServerScriptService/HighSchool/CampusBuilder.server.lua").read_text(encoding="utf-8")
 service = (ROOT / "src/ServerScriptService/HighSchool/SchoolClockService.server.lua").read_text(encoding="utf-8")
@@ -103,6 +104,34 @@ for location_id in location_ids:
         f"{accent_contrast:.2f}:1"
     )
 
+route_segments = re.findall(
+    r'{ id = "([^"]+)", fromId = "([^"]+)", toId = "([^"]+)" }',
+    route_layout,
+)
+assert route_segments, "campus route segments missing"
+route_ids = [route_id for route_id, _, _ in route_segments]
+assert len(route_ids) == len(set(route_ids)), "duplicate campus route id"
+assert all(
+    from_id in location_ids and to_id in location_ids
+    for _, from_id, to_id in route_segments
+), "campus route references unknown location"
+assert all(from_id == "lobby" for _, from_id, _ in route_segments), "routes must use the lobby hub"
+assert {to_id for _, _, to_id in route_segments} == location_ids - {"lobby"}, (
+    "every non-lobby destination must have one direct route"
+)
+
+route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
+assert route_width_match and float(route_width_match.group(1)) >= 10, (
+    "campus routes must remain at least 10 studs wide"
+)
+assert 'routes.Name = "Routes"' in builder
+assert 'route.CanCollide = false' in builder
+assert 'route.CanTouch = false' in builder
+assert 'route.CFrame = CFrame.lookAt' in builder
+assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
+assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)' in builder
+
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
     clock,
@@ -121,7 +150,7 @@ assert 'runtime:SetAttribute("PeriodId"' in service
 assert "SetAttribute(" not in state, "FoundationState must be read-only"
 assert "function FoundationState.getSnapshot()" in state
 
-for text in (config, clock, state, visual_theme, builder, service):
+for text in (config, clock, state, route_layout, visual_theme, builder, service):
     for forbidden in ("BrookhavenWorldRuntime", "BrookhavenWorldBaseline", "BHW_", "PipsQuest", "MazeWorld"):
         assert forbidden not in text, f"retired runtime dependency found: {forbidden}"
 

@@ -2,6 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+local CampusRouteLayout = require(highSchool:WaitForChild("CampusRouteLayout"))
 local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
 local SchoolVisualTheme = require(highSchool:WaitForChild("SchoolVisualTheme"))
 
@@ -40,11 +41,17 @@ local wayfinding = Instance.new("Folder")
 wayfinding.Name = "Wayfinding"
 wayfinding.Parent = campus
 
+local routes = Instance.new("Folder")
+routes.Name = "Routes"
+routes.Parent = wayfinding
+
 local seen = {}
+local locationsById = {}
 for _, location in ipairs(FoundationConfig.LOCATIONS) do
     assert(type(location.id) == "string" and location.id ~= "", "location id required")
     assert(not seen[location.id], "duplicate location id: " .. location.id)
     seen[location.id] = true
+    locationsById[location.id] = location
 
     local marker = Instance.new("Part")
     marker.Name = location.id
@@ -116,5 +123,53 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     textConstraint.Parent = text
 end
 
+local routeIds = {}
+for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
+    assert(not routeIds[segment.id], "duplicate campus route id: " .. segment.id)
+    routeIds[segment.id] = true
+
+    local fromLocation = assert(
+        locationsById[segment.fromId],
+        "unknown route origin: " .. tostring(segment.fromId)
+    )
+    local toLocation = assert(
+        locationsById[segment.toId],
+        "unknown route destination: " .. tostring(segment.toId)
+    )
+
+    local startPosition = Vector3.new(
+        fromLocation.position.X,
+        CampusRouteLayout.ROUTE_Y,
+        fromLocation.position.Z
+    )
+    local endPosition = Vector3.new(
+        toLocation.position.X,
+        CampusRouteLayout.ROUTE_Y,
+        toLocation.position.Z
+    )
+    local delta = endPosition - startPosition
+    local distance = delta.Magnitude
+    assert(distance > 0, "campus route must connect distinct locations: " .. segment.id)
+
+    local route = Instance.new("Part")
+    route.Name = segment.id
+    route.Anchored = true
+    route.CanCollide = false
+    route.CanTouch = false
+    route.Material = Enum.Material.SmoothPlastic
+    route.Color = SchoolVisualTheme.getLocationAccent(segment.toId)
+    route.Transparency = CampusRouteLayout.ROUTE_TRANSPARENCY
+    route.Size = Vector3.new(
+        CampusRouteLayout.ROUTE_WIDTH,
+        CampusRouteLayout.ROUTE_THICKNESS,
+        distance
+    )
+    route.CFrame = CFrame.lookAt((startPosition + endPosition) / 2, endPosition)
+    route:SetAttribute("FromLocationId", segment.fromId)
+    route:SetAttribute("ToLocationId", segment.toId)
+    route.Parent = routes
+end
+
 campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
+campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
