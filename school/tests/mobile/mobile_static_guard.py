@@ -18,6 +18,7 @@ for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsyn
 
 assert 'ACTIVE_CLASS_ID' not in client, "retired single-class client contract returned"
 assert 'CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science"' in client
+assert 'CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })' in client
 assert 'SchoolClock = require' in client
 assert 'makeLabel("ClockLabel", 26, "School clock: loading…")' in client
 assert 'makeLabel("NextLabel", 26, "Up next: loading…")' in client
@@ -39,14 +40,18 @@ assert 'response.reason == "SESSION_NOT_ACTIVE"' in client
 assert 'response.reason == "CLASS_PERIOD_ENDED"' in client
 assert 'response.reason == "LEFT_CLASS_LOCATION"' in client
 
-class_gate = 'periodId == "math" or periodId == "ela" or periodId == "science"'
-assert class_gate in client
+assert 'local classIsAvailable = CLASS_PERIODS[periodId] == true' in client
 assert 'attendButton.Active = classIsAvailable and currentSessionId == nil' in client
 assert 'attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"' in client
 assert 'locationDisplayName' in client
 assert 'CLASS_NAMES[periodId] .. " is open — go to " .. locationName' in client
 assert 'currentSessionId and periodId ~= nil and periodId ~= currentClassId' in client
 assert 'finishSession("Class period ended. Back to free roam.", false)' in client
+assert 'currentClassId = activity.subject' in client
+assert 'currentClassId = FoundationState and FoundationState.getSnapshot().periodId' not in client
+assert 'if not CLASS_PERIODS[currentClassId] then' in client
+assert 'finishSession("Class start could not be verified. Try again.", false)' in client
+assert 'showActivity(activity)' in client
 
 assert 'if not remote then return nil, "SERVER_UNAVAILABLE" end' in client
 assert 'FoundationState and FoundationState.getSnapshot() or {}' in client
