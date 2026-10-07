@@ -28,9 +28,13 @@ local spawn = Instance.new("SpawnLocation")
 spawn.Name = FoundationConfig.SPAWN_NAME
 spawn.Anchored = true
 spawn.Neutral = true
+spawn.CanCollide = false
+spawn.CanTouch = false
 spawn.Size = Vector3.new(8, 1, 8)
-spawn.Position = Vector3.new(0, 1, 12)
+spawn.Position = FoundationConfig.SPAWN_POSITION
 spawn.Color = SchoolVisualTheme.SPAWN
+spawn:SetAttribute("LocationId", "entrance")
+spawn:SetAttribute("DisplayName", "Front Entrance")
 spawn.Parent = campus
 
 local registry = Instance.new("Folder")
@@ -46,7 +50,11 @@ routes.Name = "Routes"
 routes.Parent = wayfinding
 
 local seen = {}
-local locationsById = {}
+local locationsById = {
+    entrance = table.freeze({
+        position = Vector3.new(spawn.Position.X, 3, spawn.Position.Z),
+    }),
+}
 for _, location in ipairs(FoundationConfig.LOCATIONS) do
     assert(type(location.id) == "string" and location.id ~= "", "location id required")
     assert(not seen[location.id], "duplicate location id: " .. location.id)

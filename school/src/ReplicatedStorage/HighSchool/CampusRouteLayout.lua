@@ -6,6 +6,7 @@ CampusRouteLayout.ROUTE_Y = 0.54
 CampusRouteLayout.ROUTE_TRANSPARENCY = 0.42
 
 CampusRouteLayout.SEGMENTS = table.freeze({
+    table.freeze({ id = "EntranceToLobby", fromId = "entrance", toId = "lobby" }),
     table.freeze({ id = "LobbyToMath", fromId = "lobby", toId = "math" }),
     table.freeze({ id = "LobbyToLanguageArts", fromId = "lobby", toId = "ela" }),
     table.freeze({ id = "LobbyToScience", fromId = "lobby", toId = "science" }),
