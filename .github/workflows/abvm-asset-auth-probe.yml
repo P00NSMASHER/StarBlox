@@ -1,0 +1,95 @@
+name: ABVM Cross-Repo Asset Auth Probe
+
+on:
+  push:
+    branches:
+      - abvm-asset-auth-probe
+    paths:
+      - '.github/workflows/abvm-asset-auth-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify configured Open Cloud key without exposing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ROBLOX_OPEN_CLOUD_API_KEY"
+          curl -fsSL \
+            --request POST 'https://apis.roblox.com/api-keys/v1/introspect' \
+            --header 'Content-Type: application/json' \
+            --data "$(jq -cn --arg key "$ROBLOX_OPEN_CLOUD_API_KEY" '{apiKey:$key}')" \
+            -o "$RUNNER_TEMP/introspect.json"
+          jq '{name,authorizedUserId,enabled,expired,scopes}' "$RUNNER_TEMP/introspect.json"
+          jq -e '.enabled == true and .expired == false' "$RUNNER_TEMP/introspect.json" >/dev/null
+
+      - name: Attempt one real ABVM image asset upload
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+          curl -fsSL --retry 3 \
+            'https://www.assumptionbvmschool.net/uploaded/faculty/ABVM/00000146.JPG' \
+            -o "$RUNNER_TEMP/source.jpg"
+          convert "$RUNNER_TEMP/source.jpg" -auto-orient -resize '720x720^' -gravity North -extent 512x512 -strip -quality 92 "$RUNNER_TEMP/melissa.jpg"
+
+          creator_id="$(jq -r '.authorizedUserId // empty' "$RUNNER_TEMP/introspect.json")"
+          test -n "$creator_id" -a "$creator_id" != "0"
+          jq -cn \
+            --arg name 'ABVM Faculty Face - Mrs. Melissa Thompson' \
+            --arg desc 'Authorized Assumption BVM faculty portrait for the ABVM Roblox school NPC.' \
+            --argjson id "$creator_id" \
+            '{assetType:"Image",displayName:$name,description:$desc,creationContext:{creator:{userId:$id}}}' \
+            > "$RUNNER_TEMP/request.json"
+
+          code="$(curl --silent --show-error --location \
+            --output "$RUNNER_TEMP/create.json" --write-out '%{http_code}' \
+            --request POST 'https://apis.roblox.com/assets/v1/assets' \
+            --header "x-api-key: $ROBLOX_OPEN_CLOUD_API_KEY" \
+            --form "request=@$RUNNER_TEMP/request.json;type=application/json" \
+            --form "fileContent=@$RUNNER_TEMP/melissa.jpg;type=image/jpeg")"
+          cat "$RUNNER_TEMP/create.json"
+          echo "asset create HTTP $code"
+          test "$code" -ge 200 -a "$code" -lt 300
+
+          path="$(jq -r '.path // empty' "$RUNNER_TEMP/create.json")"
+          test -n "$path"
+          op="${path#operations/}"
+          for i in $(seq 1 60); do
+            curl -fsSL "https://apis.roblox.com/assets/v1/operations/$op" \
+              --header "x-api-key: $ROBLOX_OPEN_CLOUD_API_KEY" \
+              -o "$RUNNER_TEMP/op.json"
+            if [ "$(jq -r '.done // false' "$RUNNER_TEMP/op.json")" = "true" ]; then break; fi
+            sleep 2
+          done
+          cat "$RUNNER_TEMP/op.json"
+          asset_id="$(jq -r '.response.assetId // empty' "$RUNNER_TEMP/op.json")"
+          test -n "$asset_id"
+          printf '%s\n' "$asset_id" > "$RUNNER_TEMP/asset-id.txt"
+          echo "ABVM_ASSET_UPLOAD_OK assetId=$asset_id"
+
+      - name: Preserve non-secret probe receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: abvm-crossrepo-asset-probe-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/introspect.json
+            ${{ runner.temp }}/create.json
+            ${{ runner.temp }}/op.json
+            ${{ runner.temp }}/asset-id.txt
+          retention-days: 3
+          if-no-files-found: warn
