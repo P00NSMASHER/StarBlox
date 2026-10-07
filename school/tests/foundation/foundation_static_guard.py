@@ -8,6 +8,27 @@ project_path = ROOT / "default.project.json"
 project = json.loads(project_path.read_text(encoding="utf-8"))
 project_text = json.dumps(project).lower()
 
+
+def relative_luminance(color):
+    channels = []
+    for value in color:
+        channel = value / 255
+        channels.append(
+            channel / 12.92
+            if channel <= 0.04045
+            else ((channel + 0.055) / 1.055) ** 2.4
+        )
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast_ratio(first, second):
+    light, dark = sorted(
+        (relative_luminance(first), relative_luminance(second)),
+        reverse=True,
+    )
+    return (light + 0.05) / (dark + 0.05)
+
+
 for forbidden in ("highschool/", "pipsquest", "maze", "brookhaven", "bhw_", "rhs"):
     assert forbidden not in project_text, f"forbidden mapped dependency: {forbidden}"
 
@@ -55,6 +76,32 @@ assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
+
+palette_colors = {
+    match.group(1): tuple(int(match.group(index)) for index in range(2, 5))
+    for match in re.finditer(
+        r"(?:SchoolVisualTheme\.)?([A-Za-z_]+)\s*=\s*"
+        r"Color3\.fromRGB\((\d+),\s*(\d+),\s*(\d+)\)",
+        visual_theme,
+    )
+}
+assert all(
+    0 <= channel <= 255
+    for color in palette_colors.values()
+    for channel in color
+), "palette channel outside sRGB range"
+
+sign_background = palette_colors["SIGN_BACKGROUND"]
+sign_text = palette_colors["SIGN_TEXT"]
+text_contrast = contrast_ratio(sign_text, sign_background)
+assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
+
+for location_id in location_ids:
+    accent_contrast = contrast_ratio(palette_colors[location_id], sign_background)
+    assert accent_contrast >= 3.0, (
+        f"{location_id} sign outline contrast below 3:1: "
+        f"{accent_contrast:.2f}:1"
+    )
 
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
