@@ -168,7 +168,36 @@ route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
 assert route_width_match and float(route_width_match.group(1)) >= 10, (
     "campus routes must remain at least 10 studs wide"
 )
+
+gateway_numbers = {
+    name: float(value)
+    for name, value in re.findall(
+        r"GATEWAY_([A-Z_]+) = ([0-9.]+)",
+        route_layout,
+    )
+}
+assert gateway_numbers["OPENING_WIDTH"] >= float(route_width_match.group(1)), (
+    "destination gateways must preserve the full route width"
+)
+assert gateway_numbers["HEIGHT"] - gateway_numbers["HEADER_HEIGHT"] >= 7, (
+    "destination gateways must preserve at least seven studs of vertical clearance"
+)
+assert 0 < gateway_numbers["POST_WIDTH"] <= 1, "gateway posts must remain visually slim"
+assert 0 < gateway_numbers["DEPTH"] <= 1, "gateway depth must remain non-obstructive"
+assert gateway_numbers["OFFSET"] == 6, "gateway threshold must stay on the edge of its 12-stud pad"
 assert 'routes.Name = "Routes"' in builder
+assert 'gateways.Name = "Gateways"' in builder
+assert 'if location.id ~= "lobby" then' in builder
+assert 'gateway.Name = location.id .. "Gateway"' in builder
+assert 'gateway:SetAttribute("LocationId", location.id)' in builder
+assert 'gateway:SetAttribute("ClearWidth", CampusRouteLayout.GATEWAY_OPENING_WIDTH)' in builder
+assert 'gatewayPart.CanCollide = false' in builder
+assert 'gatewayPart.CanTouch = false' in builder
+assert 'gatewayPart.CanQuery = false' in builder
+assert 'makeGatewayPart(\n            "LeftPost"' in builder
+assert 'makeGatewayPart(\n            "RightPost"' in builder
+assert 'makeGatewayPart(\n            "Header"' in builder
+assert 'campus:SetAttribute("GatewayCount", gatewayCount)' in builder
 assert 'entrance = table.freeze({' in builder
 assert 'route.CanCollide = false' in builder
 assert 'route.CanTouch = false' in builder

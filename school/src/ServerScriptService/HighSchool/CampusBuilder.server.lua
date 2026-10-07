@@ -49,6 +49,10 @@ local routes = Instance.new("Folder")
 routes.Name = "Routes"
 routes.Parent = wayfinding
 
+local gateways = Instance.new("Folder")
+gateways.Name = "Gateways"
+gateways.Parent = wayfinding
+
 local seen = {}
 local locationsById = {
     entrance = table.freeze({
@@ -131,6 +135,81 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     textConstraint.Parent = text
 end
 
+local lobbyLocation = assert(locationsById.lobby, "lobby location required for destination gateways")
+local gatewayCount = 0
+for _, location in ipairs(FoundationConfig.LOCATIONS) do
+    if location.id ~= "lobby" then
+        local towardLobby = Vector3.new(
+            lobbyLocation.position.X - location.position.X,
+            0,
+            lobbyLocation.position.Z - location.position.Z
+        )
+        assert(towardLobby.Magnitude > 0, "gateway destination must be distinct from lobby")
+        local approach = towardLobby.Unit
+        local thresholdPosition = Vector3.new(location.position.X, 0.5, location.position.Z)
+            + approach * CampusRouteLayout.GATEWAY_OFFSET
+        local gatewayCFrame = CFrame.lookAt(thresholdPosition, thresholdPosition + approach)
+        local accent = SchoolVisualTheme.getLocationAccent(location.id)
+
+        local gateway = Instance.new("Model")
+        gateway.Name = location.id .. "Gateway"
+        gateway:SetAttribute("LocationId", location.id)
+        gateway:SetAttribute("DisplayName", location.name)
+        gateway:SetAttribute("ClearWidth", CampusRouteLayout.GATEWAY_OPENING_WIDTH)
+        gateway.Parent = gateways
+
+        local function makeGatewayPart(name, size, offset)
+            local gatewayPart = Instance.new("Part")
+            gatewayPart.Name = name
+            gatewayPart.Anchored = true
+            gatewayPart.CanCollide = false
+            gatewayPart.CanTouch = false
+            gatewayPart.CanQuery = false
+            gatewayPart.Material = Enum.Material.SmoothPlastic
+            gatewayPart.Color = accent
+            gatewayPart.Size = size
+            gatewayPart.CFrame = gatewayCFrame * CFrame.new(offset)
+            gatewayPart.Parent = gateway
+        end
+
+        local postOffset = (
+            CampusRouteLayout.GATEWAY_OPENING_WIDTH + CampusRouteLayout.GATEWAY_POST_WIDTH
+        ) / 2
+        local postSize = Vector3.new(
+            CampusRouteLayout.GATEWAY_POST_WIDTH,
+            CampusRouteLayout.GATEWAY_HEIGHT,
+            CampusRouteLayout.GATEWAY_DEPTH
+        )
+        makeGatewayPart(
+            "LeftPost",
+            postSize,
+            Vector3.new(-postOffset, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0)
+        )
+        makeGatewayPart(
+            "RightPost",
+            postSize,
+            Vector3.new(postOffset, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0)
+        )
+        makeGatewayPart(
+            "Header",
+            Vector3.new(
+                CampusRouteLayout.GATEWAY_OPENING_WIDTH
+                    + CampusRouteLayout.GATEWAY_POST_WIDTH * 2,
+                CampusRouteLayout.GATEWAY_HEADER_HEIGHT,
+                CampusRouteLayout.GATEWAY_DEPTH
+            ),
+            Vector3.new(
+                0,
+                CampusRouteLayout.GATEWAY_HEIGHT
+                    - CampusRouteLayout.GATEWAY_HEADER_HEIGHT / 2,
+                0
+            )
+        )
+
+        gatewayCount += 1
+    end
+end
+
 local routeIds = {}
 for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
     assert(not routeIds[segment.id], "duplicate campus route id: " .. segment.id)
@@ -181,3 +260,4 @@ end
 campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
 campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
+campus:SetAttribute("GatewayCount", gatewayCount)
