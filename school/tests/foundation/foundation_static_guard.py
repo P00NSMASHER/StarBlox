@@ -92,6 +92,32 @@ assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme
 assert "INTEGRATED_LUFS = -18" in audio_theme
+
+mix_policy_match = re.search(
+    r"SchoolAudioTheme\.MIX_POLICY\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    audio_theme,
+    re.DOTALL,
+)
+assert mix_policy_match, "audio mix policy missing"
+mix_policy = {
+    match.group(1): float(match.group(2))
+    for match in re.finditer(
+        r"([A-Za-z][A-Za-z0-9]+)\s*=\s*(-?\d+(?:\.\d+)?)",
+        mix_policy_match.group(1),
+    )
+}
+assert set(mix_policy) == {
+    "maxConcurrentAmbience",
+    "crossfadeSeconds",
+    "speechDuckDb",
+    "reducedSensoryVolumeMultiplier",
+}, "audio mix policy keys changed"
+assert mix_policy["maxConcurrentAmbience"] == 1, "only one ambience may play at once"
+assert 0.5 <= mix_policy["crossfadeSeconds"] <= 2, "ambience crossfade outside short-transition range"
+assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intelligibility range"
+assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
+    "reduced-sensory volume multiplier outside useful range"
+)
 assert "SoundId" not in audio_theme, "audio specification must not embed asset IDs"
 assert "rbxassetid://" not in audio_theme.lower(), "audio specification must remain asset-ID free"
 
