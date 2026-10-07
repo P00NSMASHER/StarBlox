@@ -1,4 +1,5 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
+local ActivityCatalog = require("../../src/ServerScriptService/HighSchool/ActivityCatalog")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
@@ -70,6 +71,22 @@ local publicProgression = ProgressionReducer.toPublicSnapshot(stateB)
 assertEqual(publicProgression.points, 20, "public points")
 assertEqual(publicProgression.completedCount, 2, "public completed count")
 assert(publicProgression.completed == nil, "public snapshot must not expose completion ledger")
+
+-- Deterministic multi-day class activity rotation.
+for _, classId in ipairs({ "math", "ela", "science" }) do
+    local firstDayActivity = ActivityCatalog.getForClass(classId, 1)
+    local secondDayActivity = ActivityCatalog.getForClass(classId, 2)
+    local thirdDayActivity = ActivityCatalog.getForClass(classId, 3)
+
+    assert(firstDayActivity ~= nil, classId .. " day-one activity missing")
+    assert(secondDayActivity ~= nil, classId .. " day-two activity missing")
+    assertEqual(firstDayActivity.subject, classId, classId .. " day-one subject")
+    assertEqual(secondDayActivity.subject, classId, classId .. " day-two subject")
+    assert(firstDayActivity.id ~= secondDayActivity.id, classId .. " activities must rotate")
+    assertEqual(thirdDayActivity.id, firstDayActivity.id, classId .. " rotation must repeat deterministically")
+end
+assertEqual(ActivityCatalog.getForClass("math", 0), nil, "invalid day must fail closed")
+assertEqual(ActivityCatalog.getForClass("unknown", 1), nil, "unknown class must fail closed")
 
 -- Education session authority, idempotency, closure, and bounded receipt behavior.
 local activity = {

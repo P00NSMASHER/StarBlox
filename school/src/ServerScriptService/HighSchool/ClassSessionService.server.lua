@@ -112,7 +112,11 @@ beginClass.OnServerInvoke = function(player)
         return table.freeze({ ok = false, reason = "NOT_AT_CLASS_LOCATION" })
     end
 
-    local sessionId, err = EducationCore.startSession(player.UserId, foundation.periodId)
+    local sessionId, err = EducationCore.startSession(
+        player.UserId,
+        foundation.periodId,
+        foundation.dayIndex
+    )
     if not sessionId then
         return table.freeze({ ok = false, reason = err or "SESSION_START_FAILED" })
     end
