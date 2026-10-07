@@ -5,6 +5,13 @@ SchoolAudioTheme.SAMPLE_RATE_HZ = 48000
 SchoolAudioTheme.PEAK_DB = -3
 SchoolAudioTheme.INTEGRATED_LUFS = -18
 
+SchoolAudioTheme.MIX_POLICY = table.freeze({
+    maxConcurrentAmbience = 1,
+    crossfadeSeconds = 1.25,
+    speechDuckDb = -6,
+    reducedSensoryVolumeMultiplier = 0.5,
+})
+
 SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     lobby = table.freeze({
         token = "ambience_campus_hub",
