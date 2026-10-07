@@ -87,6 +87,14 @@ jobs:
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
           BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
 
+      - name: Verify build receipt binding
+        run: |
+          python school/tests/release/verify_build_receipt.py \
+            --artifact HighSchool-Integration.rbxlx \
+            --digest high-school-integration.sha256 \
+            --receipt high-school-build-receipt.json \
+            --expected-source-sha "$CANDIDATE_SOURCE_SHA"
+
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4
         with:

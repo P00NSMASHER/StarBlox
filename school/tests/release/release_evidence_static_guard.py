@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
+import hashlib
+import json
+import tempfile
 from pathlib import Path
+
+from verify_build_receipt import verify_build_receipt
 
 REPO = Path(__file__).resolve().parents[3]
 workflow = (REPO / ".github/workflows/high-school-integration.yml").read_text(encoding="utf-8")
@@ -28,6 +33,39 @@ assert workflow.index(candidate_expression) < workflow.index(checkout_expression
 assert workflow.index(checkout_expression) < workflow.index('rojo-bin/rojo build')
 assert workflow.index('rojo-bin/rojo build') < workflow.index(digest_capture)
 assert workflow.index(digest_capture) < workflow.index(digest_receipt_field)
-assert workflow.index(digest_receipt_field) < workflow.index('Upload deterministic candidate')
+verification_step = "Verify build receipt binding"
+verification_command = "python school/tests/release/verify_build_receipt.py"
+assert verification_step in workflow, "workflow must independently verify the generated receipt"
+assert verification_command in workflow, "workflow must run the receipt verifier"
+assert workflow.index(digest_receipt_field) < workflow.index(verification_step)
+assert workflow.index(verification_step) < workflow.index('Upload deterministic candidate')
+
+with tempfile.TemporaryDirectory() as temp_dir:
+    temp = Path(temp_dir)
+    artifact = temp / "HighSchool-Integration.rbxlx"
+    digest = temp / "high-school-integration.sha256"
+    receipt = temp / "high-school-build-receipt.json"
+    source_sha = "a" * 40
+    artifact.write_bytes(b"pip-high-build-evidence" * 64)
+    artifact_digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+    digest.write_text(f"{artifact_digest}  {artifact.name}\n", encoding="utf-8")
+    valid_receipt = {
+        "sourceSha": source_sha,
+        "sha256": artifact_digest,
+        "bytes": artifact.stat().st_size,
+    }
+    receipt.write_text(json.dumps(valid_receipt), encoding="utf-8")
+    verified = verify_build_receipt(artifact, digest, receipt, source_sha)
+    assert verified == valid_receipt
+
+    tampered_receipt = dict(valid_receipt)
+    tampered_receipt["sha256"] = "0" * 64
+    receipt.write_text(json.dumps(tampered_receipt), encoding="utf-8")
+    try:
+        verify_build_receipt(artifact, digest, receipt, source_sha)
+    except ValueError as error:
+        assert "SHA-256 does not match" in str(error)
+    else:
+        raise AssertionError("tampered build receipt must fail verification")
 
 print("high-school exact-head release evidence guard: PASS")
