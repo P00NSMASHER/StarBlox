@@ -58,34 +58,32 @@ assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
 
 for location_id in location_ids:
-    assert re.search(
-        rf"\\b{re.escape(location_id)}\\s*=\\s*table\\.freeze\\(\\{{",
-        audio_theme,
-    ), f"missing ambience specification: {location_id}"
+    assert f"{location_id} = table.freeze({{" in audio_theme, (
+        f"missing ambience specification: {location_id}"
+    )
 
 for cue_id in ("periodBell", "classComplete", "waypointConfirm"):
-    assert re.search(
-        rf"\\b{cue_id}\\s*=\\s*table\\.freeze\\(\\{{",
-        audio_theme,
-    ), f"missing sound cue specification: {cue_id}"
+    assert f"{cue_id} = table.freeze({{" in audio_theme, (
+        f"missing sound cue specification: {cue_id}"
+    )
 
 ambience_volumes = [
     float(value)
-    for value in re.findall(r"targetVolume\\s*=\\s*(0\\.\\d+)", audio_theme)
+    for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
 ]
 assert len(ambience_volumes) == len(location_ids) + 3, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
 max_distances = [
     int(value)
-    for value in re.findall(r"maxDistance\\s*=\\s*(\\d+)", audio_theme)
+    for value in re.findall(r"maxDistance\s*=\s*(\d+)", audio_theme)
 ]
 assert len(max_distances) == len(location_ids), "every ambience zone needs one max distance"
 assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
 
 cue_durations = [
     float(value)
-    for value in re.findall(r"maxDurationSeconds\\s*=\\s*(\\d+(?:\\.\\d+)?)", audio_theme)
+    for value in re.findall(r"maxDurationSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
 ]
 assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
 assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
