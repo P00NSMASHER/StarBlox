@@ -2,6 +2,7 @@ local FoundationConfig = {}
 
 FoundationConfig.CAMPUS_NAME = "PipHighCampus"
 FoundationConfig.SPAWN_NAME = "MainSpawn"
+FoundationConfig.SPAWN_POSITION = Vector3.new(48, 1, 48)
 
 FoundationConfig.LOCATIONS = table.freeze({
     table.freeze({ id = "lobby", name = "Main Lobby", position = Vector3.new(0, 3, 0) }),

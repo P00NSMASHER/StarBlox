@@ -44,6 +44,7 @@ for rel in mapped_paths:
 config = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationConfig.lua").read_text(encoding="utf-8")
 clock = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolClock.lua").read_text(encoding="utf-8")
 state = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationState.lua").read_text(encoding="utf-8")
+route_layout = (ROOT / "src/ReplicatedStorage/HighSchool/CampusRouteLayout.lua").read_text(encoding="utf-8")
 visual_theme = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolVisualTheme.lua").read_text(encoding="utf-8")
 audio_theme = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolAudioTheme.lua").read_text(encoding="utf-8")
 builder = (ROOT / "src/ServerScriptService/HighSchool/CampusBuilder.server.lua").read_text(encoding="utf-8")
@@ -51,10 +52,48 @@ service = (ROOT / "src/ServerScriptService/HighSchool/SchoolClockService.server.
 
 assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
+assert 'SPAWN_POSITION = Vector3.new(48, 1, 48)' in config
+assert 'spawn.Position = FoundationConfig.SPAWN_POSITION' in builder
+assert 'spawn.CanCollide = false' in builder
+assert 'spawn.CanTouch = false' in builder
+assert 'spawn.CanQuery = false' in builder
+assert 'spawn:SetAttribute("LocationId", "entrance")' in builder
+assert 'spawn:SetAttribute("DisplayName", "Front Entrance")' in builder
+assert 'entrancePad.Name = "EntranceArrivalPad"' in builder
+assert 'entrancePad.Size = Vector3.new(16, 0.4, 16)' in builder
+assert 'entrancePad.Position = Vector3.new(spawn.Position.X, 0.7, spawn.Position.Z)' in builder
+assert 'entrancePad.CanCollide = false' in builder
+assert 'entrancePad.CanTouch = false' in builder
+assert 'entrancePad.CanQuery = false' in builder
+assert 'entrancePad:SetAttribute("LocationId", "entrance")' in builder
+assert 'entranceSign.Name = "EntranceLabel"' in builder
+assert 'entranceSign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE' in builder
+assert 'entranceText.Text = "Front Entrance • Main Lobby"' in builder
+assert 'entranceText.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'entranceTextConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
+assert 'entranceTextConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
+assert 'campus:SetAttribute("EntranceWayfindingCount", 1)' in builder
+
+spawn_match = re.search(
+    r"SPAWN_POSITION = Vector3\.new\((-?[0-9.]+),\s*(-?[0-9.]+),\s*(-?[0-9.]+)\)",
+    config,
+)
+assert spawn_match, "canonical entrance position missing"
+spawn_x, _, spawn_z = (float(value) for value in spawn_match.groups())
+assert abs(spawn_x) <= 50 and abs(spawn_z) <= 50, "entrance must stay inside the campus floor"
+assert abs(spawn_x) >= 12 and abs(spawn_z) >= 12, (
+    "entrance must stay off the lobby's cardinal destination spokes"
+)
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
+assert 'marker.CanCollide = false' in builder
+assert 'marker.CanTouch = false' in builder
+assert 'marker.CanQuery = false' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
+assert 'pad.CanCollide = false' in builder
+assert 'pad.CanTouch = false' in builder
+assert 'pad.CanQuery = false' in builder
 assert 'pad.Color = accent' in builder
 assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
 assert 'sign.Name = "LocationLabel"' in builder
@@ -121,6 +160,73 @@ for location_id in location_ids:
         f"{accent_contrast:.2f}:1"
     )
 
+route_segments = re.findall(
+    r'{ id = "([^"]+)", fromId = "([^"]+)", toId = "([^"]+)" }',
+    route_layout,
+)
+assert route_segments, "campus route segments missing"
+route_ids = [route_id for route_id, _, _ in route_segments]
+assert len(route_ids) == len(set(route_ids)), "duplicate campus route id"
+known_route_nodes = location_ids | {"entrance"}
+assert all(
+    from_id in known_route_nodes and to_id in known_route_nodes
+    for _, from_id, to_id in route_segments
+), "campus route references unknown node"
+assert ("EntranceToLobby", "entrance", "lobby") in route_segments, (
+    "front entrance must have a direct lobby route"
+)
+destination_routes = [
+    segment for segment in route_segments if segment[1] == "lobby"
+]
+assert {to_id for _, _, to_id in destination_routes} == location_ids - {"lobby"}, (
+    "every non-lobby destination must have one direct lobby route"
+)
+assert len(route_segments) == len(location_ids), (
+    "route network must contain one entrance link and one spoke per non-lobby destination"
+)
+
+route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
+assert route_width_match and float(route_width_match.group(1)) >= 10, (
+    "campus routes must remain at least 10 studs wide"
+)
+
+gateway_numbers = {
+    name: float(value)
+    for name, value in re.findall(
+        r"GATEWAY_([A-Z_]+) = ([0-9.]+)",
+        route_layout,
+    )
+}
+assert gateway_numbers["OPENING_WIDTH"] >= float(route_width_match.group(1)), (
+    "destination gateways must preserve the full route width"
+)
+assert gateway_numbers["HEIGHT"] - gateway_numbers["HEADER_HEIGHT"] >= 7, (
+    "destination gateways must preserve at least seven studs of vertical clearance"
+)
+assert 0 < gateway_numbers["POST_WIDTH"] <= 1, "gateway posts must remain visually slim"
+assert 0 < gateway_numbers["DEPTH"] <= 1, "gateway depth must remain non-obstructive"
+assert gateway_numbers["OFFSET"] == 6, "gateway threshold must stay on the edge of its 12-stud pad"
+assert 'routes.Name = "Routes"' in builder
+assert 'gateways.Name = "Gateways"' in builder
+assert 'if location.id ~= "lobby" then' in builder
+assert 'gateway.Name = location.id .. "Gateway"' in builder
+assert 'gateway:SetAttribute("LocationId", location.id)' in builder
+assert 'gateway:SetAttribute("ClearWidth", CampusRouteLayout.GATEWAY_OPENING_WIDTH)' in builder
+assert 'gatewayPart.CanCollide = false' in builder
+assert 'gatewayPart.CanTouch = false' in builder
+assert 'gatewayPart.CanQuery = false' in builder
+assert 'makeGatewayPart(\n            "LeftPost"' in builder
+assert 'makeGatewayPart(\n            "RightPost"' in builder
+assert 'makeGatewayPart(\n            "Header"' in builder
+assert 'campus:SetAttribute("GatewayCount", gatewayCount)' in builder
+assert 'entrance = table.freeze({' in builder
+assert 'route.CanCollide = false' in builder
+assert 'route.CanTouch = false' in builder
+assert 'route.CanQuery = false' in builder
+assert 'route.CFrame = CFrame.lookAt' in builder
+assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
+assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)' in builder
 for location_id in location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
         f"missing ambience specification: {location_id}"
@@ -231,7 +337,7 @@ assert 'runtime:SetAttribute("PeriodId"' in service
 assert "SetAttribute(" not in state, "FoundationState must be read-only"
 assert "function FoundationState.getSnapshot()" in state
 
-for text in (config, clock, state, visual_theme, audio_theme, builder, service):
+for text in (config, clock, state, route_layout, visual_theme, audio_theme, builder, service):
     for forbidden in ("BrookhavenWorldRuntime", "BrookhavenWorldBaseline", "BHW_", "PipsQuest", "MazeWorld"):
         assert forbidden not in text, f"retired runtime dependency found: {forbidden}"
 
