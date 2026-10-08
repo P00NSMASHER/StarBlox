@@ -159,17 +159,24 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     end
 
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId ~= sessionClassesByUserId[player.UserId] then
+    local activeClassId = sessionClassesByUserId[player.UserId]
+    local expectedLocationId = sessionLocationsByUserId[player.UserId]
+    if foundation.periodId ~= activeClassId then
         closeSessionForUser(player.UserId)
-        return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
+        return table.freeze({
+            accepted = false,
+            reason = "CLASS_PERIOD_ENDED",
+            classId = activeClassId,
+            expectedLocationId = expectedLocationId,
+        })
     end
 
-    local expectedLocationId = sessionLocationsByUserId[player.UserId]
     if foundation.locationId ~= expectedLocationId then
         closeSessionForUser(player.UserId)
         return table.freeze({
             accepted = false,
             reason = "CLASS_LOCATION_MISMATCH",
+            classId = activeClassId,
             expectedLocationId = expectedLocationId,
             actualLocationId = foundation.locationId,
         })
@@ -180,6 +187,7 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         return table.freeze({
             accepted = false,
             reason = "LEFT_CLASS_LOCATION",
+            classId = activeClassId,
             expectedLocationId = expectedLocationId,
         })
     end
