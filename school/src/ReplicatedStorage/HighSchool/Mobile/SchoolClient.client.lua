@@ -1,10 +1,10 @@
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
-local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
+local highSchool
+local FoundationConfig
 local FoundationState
-local SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
+local SchoolClock
 local beginClass, submitAnswer, leaveClass, getProgression
 local CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science", arrival = "Arrival", lunch = "Lunch" }
 local CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })
@@ -20,6 +20,13 @@ gui.Name = "HighSchoolHud"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
 gui.Parent = playerGui
+
+local function waitForHighSchool()
+    if not highSchool then
+        highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+    end
+    return highSchool
+end
 
 local panel = Instance.new("Frame")
 panel.Name = "Panel"
@@ -123,12 +130,41 @@ local lastCompletedCount = nil
 local lastPeriodId = nil
 
 local function locationDisplayName(locationId)
-    for _, location in ipairs(FoundationConfig.LOCATIONS) do
+    for _, location in ipairs(FoundationConfig and FoundationConfig.LOCATIONS or {}) do
         if location.id == locationId then
             return location.name
         end
     end
+    if CLASS_PERIODS[locationId] then
+        return CLASS_NAMES[locationId] .. " Classroom"
+    end
     return tostring(locationId or "unknown")
+end
+
+local function beginClassFailureMessage(result, invokeError)
+    if invokeError == "SERVER_UNAVAILABLE" or not result then
+        return "School services are loading. Try again."
+    end
+
+    local reason = result.reason
+    if reason == "NOT_CLASS_PERIOD" then
+        return "No class is open right now."
+    end
+
+    local classId = result.classId
+    local className = CLASS_NAMES[classId] or "class"
+    local expectedLocationName = locationDisplayName(result.expectedLocationId or classId)
+    if reason == "NOT_AT_CLASS_LOCATION" then
+        return "Go to " .. expectedLocationName .. " to attend " .. className .. "."
+    end
+    if reason == "CLASS_LOCATION_MISMATCH" then
+        return "Classroom directions are updating. Go to " .. expectedLocationName .. "."
+    end
+    if reason == "SESSION_START_FAILED" then
+        return "Class is not ready yet. Try again."
+    end
+
+    return "Could not start class."
 end
 
 local function safeInvoke(remote, ...)
@@ -258,9 +294,9 @@ attendButton.Activated:Connect(function()
         return
     end
 
-    local result = safeInvoke(beginClass)
+    local result, invokeError = safeInvoke(beginClass)
     if not result or not result.ok then
-        statusLabel.Text = (result and result.reason) or "Could not start class."
+        statusLabel.Text = beginClassFailureMessage(result, invokeError)
         return
     end
 
@@ -290,7 +326,7 @@ task.spawn(function()
         local snapshot = FoundationState and FoundationState.getSnapshot() or {}
         local periodId = snapshot.periodId
         local locationName = locationDisplayName(snapshot.locationId)
-        if snapshot.periodIndex and snapshot.secondsIntoPeriod then
+        if SchoolClock and snapshot.periodIndex and snapshot.secondsIntoPeriod then
             local displayTime, nextId = SchoolClock.getDisplay(snapshot)
             clockLabel.Text = "School time: " .. displayTime
             nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)
@@ -306,9 +342,16 @@ task.spawn(function()
         )
 
         local classIsAvailable = CLASS_PERIODS[periodId] == true
-        attendButton.Active = classIsAvailable and currentSessionId == nil
-        attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
-        attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"
+        local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil
+        attendButton.Active = canAttend
+        attendButton.AutoButtonColor = canAttend
+        if classIsAvailable and beginClass == nil then
+            attendButton.Text = "Connecting…"
+        elseif classIsAvailable then
+            attendButton.Text = "Attend " .. CLASS_NAMES[periodId]
+        else
+            attendButton.Text = "Class Unavailable"
+        end
 
         if periodId ~= lastPeriodId then
             if classIsAvailable and currentSessionId == nil then
@@ -329,16 +372,22 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    FoundationState = require(highSchool:WaitForChild("FoundationState"))
+    FoundationConfig = require(waitForHighSchool():WaitForChild("FoundationConfig"))
 end)
 task.spawn(function()
-    local classRemotes = highSchool:WaitForChild("ClassRemotes")
+    FoundationState = require(waitForHighSchool():WaitForChild("FoundationState"))
+end)
+task.spawn(function()
+    SchoolClock = require(waitForHighSchool():WaitForChild("SchoolClock"))
+end)
+task.spawn(function()
+    local classRemotes = waitForHighSchool():WaitForChild("ClassRemotes")
     beginClass = classRemotes:WaitForChild("BeginClass")
     submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
     leaveClass = classRemotes:WaitForChild("LeaveClass")
 end)
 task.spawn(function()
-    local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
+    local progressionRemotes = waitForHighSchool():WaitForChild("ProgressionRemotes")
     getProgression = progressionRemotes:WaitForChild("GetProgression")
     refreshProgression()
 end)
