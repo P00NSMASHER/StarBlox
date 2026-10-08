@@ -1,7 +1,7 @@
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+local highSchool
 local FoundationConfig
 local FoundationState
 local SchoolClock
@@ -20,6 +20,13 @@ gui.Name = "HighSchoolHud"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
 gui.Parent = playerGui
+
+local function waitForHighSchool()
+    if not highSchool then
+        highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+    end
+    return highSchool
+end
 
 local panel = Instance.new("Frame")
 panel.Name = "Panel"
@@ -329,22 +336,22 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
+    FoundationConfig = require(waitForHighSchool():WaitForChild("FoundationConfig"))
 end)
 task.spawn(function()
-    FoundationState = require(highSchool:WaitForChild("FoundationState"))
+    FoundationState = require(waitForHighSchool():WaitForChild("FoundationState"))
 end)
 task.spawn(function()
-    SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
+    SchoolClock = require(waitForHighSchool():WaitForChild("SchoolClock"))
 end)
 task.spawn(function()
-    local classRemotes = highSchool:WaitForChild("ClassRemotes")
+    local classRemotes = waitForHighSchool():WaitForChild("ClassRemotes")
     beginClass = classRemotes:WaitForChild("BeginClass")
     submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
     leaveClass = classRemotes:WaitForChild("LeaveClass")
 end)
 task.spawn(function()
-    local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
+    local progressionRemotes = waitForHighSchool():WaitForChild("ProgressionRemotes")
     getProgression = progressionRemotes:WaitForChild("GetProgression")
     refreshProgression()
 end)

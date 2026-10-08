@@ -79,12 +79,21 @@ jobs:
           test -s HighSchool-Integration.rbxlx
           BYTES="$(stat -c%s HighSchool-Integration.rbxlx)"
           test "$BYTES" -gt 1000
-          sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256
+          BUILD_SHA256="$(sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256 | awk '{print $1}')"
+          test "${#BUILD_SHA256}" -eq 64
           grep -q 'SchoolClockService' HighSchool-Integration.rbxlx
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
+
+      - name: Verify build receipt binding
+        run: |
+          python school/tests/release/verify_build_receipt.py \
+            --artifact HighSchool-Integration.rbxlx \
+            --digest high-school-integration.sha256 \
+            --receipt high-school-build-receipt.json \
+            --expected-source-sha "$CANDIDATE_SOURCE_SHA"
 
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4
@@ -96,4 +105,3 @@ jobs:
             high-school-build-receipt.json
           if-no-files-found: error
           retention-days: 7
-

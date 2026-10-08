@@ -19,9 +19,12 @@ for forbidden in ("correctChoiceId", "DataStoreService", "SetAsync", "UpdateAsyn
 assert 'ACTIVE_CLASS_ID' not in client, "retired single-class client contract returned"
 assert 'CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science"' in client
 assert 'CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })' in client
-assert 'local FoundationConfig\nlocal FoundationState\nlocal SchoolClock' in client
-assert 'FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))' in client
-assert 'SchoolClock = require(highSchool:WaitForChild("SchoolClock"))' in client
+assert 'local highSchool\nlocal FoundationConfig\nlocal FoundationState\nlocal SchoolClock' in client
+assert 'local highSchool = ReplicatedStorage:WaitForChild("HighSchool")' not in client
+assert 'local function waitForHighSchool()' in client
+assert 'highSchool = ReplicatedStorage:WaitForChild("HighSchool")' in client
+assert 'FoundationConfig = require(waitForHighSchool():WaitForChild("FoundationConfig"))' in client
+assert 'SchoolClock = require(waitForHighSchool():WaitForChild("SchoolClock"))' in client
 assert 'local FoundationConfig = require' not in client
 assert 'local SchoolClock = require' not in client
 assert 'makeLabel("ClockLabel", 26, "School clock: loading…")' in client
@@ -60,12 +63,16 @@ assert 'showActivity(activity)' in client
 
 assert 'if not remote then return nil, "SERVER_UNAVAILABLE" end' in client
 assert 'FoundationState and FoundationState.getSnapshot() or {}' in client
-assert 'FoundationState = require(highSchool:WaitForChild("FoundationState"))' in client
+assert 'FoundationState = require(waitForHighSchool():WaitForChild("FoundationState"))' in client
 gui_parent_index = client.index("gui.Parent = playerGui")
+high_school_lookup_index = client.index('highSchool = ReplicatedStorage:WaitForChild("HighSchool")')
+assert gui_parent_index < high_school_lookup_index, (
+    "HUD must render before the HighSchool root replicates"
+)
 for dependency_require in (
-    'FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))',
-    'FoundationState = require(highSchool:WaitForChild("FoundationState"))',
-    'SchoolClock = require(highSchool:WaitForChild("SchoolClock"))',
+    'FoundationConfig = require(waitForHighSchool():WaitForChild("FoundationConfig"))',
+    'FoundationState = require(waitForHighSchool():WaitForChild("FoundationState"))',
+    'SchoolClock = require(waitForHighSchool():WaitForChild("SchoolClock"))',
 ):
     assert gui_parent_index < client.index(dependency_require), (
         f"HUD must render before delayed dependency: {dependency_require}"
