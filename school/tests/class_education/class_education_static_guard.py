@@ -55,15 +55,25 @@ assert 'and not session.resolved' in session
 assert 'FoundationState.getSnapshot()' in service
 assert 'foundation.dayIndex' in service
 assert 'EducationCore.startSession(' in service
-assert 'local CLASS_PERIODS = { math = true, ela = true, science = true }' in service
-assert 'if not CLASS_PERIODS[foundation.periodId] then' in service
+assert 'local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })' in service
+assert 'local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]' in service
 assert 'local sessionClassesByUserId = {}' in service
+assert 'local sessionLocationsByUserId = {}' in service
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
+assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
 assert 'foundation.periodId ~= sessionClassesByUserId[player.UserId]' in service
+assert 'foundation.locationId ~= expectedLocationId' in service
+assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
+assert 'actualLocationId = foundation.locationId' in service
+assert service.count('expectedLocationId = expectedLocationId') >= 4
+assert 'classId = foundation.periodId' in service
+assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
 assert 'classId = completedClassId' in service
 assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
-assert service.count('isAtAuthoritativeLocation(player, foundation.locationId)') >= 2, "location must be checked at start and submit"
+assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >= 2, (
+    "canonical classroom location must be checked at start and submit"
+)
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
