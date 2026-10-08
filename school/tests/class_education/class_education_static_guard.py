@@ -11,7 +11,23 @@ assert 'correctChoiceId = "c"' in catalog
 assert 'prompt = "What is 7 + 5?"' in catalog
 assert 'ela = table.freeze({' in catalog
 assert 'science = table.freeze({' in catalog
-assert 'function ActivityCatalog.getForClass(classId)' in catalog
+for subject in ("math", "ela", "science"):
+    assert catalog.count(f'subject = "{subject}"') == 2, (
+        f"{subject} must provide exactly two rotating activities"
+    )
+for activity_id in (
+    "math_addition_7_5",
+    "math_subtraction_18_9",
+    "ela_main_idea_01",
+    "ela_sequence_01",
+    "science_plants_01",
+    "science_melting_01",
+):
+    assert f'id = "{activity_id}"' in catalog, f"missing activity: {activity_id}"
+assert 'function ActivityCatalog.getForClass(classId, dayIndex)' in catalog
+assert 'type(dayIndex) ~= "number"' in catalog
+assert 'dayIndex % 1 ~= 0' in catalog
+assert 'local activityIndex = ((dayIndex - 1) % #activitySet) + 1' in catalog
 
 public_block_start = session.index("function EducationSession.getPublicActivity")
 public_block_end = session.index("function EducationSession.submit")
@@ -19,6 +35,8 @@ public_block = session[public_block_start:public_block_end]
 assert "correctChoiceId" not in public_block, "client/public activity leaks answer authority"
 
 assert 'HttpService:GenerateGUID(false)' in core, "session IDs must survive server restarts without collision"
+assert 'function EducationCore.startSession(userId, classId, dayIndex)' in core
+assert 'ActivityCatalog.getForClass(classId, dayIndex)' in core
 assert 'EducationSession.new' in core
 assert 'EducationSession.submit' in core
 assert 'EducationSession.close' in core
@@ -35,15 +53,27 @@ assert 'reason = "TOO_MANY_SUBMISSIONS"' in session
 assert 'and not session.resolved' in session
 
 assert 'FoundationState.getSnapshot()' in service
-assert 'local CLASS_PERIODS = { math = true, ela = true, science = true }' in service
-assert 'if not CLASS_PERIODS[foundation.periodId] then' in service
+assert 'foundation.dayIndex' in service
+assert 'EducationCore.startSession(' in service
+assert 'local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })' in service
+assert 'local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]' in service
 assert 'local sessionClassesByUserId = {}' in service
+assert 'local sessionLocationsByUserId = {}' in service
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
+assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
 assert 'foundation.periodId ~= sessionClassesByUserId[player.UserId]' in service
+assert 'foundation.locationId ~= expectedLocationId' in service
+assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
+assert 'actualLocationId = foundation.locationId' in service
+assert service.count('expectedLocationId = expectedLocationId') >= 4
+assert 'classId = foundation.periodId' in service
+assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
 assert 'classId = completedClassId' in service
 assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
-assert service.count('isAtAuthoritativeLocation(player, foundation.locationId)') >= 2, "location must be checked at start and submit"
+assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >= 2, (
+    "canonical classroom location must be checked at start and submit"
+)
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
