@@ -53,6 +53,64 @@ local gateways = Instance.new("Folder")
 gateways.Name = "Gateways"
 gateways.Parent = wayfinding
 
+local entrancePad = Instance.new("Part")
+entrancePad.Name = "EntranceArrivalPad"
+entrancePad.Anchored = true
+entrancePad.CanCollide = false
+entrancePad.CanTouch = false
+entrancePad.CanQuery = false
+entrancePad.Material = Enum.Material.SmoothPlastic
+entrancePad.Color = SchoolVisualTheme.SPAWN
+entrancePad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY
+entrancePad.Size = Vector3.new(16, 0.4, 16)
+entrancePad.Position = Vector3.new(spawn.Position.X, 0.7, spawn.Position.Z)
+entrancePad:SetAttribute("LocationId", "entrance")
+entrancePad.Parent = wayfinding
+
+local entranceSign = Instance.new("BillboardGui")
+entranceSign.Name = "EntranceLabel"
+entranceSign.Size = UDim2.fromOffset(260, 56)
+entranceSign.StudsOffset = Vector3.new(0, 6, 0)
+entranceSign.AlwaysOnTop = true
+entranceSign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE
+entranceSign.LightInfluence = 0
+entranceSign.Parent = spawn
+
+local entrancePanel = Instance.new("Frame")
+entrancePanel.Name = "Panel"
+entrancePanel.Size = UDim2.fromScale(1, 1)
+entrancePanel.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND
+entrancePanel.BackgroundTransparency = 0.05
+entrancePanel.BorderSizePixel = 0
+entrancePanel.Parent = entranceSign
+
+local entranceCorner = Instance.new("UICorner")
+entranceCorner.CornerRadius = UDim.new(0, 8)
+entranceCorner.Parent = entrancePanel
+
+local entranceOutline = Instance.new("UIStroke")
+entranceOutline.Color = SchoolVisualTheme.SPAWN
+entranceOutline.Thickness = 2
+entranceOutline.Transparency = 0.1
+entranceOutline.Parent = entrancePanel
+
+local entranceText = Instance.new("TextLabel")
+entranceText.Name = "Label"
+entranceText.Position = UDim2.fromOffset(8, 4)
+entranceText.Size = UDim2.new(1, -16, 1, -8)
+entranceText.BackgroundTransparency = 1
+entranceText.Font = Enum.Font.GothamBold
+entranceText.Text = "Front Entrance • Main Lobby"
+entranceText.TextColor3 = SchoolVisualTheme.SIGN_TEXT
+entranceText.TextScaled = true
+entranceText.TextStrokeTransparency = 1
+entranceText.Parent = entrancePanel
+
+local entranceTextConstraint = Instance.new("UITextSizeConstraint")
+entranceTextConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE
+entranceTextConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE
+entranceTextConstraint.Parent = entranceText
+
 local seen = {}
 local locationsById = {
     entrance = table.freeze({
@@ -261,3 +319,4 @@ campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
 campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
 campus:SetAttribute("GatewayCount", gatewayCount)
+campus:SetAttribute("EntranceWayfindingCount", 1)
