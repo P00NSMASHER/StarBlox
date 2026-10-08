@@ -85,7 +85,7 @@ jobs:
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"projectPath":"school/default.project.json","rojoVersion":"7.7.0","sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
 
       - name: Verify build receipt binding
         run: |
@@ -93,7 +93,9 @@ jobs:
             --artifact HighSchool-Integration.rbxlx \
             --digest high-school-integration.sha256 \
             --receipt high-school-build-receipt.json \
-            --expected-source-sha "$CANDIDATE_SOURCE_SHA"
+            --expected-source-sha "$CANDIDATE_SOURCE_SHA" \
+            --expected-project-path "school/default.project.json" \
+            --expected-rojo-version "7.7.0"
 
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4
