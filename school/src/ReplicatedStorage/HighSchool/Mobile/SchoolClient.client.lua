@@ -135,7 +135,36 @@ local function locationDisplayName(locationId)
             return location.name
         end
     end
+    if CLASS_PERIODS[locationId] then
+        return CLASS_NAMES[locationId] .. " Classroom"
+    end
     return tostring(locationId or "unknown")
+end
+
+local function beginClassFailureMessage(result, invokeError)
+    if invokeError == "SERVER_UNAVAILABLE" or not result then
+        return "School services are loading. Try again."
+    end
+
+    local reason = result.reason
+    if reason == "NOT_CLASS_PERIOD" then
+        return "No class is open right now."
+    end
+
+    local classId = result.classId
+    local className = CLASS_NAMES[classId] or "class"
+    local expectedLocationName = locationDisplayName(result.expectedLocationId or classId)
+    if reason == "NOT_AT_CLASS_LOCATION" then
+        return "Go to " .. expectedLocationName .. " to attend " .. className .. "."
+    end
+    if reason == "CLASS_LOCATION_MISMATCH" then
+        return "Classroom directions are updating. Go to " .. expectedLocationName .. "."
+    end
+    if reason == "SESSION_START_FAILED" then
+        return "Class is not ready yet. Try again."
+    end
+
+    return "Could not start class."
 end
 
 local function safeInvoke(remote, ...)
@@ -265,9 +294,9 @@ attendButton.Activated:Connect(function()
         return
     end
 
-    local result = safeInvoke(beginClass)
+    local result, invokeError = safeInvoke(beginClass)
     if not result or not result.ok then
-        statusLabel.Text = (result and result.reason) or "Could not start class."
+        statusLabel.Text = beginClassFailureMessage(result, invokeError)
         return
     end
 
@@ -313,9 +342,16 @@ task.spawn(function()
         )
 
         local classIsAvailable = CLASS_PERIODS[periodId] == true
-        attendButton.Active = classIsAvailable and currentSessionId == nil
-        attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
-        attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"
+        local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil
+        attendButton.Active = canAttend
+        attendButton.AutoButtonColor = canAttend
+        if classIsAvailable and beginClass == nil then
+            attendButton.Text = "Connecting…"
+        elseif classIsAvailable then
+            attendButton.Text = "Attend " .. CLASS_NAMES[periodId]
+        else
+            attendButton.Text = "Class Unavailable"
+        end
 
         if periodId ~= lastPeriodId then
             if classIsAvailable and currentSessionId == nil then
