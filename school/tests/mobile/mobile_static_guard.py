@@ -49,9 +49,25 @@ assert 'response.reason == "CLASS_PERIOD_ENDED"' in client
 assert 'response.reason == "LEFT_CLASS_LOCATION"' in client
 
 assert 'local classIsAvailable = CLASS_PERIODS[periodId] == true' in client
-assert 'attendButton.Active = classIsAvailable and currentSessionId == nil' in client
-assert 'attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"' in client
+assert 'local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil' in client
+assert 'attendButton.Active = canAttend' in client
+assert 'attendButton.AutoButtonColor = canAttend' in client
+assert 'if classIsAvailable and beginClass == nil then' in client
+assert 'attendButton.Text = "Connecting…"' in client
+assert 'attendButton.Text = "Attend " .. CLASS_NAMES[periodId]' in client
+assert 'attendButton.Text = "Class Unavailable"' in client
 assert 'locationDisplayName' in client
+assert 'return CLASS_NAMES[locationId] .. " Classroom"' in client
+assert 'local function beginClassFailureMessage(result, invokeError)' in client
+assert 'School services are loading. Try again.' in client
+assert 'No class is open right now.' in client
+assert 'Go to " .. expectedLocationName .. " to attend " .. className' in client
+assert 'Classroom directions are updating. Go to " .. expectedLocationName' in client
+assert 'Class is not ready yet. Try again.' in client
+assert 'statusLabel.Text = beginClassFailureMessage(result, invokeError)' in client
+assert 'statusLabel.Text = (result and result.reason)' not in client, (
+    "mobile HUD must not expose raw attendance reason codes"
+)
 assert 'CLASS_NAMES[periodId] .. " is open — go to " .. locationName' in client
 assert 'currentSessionId and periodId ~= nil and periodId ~= currentClassId' in client
 assert 'finishSession("Class period ended. Back to free roam.", false)' in client
