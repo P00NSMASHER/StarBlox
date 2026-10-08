@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import itertools
 import json
 import re
 from pathlib import Path
@@ -7,6 +8,26 @@ ROOT = Path(__file__).resolve().parents[2]
 project_path = ROOT / "default.project.json"
 project = json.loads(project_path.read_text(encoding="utf-8"))
 project_text = json.dumps(project).lower()
+
+
+def relative_luminance(color):
+    channels = []
+    for value in color:
+        channel = value / 255
+        channels.append(
+            channel / 12.92
+            if channel <= 0.04045
+            else ((channel + 0.055) / 1.055) ** 2.4
+        )
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast_ratio(first, second):
+    light, dark = sorted(
+        (relative_luminance(first), relative_luminance(second)),
+        reverse=True,
+    )
+    return (light + 0.05) / (dark + 0.05)
 
 for forbidden in ("highschool/", "pipsquest", "maze", "brookhaven", "bhw_", "rhs"):
     assert forbidden not in project_text, f"forbidden mapped dependency: {forbidden}"
@@ -57,6 +78,49 @@ assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
 
+
+palette_colors = {
+    match.group(1): tuple(int(match.group(index)) for index in range(2, 5))
+    for match in re.finditer(
+        r"(?:SchoolVisualTheme\.)?([A-Za-z_]+)\s*=\s*"
+        r"Color3\.fromRGB\((\d+),\s*(\d+),\s*(\d+)\)",
+        visual_theme,
+    )
+}
+assert all(
+    0 <= channel <= 255
+    for color in palette_colors.values()
+    for channel in color
+), "palette channel outside sRGB range"
+
+sign_background = palette_colors["SIGN_BACKGROUND"]
+sign_text = palette_colors["SIGN_TEXT"]
+text_contrast = contrast_ratio(sign_text, sign_background)
+assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
+
+location_accents = {
+    location_id: palette_colors[location_id]
+    for location_id in location_ids
+}
+assert len(set(location_accents.values())) == len(location_accents), (
+    "destination accents must be unique"
+)
+for first_id, second_id in itertools.combinations(sorted(location_accents), 2):
+    first = location_accents[first_id]
+    second = location_accents[second_id]
+    max_channel_delta = max(abs(a - b) for a, b in zip(first, second))
+    assert max_channel_delta >= 48, (
+        f"{first_id} and {second_id} accents are too similar for categorical wayfinding: "
+        f"maximum channel delta {max_channel_delta}"
+    )
+
+for location_id in location_ids:
+    accent_contrast = contrast_ratio(location_accents[location_id], sign_background)
+    assert accent_contrast >= 3.0, (
+        f"{location_id} sign outline contrast below 3:1: "
+        f"{accent_contrast:.2f}:1"
+    )
+
 for location_id in location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
         f"missing ambience specification: {location_id}"
@@ -92,7 +156,6 @@ assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme
 assert "INTEGRATED_LUFS = -18" in audio_theme
-
 mix_policy_match = re.search(
     r"SchoolAudioTheme\.MIX_POLICY\s*=\s*table\.freeze\(\{(.*?)\}\)",
     audio_theme,
@@ -118,8 +181,37 @@ assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intellig
 assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
     "reduced-sensory volume multiplier outside useful range"
 )
+reduced_sensory_multiplier = mix_policy["reducedSensoryVolumeMultiplier"]
+reduced_sensory_volumes = [
+    volume * reduced_sensory_multiplier
+    for volume in ambience_volumes
+]
+assert reduced_sensory_multiplier < 1, "reduced-sensory mode must lower every sound"
+assert all(
+    0 < reduced < original
+    for original, reduced in zip(ambience_volumes, reduced_sensory_volumes)
+), "reduced-sensory mode must preserve audible but lower output"
+assert max(reduced_sensory_volumes) <= 0.25, (
+    "reduced-sensory output exceeds the quiet-mix ceiling"
+)
+
 assert "SoundId" not in audio_theme, "audio specification must not embed asset IDs"
 assert "rbxassetid://" not in audio_theme.lower(), "audio specification must remain asset-ID free"
+
+
+audio_tokens = re.findall(r'token\s*=\s*"([^"]+)"', audio_theme)
+assert len(audio_tokens) == len(location_ids) + 3, "unexpected audio identity token count"
+assert len(set(audio_tokens)) == len(audio_tokens), "audio identity tokens must be unique"
+assert all(
+    re.fullmatch(r"[a-z][a-z0-9_]+", token)
+    for token in audio_tokens
+), "audio identity tokens must use lowercase semantic names"
+assert len([token for token in audio_tokens if token.startswith("ambience_")]) == len(location_ids), (
+    "every location must keep an ambience namespace token"
+)
+assert len([token for token in audio_tokens if token.startswith("cue_")]) == 3, (
+    "every feedback sound must keep a cue namespace token"
+)
 
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
