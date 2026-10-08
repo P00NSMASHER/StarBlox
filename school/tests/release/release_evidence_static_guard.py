@@ -29,6 +29,20 @@ assert digest_capture in workflow, "build digest must be captured from the gener
 assert digest_length_check in workflow, "build digest must be validated before receipt creation"
 assert digest_receipt_export in workflow, "validated build digest must be exported to receipt creation"
 assert digest_receipt_field in workflow, "build receipt must bind the generated place SHA-256"
+receipt_writer_lines = [
+    line for line in workflow.splitlines()
+    if "high-school-build-receipt.json" in line and "python -c" in line
+]
+assert len(receipt_writer_lines) == 1, "workflow must have exactly one build-receipt writer"
+receipt_writer = receipt_writer_lines[0]
+assert "print(json.dumps(" in receipt_writer, (
+    "receipt writer must emit one complete JSON document with a real line ending"
+)
+assert ".write(json.dumps(" not in receipt_writer, (
+    "escape-sensitive write pattern can append a literal backslash-n and corrupt JSON"
+)
+assert 'encoding="utf-8"' in receipt_writer, "receipt writer must use explicit UTF-8"
+
 assert workflow.index(candidate_expression) < workflow.index(checkout_expression)
 assert workflow.index(checkout_expression) < workflow.index('rojo-bin/rojo build')
 assert workflow.index('rojo-bin/rojo build') < workflow.index(digest_capture)

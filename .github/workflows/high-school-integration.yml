@@ -85,7 +85,7 @@ jobs:
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
 
       - name: Verify build receipt binding
         run: |
