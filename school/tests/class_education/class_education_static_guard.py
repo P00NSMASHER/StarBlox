@@ -61,12 +61,20 @@ assert 'local sessionClassesByUserId = {}' in service
 assert 'local sessionLocationsByUserId = {}' in service
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
 assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
-assert 'foundation.periodId ~= sessionClassesByUserId[player.UserId]' in service
+assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in service
+assert 'local expectedLocationId = sessionLocationsByUserId[player.UserId]' in service
+assert 'foundation.periodId ~= activeClassId' in service
 assert 'foundation.locationId ~= expectedLocationId' in service
 assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
 assert 'actualLocationId = foundation.locationId' in service
 assert service.count('expectedLocationId = expectedLocationId') >= 4
 assert 'classId = foundation.periodId' in service
+assert service.count('classId = activeClassId') == 3, (
+    "period-ended, location-mismatch, and left-location responses must retain class identity"
+)
+assert service.count('expectedLocationId = expectedLocationId') >= 7, (
+    "all attendance and transition responses must retain the authoritative classroom cue"
+)
 assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
 assert 'classId = completedClassId' in service
@@ -78,6 +86,11 @@ assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
+context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
+period_close = service.index('reason = "CLASS_PERIOD_ENDED"')
+assert context_capture < period_close, (
+    "session class/location context must be captured before transition closure clears it"
+)
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
 assert 'EducationCore.closeSession(sessionId)' in service
