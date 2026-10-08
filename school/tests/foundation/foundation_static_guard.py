@@ -56,6 +56,7 @@ assert 'SPAWN_POSITION = Vector3.new(48, 1, 48)' in config
 assert 'spawn.Position = FoundationConfig.SPAWN_POSITION' in builder
 assert 'spawn.CanCollide = false' in builder
 assert 'spawn.CanTouch = false' in builder
+assert 'spawn.CanQuery = false' in builder
 assert 'spawn:SetAttribute("LocationId", "entrance")' in builder
 assert 'spawn:SetAttribute("DisplayName", "Front Entrance")' in builder
 assert 'entrancePad.Name = "EntranceArrivalPad"' in builder
@@ -84,9 +85,15 @@ assert abs(spawn_x) >= 12 and abs(spawn_z) >= 12, (
     "entrance must stay off the lobby's cardinal destination spokes"
 )
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
+assert 'marker.CanCollide = false' in builder
+assert 'marker.CanTouch = false' in builder
+assert 'marker.CanQuery = false' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
+assert 'pad.CanCollide = false' in builder
+assert 'pad.CanTouch = false' in builder
+assert 'pad.CanQuery = false' in builder
 assert 'pad.Color = accent' in builder
 assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
 assert 'sign.Name = "LocationLabel"' in builder
@@ -215,6 +222,7 @@ assert 'campus:SetAttribute("GatewayCount", gatewayCount)' in builder
 assert 'entrance = table.freeze({' in builder
 assert 'route.CanCollide = false' in builder
 assert 'route.CanTouch = false' in builder
+assert 'route.CanQuery = false' in builder
 assert 'route.CFrame = CFrame.lookAt' in builder
 assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
 assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
