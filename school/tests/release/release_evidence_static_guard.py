@@ -24,11 +24,23 @@ digest_capture = "BUILD_SHA256=\"$(sha256sum HighSchool-Integration.rbxlx"
 digest_length_check = 'test "${#BUILD_SHA256}" -eq 64'
 digest_receipt_field = '"sha256":os.environ["BUILD_SHA256"]'
 digest_receipt_export = 'BUILD_SHA256="$BUILD_SHA256" python -c'
+project_path = "school/default.project.json"
+rojo_version = "7.7.0"
+project_receipt_field = f'"projectPath":"{project_path}"'
+rojo_receipt_field = f'"rojoVersion":"{rojo_version}"'
 
 assert digest_capture in workflow, "build digest must be captured from the generated place"
 assert digest_length_check in workflow, "build digest must be validated before receipt creation"
 assert digest_receipt_export in workflow, "validated build digest must be exported to receipt creation"
 assert digest_receipt_field in workflow, "build receipt must bind the generated place SHA-256"
+assert project_receipt_field in workflow, "build receipt must bind the canonical project path"
+assert rojo_receipt_field in workflow, "build receipt must bind the pinned Rojo version"
+assert f'--expected-project-path "{project_path}"' in workflow, (
+    "receipt verification must enforce the canonical project path"
+)
+assert f'--expected-rojo-version "{rojo_version}"' in workflow, (
+    "receipt verification must enforce the pinned Rojo version"
+)
 receipt_writer_lines = [
     line for line in workflow.splitlines()
     if "high-school-build-receipt.json" in line and "python -c" in line
@@ -65,21 +77,58 @@ with tempfile.TemporaryDirectory() as temp_dir:
     digest.write_text(f"{artifact_digest}  {artifact.name}\n", encoding="utf-8")
     valid_receipt = {
         "sourceSha": source_sha,
+        "projectPath": project_path,
+        "rojoVersion": rojo_version,
         "sha256": artifact_digest,
         "bytes": artifact.stat().st_size,
     }
     receipt.write_text(json.dumps(valid_receipt), encoding="utf-8")
-    verified = verify_build_receipt(artifact, digest, receipt, source_sha)
+    verified = verify_build_receipt(
+        artifact,
+        digest,
+        receipt,
+        source_sha,
+        project_path,
+        rojo_version,
+    )
     assert verified == valid_receipt
 
     tampered_receipt = dict(valid_receipt)
     tampered_receipt["sha256"] = "0" * 64
     receipt.write_text(json.dumps(tampered_receipt), encoding="utf-8")
     try:
-        verify_build_receipt(artifact, digest, receipt, source_sha)
+        verify_build_receipt(
+            artifact,
+            digest,
+            receipt,
+            source_sha,
+            project_path,
+            rojo_version,
+        )
     except ValueError as error:
         assert "SHA-256 does not match" in str(error)
     else:
         raise AssertionError("tampered build receipt must fail verification")
+
+    for field, wrong_value, message in (
+        ("projectPath", "school/alternate.project.json", "project path does not match"),
+        ("rojoVersion", "7.7.1", "Rojo version does not match"),
+    ):
+        tampered_receipt = dict(valid_receipt)
+        tampered_receipt[field] = wrong_value
+        receipt.write_text(json.dumps(tampered_receipt), encoding="utf-8")
+        try:
+            verify_build_receipt(
+                artifact,
+                digest,
+                receipt,
+                source_sha,
+                project_path,
+                rojo_version,
+            )
+        except ValueError as error:
+            assert message in str(error)
+        else:
+            raise AssertionError(f"tampered {field} must fail verification")
 
 print("high-school exact-head release evidence guard: PASS")

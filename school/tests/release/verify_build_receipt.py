@@ -9,7 +9,14 @@ SHA_PATTERN = re.compile(r"^[0-9a-f]{40}(?:[0-9a-f]{24})?$")
 DIGEST_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
-def verify_build_receipt(artifact_path, digest_path, receipt_path, expected_source_sha):
+def verify_build_receipt(
+    artifact_path,
+    digest_path,
+    receipt_path,
+    expected_source_sha,
+    expected_project_path,
+    expected_rojo_version,
+):
     artifact_path = Path(artifact_path)
     digest_path = Path(digest_path)
     receipt_path = Path(receipt_path)
@@ -22,12 +29,16 @@ def verify_build_receipt(artifact_path, digest_path, receipt_path, expected_sour
     actual_digest = hashlib.sha256(artifact_bytes).hexdigest()
 
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    for key in ("sourceSha", "sha256", "bytes"):
+    for key in ("sourceSha", "projectPath", "rojoVersion", "sha256", "bytes"):
         if key not in receipt:
             raise ValueError(f"build receipt missing {key}")
 
     if receipt["sourceSha"] != expected_source_sha:
         raise ValueError("build receipt source SHA does not match the checked-out candidate")
+    if receipt["projectPath"] != expected_project_path:
+        raise ValueError("build receipt project path does not match the canonical project")
+    if receipt["rojoVersion"] != expected_rojo_version:
+        raise ValueError("build receipt Rojo version does not match the pinned toolchain")
     if not isinstance(receipt["bytes"], int) or receipt["bytes"] <= 1000:
         raise ValueError("build receipt byte count must be an integer greater than 1000")
     if receipt["bytes"] != actual_bytes:
@@ -51,6 +62,8 @@ def verify_build_receipt(artifact_path, digest_path, receipt_path, expected_sour
 
     return {
         "sourceSha": expected_source_sha,
+        "projectPath": expected_project_path,
+        "rojoVersion": expected_rojo_version,
         "sha256": actual_digest,
         "bytes": actual_bytes,
     }
@@ -62,6 +75,8 @@ def main():
     parser.add_argument("--digest", required=True)
     parser.add_argument("--receipt", required=True)
     parser.add_argument("--expected-source-sha", required=True)
+    parser.add_argument("--expected-project-path", required=True)
+    parser.add_argument("--expected-rojo-version", required=True)
     args = parser.parse_args()
 
     verified = verify_build_receipt(
@@ -69,6 +84,8 @@ def main():
         args.digest,
         args.receipt,
         args.expected_source_sha,
+        args.expected_project_path,
+        args.expected_rojo_version,
     )
     print(
         "high-school build receipt verification: PASS "
