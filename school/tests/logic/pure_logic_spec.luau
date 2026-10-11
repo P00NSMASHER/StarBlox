@@ -1,6 +1,8 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
+local ActivityCatalog = require("../../src/ServerScriptService/HighSchool/ActivityCatalog")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
+local CampusCourierActivity = require("../../src/ServerScriptService/HighSchool/CampusCourierActivity")
 
 local function assertEqual(actual, expected, message)
     if actual ~= expected then
@@ -36,7 +38,7 @@ assertEqual(secondDay.dayIndex, 2, "day rollover")
 assertEqual(secondDay.periodId, "arrival", "day rollover period")
 assertEqual(secondDay.secondsIntoPeriod, 0, "day rollover second")
 
--- Exactly-once progression reducer behavior.
+-- Exactly-once, validated progression and public report-card behavior.
 local completionA = {
     completionId = "completion-a",
     playerId = 123,
@@ -50,14 +52,16 @@ assertEqual(appliedA, true, "first completion applies")
 assertEqual(stateA.points, 10, "first completion points")
 assert(stateA.completed["completion-a"] ~= nil, "first completion receipt missing")
 
-local duplicateState, duplicateApplied = ProgressionReducer.applyCompletion(stateA, completionA)
+local duplicateState, duplicateApplied, duplicateReason =
+    ProgressionReducer.applyCompletion(stateA, completionA)
 assertEqual(duplicateApplied, false, "duplicate completion must not apply")
+assertEqual(duplicateReason, "DUPLICATE_COMPLETION", "duplicate completion reason")
 assertEqual(duplicateState.points, 10, "duplicate must not add points")
 
 local completionB = {
     completionId = "completion-b",
     playerId = 123,
-    classId = "math",
+    classId = "ela",
     score = 1,
     completedAt = 1001,
 }
@@ -66,10 +70,121 @@ local stateB, appliedB = ProgressionReducer.applyCompletion(duplicateState, comp
 assertEqual(appliedB, true, "second unique completion applies")
 assertEqual(stateB.points, 20, "two unique completions total points")
 
+local inflatedState, inflatedApplied, inflatedReason = ProgressionReducer.applyCompletion(stateB, {
+    completionId = "inflated",
+    playerId = 123,
+    classId = "science",
+    score = 100,
+    completedAt = 1002,
+})
+assertEqual(inflatedApplied, false, "inflated score must fail closed")
+assertEqual(inflatedReason, "INVALID_COMPLETION", "inflated score reason")
+assertEqual(inflatedState.points, 20, "inflated score must not add points")
+assert(inflatedState.completed.inflated == nil, "invalid receipt must not enter ledger")
+
+local unknownState, unknownApplied = ProgressionReducer.applyCompletion(stateB, {
+    completionId = "unknown-class",
+    playerId = 123,
+    classId = "gym",
+    score = 1,
+    completedAt = 1003,
+})
+assertEqual(unknownApplied, false, "unknown class must fail closed")
+assertEqual(unknownState.points, 20, "unknown class must not add points")
+
+local normalizedTampered = ProgressionReducer.normalize({
+    version = 1,
+    points = 9999,
+    completed = {
+        valid = { classId = "science", score = 1, completedAt = 1004 },
+        invalid = { classId = "science", score = 9, completedAt = 1005 },
+    },
+})
+assertEqual(normalizedTampered.points, 10, "points must derive from valid receipts")
+assert(normalizedTampered.completed.valid ~= nil, "valid saved receipt missing")
+assert(normalizedTampered.completed.invalid == nil, "invalid saved receipt must be removed")
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB)
+assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
 assertEqual(publicProgression.completedCount, 2, "public completed count")
+assertEqual(publicProgression.reportCard.math.completedCount, 1, "math completed count")
+assertEqual(publicProgression.reportCard.math.points, 10, "math points")
+assertEqual(publicProgression.reportCard.ela.completedCount, 1, "ELA completed count")
+assertEqual(publicProgression.reportCard.ela.points, 10, "ELA points")
+assertEqual(publicProgression.reportCard.science.completedCount, 0, "science completed count")
+assertEqual(publicProgression.reportCard.math.bestScore, 1, "math best score")
+assertEqual(publicProgression.reportCard.ela.lastCompletedAt, 1001, "ELA last completion")
 assert(publicProgression.completed == nil, "public snapshot must not expose completion ledger")
+
+
+-- Server-owned campus courier objective, idempotency, and weighted progression reward.
+local courier = CampusCourierActivity.new("courier-1", 123)
+assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
+
+local publicCourier = CampusCourierActivity.getPublicState(courier)
+assertEqual(publicCourier.title, "Campus Courier", "courier title")
+assertEqual(publicCourier.totalStops, 3, "courier stop count")
+assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
+assertEqual(publicCourier.rewardPoints, 5, "courier advertised reward")
+
+local wrongCourierStop = CampusCourierActivity.checkIn(courier, "courier-wrong", "science")
+assertEqual(wrongCourierStop.accepted, false, "wrong courier stop")
+assertEqual(wrongCourierStop.reason, "WRONG_STOP", "wrong courier stop reason")
+assertEqual(wrongCourierStop.nextLocationId, "lobby", "wrong stop preserves objective")
+
+local lobbyStop = CampusCourierActivity.checkIn(courier, "courier-lobby", "lobby")
+assertEqual(lobbyStop.accepted, true, "courier lobby check-in")
+assertEqual(lobbyStop.nextLocationId, "cafeteria", "courier cafeteria objective")
+
+local cafeteriaStop = CampusCourierActivity.checkIn(courier, "courier-cafeteria", "cafeteria")
+assertEqual(cafeteriaStop.accepted, true, "courier cafeteria check-in")
+assertEqual(cafeteriaStop.nextLocationId, "science", "courier science objective")
+
+local scienceStop = CampusCourierActivity.checkIn(courier, "courier-science", "science")
+assertEqual(scienceStop.accepted, true, "courier science check-in")
+assertEqual(scienceStop.resolved, true, "courier completion")
+assertEqual(scienceStop.rewardPoints, 5, "courier completion reward")
+assertEqual(scienceStop.feedback, "Route complete! You earned 5 school points.", "courier completion feedback")
+assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
+
+local scienceReplay = CampusCourierActivity.checkIn(courier, "courier-science", "science")
+assert(scienceReplay == scienceStop, "resolved courier retry must return cached receipt")
+
+local courierCompletion = CampusCourierActivity.buildCompletion(courier, 1006)
+assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
+local courierState, courierApplied = ProgressionReducer.applyCompletion(stateB, courierCompletion)
+assertEqual(courierApplied, true, "courier completion applies")
+assertEqual(courierState.points, 25, "courier weighted points")
+
+local duplicateCourierState, duplicateCourierApplied, duplicateCourierReason =
+    ProgressionReducer.applyCompletion(courierState, courierCompletion)
+assertEqual(duplicateCourierApplied, false, "duplicate courier completion")
+assertEqual(duplicateCourierReason, "DUPLICATE_COMPLETION", "duplicate courier reason")
+assertEqual(duplicateCourierState.points, 25, "duplicate courier points")
+
+local publicCourierProgression = ProgressionReducer.toPublicSnapshot(courierState)
+assertEqual(publicCourierProgression.completedCount, 2, "class completion count excludes activities")
+assertEqual(publicCourierProgression.activityCompletedCount, 1, "activity completion count")
+assertEqual(publicCourierProgression.reportCard.math.completedCount, 1, "courier must not alter math")
+assertEqual(publicCourierProgression.reportCard.ela.completedCount, 1, "courier must not alter ELA")
+assertEqual(publicCourierProgression.reportCard.science.completedCount, 0, "courier must not alter science")
+
+-- Deterministic multi-day class activity rotation.
+for _, classId in ipairs({ "math", "ela", "science" }) do
+    local firstDayActivity = ActivityCatalog.getForClass(classId, 1)
+    local secondDayActivity = ActivityCatalog.getForClass(classId, 2)
+    local thirdDayActivity = ActivityCatalog.getForClass(classId, 3)
+
+    assert(firstDayActivity ~= nil, classId .. " day-one activity missing")
+    assert(secondDayActivity ~= nil, classId .. " day-two activity missing")
+    assertEqual(firstDayActivity.subject, classId, classId .. " day-one subject")
+    assertEqual(secondDayActivity.subject, classId, classId .. " day-two subject")
+    assert(firstDayActivity.id ~= secondDayActivity.id, classId .. " activities must rotate")
+    assertEqual(thirdDayActivity.id, firstDayActivity.id, classId .. " rotation must repeat deterministically")
+end
+assertEqual(ActivityCatalog.getForClass("math", 0), nil, "invalid day must fail closed")
+assertEqual(ActivityCatalog.getForClass("unknown", 1), nil, "unknown class must fail closed")
 
 -- Education session authority, idempotency, closure, and bounded receipt behavior.
 local activity = {

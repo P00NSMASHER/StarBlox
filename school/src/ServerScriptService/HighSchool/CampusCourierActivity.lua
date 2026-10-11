@@ -3,7 +3,7 @@ local CampusCourierActivity = {}
 CampusCourierActivity.ACTIVITY_ID = "campus_courier"
 CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"
 CampusCourierActivity.REWARD_SCORE = 1
-CampusCourierActivity.REWARD_POINTS = 10
+CampusCourierActivity.REWARD_POINTS = 5
 CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 
@@ -79,14 +79,6 @@ function CampusCourierActivity.getPublicState(activity)
 end
 
 function CampusCourierActivity.checkIn(activity, checkInId, locationId)
-    if activity.closed or activity.resolved then
-        return table.freeze({
-            accepted = false,
-            reason = "ACTIVITY_CLOSED",
-            resolved = activity.resolved,
-        })
-    end
-
     if type(checkInId) ~= "string"
         or checkInId == ""
         or #checkInId > CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH
@@ -101,6 +93,14 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
     local cached = activity.receipts[checkInId]
     if cached then
         return cached
+    end
+
+    if activity.closed or activity.resolved then
+        return table.freeze({
+            accepted = false,
+            reason = "ACTIVITY_CLOSED",
+            resolved = activity.resolved,
+        })
     end
 
     if activity.uniqueCheckInCount >= CampusCourierActivity.MAX_UNIQUE_CHECK_INS then
@@ -127,7 +127,7 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
                 activity,
                 true,
                 nil,
-                "Route complete! You earned 10 school points."
+                "Route complete! You earned 5 school points."
             )
         else
             response = makeResponse(

@@ -19,14 +19,21 @@ jobs:
   integration-static:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      CANDIDATE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Check out exact integration candidate
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANDIDATE_SOURCE_SHA }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Run release evidence guard
+        run: python school/tests/release/release_evidence_static_guard.py
 
       - name: Run Foundation guard
         run: python school/tests/foundation/foundation_static_guard.py
@@ -72,12 +79,23 @@ jobs:
           test -s HighSchool-Integration.rbxlx
           BYTES="$(stat -c%s HighSchool-Integration.rbxlx)"
           test "$BYTES" -gt 1000
-          sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256
+          BUILD_SHA256="$(sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256 | awk '{print $1}')"
+          test "${#BUILD_SHA256}" -eq 64
           grep -q 'SchoolClockService' HighSchool-Integration.rbxlx
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["GITHUB_SHA"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"projectPath":"school/default.project.json","rojoVersion":"7.7.0","sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
+
+      - name: Verify build receipt binding
+        run: |
+          python school/tests/release/verify_build_receipt.py \
+            --artifact HighSchool-Integration.rbxlx \
+            --digest high-school-integration.sha256 \
+            --receipt high-school-build-receipt.json \
+            --expected-source-sha "$CANDIDATE_SOURCE_SHA" \
+            --expected-project-path "school/default.project.json" \
+            --expected-rojo-version "7.7.0"
 
       - name: Upload deterministic candidate
         uses: actions/upload-artifact@v4

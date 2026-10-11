@@ -45,8 +45,9 @@ end
 
 local sessionsByUserId = {}
 local ATTENDANCE_RADIUS = 16
-local CLASS_PERIODS = { math = true, ela = true, science = true }
+local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })
 local sessionClassesByUserId = {}
+local sessionLocationsByUserId = {}
 
 local function closeSessionForUser(userId)
     local sessionId = sessionsByUserId[userId]
@@ -57,6 +58,7 @@ local function closeSessionForUser(userId)
     EducationCore.closeSession(sessionId)
     sessionsByUserId[userId] = nil
     sessionClassesByUserId[userId] = nil
+    sessionLocationsByUserId[userId] = nil
     return true
 end
 
@@ -104,25 +106,48 @@ beginClass.OnServerInvoke = function(player)
     end
 
     local foundation = FoundationState.getSnapshot()
-    if not CLASS_PERIODS[foundation.periodId] then
+    local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]
+    if not expectedLocationId then
         return table.freeze({ ok = false, reason = "NOT_CLASS_PERIOD" })
     end
 
-    if not isAtAuthoritativeLocation(player, foundation.locationId) then
-        return table.freeze({ ok = false, reason = "NOT_AT_CLASS_LOCATION" })
+    if foundation.locationId ~= expectedLocationId then
+        return table.freeze({
+            ok = false,
+            reason = "CLASS_LOCATION_MISMATCH",
+            classId = foundation.periodId,
+            expectedLocationId = expectedLocationId,
+            actualLocationId = foundation.locationId,
+        })
     end
 
-    local sessionId, err = EducationCore.startSession(player.UserId, foundation.periodId)
+    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+        return table.freeze({
+            ok = false,
+            reason = "NOT_AT_CLASS_LOCATION",
+            classId = foundation.periodId,
+            expectedLocationId = expectedLocationId,
+        })
+    end
+
+    local sessionId, err = EducationCore.startSession(
+        player.UserId,
+        foundation.periodId,
+        foundation.dayIndex
+    )
     if not sessionId then
         return table.freeze({ ok = false, reason = err or "SESSION_START_FAILED" })
     end
 
     sessionsByUserId[player.UserId] = sessionId
     sessionClassesByUserId[player.UserId] = foundation.periodId
+    sessionLocationsByUserId[player.UserId] = expectedLocationId
 
     return table.freeze({
         ok = true,
         sessionId = sessionId,
+        classId = foundation.periodId,
+        locationId = expectedLocationId,
         activity = EducationCore.getPublicActivity(sessionId),
     })
 end
@@ -139,9 +164,24 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
     end
 
-    if not isAtAuthoritativeLocation(player, foundation.locationId) then
+    local expectedLocationId = sessionLocationsByUserId[player.UserId]
+    if foundation.locationId ~= expectedLocationId then
         closeSessionForUser(player.UserId)
-        return table.freeze({ accepted = false, reason = "LEFT_CLASS_LOCATION" })
+        return table.freeze({
+            accepted = false,
+            reason = "CLASS_LOCATION_MISMATCH",
+            expectedLocationId = expectedLocationId,
+            actualLocationId = foundation.locationId,
+        })
+    end
+
+    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+        closeSessionForUser(player.UserId)
+        return table.freeze({
+            accepted = false,
+            reason = "LEFT_CLASS_LOCATION",
+            expectedLocationId = expectedLocationId,
+        })
     end
 
     if not EducationCore.isOwnedBy(sessionId, player.UserId) then
@@ -155,6 +195,7 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         sessionsByUserId[player.UserId] = nil
         local completedClassId = sessionClassesByUserId[player.UserId]
         sessionClassesByUserId[player.UserId] = nil
+        sessionLocationsByUserId[player.UserId] = nil
         classCompleted:Fire(table.freeze({
             completionId = sessionId,
             playerId = player.UserId,
