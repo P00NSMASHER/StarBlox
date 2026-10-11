@@ -52,15 +52,27 @@ service = (ROOT / "src/ServerScriptService/HighSchool/SchoolClockService.server.
 assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
+assert 'marker:SetAttribute("WayfindingCode", locationCode)' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
 assert 'pad.Color = accent' in builder
 assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
+assert 'pad:SetAttribute("WayfindingCode", locationCode)' in builder
 assert 'sign.Name = "LocationLabel"' in builder
+assert 'SchoolVisualTheme.SIGN_WIDTH' in builder
+assert 'SchoolVisualTheme.SIGN_HEIGHT' in builder
 assert 'sign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE' in builder
 assert 'panel.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
 assert 'outline.Color = accent' in builder
+assert 'codeBadge.Name = "LocationCode"' in builder
+assert 'codeBadge.Text = locationCode' in builder
+assert 'codeBadge.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'codeBadge.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'codeBadge.TextSize = SchoolVisualTheme.SIGN_CODE_TEXT_SIZE' in builder
+assert 'codeBadge.TextScaled = false' in builder
+assert 'codeOutline.Color = accent' in builder
+assert 'codeOutline.Parent = codeBadge' in builder
 assert 'text.Font = Enum.Font.GothamBold' in builder
 assert 'text.Text = location.name' in builder
 assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
@@ -72,6 +84,22 @@ assert location_ids, "location registry must not be empty"
 assert len(location_ids) == 5, "unexpected location count"
 for location_id in location_ids:
     assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
+
+code_block = re.search(
+    r"SchoolVisualTheme\.LOCATION_CODES\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    visual_theme,
+    re.DOTALL,
+)
+assert code_block, "location wayfinding codes missing"
+location_codes = dict(re.findall(r'([a-z]+)\s*=\s*"([A-Z]+)"', code_block.group(1)))
+assert set(location_codes) == location_ids, "wayfinding codes must cover the location registry exactly"
+assert len(set(location_codes.values())) == len(location_codes), "wayfinding codes must be unique"
+assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
+    "wayfinding codes must be compact three-letter uppercase labels"
+)
+code_text_size_match = re.search(r"SIGN_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
+assert code_text_size_match, "wayfinding code text size missing"
+assert int(code_text_size_match.group(1)) >= 16, "wayfinding codes must remain readable on phone"
 
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
@@ -97,6 +125,10 @@ sign_background = palette_colors["SIGN_BACKGROUND"]
 sign_text = palette_colors["SIGN_TEXT"]
 text_contrast = contrast_ratio(sign_text, sign_background)
 assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
+badge_text_contrast = contrast_ratio(sign_text, sign_background)
+assert badge_text_contrast >= 4.5, (
+    f"wayfinding badge text contrast below 4.5:1: {badge_text_contrast:.2f}:1"
+)
 
 location_accents = {
     location_id: palette_colors[location_id]
