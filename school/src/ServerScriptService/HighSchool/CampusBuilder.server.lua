@@ -139,9 +139,11 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     marker.Position = location.position
     marker:SetAttribute("LocationId", location.id)
     marker:SetAttribute("DisplayName", location.name)
-    marker.Parent = registry
 
     local accent = SchoolVisualTheme.getLocationAccent(location.id)
+    local locationCode = SchoolVisualTheme.getLocationCode(location.id)
+    marker:SetAttribute("WayfindingCode", locationCode)
+    marker.Parent = registry
 
     local pad = Instance.new("Part")
     pad.Name = location.id .. "Pad"
@@ -155,11 +157,15 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     pad.Size = Vector3.new(12, 0.4, 12)
     pad.Position = Vector3.new(location.position.X, 0.7, location.position.Z)
     pad:SetAttribute("LocationId", location.id)
+    pad:SetAttribute("WayfindingCode", locationCode)
     pad.Parent = wayfinding
 
     local sign = Instance.new("BillboardGui")
     sign.Name = "LocationLabel"
-    sign.Size = UDim2.fromOffset(220, 52)
+    sign.Size = UDim2.fromOffset(
+        SchoolVisualTheme.SIGN_WIDTH,
+        SchoolVisualTheme.SIGN_HEIGHT
+    )
     sign.StudsOffset = Vector3.new(0, 5, 0)
     sign.AlwaysOnTop = true
     sign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE
@@ -184,10 +190,37 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     outline.Transparency = 0.1
     outline.Parent = panel
 
+    local codeBadge = Instance.new("TextLabel")
+    codeBadge.Name = "LocationCode"
+    codeBadge.Position = UDim2.fromOffset(8, 8)
+    codeBadge.Size = UDim2.fromOffset(
+        SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH,
+        SchoolVisualTheme.SIGN_HEIGHT - 16
+    )
+    codeBadge.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND
+    codeBadge.BackgroundTransparency = 0
+    codeBadge.BorderSizePixel = 0
+    codeBadge.Font = Enum.Font.GothamBold
+    codeBadge.Text = locationCode
+    codeBadge.TextColor3 = SchoolVisualTheme.SIGN_TEXT
+    codeBadge.TextSize = SchoolVisualTheme.SIGN_CODE_TEXT_SIZE
+    codeBadge.TextScaled = false
+    codeBadge.Parent = panel
+
+    local codeOutline = Instance.new("UIStroke")
+    codeOutline.Color = accent
+    codeOutline.Thickness = 2
+    codeOutline.Transparency = 0
+    codeOutline.Parent = codeBadge
+
+    local codeCorner = Instance.new("UICorner")
+    codeCorner.CornerRadius = UDim.new(0, 6)
+    codeCorner.Parent = codeBadge
+
     local text = Instance.new("TextLabel")
     text.Name = "Label"
-    text.Position = UDim2.fromOffset(8, 4)
-    text.Size = UDim2.new(1, -16, 1, -8)
+    text.Position = UDim2.fromOffset(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 16, 4)
+    text.Size = UDim2.new(1, -(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 24), 1, -8)
     text.BackgroundTransparency = 1
     text.Font = Enum.Font.GothamBold
     text.Text = location.name
@@ -276,6 +309,31 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
         gatewayCount += 1
     end
 end
+
+local routeJunctions = Instance.new("Folder")
+routeJunctions.Name = "RouteJunctions"
+routeJunctions.Parent = wayfinding
+
+local eastHallCrossing = Instance.new("Part")
+eastHallCrossing.Name = "EastHallCrossing"
+eastHallCrossing.Anchored = true
+eastHallCrossing.CanCollide = false
+eastHallCrossing.CanTouch = false
+eastHallCrossing.CanQuery = false
+eastHallCrossing.Material = Enum.Material.SmoothPlastic
+eastHallCrossing.Color = SchoolVisualTheme.SIGN_BACKGROUND
+eastHallCrossing.Transparency = 0.08
+eastHallCrossing.Size = Vector3.new(
+    CampusRouteLayout.JUNCTION_SIZE,
+    CampusRouteLayout.JUNCTION_THICKNESS,
+    CampusRouteLayout.JUNCTION_SIZE
+)
+eastHallCrossing.Position = CampusRouteLayout.JUNCTION_POSITION
+eastHallCrossing:SetAttribute(
+    "ConnectedRouteIds",
+    "LobbyToMath,OutdoorEntranceToCafeteria"
+)
+eastHallCrossing.Parent = routeJunctions
 
 local routeIds = {}
 local routeChevronCount = 0
@@ -376,6 +434,7 @@ campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
 campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
 campus:SetAttribute("RouteChevronCount", routeChevronCount)
+campus:SetAttribute("RouteJunctionCount", 1)
 campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)
 campus:SetAttribute("GatewayCount", gatewayCount)
 campus:SetAttribute("EntranceWayfindingCount", 1)
