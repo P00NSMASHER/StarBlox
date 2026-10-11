@@ -11,9 +11,15 @@ workflow = (REPO / ".github/workflows/high-school-integration.yml").read_text(en
 
 candidate_expression = "CANDIDATE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}"
 checkout_expression = "ref: ${{ env.CANDIDATE_SOURCE_SHA }}"
+checkout_action = "uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5"
+python_action = "uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6"
 
 assert candidate_expression in workflow, "candidate identity must resolve to the PR head SHA"
 assert checkout_expression in workflow, "checkout must use the resolved candidate SHA"
+assert checkout_action in workflow, "checkout must use the pinned Node 24 action"
+assert python_action in workflow, "Python setup must use the pinned Node 24 action"
+assert "uses: actions/checkout@v4" not in workflow, "deprecated Node 20 checkout action returned"
+assert "uses: actions/setup-python@v5" not in workflow, "deprecated Node 20 Python setup action returned"
 assert 'os.environ["CANDIDATE_SOURCE_SHA"]' in workflow, (
     "build receipt must record the resolved candidate SHA"
 )
