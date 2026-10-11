@@ -184,6 +184,25 @@ cue_durations = [
 assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
 assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
 
+cue_caption_block_start = audio_theme.index("SchoolAudioTheme.CUES = table.freeze({")
+cue_caption_block_end = audio_theme.index(
+    "function SchoolAudioTheme.getLocationAmbience",
+    cue_caption_block_start,
+)
+cue_caption_block = audio_theme[cue_caption_block_start:cue_caption_block_end]
+cue_captions = re.findall(r'caption\s*=\s*"([^"]+)"', cue_caption_block)
+assert len(cue_captions) == 3, "every sound cue needs one caption"
+assert len(set(cue_captions)) == len(cue_captions), "sound cue captions must be distinct"
+assert all(1 <= len(caption) <= 40 for caption in cue_captions), (
+    "sound cue captions must remain concise"
+)
+assert all(caption.endswith(".") for caption in cue_captions), (
+    "sound cue captions must use sentence-style feedback"
+)
+assert "CUE_CAPTIONS_REQUIRED = true" in audio_theme
+assert "function SchoolAudioTheme.getCueCaption(cueId)" in audio_theme
+assert "return cue and cue.caption or nil" in audio_theme
+
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme

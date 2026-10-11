@@ -1,4 +1,5 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
+local SchoolAudioTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolAudioTheme")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
@@ -12,6 +13,33 @@ local function assertEqual(actual, expected, message)
         ))
     end
 end
+
+-- Every audible feedback cue has a concise non-audio equivalent.
+assertEqual(SchoolAudioTheme.CUE_CAPTIONS_REQUIRED, true, "cue captions contract")
+
+local expectedCueCaptions = {
+    periodBell = "School bell rings.",
+    classComplete = "Class activity complete.",
+    waypointConfirm = "Destination confirmed.",
+}
+
+for cueId, expectedCaption in pairs(expectedCueCaptions) do
+    local cue = SchoolAudioTheme.getCue(cueId)
+    assert(cue ~= nil, "missing cue: " .. cueId)
+    assertEqual(cue.caption, expectedCaption, cueId .. " caption")
+    assertEqual(
+        SchoolAudioTheme.getCueCaption(cueId),
+        expectedCaption,
+        cueId .. " caption lookup"
+    )
+    assert(#expectedCaption <= 40, cueId .. " caption must remain concise")
+end
+
+assertEqual(
+    SchoolAudioTheme.getCueCaption("missingCue"),
+    nil,
+    "unknown cue caption fallback"
+)
 
 -- School clock boundaries and day rollover.
 local arrivalStart = SchoolClock.getState(0)
