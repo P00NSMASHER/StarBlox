@@ -7,6 +7,8 @@ SchoolAudioTheme.INTEGRATED_LUFS = -18
 
 SchoolAudioTheme.MIX_POLICY = table.freeze({
     maxConcurrentAmbience = 1,
+    maxConcurrentCues = 2,
+    cueRetriggerSeconds = 0.25,
     crossfadeSeconds = 1.25,
     speechDuckDb = -6,
     reducedSensoryVolumeMultiplier = 0.5,

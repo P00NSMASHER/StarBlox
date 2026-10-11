@@ -130,11 +130,17 @@ mix_policy = {
 }
 assert set(mix_policy) == {
     "maxConcurrentAmbience",
+    "maxConcurrentCues",
+    "cueRetriggerSeconds",
     "crossfadeSeconds",
     "speechDuckDb",
     "reducedSensoryVolumeMultiplier",
 }, "audio mix policy keys changed"
 assert mix_policy["maxConcurrentAmbience"] == 1, "only one ambience may play at once"
+assert mix_policy["maxConcurrentCues"] == 2, "short cues need a strict overlap budget"
+assert 0.1 <= mix_policy["cueRetriggerSeconds"] <= 0.5, (
+    "cue retrigger floor must prevent chatter without delaying responsive feedback"
+)
 assert 0.5 <= mix_policy["crossfadeSeconds"] <= 2, "ambience crossfade outside short-transition range"
 assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intelligibility range"
 assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
