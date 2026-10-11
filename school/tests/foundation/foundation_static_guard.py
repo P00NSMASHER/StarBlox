@@ -233,16 +233,16 @@ assert max(reduced_sensory_volumes) <= 0.25, (
     "reduced-sensory output exceeds the quiet-mix ceiling"
 )
 
-cue_block = re.search(
-    r"SchoolAudioTheme\.CUES\s*=\s*table\.freeze\(\{(.*?)\}\)",
-    audio_theme,
-    re.DOTALL,
+cue_block_start = audio_theme.index("SchoolAudioTheme.CUES = table.freeze({")
+cue_block_end = audio_theme.index(
+    "function SchoolAudioTheme.getLocationAmbience",
+    cue_block_start,
 )
-assert cue_block, "sound cue specification missing"
+cue_block = audio_theme[cue_block_start:cue_block_end]
 cue_volumes = sorted(
     (
         float(value)
-        for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", cue_block.group(1))
+        for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", cue_block)
     ),
     reverse=True,
 )
