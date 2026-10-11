@@ -4,6 +4,11 @@ CampusRouteLayout.ROUTE_WIDTH = 10
 CampusRouteLayout.ROUTE_THICKNESS = 0.08
 CampusRouteLayout.ROUTE_Y = 0.54
 CampusRouteLayout.ROUTE_TRANSPARENCY = 0.42
+CampusRouteLayout.ROUTE_CHEVRON_LENGTH = 4
+CampusRouteLayout.ROUTE_CHEVRON_SPAN = 4
+CampusRouteLayout.ROUTE_CHEVRON_WIDTH = 0.75
+CampusRouteLayout.ROUTE_CHEVRON_THICKNESS = 0.1
+CampusRouteLayout.ROUTE_CHEVRON_Y = 0.64
 
 CampusRouteLayout.GATEWAY_OPENING_WIDTH = 10
 CampusRouteLayout.GATEWAY_POST_WIDTH = 1

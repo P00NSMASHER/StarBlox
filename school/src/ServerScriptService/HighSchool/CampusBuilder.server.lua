@@ -54,6 +54,10 @@ local gateways = Instance.new("Folder")
 gateways.Name = "Gateways"
 gateways.Parent = wayfinding
 
+local routeChevrons = Instance.new("Folder")
+routeChevrons.Name = "RouteChevrons"
+routeChevrons.Parent = wayfinding
+
 local entrancePad = Instance.new("Part")
 entrancePad.Name = "EntranceArrivalPad"
 entrancePad.Anchored = true
@@ -274,6 +278,7 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
 end
 
 local routeIds = {}
+local routeChevronCount = 0
 for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
     assert(not routeIds[segment.id], "duplicate campus route id: " .. segment.id)
     routeIds[segment.id] = true
@@ -319,10 +324,51 @@ for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
     route:SetAttribute("FromLocationId", segment.fromId)
     route:SetAttribute("ToLocationId", segment.toId)
     route.Parent = routes
+
+    local routeForward = Vector3.new(delta.X, 0, delta.Z).Unit
+    local routeRight = Vector3.new(routeForward.Z, 0, -routeForward.X)
+    local chevronCenter = (startPosition + endPosition) / 2
+        + Vector3.new(0, CampusRouteLayout.ROUTE_CHEVRON_Y - CampusRouteLayout.ROUTE_Y, 0)
+    local chevronTip = chevronCenter
+        + routeForward * (CampusRouteLayout.ROUTE_CHEVRON_LENGTH / 2)
+    local chevronBack = chevronCenter
+        - routeForward * (CampusRouteLayout.ROUTE_CHEVRON_LENGTH / 2)
+
+    local chevron = Instance.new("Model")
+    chevron.Name = segment.id .. "Chevron"
+    chevron:SetAttribute("FromLocationId", segment.fromId)
+    chevron:SetAttribute("ToLocationId", segment.toId)
+    chevron.Parent = routeChevrons
+
+    local function makeChevronWing(name, backPoint)
+        local wingDelta = chevronTip - backPoint
+        local wing = Instance.new("Part")
+        wing.Name = name
+        wing.Anchored = true
+        wing.CanCollide = false
+        wing.CanTouch = false
+        wing.CanQuery = false
+        wing.Material = Enum.Material.SmoothPlastic
+        wing.Color = SchoolVisualTheme.SIGN_BACKGROUND
+        wing.Transparency = 0.1
+        wing.Size = Vector3.new(
+            CampusRouteLayout.ROUTE_CHEVRON_WIDTH,
+            CampusRouteLayout.ROUTE_CHEVRON_THICKNESS,
+            wingDelta.Magnitude
+        )
+        wing.CFrame = CFrame.lookAt((backPoint + chevronTip) / 2, chevronTip)
+        wing.Parent = chevron
+    end
+
+    local halfSpan = CampusRouteLayout.ROUTE_CHEVRON_SPAN / 2
+    makeChevronWing("LeftWing", chevronBack - routeRight * halfSpan)
+    makeChevronWing("RightWing", chevronBack + routeRight * halfSpan)
+    routeChevronCount += 1
 end
 
 campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
 campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
+campus:SetAttribute("RouteChevronCount", routeChevronCount)
 campus:SetAttribute("GatewayCount", gatewayCount)
 campus:SetAttribute("EntranceWayfindingCount", 1)

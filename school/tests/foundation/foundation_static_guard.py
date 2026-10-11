@@ -189,6 +189,28 @@ route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
 assert route_width_match and float(route_width_match.group(1)) >= 10, (
     "campus routes must remain at least 10 studs wide"
 )
+route_width = float(route_width_match.group(1))
+chevron_numbers = {
+    name: float(value)
+    for name, value in re.findall(
+        r"ROUTE_CHEVRON_([A-Z_]+) = ([0-9.]+)",
+        route_layout,
+    )
+}
+assert set(chevron_numbers) == {"LENGTH", "SPAN", "WIDTH", "THICKNESS", "Y"}, (
+    "route chevron geometry contract changed"
+)
+assert 3 <= chevron_numbers["LENGTH"] <= 6, "route chevrons must remain glance-readable"
+assert 3 <= chevron_numbers["SPAN"] <= route_width, (
+    "route chevrons must fit inside the mobile-friendly route width"
+)
+assert 0 < chevron_numbers["WIDTH"] <= 1, "route chevron wings must remain visually slim"
+assert 0 < chevron_numbers["THICKNESS"] <= 0.15, "route chevrons must remain flat"
+route_y_match = re.search(r"ROUTE_Y = ([0-9.]+)", route_layout)
+route_thickness_match = re.search(r"ROUTE_THICKNESS = ([0-9.]+)", route_layout)
+assert route_y_match and route_thickness_match
+route_top = float(route_y_match.group(1)) + float(route_thickness_match.group(1)) / 2
+assert chevron_numbers["Y"] > route_top, "route chevrons must render above route surfaces"
 
 gateway_numbers = {
     name: float(value)
@@ -208,6 +230,7 @@ assert 0 < gateway_numbers["DEPTH"] <= 1, "gateway depth must remain non-obstruc
 assert gateway_numbers["OFFSET"] == 6, "gateway threshold must stay on the edge of its 12-stud pad"
 assert 'routes.Name = "Routes"' in builder
 assert 'gateways.Name = "Gateways"' in builder
+assert 'routeChevrons.Name = "RouteChevrons"' in builder
 assert 'if location.id ~= "lobby" then' in builder
 assert 'gateway.Name = location.id .. "Gateway"' in builder
 assert 'gateway:SetAttribute("LocationId", location.id)' in builder
@@ -227,6 +250,17 @@ assert 'route.CFrame = CFrame.lookAt' in builder
 assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
 assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
 assert 'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)' in builder
+assert 'chevron.Name = segment.id .. "Chevron"' in builder
+assert 'chevron:SetAttribute("FromLocationId", segment.fromId)' in builder
+assert 'chevron:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'wing.Name = name' in builder
+assert 'wing.CanCollide = false' in builder
+assert 'wing.CanTouch = false' in builder
+assert 'wing.CanQuery = false' in builder
+assert 'wing.Color = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'makeChevronWing("LeftWing"' in builder
+assert 'makeChevronWing("RightWing"' in builder
+assert 'campus:SetAttribute("RouteChevronCount", routeChevronCount)' in builder
 for location_id in location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
         f"missing ambience specification: {location_id}"
