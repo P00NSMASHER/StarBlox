@@ -196,7 +196,7 @@ assert len(set(cue_captions)) == len(cue_captions), "feedback cue captions must 
 assert all(1 <= len(caption) <= 40 for caption in cue_captions), (
     "feedback cue captions must remain concise on phone"
 )
-assert all(re.fullmatch(r"[A-Za-z][A-Za-z ]+\\.", caption) for caption in cue_captions), (
+assert all(re.fullmatch(r"[A-Za-z][A-Za-z ]+\.", caption) for caption in cue_captions), (
     "feedback cue captions must be plain sentence-style status copy"
 )
 assert "CUE_CAPTIONS_REQUIRED = true" in audio_theme
