@@ -191,13 +191,13 @@ cue_caption_block_end = audio_theme.index(
 )
 cue_caption_block = audio_theme[cue_caption_block_start:cue_caption_block_end]
 cue_captions = re.findall(r'caption\s*=\s*"([^"]+)"', cue_caption_block)
-assert len(cue_captions) == 3, "every sound cue needs one caption"
-assert len(set(cue_captions)) == len(cue_captions), "sound cue captions must be distinct"
+assert len(cue_captions) == 3, "every feedback cue needs one non-audio caption"
+assert len(set(cue_captions)) == len(cue_captions), "feedback cue captions must be unique"
 assert all(1 <= len(caption) <= 40 for caption in cue_captions), (
-    "sound cue captions must remain concise"
+    "feedback cue captions must remain concise on phone"
 )
-assert all(caption.endswith(".") for caption in cue_captions), (
-    "sound cue captions must use sentence-style feedback"
+assert all(re.fullmatch(r"[A-Za-z][A-Za-z ]+\\.", caption) for caption in cue_captions), (
+    "feedback cue captions must be plain sentence-style status copy"
 )
 assert "CUE_CAPTIONS_REQUIRED = true" in audio_theme
 assert "function SchoolAudioTheme.getCueCaption(cueId)" in audio_theme
