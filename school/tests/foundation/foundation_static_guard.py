@@ -203,11 +203,17 @@ mix_policy = {
 }
 assert set(mix_policy) == {
     "maxConcurrentAmbience",
+    "maxConcurrentCues",
+    "cueRetriggerSeconds",
     "crossfadeSeconds",
     "speechDuckDb",
     "reducedSensoryVolumeMultiplier",
 }, "audio mix policy keys changed"
 assert mix_policy["maxConcurrentAmbience"] == 1, "only one ambience may play at once"
+assert mix_policy["maxConcurrentCues"] == 2, "short cues need a strict overlap budget"
+assert 0.1 <= mix_policy["cueRetriggerSeconds"] <= 0.5, (
+    "cue retrigger floor must prevent chatter without delaying responsive feedback"
+)
 assert 0.5 <= mix_policy["crossfadeSeconds"] <= 2, "ambience crossfade outside short-transition range"
 assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intelligibility range"
 assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
@@ -225,6 +231,25 @@ assert all(
 ), "reduced-sensory mode must preserve audible but lower output"
 assert max(reduced_sensory_volumes) <= 0.25, (
     "reduced-sensory output exceeds the quiet-mix ceiling"
+)
+
+cue_block = re.search(
+    r"SchoolAudioTheme\.CUES\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    audio_theme,
+    re.DOTALL,
+)
+assert cue_block, "sound cue specification missing"
+cue_volumes = sorted(
+    (
+        float(value)
+        for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", cue_block.group(1))
+    ),
+    reverse=True,
+)
+assert len(cue_volumes) == 3, "unexpected sound cue volume count"
+max_concurrent_cues = int(mix_policy["maxConcurrentCues"])
+assert sum(cue_volumes[:max_concurrent_cues]) <= 0.90, (
+    "worst-case allowed cue overlap exceeds the configured accessibility headroom"
 )
 
 assert "SoundId" not in audio_theme, "audio specification must not embed asset IDs"
