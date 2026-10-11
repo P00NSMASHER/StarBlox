@@ -175,14 +175,24 @@ assert all(
 assert ("EntranceToLobby", "entrance", "lobby") in route_segments, (
     "front entrance must have a direct lobby route"
 )
+outdoor_routes = {
+    ("OutdoorEntranceToScience", "entrance", "science"),
+    ("OutdoorEntranceToCafeteria", "entrance", "cafeteria"),
+}
+assert outdoor_routes.issubset(set(route_segments)), (
+    "entrance must connect to the science and cafeteria outdoor loop"
+)
+assert 'CampusRouteLayout.OUTDOOR_ROUTE_IDS = table.freeze({' in route_layout
+for outdoor_id, _, _ in outdoor_routes:
+    assert f"{outdoor_id} = true" in route_layout, f"missing outdoor route identity: {outdoor_id}"
 destination_routes = [
     segment for segment in route_segments if segment[1] == "lobby"
 ]
 assert {to_id for _, _, to_id in destination_routes} == location_ids - {"lobby"}, (
     "every non-lobby destination must have one direct lobby route"
 )
-assert len(route_segments) == len(location_ids), (
-    "route network must contain one entrance link and one spoke per non-lobby destination"
+assert len(route_segments) == len(location_ids) + len(outdoor_routes), (
+    "route network must contain its core spokes plus the two-link outdoor loop"
 )
 
 route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
@@ -249,6 +259,10 @@ assert 'route.CanQuery = false' in builder
 assert 'route.CFrame = CFrame.lookAt' in builder
 assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
 assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'local isOutdoorRoute = CampusRouteLayout.OUTDOOR_ROUTE_IDS[segment.id] == true' in builder
+assert 'route:SetAttribute("RouteKind", isOutdoorRoute and "outdoor" or "indoor")' in builder
+assert 'outdoorRouteCount += 1' in builder
+assert 'campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)' in builder
 assert 'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)' in builder
 assert 'chevron.Name = segment.id .. "Chevron"' in builder
 assert 'chevron:SetAttribute("FromLocationId", segment.fromId)' in builder

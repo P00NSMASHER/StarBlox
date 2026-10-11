@@ -279,6 +279,7 @@ end
 
 local routeIds = {}
 local routeChevronCount = 0
+local outdoorRouteCount = 0
 for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
     assert(not routeIds[segment.id], "duplicate campus route id: " .. segment.id)
     routeIds[segment.id] = true
@@ -323,6 +324,11 @@ for _, segment in ipairs(CampusRouteLayout.SEGMENTS) do
     route.CFrame = CFrame.lookAt((startPosition + endPosition) / 2, endPosition)
     route:SetAttribute("FromLocationId", segment.fromId)
     route:SetAttribute("ToLocationId", segment.toId)
+    local isOutdoorRoute = CampusRouteLayout.OUTDOOR_ROUTE_IDS[segment.id] == true
+    route:SetAttribute("RouteKind", isOutdoorRoute and "outdoor" or "indoor")
+    if isOutdoorRoute then
+        outdoorRouteCount += 1
+    end
     route.Parent = routes
 
     local routeForward = Vector3.new(delta.X, 0, delta.Z).Unit
@@ -370,5 +376,6 @@ campus:SetAttribute("FoundationVersion", 1)
 campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)
 campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)
 campus:SetAttribute("RouteChevronCount", routeChevronCount)
+campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)
 campus:SetAttribute("GatewayCount", gatewayCount)
 campus:SetAttribute("EntranceWayfindingCount", 1)

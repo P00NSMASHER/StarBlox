@@ -17,8 +17,15 @@ CampusRouteLayout.GATEWAY_DEPTH = 1
 CampusRouteLayout.GATEWAY_HEADER_HEIGHT = 1
 CampusRouteLayout.GATEWAY_OFFSET = 6
 
+CampusRouteLayout.OUTDOOR_ROUTE_IDS = table.freeze({
+    OutdoorEntranceToScience = true,
+    OutdoorEntranceToCafeteria = true,
+})
+
 CampusRouteLayout.SEGMENTS = table.freeze({
     table.freeze({ id = "EntranceToLobby", fromId = "entrance", toId = "lobby" }),
+    table.freeze({ id = "OutdoorEntranceToScience", fromId = "entrance", toId = "science" }),
+    table.freeze({ id = "OutdoorEntranceToCafeteria", fromId = "entrance", toId = "cafeteria" }),
     table.freeze({ id = "LobbyToMath", fromId = "lobby", toId = "math" }),
     table.freeze({ id = "LobbyToLanguageArts", fromId = "lobby", toId = "ela" }),
     table.freeze({ id = "LobbyToScience", fromId = "lobby", toId = "science" }),
