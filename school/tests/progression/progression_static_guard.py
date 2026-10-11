@@ -60,6 +60,13 @@ assert 'ProgressionReducer.toPublicSnapshot(state)' in service
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
+assert 'local function formatProgress(activity)' in courier
+assert courier.count('progressLabel = formatProgress(activity)') == 2, (
+    "public state and check-in responses must expose compact route progress"
+)
+assert '"Next stop (" .. formatProgress(activity) .. " complete): "' in courier
+assert '"Delivery confirmed (" .. formatProgress(activity) .. " complete). "' in courier
+assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
 assert cache_pos < closed_pos, "resolved retries must return the cached completion receipt"

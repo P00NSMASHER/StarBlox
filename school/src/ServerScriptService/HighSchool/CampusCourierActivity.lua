@@ -27,6 +27,14 @@ local ROUTE = table.freeze({
 
 CampusCourierActivity.ROUTE = ROUTE
 
+local function formatProgress(activity)
+    return string.format(
+        "%d/%d stops",
+        math.min(activity.stepIndex - 1, #ROUTE),
+        #ROUTE
+    )
+end
+
 local function makeResponse(activity, accepted, reason, feedback)
     local nextStop = ROUTE[activity.stepIndex]
     return table.freeze({
@@ -35,6 +43,7 @@ local function makeResponse(activity, accepted, reason, feedback)
         resolved = activity.resolved,
         completedStops = math.min(activity.stepIndex - 1, #ROUTE),
         totalStops = #ROUTE,
+        progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
         objective = nextStop and nextStop.objective or "Campus delivery route complete.",
         feedback = feedback,
@@ -70,6 +79,7 @@ function CampusCourierActivity.getPublicState(activity)
         description = "Follow a short three-stop delivery route around Pip High.",
         completedStops = math.min(activity.stepIndex - 1, #ROUTE),
         totalStops = #ROUTE,
+        progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
         nextLocationName = nextStop and nextStop.locationName or nil,
         objective = nextStop and nextStop.objective or "Campus delivery route complete.",
@@ -109,7 +119,7 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
             activity,
             false,
             "WRONG_STOP",
-            "That is not the next stop. " .. expected.objective
+            "Next stop (" .. formatProgress(activity) .. " complete): " .. expected.objective
         )
     end
 
@@ -127,14 +137,15 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
             activity,
             true,
             nil,
-            "Route complete! You earned 5 school points."
+            "Route complete (" .. formatProgress(activity) .. " complete)! You earned 5 school points."
         )
     else
         response = makeResponse(
             activity,
             true,
             nil,
-            "Delivery confirmed. " .. ROUTE[activity.stepIndex].objective
+            "Delivery confirmed (" .. formatProgress(activity) .. " complete). "
+                .. ROUTE[activity.stepIndex].objective
         )
     end
 
