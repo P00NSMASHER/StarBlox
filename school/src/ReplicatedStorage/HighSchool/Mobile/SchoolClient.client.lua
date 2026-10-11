@@ -7,6 +7,7 @@ local FoundationState
 local SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
 local beginClass, submitAnswer, leaveClass, getProgression
 local CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science", arrival = "Arrival", lunch = "Lunch" }
+local CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -264,9 +265,15 @@ attendButton.Activated:Connect(function()
     end
 
     currentSessionId = result.sessionId
-    currentClassId = FoundationState and FoundationState.getSnapshot().periodId
+    local activity = result.activity or {}
+    currentClassId = activity.subject
+    if not CLASS_PERIODS[currentClassId] then
+        safeInvoke(leaveClass)
+        finishSession("Class start could not be verified. Try again.", false)
+        return
+    end
     statusLabel.Text = "Class started."
-    showActivity(result.activity or {})
+    showActivity(activity)
 end)
 
 leaveButton.Activated:Connect(function()
@@ -298,7 +305,7 @@ task.spawn(function()
             secondsRemaining
         )
 
-        local classIsAvailable = periodId == "math" or periodId == "ela" or periodId == "science"
+        local classIsAvailable = CLASS_PERIODS[periodId] == true
         attendButton.Active = classIsAvailable and currentSessionId == nil
         attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
         attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"
