@@ -133,6 +133,21 @@ assertEqual(wrongCourierStop.accepted, false, "wrong courier stop")
 assertEqual(wrongCourierStop.reason, "WRONG_STOP", "wrong courier stop reason")
 assertEqual(wrongCourierStop.nextLocationId, "lobby", "wrong stop preserves objective")
 
+for index = 1, CampusCourierActivity.MAX_UNIQUE_CHECK_INS + 2 do
+    local detour = CampusCourierActivity.checkIn(
+        courier,
+        "courier-detour-" .. tostring(index),
+        "science"
+    )
+    assertEqual(detour.reason, "WRONG_STOP", "detour must preserve route")
+end
+assertEqual(courier.uniqueCheckInCount, 0, "wrong stops must not consume progress receipt budget")
+assertEqual(
+    CampusCourierActivity.getPublicState(courier).nextLocationId,
+    "lobby",
+    "detours must leave the courier playable"
+)
+
 local lobbyStop = CampusCourierActivity.checkIn(courier, "courier-lobby", "lobby")
 assertEqual(lobbyStop.accepted, true, "courier lobby check-in")
 assertEqual(lobbyStop.nextLocationId, "cafeteria", "courier cafeteria objective")

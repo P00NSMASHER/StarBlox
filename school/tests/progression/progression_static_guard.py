@@ -63,6 +63,13 @@ assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' i
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
 assert cache_pos < closed_pos, "resolved retries must return the cached completion receipt"
+expected_pos = courier.index('local expected = ROUTE[activity.stepIndex]')
+wrong_stop_pos = courier.index('if locationId ~= expected.locationId then')
+limit_pos = courier.index('if activity.uniqueCheckInCount >= CampusCourierActivity.MAX_UNIQUE_CHECK_INS then')
+increment_pos = courier.index('activity.uniqueCheckInCount += 1')
+assert expected_pos < wrong_stop_pos < limit_pos < increment_pos, (
+    "off-route exploration must not consume the accepted progress receipt budget"
+)
 assert 'RemoteEvent' not in courier
 assert 'OnServerEvent' not in courier
 assert 'DataStore' not in courier

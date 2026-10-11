@@ -103,40 +103,39 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
         })
     end
 
-    if activity.uniqueCheckInCount >= CampusCourierActivity.MAX_UNIQUE_CHECK_INS then
-        return table.freeze({ accepted = false, reason = "TOO_MANY_CHECK_INS", resolved = false })
-    end
-
-    activity.uniqueCheckInCount += 1
-
     local expected = ROUTE[activity.stepIndex]
-    local response
     if locationId ~= expected.locationId then
-        response = makeResponse(
+        return makeResponse(
             activity,
             false,
             "WRONG_STOP",
             "That is not the next stop. " .. expected.objective
         )
-    else
-        activity.stepIndex += 1
-        activity.resolved = activity.stepIndex > #ROUTE
+    end
 
-        if activity.resolved then
-            response = makeResponse(
-                activity,
-                true,
-                nil,
-                "Route complete! You earned 5 school points."
-            )
-        else
-            response = makeResponse(
-                activity,
-                true,
-                nil,
-                "Delivery confirmed. " .. ROUTE[activity.stepIndex].objective
-            )
-        end
+    if activity.uniqueCheckInCount >= CampusCourierActivity.MAX_UNIQUE_CHECK_INS then
+        return table.freeze({ accepted = false, reason = "TOO_MANY_CHECK_INS", resolved = false })
+    end
+
+    activity.uniqueCheckInCount += 1
+    activity.stepIndex += 1
+    activity.resolved = activity.stepIndex > #ROUTE
+
+    local response
+    if activity.resolved then
+        response = makeResponse(
+            activity,
+            true,
+            nil,
+            "Route complete! You earned 5 school points."
+        )
+    else
+        response = makeResponse(
+            activity,
+            true,
+            nil,
+            "Delivery confirmed. " .. ROUTE[activity.stepIndex].objective
+        )
     end
 
     activity.receipts[checkInId] = response
