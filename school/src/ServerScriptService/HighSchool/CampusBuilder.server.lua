@@ -67,7 +67,11 @@ entrancePad.CanQuery = false
 entrancePad.Material = Enum.Material.SmoothPlastic
 entrancePad.Color = SchoolVisualTheme.SPAWN
 entrancePad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY
-entrancePad.Size = Vector3.new(16, 0.4, 16)
+entrancePad.Size = Vector3.new(
+    CampusRouteLayout.ENTRANCE_PAD_SIZE,
+    0.4,
+    CampusRouteLayout.ENTRANCE_PAD_SIZE
+)
 entrancePad.Position = Vector3.new(spawn.Position.X, 0.7, spawn.Position.Z)
 entrancePad:SetAttribute("LocationId", "entrance")
 entrancePad.Parent = wayfinding
