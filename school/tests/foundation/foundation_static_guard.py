@@ -228,6 +228,36 @@ assert route_width_match and float(route_width_match.group(1)) >= 10, (
     "campus routes must remain at least 10 studs wide"
 )
 route_width = float(route_width_match.group(1))
+
+entrance_pad_size_match = re.search(
+    r"ENTRANCE_PAD_SIZE = ([0-9.]+)",
+    route_layout,
+)
+spawn_position_match = re.search(
+    r"SPAWN_POSITION = Vector3\\.new\\(([-0-9.]+),\\s*([-0-9.]+),\\s*([-0-9.]+)\\)",
+    config,
+)
+floor_size_match = re.search(
+    r"floor\\.Size = Vector3\\.new\\(([0-9.]+),\\s*[0-9.]+,\\s*([0-9.]+)\\)",
+    builder,
+)
+assert entrance_pad_size_match and spawn_position_match and floor_size_match
+entrance_pad_size = float(entrance_pad_size_match.group(1))
+spawn_x, _, spawn_z = (float(value) for value in spawn_position_match.groups())
+floor_x, floor_z = (float(value) for value in floor_size_match.groups())
+assert entrance_pad_size >= route_width + 4, (
+    "entrance pad must preserve a two-stud turning margin beside the route"
+)
+assert abs(spawn_x) + entrance_pad_size / 2 <= floor_x / 2, (
+    "entrance pad extends beyond the campus floor on the X axis"
+)
+assert abs(spawn_z) + entrance_pad_size / 2 <= floor_z / 2, (
+    "entrance pad extends beyond the campus floor on the Z axis"
+)
+assert 'entrancePad.Size = Vector3.new(\\n    CampusRouteLayout.ENTRANCE_PAD_SIZE,' in builder
+assert builder.count("CampusRouteLayout.ENTRANCE_PAD_SIZE") == 2, (
+    "entrance pad width and depth must share the bounded layout constant"
+)
 chevron_numbers = {
     name: float(value)
     for name, value in re.findall(
