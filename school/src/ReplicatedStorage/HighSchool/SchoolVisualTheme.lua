@@ -24,7 +24,7 @@ SchoolVisualTheme.LOCATION_CODES = table.freeze({
 SchoolVisualTheme.LOCATION_ACCENTS = table.freeze({
     lobby = Color3.fromRGB(33, 115, 196),
     math = Color3.fromRGB(224, 67, 72),
-    ela = Color3.fromRGB(126, 78, 181),
+    ela = Color3.fromRGB(151, 101, 210),
     science = Color3.fromRGB(12, 139, 126),
     cafeteria = Color3.fromRGB(232, 151, 42),
 })
