@@ -46,18 +46,21 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
 SchoolAudioTheme.CUES = table.freeze({
     periodBell = table.freeze({
         token = "cue_period_bell",
+        priority = 3,
         caption = "School bell rings.",
         targetVolume = 0.35,
         maxDurationSeconds = 2.5,
     }),
     classComplete = table.freeze({
         token = "cue_class_complete",
+        priority = 2,
         caption = "Class activity complete.",
         targetVolume = 0.45,
         maxDurationSeconds = 1.5,
     }),
     waypointConfirm = table.freeze({
         token = "cue_waypoint_confirm",
+        priority = 1,
         caption = "Destination confirmed.",
         targetVolume = 0.30,
         maxDurationSeconds = 0.75,
@@ -75,6 +78,11 @@ end
 function SchoolAudioTheme.getCueCaption(cueId)
     local cue = SchoolAudioTheme.getCue(cueId)
     return cue and cue.caption or nil
+end
+
+function SchoolAudioTheme.getCuePriority(cueId)
+    local cue = SchoolAudioTheme.getCue(cueId)
+    return cue and cue.priority or nil
 end
 
 return table.freeze(SchoolAudioTheme)
