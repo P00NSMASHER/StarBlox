@@ -129,6 +129,18 @@ assert "CUE_CAPTIONS_REQUIRED = true" in audio_theme
 assert "function SchoolAudioTheme.getCueCaption(cueId)" in audio_theme
 assert "return cue and cue.caption or nil" in audio_theme
 
+cue_priorities = [
+    int(value)
+    for value in re.findall(r"priority\s*=\s*(\d+)", cue_caption_block)
+]
+assert cue_priorities == [3, 2, 1], (
+    "cue priorities must keep the period bell above class completion above waypoint feedback"
+)
+assert len(set(cue_priorities)) == len(cue_priorities), "cue priorities must be deterministic"
+assert all(1 <= priority <= 3 for priority in cue_priorities), "cue priority outside bounded range"
+assert "function SchoolAudioTheme.getCuePriority(cueId)" in audio_theme
+assert "return cue and cue.priority or nil" in audio_theme
+
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme
