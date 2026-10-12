@@ -79,6 +79,23 @@ assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
 assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
 
+# Campus signs are construction-time geometry. Per-frame callbacks or polling here
+# would multiply avoidable UI work on every client-facing destination marker.
+for forbidden_runtime_work in (
+    "RunService",
+    "Heartbeat",
+    "RenderStepped",
+    "Stepped:Connect",
+    "while true",
+    "task.wait(",
+):
+    assert forbidden_runtime_work not in builder, (
+        f"campus builder must remain one-pass; found {forbidden_runtime_work}"
+    )
+assert builder.count(
+    "for _, location in ipairs(FoundationConfig.LOCATIONS) do"
+) == 1, "campus builder must keep one bounded location construction pass"
+
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"
 assert len(location_ids) == 5, "unexpected location count"
