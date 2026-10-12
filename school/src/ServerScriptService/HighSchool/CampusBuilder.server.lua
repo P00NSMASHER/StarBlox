@@ -111,14 +111,21 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
         SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH,
         SchoolVisualTheme.SIGN_HEIGHT - 16
     )
-    codeBadge.BackgroundColor3 = accent
+    codeBadge.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND
     codeBadge.BackgroundTransparency = 0
     codeBadge.BorderSizePixel = 0
     codeBadge.Font = Enum.Font.GothamBold
     codeBadge.Text = locationCode
-    codeBadge.TextColor3 = SchoolVisualTheme.SIGN_BACKGROUND
+    codeBadge.TextColor3 = SchoolVisualTheme.SIGN_TEXT
     codeBadge.TextSize = SchoolVisualTheme.SIGN_CODE_TEXT_SIZE
+    codeBadge.TextScaled = false
     codeBadge.Parent = panel
+
+    local codeOutline = Instance.new("UIStroke")
+    codeOutline.Color = accent
+    codeOutline.Thickness = 2
+    codeOutline.Transparency = 0
+    codeOutline.Parent = codeBadge
 
     local codeCorner = Instance.new("UICorner")
     codeCorner.CornerRadius = UDim.new(0, 6)
