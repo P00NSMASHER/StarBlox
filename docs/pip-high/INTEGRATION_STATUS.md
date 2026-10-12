@@ -1,36 +1,35 @@
 # Pip High integration status
 
-Snapshot: 2026-10-11. This records source and CI evidence only; it is not a production-live claim.
+Snapshot: 2026-10-11. Source and CI evidence only; this is not a production-live claim.
 
-## Authoritative targets and published baseline
+## Authority and published baseline
 
-- Design brief: `GAMEPLAY_REFERENCE.md` blob `246b25101dfa37c6c0e4cf19edf0fc2521118cb9`. Build original Pip High assets and mechanics; Roblox High School 2 recordings are visual direction only.
-- Clock/classes source: draft PR #188 at exact head `250d4b2b100083bc50127895586890094f5fe5fa`.
-- Current PH 01 source: draft PR #193 at `e9b46093748c53e872ec153dac91f4d8e8188a9b`. It composes lane 04's six rotating activities, canonical classroom binding, repaired mobile contract, and lane 10's exact project/toolchain receipt verification. All four exact-head workflows passed, including Integration `37761933869`; artifact `11542287990` has digest `sha256:a7d32e369a956d5624b6906e43f8207ace6a7f01c212535b09ccdef6fc15402c`.
-- Current focused composition: lane 05 PR #197 at `a98df79191e7b301eb608fc0a7057bcd7845aaa1`. Compose only its exact progression reducer, pure-Luau regression, and static guard blobs: `b699fbcdc5f49cc581f068fc94685f7692b27772`, `f80c37d559b944ce6e123bf469c55026b46b263a`, and `65c173f0701fb228b83364300c4269b511d27763`. Its four exact-head workflows passed and its interface depends only on the PH 04 completion receipts already present in PH 01.
-- Latest evidenced Pip High publish: workflow `37007207448`, completed successfully on 2026-10-02. It published Roblox version `4` to Universe `10768955678` / Place `87245440673982` from external source `2ab1584ee34e711828768cd999c86feba9202984`; build SHA-256 `7386c19c0af72a80e142abb8141f9b499c24d77c15bc56de0a29ef51d5c2160b`.
-- No current Pip High lane candidate is proven published. Source CI and artifacts are not live parity.
+- Design brief: `docs/pip-high/GAMEPLAY_REFERENCE.md` blob `246b25101dfa37c6c0e4cf19edf0fc2521118cb9`. Roblox High School 2 recordings guide pacing, readability, and interaction density only; use original Pip High assets, branding, writing, and code.
+- Integration parent: PH 01 PR #193 at `fafc9ef8afd3a9e290f1fa604bdd0f8c31020f8f`, with clock/day/next-period HUD, three classes, six rotating activities, authoritative classrooms, report-card reducer, and exact build receipt. Its four exact-head workflows passed; artifact `11690678364` was independently verified.
+- This increment composes PH 03 PR #195 head `4885df8e4010fe35857274d1008174f667544c07`: compact phone report card, readable attendance/answer failures, and delayed-service safety. PH 03's four exact-head workflows passed, including Integration `38127682775`; artifact `11697193758` has digest `sha256:e1fa55027c43c93f0e949343b0e50d8504495908fcb61a5a034f14a189fb7440`.
+- Interface repair: PH 05 now returns `CLASS_ALREADY_COMPLETED` for a completed class occurrence. PH 01 maps that code to player-readable copy and keeps raw server codes off the HUD.
+- Latest evidenced publish remains workflow `37007207448`, completed 2026-10-02: Roblox version `4`, Universe `10768955678`, Place `87245440673982`, source `2ab1584ee34e711828768cd999c86feba9202984`. No current lane candidate is proven live.
 
-## Lane graph
+## Ten-lane graph
 
-| Lane | Exact evidence | State | Next dependency-safe action |
+| Lane | Exact evidence | State | Dependency-safe handoff |
 |---|---|---|---|
-| 01 Integration | PR #193 source `e9b46093748c53e872ec153dac91f4d8e8188a9b` is exact-head green with Integration `37761933869` and artifact `11542287990`; this increment composes lane 05's exact three-file report-card reducer delta | Active | Require all four exact-head workflows, receipt verification, and a freshly uploaded artifact before another composition. |
-| 02 Campus | PR #194 at `7d373754ef28b1ec751dcff2bd6cb0ed4d14040b`; all four workflows passed, including Integration `37731096799`, artifact `11530195067` | Source-CI green | Preserve its non-collidable route/marker delta for a later composite; obtain native phone walk/tap-through evidence. |
-| 03 UI/mobile | PR #195 at `48acb56f733897440aa396cb561282966fe74f21`; all four workflows passed, including Integration `37731984776`; its delayed-state class identity is already in PH 01 | Needs new report-card UI delta | Add a compact phone report-card view over the server-authored `reportCard` snapshot without exposing receipt IDs or moving reward authority client-side. |
-| 04 Schedule/classes | PH 01 contains the five-file gameplay delta from PR #196 head `b08e148848bbacf439c539f5ce556d71d22a92e7`; PR #196 later advanced to `79620f37ebdbed1413bb8a1c31cf0fec823dd09a` and is conflicted | Composed; source-CI green in PH 01 | Capture Studio evidence for attendance, wrong-room rejection, answer/completion, rotation, and period closure. |
-| 05 Progression/report card | PR #197 at `a98df79191e7b301eb608fc0a7057bcd7845aaa1`; all four exact-head workflows passed, including Integration `37707965734`; artifact digest `sha256:5950975423e0fdc26cf444b22df17e4faa7c404db967d36261ebf05f51340d6c` | Composed; composite CI pending | Verify exact-once validated receipts and per-subject public totals on PH 01, then hand the immutable public shape to lane 03. |
-| 06 Free roam | PR #190 at `7e51223b3e8a0e2b0059385c095cc3ed1e005b14`; all four workflows passed | Source-CI green | Rebase the isolated destination check-in increment onto the nominated integration head before native proximity QA. |
-| 07 Sports/jobs/minigames | Branch contains inherited clock/classes overlap plus `CampusCourierActivity.lua`, but no focused PR | Conflict / unverified | Split the courier activity from inherited files, open one focused PR, and obtain exact-head CI. |
-| 08 Art/sound direction | PR #191 at `9f928cc936312be36a8132bf33e37745fa7d9bfe`; all four workflows passed | Source-CI green | Preserve as lane 09's visual/audio contract parent; obtain native contrast and sound-routing evidence. |
-| 09 Independent QA | PR #192 at `1add17e7ced1ee0127a1a34545486d18a7b13e71`; Integration `37705391340` uploaded artifact digest `sha256:61a9fb598052ceac29fff765cc45adc6d436e5dd7a34c1d5145d1763499b888d` | Source-CI green | Independently verify each later composite; never transfer evidence across SHAs. |
-| 10 Release/reliability | PR #189 at `69601f31599915f3218ae70794e00b250a4a3598`; project path and Rojo 7.7.0 are bound into and independently checked against the receipt; PH 01 exact-head evidence passed | Contract green | Preserve the exact receipt contract through every composition; prepare no publish until native evidence and release approval exist. |
+| 01 Integration | PR #193 parent `fafc9ef8afd3a9e290f1fa604bdd0f8c31020f8f`; this increment composes PH 03 plus the PH 05 completion-copy adapter | Active | Require all four exact-head workflows and independently verify the new build receipt/artifact before another composition. |
+| 02 Campus | PR #194 `19bd5b8b497ea0a4b75b9dabcfdb20d281b0d50e`; all four workflows passed, but parent lane 09 has advanced | Source-CI green / transitively stale | Rebase onto current PH 09 before composition; retain only route/marker delta and obtain native walk/tap evidence. |
+| 03 UI/mobile | PR #195 `4885df8e4010fe35857274d1008174f667544c07`; all four workflows passed, Integration `38127682775`, artifact `11697193758` | Composed in this increment | Native phone/tablet QA: open/close Grades, class start while services load, completion refresh, and readable repeat-class rejection. |
+| 04 Schedule/classes | PR #196 `069b9b4189d70a3fd26b3c525f406a0eabefd22f`; all four workflows passed, including Integration `38168040534` | New reliability delta pending | Compose its activity-catalog integrity validation before PH 05's current reliability delta. |
+| 05 Progression/report card | PR #197 `736355f1faf16073b14a380ab1db9a542e9f3ad8`; all four workflows passed, Integration `38188498502` | New reliability delta pending | After PH 04, compose completion gate, cache-revision protection, and player/day/period/class durable IDs; preserve public receipt-ID-free report cards. |
+| 06 Free roam | PR #190 `94d76ef414bfe1c3ba5c784e2d6da2199e9bdf51`; all four workflows passed, Integration `38169188705` | Source-CI green | Rebase after PH 07 activity contract is composed; then native-test authoritative destination arrival and detour recovery. |
+| 07 Sports/jobs/minigames | PR #198 `6ddb68cb9415a2e986f9f7e9826332f8caa37212`; all four workflows passed, Integration `38188993481` | Focused candidate ready | Recompose after current PH 05; preserve 5-point courier allowlist, activity-only count, idempotency, and `nextLocationName`. |
+| 08 Art/sound direction | PR #191 `b41dde64c8fe7cf5986221904724d125da24ed7a`; all four workflows passed, Integration `38189348511` | Source-CI green | Preserve as PH 09 parent; obtain native contrast and audio-routing evidence. |
+| 09 Independent QA | PR #192 `0f5a5d6547dbb1feb51d0196d2eca570fda85621`; all four workflows passed, Integration `38190053777` | Source-CI green | Verify every later composite at its exact SHA; never transfer evidence between heads. |
+| 10 Release/reliability | PR #189 `1fed88b03f9176acb665ad921949cd3f8b04e747`; all four workflows passed, Integration `38190336151` | Contract green / newer delta pending | Preserve exact source/project/Rojo/bytes/SHA binding; compose only a reviewed focused delta and do not publish without native evidence and approval. |
 
 ## Integration sequence
 
-1. Validate this lane 04 + lane 05 + lane 10 PH 01 composite with all four workflows, progression/class/mobile guards, pure-Luau tests, receipt verification, Rojo build, and downloaded artifact equality.
-2. Have lane 03 add the compact report-card phone view against the now-composed server-authored snapshot; do not reuse its already-composed delayed-state files.
-3. Compose the synchronized lane 08 → lane 09 → lane 02 chain and lane 06 one focused delta at a time, preserving exact-head evidence at each boundary.
-4. Independently verify every resulting composite in lane 09. Rebase and split lane 07 before review.
-5. Run native Roblox Studio/mobile evidence for clock/day/next class, three-subject attendance, wrong-room rejection, activity rotation, report cards, wayfinding, destination interactions, contrast, and audio routing.
-6. Only lane 10 may prepare a publish candidate after exact-head CI, native evidence, and release approval.
+1. Validate this PH 03 phone report-card composition and completion-copy adapter at the exact PH 01 head.
+2. Compose current PH 04 activity-catalog validation, then current PH 05 completion/cache/durable-ID reliability, each behind fresh exact-head evidence.
+3. Compose PH 07's courier contract, then PH 06's authoritative destination wiring.
+4. Rebase and compose the synchronized PH 08 → PH 09 → PH 02 chain one focused delta at a time.
+5. Run native Roblox Studio phone/tablet evidence for clock/day/next class, class attendance, wrong-room handling, activity rotation, completion/rejoin dedupe, report cards, courier navigation, contrast, and audio.
+6. Only PH 10 may prepare a publish candidate after exact-head CI, independent native evidence, and explicit release approval.
