@@ -274,7 +274,7 @@ assert sum(cue_volumes[:max_concurrent_cues]) <= 0.90, (
 cue_entries = {
     match.group(1): match.group(2)
     for match in re.finditer(
-        r"^    (periodBell|classComplete|waypointConfirm) = table\\.freeze\\(\\{(.*?)^    \\}\\),",
+        r"^    (periodBell|classComplete|waypointConfirm) = table\.freeze\(\{(.*?)^    \}\),",
         cue_block,
         re.DOTALL | re.MULTILINE,
     )
@@ -284,7 +284,7 @@ assert set(cue_entries) == {"periodBell", "classComplete", "waypointConfirm"}, (
 )
 cue_priorities = {}
 for cue_id, cue_body in cue_entries.items():
-    priority_match = re.search(r"priority\\s*=\\s*(\\d+)", cue_body)
+    priority_match = re.search(r"priority\s*=\s*(\d+)", cue_body)
     assert priority_match, f"{cue_id} is missing overload priority"
     cue_priorities[cue_id] = int(priority_match.group(1))
 
