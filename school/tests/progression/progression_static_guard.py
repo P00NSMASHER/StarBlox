@@ -64,6 +64,9 @@ assert 'local function formatProgress(activity)' in courier
 assert courier.count('progressLabel = formatProgress(activity)') == 2, (
     "public state and check-in responses must expose compact route progress"
 )
+assert courier.count('nextLocationName = nextStop and nextStop.locationName or nil') == 2, (
+    "public state and every check-in response must expose the authoritative next destination name"
+)
 assert '"Next stop (" .. formatProgress(activity) .. " complete): "' in courier
 assert '"Delivery confirmed (" .. formatProgress(activity) .. " complete). "' in courier
 assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
