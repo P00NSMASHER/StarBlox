@@ -4,6 +4,37 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def rgb_assignment(source, assignment):
+    match = re.search(
+        rf"{re.escape(assignment)}\s*=\s*Color3\.fromRGB\((\d+),\s*(\d+),\s*(\d+)\)",
+        source,
+    )
+    assert match, f"missing RGB assignment: {assignment}"
+    return tuple(int(match.group(index)) for index in range(1, 4))
+
+
+def relative_luminance(color):
+    channels = []
+    for value in color:
+        channel = value / 255
+        channels.append(
+            channel / 12.92
+            if channel <= 0.04045
+            else ((channel + 0.055) / 1.055) ** 2.4
+        )
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast_ratio(first, second):
+    light, dark = sorted(
+        (relative_luminance(first), relative_luminance(second)),
+        reverse=True,
+    )
+    return (light + 0.05) / (dark + 0.05)
+
+
 project_path = ROOT / "default.project.json"
 project = json.loads(project_path.read_text(encoding="utf-8"))
 project_text = json.dumps(project).lower()
@@ -46,9 +77,12 @@ assert 'panel.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
 assert 'outline.Color = accent' in builder
 assert 'codeBadge.Name = "LocationCode"' in builder
 assert 'codeBadge.Text = locationCode' in builder
-assert 'codeBadge.BackgroundColor3 = accent' in builder
-assert 'codeBadge.TextColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'codeBadge.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'codeBadge.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
 assert 'codeBadge.TextSize = SchoolVisualTheme.SIGN_CODE_TEXT_SIZE' in builder
+assert 'codeBadge.TextScaled = false' in builder
+assert 'codeOutline.Color = accent' in builder
+assert 'codeOutline.Parent = codeBadge' in builder
 assert 'text.Font = Enum.Font.GothamBold' in builder
 assert 'text.Text = location.name' in builder
 assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
@@ -78,6 +112,16 @@ assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
+
+sign_background = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_BACKGROUND")
+sign_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_TEXT")
+ela_accent = rgb_assignment(visual_theme, "ela")
+assert contrast_ratio(sign_text, sign_background) >= 4.5, (
+    "wayfinding badge text must meet 4.5:1 contrast"
+)
+assert contrast_ratio(ela_accent, sign_background) >= 3.0, (
+    "Language Arts accent outline must meet 3:1 contrast"
+)
 
 for location_id in location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
