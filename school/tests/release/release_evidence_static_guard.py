@@ -25,6 +25,25 @@ assert "uses: actions/upload-artifact@v4" not in workflow, (
 )
 assert "uses: actions/checkout@v4" not in workflow, "deprecated Node 20 checkout action returned"
 assert "uses: actions/setup-python@v5" not in workflow, "deprecated Node 20 Python setup action returned"
+
+download_retry_policy = (
+    "--retry 3 --retry-all-errors --connect-timeout 10 --max-time 120"
+)
+assert workflow.count(download_retry_policy) == 2, (
+    "both pinned tool downloads require the bounded retry and timeout policy"
+)
+for archive_url in (
+    "luau-lang/luau/releases/download/0.740/luau-ubuntu.zip",
+    "rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip",
+):
+    download_line = next(
+        (line for line in workflow.splitlines() if archive_url in line),
+        None,
+    )
+    assert download_line is not None, f"missing pinned tool archive: {archive_url}"
+    assert download_retry_policy in download_line, (
+        f"pinned tool download lacks bounded retry policy: {archive_url}"
+    )
 assert 'os.environ["CANDIDATE_SOURCE_SHA"]' in workflow, (
     "build receipt must record the resolved candidate SHA"
 )
