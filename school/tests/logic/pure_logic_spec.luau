@@ -124,21 +124,21 @@ assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing
 
 local publicCourier = CampusCourierActivity.getPublicState(courier)
 assertEqual(publicCourier.title, "Campus Courier", "courier title")
-assertEqual(publicCourier.totalStops, 3, "courier stop count")
+assertEqual(publicCourier.totalStops, 4, "courier stop count")
 assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
 assertEqual(publicCourier.nextLocationName, "Main Lobby", "courier first stop name")
 assertEqual(publicCourier.rewardPoints, 5, "courier advertised reward")
-assertEqual(publicCourier.progressLabel, "0/3 stops", "courier initial progress")
+assertEqual(publicCourier.progressLabel, "0/4 stops", "courier initial progress")
 
 local wrongCourierStop = CampusCourierActivity.checkIn(courier, "courier-wrong", "science")
 assertEqual(wrongCourierStop.accepted, false, "wrong courier stop")
 assertEqual(wrongCourierStop.reason, "WRONG_STOP", "wrong courier stop reason")
 assertEqual(wrongCourierStop.nextLocationId, "lobby", "wrong stop preserves objective")
 assertEqual(wrongCourierStop.nextLocationName, "Main Lobby", "wrong stop preserves destination name")
-assertEqual(wrongCourierStop.progressLabel, "0/3 stops", "wrong stop progress")
+assertEqual(wrongCourierStop.progressLabel, "0/4 stops", "wrong stop progress")
 assertEqual(
     wrongCourierStop.feedback,
-    "Next stop (0/3 stops complete): Pick up the campus delivery list in the Main Lobby.",
+    "Next stop (0/4 stops complete): Pick up the campus delivery list in the Main Lobby.",
     "wrong stop feedback includes progress and objective"
 )
 
@@ -161,10 +161,10 @@ local lobbyStop = CampusCourierActivity.checkIn(courier, "courier-lobby", "lobby
 assertEqual(lobbyStop.accepted, true, "courier lobby check-in")
 assertEqual(lobbyStop.nextLocationId, "cafeteria", "courier cafeteria objective")
 assertEqual(lobbyStop.nextLocationName, "Cafeteria", "courier cafeteria name")
-assertEqual(lobbyStop.progressLabel, "1/3 stops", "courier lobby progress")
+assertEqual(lobbyStop.progressLabel, "1/4 stops", "courier lobby progress")
 assertEqual(
     lobbyStop.feedback,
-    "Delivery confirmed (1/3 stops complete). Deliver the lunch-count note to the Cafeteria.",
+    "Delivery confirmed (1/4 stops complete). Deliver the lunch-count note to the Cafeteria.",
     "courier lobby feedback"
 )
 
@@ -172,23 +172,41 @@ local cafeteriaStop = CampusCourierActivity.checkIn(courier, "courier-cafeteria"
 assertEqual(cafeteriaStop.accepted, true, "courier cafeteria check-in")
 assertEqual(cafeteriaStop.nextLocationId, "science", "courier science objective")
 assertEqual(cafeteriaStop.nextLocationName, "Science Classroom", "courier science name")
-assertEqual(cafeteriaStop.progressLabel, "2/3 stops", "courier cafeteria progress")
+assertEqual(cafeteriaStop.progressLabel, "2/4 stops", "courier cafeteria progress")
 
 local scienceStop = CampusCourierActivity.checkIn(courier, "courier-science", "science")
 assertEqual(scienceStop.accepted, true, "courier science check-in")
-assertEqual(scienceStop.resolved, true, "courier completion")
-assertEqual(scienceStop.rewardPoints, 5, "courier completion reward")
-assertEqual(scienceStop.progressLabel, "3/3 stops", "courier completion progress")
-assertEqual(scienceStop.nextLocationName, nil, "completed courier has no next destination")
+assertEqual(scienceStop.resolved, false, "science stop must preserve return leg")
+assertEqual(scienceStop.rewardPoints, 0, "science stop must not reward early")
+assertEqual(scienceStop.progressLabel, "3/4 stops", "courier science progress")
+assertEqual(scienceStop.nextLocationId, "lobby", "courier return objective")
+assertEqual(scienceStop.nextLocationName, "Main Lobby", "courier return destination")
 assertEqual(
     scienceStop.feedback,
-    "Route complete (3/3 stops complete)! You earned 5 school points.",
+    "Delivery confirmed (3/4 stops complete). Return the signed delivery sheet to the Main Lobby.",
+    "courier science feedback"
+)
+assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), true, "return leg remains active")
+
+local returnLobbyStop = CampusCourierActivity.checkIn(courier, "courier-return-lobby", "lobby")
+assertEqual(returnLobbyStop.accepted, true, "courier return check-in")
+assertEqual(returnLobbyStop.resolved, true, "courier completion")
+assertEqual(returnLobbyStop.rewardPoints, 5, "courier completion reward")
+assertEqual(returnLobbyStop.progressLabel, "4/4 stops", "courier completion progress")
+assertEqual(returnLobbyStop.nextLocationName, nil, "completed courier has no next destination")
+assertEqual(
+    returnLobbyStop.feedback,
+    "Route complete (4/4 stops complete)! You earned 5 school points.",
     "courier completion feedback"
 )
 assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
 
-local scienceReplay = CampusCourierActivity.checkIn(courier, "courier-science", "science")
-assert(scienceReplay == scienceStop, "resolved courier retry must return cached receipt")
+local returnLobbyReplay = CampusCourierActivity.checkIn(
+    courier,
+    "courier-return-lobby",
+    "lobby"
+)
+assert(returnLobbyReplay == returnLobbyStop, "resolved courier retry must return cached receipt")
 
 local courierCompletion = CampusCourierActivity.buildCompletion(courier, 1006)
 assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
