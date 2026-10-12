@@ -61,6 +61,11 @@ assert 'ProgressionReducer.toPublicSnapshot(state)' in service
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
 assert 'local function formatProgress(activity)' in courier
+assert courier.count('locationId = "lobby"') == 2, (
+    "courier must begin and end at the Main Lobby"
+)
+assert 'objective = "Return the signed delivery sheet to the Main Lobby."' in courier
+assert 'description = "Follow a short four-stop delivery loop around Pip High."' in courier
 assert courier.count('progressLabel = formatProgress(activity)') == 2, (
     "public state and check-in responses must expose compact route progress"
 )
