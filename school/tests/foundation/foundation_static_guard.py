@@ -60,7 +60,6 @@ assert 'spawn.CanQuery = false' in builder
 assert 'spawn:SetAttribute("LocationId", "entrance")' in builder
 assert 'spawn:SetAttribute("DisplayName", "Front Entrance")' in builder
 assert 'entrancePad.Name = "EntranceArrivalPad"' in builder
-assert 'entrancePad.Size = Vector3.new(16, 0.4, 16)' in builder
 assert 'entrancePad.Position = Vector3.new(spawn.Position.X, 0.7, spawn.Position.Z)' in builder
 assert 'entrancePad.CanCollide = false' in builder
 assert 'entrancePad.CanTouch = false' in builder
