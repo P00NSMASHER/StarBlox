@@ -45,6 +45,7 @@ local function makeResponse(activity, accepted, reason, feedback)
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
+        nextLocationName = nextStop and nextStop.locationName or nil,
         objective = nextStop and nextStop.objective or "Campus delivery route complete.",
         feedback = feedback,
         score = activity.resolved and CampusCourierActivity.REWARD_SCORE or 0,
