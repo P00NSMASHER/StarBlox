@@ -88,6 +88,8 @@ for forbidden_runtime_work in (
     "Stepped:Connect",
     "while true",
     "task.wait(",
+    "task.spawn(",
+    "task.defer(",
 ):
     assert forbidden_runtime_work not in builder, (
         f"campus builder must remain one-pass; found {forbidden_runtime_work}"
