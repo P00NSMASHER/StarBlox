@@ -119,7 +119,28 @@ assert(publicProgression.completed == nil, "public snapshot must not expose comp
 
 
 -- Server-owned campus courier objective, idempotency, and weighted progression reward.
-local courier = CampusCourierActivity.new("courier-1", 123)
+local firstDayCourierId = CampusCourierActivity.getDailyInstanceId(123, 1)
+assertEqual(firstDayCourierId, "player:123:day:1:campus_courier", "daily courier id")
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, 1),
+    firstDayCourierId,
+    "daily courier id must be deterministic"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, 2),
+    "player:123:day:2:campus_courier",
+    "next school day must allow a new courier receipt"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(124, 1),
+    "player:124:day:1:campus_courier",
+    "courier receipt must be player scoped"
+)
+assertEqual(CampusCourierActivity.getDailyInstanceId(0, 1), nil, "invalid player id")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, 0), nil, "invalid school day")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, 1.5), nil, "fractional school day")
+
+local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
 
 local publicCourier = CampusCourierActivity.getPublicState(courier)
@@ -209,6 +230,11 @@ local returnLobbyReplay = CampusCourierActivity.checkIn(
 assert(returnLobbyReplay == returnLobbyStop, "resolved courier retry must return cached receipt")
 
 local courierCompletion = CampusCourierActivity.buildCompletion(courier, 1006)
+assertEqual(
+    courierCompletion.completionId,
+    "activity:player:123:day:1:campus_courier",
+    "courier completion receipt"
+)
 assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
 local courierState, courierApplied = ProgressionReducer.applyCompletion(stateB, courierCompletion)
 assertEqual(courierApplied, true, "courier completion applies")
