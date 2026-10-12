@@ -271,6 +271,42 @@ assert sum(cue_volumes[:max_concurrent_cues]) <= 0.90, (
     "worst-case allowed cue overlap exceeds the configured accessibility headroom"
 )
 
+cue_entries = {
+    match.group(1): match.group(2)
+    for match in re.finditer(
+        r"^    (periodBell|classComplete|waypointConfirm) = table\\.freeze\\(\\{(.*?)^    \\}\\),",
+        cue_block,
+        re.DOTALL | re.MULTILINE,
+    )
+}
+assert set(cue_entries) == {"periodBell", "classComplete", "waypointConfirm"}, (
+    "priority QA must cover every feedback cue"
+)
+cue_priorities = {}
+for cue_id, cue_body in cue_entries.items():
+    priority_match = re.search(r"priority\\s*=\\s*(\\d+)", cue_body)
+    assert priority_match, f"{cue_id} is missing overload priority"
+    cue_priorities[cue_id] = int(priority_match.group(1))
+
+assert len(set(cue_priorities.values())) == len(cue_priorities), (
+    "cue overload priorities must form a deterministic total order"
+)
+assert all(priority > 0 for priority in cue_priorities.values()), (
+    "cue overload priorities must remain positive"
+)
+admitted_cues = sorted(
+    cue_priorities,
+    key=lambda cue_id: (-cue_priorities[cue_id], cue_id),
+)[:max_concurrent_cues]
+assert admitted_cues == ["periodBell", "classComplete"], (
+    "three-cue overload must preserve the school bell and class completion feedback"
+)
+assert "waypointConfirm" not in admitted_cues, (
+    "low-priority waypoint feedback must yield when the two-cue budget is full"
+)
+assert "function SchoolAudioTheme.getCuePriority(cueId)" in audio_theme
+assert "return cue and cue.priority or nil" in audio_theme
+
 assert "SoundId" not in audio_theme, "audio specification must not embed asset IDs"
 assert "rbxassetid://" not in audio_theme.lower(), "audio specification must remain asset-ID free"
 
