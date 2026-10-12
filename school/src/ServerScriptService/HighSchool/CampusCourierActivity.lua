@@ -32,6 +32,25 @@ local ROUTE = table.freeze({
 
 CampusCourierActivity.ROUTE = ROUTE
 
+function CampusCourierActivity.getDailyInstanceId(playerId, dayIndex)
+    if type(playerId) ~= "number"
+        or playerId < 1
+        or playerId % 1 ~= 0
+        or type(dayIndex) ~= "number"
+        or dayIndex < 1
+        or dayIndex % 1 ~= 0
+    then
+        return nil
+    end
+
+    return string.format(
+        "player:%d:day:%d:%s",
+        playerId,
+        dayIndex,
+        CampusCourierActivity.ACTIVITY_ID
+    )
+end
+
 local function formatProgress(activity)
     return string.format(
         "%d/%d stops",
