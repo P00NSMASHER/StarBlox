@@ -23,6 +23,11 @@ local ROUTE = table.freeze({
         locationName = "Science Classroom",
         objective = "Drop off the supply note in the Science Classroom.",
     }),
+    table.freeze({
+        locationId = "lobby",
+        locationName = "Main Lobby",
+        objective = "Return the signed delivery sheet to the Main Lobby.",
+    }),
 })
 
 CampusCourierActivity.ROUTE = ROUTE
@@ -77,7 +82,7 @@ function CampusCourierActivity.getPublicState(activity)
     return table.freeze({
         id = CampusCourierActivity.ACTIVITY_ID,
         title = "Campus Courier",
-        description = "Follow a short three-stop delivery route around Pip High.",
+        description = "Follow a short four-stop delivery loop around Pip High.",
         completedStops = math.min(activity.stepIndex - 1, #ROUTE),
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
