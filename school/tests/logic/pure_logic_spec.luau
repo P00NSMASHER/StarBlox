@@ -41,6 +41,42 @@ assertEqual(
     "unknown cue caption fallback"
 )
 
+-- Every canonical destination resolves one bounded, unique ambience identity.
+local expectedAmbienceTokens = {
+    lobby = "ambience_campus_hub",
+    math = "ambience_math_focus",
+    ela = "ambience_language_arts_focus",
+    science = "ambience_science_lab",
+    cafeteria = "ambience_cafeteria_hum",
+    gym = "ambience_gym_activity",
+}
+local seenAmbienceTokens = {}
+
+for locationId, expectedToken in pairs(expectedAmbienceTokens) do
+    local ambience = SchoolAudioTheme.getLocationAmbience(locationId)
+    assert(ambience ~= nil, "missing ambience lookup: " .. locationId)
+    assertEqual(ambience.token, expectedToken, locationId .. " ambience token")
+    assert(
+        ambience.targetVolume > 0 and ambience.targetVolume <= 0.5,
+        locationId .. " ambience volume outside safe range"
+    )
+    assert(
+        ambience.maxDistance >= 24 and ambience.maxDistance <= 64,
+        locationId .. " ambience distance outside bounded range"
+    )
+    assert(
+        seenAmbienceTokens[ambience.token] == nil,
+        "duplicate ambience token: " .. ambience.token
+    )
+    seenAmbienceTokens[ambience.token] = true
+end
+
+assertEqual(
+    SchoolAudioTheme.getLocationAmbience("missingLocation"),
+    nil,
+    "unknown ambience fallback"
+)
+
 -- School clock boundaries and day rollover.
 local arrivalStart = SchoolClock.getState(0)
 assertEqual(arrivalStart.dayIndex, 1, "arrival day")
