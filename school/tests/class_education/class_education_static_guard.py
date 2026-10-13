@@ -97,6 +97,17 @@ assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
 assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >= 2, (
     "canonical classroom location must be checked at start and submit"
 )
+assert 'local MAX_DISTANCE_CUE_STUDS = 999' in service
+assert 'local distance = (root.Position - marker.Position).Magnitude' in service
+assert 'return distance <= ATTENDANCE_RADIUS, distance' in service
+assert 'local function boundedDistanceCue(distance)' in service
+assert 'math.clamp(math.ceil(distance), 0, MAX_DISTANCE_CUE_STUDS)' in service
+assert service.count('local isAtLocation, attendanceDistance = isAtAuthoritativeLocation') == 2, (
+    "start and submit must derive cues from the same authoritative attendance check"
+)
+assert service.count('distanceStuds = boundedDistanceCue(attendanceDistance)') == 2, (
+    "wrong-room and left-room responses must expose bounded server distance cues"
+)
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service

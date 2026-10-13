@@ -45,6 +45,7 @@ end
 
 local sessionsByUserId = {}
 local ATTENDANCE_RADIUS = 16
+local MAX_DISTANCE_CUE_STUDS = 999
 local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })
 local sessionClassesByUserId = {}
 local sessionLocationsByUserId = {}
@@ -74,10 +75,18 @@ local function isAtAuthoritativeLocation(player, locationId)
     local marker = getLocationMarker(locationId)
 
     if not root or not marker then
-        return false
+        return false, nil
     end
 
-    return (root.Position - marker.Position).Magnitude <= ATTENDANCE_RADIUS
+    local distance = (root.Position - marker.Position).Magnitude
+    return distance <= ATTENDANCE_RADIUS, distance
+end
+
+local function boundedDistanceCue(distance)
+    if type(distance) ~= "number" then
+        return nil
+    end
+    return math.clamp(math.ceil(distance), 0, MAX_DISTANCE_CUE_STUDS)
 end
 
 local function closeSessionsOutsideActivePeriod()
@@ -121,12 +130,14 @@ beginClass.OnServerInvoke = function(player)
         })
     end
 
-    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+    local isAtLocation, attendanceDistance = isAtAuthoritativeLocation(player, expectedLocationId)
+    if not isAtLocation then
         return table.freeze({
             ok = false,
             reason = "NOT_AT_CLASS_LOCATION",
             classId = foundation.periodId,
             expectedLocationId = expectedLocationId,
+            distanceStuds = boundedDistanceCue(attendanceDistance),
         })
     end
 
@@ -182,13 +193,15 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
         })
     end
 
-    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+    local isAtLocation, attendanceDistance = isAtAuthoritativeLocation(player, expectedLocationId)
+    if not isAtLocation then
         closeSessionForUser(player.UserId)
         return table.freeze({
             accepted = false,
             reason = "LEFT_CLASS_LOCATION",
             classId = activeClassId,
             expectedLocationId = expectedLocationId,
+            distanceStuds = boundedDistanceCue(attendanceDistance),
         })
     end
 
