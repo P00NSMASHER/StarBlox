@@ -155,6 +155,30 @@ assert(
         ~= CampusCourierActivity.getDailyInstanceId(123, "server-b", 1),
     "independent server schedules must not share completion receipts"
 )
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:" .. firstDayCourierId,
+        123
+    ),
+    true,
+    "courier completion receipt binding"
+)
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:" .. firstDayCourierId,
+        124
+    ),
+    false,
+    "courier completion receipt must reject another player"
+)
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:player:123:schedule:server-a:day:01:campus_courier",
+        123
+    ),
+    false,
+    "courier completion receipt must be canonical"
+)
 
 local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
@@ -252,6 +276,19 @@ assertEqual(
     "courier completion receipt"
 )
 assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
+
+local forgedCourierState, forgedCourierApplied, forgedCourierReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = "activity:player:124:schedule:server-a:day:1:campus_courier",
+        playerId = 123,
+        classId = "activity:campus_courier",
+        score = 1,
+        completedAt = 1006,
+    })
+assertEqual(forgedCourierApplied, false, "wrong-player courier receipt must fail closed")
+assertEqual(forgedCourierReason, "INVALID_COMPLETION", "wrong-player courier receipt reason")
+assertEqual(forgedCourierState.points, 20, "wrong-player courier receipt must not add points")
+
 local courierState, courierApplied = ProgressionReducer.applyCompletion(stateB, courierCompletion)
 assertEqual(courierApplied, true, "courier completion applies")
 assertEqual(courierState.points, 25, "courier weighted points")

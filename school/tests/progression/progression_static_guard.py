@@ -12,7 +12,9 @@ assert 'ProgressionReducer.POINTS_PER_COMPLETION = 10' in reducer
 assert 'ProgressionReducer.ACTIVITY_POINTS = 5' in reducer
 assert 'local CLASS_IDS = table.freeze({ "math", "ela", "science" })' in reducer
 assert 'local POINTS_BY_COMPLETION_CLASS = table.freeze({' in reducer
-assert '["activity:campus_courier"] = ProgressionReducer.ACTIVITY_POINTS' in reducer
+assert '[CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS' in reducer
+assert 'then require(script.Parent.CampusCourierActivity)' in reducer
+assert 'else require("./CampusCourierActivity")' in reducer
 assert 'score ~= 1' in reducer, "only resolved, full-credit class completions may earn points"
 assert 'completedAt < 1' in reducer
 assert 'completedAt % 1 ~= 0' in reducer
@@ -22,12 +24,15 @@ assert 'points = pointsFromCompleted(completed)' in reducer, (
 assert 'tonumber(state.points)' not in reducer, "persisted aggregate points must not be trusted"
 
 assert 'completion.completionId' in reducer
+receipt_validation_pos = reducer.index(
+    'and not CampusCourierActivity.isCompletionIdFor('
+)
 dedupe_pos = reducer.index('if state.completed[completion.completionId] then')
 validation_pos = reducer.index('local record = normalizeCompletionRecord(completion)')
 write_pos = reducer.index('state.completed[completion.completionId] = record')
 reward_pos = reducer.index('state.points += POINTS_BY_COMPLETION_CLASS[record.classId]')
-assert dedupe_pos < validation_pos < write_pos < reward_pos, (
-    "completion must be deduplicated and validated before receipt/reward mutation"
+assert receipt_validation_pos < dedupe_pos < validation_pos < write_pos < reward_pos, (
+    "activity receipt binding, dedupe, and record validation must precede reward mutation"
 )
 assert 'return state, false, "DUPLICATE_COMPLETION"' in reducer
 assert 'return state, false, "INVALID_COMPLETION"' in reducer
@@ -61,6 +66,9 @@ assert 'ProgressionReducer.toPublicSnapshot(state)' in service
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
 assert 'function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)' in courier
+assert 'function CampusCourierActivity.isCompletionIdFor(completionId, playerId)' in courier
+assert '"^activity:player:(%d+):schedule:([%w_%-]+):day:(%d+):campus_courier$"' in courier
+assert 'completionId == "activity:" .. activityInstanceId' in courier
 assert '"player:%d:schedule:%s:day:%d:%s"' in courier
 assert 'scheduleNamespace:match("^[%w_%-]+$")' in courier
 assert 'local function formatProgress(activity)' in courier

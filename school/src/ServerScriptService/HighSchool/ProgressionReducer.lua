@@ -1,3 +1,7 @@
+local CampusCourierActivity = if script
+    then require(script.Parent.CampusCourierActivity)
+    else require("./CampusCourierActivity")
+
 local ProgressionReducer = {}
 
 ProgressionReducer.VERSION = 2
@@ -9,7 +13,7 @@ local POINTS_BY_COMPLETION_CLASS = table.freeze({
     math = ProgressionReducer.POINTS_PER_COMPLETION,
     ela = ProgressionReducer.POINTS_PER_COMPLETION,
     science = ProgressionReducer.POINTS_PER_COMPLETION,
-    ["activity:campus_courier"] = ProgressionReducer.ACTIVITY_POINTS,
+    [CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS,
 })
 
 local function normalizeCompletionRecord(record)
@@ -74,6 +78,15 @@ function ProgressionReducer.applyCompletion(currentState, completion)
     assert(type(completion.playerId) == "number", "playerId required")
 
     local state = ProgressionReducer.normalize(currentState)
+
+    if completion.classId == CampusCourierActivity.COMPLETION_CLASS_ID
+        and not CampusCourierActivity.isCompletionIdFor(
+            completion.completionId,
+            completion.playerId
+        )
+    then
+        return state, false, "INVALID_COMPLETION"
+    end
 
     if state.completed[completion.completionId] then
         return state, false, "DUPLICATE_COMPLETION"

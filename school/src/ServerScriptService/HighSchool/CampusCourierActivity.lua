@@ -57,6 +57,33 @@ function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, d
     )
 end
 
+function CampusCourierActivity.isCompletionIdFor(completionId, playerId)
+    if type(completionId) ~= "string"
+        or #completionId > 192
+        or type(playerId) ~= "number"
+        or playerId < 1
+        or playerId % 1 ~= 0
+    then
+        return false
+    end
+
+    local encodedPlayerId, scheduleNamespace, dayText = completionId:match(
+        "^activity:player:(%d+):schedule:([%w_%-]+):day:(%d+):campus_courier$"
+    )
+    if not encodedPlayerId or #dayText > 9 then
+        return false
+    end
+
+    local activityInstanceId = CampusCourierActivity.getDailyInstanceId(
+        playerId,
+        scheduleNamespace,
+        tonumber(dayText)
+    )
+    return encodedPlayerId == tostring(playerId)
+        and activityInstanceId ~= nil
+        and completionId == "activity:" .. activityInstanceId
+end
+
 local function formatProgress(activity)
     return string.format(
         "%d/%d stops",
