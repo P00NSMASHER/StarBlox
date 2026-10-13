@@ -243,11 +243,11 @@ entrance_pad_size_match = re.search(
     route_layout,
 )
 spawn_position_match = re.search(
-    r"SPAWN_POSITION = Vector3\\.new\\(([-0-9.]+),\\s*([-0-9.]+),\\s*([-0-9.]+)\\)",
+    r"SPAWN_POSITION = Vector3\.new\(([-0-9.]+),\s*([-0-9.]+),\s*([-0-9.]+)\)",
     config,
 )
 floor_size_match = re.search(
-    r"floor\\.Size = Vector3\\.new\\(([0-9.]+),\\s*[0-9.]+,\\s*([0-9.]+)\\)",
+    r"floor\.Size = Vector3\.new\(([0-9.]+),\s*[0-9.]+,\s*([0-9.]+)\)",
     builder,
 )
 assert entrance_pad_size_match and spawn_position_match and floor_size_match
@@ -263,7 +263,7 @@ assert abs(spawn_x) + entrance_pad_size / 2 <= floor_x / 2, (
 assert abs(spawn_z) + entrance_pad_size / 2 <= floor_z / 2, (
     "entrance pad extends beyond the campus floor on the Z axis"
 )
-assert 'entrancePad.Size = Vector3.new(\\n    CampusRouteLayout.ENTRANCE_PAD_SIZE,' in builder
+assert 'entrancePad.Size = Vector3.new(\n    CampusRouteLayout.ENTRANCE_PAD_SIZE,' in builder
 assert builder.count("CampusRouteLayout.ENTRANCE_PAD_SIZE") == 2, (
     "entrance pad width and depth must share the bounded layout constant"
 )
