@@ -5,6 +5,7 @@ CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"
 CampusCourierActivity.REWARD_SCORE = 1
 CampusCourierActivity.REWARD_POINTS = 5
 CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
+CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 
 local ROUTE = table.freeze({
@@ -32,10 +33,14 @@ local ROUTE = table.freeze({
 
 CampusCourierActivity.ROUTE = ROUTE
 
-function CampusCourierActivity.getDailyInstanceId(playerId, dayIndex)
+function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)
     if type(playerId) ~= "number"
         or playerId < 1
         or playerId % 1 ~= 0
+        or type(scheduleNamespace) ~= "string"
+        or scheduleNamespace == ""
+        or #scheduleNamespace > CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH
+        or not scheduleNamespace:match("^[%w_%-]+$")
         or type(dayIndex) ~= "number"
         or dayIndex < 1
         or dayIndex % 1 ~= 0
@@ -44,8 +49,9 @@ function CampusCourierActivity.getDailyInstanceId(playerId, dayIndex)
     end
 
     return string.format(
-        "player:%d:day:%d:%s",
+        "player:%d:schedule:%s:day:%d:%s",
         playerId,
+        scheduleNamespace,
         dayIndex,
         CampusCourierActivity.ACTIVITY_ID
     )

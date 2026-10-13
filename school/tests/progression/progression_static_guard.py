@@ -60,8 +60,9 @@ assert 'ProgressionReducer.toPublicSnapshot(state)' in service
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
-assert 'function CampusCourierActivity.getDailyInstanceId(playerId, dayIndex)' in courier
-assert '"player:%d:day:%d:%s"' in courier
+assert 'function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)' in courier
+assert '"player:%d:schedule:%s:day:%d:%s"' in courier
+assert 'scheduleNamespace:match("^[%w_%-]+$")' in courier
 assert 'local function formatProgress(activity)' in courier
 assert courier.count('locationId = "lobby"') == 2, (
     "courier must begin and end at the Main Lobby"

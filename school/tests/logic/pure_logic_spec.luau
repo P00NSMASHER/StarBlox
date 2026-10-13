@@ -119,26 +119,42 @@ assert(publicProgression.completed == nil, "public snapshot must not expose comp
 
 
 -- Server-owned campus courier objective, idempotency, and weighted progression reward.
-local firstDayCourierId = CampusCourierActivity.getDailyInstanceId(123, 1)
-assertEqual(firstDayCourierId, "player:123:day:1:campus_courier", "daily courier id")
+local firstDayCourierId = CampusCourierActivity.getDailyInstanceId(123, "server-a", 1)
 assertEqual(
-    CampusCourierActivity.getDailyInstanceId(123, 1),
     firstDayCourierId,
-    "daily courier id must be deterministic"
+    "player:123:schedule:server-a:day:1:campus_courier",
+    "daily courier id"
 )
 assertEqual(
-    CampusCourierActivity.getDailyInstanceId(123, 2),
-    "player:123:day:2:campus_courier",
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 1),
+    firstDayCourierId,
+    "daily courier id must be deterministic within one server schedule"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 2),
+    "player:123:schedule:server-a:day:2:campus_courier",
     "next school day must allow a new courier receipt"
 )
 assertEqual(
-    CampusCourierActivity.getDailyInstanceId(124, 1),
-    "player:124:day:1:campus_courier",
+    CampusCourierActivity.getDailyInstanceId(123, "server-b", 1),
+    "player:123:schedule:server-b:day:1:campus_courier",
+    "a new server schedule must allow a new courier receipt"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(124, "server-a", 1),
+    "player:124:schedule:server-a:day:1:campus_courier",
     "courier receipt must be player scoped"
 )
-assertEqual(CampusCourierActivity.getDailyInstanceId(0, 1), nil, "invalid player id")
-assertEqual(CampusCourierActivity.getDailyInstanceId(123, 0), nil, "invalid school day")
-assertEqual(CampusCourierActivity.getDailyInstanceId(123, 1.5), nil, "fractional school day")
+assertEqual(CampusCourierActivity.getDailyInstanceId(0, "server-a", 1), nil, "invalid player id")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "", 1), nil, "blank schedule namespace")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server:a", 1), nil, "unsafe schedule namespace")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server-a", 0), nil, "invalid school day")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server-a", 1.5), nil, "fractional school day")
+assert(
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 1)
+        ~= CampusCourierActivity.getDailyInstanceId(123, "server-b", 1),
+    "independent server schedules must not share completion receipts"
+)
 
 local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
@@ -232,7 +248,7 @@ assert(returnLobbyReplay == returnLobbyStop, "resolved courier retry must return
 local courierCompletion = CampusCourierActivity.buildCompletion(courier, 1006)
 assertEqual(
     courierCompletion.completionId,
-    "activity:player:123:day:1:campus_courier",
+    "activity:player:123:schedule:server-a:day:1:campus_courier",
     "courier completion receipt"
 )
 assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
