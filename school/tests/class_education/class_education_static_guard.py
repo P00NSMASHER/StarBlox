@@ -12,22 +12,37 @@ assert 'prompt = "What is 7 + 5?"' in catalog
 assert 'ela = table.freeze({' in catalog
 assert 'science = table.freeze({' in catalog
 for subject in ("math", "ela", "science"):
-    assert catalog.count(f'subject = "{subject}"') == 2, (
-        f"{subject} must provide exactly two rotating activities"
+    assert catalog.count(f'subject = "{subject}"') == 3, (
+        f"{subject} must provide exactly three rotating activities"
     )
 for activity_id in (
     "math_addition_7_5",
     "math_subtraction_18_9",
+    "math_equal_groups_03",
     "ela_main_idea_01",
     "ela_sequence_01",
+    "ela_context_clues_03",
     "science_plants_01",
     "science_melting_01",
+    "science_forces_03",
 ):
     assert f'id = "{activity_id}"' in catalog, f"missing activity: {activity_id}"
 assert 'function ActivityCatalog.getForClass(classId, dayIndex)' in catalog
 assert 'type(dayIndex) ~= "number"' in catalog
 assert 'dayIndex % 1 ~= 0' in catalog
 assert 'local activityIndex = ((dayIndex - 1) % #activitySet) + 1' in catalog
+assert 'function ActivityCatalog.validateActivity(classId, activity)' in catalog
+assert 'activity.subject ~= classId' in catalog
+assert '#activity.choices < 2' in catalog
+assert 'return false, "DUPLICATE_CHOICE_ID"' in catalog
+assert 'return false, "CORRECT_CHOICE_MISSING"' in catalog
+assert 'assert(not seenActivityIds[activity.id]' in catalog
+validation_pos = catalog.index('function ActivityCatalog.validateActivity(classId, activity)')
+catalog_check_pos = catalog.index('local seenActivityIds = {}')
+lookup_pos = catalog.index('function ActivityCatalog.getForClass(classId, dayIndex)')
+assert validation_pos < catalog_check_pos < lookup_pos, (
+    "catalog must fail closed before serving any activity"
+)
 
 public_block_start = session.index("function EducationSession.getPublicActivity")
 public_block_end = session.index("function EducationSession.submit")
@@ -61,12 +76,20 @@ assert 'local sessionClassesByUserId = {}' in service
 assert 'local sessionLocationsByUserId = {}' in service
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
 assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
-assert 'foundation.periodId ~= sessionClassesByUserId[player.UserId]' in service
+assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in service
+assert 'local expectedLocationId = sessionLocationsByUserId[player.UserId]' in service
+assert 'foundation.periodId ~= activeClassId' in service
 assert 'foundation.locationId ~= expectedLocationId' in service
 assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
 assert 'actualLocationId = foundation.locationId' in service
 assert service.count('expectedLocationId = expectedLocationId') >= 4
 assert 'classId = foundation.periodId' in service
+assert service.count('classId = activeClassId') == 3, (
+    "period-ended, location-mismatch, and left-location responses must retain class identity"
+)
+assert service.count('expectedLocationId = expectedLocationId') == 5, (
+    "two attendance and three active-session failures must retain the classroom cue"
+)
 assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
 assert 'classId = completedClassId' in service
@@ -78,6 +101,11 @@ assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
+context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
+period_close = service.index('reason = "CLASS_PERIOD_ENDED"')
+assert context_capture < period_close, (
+    "session class/location context must be captured before transition closure clears it"
+)
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
 assert 'EducationCore.closeSession(sessionId)' in service

@@ -121,16 +121,60 @@ for _, classId in ipairs({ "math", "ela", "science" }) do
     local firstDayActivity = ActivityCatalog.getForClass(classId, 1)
     local secondDayActivity = ActivityCatalog.getForClass(classId, 2)
     local thirdDayActivity = ActivityCatalog.getForClass(classId, 3)
+    local fourthDayActivity = ActivityCatalog.getForClass(classId, 4)
 
     assert(firstDayActivity ~= nil, classId .. " day-one activity missing")
     assert(secondDayActivity ~= nil, classId .. " day-two activity missing")
+    assert(thirdDayActivity ~= nil, classId .. " day-three activity missing")
     assertEqual(firstDayActivity.subject, classId, classId .. " day-one subject")
     assertEqual(secondDayActivity.subject, classId, classId .. " day-two subject")
-    assert(firstDayActivity.id ~= secondDayActivity.id, classId .. " activities must rotate")
-    assertEqual(thirdDayActivity.id, firstDayActivity.id, classId .. " rotation must repeat deterministically")
+    assertEqual(thirdDayActivity.subject, classId, classId .. " day-three subject")
+    assert(firstDayActivity.id ~= secondDayActivity.id, classId .. " day one and two must differ")
+    assert(secondDayActivity.id ~= thirdDayActivity.id, classId .. " day two and three must differ")
+    assert(firstDayActivity.id ~= thirdDayActivity.id, classId .. " day one and three must differ")
+    assertEqual(fourthDayActivity.id, firstDayActivity.id, classId .. " rotation must repeat deterministically")
 end
 assertEqual(ActivityCatalog.getForClass("math", 0), nil, "invalid day must fail closed")
 assertEqual(ActivityCatalog.getForClass("unknown", 1), nil, "unknown class must fail closed")
+
+local catalogActivity = ActivityCatalog.getForClass("math", 1)
+local catalogValid, catalogReason = ActivityCatalog.validateActivity("math", catalogActivity)
+assertEqual(catalogValid, true, "catalog activity validation")
+assertEqual(catalogReason, nil, "valid catalog activity reason")
+
+local duplicateChoiceValid, duplicateChoiceReason = ActivityCatalog.validateActivity("math", {
+    id = "math_invalid_duplicate_choice",
+    subject = "math",
+    skill = "addition",
+    difficulty = 1,
+    prompt = "Which answer is correct?",
+    choices = {
+        { id = "a", text = "One" },
+        { id = "a", text = "Two" },
+    },
+    correctChoiceId = "a",
+    hint = "Check the choices.",
+    explanation = "Only one choice ID may be used.",
+})
+assertEqual(duplicateChoiceValid, false, "duplicate choice IDs must fail closed")
+assertEqual(duplicateChoiceReason, "DUPLICATE_CHOICE_ID", "duplicate choice reason")
+
+local missingAnswerValid, missingAnswerReason = ActivityCatalog.validateActivity("science", {
+    id = "science_invalid_missing_answer",
+    subject = "science",
+    skill = "observation",
+    difficulty = 1,
+    prompt = "Which answer is correct?",
+    choices = {
+        { id = "a", text = "First" },
+        { id = "b", text = "Second" },
+    },
+    correctChoiceId = "c",
+    hint = "Check the choices.",
+    explanation = "The correct choice must be available.",
+})
+assertEqual(missingAnswerValid, false, "missing correct choice must fail closed")
+assertEqual(missingAnswerReason, "CORRECT_CHOICE_MISSING", "missing correct choice reason")
 
 -- Education session authority, idempotency, closure, and bounded receipt behavior.
 local activity = {

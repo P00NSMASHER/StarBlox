@@ -1,5 +1,56 @@
 local ActivityCatalog = {}
 
+local function isNonEmptyString(value)
+    return type(value) == "string" and value ~= ""
+end
+
+function ActivityCatalog.validateActivity(classId, activity)
+    if not isNonEmptyString(classId) or type(activity) ~= "table" then
+        return false, "INVALID_ACTIVITY"
+    end
+
+    if not isNonEmptyString(activity.id)
+        or activity.subject ~= classId
+        or not isNonEmptyString(activity.skill)
+        or type(activity.difficulty) ~= "number"
+        or activity.difficulty < 1
+        or activity.difficulty % 1 ~= 0
+        or not isNonEmptyString(activity.prompt)
+        or not isNonEmptyString(activity.hint)
+        or not isNonEmptyString(activity.explanation)
+        or type(activity.choices) ~= "table"
+        or #activity.choices < 2
+    then
+        return false, "INVALID_ACTIVITY"
+    end
+
+    local seenChoiceIds = {}
+    local correctChoiceFound = false
+    for _, choice in ipairs(activity.choices) do
+        if type(choice) ~= "table"
+            or not isNonEmptyString(choice.id)
+            or not isNonEmptyString(choice.text)
+        then
+            return false, "INVALID_CHOICE"
+        end
+
+        if seenChoiceIds[choice.id] then
+            return false, "DUPLICATE_CHOICE_ID"
+        end
+        seenChoiceIds[choice.id] = true
+
+        if choice.id == activity.correctChoiceId then
+            correctChoiceFound = true
+        end
+    end
+
+    if not correctChoiceFound then
+        return false, "CORRECT_CHOICE_MISSING"
+    end
+
+    return true, nil
+end
+
 local ACTIVITIES = table.freeze({
     math = table.freeze({
         table.freeze({
@@ -34,6 +85,22 @@ local ACTIVITIES = table.freeze({
             hint = "Count backward nine steps from eighteen.",
             explanation = "Eighteen minus nine equals nine.",
         }),
+        table.freeze({
+            id = "math_equal_groups_03",
+            subject = "math",
+            skill = "equal_groups",
+            difficulty = 1,
+            prompt = "Three trays hold 4 muffins each. How many muffins are there?",
+            choices = table.freeze({
+                table.freeze({ id = "a", text = "7" }),
+                table.freeze({ id = "b", text = "10" }),
+                table.freeze({ id = "c", text = "12" }),
+                table.freeze({ id = "d", text = "14" }),
+            }),
+            correctChoiceId = "c",
+            hint = "Add four muffins for each of the three trays.",
+            explanation = "Three groups of four make twelve muffins.",
+        }),
     }),
     ela = table.freeze({
         table.freeze({
@@ -65,6 +132,21 @@ local ACTIVITIES = table.freeze({
             correctChoiceId = "a",
             hint = "Look for the next event in the sentence.",
             explanation = "After packing lunch, Maya rode the bus.",
+        }),
+        table.freeze({
+            id = "ela_context_clues_03",
+            subject = "ela",
+            skill = "context_clues",
+            difficulty = 1,
+            prompt = "The timid puppy hid behind the chair when visitors arrived. What does timid mean?",
+            choices = table.freeze({
+                table.freeze({ id = "a", text = "Shy or afraid" }),
+                table.freeze({ id = "b", text = "Loud and bold" }),
+                table.freeze({ id = "c", text = "Hungry" }),
+            }),
+            correctChoiceId = "a",
+            hint = "Use the puppy's hiding behavior as a clue.",
+            explanation = "Timid means shy or easily frightened.",
         }),
     }),
     science = table.freeze({
@@ -98,8 +180,34 @@ local ACTIVITIES = table.freeze({
             hint = "Melting changes a solid into a liquid.",
             explanation = "An ice cube melts into liquid water.",
         }),
+        table.freeze({
+            id = "science_forces_03",
+            subject = "science",
+            skill = "force_and_motion",
+            difficulty = 1,
+            prompt = "Which action is a push?",
+            choices = table.freeze({
+                table.freeze({ id = "a", text = "Opening a drawer toward you" }),
+                table.freeze({ id = "b", text = "Moving a cart away from you" }),
+                table.freeze({ id = "c", text = "Lifting a book straight up" }),
+            }),
+            correctChoiceId = "b",
+            hint = "A push moves an object away from you.",
+            explanation = "Moving a cart away from you applies a push.",
+        }),
     }),
 })
+
+local seenActivityIds = {}
+for classId, activitySet in pairs(ACTIVITIES) do
+    assert(#activitySet >= 2, classId .. " needs at least two activities")
+    for _, activity in ipairs(activitySet) do
+        local valid, reason = ActivityCatalog.validateActivity(classId, activity)
+        assert(valid, string.format("%s activity %s is invalid: %s", classId, tostring(activity.id), tostring(reason)))
+        assert(not seenActivityIds[activity.id], "duplicate activity id: " .. activity.id)
+        seenActivityIds[activity.id] = true
+    end
+end
 
 function ActivityCatalog.getForClass(classId, dayIndex)
     local activitySet = ACTIVITIES[classId]
