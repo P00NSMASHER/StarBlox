@@ -47,8 +47,18 @@ assert 'reportCardButton.Text = "Grades"' in client
 assert 'reportCardPanel.Name = "ReportCardPanel"' in client
 assert 'reportCardPanel.Size = UDim2.fromOffset(236, 132)' in client
 assert 'reportCardPanel.Visible = false' in client
+assert 'local function setReportCardVisible(visible)' in client
+assert 'reportCardPanel.Visible = visible' in client
 assert 'reportCardButton.Activated:Connect' in client
-assert 'reportCardButton.Text = reportCardPanel.Visible and "Close" or "Grades"' in client
+assert 'setReportCardVisible(not reportCardPanel.Visible)' in client
+assert 'setReportCardVisible(false)' in client
+assert 'local canOpenReportCard = currentSessionId == nil' in client
+assert 'reportCardButton.Active = canOpenReportCard' in client
+assert 'reportCardButton.AutoButtonColor = canOpenReportCard' in client
+assert 'reportCardButton.Text = "In Class"' in client
+close_index = client.index('setReportCardVisible(false)')
+show_index = client.index('questionFrame.Visible = true', close_index)
+assert close_index < show_index, "Grades overlay must close before activity controls appear"
 assert client.count('Color3.fromRGB(20, 38, 67)') >= 2, "compact menu needs accessible navy surfaces"
 assert client.count('Color3.fromRGB(255, 255, 255)') >= 2, "compact menu needs high-contrast text"
 assert '0, 44' in client, "touch targets must be at least 44px high"

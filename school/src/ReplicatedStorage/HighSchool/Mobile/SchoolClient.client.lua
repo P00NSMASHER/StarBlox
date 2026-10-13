@@ -82,9 +82,13 @@ for index, classId in ipairs(REPORT_CARD_CLASS_IDS) do
     reportCardRows[classId] = row
 end
 
+local function setReportCardVisible(visible)
+    reportCardPanel.Visible = visible
+    reportCardButton.Text = visible and "Close" or "Grades"
+end
+
 reportCardButton.Activated:Connect(function()
-    reportCardPanel.Visible = not reportCardPanel.Visible
-    reportCardButton.Text = reportCardPanel.Visible and "Close" or "Grades"
+    setReportCardVisible(not reportCardPanel.Visible)
 end)
 
 local function waitForHighSchool()
@@ -416,6 +420,7 @@ end
 
 local function showActivity(activity)
     clearChoices()
+    setReportCardVisible(false)
     progressionLabel.Visible = false
     promptLabel.Text = activity.prompt or "Class activity"
     local choices = activity.choices or {}
@@ -498,6 +503,17 @@ task.spawn(function()
             attendButton.Text = "Attend " .. CLASS_NAMES[periodId]
         else
             attendButton.Text = "Class Unavailable"
+        end
+
+        local canOpenReportCard = currentSessionId == nil
+        reportCardButton.Active = canOpenReportCard
+        reportCardButton.AutoButtonColor = canOpenReportCard
+        if not canOpenReportCard then
+            reportCardButton.Text = "In Class"
+        elseif reportCardPanel.Visible then
+            reportCardButton.Text = "Close"
+        else
+            reportCardButton.Text = "Grades"
         end
 
         if periodId ~= lastPeriodId then
