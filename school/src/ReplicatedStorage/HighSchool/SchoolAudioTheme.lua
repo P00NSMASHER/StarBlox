@@ -38,6 +38,11 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
         targetVolume = 0.16,
         maxDistance = 40,
     }),
+    gym = table.freeze({
+        token = "ambience_gym_activity",
+        targetVolume = 0.14,
+        maxDistance = 36,
+    }),
 })
 
 SchoolAudioTheme.CUES = table.freeze({
