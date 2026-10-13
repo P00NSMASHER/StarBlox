@@ -90,9 +90,12 @@ assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in bu
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
-assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
-for location_id in location_ids:
+core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
+planned_location_ids = {"gym"}
+theme_location_ids = core_location_ids | planned_location_ids
+assert core_location_ids <= location_ids, "canonical campus location missing"
+assert location_ids <= theme_location_ids, "unexpected location id"
+for location_id in theme_location_ids:
     assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
 
 code_block = re.search(
@@ -102,7 +105,9 @@ code_block = re.search(
 )
 assert code_block, "location wayfinding codes missing"
 location_codes = dict(re.findall(r'([a-z]+)\s*=\s*"([A-Z]+)"', code_block.group(1)))
-assert set(location_codes) == location_ids, "wayfinding codes must cover the location registry exactly"
+assert set(location_codes) == theme_location_ids, (
+    "wayfinding codes must cover current and planned canonical destinations exactly"
+)
 assert len(set(location_codes.values())) == len(location_codes), "wayfinding codes must be unique"
 assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
     "wayfinding codes must be compact three-letter uppercase labels"
@@ -116,14 +121,18 @@ assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain as
 sign_background = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_BACKGROUND")
 sign_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_TEXT")
 ela_accent = rgb_assignment(visual_theme, "ela")
+gym_accent = rgb_assignment(visual_theme, "gym")
 assert contrast_ratio(sign_text, sign_background) >= 4.5, (
     "wayfinding badge text must meet 4.5:1 contrast"
 )
 assert contrast_ratio(ela_accent, sign_background) >= 3.0, (
     "Language Arts accent outline must meet 3:1 contrast"
 )
+assert contrast_ratio(gym_accent, sign_background) >= 3.0, (
+    "Gym accent outline must meet 3:1 contrast"
+)
 
-for location_id in location_ids:
+for location_id in theme_location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
         f"missing ambience specification: {location_id}"
     )
@@ -137,14 +146,14 @@ ambience_volumes = [
     float(value)
     for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
 ]
-assert len(ambience_volumes) == len(location_ids) + 3, "unexpected audio mix token count"
+assert len(ambience_volumes) == len(theme_location_ids) + 3, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
 max_distances = [
     int(value)
     for value in re.findall(r"maxDistance\s*=\s*(\d+)", audio_theme)
 ]
-assert len(max_distances) == len(location_ids), "every ambience zone needs one max distance"
+assert len(max_distances) == len(theme_location_ids), "every ambience zone needs one max distance"
 assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
 
 cue_durations = [
@@ -185,6 +194,7 @@ assert all(1 <= priority <= 3 for priority in cue_priorities), "cue priority out
 assert "function SchoolAudioTheme.getCuePriority(cueId)" in audio_theme
 assert "return cue and cue.priority or nil" in audio_theme
 
+assert 'token = "ambience_gym_activity"' in audio_theme
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme
