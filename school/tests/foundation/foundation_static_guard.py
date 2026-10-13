@@ -212,6 +212,21 @@ assert ("EntranceToLobby", "entrance", "lobby") in route_segments, (
 assert ("LobbyToGym", "lobby", "gym") in route_segments, (
     "gym must remain directly connected to the central lobby network"
 )
+assert ("GymToCafeteria", "gym", "cafeteria") in route_segments, (
+    "gym must have a short southern corridor to cafeteria"
+)
+undirected_route_edges = {
+    frozenset((from_id, to_id))
+    for _, from_id, to_id in route_segments
+}
+southern_loop_edges = {
+    frozenset(("lobby", "gym")),
+    frozenset(("gym", "cafeteria")),
+    frozenset(("cafeteria", "lobby")),
+}
+assert southern_loop_edges.issubset(undirected_route_edges), (
+    "gym, cafeteria, and lobby must form a connected circulation loop"
+)
 outdoor_routes = {
     ("OutdoorEntranceToScience", "entrance", "science"),
     ("OutdoorEntranceToCafeteria", "entrance", "cafeteria"),
@@ -228,8 +243,8 @@ destination_routes = [
 assert {to_id for _, _, to_id in destination_routes} == location_ids - {"lobby"}, (
     "every non-lobby destination must have one direct lobby route"
 )
-assert len(route_segments) == len(location_ids) + len(outdoor_routes), (
-    "route network must contain its core spokes plus the two-link outdoor loop"
+assert len(route_segments) == len(location_ids) + len(outdoor_routes) + 1, (
+    "route network must contain core spokes, the outdoor loop, and one southern corridor"
 )
 
 route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
