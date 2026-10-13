@@ -192,6 +192,7 @@ choicesLayout.Parent = choicesRow
 
 local currentSessionId = nil
 local currentClassId = nil
+local answerPending = false
 local lastCompletedCount = nil
 local lastPeriodId = nil
 
@@ -278,7 +279,17 @@ local function safeInvoke(remote, ...)
     return result
 end
 
+local function setChoiceButtonsEnabled(enabled)
+    for _, child in ipairs(choicesRow:GetChildren()) do
+        if child:IsA("TextButton") then
+            child.Active = enabled
+            child.AutoButtonColor = enabled
+        end
+    end
+end
+
 local function clearChoices()
+    answerPending = false
     for _, child in ipairs(choicesRow:GetChildren()) do
         if child:IsA("TextButton") then
             child:Destroy()
@@ -347,6 +358,7 @@ local function finishSession(message, shouldWaitForProgression)
     currentSessionId = nil
     currentClassId = nil
     questionFrame.Visible = false
+    progressionLabel.Visible = true
     clearChoices()
     statusLabel.Text = message
 
@@ -358,13 +370,19 @@ local function finishSession(message, shouldWaitForProgression)
 end
 
 local function submitChoice(choiceId)
-    if not currentSessionId then
+    if not currentSessionId or answerPending then
         return
     end
+
+    answerPending = true
+    setChoiceButtonsEnabled(false)
+    statusLabel.Text = "Submitting answer…"
 
     local submissionId = HttpService:GenerateGUID(false)
     local response, invokeError = safeInvoke(submitAnswer, currentSessionId, submissionId, choiceId)
     if not response then
+        answerPending = false
+        setChoiceButtonsEnabled(true)
         statusLabel.Text = answerFailureMessage(response, invokeError)
         return
     end
@@ -380,6 +398,8 @@ local function submitChoice(choiceId)
         then
             finishSession(answerFailureMessage(response, invokeError), false)
         else
+            answerPending = false
+            setChoiceButtonsEnabled(true)
             statusLabel.Text = answerFailureMessage(response, invokeError)
         end
         return
@@ -388,12 +408,15 @@ local function submitChoice(choiceId)
     if response.resolved then
         finishSession(response.explanation or "Class complete. Saving progress…", true)
     else
+        answerPending = false
+        setChoiceButtonsEnabled(true)
         statusLabel.Text = response.hint or "Try again."
     end
 end
 
 local function showActivity(activity)
     clearChoices()
+    progressionLabel.Visible = false
     promptLabel.Text = activity.prompt or "Class activity"
     local choices = activity.choices or {}
 

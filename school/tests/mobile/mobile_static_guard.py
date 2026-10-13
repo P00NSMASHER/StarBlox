@@ -54,6 +54,12 @@ assert client.count('Color3.fromRGB(255, 255, 255)') >= 2, "compact menu needs h
 assert '0, 44' in client, "touch targets must be at least 44px high"
 assert 'button.Size = UDim2.new(1 / math.max(1, #choices), -6, 0, 44)' in client
 assert 'questionFrame.Visible = false' in client
+assert 'progressionLabel.Visible = false' in client
+assert 'progressionLabel.Visible = true' in client
+active_class_height = (26 * 3) + 32 + 46 + 68 + (6 * 5)
+assert active_class_height <= 264, (
+    "active class rows must fit the capped phone panel without reducing 44px targets"
+)
 assert 'finishSession("Back to free roam.", false)' in client
 assert 'waitForProgressionAdvance' in client
 assert 'local function updateReportCard(reportCard)' in client
@@ -121,6 +127,22 @@ assert 'currentClassId = FoundationState and FoundationState.getSnapshot().perio
 assert 'if not CLASS_PERIODS[currentClassId] then' in client
 assert 'finishSession("Class start could not be verified. Try again.", false)' in client
 assert 'showActivity(activity)' in client
+
+assert 'local answerPending = false' in client
+assert 'local function setChoiceButtonsEnabled(enabled)' in client
+assert 'if not currentSessionId or answerPending then' in client
+assert 'answerPending = true' in client
+assert 'setChoiceButtonsEnabled(false)' in client
+assert 'statusLabel.Text = "Submitting answer…"' in client
+assert client.count('answerPending = false') >= 4, (
+    "answer controls must recover after retries, hints, and session cleanup"
+)
+assert client.count('setChoiceButtonsEnabled(true)') >= 3, (
+    "answer choices must be restored after recoverable responses"
+)
+pending_index = client.index('answerPending = true')
+invoke_index = client.index('safeInvoke(submitAnswer', pending_index)
+assert pending_index < invoke_index, "choices must lock before the server request"
 
 assert 'if not remote then return nil, "SERVER_UNAVAILABLE" end' in client
 assert 'FoundationState and FoundationState.getSnapshot() or {}' in client
