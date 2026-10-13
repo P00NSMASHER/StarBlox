@@ -35,8 +35,8 @@ jobs:
           test "${{ inputs.artifact_sha256 }}" = "$EXPECTED_SHA256"
           test -s "$ARTIFACT"
           echo "$EXPECTED_SHA256  $ARTIFACT" | sha256sum --check --strict
-          grep -q '<string name="Name">PipHigh</string>' "$ARTIFACT"
-          grep -q '<string name="Name">SchoolCampus</string>' "$ARTIFACT" || grep -q 'SchoolCampus' "$ARTIFACT"
+          grep -q 'PipHighEconomyV1' "$ARTIFACT"
+          grep -q 'SchoolCampus' "$ARTIFACT"
           grep -q 'CulinaryIsland' "$ARTIFACT"
 
       - name: Publish exact candidate to confirmed private place
