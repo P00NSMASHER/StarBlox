@@ -118,7 +118,10 @@ assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in bu
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
+assert len(location_ids) == 6, "unexpected location count"
+assert 'id = "gym", name = "Gym & Fitness", position = Vector3.new(-36, 3, -36)' in config, (
+    "compact gym destination must remain inside the southwest campus corner"
+)
 for location_id in location_ids:
     assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
 
@@ -135,6 +138,10 @@ assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values())
 code_text_size_match = re.search(r"SIGN_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
 assert code_text_size_match and int(code_text_size_match.group(1)) >= 16
 
+assert 'gym = "GYM"' in visual_theme
+assert 'gym = Color3.fromRGB(105, 180, 75)' in visual_theme
+assert 'gym = table.freeze({' in audio_theme
+assert 'token = "ambience_gym_activity"' in audio_theme
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
@@ -201,6 +208,9 @@ assert all(
 ), "campus route references unknown node"
 assert ("EntranceToLobby", "entrance", "lobby") in route_segments, (
     "front entrance must have a direct lobby route"
+)
+assert ("LobbyToGym", "lobby", "gym") in route_segments, (
+    "gym must remain directly connected to the central lobby network"
 )
 outdoor_routes = {
     ("OutdoorEntranceToScience", "entrance", "science"),
