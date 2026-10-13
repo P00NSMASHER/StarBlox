@@ -212,6 +212,14 @@ local function locationDisplayName(locationId)
     return tostring(locationId or "unknown")
 end
 
+local function distanceHint(result)
+    local distance = type(result) == "table" and tonumber(result.distanceStuds) or nil
+    if not distance or distance < 0 then
+        return ""
+    end
+    return string.format(" (%d studs away)", math.clamp(math.ceil(distance), 0, 999))
+end
+
 local function beginClassFailureMessage(result, invokeError)
     if invokeError == "SERVER_UNAVAILABLE" or not result then
         return "School services are loading. Try again."
@@ -226,7 +234,7 @@ local function beginClassFailureMessage(result, invokeError)
     local className = CLASS_NAMES[classId] or "class"
     local expectedLocationName = locationDisplayName(result.expectedLocationId or classId)
     if reason == "NOT_AT_CLASS_LOCATION" then
-        return "Go to " .. expectedLocationName .. " to attend " .. className .. "."
+        return "Go to " .. expectedLocationName .. distanceHint(result) .. " to attend " .. className .. "."
     end
     if reason == "CLASS_LOCATION_MISMATCH" then
         return "Classroom directions are updating. Go to " .. expectedLocationName .. "."
@@ -256,7 +264,8 @@ local function answerFailureMessage(response, invokeError)
         return "Class ended. Back to free roam."
     end
     if reason == "LEFT_CLASS_LOCATION" then
-        return "You left the classroom. Back to free roam."
+        local expectedLocationName = locationDisplayName(response.expectedLocationId)
+        return "You left " .. expectedLocationName .. distanceHint(response) .. ". Back to free roam."
     end
     if reason == "CLASS_LOCATION_MISMATCH" then
         local expectedLocationName = locationDisplayName(response.expectedLocationId)

@@ -84,7 +84,8 @@ assert 'Progress is still saving.' in client
 assert 'local function answerFailureMessage(response, invokeError)' in client
 assert 'Could not submit answer. Check your connection and try again.' in client
 assert 'Class ended. Back to free roam.' in client
-assert 'You left the classroom. Back to free roam.' in client
+assert 'local expectedLocationName = locationDisplayName(response.expectedLocationId)' in client
+assert 'You left " .. expectedLocationName .. distanceHint(response) .. ". Back to free roam.' in client
 assert 'Classroom directions changed. Go to " .. expectedLocationName' in client
 assert 'That answer could not be sent. Try again.' in client
 assert 'Too many attempts. Leave and attend class again.' in client
@@ -117,15 +118,22 @@ assert 'attendButton.Text = "Attend " .. CLASS_NAMES[periodId]' in client
 assert 'attendButton.Text = "Class Unavailable"' in client
 assert 'locationDisplayName' in client
 assert 'return CLASS_NAMES[locationId] .. " Classroom"' in client
+assert 'local function distanceHint(result)' in client
+assert 'type(result) == "table" and tonumber(result.distanceStuds) or nil' in client
+assert 'if not distance or distance < 0 then' in client
+assert 'math.clamp(math.ceil(distance), 0, 999)' in client
+assert 'return string.format(" (%d studs away)",' in client
 assert 'local function beginClassFailureMessage(result, invokeError)' in client
 assert 'School services are loading. Try again.' in client
 assert 'No class is open right now.' in client
-assert 'Go to " .. expectedLocationName .. " to attend " .. className' in client
+assert 'Go to " .. expectedLocationName .. distanceHint(result) .. " to attend " .. className' in client
 assert 'Classroom directions are updating. Go to " .. expectedLocationName' in client
 assert 'Class is not ready yet. Try again.' in client
 assert 'reason == "CLASS_ALREADY_COMPLETED"' in client
 assert 'is already complete for this period. Check Grades for your saved result.' in client
 assert 'statusLabel.Text = beginClassFailureMessage(result, invokeError)' in client
+assert 'distanceStuds' in client, "PH04 authoritative distance cue must be consumed"
+assert 'root.Position' not in client, "mobile HUD must not calculate attendance distance"
 assert 'statusLabel.Text = (result and result.reason)' not in client, (
     "mobile HUD must not expose raw attendance reason codes"
 )
