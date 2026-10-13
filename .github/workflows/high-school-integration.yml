@@ -55,6 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           curl --fail --location --silent --show-error --retry 3 --retry-all-errors --connect-timeout 10 --max-time 120 "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip" --output luau.zip
+          echo "7d4035db01816f977f6e4c42e3d5e8ef4235d95e9afe63a3c38905b42dde60f2  luau.zip" | sha256sum --check --strict -
           unzip -q luau.zip -d luau-bin
           chmod +x luau-bin/luau*
           test -x luau-bin/luau
@@ -67,6 +68,7 @@ jobs:
         run: |
           set -euo pipefail
           curl --fail --location --silent --show-error --retry 3 --retry-all-errors --connect-timeout 10 --max-time 120 "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" --output rojo.zip
+          echo "22503e5839864f9d7c2171c48b536fc229f2cc4d8774c9cc149f60941d864073  rojo.zip" | sha256sum --check --strict -
           unzip -q rojo.zip -d rojo-bin
           chmod +x rojo-bin/rojo
           rojo-bin/rojo --version

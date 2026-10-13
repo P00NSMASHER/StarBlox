@@ -44,6 +44,28 @@ for archive_url in (
     assert download_retry_policy in download_line, (
         f"pinned tool download lacks bounded retry policy: {archive_url}"
     )
+
+tool_archive_digests = {
+    "luau.zip": "7d4035db01816f977f6e4c42e3d5e8ef4235d95e9afe63a3c38905b42dde60f2",
+    "rojo.zip": "22503e5839864f9d7c2171c48b536fc229f2cc4d8774c9cc149f60941d864073",
+}
+for archive_name, expected_digest in tool_archive_digests.items():
+    download_marker = f"--output {archive_name}"
+    checksum_command = (
+        f'echo "{expected_digest}  {archive_name}" '
+        "| sha256sum --check --strict -"
+    )
+    unzip_marker = f"unzip -q {archive_name}"
+    assert checksum_command in workflow, (
+        f"{archive_name} must be authenticated against its reviewed release digest"
+    )
+    assert workflow.index(download_marker) < workflow.index(checksum_command), (
+        f"{archive_name} checksum must run after download"
+    )
+    assert workflow.index(checksum_command) < workflow.index(unzip_marker), (
+        f"{archive_name} checksum must pass before extraction or execution"
+    )
+
 assert 'os.environ["CANDIDATE_SOURCE_SHA"]' in workflow, (
     "build receipt must record the resolved candidate SHA"
 )
