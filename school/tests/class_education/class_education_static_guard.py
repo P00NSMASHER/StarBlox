@@ -35,6 +35,10 @@ assert 'function ActivityCatalog.validateActivity(classId, activity)' in catalog
 assert 'activity.subject ~= classId' in catalog
 assert '#activity.choices < 2' in catalog
 assert 'return false, "DUPLICATE_CHOICE_ID"' in catalog
+assert 'local function canonicalChoiceText(value)' in catalog
+assert 'string.lower((value:gsub("^%s+", ""):gsub("%s+$", "")))' in catalog
+assert 'local seenChoiceTexts = {}' in catalog
+assert 'return false, "DUPLICATE_CHOICE_TEXT"' in catalog
 assert 'return false, "CORRECT_CHOICE_MISSING"' in catalog
 assert 'assert(not seenActivityIds[activity.id]' in catalog
 validation_pos = catalog.index('function ActivityCatalog.validateActivity(classId, activity)')

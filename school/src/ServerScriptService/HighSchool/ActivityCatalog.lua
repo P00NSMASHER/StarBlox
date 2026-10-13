@@ -4,6 +4,13 @@ local function isNonEmptyString(value)
     return type(value) == "string" and value ~= ""
 end
 
+local function canonicalChoiceText(value)
+    if type(value) ~= "string" then
+        return nil
+    end
+    return string.lower((value:gsub("^%s+", ""):gsub("%s+$", "")))
+end
+
 function ActivityCatalog.validateActivity(classId, activity)
     if not isNonEmptyString(classId) or type(activity) ~= "table" then
         return false, "INVALID_ACTIVITY"
@@ -25,11 +32,16 @@ function ActivityCatalog.validateActivity(classId, activity)
     end
 
     local seenChoiceIds = {}
+    local seenChoiceTexts = {}
     local correctChoiceFound = false
     for _, choice in ipairs(activity.choices) do
+        local canonicalText = type(choice) == "table"
+            and canonicalChoiceText(choice.text)
+            or nil
         if type(choice) ~= "table"
             or not isNonEmptyString(choice.id)
-            or not isNonEmptyString(choice.text)
+            or not canonicalText
+            or canonicalText == ""
         then
             return false, "INVALID_CHOICE"
         end
@@ -38,6 +50,11 @@ function ActivityCatalog.validateActivity(classId, activity)
             return false, "DUPLICATE_CHOICE_ID"
         end
         seenChoiceIds[choice.id] = true
+
+        if seenChoiceTexts[canonicalText] then
+            return false, "DUPLICATE_CHOICE_TEXT"
+        end
+        seenChoiceTexts[canonicalText] = true
 
         if choice.id == activity.correctChoiceId then
             correctChoiceFound = true

@@ -159,6 +159,23 @@ local duplicateChoiceValid, duplicateChoiceReason = ActivityCatalog.validateActi
 assertEqual(duplicateChoiceValid, false, "duplicate choice IDs must fail closed")
 assertEqual(duplicateChoiceReason, "DUPLICATE_CHOICE_ID", "duplicate choice reason")
 
+local duplicateTextValid, duplicateTextReason = ActivityCatalog.validateActivity("science", {
+    id = "science_invalid_duplicate_text",
+    subject = "science",
+    skill = "plant_needs",
+    difficulty = 1,
+    prompt = "Which answer is correct?",
+    choices = {
+        { id = "a", text = "Water and light" },
+        { id = "b", text = "  WATER AND LIGHT  " },
+    },
+    correctChoiceId = "a",
+    hint = "Compare the visible answers.",
+    explanation = "Answer labels must be distinct.",
+})
+assertEqual(duplicateTextValid, false, "duplicate visible answers must fail closed")
+assertEqual(duplicateTextReason, "DUPLICATE_CHOICE_TEXT", "duplicate visible answer reason")
+
 local missingAnswerValid, missingAnswerReason = ActivityCatalog.validateActivity("science", {
     id = "science_invalid_missing_answer",
     subject = "science",
