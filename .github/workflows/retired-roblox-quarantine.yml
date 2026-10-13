@@ -1,0 +1,33 @@
+name: StarBlox retired publication quarantine QA
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/assert-retired-roblox-workflows.mjs'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/assert-retired-roblox-workflows.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-retirement-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout exact review source, without persisting credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify all old Roblox publish/restart paths disabled
+        run: node scripts/assert-retired-roblox-workflows.mjs
