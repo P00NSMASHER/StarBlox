@@ -19,6 +19,7 @@ SchoolVisualTheme.LOCATION_CODES = table.freeze({
     ela = "ELA",
     science = "SCI",
     cafeteria = "CAF",
+    gym = "GYM",
 })
 
 SchoolVisualTheme.LOCATION_ACCENTS = table.freeze({
@@ -27,6 +28,7 @@ SchoolVisualTheme.LOCATION_ACCENTS = table.freeze({
     ela = Color3.fromRGB(151, 101, 210),
     science = Color3.fromRGB(12, 139, 126),
     cafeteria = Color3.fromRGB(232, 151, 42),
+    gym = Color3.fromRGB(105, 180, 75),
 })
 
 function SchoolVisualTheme.getLocationCode(locationId)

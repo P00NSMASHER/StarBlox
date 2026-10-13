@@ -99,9 +99,12 @@ assert builder.count(
 ) == 1, "campus builder must keep one bounded location construction pass"
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
-assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
-for location_id in location_ids:
+core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
+planned_location_ids = {"gym"}
+theme_location_ids = core_location_ids | planned_location_ids
+assert core_location_ids <= location_ids, "canonical campus location missing"
+assert location_ids <= theme_location_ids, "unexpected location id"
+for location_id in theme_location_ids:
     assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
 
 code_block = re.search(
@@ -111,7 +114,9 @@ code_block = re.search(
 )
 assert code_block, "location wayfinding codes missing"
 location_codes = dict(re.findall(r'([a-z]+)\s*=\s*"([A-Z]+)"', code_block.group(1)))
-assert set(location_codes) == location_ids, "wayfinding codes must cover the location registry exactly"
+assert set(location_codes) == theme_location_ids, (
+    "wayfinding codes must cover current and planned canonical destinations exactly"
+)
 assert len(set(location_codes.values())) == len(location_codes), "wayfinding codes must be unique"
 assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
     "wayfinding codes must be compact three-letter uppercase labels"
@@ -151,7 +156,7 @@ assert badge_text_contrast >= 4.5, (
 
 location_accents = {
     location_id: palette_colors[location_id]
-    for location_id in location_ids
+    for location_id in theme_location_ids
 }
 assert len(set(location_accents.values())) == len(location_accents), (
     "destination accents must be unique"
@@ -165,14 +170,14 @@ for first_id, second_id in itertools.combinations(sorted(location_accents), 2):
         f"maximum channel delta {max_channel_delta}"
     )
 
-for location_id in location_ids:
+for location_id in theme_location_ids:
     accent_contrast = contrast_ratio(location_accents[location_id], sign_background)
     assert accent_contrast >= 3.0, (
         f"{location_id} sign outline contrast below 3:1: "
         f"{accent_contrast:.2f}:1"
     )
 
-for location_id in location_ids:
+for location_id in theme_location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
         f"missing ambience specification: {location_id}"
     )
@@ -186,14 +191,14 @@ ambience_volumes = [
     float(value)
     for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
 ]
-assert len(ambience_volumes) == len(location_ids) + 3, "unexpected audio mix token count"
+assert len(ambience_volumes) == len(theme_location_ids) + 3, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
 max_distances = [
     int(value)
     for value in re.findall(r"maxDistance\s*=\s*(\d+)", audio_theme)
 ]
-assert len(max_distances) == len(location_ids), "every ambience zone needs one max distance"
+assert len(max_distances) == len(theme_location_ids), "every ambience zone needs one max distance"
 assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
 
 cue_durations = [
@@ -331,17 +336,20 @@ assert "rbxassetid://" not in audio_theme.lower(), "audio specification must rem
 
 
 audio_tokens = re.findall(r'token\s*=\s*"([^"]+)"', audio_theme)
-assert len(audio_tokens) == len(location_ids) + 3, "unexpected audio identity token count"
+assert len(audio_tokens) == len(theme_location_ids) + 3, "unexpected audio identity token count"
 assert len(set(audio_tokens)) == len(audio_tokens), "audio identity tokens must be unique"
 assert all(
     re.fullmatch(r"[a-z][a-z0-9_]+", token)
     for token in audio_tokens
 ), "audio identity tokens must use lowercase semantic names"
-assert len([token for token in audio_tokens if token.startswith("ambience_")]) == len(location_ids), (
+assert len([token for token in audio_tokens if token.startswith("ambience_")]) == len(theme_location_ids), (
     "every location must keep an ambience namespace token"
 )
 assert len([token for token in audio_tokens if token.startswith("cue_")]) == 3, (
     "every feedback sound must keep a cue namespace token"
+)
+assert 'token = "ambience_gym_activity"' in audio_theme, (
+    "planned gym must keep its original semantic ambience token"
 )
 
 periods = re.findall(
