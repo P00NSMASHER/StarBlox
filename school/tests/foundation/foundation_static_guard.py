@@ -63,6 +63,7 @@ assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
 assert 'marker:SetAttribute("WayfindingCode", locationCode)' in builder
+assert 'marker:SetAttribute("RoomType", locationType)' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
@@ -100,6 +101,12 @@ assert 'text.Text = location.name' in builder
 assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
 assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
+assert 'roomType.Name = "RoomType"' in builder
+assert 'roomType.Text = locationType' in builder
+assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE' in builder
+assert 'roomType.TextScaled = false' in builder
+assert 'roomType.TextXAlignment = Enum.TextXAlignment.Left' in builder
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
@@ -124,6 +131,31 @@ assert len(set(location_codes.values())) == len(location_codes), "wayfinding cod
 assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
     "wayfinding codes must be compact three-letter uppercase labels"
 )
+
+type_block = re.search(
+    r"SchoolVisualTheme\.LOCATION_TYPES\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    visual_theme,
+    re.DOTALL,
+)
+assert type_block, "semantic room types missing"
+location_types = dict(
+    re.findall(r'([a-z]+)\s*=\s*"([A-Z ]+)"', type_block.group(1))
+)
+assert set(location_types) == theme_location_ids, (
+    "room types must cover current and planned canonical destinations exactly"
+)
+assert location_types["math"] == "CLASSROOM"
+assert location_types["ela"] == "CLASSROOM"
+assert location_types["science"] == "LAB CLASSROOM"
+assert all(re.fullmatch(r"[A-Z]+(?: [A-Z]+)?", label) for label in location_types.values()), (
+    "room types must remain short, uppercase, and glance-readable"
+)
+assert all(len(label) <= 14 for label in location_types.values()), (
+    "room types must fit the compact phone-readable sign line"
+)
+assert 'SIGN_TYPE_TEXT_SIZE = 13' in visual_theme
+assert 'function SchoolVisualTheme.getLocationType(locationId)' in visual_theme
+assert 'return SchoolVisualTheme.LOCATION_TYPES[locationId] or "DESTINATION"' in visual_theme
 
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme

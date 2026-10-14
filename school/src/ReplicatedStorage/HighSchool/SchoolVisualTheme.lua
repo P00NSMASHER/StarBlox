@@ -11,9 +11,10 @@ SchoolVisualTheme.SIGN_MAX_DISTANCE = 90
 SchoolVisualTheme.SIGN_MIN_TEXT_SIZE = 16
 SchoolVisualTheme.SIGN_MAX_TEXT_SIZE = 24
 SchoolVisualTheme.SIGN_WIDTH = 260
-SchoolVisualTheme.SIGN_HEIGHT = 52
+SchoolVisualTheme.SIGN_HEIGHT = 64
 SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH = 44
 SchoolVisualTheme.SIGN_CODE_TEXT_SIZE = 16
+SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE = 13
 
 SchoolVisualTheme.LOCATION_CODES = table.freeze({
     lobby = "LBY",
@@ -22,6 +23,15 @@ SchoolVisualTheme.LOCATION_CODES = table.freeze({
     science = "SCI",
     cafeteria = "CAF",
     gym = "GYM",
+})
+
+SchoolVisualTheme.LOCATION_TYPES = table.freeze({
+    lobby = "COMMONS",
+    math = "CLASSROOM",
+    ela = "CLASSROOM",
+    science = "LAB CLASSROOM",
+    cafeteria = "DINING",
+    gym = "ATHLETICS",
 })
 
 SchoolVisualTheme.LOCATION_ACCENTS = table.freeze({
@@ -35,6 +45,10 @@ SchoolVisualTheme.LOCATION_ACCENTS = table.freeze({
 
 function SchoolVisualTheme.getLocationCode(locationId)
     return SchoolVisualTheme.LOCATION_CODES[locationId] or "LOC"
+end
+
+function SchoolVisualTheme.getLocationType(locationId)
+    return SchoolVisualTheme.LOCATION_TYPES[locationId] or "DESTINATION"
 end
 
 function SchoolVisualTheme.getLocationAccent(locationId)
