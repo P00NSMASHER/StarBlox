@@ -176,6 +176,60 @@ local duplicateTextValid, duplicateTextReason = ActivityCatalog.validateActivity
 assertEqual(duplicateTextValid, false, "duplicate visible answers must fail closed")
 assertEqual(duplicateTextReason, "DUPLICATE_CHOICE_TEXT", "duplicate visible answer reason")
 
+local blankPromptValid, blankPromptReason = ActivityCatalog.validateActivity("ela", {
+    id = "ela_invalid_blank_prompt",
+    subject = "ela",
+    skill = "reading_comprehension",
+    difficulty = 1,
+    prompt = "   ",
+    choices = {
+        { id = "a", text = "First" },
+        { id = "b", text = "Second" },
+    },
+    correctChoiceId = "a",
+    hint = "Read the prompt.",
+    explanation = "The prompt must state an objective.",
+})
+assertEqual(blankPromptValid, false, "blank prompt must fail closed")
+assertEqual(blankPromptReason, "INVALID_ACTIVITY", "blank prompt reason")
+
+local oversizedChoiceValid, oversizedChoiceReason = ActivityCatalog.validateActivity("science", {
+    id = "science_invalid_oversized_choice",
+    subject = "science",
+    skill = "observation",
+    difficulty = 1,
+    prompt = "Which answer is concise?",
+    choices = {
+        { id = "a", text = string.rep("A", ActivityCatalog.MAX_CHOICE_TEXT_LENGTH + 1) },
+        { id = "b", text = "Readable answer" },
+    },
+    correctChoiceId = "b",
+    hint = "Choose the readable answer.",
+    explanation = "Phone answer labels must remain bounded.",
+})
+assertEqual(oversizedChoiceValid, false, "oversized answer label must fail closed")
+assertEqual(oversizedChoiceReason, "INVALID_CHOICE", "oversized answer label reason")
+
+local tooManyChoicesValid, tooManyChoicesReason = ActivityCatalog.validateActivity("math", {
+    id = "math_invalid_too_many_choices",
+    subject = "math",
+    skill = "addition",
+    difficulty = 1,
+    prompt = "Which answer is correct?",
+    choices = {
+        { id = "a", text = "One" },
+        { id = "b", text = "Two" },
+        { id = "c", text = "Three" },
+        { id = "d", text = "Four" },
+        { id = "e", text = "Five" },
+    },
+    correctChoiceId = "a",
+    hint = "Use the phone-friendly set.",
+    explanation = "Activities may show at most four choices.",
+})
+assertEqual(tooManyChoicesValid, false, "too many choices must fail closed")
+assertEqual(tooManyChoicesReason, "TOO_MANY_CHOICES", "too many choices reason")
+
 local missingAnswerValid, missingAnswerReason = ActivityCatalog.validateActivity("science", {
     id = "science_invalid_missing_answer",
     subject = "science",

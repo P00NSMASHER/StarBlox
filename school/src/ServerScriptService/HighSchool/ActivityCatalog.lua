@@ -1,7 +1,16 @@
 local ActivityCatalog = {}
 
-local function isNonEmptyString(value)
-    return type(value) == "string" and value ~= ""
+ActivityCatalog.MAX_IDENTIFIER_LENGTH = 64
+ActivityCatalog.MAX_PROMPT_LENGTH = 240
+ActivityCatalog.MAX_HINT_LENGTH = 160
+ActivityCatalog.MAX_EXPLANATION_LENGTH = 240
+ActivityCatalog.MAX_CHOICES = 4
+ActivityCatalog.MAX_CHOICE_TEXT_LENGTH = 80
+
+local function isBoundedNonBlankString(value, maxLength)
+    return type(value) == "string"
+        and #value <= maxLength
+        and value:find("%S") ~= nil
 end
 
 local function canonicalChoiceText(value)
@@ -12,23 +21,29 @@ local function canonicalChoiceText(value)
 end
 
 function ActivityCatalog.validateActivity(classId, activity)
-    if not isNonEmptyString(classId) or type(activity) ~= "table" then
+    if not isBoundedNonBlankString(classId, ActivityCatalog.MAX_IDENTIFIER_LENGTH)
+        or type(activity) ~= "table"
+    then
         return false, "INVALID_ACTIVITY"
     end
 
-    if not isNonEmptyString(activity.id)
+    if not isBoundedNonBlankString(activity.id, ActivityCatalog.MAX_IDENTIFIER_LENGTH)
         or activity.subject ~= classId
-        or not isNonEmptyString(activity.skill)
+        or not isBoundedNonBlankString(activity.skill, ActivityCatalog.MAX_IDENTIFIER_LENGTH)
         or type(activity.difficulty) ~= "number"
         or activity.difficulty < 1
         or activity.difficulty % 1 ~= 0
-        or not isNonEmptyString(activity.prompt)
-        or not isNonEmptyString(activity.hint)
-        or not isNonEmptyString(activity.explanation)
+        or not isBoundedNonBlankString(activity.prompt, ActivityCatalog.MAX_PROMPT_LENGTH)
+        or not isBoundedNonBlankString(activity.hint, ActivityCatalog.MAX_HINT_LENGTH)
+        or not isBoundedNonBlankString(activity.explanation, ActivityCatalog.MAX_EXPLANATION_LENGTH)
         or type(activity.choices) ~= "table"
         or #activity.choices < 2
     then
         return false, "INVALID_ACTIVITY"
+    end
+
+    if #activity.choices > ActivityCatalog.MAX_CHOICES then
+        return false, "TOO_MANY_CHOICES"
     end
 
     local seenChoiceIds = {}
@@ -39,9 +54,10 @@ function ActivityCatalog.validateActivity(classId, activity)
             and canonicalChoiceText(choice.text)
             or nil
         if type(choice) ~= "table"
-            or not isNonEmptyString(choice.id)
+            or not isBoundedNonBlankString(choice.id, ActivityCatalog.MAX_IDENTIFIER_LENGTH)
             or not canonicalText
             or canonicalText == ""
+            or #choice.text > ActivityCatalog.MAX_CHOICE_TEXT_LENGTH
         then
             return false, "INVALID_CHOICE"
         end

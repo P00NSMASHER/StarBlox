@@ -39,6 +39,13 @@ assert 'local function canonicalChoiceText(value)' in catalog
 assert 'string.lower((value:gsub("^%s+", ""):gsub("%s+$", "")))' in catalog
 assert 'local seenChoiceTexts = {}' in catalog
 assert 'return false, "DUPLICATE_CHOICE_TEXT"' in catalog
+assert 'ActivityCatalog.MAX_PROMPT_LENGTH = 240' in catalog
+assert 'ActivityCatalog.MAX_CHOICES = 4' in catalog
+assert 'ActivityCatalog.MAX_CHOICE_TEXT_LENGTH = 80' in catalog
+assert 'local function isBoundedNonBlankString(value, maxLength)' in catalog
+assert 'value:find("%S") ~= nil' in catalog
+assert 'return false, "TOO_MANY_CHOICES"' in catalog
+assert '#choice.text > ActivityCatalog.MAX_CHOICE_TEXT_LENGTH' in catalog
 assert 'return false, "CORRECT_CHOICE_MISSING"' in catalog
 assert 'assert(not seenActivityIds[activity.id]' in catalog
 validation_pos = catalog.index('function ActivityCatalog.validateActivity(classId, activity)')
