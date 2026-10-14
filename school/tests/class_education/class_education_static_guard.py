@@ -35,6 +35,17 @@ assert 'function ActivityCatalog.validateActivity(classId, activity)' in catalog
 assert 'activity.subject ~= classId' in catalog
 assert '#activity.choices < 2' in catalog
 assert 'return false, "DUPLICATE_CHOICE_ID"' in catalog
+assert 'local function canonicalChoiceText(value)' in catalog
+assert 'string.lower((value:gsub("^%s+", ""):gsub("%s+$", "")))' in catalog
+assert 'local seenChoiceTexts = {}' in catalog
+assert 'return false, "DUPLICATE_CHOICE_TEXT"' in catalog
+assert 'ActivityCatalog.MAX_PROMPT_LENGTH = 240' in catalog
+assert 'ActivityCatalog.MAX_CHOICES = 4' in catalog
+assert 'ActivityCatalog.MAX_CHOICE_TEXT_LENGTH = 80' in catalog
+assert 'local function isBoundedNonBlankString(value, maxLength)' in catalog
+assert 'value:find("%S") ~= nil' in catalog
+assert 'return false, "TOO_MANY_CHOICES"' in catalog
+assert '#choice.text > ActivityCatalog.MAX_CHOICE_TEXT_LENGTH' in catalog
 assert 'return false, "CORRECT_CHOICE_MISSING"' in catalog
 assert 'assert(not seenActivityIds[activity.id]' in catalog
 validation_pos = catalog.index('function ActivityCatalog.validateActivity(classId, activity)')
@@ -96,6 +107,17 @@ assert 'classId = completedClassId' in service
 assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
 assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >= 2, (
     "canonical classroom location must be checked at start and submit"
+)
+assert 'local MAX_DISTANCE_CUE_STUDS = 999' in service
+assert 'local distance = (root.Position - marker.Position).Magnitude' in service
+assert 'return distance <= ATTENDANCE_RADIUS, distance' in service
+assert 'local function boundedDistanceCue(distance)' in service
+assert 'math.clamp(math.ceil(distance), 0, MAX_DISTANCE_CUE_STUDS)' in service
+assert service.count('local isAtLocation, attendanceDistance = isAtAuthoritativeLocation') == 2, (
+    "start and submit must derive cues from the same authoritative attendance check"
+)
+assert service.count('distanceStuds = boundedDistanceCue(attendanceDistance)') == 2, (
+    "wrong-room and left-room responses must expose bounded server distance cues"
 )
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
