@@ -83,8 +83,12 @@ digest_capture = "BUILD_SHA256=\"$(sha256sum HighSchool-Integration.rbxlx"
 digest_length_check = 'test "${#BUILD_SHA256}" -eq 64'
 digest_receipt_field = '"sha256":os.environ["BUILD_SHA256"]'
 digest_receipt_export = 'BUILD_SHA256="$BUILD_SHA256" python -c'
+repository = "P00NSMASHER/StarBlox"
+workflow_run_id = 123456789
 project_path = "school/default.project.json"
 rojo_version = "7.7.0"
+repository_receipt_field = '"repository":os.environ["GITHUB_REPOSITORY"]'
+run_receipt_field = '"workflowRunId":int(os.environ["GITHUB_RUN_ID"])'
 project_receipt_field = f'"projectPath":"{project_path}"'
 rojo_receipt_field = f'"rojoVersion":"{rojo_version}"'
 
@@ -92,6 +96,14 @@ assert digest_capture in workflow, "build digest must be captured from the gener
 assert digest_length_check in workflow, "build digest must be validated before receipt creation"
 assert digest_receipt_export in workflow, "validated build digest must be exported to receipt creation"
 assert digest_receipt_field in workflow, "build receipt must bind the generated place SHA-256"
+assert repository_receipt_field in workflow, "build receipt must bind the workflow repository"
+assert run_receipt_field in workflow, "build receipt must bind the workflow run ID"
+assert '--expected-repository "$GITHUB_REPOSITORY"' in workflow, (
+    "receipt verification must enforce the workflow repository"
+)
+assert '--expected-workflow-run-id "$GITHUB_RUN_ID"' in workflow, (
+    "receipt verification must enforce the workflow run ID"
+)
 assert project_receipt_field in workflow, "build receipt must bind the canonical project path"
 assert rojo_receipt_field in workflow, "build receipt must bind the pinned Rojo version"
 assert f'--expected-project-path "{project_path}"' in workflow, (
@@ -136,6 +148,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
     digest.write_text(f"{artifact_digest}  {artifact.name}\n", encoding="utf-8")
     valid_receipt = {
         "sourceSha": source_sha,
+        "repository": repository,
+        "workflowRunId": workflow_run_id,
         "projectPath": project_path,
         "rojoVersion": rojo_version,
         "sha256": artifact_digest,
@@ -147,6 +161,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
         digest,
         receipt,
         source_sha,
+        repository,
+        workflow_run_id,
         project_path,
         rojo_version,
     )
@@ -170,6 +186,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
         raise AssertionError("tampered build receipt must fail verification")
 
     for field, wrong_value, message in (
+        ("repository", "P00NSMASHER/OtherRepo", "repository does not match"),
+        ("workflowRunId", workflow_run_id + 1, "workflow run ID does not match"),
         ("projectPath", "school/alternate.project.json", "project path does not match"),
         ("rojoVersion", "7.7.1", "Rojo version does not match"),
     ):

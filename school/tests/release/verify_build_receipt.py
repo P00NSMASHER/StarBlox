@@ -14,6 +14,8 @@ def verify_build_receipt(
     digest_path,
     receipt_path,
     expected_source_sha,
+    expected_repository,
+    expected_workflow_run_id,
     expected_project_path,
     expected_rojo_version,
 ):
@@ -23,18 +25,39 @@ def verify_build_receipt(
 
     if not SHA_PATTERN.fullmatch(expected_source_sha):
         raise ValueError("expected source SHA must be a lowercase 40- or 64-character Git object id")
+    if not isinstance(expected_repository, str) or not re.fullmatch(
+        r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
+        expected_repository,
+    ):
+        raise ValueError("expected repository must use owner/name format")
+    if type(expected_workflow_run_id) is not int or expected_workflow_run_id < 1:
+        raise ValueError("expected workflow run ID must be a positive integer")
 
     artifact_bytes = artifact_path.read_bytes()
     actual_bytes = len(artifact_bytes)
     actual_digest = hashlib.sha256(artifact_bytes).hexdigest()
 
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    for key in ("sourceSha", "projectPath", "rojoVersion", "sha256", "bytes"):
+    for key in (
+        "sourceSha",
+        "repository",
+        "workflowRunId",
+        "projectPath",
+        "rojoVersion",
+        "sha256",
+        "bytes",
+    ):
         if key not in receipt:
             raise ValueError(f"build receipt missing {key}")
 
     if receipt["sourceSha"] != expected_source_sha:
         raise ValueError("build receipt source SHA does not match the checked-out candidate")
+    if receipt["repository"] != expected_repository:
+        raise ValueError("build receipt repository does not match the workflow repository")
+    if type(receipt["workflowRunId"]) is not int or receipt["workflowRunId"] < 1:
+        raise ValueError("build receipt workflow run ID must be a positive integer")
+    if receipt["workflowRunId"] != expected_workflow_run_id:
+        raise ValueError("build receipt workflow run ID does not match the current run")
     if receipt["projectPath"] != expected_project_path:
         raise ValueError("build receipt project path does not match the canonical project")
     if receipt["rojoVersion"] != expected_rojo_version:
@@ -62,6 +85,8 @@ def verify_build_receipt(
 
     return {
         "sourceSha": expected_source_sha,
+        "repository": expected_repository,
+        "workflowRunId": expected_workflow_run_id,
         "projectPath": expected_project_path,
         "rojoVersion": expected_rojo_version,
         "sha256": actual_digest,
@@ -75,6 +100,8 @@ def main():
     parser.add_argument("--digest", required=True)
     parser.add_argument("--receipt", required=True)
     parser.add_argument("--expected-source-sha", required=True)
+    parser.add_argument("--expected-repository", required=True)
+    parser.add_argument("--expected-workflow-run-id", required=True, type=int)
     parser.add_argument("--expected-project-path", required=True)
     parser.add_argument("--expected-rojo-version", required=True)
     args = parser.parse_args()
@@ -84,11 +111,14 @@ def main():
         args.digest,
         args.receipt,
         args.expected_source_sha,
+        args.expected_repository,
+        args.expected_workflow_run_id,
         args.expected_project_path,
         args.expected_rojo_version,
     )
     print(
         "high-school build receipt verification: PASS "
+        f"{verified['repository']} run:{verified['workflowRunId']} "
         f"{verified['sourceSha']} {verified['sha256']} {verified['bytes']}"
     )
 
