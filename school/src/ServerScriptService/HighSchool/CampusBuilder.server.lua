@@ -74,6 +74,41 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     pad:SetAttribute("WayfindingCode", locationCode)
     pad.Parent = wayfinding
 
+    local padCodeGui = Instance.new("SurfaceGui")
+    padCodeGui.Name = "WayfindingCode"
+    padCodeGui.Face = Enum.NormalId.Top
+    padCodeGui.CanvasSize = Vector2.new(
+        SchoolVisualTheme.PAD_CODE_CANVAS_SIZE,
+        SchoolVisualTheme.PAD_CODE_CANVAS_SIZE
+    )
+    padCodeGui.LightInfluence = 0
+    padCodeGui.AlwaysOnTop = true
+    padCodeGui.Parent = pad
+
+    local padCode = Instance.new("TextLabel")
+    padCode.Name = "Code"
+    padCode.Position = UDim2.fromScale(0.15, 0.15)
+    padCode.Size = UDim2.fromScale(0.7, 0.7)
+    padCode.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND
+    padCode.BackgroundTransparency = 0.05
+    padCode.BorderSizePixel = 0
+    padCode.Font = Enum.Font.GothamBold
+    padCode.Text = locationCode
+    padCode.TextColor3 = SchoolVisualTheme.SIGN_TEXT
+    padCode.TextSize = SchoolVisualTheme.PAD_CODE_TEXT_SIZE
+    padCode.TextScaled = false
+    padCode.Parent = padCodeGui
+
+    local padCodeCorner = Instance.new("UICorner")
+    padCodeCorner.CornerRadius = UDim.new(0, 18)
+    padCodeCorner.Parent = padCode
+
+    local padCodeOutline = Instance.new("UIStroke")
+    padCodeOutline.Color = accent
+    padCodeOutline.Thickness = 6
+    padCodeOutline.Transparency = 0
+    padCodeOutline.Parent = padCode
+
     local sign = Instance.new("BillboardGui")
     sign.Name = "LocationLabel"
     sign.Size = UDim2.fromOffset(

@@ -59,6 +59,17 @@ assert 'pad.Name = location.id .. "Pad"' in builder
 assert 'pad.Color = accent' in builder
 assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
 assert 'pad:SetAttribute("WayfindingCode", locationCode)' in builder
+assert 'padCodeGui.Name = "WayfindingCode"' in builder
+assert 'padCodeGui.Face = Enum.NormalId.Top' in builder
+assert 'padCodeGui.AlwaysOnTop = true' in builder
+assert 'padCode.Name = "Code"' in builder
+assert 'padCode.Text = locationCode' in builder
+assert 'padCode.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'padCode.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'padCode.TextSize = SchoolVisualTheme.PAD_CODE_TEXT_SIZE' in builder
+assert 'padCode.TextScaled = false' in builder
+assert 'padCodeOutline.Color = accent' in builder
+assert 'padCodeOutline.Parent = padCode' in builder
 assert 'sign.Name = "LocationLabel"' in builder
 assert 'SchoolVisualTheme.SIGN_WIDTH' in builder
 assert 'SchoolVisualTheme.SIGN_HEIGHT' in builder
@@ -97,6 +108,9 @@ for forbidden_runtime_work in (
 assert builder.count(
     "for _, location in ipairs(FoundationConfig.LOCATIONS) do"
 ) == 1, "campus builder must keep one bounded location construction pass"
+assert builder.count('Instance.new("SurfaceGui")') == 1, (
+    "floor wayfinding must reuse one bounded SurfaceGui constructor inside the location pass"
+)
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
@@ -124,6 +138,18 @@ assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()),
 code_text_size_match = re.search(r"SIGN_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
 assert code_text_size_match, "wayfinding code text size missing"
 assert int(code_text_size_match.group(1)) >= 16, "wayfinding codes must remain readable on phone"
+
+pad_canvas_match = re.search(r"PAD_CODE_CANVAS_SIZE\s*=\s*(\d+)", visual_theme)
+pad_text_size_match = re.search(r"PAD_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
+assert pad_canvas_match, "floor wayfinding canvas size missing"
+assert pad_text_size_match, "floor wayfinding text size missing"
+pad_canvas_size = int(pad_canvas_match.group(1))
+pad_text_size = int(pad_text_size_match.group(1))
+assert 128 <= pad_canvas_size <= 512, "floor wayfinding canvas outside bounded mobile range"
+assert 48 <= pad_text_size <= 96, "floor wayfinding code text outside readable fixed-size range"
+assert pad_text_size <= pad_canvas_size // 2, (
+    "floor wayfinding code must fit its fixed canvas without scaling"
+)
 
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
