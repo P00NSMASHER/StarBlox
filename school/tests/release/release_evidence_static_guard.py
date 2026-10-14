@@ -177,6 +177,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
             digest,
             receipt,
             source_sha,
+            repository,
+            workflow_run_id,
             project_path,
             rojo_version,
         )
@@ -200,6 +202,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
                 digest,
                 receipt,
                 source_sha,
+                repository,
+                workflow_run_id,
                 project_path,
                 rojo_version,
             )
