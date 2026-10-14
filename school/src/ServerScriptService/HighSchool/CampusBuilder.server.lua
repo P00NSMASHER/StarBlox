@@ -58,7 +58,9 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
 
     local accent = SchoolVisualTheme.getLocationAccent(location.id)
     local locationCode = SchoolVisualTheme.getLocationCode(location.id)
+    local locationType = SchoolVisualTheme.getLocationType(location.id)
     marker:SetAttribute("WayfindingCode", locationCode)
+    marker:SetAttribute("RoomType", locationType)
     marker.Parent = registry
 
     local pad = Instance.new("Part")
@@ -168,20 +170,43 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
 
     local text = Instance.new("TextLabel")
     text.Name = "Label"
-    text.Position = UDim2.fromOffset(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 16, 4)
-    text.Size = UDim2.new(1, -(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 24), 1, -8)
+    text.Position = UDim2.fromOffset(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 16, 5)
+    text.Size = UDim2.new(1, -(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 24), 0, 30)
     text.BackgroundTransparency = 1
     text.Font = Enum.Font.GothamBold
     text.Text = location.name
     text.TextColor3 = SchoolVisualTheme.SIGN_TEXT
     text.TextScaled = true
     text.TextStrokeTransparency = 1
+    text.TextXAlignment = Enum.TextXAlignment.Left
     text.Parent = panel
 
     local textConstraint = Instance.new("UITextSizeConstraint")
     textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE
     textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE
     textConstraint.Parent = text
+
+    local roomType = Instance.new("TextLabel")
+    roomType.Name = "RoomType"
+    roomType.Position = UDim2.fromOffset(
+        SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 16,
+        36
+    )
+    roomType.Size = UDim2.new(
+        1,
+        -(SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH + 24),
+        0,
+        18
+    )
+    roomType.BackgroundTransparency = 1
+    roomType.Font = Enum.Font.GothamMedium
+    roomType.Text = locationType
+    roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT
+    roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE
+    roomType.TextScaled = false
+    roomType.TextStrokeTransparency = 1
+    roomType.TextXAlignment = Enum.TextXAlignment.Left
+    roomType.Parent = panel
 end
 
 campus:SetAttribute("FoundationVersion", 1)

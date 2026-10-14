@@ -53,6 +53,7 @@ assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
 assert 'marker:SetAttribute("WayfindingCode", locationCode)' in builder
+assert 'marker:SetAttribute("RoomType", locationType)' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
@@ -89,6 +90,12 @@ assert 'text.Text = location.name' in builder
 assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
 assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
+assert 'roomType.Name = "RoomType"' in builder
+assert 'roomType.Text = locationType' in builder
+assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE' in builder
+assert 'roomType.TextScaled = false' in builder
+assert 'roomType.TextXAlignment = Enum.TextXAlignment.Left' in builder
 
 # Campus signs are construction-time geometry. Per-frame callbacks or polling here
 # would multiply avoidable UI work on every client-facing destination marker.
@@ -110,6 +117,12 @@ assert builder.count(
 ) == 1, "campus builder must keep one bounded location construction pass"
 assert builder.count('Instance.new("SurfaceGui")') == 1, (
     "floor wayfinding must reuse one bounded SurfaceGui constructor inside the location pass"
+)
+assert builder.count('Instance.new("TextLabel")') == 4, (
+    "destination wayfinding must remain four bounded labels inside the one-pass constructor"
+)
+assert builder.count('roomType.Name = "RoomType"') == 1, (
+    "room type label must be constructed once per destination through the bounded location pass"
 )
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
@@ -135,9 +148,63 @@ assert len(set(location_codes.values())) == len(location_codes), "wayfinding cod
 assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
     "wayfinding codes must be compact three-letter uppercase labels"
 )
+type_block = re.search(
+    r"SchoolVisualTheme\.LOCATION_TYPES\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    visual_theme,
+    re.DOTALL,
+)
+assert type_block, "semantic room types missing"
+location_types = dict(
+    re.findall(r'([a-z]+)\s*=\s*"([A-Z ]+)"', type_block.group(1))
+)
+assert set(location_types) == theme_location_ids, (
+    "semantic room types must cover the canonical destinations exactly"
+)
+assert all(re.fullmatch(r"[A-Z]+(?: [A-Z]+)?", label) for label in location_types.values()), (
+    "semantic room types must remain compact uppercase labels"
+)
+assert all(len(label) <= 14 for label in location_types.values()), (
+    "semantic room types must fit one phone-readable sign line"
+)
+for classroom_id in ("math", "ela", "science"):
+    assert location_types[classroom_id].endswith("CLASSROOM"), (
+        f"{classroom_id} must be identifiable as a classroom without relying on color"
+    )
+for amenity_id in ("lobby", "cafeteria", "gym"):
+    assert "CLASSROOM" not in location_types[amenity_id], (
+        f"{amenity_id} must remain distinguishable from classroom destinations"
+    )
+
 code_text_size_match = re.search(r"SIGN_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
 assert code_text_size_match, "wayfinding code text size missing"
 assert int(code_text_size_match.group(1)) >= 16, "wayfinding codes must remain readable on phone"
+
+sign_height_match = re.search(r"SIGN_HEIGHT\s*=\s*(\d+)", visual_theme)
+type_text_size_match = re.search(r"SIGN_TYPE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
+main_label_layout = re.search(
+    r"text\.Position = UDim2\.fromOffset\([^\n]+,\s*(\d+)\)\n"
+    r"\s*text\.Size = UDim2\.new\([^\n]+,\s*0,\s*(\d+)\)",
+    builder,
+)
+room_type_layout = re.search(
+    r"roomType\.Position = UDim2\.fromOffset\(\s*"
+    r"SchoolVisualTheme\.SIGN_CODE_BADGE_WIDTH \+ 16,\s*(\d+)\s*\)\s*"
+    r"roomType\.Size = UDim2\.new\(\s*1,\s*"
+    r"-\(SchoolVisualTheme\.SIGN_CODE_BADGE_WIDTH \+ 24\),\s*0,\s*(\d+)\s*\)",
+    builder,
+    re.DOTALL,
+)
+assert sign_height_match and type_text_size_match, "semantic sign dimensions missing"
+assert main_label_layout and room_type_layout, "semantic sign layout missing"
+sign_height = int(sign_height_match.group(1))
+type_text_size = int(type_text_size_match.group(1))
+main_y, main_height = (int(value) for value in main_label_layout.groups())
+type_y, type_height = (int(value) for value in room_type_layout.groups())
+assert 60 <= sign_height <= 72, "two-line sign height outside compact mobile range"
+assert 12 <= type_text_size <= 16, "room type text outside readable fixed-size range"
+assert main_y + main_height <= type_y, "room type line overlaps the destination name"
+assert type_y + type_height <= sign_height, "room type line overflows the sign panel"
+assert type_text_size <= type_height, "room type glyphs exceed their fixed line height"
 
 pad_canvas_match = re.search(r"PAD_CODE_CANVAS_SIZE\s*=\s*(\d+)", visual_theme)
 pad_text_size_match = re.search(r"PAD_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
