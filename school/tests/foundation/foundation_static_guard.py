@@ -69,6 +69,18 @@ assert 'pad.Name = location.id .. "Pad"' in builder
 assert 'pad.Color = accent' in builder
 assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
 assert 'pad:SetAttribute("WayfindingCode", locationCode)' in builder
+assert 'padCodeGui.Name = "WayfindingCode"' in builder
+assert 'padCodeGui.Face = Enum.NormalId.Top' in builder
+assert 'SchoolVisualTheme.PAD_CODE_CANVAS_SIZE' in builder
+assert 'padCodeGui.AlwaysOnTop = true' in builder
+assert 'padCode.Name = "Code"' in builder
+assert 'padCode.Text = locationCode' in builder
+assert 'padCode.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'padCode.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'padCode.TextSize = SchoolVisualTheme.PAD_CODE_TEXT_SIZE' in builder
+assert 'padCode.TextScaled = false' in builder
+assert 'padCodeOutline.Color = accent' in builder
+assert 'padCodeOutline.Parent = padCode' in builder
 assert 'sign.Name = "LocationLabel"' in builder
 assert 'SchoolVisualTheme.SIGN_WIDTH' in builder
 assert 'SchoolVisualTheme.SIGN_HEIGHT' in builder
@@ -116,6 +128,8 @@ assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()),
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
+assert "PAD_CODE_CANVAS_SIZE = 256" in visual_theme
+assert "PAD_CODE_TEXT_SIZE = 72" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
 
 sign_background = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_BACKGROUND")
