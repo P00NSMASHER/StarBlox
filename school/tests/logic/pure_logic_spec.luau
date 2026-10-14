@@ -1,6 +1,7 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
 local ActivityCatalog = require("../../src/ServerScriptService/HighSchool/ActivityCatalog")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
+local CompletionGate = require("../../src/ServerScriptService/HighSchool/CompletionGate")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
 local function assertEqual(actual, expected, message)
@@ -37,9 +38,75 @@ assertEqual(secondDay.dayIndex, 2, "day rollover")
 assertEqual(secondDay.periodId, "arrival", "day rollover period")
 assertEqual(secondDay.secondsIntoPeriod, 0, "day rollover second")
 
+-- One credit per server-authoritative scheduled class occurrence.
+local scheduleNamespace = "server-a"
+local mathOccurrence = CompletionGate.getOccurrenceId(scheduleNamespace, 1, 2, "math")
+assertEqual(
+    mathOccurrence,
+    "schedule:server-a:day:1:period:2:class:math",
+    "class occurrence identity"
+)
+assertEqual(
+    CompletionGate.getOccurrenceId("server-b", 1, 2, "math"),
+    "schedule:server-b:day:1:period:2:class:math",
+    "new server schedule must not collide"
+)
+assertEqual(
+    CompletionGate.getOccurrenceId(scheduleNamespace, 2, 2, "math"),
+    "schedule:server-a:day:2:period:2:class:math",
+    "next day identity"
+)
+assertEqual(CompletionGate.getOccurrenceId("", 1, 2, "math"), nil, "empty schedule namespace")
+assertEqual(CompletionGate.getOccurrenceId("bad:server", 1, 2, "math"), nil, "invalid schedule namespace")
+assertEqual(CompletionGate.getOccurrenceId(scheduleNamespace, 1, 2, "gym"), nil, "unknown class occurrence")
+assertEqual(CompletionGate.getOccurrenceId(scheduleNamespace, 0, 2, "math"), nil, "invalid day occurrence")
+assertEqual(CompletionGate.getOccurrenceId(scheduleNamespace, 1, 0, "math"), nil, "invalid period occurrence")
+
+local mathCompletionId = CompletionGate.getCompletionId(123, mathOccurrence)
+assertEqual(
+    mathCompletionId,
+    "player:123:schedule:server-a:day:1:period:2:class:math",
+    "durable class completion identity"
+)
+assertEqual(
+    CompletionGate.getCompletionId(124, mathOccurrence),
+    "player:124:schedule:server-a:day:1:period:2:class:math",
+    "completion identity must be player scoped"
+)
+assertEqual(CompletionGate.getCompletionId(0, mathOccurrence), nil, "invalid completion player")
+assertEqual(CompletionGate.getCompletionId(123, ""), nil, "invalid completion occurrence")
+
+local completedOccurrences = {}
+assertEqual(CompletionGate.hasCompleted(completedOccurrences, mathOccurrence), false, "fresh occurrence")
+assertEqual(CompletionGate.markCompleted(completedOccurrences, mathOccurrence), true, "first completion")
+assertEqual(CompletionGate.hasCompleted(completedOccurrences, mathOccurrence), true, "remember completion")
+assertEqual(CompletionGate.markCompleted(completedOccurrences, mathOccurrence), false, "repeat blocked")
+local nextDayOccurrence = CompletionGate.getOccurrenceId(scheduleNamespace, 2, 2, "math")
+assertEqual(CompletionGate.markCompleted(completedOccurrences, nextDayOccurrence), true, "next day allowed")
+
 -- Exactly-once, validated progression and public report-card behavior.
+local elaOccurrence = CompletionGate.getOccurrenceId(scheduleNamespace, 1, 3, "ela")
+local scienceOccurrence = CompletionGate.getOccurrenceId(scheduleNamespace, 1, 4, "science")
+local completionAId = CompletionGate.getCompletionId(123, mathOccurrence)
+local completionBId = CompletionGate.getCompletionId(123, elaOccurrence)
+local scienceCompletionId = CompletionGate.getCompletionId(123, scienceOccurrence)
+
+assertEqual(CompletionGate.isCompletionIdFor(completionAId, 123, "math"), true, "bound receipt")
+assertEqual(CompletionGate.isCompletionIdFor(completionAId, 124, "math"), false, "wrong player receipt")
+assertEqual(CompletionGate.isCompletionIdFor(completionAId, 123, "science"), false, "wrong class receipt")
+assertEqual(CompletionGate.isCompletionIdFor("completion-a", 123, "math"), false, "arbitrary receipt")
+assertEqual(
+    CompletionGate.isCompletionIdFor(
+        "player:123:schedule:server-a:day:01:period:2:class:math",
+        123,
+        "math"
+    ),
+    false,
+    "noncanonical receipt"
+)
+
 local completionA = {
-    completionId = "completion-a",
+    completionId = completionAId,
     playerId = 123,
     classId = "math",
     score = 1,
@@ -49,7 +116,7 @@ local completionA = {
 local stateA, appliedA = ProgressionReducer.applyCompletion(nil, completionA)
 assertEqual(appliedA, true, "first completion applies")
 assertEqual(stateA.points, 10, "first completion points")
-assert(stateA.completed["completion-a"] ~= nil, "first completion receipt missing")
+assert(stateA.completed[completionAId] ~= nil, "first completion receipt missing")
 
 local duplicateState, duplicateApplied, duplicateReason =
     ProgressionReducer.applyCompletion(stateA, completionA)
@@ -57,8 +124,53 @@ assertEqual(duplicateApplied, false, "duplicate completion must not apply")
 assertEqual(duplicateReason, "DUPLICATE_COMPLETION", "duplicate completion reason")
 assertEqual(duplicateState.points, 10, "duplicate must not add points")
 
+local occurrenceState, occurrenceApplied = ProgressionReducer.applyCompletion(nil, {
+    completionId = mathCompletionId,
+    playerId = 123,
+    classId = "math",
+    score = 1,
+    completedAt = 1000,
+})
+assertEqual(occurrenceApplied, true, "first occurrence reward applies")
+local rejoinedOccurrenceState = ProgressionReducer.normalize(occurrenceState, 123)
+local replayedOccurrenceState, replayedOccurrenceApplied, replayedOccurrenceReason =
+    ProgressionReducer.applyCompletion(rejoinedOccurrenceState, {
+        completionId = mathCompletionId,
+        playerId = 123,
+        classId = "math",
+        score = 1,
+        completedAt = 1001,
+    })
+assertEqual(replayedOccurrenceApplied, false, "same occurrence after rejoin must not apply")
+assertEqual(replayedOccurrenceReason, "DUPLICATE_COMPLETION", "rejoin duplicate reason")
+assertEqual(replayedOccurrenceState.points, 10, "rejoin duplicate must not add points")
+
+local wrongPlayerState, wrongPlayerApplied, wrongPlayerReason =
+    ProgressionReducer.applyCompletion(stateA, {
+        completionId = CompletionGate.getCompletionId(124, mathOccurrence),
+        playerId = 123,
+        classId = "math",
+        score = 1,
+        completedAt = 1001,
+    })
+assertEqual(wrongPlayerApplied, false, "wrong-player receipt must fail closed")
+assertEqual(wrongPlayerReason, "INVALID_COMPLETION", "wrong-player receipt reason")
+assertEqual(wrongPlayerState.points, 10, "wrong-player receipt must not add points")
+
+local wrongClassState, wrongClassApplied, wrongClassReason =
+    ProgressionReducer.applyCompletion(stateA, {
+        completionId = completionAId,
+        playerId = 123,
+        classId = "science",
+        score = 1,
+        completedAt = 1001,
+    })
+assertEqual(wrongClassApplied, false, "wrong-class receipt must fail before dedupe")
+assertEqual(wrongClassReason, "INVALID_COMPLETION", "wrong-class receipt reason")
+assertEqual(wrongClassState.points, 10, "wrong-class receipt must not add points")
+
 local completionB = {
-    completionId = "completion-b",
+    completionId = completionBId,
     playerId = 123,
     classId = "ela",
     score = 1,
@@ -70,7 +182,7 @@ assertEqual(appliedB, true, "second unique completion applies")
 assertEqual(stateB.points, 20, "two unique completions total points")
 
 local inflatedState, inflatedApplied, inflatedReason = ProgressionReducer.applyCompletion(stateB, {
-    completionId = "inflated",
+    completionId = scienceCompletionId,
     playerId = 123,
     classId = "science",
     score = 100,
@@ -79,10 +191,10 @@ local inflatedState, inflatedApplied, inflatedReason = ProgressionReducer.applyC
 assertEqual(inflatedApplied, false, "inflated score must fail closed")
 assertEqual(inflatedReason, "INVALID_COMPLETION", "inflated score reason")
 assertEqual(inflatedState.points, 20, "inflated score must not add points")
-assert(inflatedState.completed.inflated == nil, "invalid receipt must not enter ledger")
+assert(inflatedState.completed[scienceCompletionId] == nil, "invalid receipt must not enter ledger")
 
 local unknownState, unknownApplied = ProgressionReducer.applyCompletion(stateB, {
-    completionId = "unknown-class",
+    completionId = "player:123:schedule:server-a:day:1:period:5:class:gym",
     playerId = 123,
     classId = "gym",
     score = 1,
@@ -98,12 +210,42 @@ local normalizedTampered = ProgressionReducer.normalize({
         valid = { classId = "science", score = 1, completedAt = 1004 },
         invalid = { classId = "science", score = 9, completedAt = 1005 },
     },
-})
+}, 123)
 assertEqual(normalizedTampered.points, 10, "points must derive from valid receipts")
 assert(normalizedTampered.completed.valid ~= nil, "valid saved receipt missing")
 assert(normalizedTampered.completed.invalid == nil, "invalid saved receipt must be removed")
+assertEqual(
+    normalizedTampered.completed.valid.ownerPlayerId,
+    123,
+    "legacy receipt must migrate with its DataStore owner"
+)
 
-local publicProgression = ProgressionReducer.toPublicSnapshot(stateB)
+local wrongOwnerCompletionId = CompletionGate.getCompletionId(124, mathOccurrence)
+local normalizedWrongOwner = ProgressionReducer.normalize({
+    version = 2,
+    points = 9999,
+    completed = {
+        [wrongOwnerCompletionId] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1006,
+        },
+        legacy = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1007,
+        },
+    },
+}, 123)
+assert(
+    normalizedWrongOwner.completed[wrongOwnerCompletionId] == nil,
+    "canonical saved receipt for another player must be removed"
+)
+assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must remain readable")
+assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
+assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
+
+local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
 assertEqual(publicProgression.completedCount, 2, "public completed count")

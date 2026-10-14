@@ -1,3 +1,7 @@
+local CompletionGate = if script
+    then require(script.Parent.CompletionGate)
+    else require("./CompletionGate")
+
 local ProgressionReducer = {}
 
 ProgressionReducer.VERSION = 2
@@ -10,36 +14,71 @@ local VALID_CLASS_IDS = table.freeze({
     science = true,
 })
 
-local function normalizeCompletionRecord(record)
+local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     if type(record) ~= "table" or not VALID_CLASS_IDS[record.classId] then
         return nil
     end
 
     local score = tonumber(record.score)
     local completedAt = tonumber(record.completedAt)
+    local ownerPlayerId = record.ownerPlayerId
     if score ~= 1
         or completedAt == nil
         or completedAt < 1
         or completedAt % 1 ~= 0
+        or (ownerPlayerId ~= nil and (
+            type(ownerPlayerId) ~= "number"
+            or ownerPlayerId < 1
+            or ownerPlayerId % 1 ~= 0
+            or ownerPlayerId ~= expectedPlayerId
+        ))
     then
         return nil
+    end
+
+    if attachOwner and ownerPlayerId == nil then
+        if type(expectedPlayerId) ~= "number"
+            or expectedPlayerId < 1
+            or expectedPlayerId % 1 ~= 0
+        then
+            return nil
+        end
+        ownerPlayerId = expectedPlayerId
     end
 
     return {
         classId = record.classId,
         score = score,
         completedAt = completedAt,
+        ownerPlayerId = ownerPlayerId,
     }
 end
 
-local function copyCompleted(source)
+local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)
+    if type(completionId) ~= "string" or completionId == "" then
+        return false
+    end
+
+    -- Pre-v2 receipts used opaque IDs. Preserve those during migration, but
+    -- canonical-looking receipts must remain bound to this DataStore owner.
+    if not completionId:match("^player:") then
+        return true
+    end
+
+    return CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)
+end
+
+local function copyCompleted(source, expectedPlayerId)
     local copy = {}
     if type(source) == "table" then
         for completionId, record in pairs(source) do
-            local normalizedRecord = normalizeCompletionRecord(record)
-            if type(completionId) == "string"
-                and completionId ~= ""
-                and normalizedRecord
+            local normalizedRecord = normalizeCompletionRecord(record, expectedPlayerId, true)
+            if normalizedRecord
+                and isStoredCompletionIdValid(
+                    completionId,
+                    expectedPlayerId,
+                    normalizedRecord.classId
+                )
             then
                 copy[completionId] = normalizedRecord
             end
@@ -56,9 +95,9 @@ local function pointsFromCompleted(completed)
     return points
 end
 
-function ProgressionReducer.normalize(state)
+function ProgressionReducer.normalize(state, expectedPlayerId)
     state = state or {}
-    local completed = copyCompleted(state.completed)
+    local completed = copyCompleted(state.completed, expectedPlayerId)
     return {
         version = ProgressionReducer.VERSION,
         points = pointsFromCompleted(completed),
@@ -71,13 +110,21 @@ function ProgressionReducer.applyCompletion(currentState, completion)
     assert(type(completion.completionId) == "string" and completion.completionId ~= "", "completionId required")
     assert(type(completion.playerId) == "number", "playerId required")
 
-    local state = ProgressionReducer.normalize(currentState)
+    local state = ProgressionReducer.normalize(currentState, completion.playerId)
+
+    if not CompletionGate.isCompletionIdFor(
+        completion.completionId,
+        completion.playerId,
+        completion.classId
+    ) then
+        return state, false, "INVALID_COMPLETION"
+    end
 
     if state.completed[completion.completionId] then
         return state, false, "DUPLICATE_COMPLETION"
     end
 
-    local record = normalizeCompletionRecord(completion)
+    local record = normalizeCompletionRecord(completion, completion.playerId, true)
     if not record then
         return state, false, "INVALID_COMPLETION"
     end
@@ -88,8 +135,8 @@ function ProgressionReducer.applyCompletion(currentState, completion)
     return state, true, nil
 end
 
-function ProgressionReducer.toPublicSnapshot(state)
-    local normalized = ProgressionReducer.normalize(state)
+function ProgressionReducer.toPublicSnapshot(state, playerId)
+    local normalized = ProgressionReducer.normalize(state, playerId)
     local reportCard = {}
     for _, classId in ipairs(CLASS_IDS) do
         reportCard[classId] = {
