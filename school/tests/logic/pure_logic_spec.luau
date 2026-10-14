@@ -194,6 +194,13 @@ local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
 
 local publicCourier = CampusCourierActivity.getPublicState(courier)
+local seenCourierActionLabels = {}
+for _, stop in ipairs(CampusCourierActivity.ROUTE) do
+    assert(#stop.actionLabel <= 10, "courier action label must fit compact mobile controls")
+    assert(stop.actionLabel:match("^[A-Z ]+$") ~= nil, "courier action label must be uppercase")
+    assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
+    seenCourierActionLabels[stop.actionLabel] = true
+end
 assertEqual(publicCourier.title, "Campus Courier", "courier title")
 assertEqual(publicCourier.totalStops, 4, "courier stop count")
 assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")

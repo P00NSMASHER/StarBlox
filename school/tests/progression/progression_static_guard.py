@@ -90,6 +90,15 @@ for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
     assert courier.count(f'actionLabel = "{action_label}"') == 1, (
         f"courier action label must occur exactly once: {action_label}"
     )
+courier_action_labels = re.findall(r'actionLabel\s*=\s*"([^"]+)"', courier)
+assert len(courier_action_labels) == 4, "courier route requires one action cue per stop"
+assert len(set(courier_action_labels)) == len(courier_action_labels), (
+    "courier action cues must be distinct"
+)
+assert all(
+    len(label) <= 10 and re.fullmatch(r"[A-Z ]+", label)
+    for label in courier_action_labels
+), "courier action cues must remain compact uppercase controls"
 assert '"Next stop (" .. formatProgress(activity) .. " complete): "' in courier
 assert '"Delivery confirmed (" .. formatProgress(activity) .. " complete). "' in courier
 assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
