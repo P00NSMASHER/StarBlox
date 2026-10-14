@@ -12,21 +12,25 @@ local ROUTE = table.freeze({
     table.freeze({
         locationId = "lobby",
         locationName = "Main Lobby",
+        actionLabel = "PICK UP",
         objective = "Pick up the campus delivery list in the Main Lobby.",
     }),
     table.freeze({
         locationId = "cafeteria",
         locationName = "Cafeteria",
+        actionLabel = "DELIVER",
         objective = "Deliver the lunch-count note to the Cafeteria.",
     }),
     table.freeze({
         locationId = "science",
         locationName = "Science Classroom",
+        actionLabel = "DROP OFF",
         objective = "Drop off the supply note in the Science Classroom.",
     }),
     table.freeze({
         locationId = "lobby",
         locationName = "Main Lobby",
+        actionLabel = "RETURN",
         objective = "Return the signed delivery sheet to the Main Lobby.",
     }),
 })
@@ -103,6 +107,7 @@ local function makeResponse(activity, accepted, reason, feedback)
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
         nextLocationName = nextStop and nextStop.locationName or nil,
+        nextActionLabel = nextStop and nextStop.actionLabel or nil,
         objective = nextStop and nextStop.objective or "Campus delivery route complete.",
         feedback = feedback,
         score = activity.resolved and CampusCourierActivity.REWARD_SCORE or 0,
@@ -144,6 +149,7 @@ function CampusCourierActivity.getPublicState(activity)
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
         nextLocationName = nextStop and nextStop.locationName or nil,
+        nextActionLabel = nextStop and nextStop.actionLabel or nil,
         objective = nextStop and nextStop.objective or "Campus delivery route complete.",
         resolved = activity.resolved,
         rewardPoints = CampusCourierActivity.REWARD_POINTS,

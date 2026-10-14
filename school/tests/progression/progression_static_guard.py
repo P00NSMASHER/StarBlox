@@ -83,6 +83,13 @@ assert courier.count('progressLabel = formatProgress(activity)') == 2, (
 assert courier.count('nextLocationName = nextStop and nextStop.locationName or nil') == 2, (
     "public state and every check-in response must expose the authoritative next destination name"
 )
+assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2, (
+    "public state and every check-in response must expose the authoritative compact action"
+)
+for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
+    assert courier.count(f'actionLabel = "{action_label}"') == 1, (
+        f"courier action label must occur exactly once: {action_label}"
+    )
 assert '"Next stop (" .. formatProgress(activity) .. " complete): "' in courier
 assert '"Delivery confirmed (" .. formatProgress(activity) .. " complete). "' in courier
 assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
