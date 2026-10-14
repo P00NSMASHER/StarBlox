@@ -14,12 +14,19 @@ checkout_expression = "ref: ${{ env.CANDIDATE_SOURCE_SHA }}"
 checkout_action = "uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5"
 python_action = "uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6"
 upload_action = "uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4"
+candidate_artifact_name = "name: high-school-integration-candidate-${{ env.CANDIDATE_SOURCE_SHA }}"
 
 assert candidate_expression in workflow, "candidate identity must resolve to the PR head SHA"
 assert checkout_expression in workflow, "checkout must use the resolved candidate SHA"
 assert checkout_action in workflow, "checkout must use the pinned Node 24 action"
 assert python_action in workflow, "Python setup must use the pinned Node 24 action"
 assert upload_action in workflow, "candidate upload must use the reviewed v4 commit"
+assert candidate_artifact_name in workflow, (
+    "uploaded candidate name must bind the artifact to the exact source SHA"
+)
+assert "\n          name: high-school-integration-candidate\n" not in workflow, (
+    "generic candidate artifact names make stale and current builds ambiguous"
+)
 assert "uses: actions/upload-artifact@v4" not in workflow, (
     "mutable upload-artifact major tags cannot protect release evidence provenance"
 )
