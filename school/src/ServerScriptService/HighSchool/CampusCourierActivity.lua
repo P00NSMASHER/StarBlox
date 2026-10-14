@@ -113,6 +113,10 @@ end
 function CampusCourierActivity.new(activityInstanceId, playerId)
     assert(type(activityInstanceId) == "string" and activityInstanceId ~= "", "activityInstanceId required")
     assert(type(playerId) == "number", "playerId required")
+    assert(
+        CampusCourierActivity.isCompletionIdFor("activity:" .. activityInstanceId, playerId),
+        "activityInstanceId must be canonical for playerId"
+    )
 
     return {
         activityInstanceId = activityInstanceId,

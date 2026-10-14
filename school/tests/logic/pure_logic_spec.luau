@@ -180,6 +180,16 @@ assertEqual(
     "courier completion receipt must be canonical"
 )
 
+local malformedCourierCreated = pcall(function()
+    CampusCourierActivity.new("forged-instance", 123)
+end)
+assertEqual(malformedCourierCreated, false, "malformed courier instance must fail closed")
+
+local crossPlayerCourierCreated = pcall(function()
+    CampusCourierActivity.new(firstDayCourierId, 124)
+end)
+assertEqual(crossPlayerCourierCreated, false, "cross-player courier instance must fail closed")
+
 local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
 
