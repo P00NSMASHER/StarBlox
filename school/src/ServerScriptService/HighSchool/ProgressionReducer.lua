@@ -6,6 +6,7 @@ local ProgressionReducer = {}
 
 ProgressionReducer.VERSION = 2
 ProgressionReducer.POINTS_PER_COMPLETION = 10
+ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH = 128
 
 local CLASS_IDS = table.freeze({ "math", "ela", "science" })
 local VALID_CLASS_IDS = table.freeze({
@@ -13,6 +14,21 @@ local VALID_CLASS_IDS = table.freeze({
     ela = true,
     science = true,
 })
+
+local function assertStoredVersionSupported(state)
+    if type(state) ~= "table" or state.version == nil then
+        return
+    end
+
+    local version = state.version
+    if type(version) ~= "number"
+        or version < 1
+        or version % 1 ~= 0
+        or version > ProgressionReducer.VERSION
+    then
+        error("UNSUPPORTED_PROGRESSION_VERSION", 3)
+    end
+end
 
 local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     if type(record) ~= "table" or not VALID_CLASS_IDS[record.classId] then
@@ -54,15 +70,21 @@ local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     }
 end
 
+local function isLegacyCompletionIdValid(completionId)
+    return #completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH
+        and completionId:match("^[%w_%-]+$") ~= nil
+end
+
 local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)
     if type(completionId) ~= "string" or completionId == "" then
         return false
     end
 
-    -- Pre-v2 receipts used opaque IDs. Preserve those during migration, but
-    -- canonical-looking receipts must remain bound to this DataStore owner.
+    -- Pre-v2 receipts used opaque IDs. Preserve truly opaque values during
+    -- migration, but never reinterpret another namespaced reward as a class receipt.
     if not completionId:match("^player:") then
-        return true
+        return completionId:find(":", 1, true) == nil
+            and isLegacyCompletionIdValid(completionId)
     end
 
     return CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)
@@ -96,6 +118,7 @@ local function pointsFromCompleted(completed)
 end
 
 function ProgressionReducer.normalize(state, expectedPlayerId)
+    assertStoredVersionSupported(state)
     state = state or {}
     local completed = copyCompleted(state.completed, expectedPlayerId)
     return {

@@ -245,6 +245,98 @@ assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must
 assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
 assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
 
+local overlongLegacyReceipt = string.rep(
+    "x",
+    ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH + 1
+)
+local normalizedNamespacedReceipt = ProgressionReducer.normalize({
+    version = 2,
+    points = 9999,
+    completed = {
+        ["activity:campus_courier:forged"] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1008,
+        },
+        ["unknown:reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1009,
+        },
+        legacy_opaque_receipt = {
+            classId = "science",
+            score = 1,
+            completedAt = 1010,
+        },
+        ["   "] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1011,
+        },
+        ["legacy/reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1012,
+        },
+        [overlongLegacyReceipt] = {
+            classId = "science",
+            score = 1,
+            completedAt = 1013,
+        },
+    },
+}, 123)
+assert(
+    normalizedNamespacedReceipt.completed["activity:campus_courier:forged"] == nil,
+    "activity receipt must not migrate as a class completion"
+)
+assert(
+    normalizedNamespacedReceipt.completed["unknown:reward"] == nil,
+    "unknown namespaced receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed.legacy_opaque_receipt ~= nil,
+    "truly opaque legacy receipt must remain readable"
+)
+assert(
+    normalizedNamespacedReceipt.completed["   "] == nil,
+    "whitespace-only legacy receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed["legacy/reward"] == nil,
+    "unsafe legacy receipt characters must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed[overlongLegacyReceipt] == nil,
+    "overlong legacy receipt must fail closed"
+)
+assertEqual(
+    normalizedNamespacedReceipt.points,
+    10,
+    "only the opaque legacy class receipt may contribute points"
+)
+
+local futureVersionState = {
+    version = ProgressionReducer.VERSION + 1,
+    points = 9999,
+    completed = {
+        future_receipt = {
+            classId = "math",
+            score = 1,
+            completedAt = 1014,
+        },
+    },
+}
+local futureVersionOk, futureVersionError = pcall(function()
+    ProgressionReducer.normalize(futureVersionState, 123)
+end)
+assertEqual(futureVersionOk, false, "future progression schema must fail closed")
+assert(
+    tostring(futureVersionError):find("UNSUPPORTED_PROGRESSION_VERSION", 1, true) ~= nil,
+    "future progression schema needs a stable failure reason"
+)
+assertEqual(futureVersionState.version, 3, "future schema source must remain untouched")
+assertEqual(futureVersionState.points, 9999, "future schema points must not be rewritten")
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
