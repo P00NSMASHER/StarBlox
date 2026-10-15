@@ -49,17 +49,35 @@ local MAX_DISTANCE_CUE_STUDS = 999
 local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })
 local sessionClassesByUserId = {}
 local sessionLocationsByUserId = {}
+local transitionReceiptsByUserId = {}
 
-local function closeSessionForUser(userId)
+local function closeSessionForUser(userId, transitionReason)
     local sessionId = sessionsByUserId[userId]
     if not sessionId then
+        transitionReceiptsByUserId[userId] = nil
         return false
     end
 
+    local classId = sessionClassesByUserId[userId]
+    local expectedLocationId = sessionLocationsByUserId[userId]
     EducationCore.closeSession(sessionId)
     sessionsByUserId[userId] = nil
     sessionClassesByUserId[userId] = nil
     sessionLocationsByUserId[userId] = nil
+
+    if transitionReason == "CLASS_PERIOD_ENDED" then
+        transitionReceiptsByUserId[userId] = table.freeze({
+            sessionId = sessionId,
+            response = table.freeze({
+                accepted = false,
+                reason = transitionReason,
+                classId = classId,
+                expectedLocationId = expectedLocationId,
+            }),
+        })
+    else
+        transitionReceiptsByUserId[userId] = nil
+    end
     return true
 end
 
@@ -98,7 +116,7 @@ local function closeSessionsOutsideActivePeriod()
 
     for _, userId in ipairs(userIds) do
         if sessionClassesByUserId[userId] ~= foundation.periodId then
-            closeSessionForUser(userId)
+            closeSessionForUser(userId, "CLASS_PERIOD_ENDED")
         end
     end
 end
@@ -150,6 +168,7 @@ beginClass.OnServerInvoke = function(player)
         return table.freeze({ ok = false, reason = err or "SESSION_START_FAILED" })
     end
 
+    transitionReceiptsByUserId[player.UserId] = nil
     sessionsByUserId[player.UserId] = sessionId
     sessionClassesByUserId[player.UserId] = foundation.periodId
     sessionLocationsByUserId[player.UserId] = expectedLocationId
@@ -166,6 +185,11 @@ end
 submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId)
     local activeSessionId = sessionsByUserId[player.UserId]
     if not activeSessionId or activeSessionId ~= sessionId then
+        local transitionReceipt = transitionReceiptsByUserId[player.UserId]
+        if transitionReceipt and transitionReceipt.sessionId == sessionId then
+            transitionReceiptsByUserId[player.UserId] = nil
+            return transitionReceipt.response
+        end
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
     end
 

@@ -85,6 +85,28 @@ assert 'local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", scien
 assert 'local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]' in service
 assert 'local sessionClassesByUserId = {}' in service
 assert 'local sessionLocationsByUserId = {}' in service
+assert 'local transitionReceiptsByUserId = {}' in service
+assert 'closeSessionForUser(userId, "CLASS_PERIOD_ENDED")' in service
+assert 'transitionReason == "CLASS_PERIOD_ENDED"' in service
+assert 'transitionReceiptsByUserId[userId] = table.freeze({' in service
+assert 'sessionId = sessionId' in service
+assert 'response = table.freeze({' in service
+assert 'classId = classId' in service
+assert 'expectedLocationId = expectedLocationId' in service
+assert 'local transitionReceipt = transitionReceiptsByUserId[player.UserId]' in service
+assert 'transitionReceipt.sessionId == sessionId' in service
+assert 'return transitionReceipt.response' in service
+assert service.index('transitionReceiptsByUserId[player.UserId] = nil') < service.index(
+    'sessionsByUserId[player.UserId] = sessionId'
+), "successful attendance must clear stale transition context before registering a new session"
+transition_lookup = service.index('local transitionReceipt = transitionReceiptsByUserId[player.UserId]')
+generic_inactive = service.index(
+    'return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })',
+    transition_lookup,
+)
+assert transition_lookup < generic_inactive, (
+    "period-transition receipt must be checked before the generic inactive-session fallback"
+)
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
 assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
 assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in service
