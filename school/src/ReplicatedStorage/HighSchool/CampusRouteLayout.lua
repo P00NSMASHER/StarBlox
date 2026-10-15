@@ -37,6 +37,7 @@ CampusRouteLayout.SEGMENTS = table.freeze({
     table.freeze({ id = "LobbyToCafeteria", fromId = "lobby", toId = "cafeteria" }),
     table.freeze({ id = "LobbyToGym", fromId = "lobby", toId = "gym" }),
     table.freeze({ id = "GymToCafeteria", fromId = "gym", toId = "cafeteria" }),
+    table.freeze({ id = "LanguageArtsToGym", fromId = "ela", toId = "gym" }),
 })
 
 return table.freeze(CampusRouteLayout)
