@@ -1,6 +1,7 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
 local ActivityCatalog = require("../../src/ServerScriptService/HighSchool/ActivityCatalog")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
+local CampusCourierActivity = require("../../src/ServerScriptService/HighSchool/CampusCourierActivity")
 local CompletionGate = require("../../src/ServerScriptService/HighSchool/CompletionGate")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
@@ -245,6 +246,45 @@ assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must
 assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
 assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
 
+local normalizedNamespacedReceipt = ProgressionReducer.normalize({
+    version = 2,
+    points = 9999,
+    completed = {
+        ["activity:campus_courier:forged"] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1008,
+        },
+        ["unknown:reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1009,
+        },
+        legacy_opaque_receipt = {
+            classId = "science",
+            score = 1,
+            completedAt = 1010,
+        },
+    },
+}, 123)
+assert(
+    normalizedNamespacedReceipt.completed["activity:campus_courier:forged"] == nil,
+    "activity receipt must not migrate as a class completion"
+)
+assert(
+    normalizedNamespacedReceipt.completed["unknown:reward"] == nil,
+    "unknown namespaced receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed.legacy_opaque_receipt ~= nil,
+    "truly opaque legacy receipt must remain readable"
+)
+assertEqual(
+    normalizedNamespacedReceipt.points,
+    10,
+    "only the opaque legacy class receipt may contribute points"
+)
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
@@ -257,6 +297,223 @@ assertEqual(publicProgression.reportCard.science.completedCount, 0, "science com
 assertEqual(publicProgression.reportCard.math.bestScore, 1, "math best score")
 assertEqual(publicProgression.reportCard.ela.lastCompletedAt, 1001, "ELA last completion")
 assert(publicProgression.completed == nil, "public snapshot must not expose completion ledger")
+
+-- Server-owned campus courier objective, idempotency, and weighted progression reward.
+local firstDayCourierId = CampusCourierActivity.getDailyInstanceId(123, "server-a", 1)
+assertEqual(
+    firstDayCourierId,
+    "player:123:schedule:server-a:day:1:campus_courier",
+    "daily courier id"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 1),
+    firstDayCourierId,
+    "daily courier id must be deterministic within one server schedule"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 2),
+    "player:123:schedule:server-a:day:2:campus_courier",
+    "next school day must allow a new courier receipt"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(123, "server-b", 1),
+    "player:123:schedule:server-b:day:1:campus_courier",
+    "a new server schedule must allow a new courier receipt"
+)
+assertEqual(
+    CampusCourierActivity.getDailyInstanceId(124, "server-a", 1),
+    "player:124:schedule:server-a:day:1:campus_courier",
+    "courier receipt must be player scoped"
+)
+assertEqual(CampusCourierActivity.getDailyInstanceId(0, "server-a", 1), nil, "invalid player id")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "", 1), nil, "blank schedule namespace")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server:a", 1), nil, "unsafe schedule namespace")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server-a", 0), nil, "invalid school day")
+assertEqual(CampusCourierActivity.getDailyInstanceId(123, "server-a", 1.5), nil, "fractional school day")
+assert(
+    CampusCourierActivity.getDailyInstanceId(123, "server-a", 1)
+        ~= CampusCourierActivity.getDailyInstanceId(123, "server-b", 1),
+    "independent server schedules must not share completion receipts"
+)
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:" .. firstDayCourierId,
+        123
+    ),
+    true,
+    "courier completion receipt binding"
+)
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:" .. firstDayCourierId,
+        124
+    ),
+    false,
+    "courier completion receipt must reject another player"
+)
+assertEqual(
+    CampusCourierActivity.isCompletionIdFor(
+        "activity:player:123:schedule:server-a:day:01:campus_courier",
+        123
+    ),
+    false,
+    "courier completion receipt must be canonical"
+)
+
+local malformedCourierCreated = pcall(function()
+    CampusCourierActivity.new("forged-instance", 123)
+end)
+assertEqual(malformedCourierCreated, false, "malformed courier instance must fail closed")
+
+local crossPlayerCourierCreated = pcall(function()
+    CampusCourierActivity.new(firstDayCourierId, 124)
+end)
+assertEqual(crossPlayerCourierCreated, false, "cross-player courier instance must fail closed")
+
+local courier = CampusCourierActivity.new(firstDayCourierId, 123)
+assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
+
+local publicCourier = CampusCourierActivity.getPublicState(courier)
+local seenCourierActionLabels = {}
+for _, stop in ipairs(CampusCourierActivity.ROUTE) do
+    assert(#stop.actionLabel <= 10, "courier action label must fit compact mobile controls")
+    assert(stop.actionLabel:match("^[A-Z ]+$") ~= nil, "courier action label must be uppercase")
+    assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
+    seenCourierActionLabels[stop.actionLabel] = true
+end
+assertEqual(publicCourier.title, "Campus Courier", "courier title")
+assertEqual(publicCourier.totalStops, 4, "courier stop count")
+assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
+assertEqual(publicCourier.nextLocationName, "Main Lobby", "courier first stop name")
+assertEqual(publicCourier.nextActionLabel, "PICK UP", "courier first action")
+assertEqual(publicCourier.rewardPoints, 5, "courier advertised reward")
+assertEqual(publicCourier.progressLabel, "0/4 stops", "courier initial progress")
+
+local wrongCourierStop = CampusCourierActivity.checkIn(courier, "courier-wrong", "science")
+assertEqual(wrongCourierStop.accepted, false, "wrong courier stop")
+assertEqual(wrongCourierStop.reason, "WRONG_STOP", "wrong courier stop reason")
+assertEqual(wrongCourierStop.nextLocationId, "lobby", "wrong stop preserves objective")
+assertEqual(wrongCourierStop.nextLocationName, "Main Lobby", "wrong stop preserves destination name")
+assertEqual(wrongCourierStop.nextActionLabel, "PICK UP", "wrong stop preserves action")
+assertEqual(wrongCourierStop.progressLabel, "0/4 stops", "wrong stop progress")
+assertEqual(
+    wrongCourierStop.feedback,
+    "Next stop (0/4 stops complete): Pick up the campus delivery list in the Main Lobby.",
+    "wrong stop feedback includes progress and objective"
+)
+
+for index = 1, CampusCourierActivity.MAX_UNIQUE_CHECK_INS + 2 do
+    local detour = CampusCourierActivity.checkIn(
+        courier,
+        "courier-detour-" .. tostring(index),
+        "science"
+    )
+    assertEqual(detour.reason, "WRONG_STOP", "detour must preserve route")
+end
+assertEqual(courier.uniqueCheckInCount, 0, "wrong stops must not consume progress receipt budget")
+assertEqual(
+    CampusCourierActivity.getPublicState(courier).nextLocationId,
+    "lobby",
+    "detours must leave the courier playable"
+)
+
+local lobbyStop = CampusCourierActivity.checkIn(courier, "courier-lobby", "lobby")
+assertEqual(lobbyStop.accepted, true, "courier lobby check-in")
+assertEqual(lobbyStop.nextLocationId, "cafeteria", "courier cafeteria objective")
+assertEqual(lobbyStop.nextLocationName, "Cafeteria", "courier cafeteria name")
+assertEqual(lobbyStop.nextActionLabel, "DELIVER", "courier cafeteria action")
+assertEqual(lobbyStop.progressLabel, "1/4 stops", "courier lobby progress")
+assertEqual(
+    lobbyStop.feedback,
+    "Delivery confirmed (1/4 stops complete). Deliver the lunch-count note to the Cafeteria.",
+    "courier lobby feedback"
+)
+
+local cafeteriaStop = CampusCourierActivity.checkIn(courier, "courier-cafeteria", "cafeteria")
+assertEqual(cafeteriaStop.accepted, true, "courier cafeteria check-in")
+assertEqual(cafeteriaStop.nextLocationId, "science", "courier science objective")
+assertEqual(cafeteriaStop.nextLocationName, "Science Classroom", "courier science name")
+assertEqual(cafeteriaStop.nextActionLabel, "DROP OFF", "courier science action")
+assertEqual(cafeteriaStop.progressLabel, "2/4 stops", "courier cafeteria progress")
+
+local scienceStop = CampusCourierActivity.checkIn(courier, "courier-science", "science")
+assertEqual(scienceStop.accepted, true, "courier science check-in")
+assertEqual(scienceStop.resolved, false, "science stop must preserve return leg")
+assertEqual(scienceStop.rewardPoints, 0, "science stop must not reward early")
+assertEqual(scienceStop.progressLabel, "3/4 stops", "courier science progress")
+assertEqual(scienceStop.nextLocationId, "lobby", "courier return objective")
+assertEqual(scienceStop.nextLocationName, "Main Lobby", "courier return destination")
+assertEqual(scienceStop.nextActionLabel, "RETURN", "courier return action")
+assertEqual(
+    scienceStop.feedback,
+    "Delivery confirmed (3/4 stops complete). Return the signed delivery sheet to the Main Lobby.",
+    "courier science feedback"
+)
+assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), true, "return leg remains active")
+
+local returnLobbyStop = CampusCourierActivity.checkIn(courier, "courier-return-lobby", "lobby")
+assertEqual(returnLobbyStop.accepted, true, "courier return check-in")
+assertEqual(returnLobbyStop.resolved, true, "courier completion")
+assertEqual(returnLobbyStop.rewardPoints, 5, "courier completion reward")
+assertEqual(returnLobbyStop.progressLabel, "4/4 stops", "courier completion progress")
+assertEqual(returnLobbyStop.nextLocationName, nil, "completed courier has no next destination")
+assertEqual(returnLobbyStop.nextActionLabel, nil, "completed courier clears next action")
+assertEqual(
+    returnLobbyStop.feedback,
+    "Route complete (4/4 stops complete)! You earned 5 school points.",
+    "courier completion feedback"
+)
+assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
+
+local returnLobbyReplay = CampusCourierActivity.checkIn(
+    courier,
+    "courier-return-lobby",
+    "lobby"
+)
+assert(returnLobbyReplay == returnLobbyStop, "resolved courier retry must return cached receipt")
+
+local courierCompletion = CampusCourierActivity.buildCompletion(courier, 1006)
+for _, invalidCompletedAt in ipairs({ 0, 1.5, "1006" }) do
+    local ok = pcall(function()
+        CampusCourierActivity.buildCompletion(courier, invalidCompletedAt)
+    end)
+    assertEqual(ok, false, "courier completion timestamp must be a positive integer")
+end
+assertEqual(
+    courierCompletion.completionId,
+    "activity:player:123:schedule:server-a:day:1:campus_courier",
+    "courier completion receipt"
+)
+assertEqual(courierCompletion.classId, "activity:campus_courier", "courier completion class")
+
+local forgedCourierState, forgedCourierApplied, forgedCourierReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = "activity:player:124:schedule:server-a:day:1:campus_courier",
+        playerId = 123,
+        classId = "activity:campus_courier",
+        score = 1,
+        completedAt = 1006,
+    })
+assertEqual(forgedCourierApplied, false, "wrong-player courier receipt must fail closed")
+assertEqual(forgedCourierReason, "INVALID_COMPLETION", "wrong-player courier receipt reason")
+assertEqual(forgedCourierState.points, 20, "wrong-player courier receipt must not add points")
+
+local courierState, courierApplied = ProgressionReducer.applyCompletion(stateB, courierCompletion)
+assertEqual(courierApplied, true, "courier completion applies")
+assertEqual(courierState.points, 25, "courier weighted points")
+
+local duplicateCourierState, duplicateCourierApplied, duplicateCourierReason =
+    ProgressionReducer.applyCompletion(courierState, courierCompletion)
+assertEqual(duplicateCourierApplied, false, "duplicate courier completion")
+assertEqual(duplicateCourierReason, "DUPLICATE_COMPLETION", "duplicate courier reason")
+assertEqual(duplicateCourierState.points, 25, "duplicate courier points")
+
+local publicCourierProgression = ProgressionReducer.toPublicSnapshot(courierState, 123)
+assertEqual(publicCourierProgression.completedCount, 2, "class completion count excludes activities")
+assertEqual(publicCourierProgression.activityCompletedCount, 1, "activity completion count")
+assertEqual(publicCourierProgression.reportCard.math.completedCount, 1, "courier must not alter math")
+assertEqual(publicCourierProgression.reportCard.ela.completedCount, 1, "courier must not alter ELA")
+assertEqual(publicCourierProgression.reportCard.science.completedCount, 0, "courier must not alter science")
 
 -- Deterministic multi-day class activity rotation.
 for _, classId in ipairs({ "math", "ela", "science" }) do
