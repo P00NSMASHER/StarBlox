@@ -187,6 +187,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
             source_sha,
             repository,
             workflow_run_id,
+            workflow_run_attempt,
             project_path,
             rojo_version,
         )
