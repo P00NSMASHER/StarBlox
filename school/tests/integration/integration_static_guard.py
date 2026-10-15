@@ -60,6 +60,19 @@ assert 'local scheduleNamespace = game.JobId' in destination_service
 assert 'scheduleNamespace = HttpService:GenerateGUID(false)' in destination_service
 assert 'CampusCourierActivity.getDailyInstanceId(' in destination_service
 assert 'CampusCourierActivity.ROUTE[1].locationId' in destination_service
+assert 'local function courierStartCue()' in destination_service
+assert 'local firstStop = CampusCourierActivity.ROUTE[1]' in destination_service
+assert 'progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE)' in destination_service
+assert 'nextLocationId = firstStop.locationId' in destination_service
+assert 'nextActionLabel = firstStop.actionLabel' in destination_service
+assert 'objective = firstStop.objective' in destination_service
+assert 'courierStartCue()' in destination_service
+cue_definition = destination_service.index('local function courierStartCue()')
+cue_use = destination_service.index('courierStartCue()', cue_definition + 1)
+route_progress = destination_service.index('local response = CampusCourierActivity.checkIn(')
+assert cue_definition < cue_use < route_progress, (
+    "pre-route lobby guidance must be authored before ordinary route progression"
+)
 assert 'CampusCourierActivity.buildCompletion(courier, os.time())' in destination_service
 assert 'resolved = courierResponse and courierResponse.resolved or false' in destination_service
 assert 'courierResponse.progressLabel or string.format(' in destination_service

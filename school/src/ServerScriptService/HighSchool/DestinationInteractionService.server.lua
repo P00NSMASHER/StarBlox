@@ -147,6 +147,21 @@ local function visitPayload(location, message, courierResponse)
     })
 end
 
+local function courierStartCue()
+    local firstStop = CampusCourierActivity.ROUTE[1]
+    return table.freeze({
+        resolved = false,
+        completedStops = 0,
+        totalStops = #CampusCourierActivity.ROUTE,
+        progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE),
+        nextLocationId = firstStop.locationId,
+        nextLocationName = firstStop.locationName,
+        nextActionLabel = firstStop.actionLabel,
+        objective = firstStop.objective,
+        rewardPoints = 0,
+    })
+end
+
 local function applyCourierCheckIn(player, location)
     local courierInstanceId = getCourierInstanceId(player)
     if not courierInstanceId then
@@ -181,7 +196,7 @@ local function applyCourierCheckIn(player, location)
         return visitPayload(
             location,
             "Checked in at " .. location.name .. ". Visit the Main Lobby to start Campus Courier!",
-            nil
+            courierStartCue()
         )
     end
 
