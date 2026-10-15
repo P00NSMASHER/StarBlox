@@ -85,10 +85,12 @@ digest_receipt_field = '"sha256":os.environ["BUILD_SHA256"]'
 digest_receipt_export = 'BUILD_SHA256="$BUILD_SHA256" python -c'
 repository = "P00NSMASHER/StarBlox"
 workflow_run_id = 123456789
+workflow_run_attempt = 2
 project_path = "school/default.project.json"
 rojo_version = "7.7.0"
 repository_receipt_field = '"repository":os.environ["GITHUB_REPOSITORY"]'
 run_receipt_field = '"workflowRunId":int(os.environ["GITHUB_RUN_ID"])'
+attempt_receipt_field = '"workflowRunAttempt":int(os.environ["GITHUB_RUN_ATTEMPT"])'
 project_receipt_field = f'"projectPath":"{project_path}"'
 rojo_receipt_field = f'"rojoVersion":"{rojo_version}"'
 
@@ -98,11 +100,15 @@ assert digest_receipt_export in workflow, "validated build digest must be export
 assert digest_receipt_field in workflow, "build receipt must bind the generated place SHA-256"
 assert repository_receipt_field in workflow, "build receipt must bind the workflow repository"
 assert run_receipt_field in workflow, "build receipt must bind the workflow run ID"
+assert attempt_receipt_field in workflow, "build receipt must bind the workflow run attempt"
 assert '--expected-repository "$GITHUB_REPOSITORY"' in workflow, (
     "receipt verification must enforce the workflow repository"
 )
 assert '--expected-workflow-run-id "$GITHUB_RUN_ID"' in workflow, (
     "receipt verification must enforce the workflow run ID"
+)
+assert '--expected-workflow-run-attempt "$GITHUB_RUN_ATTEMPT"' in workflow, (
+    "receipt verification must enforce the workflow run attempt"
 )
 assert project_receipt_field in workflow, "build receipt must bind the canonical project path"
 assert rojo_receipt_field in workflow, "build receipt must bind the pinned Rojo version"
@@ -150,6 +156,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
         "sourceSha": source_sha,
         "repository": repository,
         "workflowRunId": workflow_run_id,
+        "workflowRunAttempt": workflow_run_attempt,
         "projectPath": project_path,
         "rojoVersion": rojo_version,
         "sha256": artifact_digest,
@@ -163,6 +170,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
         source_sha,
         repository,
         workflow_run_id,
+        workflow_run_attempt,
         project_path,
         rojo_version,
     )
@@ -190,6 +198,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     for field, wrong_value, message in (
         ("repository", "P00NSMASHER/OtherRepo", "repository does not match"),
         ("workflowRunId", workflow_run_id + 1, "workflow run ID does not match"),
+        ("workflowRunAttempt", workflow_run_attempt + 1, "workflow run attempt does not match"),
         ("projectPath", "school/alternate.project.json", "project path does not match"),
         ("rojoVersion", "7.7.1", "Rojo version does not match"),
     ):
@@ -204,6 +213,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
                 source_sha,
                 repository,
                 workflow_run_id,
+                workflow_run_attempt,
                 project_path,
                 rojo_version,
             )
