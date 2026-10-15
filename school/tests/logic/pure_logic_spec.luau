@@ -23,6 +23,12 @@ local expectedCueCaptions = {
     waypointConfirm = "Destination confirmed.",
 }
 
+local expectedCueCaptionDurations = {
+    periodBell = 3,
+    classComplete = 2.5,
+    waypointConfirm = 2,
+}
+
 for cueId, expectedCaption in pairs(expectedCueCaptions) do
     local cue = SchoolAudioTheme.getCue(cueId)
     assert(cue ~= nil, "missing cue: " .. cueId)
@@ -32,6 +38,25 @@ for cueId, expectedCaption in pairs(expectedCueCaptions) do
         expectedCaption,
         cueId .. " caption lookup"
     )
+    local expectedCaptionDuration = expectedCueCaptionDurations[cueId]
+    assertEqual(
+        cue.captionHoldSeconds,
+        expectedCaptionDuration,
+        cueId .. " caption duration"
+    )
+    assertEqual(
+        SchoolAudioTheme.getCueCaptionDuration(cueId),
+        expectedCaptionDuration,
+        cueId .. " caption duration lookup"
+    )
+    assert(
+        expectedCaptionDuration >= cue.maxDurationSeconds,
+        cueId .. " caption must outlast its paired sound"
+    )
+    assert(
+        expectedCaptionDuration >= 1.5 and expectedCaptionDuration <= 4,
+        cueId .. " caption duration outside readable phone range"
+    )
     assert(#expectedCaption <= 40, cueId .. " caption must remain concise")
 end
 
@@ -39,6 +64,12 @@ assertEqual(
     SchoolAudioTheme.getCueCaption("missingCue"),
     nil,
     "unknown cue caption fallback"
+)
+
+assertEqual(
+    SchoolAudioTheme.getCueCaptionDuration("missingCue"),
+    nil,
+    "unknown cue caption duration fallback"
 )
 
 -- Every canonical destination resolves one bounded, unique ambience identity.

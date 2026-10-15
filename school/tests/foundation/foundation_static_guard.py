@@ -301,6 +301,19 @@ cue_durations = [
 assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
 assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
 
+cue_caption_durations = [
+    float(value)
+    for value in re.findall(r"captionHoldSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
+]
+assert len(cue_caption_durations) == 3, "every feedback cue needs a caption display time"
+assert all(1.5 <= value <= 4 for value in cue_caption_durations), (
+    "cue caption display time outside readable phone range"
+)
+assert all(
+    caption_duration >= cue_duration
+    for caption_duration, cue_duration in zip(cue_caption_durations, cue_durations)
+), "cue captions must remain visible through their paired sound"
+
 cue_caption_block_start = audio_theme.index("SchoolAudioTheme.CUES = table.freeze({")
 cue_caption_block_end = audio_theme.index(
     "function SchoolAudioTheme.getLocationAmbience",
@@ -319,6 +332,8 @@ assert all(re.fullmatch(r"[A-Za-z][A-Za-z ]+\.", caption) for caption in cue_cap
 assert "CUE_CAPTIONS_REQUIRED = true" in audio_theme
 assert "function SchoolAudioTheme.getCueCaption(cueId)" in audio_theme
 assert "return cue and cue.caption or nil" in audio_theme
+assert "function SchoolAudioTheme.getCueCaptionDuration(cueId)" in audio_theme
+assert "return cue and cue.captionHoldSeconds or nil" in audio_theme
 
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme

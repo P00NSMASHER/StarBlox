@@ -53,6 +53,7 @@ SchoolAudioTheme.CUES = table.freeze({
         token = "cue_period_bell",
         priority = 3,
         caption = "School bell rings.",
+        captionHoldSeconds = 3,
         targetVolume = 0.35,
         maxDurationSeconds = 2.5,
     }),
@@ -60,6 +61,7 @@ SchoolAudioTheme.CUES = table.freeze({
         token = "cue_class_complete",
         priority = 2,
         caption = "Class activity complete.",
+        captionHoldSeconds = 2.5,
         targetVolume = 0.45,
         maxDurationSeconds = 1.5,
     }),
@@ -67,6 +69,7 @@ SchoolAudioTheme.CUES = table.freeze({
         token = "cue_waypoint_confirm",
         priority = 1,
         caption = "Destination confirmed.",
+        captionHoldSeconds = 2,
         targetVolume = 0.30,
         maxDurationSeconds = 0.75,
     }),
@@ -83,6 +86,11 @@ end
 function SchoolAudioTheme.getCueCaption(cueId)
     local cue = SchoolAudioTheme.getCue(cueId)
     return cue and cue.caption or nil
+end
+
+function SchoolAudioTheme.getCueCaptionDuration(cueId)
+    local cue = SchoolAudioTheme.getCue(cueId)
+    return cue and cue.captionHoldSeconds or nil
 end
 
 function SchoolAudioTheme.getCuePriority(cueId)
