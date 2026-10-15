@@ -1,0 +1,31 @@
+name: High School Class Education
+
+on:
+  push:
+    branches:
+      - rebuild/high-school-education-core
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-class-education.yml"
+  pull_request:
+    paths:
+      - "school/**"
+      - ".github/workflows/high-school-class-education.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  class-education-static:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Foundation guard
+        run: python school/tests/foundation/foundation_static_guard.py
+      - name: Run Class & Education guard
+        run: python school/tests/class_education/class_education_static_guard.py
