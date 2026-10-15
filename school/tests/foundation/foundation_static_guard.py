@@ -103,7 +103,7 @@ assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in bu
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
 assert 'roomType.Name = "RoomType"' in builder
 assert 'roomType.Text = locationType' in builder
-assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_SECONDARY_TEXT' in builder
 assert 'roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE' in builder
 assert 'roomType.TextScaled = false' in builder
 assert 'roomType.TextXAlignment = Enum.TextXAlignment.Left' in builder
@@ -159,6 +159,7 @@ assert 'return SchoolVisualTheme.LOCATION_TYPES[locationId] or "DESTINATION"' in
 
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
+assert 'SIGN_SECONDARY_TEXT = Color3.fromRGB(203, 219, 238)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "PAD_CODE_CANVAS_SIZE = 256" in visual_theme
 assert "PAD_CODE_TEXT_SIZE = 72" in visual_theme
@@ -166,10 +167,15 @@ assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain as
 
 sign_background = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_BACKGROUND")
 sign_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_TEXT")
+sign_secondary_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_SECONDARY_TEXT")
 ela_accent = rgb_assignment(visual_theme, "ela")
 gym_accent = rgb_assignment(visual_theme, "gym")
 assert contrast_ratio(sign_text, sign_background) >= 4.5, (
     "wayfinding badge text must meet 4.5:1 contrast"
+)
+assert sign_secondary_text ~= sign_text, "room-type copy needs a distinct visual hierarchy"
+assert contrast_ratio(sign_secondary_text, sign_background) >= 4.5, (
+    "room-type subtitle must meet 4.5:1 contrast"
 )
 assert contrast_ratio(ela_accent, sign_background) >= 3.0, (
     "Language Arts accent outline must meet 3:1 contrast"
