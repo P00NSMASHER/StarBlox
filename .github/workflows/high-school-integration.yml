@@ -87,7 +87,7 @@ jobs:
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"repository":os.environ["GITHUB_REPOSITORY"],"workflowRunId":int(os.environ["GITHUB_RUN_ID"]),"projectPath":"school/default.project.json","rojoVersion":"7.7.0","sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"repository":os.environ["GITHUB_REPOSITORY"],"workflowRunId":int(os.environ["GITHUB_RUN_ID"]),"workflowRunAttempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),"projectPath":"school/default.project.json","rojoVersion":"7.7.0","sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
 
       - name: Verify build receipt binding
         run: |
@@ -98,6 +98,7 @@ jobs:
             --expected-source-sha "$CANDIDATE_SOURCE_SHA" \
             --expected-repository "$GITHUB_REPOSITORY" \
             --expected-workflow-run-id "$GITHUB_RUN_ID" \
+            --expected-workflow-run-attempt "$GITHUB_RUN_ATTEMPT" \
             --expected-project-path "school/default.project.json" \
             --expected-rojo-version "7.7.0"
 
