@@ -18,31 +18,37 @@ SchoolAudioTheme.MIX_POLICY = table.freeze({
 SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     lobby = table.freeze({
         token = "ambience_campus_hub",
+        looped = true,
         targetVolume = 0.18,
         maxDistance = 48,
     }),
     math = table.freeze({
         token = "ambience_math_focus",
+        looped = true,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     ela = table.freeze({
         token = "ambience_language_arts_focus",
+        looped = true,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     science = table.freeze({
         token = "ambience_science_lab",
+        looped = true,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     cafeteria = table.freeze({
         token = "ambience_cafeteria_hum",
+        looped = true,
         targetVolume = 0.16,
         maxDistance = 40,
     }),
     gym = table.freeze({
         token = "ambience_gym_activity",
+        looped = true,
         targetVolume = 0.14,
         maxDistance = 36,
     }),
@@ -51,6 +57,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
 SchoolAudioTheme.CUES = table.freeze({
     periodBell = table.freeze({
         token = "cue_period_bell",
+        looped = false,
         priority = 4,
         caption = "School bell rings.",
         captionHoldSeconds = 3,
@@ -59,6 +66,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     classComplete = table.freeze({
         token = "cue_class_complete",
+        looped = false,
         priority = 3,
         caption = "Class activity complete.",
         captionHoldSeconds = 2.5,
@@ -67,6 +75,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     activityComplete = table.freeze({
         token = "cue_activity_complete",
+        looped = false,
         priority = 2,
         caption = "Activity complete.",
         captionHoldSeconds = 2.5,
@@ -75,6 +84,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     waypointConfirm = table.freeze({
         token = "cue_waypoint_confirm",
+        looped = false,
         priority = 1,
         caption = "Destination confirmed.",
         captionHoldSeconds = 2,
