@@ -183,7 +183,7 @@ for location_id in theme_location_ids:
         f"missing ambience specification: {location_id}"
     )
 
-for cue_id in ("periodBell", "classComplete", "waypointConfirm"):
+for cue_id in ("periodBell", "classComplete", "activityComplete", "waypointConfirm"):
     assert f"{cue_id} = table.freeze({{" in audio_theme, (
         f"missing sound cue specification: {cue_id}"
     )
@@ -192,7 +192,7 @@ ambience_volumes = [
     float(value)
     for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
 ]
-assert len(ambience_volumes) == len(theme_location_ids) + 3, "unexpected audio mix token count"
+assert len(ambience_volumes) == len(theme_location_ids) + 4, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
 max_distances = [
@@ -206,14 +206,14 @@ cue_durations = [
     float(value)
     for value in re.findall(r"maxDurationSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
 ]
-assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
+assert len(cue_durations) == 4, "every sound cue needs a duration ceiling"
 assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
 
 cue_caption_durations = [
     float(value)
     for value in re.findall(r"captionHoldSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
 ]
-assert len(cue_caption_durations) == 3, "every feedback cue needs a caption display time"
+assert len(cue_caption_durations) == 4, "every feedback cue needs a caption display time"
 assert all(1.5 <= value <= 4 for value in cue_caption_durations), (
     "cue caption display time outside readable phone range"
 )
@@ -229,7 +229,7 @@ cue_caption_block_end = audio_theme.index(
 )
 cue_caption_block = audio_theme[cue_caption_block_start:cue_caption_block_end]
 cue_captions = re.findall(r'caption\s*=\s*"([^"]+)"', cue_caption_block)
-assert len(cue_captions) == 3, "every feedback cue needs one non-audio caption"
+assert len(cue_captions) == 4, "every feedback cue needs one non-audio caption"
 assert len(set(cue_captions)) == len(cue_captions), "feedback cue captions must be unique"
 assert all(1 <= len(caption) <= 40 for caption in cue_captions), (
     "feedback cue captions must remain concise on phone"
@@ -247,14 +247,18 @@ cue_priorities = [
     int(value)
     for value in re.findall(r"priority\s*=\s*(\d+)", cue_caption_block)
 ]
-assert cue_priorities == [3, 2, 1], (
-    "cue priorities must keep the period bell above class completion above waypoint feedback"
+assert cue_priorities == [4, 3, 2, 1], (
+    "cue priorities must keep the bell above class, activity, and waypoint feedback"
 )
 assert len(set(cue_priorities)) == len(cue_priorities), "cue priorities must be deterministic"
-assert all(1 <= priority <= 3 for priority in cue_priorities), "cue priority outside bounded range"
+assert all(1 <= priority <= 4 for priority in cue_priorities), "cue priority outside bounded range"
 assert "function SchoolAudioTheme.getCuePriority(cueId)" in audio_theme
 assert "return cue and cue.priority or nil" in audio_theme
 
+assert 'token = "cue_activity_complete"' in audio_theme
+assert 'caption = "Activity complete."' in audio_theme
+assert 'captionHoldSeconds = 2.5' in audio_theme
+assert 'maxDurationSeconds = 1.25' in audio_theme
 assert 'token = "ambience_gym_activity"' in audio_theme
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
