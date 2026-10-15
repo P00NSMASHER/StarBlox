@@ -106,6 +106,8 @@ assert 'ProgressionReducer.toPublicSnapshot(state, player.UserId)' in service
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80' in courier
+assert 'CampusCourierActivity.MIN_ROUTE_STOPS = 3' in courier
+assert 'CampusCourierActivity.MAX_ROUTE_STOPS = 6' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
 assert 'function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)' in courier
 assert 'function CampusCourierActivity.isCompletionIdFor(completionId, playerId)' in courier
@@ -133,6 +135,11 @@ assert len(courier_objectives) == 4
 assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)
 assert 'type(stop.objective) == "string" and stop.objective:match("%S")' in courier
 assert '#stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH' in courier
+assert '#ROUTE >= CampusCourierActivity.MIN_ROUTE_STOPS' in courier
+assert '#ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS' in courier
+assert 'ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby"' in courier
+assert 'ROUTE[index - 1].locationId ~= stop.locationId' in courier
+assert 'route interior stops must be unique' in courier
 assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
