@@ -92,7 +92,7 @@ assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in bu
 assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
 assert 'roomType.Name = "RoomType"' in builder
 assert 'roomType.Text = locationType' in builder
-assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'roomType.TextColor3 = SchoolVisualTheme.SIGN_SECONDARY_TEXT' in builder
 assert 'roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE' in builder
 assert 'roomType.TextScaled = false' in builder
 assert 'roomType.TextXAlignment = Enum.TextXAlignment.Left' in builder
@@ -220,6 +220,7 @@ assert pad_text_size <= pad_canvas_size // 2, (
 
 assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
 assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
+assert 'SIGN_SECONDARY_TEXT = Color3.fromRGB(203, 219, 238)' in visual_theme
 assert "SIGN_MAX_DISTANCE = 90" in visual_theme
 assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
 
@@ -240,8 +241,14 @@ assert all(
 
 sign_background = palette_colors["SIGN_BACKGROUND"]
 sign_text = palette_colors["SIGN_TEXT"]
+sign_secondary_text = palette_colors["SIGN_SECONDARY_TEXT"]
+assert sign_secondary_text != sign_text, "secondary sign copy must remain visually distinct"
 text_contrast = contrast_ratio(sign_text, sign_background)
 assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
+secondary_text_contrast = contrast_ratio(sign_secondary_text, sign_background)
+assert secondary_text_contrast >= 4.5, (
+    f"secondary sign text contrast below 4.5:1: {secondary_text_contrast:.2f}:1"
+)
 badge_text_contrast = contrast_ratio(sign_text, sign_background)
 assert badge_text_contrast >= 4.5, (
     f"wayfinding badge text contrast below 4.5:1: {badge_text_contrast:.2f}:1"
@@ -275,7 +282,7 @@ for location_id in theme_location_ids:
         f"missing ambience specification: {location_id}"
     )
 
-for cue_id in ("periodBell", "classComplete", "waypointConfirm"):
+for cue_id in ("periodBell", "classComplete", "activityComplete", "waypointConfirm"):
     assert f"{cue_id} = table.freeze({{" in audio_theme, (
         f"missing sound cue specification: {cue_id}"
     )
@@ -284,7 +291,7 @@ ambience_volumes = [
     float(value)
     for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
 ]
-assert len(ambience_volumes) == len(theme_location_ids) + 3, "unexpected audio mix token count"
+assert len(ambience_volumes) == len(theme_location_ids) + 4, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
 max_distances = [
@@ -298,14 +305,14 @@ cue_durations = [
     float(value)
     for value in re.findall(r"maxDurationSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
 ]
-assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
+assert len(cue_durations) == 4, "every sound cue needs a duration ceiling"
 assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
 
 cue_caption_durations = [
     float(value)
     for value in re.findall(r"captionHoldSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
 ]
-assert len(cue_caption_durations) == 3, "every feedback cue needs a caption display time"
+assert len(cue_caption_durations) == 4, "every feedback cue needs a caption display time"
 assert all(1.5 <= value <= 4 for value in cue_caption_durations), (
     "cue caption display time outside readable phone range"
 )
@@ -321,7 +328,7 @@ cue_caption_block_end = audio_theme.index(
 )
 cue_caption_block = audio_theme[cue_caption_block_start:cue_caption_block_end]
 cue_captions = re.findall(r'caption\s*=\s*"([^"]+)"', cue_caption_block)
-assert len(cue_captions) == 3, "every feedback cue needs one non-audio caption"
+assert len(cue_captions) == 4, "every feedback cue needs one non-audio caption"
 assert len(set(cue_captions)) == len(cue_captions), "feedback cue captions must be unique"
 assert all(1 <= len(caption) <= 40 for caption in cue_captions), (
     "feedback cue captions must remain concise on phone"
@@ -334,6 +341,9 @@ assert "function SchoolAudioTheme.getCueCaption(cueId)" in audio_theme
 assert "return cue and cue.caption or nil" in audio_theme
 assert "function SchoolAudioTheme.getCueCaptionDuration(cueId)" in audio_theme
 assert "return cue and cue.captionHoldSeconds or nil" in audio_theme
+assert 'token = "cue_activity_complete"' in audio_theme
+assert 'caption = "Activity complete."' in audio_theme
+assert "captionHoldSeconds = 2.5" in audio_theme
 
 assert "ORIGINAL_ONLY = true" in audio_theme
 assert "SAMPLE_RATE_HZ = 48000" in audio_theme
@@ -397,7 +407,7 @@ cue_volumes = sorted(
     ),
     reverse=True,
 )
-assert len(cue_volumes) == 3, "unexpected sound cue volume count"
+assert len(cue_volumes) == 4, "unexpected sound cue volume count"
 max_concurrent_cues = int(mix_policy["maxConcurrentCues"])
 assert sum(cue_volumes[:max_concurrent_cues]) <= 0.90, (
     "worst-case allowed cue overlap exceeds the configured accessibility headroom"
@@ -406,12 +416,12 @@ assert sum(cue_volumes[:max_concurrent_cues]) <= 0.90, (
 cue_entries = {
     match.group(1): match.group(2)
     for match in re.finditer(
-        r"^    (periodBell|classComplete|waypointConfirm) = table\.freeze\(\{(.*?)^    \}\),",
+        r"^    (periodBell|classComplete|activityComplete|waypointConfirm) = table\.freeze\(\{(.*?)^    \}\),",
         cue_block,
         re.DOTALL | re.MULTILINE,
     )
 }
-assert set(cue_entries) == {"periodBell", "classComplete", "waypointConfirm"}, (
+assert set(cue_entries) == {"periodBell", "classComplete", "activityComplete", "waypointConfirm"}, (
     "priority QA must cover every feedback cue"
 )
 cue_priorities = {}
@@ -431,7 +441,7 @@ admitted_cues = sorted(
     key=lambda cue_id: (-cue_priorities[cue_id], cue_id),
 )[:max_concurrent_cues]
 assert admitted_cues == ["periodBell", "classComplete"], (
-    "three-cue overload must preserve the school bell and class completion feedback"
+    "four-cue overload must preserve the school bell and class completion feedback"
 )
 assert "waypointConfirm" not in admitted_cues, (
     "low-priority waypoint feedback must yield when the two-cue budget is full"
@@ -444,7 +454,7 @@ assert "rbxassetid://" not in audio_theme.lower(), "audio specification must rem
 
 
 audio_tokens = re.findall(r'token\s*=\s*"([^"]+)"', audio_theme)
-assert len(audio_tokens) == len(theme_location_ids) + 3, "unexpected audio identity token count"
+assert len(audio_tokens) == len(theme_location_ids) + 4, "unexpected audio identity token count"
 assert len(set(audio_tokens)) == len(audio_tokens), "audio identity tokens must be unique"
 assert all(
     re.fullmatch(r"[a-z][a-z0-9_]+", token)
@@ -453,7 +463,7 @@ assert all(
 assert len([token for token in audio_tokens if token.startswith("ambience_")]) == len(theme_location_ids), (
     "every location must keep an ambience namespace token"
 )
-assert len([token for token in audio_tokens if token.startswith("cue_")]) == 3, (
+assert len([token for token in audio_tokens if token.startswith("cue_")]) == 4, (
     "every feedback sound must keep a cue namespace token"
 )
 assert 'token = "ambience_gym_activity"' in audio_theme, (

@@ -20,12 +20,14 @@ assertEqual(SchoolAudioTheme.CUE_CAPTIONS_REQUIRED, true, "cue captions contract
 local expectedCueCaptions = {
     periodBell = "School bell rings.",
     classComplete = "Class activity complete.",
+    activityComplete = "Activity complete.",
     waypointConfirm = "Destination confirmed.",
 }
 
 local expectedCueCaptionDurations = {
     periodBell = 3,
     classComplete = 2.5,
+    activityComplete = 2.5,
     waypointConfirm = 2,
 }
 

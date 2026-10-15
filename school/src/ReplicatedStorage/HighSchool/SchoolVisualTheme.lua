@@ -4,6 +4,7 @@ SchoolVisualTheme.CAMPUS_FLOOR = Color3.fromRGB(239, 244, 250)
 SchoolVisualTheme.SPAWN = Color3.fromRGB(79, 173, 230)
 SchoolVisualTheme.SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)
 SchoolVisualTheme.SIGN_TEXT = Color3.fromRGB(255, 255, 255)
+SchoolVisualTheme.SIGN_SECONDARY_TEXT = Color3.fromRGB(203, 219, 238)
 SchoolVisualTheme.PAD_TRANSPARENCY = 0.12
 SchoolVisualTheme.PAD_CODE_CANVAS_SIZE = 256
 SchoolVisualTheme.PAD_CODE_TEXT_SIZE = 72

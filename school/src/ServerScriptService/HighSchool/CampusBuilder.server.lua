@@ -201,7 +201,7 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     roomType.BackgroundTransparency = 1
     roomType.Font = Enum.Font.GothamMedium
     roomType.Text = locationType
-    roomType.TextColor3 = SchoolVisualTheme.SIGN_TEXT
+    roomType.TextColor3 = SchoolVisualTheme.SIGN_SECONDARY_TEXT
     roomType.TextSize = SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE
     roomType.TextScaled = false
     roomType.TextStrokeTransparency = 1
