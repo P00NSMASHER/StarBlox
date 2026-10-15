@@ -18,7 +18,7 @@ function ProgressionStore.load(playerId)
         return nil, "LOAD_FAILED"
     end
 
-    return ProgressionReducer.normalize(data)
+    return ProgressionReducer.normalize(data, playerId)
 end
 
 function ProgressionStore.applyCompletion(completion)
@@ -37,7 +37,7 @@ function ProgressionStore.applyCompletion(completion)
         return nil, false, "WRITE_FAILED"
     end
 
-    return ProgressionReducer.normalize(updatedState), applied
+    return ProgressionReducer.normalize(updatedState, completion.playerId), applied
 end
 
 return table.freeze(ProgressionStore)

@@ -33,6 +33,7 @@ local campus = Workspace:WaitForChild(FoundationConfig.CAMPUS_NAME)
 local registry = campus:WaitForChild("Locations")
 local activeCourierByUserId = {}
 local completedCourierByUserId = {}
+local discoveredCourierByUserId = {}
 local lastCheckInByUserId = {}
 local CHECK_IN_COOLDOWN_SECONDS = 0.75
 local MAX_CHECK_IN_DISTANCE = 14
@@ -109,6 +110,21 @@ local function courierStatePayload(courier)
     })
 end
 
+local function courierStartCue()
+    local firstStop = CampusCourierActivity.ROUTE[1]
+    return table.freeze({
+        resolved = false,
+        completedStops = 0,
+        totalStops = #CampusCourierActivity.ROUTE,
+        progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE),
+        nextLocationId = firstStop.locationId,
+        nextLocationName = firstStop.locationName,
+        nextActionLabel = firstStop.actionLabel,
+        objective = firstStop.objective,
+        rewardPoints = 0,
+    })
+end
+
 getDestinationState.OnServerInvoke = function(player)
     local courierInstanceId = getCourierInstanceId(player)
     if not courierInstanceId then
@@ -117,6 +133,11 @@ getDestinationState.OnServerInvoke = function(player)
 
     local courier = getCurrentCourier(player, courierInstanceId)
     if not courier then
+        if completedCourierByUserId[player.UserId] ~= courierInstanceId
+            and discoveredCourierByUserId[player.UserId] == courierInstanceId
+        then
+            return courierStartCue()
+        end
         return nil
     end
 
@@ -147,21 +168,6 @@ local function visitPayload(location, message, courierResponse)
     })
 end
 
-local function courierStartCue()
-    local firstStop = CampusCourierActivity.ROUTE[1]
-    return table.freeze({
-        resolved = false,
-        completedStops = 0,
-        totalStops = #CampusCourierActivity.ROUTE,
-        progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE),
-        nextLocationId = firstStop.locationId,
-        nextLocationName = firstStop.locationName,
-        nextActionLabel = firstStop.actionLabel,
-        objective = firstStop.objective,
-        rewardPoints = 0,
-    })
-end
-
 local function applyCourierCheckIn(player, location)
     local courierInstanceId = getCourierInstanceId(player)
     if not courierInstanceId then
@@ -189,10 +195,12 @@ local function applyCourierCheckIn(player, location)
             player.UserId
         )
         activeCourierByUserId[player.UserId] = courier
+        discoveredCourierByUserId[player.UserId] = nil
         started = true
     end
 
     if not courier then
+        discoveredCourierByUserId[player.UserId] = courierInstanceId
         return visitPayload(
             location,
             "Checked in at " .. location.name .. ". Visit the Main Lobby to start Campus Courier!",
@@ -214,6 +222,7 @@ local function applyCourierCheckIn(player, location)
         local completion = CampusCourierActivity.buildCompletion(courier, os.time())
         completedCourierByUserId[player.UserId] = courier.activityInstanceId
         activeCourierByUserId[player.UserId] = nil
+        discoveredCourierByUserId[player.UserId] = nil
         classCompleted:Fire(completion)
         CampusCourierActivity.close(courier)
     end
@@ -268,5 +277,6 @@ end
 
 Players.PlayerRemoving:Connect(function(player)
     activeCourierByUserId[player.UserId] = nil
+    discoveredCourierByUserId[player.UserId] = nil
     lastCheckInByUserId[player.UserId] = nil
 end)

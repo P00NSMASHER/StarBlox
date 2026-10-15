@@ -60,6 +60,7 @@ assert 'local scheduleNamespace = game.JobId' in destination_service
 assert 'scheduleNamespace = HttpService:GenerateGUID(false)' in destination_service
 assert 'CampusCourierActivity.getDailyInstanceId(' in destination_service
 assert 'CampusCourierActivity.ROUTE[1].locationId' in destination_service
+assert 'local discoveredCourierByUserId = {}' in destination_service
 assert 'local function courierStartCue()' in destination_service
 assert 'local firstStop = CampusCourierActivity.ROUTE[1]' in destination_service
 assert 'progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE)' in destination_service
@@ -134,6 +135,8 @@ assert destination_service.count('HttpService:GenerateGUID(false)') == 2, (
 )
 assert 'getDestinationState.Name = "GetDestinationState"' in destination_service
 assert 'getDestinationState.OnServerInvoke = function(player)' in destination_service
+assert 'discoveredCourierByUserId[player.UserId] == courierInstanceId' in destination_service
+assert 'return courierStartCue()' in destination_service
 snapshot_start = destination_service.index('getDestinationState.OnServerInvoke = function(player)')
 snapshot_instance = destination_service.index(
     'local courierInstanceId = getCourierInstanceId(player)',
@@ -143,11 +146,33 @@ snapshot_current = destination_service.index(
     'local courier = getCurrentCourier(player, courierInstanceId)',
     snapshot_start,
 )
-snapshot_payload = destination_service.index('return courierStatePayload(courier)', snapshot_start)
-assert snapshot_start < snapshot_instance < snapshot_current < snapshot_payload, (
-    "late-starting mobile UI must expire stale routes before restoring an objective"
+snapshot_discovered = destination_service.index(
+    'discoveredCourierByUserId[player.UserId] == courierInstanceId',
+    snapshot_start,
 )
+snapshot_start_cue = destination_service.index('return courierStartCue()', snapshot_start)
+snapshot_payload = destination_service.index('return courierStatePayload(courier)', snapshot_start)
+assert (
+    snapshot_start
+    < snapshot_instance
+    < snapshot_current
+    < snapshot_discovered
+    < snapshot_start_cue
+    < snapshot_payload
+), "late-starting mobile UI must restore discovered and active objectives safely"
 assert 'CampusCourierActivity.getPublicState(courier)' in destination_service
+discovery_record = destination_service.index(
+    'discoveredCourierByUserId[player.UserId] = courierInstanceId'
+)
+pre_route_payload = destination_service.index(
+    '"Checked in at " .. location.name .. ". Visit the Main Lobby to start Campus Courier!"'
+)
+assert discovery_record < pre_route_payload, (
+    "pre-route discovery must be retained before mobile guidance is sent"
+)
+assert destination_service.count('discoveredCourierByUserId[player.UserId] = nil') == 3, (
+    "discovery state must clear on route start, completion, and player removal"
+)
 assert 'OnServerEvent' not in destination_service
 assert 'DataStoreService' not in destination_service
 

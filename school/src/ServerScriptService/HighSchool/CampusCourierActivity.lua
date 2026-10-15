@@ -233,12 +233,18 @@ end
 
 function CampusCourierActivity.buildCompletion(activity, completedAt)
     assert(activity.resolved, "activity must be resolved before completion")
+    assert(
+        type(completedAt) == "number"
+            and completedAt >= 1
+            and completedAt % 1 == 0,
+        "completedAt must be a positive integer"
+    )
     return table.freeze({
         completionId = "activity:" .. activity.activityInstanceId,
         playerId = activity.playerId,
         classId = CampusCourierActivity.COMPLETION_CLASS_ID,
         score = CampusCourierActivity.REWARD_SCORE,
-        completedAt = tonumber(completedAt) or 0,
+        completedAt = completedAt,
     })
 end
 

@@ -1,13 +1,14 @@
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
-local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
+local highSchool
+local FoundationConfig
 local FoundationState
-local SchoolClock = require(highSchool:WaitForChild("SchoolClock"))
+local SchoolClock
 local beginClass, submitAnswer, leaveClass, getProgression
 local CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science", arrival = "Arrival", lunch = "Lunch" }
 local CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })
+local REPORT_CARD_CLASS_IDS = table.freeze({ "math", "ela", "science" })
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -20,6 +21,78 @@ gui.Name = "HighSchoolHud"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
 gui.Parent = playerGui
+
+local secondaryRail = Instance.new("Frame")
+secondaryRail.Name = "SecondaryActionRail"
+secondaryRail.AnchorPoint = Vector2.new(1, 0.5)
+secondaryRail.Position = UDim2.new(1, -12, 0.5, 0)
+secondaryRail.Size = UDim2.fromOffset(48, 48)
+secondaryRail.BackgroundTransparency = 1
+secondaryRail.Parent = gui
+
+local reportCardButton = Instance.new("TextButton")
+reportCardButton.Name = "ReportCardButton"
+reportCardButton.Size = UDim2.fromOffset(48, 44)
+reportCardButton.BackgroundColor3 = Color3.fromRGB(20, 38, 67)
+reportCardButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+reportCardButton.TextSize = 14
+reportCardButton.Text = "Grades"
+reportCardButton.Parent = secondaryRail
+
+local reportCardPanel = Instance.new("Frame")
+reportCardPanel.Name = "ReportCardPanel"
+reportCardPanel.AnchorPoint = Vector2.new(1, 0.5)
+reportCardPanel.Position = UDim2.new(1, -68, 0.5, 0)
+reportCardPanel.Size = UDim2.fromOffset(236, 132)
+reportCardPanel.BackgroundColor3 = Color3.fromRGB(20, 38, 67)
+reportCardPanel.BorderSizePixel = 0
+reportCardPanel.Visible = false
+reportCardPanel.ZIndex = 5
+reportCardPanel.Parent = gui
+
+local reportCardCorner = Instance.new("UICorner")
+reportCardCorner.CornerRadius = UDim.new(0, 8)
+reportCardCorner.Parent = reportCardPanel
+
+local reportCardTitle = Instance.new("TextLabel")
+reportCardTitle.Name = "Title"
+reportCardTitle.Position = UDim2.fromOffset(10, 6)
+reportCardTitle.Size = UDim2.new(1, -20, 0, 26)
+reportCardTitle.BackgroundTransparency = 1
+reportCardTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+reportCardTitle.TextSize = 18
+reportCardTitle.Font = Enum.Font.GothamBold
+reportCardTitle.Text = "Report Card"
+reportCardTitle.ZIndex = 6
+reportCardTitle.Parent = reportCardPanel
+
+local reportCardRows = {}
+for index, classId in ipairs(REPORT_CARD_CLASS_IDS) do
+    local row = Instance.new("TextLabel")
+    row.Name = classId .. "Row"
+    row.Position = UDim2.fromOffset(10, 34 + (index - 1) * 30)
+    row.Size = UDim2.new(1, -20, 0, 28)
+    row.BackgroundTransparency = 1
+    row.TextColor3 = Color3.fromRGB(255, 255, 255)
+    row.TextSize = 15
+    row.TextXAlignment = Enum.TextXAlignment.Left
+    row.Text = CLASS_NAMES[classId] .. " • loading…"
+    row.ZIndex = 6
+    row.Parent = reportCardPanel
+    reportCardRows[classId] = row
+end
+
+reportCardButton.Activated:Connect(function()
+    reportCardPanel.Visible = not reportCardPanel.Visible
+    reportCardButton.Text = reportCardPanel.Visible and "Close" or "Grades"
+end)
+
+local function waitForHighSchool()
+    if not highSchool then
+        highSchool = ReplicatedStorage:WaitForChild("HighSchool")
+    end
+    return highSchool
+end
 
 local panel = Instance.new("Frame")
 panel.Name = "Panel"
@@ -123,12 +196,75 @@ local lastCompletedCount = nil
 local lastPeriodId = nil
 
 local function locationDisplayName(locationId)
-    for _, location in ipairs(FoundationConfig.LOCATIONS) do
+    for _, location in ipairs(FoundationConfig and FoundationConfig.LOCATIONS or {}) do
         if location.id == locationId then
             return location.name
         end
     end
+    if CLASS_PERIODS[locationId] then
+        return CLASS_NAMES[locationId] .. " Classroom"
+    end
     return tostring(locationId or "unknown")
+end
+
+local function beginClassFailureMessage(result, invokeError)
+    if invokeError == "SERVER_UNAVAILABLE" or not result then
+        return "School services are loading. Try again."
+    end
+
+    local reason = result.reason
+    if reason == "NOT_CLASS_PERIOD" then
+        return "No class is open right now."
+    end
+
+    local classId = result.classId
+    local className = CLASS_NAMES[classId] or "class"
+    local expectedLocationName = locationDisplayName(result.expectedLocationId or classId)
+    if reason == "NOT_AT_CLASS_LOCATION" then
+        return "Go to " .. expectedLocationName .. " to attend " .. className .. "."
+    end
+    if reason == "CLASS_LOCATION_MISMATCH" then
+        return "Classroom directions are updating. Go to " .. expectedLocationName .. "."
+    end
+    if reason == "CLASS_ALREADY_COMPLETED" then
+        return className .. " is already complete for this period. Check Grades for your saved result."
+    end
+    if reason == "SESSION_START_FAILED" then
+        return "Class is not ready yet. Try again."
+    end
+
+    return "Could not start class."
+end
+
+
+local function answerFailureMessage(response, invokeError)
+    if invokeError == "SERVER_UNAVAILABLE" or not response then
+        return "Could not submit answer. Check your connection and try again."
+    end
+
+    local reason = response.reason
+    if reason == "SESSION_NOT_ACTIVE"
+        or reason == "UNKNOWN_SESSION"
+        or reason == "SESSION_CLOSED"
+        or reason == "CLASS_PERIOD_ENDED"
+    then
+        return "Class ended. Back to free roam."
+    end
+    if reason == "LEFT_CLASS_LOCATION" then
+        return "You left the classroom. Back to free roam."
+    end
+    if reason == "CLASS_LOCATION_MISMATCH" then
+        local expectedLocationName = locationDisplayName(response.expectedLocationId)
+        return "Classroom directions changed. Go to " .. expectedLocationName .. " before attending again."
+    end
+    if reason == "INVALID_SUBMISSION_ID" or reason == "INVALID_CHOICE" then
+        return "That answer could not be sent. Try again."
+    end
+    if reason == "TOO_MANY_SUBMISSIONS" then
+        return "Too many attempts. Leave and attend class again."
+    end
+
+    return "Answer was not accepted. Try again."
 end
 
 local function safeInvoke(remote, ...)
@@ -150,10 +286,29 @@ local function clearChoices()
     end
 end
 
+local function updateReportCard(reportCard)
+    for _, classId in ipairs(REPORT_CARD_CLASS_IDS) do
+        local subject = type(reportCard) == "table" and reportCard[classId] or nil
+        if type(subject) == "table" then
+            local completedCount = math.max(0, math.floor(tonumber(subject.completedCount) or 0))
+            local points = math.max(0, math.floor(tonumber(subject.points) or 0))
+            reportCardRows[classId].Text = string.format(
+                "%s • %d complete • %d pts",
+                CLASS_NAMES[classId],
+                completedCount,
+                points
+            )
+        else
+            reportCardRows[classId].Text = CLASS_NAMES[classId] .. " • unavailable"
+        end
+    end
+end
+
 local function refreshProgression()
     local result = safeInvoke(getProgression)
     if result and result.ok and result.progression then
         lastCompletedCount = result.progression.completedCount or 0
+        updateReportCard(result.progression.reportCard)
         progressionLabel.Text = string.format(
             "Points: %d • Completed: %d",
             result.progression.points or 0,
@@ -163,6 +318,7 @@ local function refreshProgression()
     end
 
     progressionLabel.Text = "Points: unavailable"
+    updateReportCard(nil)
     return false
 end
 
@@ -207,20 +363,24 @@ local function submitChoice(choiceId)
     end
 
     local submissionId = HttpService:GenerateGUID(false)
-    local response = safeInvoke(submitAnswer, currentSessionId, submissionId, choiceId)
+    local response, invokeError = safeInvoke(submitAnswer, currentSessionId, submissionId, choiceId)
     if not response then
-        statusLabel.Text = "Could not submit answer."
+        statusLabel.Text = answerFailureMessage(response, invokeError)
         return
     end
 
     if not response.accepted then
-        if response.reason == "SESSION_NOT_ACTIVE"
-            or response.reason == "CLASS_PERIOD_ENDED"
-            or response.reason == "LEFT_CLASS_LOCATION"
+        local reason = response.reason
+        if reason == "SESSION_NOT_ACTIVE"
+            or reason == "UNKNOWN_SESSION"
+            or reason == "SESSION_CLOSED"
+            or reason == "CLASS_PERIOD_ENDED"
+            or reason == "LEFT_CLASS_LOCATION"
+            or reason == "CLASS_LOCATION_MISMATCH"
         then
-            finishSession("Class ended. Back to free roam.", false)
+            finishSession(answerFailureMessage(response, invokeError), false)
         else
-            statusLabel.Text = response.reason or "Answer rejected."
+            statusLabel.Text = answerFailureMessage(response, invokeError)
         end
         return
     end
@@ -258,9 +418,9 @@ attendButton.Activated:Connect(function()
         return
     end
 
-    local result = safeInvoke(beginClass)
+    local result, invokeError = safeInvoke(beginClass)
     if not result or not result.ok then
-        statusLabel.Text = (result and result.reason) or "Could not start class."
+        statusLabel.Text = beginClassFailureMessage(result, invokeError)
         return
     end
 
@@ -290,7 +450,7 @@ task.spawn(function()
         local snapshot = FoundationState and FoundationState.getSnapshot() or {}
         local periodId = snapshot.periodId
         local locationName = locationDisplayName(snapshot.locationId)
-        if snapshot.periodIndex and snapshot.secondsIntoPeriod then
+        if SchoolClock and snapshot.periodIndex and snapshot.secondsIntoPeriod then
             local displayTime, nextId = SchoolClock.getDisplay(snapshot)
             clockLabel.Text = "School time: " .. displayTime
             nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)
@@ -306,9 +466,16 @@ task.spawn(function()
         )
 
         local classIsAvailable = CLASS_PERIODS[periodId] == true
-        attendButton.Active = classIsAvailable and currentSessionId == nil
-        attendButton.AutoButtonColor = classIsAvailable and currentSessionId == nil
-        attendButton.Text = classIsAvailable and ("Attend " .. CLASS_NAMES[periodId]) or "Class Unavailable"
+        local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil
+        attendButton.Active = canAttend
+        attendButton.AutoButtonColor = canAttend
+        if classIsAvailable and beginClass == nil then
+            attendButton.Text = "Connecting…"
+        elseif classIsAvailable then
+            attendButton.Text = "Attend " .. CLASS_NAMES[periodId]
+        else
+            attendButton.Text = "Class Unavailable"
+        end
 
         if periodId ~= lastPeriodId then
             if classIsAvailable and currentSessionId == nil then
@@ -329,16 +496,22 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-    FoundationState = require(highSchool:WaitForChild("FoundationState"))
+    FoundationConfig = require(waitForHighSchool():WaitForChild("FoundationConfig"))
 end)
 task.spawn(function()
-    local classRemotes = highSchool:WaitForChild("ClassRemotes")
+    FoundationState = require(waitForHighSchool():WaitForChild("FoundationState"))
+end)
+task.spawn(function()
+    SchoolClock = require(waitForHighSchool():WaitForChild("SchoolClock"))
+end)
+task.spawn(function()
+    local classRemotes = waitForHighSchool():WaitForChild("ClassRemotes")
     beginClass = classRemotes:WaitForChild("BeginClass")
     submitAnswer = classRemotes:WaitForChild("SubmitAnswer")
     leaveClass = classRemotes:WaitForChild("LeaveClass")
 end)
 task.spawn(function()
-    local progressionRemotes = highSchool:WaitForChild("ProgressionRemotes")
+    local progressionRemotes = waitForHighSchool():WaitForChild("ProgressionRemotes")
     getProgression = progressionRemotes:WaitForChild("GetProgression")
     refreshProgression()
 end)
