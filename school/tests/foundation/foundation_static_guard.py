@@ -173,7 +173,7 @@ gym_accent = rgb_assignment(visual_theme, "gym")
 assert contrast_ratio(sign_text, sign_background) >= 4.5, (
     "wayfinding badge text must meet 4.5:1 contrast"
 )
-assert sign_secondary_text ~= sign_text, "room-type copy needs a distinct visual hierarchy"
+assert sign_secondary_text != sign_text, "room-type copy needs a distinct visual hierarchy"
 assert contrast_ratio(sign_secondary_text, sign_background) >= 4.5, (
     "room-type subtitle must meet 4.5:1 contrast"
 )
