@@ -28,9 +28,10 @@ assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, class
 assert 'if not completionId:match("^player:") then' in reducer, (
     "opaque legacy receipts must remain readable during migration"
 )
-assert 'return completionId:find(":", 1, true) == nil' not in reducer, (
-    "legacy migration must enforce both namespace and bounded-format checks"
-)
+assert (
+    'return completionId:find(":", 1, true) == nil\n'
+    '            and isLegacyCompletionIdValid(completionId)'
+) in reducer, "legacy migration must require namespace and bounded-format checks"
 assert 'LEGACY_COMPLETION_ID_MAX_LENGTH = 128' in reducer
 assert 'local function isLegacyCompletionIdValid(completionId)' in reducer
 assert '#completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH' in reducer
