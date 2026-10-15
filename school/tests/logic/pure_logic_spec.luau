@@ -34,6 +34,7 @@ local expectedCueCaptionDurations = {
 for cueId, expectedCaption in pairs(expectedCueCaptions) do
     local cue = SchoolAudioTheme.getCue(cueId)
     assert(cue ~= nil, "missing cue: " .. cueId)
+    assertEqual(cue.looped, false, cueId .. " must remain a one-shot feedback cue")
     assertEqual(cue.caption, expectedCaption, cueId .. " caption")
     assertEqual(
         SchoolAudioTheme.getCueCaption(cueId),
@@ -88,6 +89,7 @@ local seenAmbienceTokens = {}
 for locationId, expectedToken in pairs(expectedAmbienceTokens) do
     local ambience = SchoolAudioTheme.getLocationAmbience(locationId)
     assert(ambience ~= nil, "missing ambience lookup: " .. locationId)
+    assertEqual(ambience.looped, true, locationId .. " ambience must continue until transition")
     assertEqual(ambience.token, expectedToken, locationId .. " ambience token")
     assert(
         ambience.targetVolume > 0 and ambience.targetVolume <= 0.5,
