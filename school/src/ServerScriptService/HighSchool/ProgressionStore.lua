@@ -10,15 +10,16 @@ local function keyForPlayer(playerId)
 end
 
 function ProgressionStore.load(playerId)
-    local ok, data = pcall(function()
-        return dataStore:GetAsync(keyForPlayer(playerId))
+    local ok, state = pcall(function()
+        local data = dataStore:GetAsync(keyForPlayer(playerId))
+        return ProgressionReducer.normalize(data, playerId)
     end)
 
     if not ok then
         return nil, "LOAD_FAILED"
     end
 
-    return ProgressionReducer.normalize(data, playerId)
+    return state
 end
 
 function ProgressionStore.applyCompletion(completion)

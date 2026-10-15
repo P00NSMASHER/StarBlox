@@ -15,6 +15,21 @@ local VALID_CLASS_IDS = table.freeze({
     science = true,
 })
 
+local function assertStoredVersionSupported(state)
+    if type(state) ~= "table" or state.version == nil then
+        return
+    end
+
+    local version = state.version
+    if type(version) ~= "number"
+        or version < 1
+        or version % 1 ~= 0
+        or version > ProgressionReducer.VERSION
+    then
+        error("UNSUPPORTED_PROGRESSION_VERSION", 3)
+    end
+end
+
 local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     if type(record) ~= "table" or not VALID_CLASS_IDS[record.classId] then
         return nil
@@ -103,6 +118,7 @@ local function pointsFromCompleted(completed)
 end
 
 function ProgressionReducer.normalize(state, expectedPlayerId)
+    assertStoredVersionSupported(state)
     state = state or {}
     local completed = copyCompleted(state.completed, expectedPlayerId)
     return {

@@ -315,6 +315,28 @@ assertEqual(
     "only the opaque legacy class receipt may contribute points"
 )
 
+local futureVersionState = {
+    version = ProgressionReducer.VERSION + 1,
+    points = 9999,
+    completed = {
+        future_receipt = {
+            classId = "math",
+            score = 1,
+            completedAt = 1014,
+        },
+    },
+}
+local futureVersionOk, futureVersionError = pcall(function()
+    ProgressionReducer.normalize(futureVersionState, 123)
+end)
+assertEqual(futureVersionOk, false, "future progression schema must fail closed")
+assert(
+    tostring(futureVersionError):find("UNSUPPORTED_PROGRESSION_VERSION", 1, true) ~= nil,
+    "future progression schema needs a stable failure reason"
+)
+assertEqual(futureVersionState.version, 3, "future schema source must remain untouched")
+assertEqual(futureVersionState.points, 9999, "future schema points must not be rewritten")
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
