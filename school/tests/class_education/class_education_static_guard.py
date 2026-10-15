@@ -107,6 +107,11 @@ generic_inactive = service.index(
 assert transition_lookup < generic_inactive, (
     "period-transition receipt must be checked before the generic inactive-session fallback"
 )
+transition_return = service.index('return transitionReceipt.response', transition_lookup)
+transition_branch = service[transition_lookup:transition_return]
+assert 'transitionReceiptsByUserId[player.UserId] = nil' not in transition_branch, (
+    "period-transition receipt must remain replayable until successful new attendance"
+)
 assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
 assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
 assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in service

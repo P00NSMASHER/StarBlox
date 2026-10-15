@@ -187,7 +187,6 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     if not activeSessionId or activeSessionId ~= sessionId then
         local transitionReceipt = transitionReceiptsByUserId[player.UserId]
         if transitionReceipt and transitionReceipt.sessionId == sessionId then
-            transitionReceiptsByUserId[player.UserId] = nil
             return transitionReceipt.response
         end
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
