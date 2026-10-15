@@ -374,8 +374,39 @@ local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
 
 local publicCourier = CampusCourierActivity.getPublicState(courier)
+local courierRoute = CampusCourierActivity.ROUTE
+assert(
+    #courierRoute >= CampusCourierActivity.MIN_ROUTE_STOPS
+        and #courierRoute <= CampusCourierActivity.MAX_ROUTE_STOPS,
+    "courier must remain a short campus activity"
+)
+assertEqual(courierRoute[1].locationId, "lobby", "courier must begin in the lobby")
+assertEqual(courierRoute[#courierRoute].locationId, "lobby", "courier must return to the lobby")
+local seenCourierInteriorLocations = {}
 local seenCourierActionLabels = {}
-for _, stop in ipairs(CampusCourierActivity.ROUTE) do
+for index, stop in ipairs(courierRoute) do
+    assert(
+        type(stop.locationId) == "string" and stop.locationId:match("^[%w_%-]+$") ~= nil,
+        "courier location id must be canonical"
+    )
+    assert(
+        type(stop.locationName) == "string" and stop.locationName:match("%S") ~= nil,
+        "courier location name must be nonblank"
+    )
+    if index > 1 then
+        assert(
+            courierRoute[index - 1].locationId ~= stop.locationId,
+            "courier cannot repeat adjacent destinations"
+        )
+    end
+    if index > 1 and index < #courierRoute then
+        assert(stop.locationId ~= "lobby", "courier can only return to lobby at completion")
+        assert(
+            not seenCourierInteriorLocations[stop.locationId],
+            "courier interior destinations must be unique"
+        )
+        seenCourierInteriorLocations[stop.locationId] = true
+    end
     assert(#stop.actionLabel <= 10, "courier action label must fit compact mobile controls")
     assert(stop.actionLabel:match("^[A-Z ]+$") ~= nil, "courier action label must be uppercase")
     assert(
