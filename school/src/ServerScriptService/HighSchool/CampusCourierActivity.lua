@@ -8,6 +8,7 @@ CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
 CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10
+CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80
 
 local ROUTE = table.freeze({
     table.freeze({
@@ -43,6 +44,14 @@ for _, stop in ipairs(ROUTE) do
         "route action label exceeds compact control limit"
     )
     assert(stop.actionLabel:match("^[A-Z ]+$"), "route action label must be uppercase")
+    assert(
+        type(stop.objective) == "string" and stop.objective:match("%S"),
+        "route objective required"
+    )
+    assert(
+        #stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH,
+        "route objective exceeds mobile copy limit"
+    )
 end
 
 CampusCourierActivity.ROUTE = ROUTE

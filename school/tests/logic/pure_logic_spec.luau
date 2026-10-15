@@ -378,6 +378,14 @@ local seenCourierActionLabels = {}
 for _, stop in ipairs(CampusCourierActivity.ROUTE) do
     assert(#stop.actionLabel <= 10, "courier action label must fit compact mobile controls")
     assert(stop.actionLabel:match("^[A-Z ]+$") ~= nil, "courier action label must be uppercase")
+    assert(
+        type(stop.objective) == "string" and stop.objective:match("%S") ~= nil,
+        "courier objective must be nonblank"
+    )
+    assert(
+        #stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH,
+        "courier objective must fit persistent mobile guidance"
+    )
     assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
     seenCourierActionLabels[stop.actionLabel] = true
 end
