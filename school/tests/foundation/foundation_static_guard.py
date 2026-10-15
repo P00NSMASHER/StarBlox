@@ -208,6 +208,11 @@ max_distances = [
 assert len(max_distances) == len(theme_location_ids), "every ambience zone needs one max distance"
 assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
 
+loop_flags = re.findall(r"looped\s*=\s*(true|false)", audio_theme)
+assert loop_flags == ["true"] * len(theme_location_ids) + ["false"] * 4, (
+    "campus ambience must loop while short feedback cues remain one-shot"
+)
+
 cue_durations = [
     float(value)
     for value in re.findall(r"maxDurationSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
