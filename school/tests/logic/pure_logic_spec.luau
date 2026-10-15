@@ -245,6 +245,45 @@ assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must
 assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
 assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
 
+local normalizedNamespacedReceipt = ProgressionReducer.normalize({
+    version = 2,
+    points = 9999,
+    completed = {
+        ["activity:campus_courier:forged"] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1008,
+        },
+        ["unknown:reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1009,
+        },
+        legacy_opaque_receipt = {
+            classId = "science",
+            score = 1,
+            completedAt = 1010,
+        },
+    },
+}, 123)
+assert(
+    normalizedNamespacedReceipt.completed["activity:campus_courier:forged"] == nil,
+    "activity receipt must not migrate as a class completion"
+)
+assert(
+    normalizedNamespacedReceipt.completed["unknown:reward"] == nil,
+    "unknown namespaced receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed.legacy_opaque_receipt ~= nil,
+    "truly opaque legacy receipt must remain readable"
+)
+assertEqual(
+    normalizedNamespacedReceipt.points,
+    10,
+    "only the opaque legacy class receipt may contribute points"
+)
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")

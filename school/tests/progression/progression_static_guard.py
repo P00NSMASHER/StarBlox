@@ -28,6 +28,9 @@ assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, class
 assert 'if not completionId:match("^player:") then' in reducer, (
     "opaque legacy receipts must remain readable during migration"
 )
+assert 'return completionId:find(":", 1, true) == nil' in reducer, (
+    "unknown namespaced rewards must not migrate as ten-point class receipts"
+)
 assert 'CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)' in reducer
 binding_pos = reducer.index('if not CompletionGate.isCompletionIdFor(')
 dedupe_pos = reducer.index('if state.completed[completion.completionId] then')

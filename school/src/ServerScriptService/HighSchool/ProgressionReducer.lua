@@ -59,10 +59,10 @@ local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId
         return false
     end
 
-    -- Pre-v2 receipts used opaque IDs. Preserve those during migration, but
-    -- canonical-looking receipts must remain bound to this DataStore owner.
+    -- Pre-v2 receipts used opaque IDs. Preserve truly opaque values during
+    -- migration, but never reinterpret another namespaced reward as a class receipt.
     if not completionId:match("^player:") then
-        return true
+        return completionId:find(":", 1, true) == nil
     end
 
     return CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)
