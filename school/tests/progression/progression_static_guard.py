@@ -28,8 +28,15 @@ assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, class
 assert 'if not completionId:match("^player:") then' in reducer, (
     "opaque legacy receipts must remain readable during migration"
 )
-assert 'return completionId:find(":", 1, true) == nil' in reducer, (
-    "unknown namespaced rewards must not migrate as ten-point class receipts"
+assert 'return completionId:find(":", 1, true) == nil' not in reducer, (
+    "legacy migration must enforce both namespace and bounded-format checks"
+)
+assert 'LEGACY_COMPLETION_ID_MAX_LENGTH = 128' in reducer
+assert 'local function isLegacyCompletionIdValid(completionId)' in reducer
+assert '#completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH' in reducer
+assert 'completionId:match("^[%w_%-]+$") ~= nil' in reducer
+assert 'and isLegacyCompletionIdValid(completionId)' in reducer, (
+    "unknown, malformed, or overlong receipts must not migrate as class rewards"
 )
 assert 'CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)' in reducer
 binding_pos = reducer.index('if not CompletionGate.isCompletionIdFor(')

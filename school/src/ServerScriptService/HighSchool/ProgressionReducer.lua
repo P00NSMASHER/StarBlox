@@ -6,6 +6,7 @@ local ProgressionReducer = {}
 
 ProgressionReducer.VERSION = 2
 ProgressionReducer.POINTS_PER_COMPLETION = 10
+ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH = 128
 
 local CLASS_IDS = table.freeze({ "math", "ela", "science" })
 local VALID_CLASS_IDS = table.freeze({
@@ -54,6 +55,11 @@ local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     }
 end
 
+local function isLegacyCompletionIdValid(completionId)
+    return #completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH
+        and completionId:match("^[%w_%-]+$") ~= nil
+end
+
 local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)
     if type(completionId) ~= "string" or completionId == "" then
         return false
@@ -63,6 +69,7 @@ local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId
     -- migration, but never reinterpret another namespaced reward as a class receipt.
     if not completionId:match("^player:") then
         return completionId:find(":", 1, true) == nil
+            and isLegacyCompletionIdValid(completionId)
     end
 
     return CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)
