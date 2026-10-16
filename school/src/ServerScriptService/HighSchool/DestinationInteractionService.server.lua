@@ -96,6 +96,7 @@ local function courierStatePayload(courier)
         activityId = state.id,
         resolved = state.resolved,
         completedStops = state.completedStops,
+        remainingStops = state.remainingStops,
         totalStops = state.totalStops,
         progressLabel = state.progressLabel or string.format(
             "%d/%d stops",
@@ -113,8 +114,10 @@ end
 local function courierStartCue()
     local firstStop = CampusCourierActivity.ROUTE[1]
     return table.freeze({
+        activityId = CampusCourierActivity.ACTIVITY_ID,
         resolved = false,
         completedStops = 0,
+        remainingStops = #CampusCourierActivity.ROUTE,
         totalStops = #CampusCourierActivity.ROUTE,
         progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE),
         nextLocationId = firstStop.locationId,
@@ -152,6 +155,7 @@ local function visitPayload(location, message, courierResponse)
         activityId = courierResponse and CampusCourierActivity.ACTIVITY_ID or nil,
         resolved = courierResponse and courierResponse.resolved or false,
         completedStops = courierResponse and courierResponse.completedStops or nil,
+        remainingStops = courierResponse and courierResponse.remainingStops or nil,
         totalStops = courierResponse and courierResponse.totalStops or nil,
         progressLabel = courierResponse and (
             courierResponse.progressLabel or string.format(
