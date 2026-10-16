@@ -196,7 +196,7 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     local activeClassId = sessionClassesByUserId[player.UserId]
     local expectedLocationId = sessionLocationsByUserId[player.UserId]
     if foundation.periodId ~= activeClassId then
-        closeSessionForUser(player.UserId)
+        closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")
         return table.freeze({
             accepted = false,
             reason = "CLASS_PERIOD_ENDED",

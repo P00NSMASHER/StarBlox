@@ -151,9 +151,14 @@ assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
 context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
-period_close = service.index('reason = "CLASS_PERIOD_ENDED"')
-assert context_capture < period_close, (
-    "session class/location context must be captured before transition closure clears it"
+period_mismatch = service.index('if foundation.periodId ~= activeClassId then')
+period_receipt_close = service.index(
+    'closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")',
+    period_mismatch,
+)
+period_response = service.index('reason = "CLASS_PERIOD_ENDED"', period_receipt_close)
+assert context_capture < period_mismatch < period_receipt_close < period_response, (
+    "submit-time period mismatch must retain class context and record a replayable receipt before responding"
 )
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
