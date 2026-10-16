@@ -20,6 +20,8 @@ assert 'ACTIVE_CLASS_ID' not in client, "retired single-class client contract re
 assert 'CLASS_NAMES = { math = "Math", ela = "Language Arts", science = "Science"' in client
 assert 'CLASS_PERIODS = table.freeze({ math = true, ela = true, science = true })' in client
 assert 'REPORT_CARD_CLASS_IDS = table.freeze({ "math", "ela", "science" })' in client
+assert "local FREE_ROAM_PANEL_HEIGHT = 264" in client
+assert "local ACTIVITY_PANEL_HEIGHT = 356" in client
 assert 'local highSchool\nlocal FoundationConfig\nlocal FoundationState\nlocal SchoolClock' in client
 assert 'local highSchool = ReplicatedStorage:WaitForChild("HighSchool")' not in client
 assert 'local function waitForHighSchool()' in client
@@ -37,7 +39,8 @@ assert 'nextLabel.Text = "Up next: " .. (CLASS_NAMES[nextId] or nextId)' in clie
 
 assert 'panel.AnchorPoint = Vector2.new(0.5, 0)' in client
 assert 'panel.Position = UDim2.new(0.5, 0, 0, 18)' in client
-assert 'sizeConstraint.MaxSize = Vector2.new(380, 264)' in client
+assert 'panel.Size = UDim2.new(0.86, 0, 0, FREE_ROAM_PANEL_HEIGHT)' in client
+assert 'sizeConstraint.MaxSize = Vector2.new(380, ACTIVITY_PANEL_HEIGHT)' in client
 assert 'sizeConstraint.MinSize = Vector2.new(280, 244)' in client
 assert 'secondaryRail.Name = "SecondaryActionRail"' in client
 assert 'secondaryRail.Position = UDim2.new(1, -12, 0.5, 0)' in client
@@ -62,13 +65,31 @@ assert close_index < show_index, "Grades overlay must close before activity cont
 assert client.count('Color3.fromRGB(20, 38, 67)') >= 2, "compact menu needs accessible navy surfaces"
 assert client.count('Color3.fromRGB(255, 255, 255)') >= 2, "compact menu needs high-contrast text"
 assert '0, 44' in client, "touch targets must be at least 44px high"
-assert 'button.Size = UDim2.new(1 / math.max(1, #choices), -6, 0, 44)' in client
+assert 'local choicesLayout = Instance.new("UIGridLayout")' in client
+assert 'choicesLayout.CellSize = UDim2.new(0.5, -3, 0, 56)' in client
+assert 'choicesLayout.CellPadding = UDim2.fromOffset(6, 4)' in client
+assert 'choicesLayout.FillDirectionMaxCells = 2' in client
+assert 'choicesLayout.SortOrder = Enum.SortOrder.LayoutOrder' in client
+assert 'button.Size = UDim2.new(0.5, -3, 0, 56)' in client
+assert 'button.TextWrapped = true' in client
+assert 'button.TextScaled = true' in client
+assert 'textConstraint.MinTextSize = 12' in client
+assert 'textConstraint.MaxTextSize = 17' in client
+assert 'button.BackgroundColor3 = Color3.fromRGB(20, 38, 67)' in client
+assert 'button.TextColor3 = Color3.fromRGB(255, 255, 255)' in client
+assert 'questionFrame.Size = UDim2.new(1, -16, 0, 160)' in client
+assert 'promptLabel.Size = UDim2.new(1, 0, 0, 40)' in client
+assert 'choicesRow.Size = UDim2.new(1, 0, 0, 116)' in client
 assert 'questionFrame.Visible = false' in client
+assert client.count('panel.Size = UDim2.new(0.86, 0, 0, FREE_ROAM_PANEL_HEIGHT)') >= 2, (
+    "compact panel height must return after class completion"
+)
+assert 'panel.Size = UDim2.new(0.86, 0, 0, ACTIVITY_PANEL_HEIGHT)' in client
 assert 'progressionLabel.Visible = false' in client
 assert 'progressionLabel.Visible = true' in client
-active_class_height = (26 * 3) + 32 + 46 + 68 + (6 * 5)
-assert active_class_height <= 264, (
-    "active class rows must fit the capped phone panel without reducing 44px targets"
+active_class_height = (26 * 3) + 32 + 46 + 160 + (6 * 5)
+assert active_class_height <= 356, (
+    "two-row class controls must fit the activity panel without reducing touch targets"
 )
 assert 'finishSession("Back to free roam.", false)' in client
 assert 'waitForProgressionAdvance' in client
