@@ -1,4 +1,6 @@
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
+local SchoolAudioTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolAudioTheme")
+local SchoolVisualTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolVisualTheme")
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
@@ -12,6 +14,221 @@ local function assertEqual(actual, expected, message)
         ))
     end
 end
+
+-- Every audible feedback cue has a concise non-audio equivalent.
+assertEqual(SchoolAudioTheme.CUE_CAPTIONS_REQUIRED, true, "cue captions contract")
+
+local expectedCueCaptions = {
+    periodBell = "School bell rings.",
+    classComplete = "Class activity complete.",
+    activityComplete = "Activity complete.",
+    waypointConfirm = "Destination confirmed.",
+}
+
+local expectedCueCaptionDurations = {
+    periodBell = 3,
+    classComplete = 2.5,
+    activityComplete = 2.5,
+    waypointConfirm = 2,
+}
+
+for cueId, expectedCaption in pairs(expectedCueCaptions) do
+    local cue = SchoolAudioTheme.getCue(cueId)
+    assert(cue ~= nil, "missing cue: " .. cueId)
+    assertEqual(cue.looped, false, cueId .. " must remain a one-shot feedback cue")
+    assertEqual(cue.caption, expectedCaption, cueId .. " caption")
+    assertEqual(
+        SchoolAudioTheme.getCueCaption(cueId),
+        expectedCaption,
+        cueId .. " caption lookup"
+    )
+    local expectedCaptionDuration = expectedCueCaptionDurations[cueId]
+    assertEqual(
+        cue.captionHoldSeconds,
+        expectedCaptionDuration,
+        cueId .. " caption duration"
+    )
+    assertEqual(
+        SchoolAudioTheme.getCueCaptionDuration(cueId),
+        expectedCaptionDuration,
+        cueId .. " caption duration lookup"
+    )
+    assert(
+        expectedCaptionDuration >= cue.maxDurationSeconds,
+        cueId .. " caption must outlast its paired sound"
+    )
+    assert(
+        expectedCaptionDuration >= 1.5 and expectedCaptionDuration <= 4,
+        cueId .. " caption duration outside readable phone range"
+    )
+    assert(#expectedCaption <= 40, cueId .. " caption must remain concise")
+end
+
+assertEqual(
+    SchoolAudioTheme.getCueCaption("missingCue"),
+    nil,
+    "unknown cue caption fallback"
+)
+
+assertEqual(
+    SchoolAudioTheme.getCueCaptionDuration("missingCue"),
+    nil,
+    "unknown cue caption duration fallback"
+)
+
+-- Every canonical destination resolves one bounded, unique ambience identity.
+local expectedAmbienceTokens = {
+    lobby = "ambience_campus_hub",
+    math = "ambience_math_focus",
+    ela = "ambience_language_arts_focus",
+    science = "ambience_science_lab",
+    cafeteria = "ambience_cafeteria_hum",
+    gym = "ambience_gym_activity",
+}
+local seenAmbienceTokens = {}
+
+for locationId, expectedToken in pairs(expectedAmbienceTokens) do
+    local ambience = SchoolAudioTheme.getLocationAmbience(locationId)
+    assert(ambience ~= nil, "missing ambience lookup: " .. locationId)
+    assertEqual(ambience.looped, true, locationId .. " ambience must continue until transition")
+    assertEqual(ambience.token, expectedToken, locationId .. " ambience token")
+    assert(
+        ambience.targetVolume > 0 and ambience.targetVolume <= 0.5,
+        locationId .. " ambience volume outside safe range"
+    )
+    assert(
+        ambience.maxDistance >= 24 and ambience.maxDistance <= 64,
+        locationId .. " ambience distance outside bounded range"
+    )
+    assert(
+        seenAmbienceTokens[ambience.token] == nil,
+        "duplicate ambience token: " .. ambience.token
+    )
+    seenAmbienceTokens[ambience.token] = true
+end
+
+assertEqual(
+    SchoolAudioTheme.getLocationAmbience("missingLocation"),
+    nil,
+    "unknown ambience fallback"
+)
+
+-- Shared sound policy must stay immutable after lookup so one client cannot
+-- silently alter cue priority, looping, or volume for later consumers.
+local function assertFrozenMutationRejected(label, mutate)
+    local succeeded = pcall(mutate)
+    assertEqual(succeeded, false, label .. " must reject mutation")
+end
+
+assertFrozenMutationRejected("audio theme root", function()
+    SchoolAudioTheme.ORIGINAL_ONLY = false
+end)
+assertFrozenMutationRejected("mix policy", function()
+    SchoolAudioTheme.MIX_POLICY.maxConcurrentCues = 99
+end)
+assertFrozenMutationRejected("ambience registry", function()
+    SchoolAudioTheme.LOCATION_AMBIENCE.gym = {}
+end)
+assertFrozenMutationRejected("ambience entry", function()
+    SchoolAudioTheme.getLocationAmbience("gym").targetVolume = 1
+end)
+assertFrozenMutationRejected("cue registry", function()
+    SchoolAudioTheme.CUES.periodBell = {}
+end)
+assertFrozenMutationRejected("cue entry", function()
+    SchoolAudioTheme.getCue("periodBell").looped = true
+end)
+
+assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unchanged")
+assertEqual(SchoolAudioTheme.MIX_POLICY.maxConcurrentCues, 2, "mix policy remains unchanged")
+assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
+assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
+
+-- Shared wayfinding policy must stay immutable so one consumer cannot silently
+-- relabel destinations or weaken palette contrast for later consumers.
+assertEqual(
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST,
+    3,
+    "wayfinding accent contrast floor"
+)
+assertEqual(SchoolVisualTheme.getLocationCode("math"), "MTH", "math wayfinding code")
+assertEqual(SchoolVisualTheme.getLocationType("science"), "LAB CLASSROOM", "science room type")
+assertEqual(SchoolVisualTheme.getLocationCode("missingLocation"), "LOC", "unknown code fallback")
+assertEqual(
+    SchoolVisualTheme.getLocationType("missingLocation"),
+    "DESTINATION",
+    "unknown room type fallback"
+)
+assertEqual(
+    SchoolVisualTheme.getLocationAccent("missingLocation"),
+    SchoolVisualTheme.getLocationAccent("lobby"),
+    "unknown accent fallback"
+)
+
+local expectedWayfinding = {
+    lobby = { code = "LBY", roomType = "COMMONS" },
+    math = { code = "MTH", roomType = "CLASSROOM" },
+    ela = { code = "ELA", roomType = "CLASSROOM" },
+    science = { code = "SCI", roomType = "LAB CLASSROOM" },
+    cafeteria = { code = "CAF", roomType = "DINING" },
+    gym = { code = "GYM", roomType = "ATHLETICS" },
+}
+local seenRuntimeCodes = {}
+local seenRuntimeAccents = {}
+
+for locationId, expected in pairs(expectedWayfinding) do
+    local code = SchoolVisualTheme.getLocationCode(locationId)
+    local roomType = SchoolVisualTheme.getLocationType(locationId)
+    local accent = SchoolVisualTheme.getLocationAccent(locationId)
+
+    assertEqual(code, expected.code, locationId .. " runtime wayfinding code")
+    assertEqual(roomType, expected.roomType, locationId .. " runtime room type")
+    assert(
+        code:match("^[A-Z][A-Z][A-Z]$") ~= nil,
+        locationId .. " runtime code must remain compact uppercase copy"
+    )
+    assert(
+        #roomType <= 14,
+        locationId .. " runtime room type must fit the phone sign line"
+    )
+    assert(
+        accent.R >= 0 and accent.R <= 1
+            and accent.G >= 0 and accent.G <= 1
+            and accent.B >= 0 and accent.B <= 1,
+        locationId .. " runtime accent channels must remain normalized"
+    )
+
+    local accentKey = string.format("%.6f:%.6f:%.6f", accent.R, accent.G, accent.B)
+    assert(seenRuntimeCodes[code] == nil, "duplicate runtime code: " .. code)
+    assert(seenRuntimeAccents[accentKey] == nil, "duplicate runtime accent: " .. accentKey)
+    seenRuntimeCodes[code] = true
+    seenRuntimeAccents[accentKey] = true
+end
+
+assertFrozenMutationRejected("visual theme root", function()
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST = 0
+end)
+assertFrozenMutationRejected("wayfinding code registry", function()
+    SchoolVisualTheme.LOCATION_CODES.math = "BAD"
+end)
+assertFrozenMutationRejected("room type registry", function()
+    SchoolVisualTheme.LOCATION_TYPES.science = "ROOM"
+end)
+assertFrozenMutationRejected("accent registry", function()
+    SchoolVisualTheme.LOCATION_ACCENTS.gym = SchoolVisualTheme.LOCATION_ACCENTS.lobby
+end)
+
+assertEqual(
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST,
+    3,
+    "visual contrast floor remains unchanged"
+)
+assertEqual(SchoolVisualTheme.getLocationCode("math"), "MTH", "visual code remains unchanged")
+assertEqual(
+    SchoolVisualTheme.getLocationType("science"),
+    "LAB CLASSROOM",
+    "visual room type remains unchanged"
+)
 
 -- School clock boundaries and day rollover.
 local arrivalStart = SchoolClock.getState(0)
