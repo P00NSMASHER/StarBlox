@@ -238,6 +238,17 @@ assert ("LanguageArtsToGym", "ela", "gym") in route_segments, (
 assert western_loop_edges.issubset(undirected_route_edges), (
     "Language Arts, gym, and lobby must form a connected circulation loop"
 )
+assert ("LanguageArtsToScience", "ela", "science") in route_segments, (
+    "the Language Arts to Science schedule transition needs a direct corridor"
+)
+class_transition_loop_edges = {
+    frozenset(("ela", "science")),
+    frozenset(("science", "lobby")),
+    frozenset(("lobby", "ela")),
+}
+assert class_transition_loop_edges.issubset(undirected_route_edges), (
+    "Language Arts, Science, and lobby must form a compact class-transition loop"
+)
 outdoor_routes = {
     ("OutdoorEntranceToMath", "entrance", "math"),
     ("OutdoorEntranceToScience", "entrance", "science"),
@@ -263,8 +274,8 @@ destination_routes = [
 assert {to_id for _, _, to_id in destination_routes} == location_ids - {"lobby"}, (
     "every non-lobby destination must have one direct lobby route"
 )
-assert len(route_segments) == len(location_ids) + len(outdoor_routes) + 2, (
-    "route network must contain core spokes, outdoor links, and two compact loop corridors"
+assert len(route_segments) == len(location_ids) + len(outdoor_routes) + 3, (
+    "route network must contain core spokes, outdoor links, and three compact loop corridors"
 )
 
 route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
