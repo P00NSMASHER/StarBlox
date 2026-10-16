@@ -117,9 +117,13 @@ assert 'completedAt >= 1' in courier
 assert 'completedAt % 1 == 0' in courier
 assert 'completedAt = tonumber(completedAt) or 0' not in courier
 assert 'completedAt = completedAt' in courier
+assert 'local function getCompletedStops(activity)' in courier
+assert 'local function getRemainingStops(activity)' in courier
+assert 'return math.max(#ROUTE - getCompletedStops(activity), 0)' in courier
 assert 'local function formatProgress(activity)' in courier
 assert courier.count('locationId = "lobby"') == 2
 assert courier.count('progressLabel = formatProgress(activity)') == 2
+assert courier.count('remainingStops = getRemainingStops(activity)') == 2
 assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2
 for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
     assert courier.count(f'actionLabel = "{action_label}"') == 1
