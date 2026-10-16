@@ -88,6 +88,8 @@ workflow_run_id = 123456789
 workflow_run_attempt = 2
 project_path = "school/default.project.json"
 rojo_version = "7.7.0"
+workflow_sha = "b" * 40
+workflow_sha_receipt_field = '"workflowSha":os.environ["GITHUB_WORKFLOW_SHA"]'
 repository_receipt_field = '"repository":os.environ["GITHUB_REPOSITORY"]'
 run_receipt_field = '"workflowRunId":int(os.environ["GITHUB_RUN_ID"])'
 attempt_receipt_field = '"workflowRunAttempt":int(os.environ["GITHUB_RUN_ATTEMPT"])'
@@ -98,9 +100,13 @@ assert digest_capture in workflow, "build digest must be captured from the gener
 assert digest_length_check in workflow, "build digest must be validated before receipt creation"
 assert digest_receipt_export in workflow, "validated build digest must be exported to receipt creation"
 assert digest_receipt_field in workflow, "build receipt must bind the generated place SHA-256"
+assert workflow_sha_receipt_field in workflow, "build receipt must bind the executed workflow revision"
 assert repository_receipt_field in workflow, "build receipt must bind the workflow repository"
 assert run_receipt_field in workflow, "build receipt must bind the workflow run ID"
 assert attempt_receipt_field in workflow, "build receipt must bind the workflow run attempt"
+assert '--expected-workflow-sha "$GITHUB_WORKFLOW_SHA"' in workflow, (
+    "receipt verification must enforce the executed workflow revision"
+)
 assert '--expected-repository "$GITHUB_REPOSITORY"' in workflow, (
     "receipt verification must enforce the workflow repository"
 )
@@ -154,6 +160,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     digest.write_text(f"{artifact_digest}  {artifact.name}\n", encoding="utf-8")
     valid_receipt = {
         "sourceSha": source_sha,
+        "workflowSha": workflow_sha,
         "repository": repository,
         "workflowRunId": workflow_run_id,
         "workflowRunAttempt": workflow_run_attempt,
@@ -168,6 +175,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
         digest,
         receipt,
         source_sha,
+        workflow_sha,
         repository,
         workflow_run_id,
         workflow_run_attempt,
@@ -185,6 +193,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
             digest,
             receipt,
             source_sha,
+            workflow_sha,
             repository,
             workflow_run_id,
             workflow_run_attempt,
@@ -197,6 +206,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
         raise AssertionError("tampered build receipt must fail verification")
 
     for field, wrong_value, message in (
+        ("workflowSha", "c" * 40, "workflow SHA does not match"),
         ("repository", "P00NSMASHER/OtherRepo", "repository does not match"),
         ("workflowRunId", workflow_run_id + 1, "workflow run ID does not match"),
         ("workflowRunAttempt", workflow_run_attempt + 1, "workflow run attempt does not match"),
@@ -212,6 +222,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
                 digest,
                 receipt,
                 source_sha,
+                workflow_sha,
                 repository,
                 workflow_run_id,
                 workflow_run_attempt,

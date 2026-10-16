@@ -14,6 +14,7 @@ def verify_build_receipt(
     digest_path,
     receipt_path,
     expected_source_sha,
+    expected_workflow_sha,
     expected_repository,
     expected_workflow_run_id,
     expected_workflow_run_attempt,
@@ -26,6 +27,8 @@ def verify_build_receipt(
 
     if not SHA_PATTERN.fullmatch(expected_source_sha):
         raise ValueError("expected source SHA must be a lowercase 40- or 64-character Git object id")
+    if not SHA_PATTERN.fullmatch(expected_workflow_sha):
+        raise ValueError("expected workflow SHA must be a lowercase 40- or 64-character Git object id")
     if not isinstance(expected_repository, str) or not re.fullmatch(
         r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
         expected_repository,
@@ -43,6 +46,7 @@ def verify_build_receipt(
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     for key in (
         "sourceSha",
+        "workflowSha",
         "repository",
         "workflowRunId",
         "workflowRunAttempt",
@@ -56,6 +60,10 @@ def verify_build_receipt(
 
     if receipt["sourceSha"] != expected_source_sha:
         raise ValueError("build receipt source SHA does not match the checked-out candidate")
+    if not isinstance(receipt["workflowSha"], str) or not SHA_PATTERN.fullmatch(receipt["workflowSha"]):
+        raise ValueError("build receipt workflow SHA must be lowercase hexadecimal")
+    if receipt["workflowSha"] != expected_workflow_sha:
+        raise ValueError("build receipt workflow SHA does not match the executed workflow revision")
     if receipt["repository"] != expected_repository:
         raise ValueError("build receipt repository does not match the workflow repository")
     if type(receipt["workflowRunId"]) is not int or receipt["workflowRunId"] < 1:
@@ -93,6 +101,7 @@ def verify_build_receipt(
 
     return {
         "sourceSha": expected_source_sha,
+        "workflowSha": expected_workflow_sha,
         "repository": expected_repository,
         "workflowRunId": expected_workflow_run_id,
         "workflowRunAttempt": expected_workflow_run_attempt,
@@ -109,6 +118,7 @@ def main():
     parser.add_argument("--digest", required=True)
     parser.add_argument("--receipt", required=True)
     parser.add_argument("--expected-source-sha", required=True)
+    parser.add_argument("--expected-workflow-sha", required=True)
     parser.add_argument("--expected-repository", required=True)
     parser.add_argument("--expected-workflow-run-id", required=True, type=int)
     parser.add_argument("--expected-workflow-run-attempt", required=True, type=int)
@@ -121,6 +131,7 @@ def main():
         args.digest,
         args.receipt,
         args.expected_source_sha,
+        args.expected_workflow_sha,
         args.expected_repository,
         args.expected_workflow_run_id,
         args.expected_workflow_run_attempt,
@@ -130,7 +141,8 @@ def main():
     print(
         "high-school build receipt verification: PASS "
         f"{verified['repository']} run:{verified['workflowRunId']} "
-        f"attempt:{verified['workflowRunAttempt']} {verified['sourceSha']} {verified['sha256']} {verified['bytes']}"
+        f"attempt:{verified['workflowRunAttempt']} source:{verified['sourceSha']} "
+        f"workflow:{verified['workflowSha']} {verified['sha256']} {verified['bytes']}"
     )
 
 
