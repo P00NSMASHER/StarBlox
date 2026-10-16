@@ -112,6 +112,37 @@ assertEqual(
     "unknown ambience fallback"
 )
 
+-- Shared sound policy must stay immutable after lookup so one client cannot
+-- silently alter cue priority, looping, or volume for later consumers.
+local function assertFrozenMutationRejected(label, mutate)
+    local succeeded = pcall(mutate)
+    assertEqual(succeeded, false, label .. " must reject mutation")
+end
+
+assertFrozenMutationRejected("audio theme root", function()
+    SchoolAudioTheme.ORIGINAL_ONLY = false
+end)
+assertFrozenMutationRejected("mix policy", function()
+    SchoolAudioTheme.MIX_POLICY.maxConcurrentCues = 99
+end)
+assertFrozenMutationRejected("ambience registry", function()
+    SchoolAudioTheme.LOCATION_AMBIENCE.gym = {}
+end)
+assertFrozenMutationRejected("ambience entry", function()
+    SchoolAudioTheme.getLocationAmbience("gym").targetVolume = 1
+end)
+assertFrozenMutationRejected("cue registry", function()
+    SchoolAudioTheme.CUES.periodBell = {}
+end)
+assertFrozenMutationRejected("cue entry", function()
+    SchoolAudioTheme.getCue("periodBell").looped = true
+end)
+
+assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unchanged")
+assertEqual(SchoolAudioTheme.MIX_POLICY.maxConcurrentCues, 2, "mix policy remains unchanged")
+assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
+assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
+
 -- School clock boundaries and day rollover.
 local arrivalStart = SchoolClock.getState(0)
 assertEqual(arrivalStart.dayIndex, 1, "arrival day")
