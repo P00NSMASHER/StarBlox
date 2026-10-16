@@ -16,6 +16,7 @@ SchoolVisualTheme.SIGN_HEIGHT = 64
 SchoolVisualTheme.SIGN_CODE_BADGE_WIDTH = 44
 SchoolVisualTheme.SIGN_CODE_TEXT_SIZE = 16
 SchoolVisualTheme.SIGN_TYPE_TEXT_SIZE = 13
+SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST = 3
 
 SchoolVisualTheme.LOCATION_CODES = table.freeze({
     lobby = "LBY",

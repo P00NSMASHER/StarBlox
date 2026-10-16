@@ -1,5 +1,18 @@
+local previousColor3 = Color3
+Color3 = {
+    fromRGB = function(red, green, blue)
+        return table.freeze({
+            R = red / 255,
+            G = green / 255,
+            B = blue / 255,
+        })
+    end,
+}
+
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
 local SchoolAudioTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolAudioTheme")
+local SchoolVisualTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolVisualTheme")
+Color3 = previousColor3
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 
@@ -142,6 +155,52 @@ assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unch
 assertEqual(SchoolAudioTheme.MIX_POLICY.maxConcurrentCues, 2, "mix policy remains unchanged")
 assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
 assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
+
+-- Shared wayfinding policy must stay immutable so one consumer cannot silently
+-- relabel destinations or weaken palette contrast for later consumers.
+assertEqual(
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST,
+    3,
+    "wayfinding accent contrast floor"
+)
+assertEqual(SchoolVisualTheme.getLocationCode("math"), "MTH", "math wayfinding code")
+assertEqual(SchoolVisualTheme.getLocationType("science"), "LAB CLASSROOM", "science room type")
+assertEqual(SchoolVisualTheme.getLocationCode("missingLocation"), "LOC", "unknown code fallback")
+assertEqual(
+    SchoolVisualTheme.getLocationType("missingLocation"),
+    "DESTINATION",
+    "unknown room type fallback"
+)
+assertEqual(
+    SchoolVisualTheme.getLocationAccent("missingLocation"),
+    SchoolVisualTheme.getLocationAccent("lobby"),
+    "unknown accent fallback"
+)
+
+assertFrozenMutationRejected("visual theme root", function()
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST = 0
+end)
+assertFrozenMutationRejected("wayfinding code registry", function()
+    SchoolVisualTheme.LOCATION_CODES.math = "BAD"
+end)
+assertFrozenMutationRejected("room type registry", function()
+    SchoolVisualTheme.LOCATION_TYPES.science = "ROOM"
+end)
+assertFrozenMutationRejected("accent registry", function()
+    SchoolVisualTheme.LOCATION_ACCENTS.gym = SchoolVisualTheme.LOCATION_ACCENTS.lobby
+end)
+
+assertEqual(
+    SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST,
+    3,
+    "visual contrast floor remains unchanged"
+)
+assertEqual(SchoolVisualTheme.getLocationCode("math"), "MTH", "visual code remains unchanged")
+assertEqual(
+    SchoolVisualTheme.getLocationType("science"),
+    "LAB CLASSROOM",
+    "visual room type remains unchanged"
+)
 
 -- School clock boundaries and day rollover.
 local arrivalStart = SchoolClock.getState(0)

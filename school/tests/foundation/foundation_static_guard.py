@@ -270,10 +270,18 @@ for first_id, second_id in itertools.combinations(sorted(location_accents), 2):
         f"maximum channel delta {max_channel_delta}"
     )
 
+accent_minimum_match = re.search(
+    r"WAYFINDING_ACCENT_MIN_CONTRAST\s*=\s*(\d+(?:\.\d+)?)",
+    visual_theme,
+)
+assert accent_minimum_match, "wayfinding accent contrast token missing"
+accent_minimum = float(accent_minimum_match.group(1))
+assert accent_minimum == 3, "wayfinding accent contrast floor must remain 3:1"
+
 for location_id in theme_location_ids:
     accent_contrast = contrast_ratio(location_accents[location_id], sign_background)
-    assert accent_contrast >= 3.0, (
-        f"{location_id} sign outline contrast below 3:1: "
+    assert accent_contrast >= accent_minimum, (
+        f"{location_id} sign outline contrast below {accent_minimum:g}:1: "
         f"{accent_contrast:.2f}:1"
     )
 
