@@ -1,18 +1,6 @@
-local previousColor3 = Color3
-Color3 = {
-    fromRGB = function(red, green, blue)
-        return table.freeze({
-            R = red / 255,
-            G = green / 255,
-            B = blue / 255,
-        })
-    end,
-}
-
 local SchoolClock = require("../../src/ReplicatedStorage/HighSchool/SchoolClock")
 local SchoolAudioTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolAudioTheme")
 local SchoolVisualTheme = require("../../src/ReplicatedStorage/HighSchool/SchoolVisualTheme")
-Color3 = previousColor3
 local ProgressionReducer = require("../../src/ServerScriptService/HighSchool/ProgressionReducer")
 local EducationSession = require("../../src/ServerScriptService/HighSchool/EducationSession")
 

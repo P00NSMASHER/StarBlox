@@ -1,5 +1,15 @@
 local SchoolVisualTheme = {}
 
+local Color3 = Color3 or {
+    fromRGB = function(red, green, blue)
+        return table.freeze({
+            R = red / 255,
+            G = green / 255,
+            B = blue / 255,
+        })
+    end,
+}
+
 SchoolVisualTheme.CAMPUS_FLOOR = Color3.fromRGB(239, 244, 250)
 SchoolVisualTheme.SPAWN = Color3.fromRGB(79, 173, 230)
 SchoolVisualTheme.SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)
