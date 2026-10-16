@@ -51,6 +51,11 @@ label.Parent = toast
 local displaySequence = 0
 local activeRouteText = nil
 local COURIER_ACTIVITY_ID = "campus_courier"
+local MAX_COURIER_STOPS = 6
+
+local function formatRemainingStops(count)
+    return string.format("%d %s left", count, count == 1 and "stop" or "stops")
+end
 
 local function applyCourierState(payload)
     if type(payload) ~= "table" or payload.activityId ~= COURIER_ACTIVITY_ID then
@@ -67,10 +72,13 @@ local function applyCourierState(payload)
     elseif type(payload.nextLocationId) == "string"
         and type(payload.nextActionLabel) == "string"
         and type(payload.objective) == "string"
-        and type(payload.progressLabel) == "string"
+        and type(payload.remainingStops) == "number"
+        and payload.remainingStops >= 1
+        and payload.remainingStops % 1 == 0
+        and payload.remainingStops <= MAX_COURIER_STOPS
     then
         activeRouteText = "Campus Courier • "
-            .. payload.progressLabel
+            .. formatRemainingStops(payload.remainingStops)
             .. " • "
             .. payload.nextActionLabel
             .. "\n"
