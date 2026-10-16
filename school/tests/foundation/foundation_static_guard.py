@@ -239,11 +239,20 @@ assert western_loop_edges.issubset(undirected_route_edges), (
     "Language Arts, gym, and lobby must form a connected circulation loop"
 )
 outdoor_routes = {
+    ("OutdoorEntranceToMath", "entrance", "math"),
     ("OutdoorEntranceToScience", "entrance", "science"),
     ("OutdoorEntranceToCafeteria", "entrance", "cafeteria"),
 }
 assert outdoor_routes.issubset(set(route_segments)), (
-    "entrance must connect to the science and cafeteria outdoor loop"
+    "entrance must connect directly to math, science, and cafeteria outdoors"
+)
+eastern_loop_edges = {
+    frozenset(("entrance", "math")),
+    frozenset(("math", "lobby")),
+    frozenset(("lobby", "entrance")),
+}
+assert eastern_loop_edges.issubset(undirected_route_edges), (
+    "entrance, Math, and lobby must form a connected circulation loop"
 )
 assert 'CampusRouteLayout.OUTDOOR_ROUTE_IDS = table.freeze({' in route_layout
 for outdoor_id, _, _ in outdoor_routes:
