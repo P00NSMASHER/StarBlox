@@ -2,6 +2,7 @@ local FoundationConfig = {}
 
 FoundationConfig.CAMPUS_NAME = "PipHighCampus"
 FoundationConfig.SPAWN_NAME = "MainSpawn"
+FoundationConfig.SPAWN_POSITION = Vector3.new(48, 1, 48)
 
 FoundationConfig.LOCATIONS = table.freeze({
     table.freeze({ id = "lobby", name = "Main Lobby", position = Vector3.new(0, 3, 0) }),
@@ -9,6 +10,7 @@ FoundationConfig.LOCATIONS = table.freeze({
     table.freeze({ id = "ela", name = "Language Arts Classroom", position = Vector3.new(-36, 3, 0) }),
     table.freeze({ id = "science", name = "Science Classroom", position = Vector3.new(0, 3, 36) }),
     table.freeze({ id = "cafeteria", name = "Cafeteria", position = Vector3.new(0, 3, -36) }),
+    table.freeze({ id = "gym", name = "Gym & Fitness", position = Vector3.new(-36, 3, -36) }),
 })
 
 return table.freeze(FoundationConfig)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import itertools
 import json
 import re
 from pathlib import Path
@@ -7,6 +8,26 @@ ROOT = Path(__file__).resolve().parents[2]
 project_path = ROOT / "default.project.json"
 project = json.loads(project_path.read_text(encoding="utf-8"))
 project_text = json.dumps(project).lower()
+
+
+def relative_luminance(color):
+    channels = []
+    for value in color:
+        channel = value / 255
+        channels.append(
+            channel / 12.92
+            if channel <= 0.04045
+            else ((channel + 0.055) / 1.055) ** 2.4
+        )
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+
+def contrast_ratio(first, second):
+    light, dark = sorted(
+        (relative_luminance(first), relative_luminance(second)),
+        reverse=True,
+    )
+    return (light + 0.05) / (dark + 0.05)
 
 for forbidden in ("highschool/", "pipsquest", "maze", "brookhaven", "bhw_", "rhs"):
     assert forbidden not in project_text, f"forbidden mapped dependency: {forbidden}"
@@ -23,22 +44,470 @@ for rel in mapped_paths:
 config = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationConfig.lua").read_text(encoding="utf-8")
 clock = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolClock.lua").read_text(encoding="utf-8")
 state = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationState.lua").read_text(encoding="utf-8")
+route_layout = (ROOT / "src/ReplicatedStorage/HighSchool/CampusRouteLayout.lua").read_text(encoding="utf-8")
+visual_theme = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolVisualTheme.lua").read_text(encoding="utf-8")
+audio_theme = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolAudioTheme.lua").read_text(encoding="utf-8")
 builder = (ROOT / "src/ServerScriptService/HighSchool/CampusBuilder.server.lua").read_text(encoding="utf-8")
 service = (ROOT / "src/ServerScriptService/HighSchool/SchoolClockService.server.lua").read_text(encoding="utf-8")
 
 assert 'CAMPUS_NAME = "PipHighCampus"' in config
 assert 'SPAWN_NAME = "MainSpawn"' in config
+assert 'SPAWN_POSITION = Vector3.new(48, 1, 48)' in config
+assert 'spawn.Position = FoundationConfig.SPAWN_POSITION' in builder
+assert 'spawn.CanCollide = false' in builder
+assert 'spawn.CanTouch = false' in builder
+assert 'spawn.CanQuery = false' in builder
+assert 'spawn:SetAttribute("LocationId", "entrance")' in builder
+assert 'spawn:SetAttribute("DisplayName", "Front Entrance")' in builder
+assert 'entrancePad.Name = "EntranceArrivalPad"' in builder
+assert 'entrancePad.Position = Vector3.new(spawn.Position.X, 0.7, spawn.Position.Z)' in builder
+assert 'entrancePad.CanCollide = false' in builder
+assert 'entrancePad.CanTouch = false' in builder
+assert 'entrancePad.CanQuery = false' in builder
+assert 'entrancePad:SetAttribute("LocationId", "entrance")' in builder
+assert 'entranceSign.Name = "EntranceLabel"' in builder
+assert 'entranceSign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE' in builder
+assert 'entranceText.Text = "Front Entrance • Main Lobby"' in builder
+assert 'entranceText.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'entranceTextConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
+assert 'entranceTextConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
+assert 'campus:SetAttribute("EntranceWayfindingCount", 1)' in builder
+
+spawn_match = re.search(
+    r"SPAWN_POSITION = Vector3\.new\((-?[0-9.]+),\s*(-?[0-9.]+),\s*(-?[0-9.]+)\)",
+    config,
+)
+assert spawn_match, "canonical entrance position missing"
+spawn_x, _, spawn_z = (float(value) for value in spawn_match.groups())
+assert abs(spawn_x) <= 50 and abs(spawn_z) <= 50, "entrance must stay inside the campus floor"
+assert abs(spawn_x) >= 12 and abs(spawn_z) >= 12, (
+    "entrance must stay off the lobby's cardinal destination spokes"
+)
 assert 'marker:SetAttribute("LocationId", location.id)' in builder
+assert 'marker:SetAttribute("WayfindingCode", locationCode)' in builder
+assert 'marker.CanCollide = false' in builder
+assert 'marker.CanTouch = false' in builder
+assert 'marker.CanQuery = false' in builder
 assert 'assert(not seen[location.id]' in builder
 assert 'wayfinding.Name = "Wayfinding"' in builder
 assert 'pad.Name = location.id .. "Pad"' in builder
-assert 'pad.Transparency = 0.35' in builder
+assert 'pad.CanCollide = false' in builder
+assert 'pad.CanTouch = false' in builder
+assert 'pad.CanQuery = false' in builder
+assert 'pad.Color = accent' in builder
+assert 'pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY' in builder
+assert 'pad:SetAttribute("WayfindingCode", locationCode)' in builder
 assert 'sign.Name = "LocationLabel"' in builder
+assert 'SchoolVisualTheme.SIGN_WIDTH' in builder
+assert 'SchoolVisualTheme.SIGN_HEIGHT' in builder
+assert 'sign.MaxDistance = SchoolVisualTheme.SIGN_MAX_DISTANCE' in builder
+assert 'panel.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'outline.Color = accent' in builder
+assert 'codeBadge.Name = "LocationCode"' in builder
+assert 'codeBadge.Text = locationCode' in builder
+assert 'codeBadge.BackgroundColor3 = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'codeBadge.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'codeBadge.TextSize = SchoolVisualTheme.SIGN_CODE_TEXT_SIZE' in builder
+assert 'codeBadge.TextScaled = false' in builder
+assert 'codeOutline.Color = accent' in builder
+assert 'text.Font = Enum.Font.GothamBold' in builder
 assert 'text.Text = location.name' in builder
+assert 'text.TextColor3 = SchoolVisualTheme.SIGN_TEXT' in builder
+assert 'textConstraint.MinTextSize = SchoolVisualTheme.SIGN_MIN_TEXT_SIZE' in builder
+assert 'textConstraint.MaxTextSize = SchoolVisualTheme.SIGN_MAX_TEXT_SIZE' in builder
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
+assert len(location_ids) == 6, "unexpected location count"
+assert 'id = "gym", name = "Gym & Fitness", position = Vector3.new(-36, 3, -36)' in config, (
+    "compact gym destination must remain inside the southwest campus corner"
+)
+for location_id in location_ids:
+    assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
+
+code_block = re.search(
+    r"SchoolVisualTheme\.LOCATION_CODES\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    visual_theme,
+    re.DOTALL,
+)
+assert code_block, "location wayfinding codes missing"
+location_codes = dict(re.findall(r'([a-z]+)\s*=\s*"([A-Z]+)"', code_block.group(1)))
+assert set(location_codes) == location_ids, "wayfinding codes must cover the location registry exactly"
+assert len(set(location_codes.values())) == len(location_codes), "wayfinding codes must be unique"
+assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values())
+code_text_size_match = re.search(r"SIGN_CODE_TEXT_SIZE\s*=\s*(\d+)", visual_theme)
+assert code_text_size_match and int(code_text_size_match.group(1)) >= 16
+
+assert 'gym = "GYM"' in visual_theme
+assert 'gym = Color3.fromRGB(105, 180, 75)' in visual_theme
+assert 'gym = table.freeze({' in audio_theme
+assert 'token = "ambience_gym_activity"' in audio_theme
+assert 'SIGN_BACKGROUND = Color3.fromRGB(20, 38, 67)' in visual_theme
+assert 'SIGN_TEXT = Color3.fromRGB(255, 255, 255)' in visual_theme
+assert "SIGN_MAX_DISTANCE = 90" in visual_theme
+assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain asset-ID free"
+
+
+palette_colors = {
+    match.group(1): tuple(int(match.group(index)) for index in range(2, 5))
+    for match in re.finditer(
+        r"(?:SchoolVisualTheme\.)?([A-Za-z_]+)\s*=\s*"
+        r"Color3\.fromRGB\((\d+),\s*(\d+),\s*(\d+)\)",
+        visual_theme,
+    )
+}
+assert all(
+    0 <= channel <= 255
+    for color in palette_colors.values()
+    for channel in color
+), "palette channel outside sRGB range"
+
+sign_background = palette_colors["SIGN_BACKGROUND"]
+sign_text = palette_colors["SIGN_TEXT"]
+text_contrast = contrast_ratio(sign_text, sign_background)
+assert text_contrast >= 4.5, f"sign text contrast below 4.5:1: {text_contrast:.2f}:1"
+badge_text_contrast = contrast_ratio(sign_text, sign_background)
+assert badge_text_contrast >= 4.5, (
+    f"wayfinding badge text contrast below 4.5:1: {badge_text_contrast:.2f}:1"
+)
+
+location_accents = {
+    location_id: palette_colors[location_id]
+    for location_id in location_ids
+}
+assert len(set(location_accents.values())) == len(location_accents), (
+    "destination accents must be unique"
+)
+for first_id, second_id in itertools.combinations(sorted(location_accents), 2):
+    first = location_accents[first_id]
+    second = location_accents[second_id]
+    max_channel_delta = max(abs(a - b) for a, b in zip(first, second))
+    assert max_channel_delta >= 48, (
+        f"{first_id} and {second_id} accents are too similar for categorical wayfinding: "
+        f"maximum channel delta {max_channel_delta}"
+    )
+
+for location_id in location_ids:
+    accent_contrast = contrast_ratio(location_accents[location_id], sign_background)
+    assert accent_contrast >= 3.0, (
+        f"{location_id} sign outline contrast below 3:1: "
+        f"{accent_contrast:.2f}:1"
+    )
+
+route_segments = re.findall(
+    r'{ id = "([^"]+)", fromId = "([^"]+)", toId = "([^"]+)" }',
+    route_layout,
+)
+assert route_segments, "campus route segments missing"
+route_ids = [route_id for route_id, _, _ in route_segments]
+assert len(route_ids) == len(set(route_ids)), "duplicate campus route id"
+known_route_nodes = location_ids | {"entrance"}
+assert all(
+    from_id in known_route_nodes and to_id in known_route_nodes
+    for _, from_id, to_id in route_segments
+), "campus route references unknown node"
+assert ("EntranceToLobby", "entrance", "lobby") in route_segments, (
+    "front entrance must have a direct lobby route"
+)
+assert ("LobbyToGym", "lobby", "gym") in route_segments, (
+    "gym must remain directly connected to the central lobby network"
+)
+assert ("GymToCafeteria", "gym", "cafeteria") in route_segments, (
+    "gym must have a short southern corridor to cafeteria"
+)
+undirected_route_edges = {
+    frozenset((from_id, to_id))
+    for _, from_id, to_id in route_segments
+}
+southern_loop_edges = {
+    frozenset(("lobby", "gym")),
+    frozenset(("gym", "cafeteria")),
+    frozenset(("cafeteria", "lobby")),
+}
+assert southern_loop_edges.issubset(undirected_route_edges), (
+    "gym, cafeteria, and lobby must form a connected circulation loop"
+)
+western_loop_edges = {
+    frozenset(("lobby", "ela")),
+    frozenset(("ela", "gym")),
+    frozenset(("gym", "lobby")),
+}
+assert ("LanguageArtsToGym", "ela", "gym") in route_segments, (
+    "Language Arts must have a direct corridor to Gym & Fitness"
+)
+assert western_loop_edges.issubset(undirected_route_edges), (
+    "Language Arts, gym, and lobby must form a connected circulation loop"
+)
+assert ("LanguageArtsToScience", "ela", "science") in route_segments, (
+    "the Language Arts to Science schedule transition needs a direct corridor"
+)
+class_transition_loop_edges = {
+    frozenset(("ela", "science")),
+    frozenset(("science", "lobby")),
+    frozenset(("lobby", "ela")),
+}
+assert class_transition_loop_edges.issubset(undirected_route_edges), (
+    "Language Arts, Science, and lobby must form a compact class-transition loop"
+)
+outdoor_routes = {
+    ("OutdoorEntranceToMath", "entrance", "math"),
+    ("OutdoorEntranceToScience", "entrance", "science"),
+    ("OutdoorEntranceToCafeteria", "entrance", "cafeteria"),
+}
+assert outdoor_routes.issubset(set(route_segments)), (
+    "entrance must connect directly to math, science, and cafeteria outdoors"
+)
+eastern_loop_edges = {
+    frozenset(("entrance", "math")),
+    frozenset(("math", "lobby")),
+    frozenset(("lobby", "entrance")),
+}
+assert eastern_loop_edges.issubset(undirected_route_edges), (
+    "entrance, Math, and lobby must form a connected circulation loop"
+)
+assert 'CampusRouteLayout.OUTDOOR_ROUTE_IDS = table.freeze({' in route_layout
+for outdoor_id, _, _ in outdoor_routes:
+    assert f"{outdoor_id} = true" in route_layout, f"missing outdoor route identity: {outdoor_id}"
+destination_routes = [
+    segment for segment in route_segments if segment[1] == "lobby"
+]
+assert {to_id for _, _, to_id in destination_routes} == location_ids - {"lobby"}, (
+    "every non-lobby destination must have one direct lobby route"
+)
+assert len(route_segments) == len(location_ids) + len(outdoor_routes) + 3, (
+    "route network must contain core spokes, outdoor links, and three compact loop corridors"
+)
+
+route_width_match = re.search(r"ROUTE_WIDTH = ([0-9.]+)", route_layout)
+assert route_width_match and float(route_width_match.group(1)) >= 10, (
+    "campus routes must remain at least 10 studs wide"
+)
+route_width = float(route_width_match.group(1))
+
+entrance_pad_size_match = re.search(
+    r"ENTRANCE_PAD_SIZE = ([0-9.]+)",
+    route_layout,
+)
+spawn_position_match = re.search(
+    r"SPAWN_POSITION = Vector3\.new\(([-0-9.]+),\s*([-0-9.]+),\s*([-0-9.]+)\)",
+    config,
+)
+floor_size_match = re.search(
+    r"floor\.Size = Vector3\.new\(([0-9.]+),\s*[0-9.]+,\s*([0-9.]+)\)",
+    builder,
+)
+assert entrance_pad_size_match and spawn_position_match and floor_size_match
+entrance_pad_size = float(entrance_pad_size_match.group(1))
+spawn_x, _, spawn_z = (float(value) for value in spawn_position_match.groups())
+floor_x, floor_z = (float(value) for value in floor_size_match.groups())
+assert entrance_pad_size >= route_width + 4, (
+    "entrance pad must preserve a two-stud turning margin beside the route"
+)
+assert abs(spawn_x) + entrance_pad_size / 2 <= floor_x / 2, (
+    "entrance pad extends beyond the campus floor on the X axis"
+)
+assert abs(spawn_z) + entrance_pad_size / 2 <= floor_z / 2, (
+    "entrance pad extends beyond the campus floor on the Z axis"
+)
+assert 'entrancePad.Size = Vector3.new(\n    CampusRouteLayout.ENTRANCE_PAD_SIZE,' in builder
+assert builder.count("CampusRouteLayout.ENTRANCE_PAD_SIZE") == 2, (
+    "entrance pad width and depth must share the bounded layout constant"
+)
+chevron_numbers = {
+    name: float(value)
+    for name, value in re.findall(
+        r"ROUTE_CHEVRON_([A-Z_]+) = ([0-9.]+)",
+        route_layout,
+    )
+}
+assert set(chevron_numbers) == {"LENGTH", "SPAN", "WIDTH", "THICKNESS", "Y"}, (
+    "route chevron geometry contract changed"
+)
+assert 3 <= chevron_numbers["LENGTH"] <= 6, "route chevrons must remain glance-readable"
+assert 3 <= chevron_numbers["SPAN"] <= route_width, (
+    "route chevrons must fit inside the mobile-friendly route width"
+)
+assert 0 < chevron_numbers["WIDTH"] <= 1, "route chevron wings must remain visually slim"
+assert 0 < chevron_numbers["THICKNESS"] <= 0.15, "route chevrons must remain flat"
+junction_position_match = re.search(
+    r"JUNCTION_POSITION = Vector3\.new\(([0-9.]+),\s*([0-9.]+),\s*([0-9.]+)\)",
+    route_layout,
+)
+junction_size_match = re.search(r"JUNCTION_SIZE = ([0-9.]+)", route_layout)
+junction_thickness_match = re.search(r"JUNCTION_THICKNESS = ([0-9.]+)", route_layout)
+assert junction_position_match and junction_size_match and junction_thickness_match
+junction_x, junction_y, junction_z = (
+    float(value) for value in junction_position_match.groups()
+)
+expected_crossing_x = 48 + (0 - 48) * ((0 - 48) / (-36 - 48))
+assert abs(junction_x - expected_crossing_x) <= 0.1 and abs(junction_z) <= 0.01, (
+    "east hall plaza must cover the LobbyToMath / OutdoorEntranceToCafeteria crossing"
+)
+assert float(junction_size_match.group(1)) >= route_width, (
+    "route junction must preserve the full mobile-friendly route width"
+)
+
+route_y_match = re.search(r"ROUTE_Y = ([0-9.]+)", route_layout)
+route_thickness_match = re.search(r"ROUTE_THICKNESS = ([0-9.]+)", route_layout)
+assert route_y_match and route_thickness_match
+route_top = float(route_y_match.group(1)) + float(route_thickness_match.group(1)) / 2
+assert chevron_numbers["Y"] > route_top, "route chevrons must render above route surfaces"
+junction_top = junction_y + float(junction_thickness_match.group(1)) / 2
+chevron_bottom = chevron_numbers["Y"] - chevron_numbers["THICKNESS"] / 2
+assert junction_top < chevron_bottom, "route chevrons must remain visible above the crossing plaza"
+
+gateway_numbers = {
+    name: float(value)
+    for name, value in re.findall(
+        r"GATEWAY_([A-Z_]+) = ([0-9.]+)",
+        route_layout,
+    )
+}
+assert gateway_numbers["OPENING_WIDTH"] >= float(route_width_match.group(1)), (
+    "destination gateways must preserve the full route width"
+)
+assert gateway_numbers["HEIGHT"] - gateway_numbers["HEADER_HEIGHT"] >= 7, (
+    "destination gateways must preserve at least seven studs of vertical clearance"
+)
+assert 0 < gateway_numbers["POST_WIDTH"] <= 1, "gateway posts must remain visually slim"
+assert 0 < gateway_numbers["DEPTH"] <= 1, "gateway depth must remain non-obstructive"
+assert gateway_numbers["OFFSET"] == 6, "gateway threshold must stay on the edge of its 12-stud pad"
+assert 'routes.Name = "Routes"' in builder
+assert 'routeJunctions.Name = "RouteJunctions"' in builder
+assert 'eastHallCrossing.Name = "EastHallCrossing"' in builder
+assert 'eastHallCrossing.CanCollide = false' in builder
+assert 'eastHallCrossing.CanTouch = false' in builder
+assert 'eastHallCrossing.CanQuery = false' in builder
+assert 'eastHallCrossing.Position = CampusRouteLayout.JUNCTION_POSITION' in builder
+assert '"LobbyToMath,OutdoorEntranceToCafeteria"' in builder
+assert 'campus:SetAttribute("RouteJunctionCount", 1)' in builder
+assert 'gateways.Name = "Gateways"' in builder
+assert 'routeChevrons.Name = "RouteChevrons"' in builder
+assert 'if location.id ~= "lobby" then' in builder
+assert 'gateway.Name = location.id .. "Gateway"' in builder
+assert 'gateway:SetAttribute("LocationId", location.id)' in builder
+assert 'gateway:SetAttribute("ClearWidth", CampusRouteLayout.GATEWAY_OPENING_WIDTH)' in builder
+assert 'gatewayPart.CanCollide = false' in builder
+assert 'gatewayPart.CanTouch = false' in builder
+assert 'gatewayPart.CanQuery = false' in builder
+assert 'makeGatewayPart(\n            "LeftPost"' in builder
+assert 'makeGatewayPart(\n            "RightPost"' in builder
+assert 'makeGatewayPart(\n            "Header"' in builder
+assert 'campus:SetAttribute("GatewayCount", gatewayCount)' in builder
+assert 'entrance = table.freeze({' in builder
+assert 'route.CanCollide = false' in builder
+assert 'route.CanTouch = false' in builder
+assert 'route.CanQuery = false' in builder
+assert 'route.CFrame = CFrame.lookAt' in builder
+assert 'route:SetAttribute("FromLocationId", segment.fromId)' in builder
+assert 'route:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'local isOutdoorRoute = CampusRouteLayout.OUTDOOR_ROUTE_IDS[segment.id] == true' in builder
+assert 'route:SetAttribute("RouteKind", isOutdoorRoute and "outdoor" or "indoor")' in builder
+assert 'outdoorRouteCount += 1' in builder
+assert 'campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)' in builder
+assert 'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)' in builder
+assert 'chevron.Name = segment.id .. "Chevron"' in builder
+assert 'chevron:SetAttribute("FromLocationId", segment.fromId)' in builder
+assert 'chevron:SetAttribute("ToLocationId", segment.toId)' in builder
+assert 'wing.Name = name' in builder
+assert 'wing.CanCollide = false' in builder
+assert 'wing.CanTouch = false' in builder
+assert 'wing.CanQuery = false' in builder
+assert 'wing.Color = SchoolVisualTheme.SIGN_BACKGROUND' in builder
+assert 'makeChevronWing("LeftWing"' in builder
+assert 'makeChevronWing("RightWing"' in builder
+assert 'campus:SetAttribute("RouteChevronCount", routeChevronCount)' in builder
+for location_id in location_ids:
+    assert f"{location_id} = table.freeze({{" in audio_theme, (
+        f"missing ambience specification: {location_id}"
+    )
+
+for cue_id in ("periodBell", "classComplete", "waypointConfirm"):
+    assert f"{cue_id} = table.freeze({{" in audio_theme, (
+        f"missing sound cue specification: {cue_id}"
+    )
+
+ambience_volumes = [
+    float(value)
+    for value in re.findall(r"targetVolume\s*=\s*(0\.\d+)", audio_theme)
+]
+assert len(ambience_volumes) == len(location_ids) + 3, "unexpected audio mix token count"
+assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
+
+max_distances = [
+    int(value)
+    for value in re.findall(r"maxDistance\s*=\s*(\d+)", audio_theme)
+]
+assert len(max_distances) == len(location_ids), "every ambience zone needs one max distance"
+assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
+
+cue_durations = [
+    float(value)
+    for value in re.findall(r"maxDurationSeconds\s*=\s*(\d+(?:\.\d+)?)", audio_theme)
+]
+assert len(cue_durations) == 3, "every sound cue needs a duration ceiling"
+assert all(0.25 <= value <= 3 for value in cue_durations), "sound cue duration outside short-feedback range"
+
+assert "ORIGINAL_ONLY = true" in audio_theme
+assert "SAMPLE_RATE_HZ = 48000" in audio_theme
+assert "PEAK_DB = -3" in audio_theme
+assert "INTEGRATED_LUFS = -18" in audio_theme
+mix_policy_match = re.search(
+    r"SchoolAudioTheme\.MIX_POLICY\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    audio_theme,
+    re.DOTALL,
+)
+assert mix_policy_match, "audio mix policy missing"
+mix_policy = {
+    match.group(1): float(match.group(2))
+    for match in re.finditer(
+        r"([A-Za-z][A-Za-z0-9]+)\s*=\s*(-?\d+(?:\.\d+)?)",
+        mix_policy_match.group(1),
+    )
+}
+assert set(mix_policy) == {
+    "maxConcurrentAmbience",
+    "crossfadeSeconds",
+    "speechDuckDb",
+    "reducedSensoryVolumeMultiplier",
+}, "audio mix policy keys changed"
+assert mix_policy["maxConcurrentAmbience"] == 1, "only one ambience may play at once"
+assert 0.5 <= mix_policy["crossfadeSeconds"] <= 2, "ambience crossfade outside short-transition range"
+assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intelligibility range"
+assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
+    "reduced-sensory volume multiplier outside useful range"
+)
+reduced_sensory_multiplier = mix_policy["reducedSensoryVolumeMultiplier"]
+reduced_sensory_volumes = [
+    volume * reduced_sensory_multiplier
+    for volume in ambience_volumes
+]
+assert reduced_sensory_multiplier < 1, "reduced-sensory mode must lower every sound"
+assert all(
+    0 < reduced < original
+    for original, reduced in zip(ambience_volumes, reduced_sensory_volumes)
+), "reduced-sensory mode must preserve audible but lower output"
+assert max(reduced_sensory_volumes) <= 0.25, (
+    "reduced-sensory output exceeds the quiet-mix ceiling"
+)
+
+assert "SoundId" not in audio_theme, "audio specification must not embed asset IDs"
+assert "rbxassetid://" not in audio_theme.lower(), "audio specification must remain asset-ID free"
+
+
+audio_tokens = re.findall(r'token\s*=\s*"([^"]+)"', audio_theme)
+assert len(audio_tokens) == len(location_ids) + 3, "unexpected audio identity token count"
+assert len(set(audio_tokens)) == len(audio_tokens), "audio identity tokens must be unique"
+assert all(
+    re.fullmatch(r"[a-z][a-z0-9_]+", token)
+    for token in audio_tokens
+), "audio identity tokens must use lowercase semantic names"
+assert len([token for token in audio_tokens if token.startswith("ambience_")]) == len(location_ids), (
+    "every location must keep an ambience namespace token"
+)
+assert len([token for token in audio_tokens if token.startswith("cue_")]) == 3, (
+    "every feedback sound must keep a cue namespace token"
+)
 
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
@@ -58,7 +527,7 @@ assert 'runtime:SetAttribute("PeriodId"' in service
 assert "SetAttribute(" not in state, "FoundationState must be read-only"
 assert "function FoundationState.getSnapshot()" in state
 
-for text in (config, clock, state, builder, service):
+for text in (config, clock, state, route_layout, visual_theme, audio_theme, builder, service):
     for forbidden in ("BrookhavenWorldRuntime", "BrookhavenWorldBaseline", "BHW_", "PipsQuest", "MazeWorld"):
         assert forbidden not in text, f"retired runtime dependency found: {forbidden}"
 
