@@ -168,8 +168,6 @@ assert "rbxassetid://" not in visual_theme.lower(), "visual theme must remain as
 sign_background = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_BACKGROUND")
 sign_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_TEXT")
 sign_secondary_text = rgb_assignment(visual_theme, "SchoolVisualTheme.SIGN_SECONDARY_TEXT")
-ela_accent = rgb_assignment(visual_theme, "ela")
-gym_accent = rgb_assignment(visual_theme, "gym")
 assert contrast_ratio(sign_text, sign_background) >= 4.5, (
     "wayfinding badge text must meet 4.5:1 contrast"
 )
@@ -177,12 +175,19 @@ assert sign_secondary_text != sign_text, "room-type copy needs a distinct visual
 assert contrast_ratio(sign_secondary_text, sign_background) >= 4.5, (
     "room-type subtitle must meet 4.5:1 contrast"
 )
-assert contrast_ratio(ela_accent, sign_background) >= 3.0, (
-    "Language Arts accent outline must meet 3:1 contrast"
+
+accent_minimum_match = re.search(
+    r"WAYFINDING_ACCENT_MIN_CONTRAST\s*=\s*(\d+(?:\.\d+)?)",
+    visual_theme,
 )
-assert contrast_ratio(gym_accent, sign_background) >= 3.0, (
-    "Gym accent outline must meet 3:1 contrast"
-)
+assert accent_minimum_match, "wayfinding accent contrast token missing"
+accent_minimum = float(accent_minimum_match.group(1))
+assert accent_minimum == 3, "wayfinding accent contrast floor must remain 3:1"
+for location_id in theme_location_ids:
+    accent = rgb_assignment(visual_theme, location_id)
+    assert contrast_ratio(accent, sign_background) >= accent_minimum, (
+        f"{location_id} accent outline must meet {accent_minimum:g}:1 contrast"
+    )
 
 for location_id in theme_location_ids:
     assert f"{location_id} = table.freeze({{" in audio_theme, (
