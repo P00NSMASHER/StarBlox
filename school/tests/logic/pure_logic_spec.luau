@@ -181,6 +181,24 @@ local stateB, appliedB = ProgressionReducer.applyCompletion(duplicateState, comp
 assertEqual(appliedB, true, "second unique completion applies")
 assertEqual(stateB.points, 20, "two unique completions total points")
 
+local cacheAfterNewerState = ProgressionReducer.selectMostCompleteState(stateA, stateB, 123)
+assertEqual(cacheAfterNewerState.points, 20, "newer persisted cache snapshot")
+assert(
+    cacheAfterNewerState.completed[completionBId] ~= nil,
+    "newer persisted cache snapshot missing second completion"
+)
+
+local cacheAfterStaleResponse = ProgressionReducer.selectMostCompleteState(
+    cacheAfterNewerState,
+    stateA,
+    123
+)
+assertEqual(cacheAfterStaleResponse.points, 20, "stale persistence response must not regress cache")
+assert(
+    cacheAfterStaleResponse.completed[completionBId] ~= nil,
+    "stale persistence response must preserve newer completion"
+)
+
 local inflatedState, inflatedApplied, inflatedReason = ProgressionReducer.applyCompletion(stateB, {
     completionId = scienceCompletionId,
     playerId = 123,

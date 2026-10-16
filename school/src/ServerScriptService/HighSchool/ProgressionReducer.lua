@@ -158,6 +158,17 @@ function ProgressionReducer.applyCompletion(currentState, completion)
     return state, true, nil
 end
 
+function ProgressionReducer.selectMostCompleteState(currentState, persistedState, playerId)
+    local current = ProgressionReducer.normalize(currentState, playerId)
+    local persisted = ProgressionReducer.normalize(persistedState, playerId)
+
+    if persisted.points > current.points then
+        return persisted
+    end
+
+    return current
+end
+
 function ProgressionReducer.toPublicSnapshot(state, playerId)
     local normalized = ProgressionReducer.normalize(state, playerId)
     local reportCard = {}

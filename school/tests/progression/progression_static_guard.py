@@ -61,6 +61,11 @@ assert 'CompletionGate.getCompletionId(playerId, occurrenceId) == completionId' 
 assert 'return state, false, "DUPLICATE_COMPLETION"' in reducer
 assert 'return state, false, "INVALID_COMPLETION"' in reducer
 
+assert 'function ProgressionReducer.selectMostCompleteState(' in reducer
+assert 'if persisted.points > current.points then' in reducer
+assert 'cacheByPlayerId[playerId] = ProgressionReducer.selectMostCompleteState(' in service, (
+    "out-of-order persistence responses must not regress cached progression"
+)
 assert 'reportCard = table.freeze(publicReportCard)' in reducer
 for field in ("completedCount", "points", "bestScore", "lastCompletedAt"):
     assert f"{field} =" in reducer, f"report card missing {field}"

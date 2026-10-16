@@ -46,7 +46,11 @@ local function cachePersistedState(playerId, state)
     cacheRevisionByPlayerId[playerId] = (cacheRevisionByPlayerId[playerId] or 0) + 1
 
     if Players:GetPlayerByUserId(playerId) then
-        cacheByPlayerId[playerId] = state
+        cacheByPlayerId[playerId] = ProgressionReducer.selectMostCompleteState(
+            cacheByPlayerId[playerId],
+            state,
+            playerId
+        )
     else
         cacheByPlayerId[playerId] = nil
     end
