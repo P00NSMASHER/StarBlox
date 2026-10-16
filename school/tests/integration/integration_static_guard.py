@@ -63,6 +63,8 @@ assert 'CampusCourierActivity.ROUTE[1].locationId' in destination_service
 assert 'local discoveredCourierByUserId = {}' in destination_service
 assert 'local function courierStartCue()' in destination_service
 assert 'local firstStop = CampusCourierActivity.ROUTE[1]' in destination_service
+assert 'activityId = CampusCourierActivity.ACTIVITY_ID' in destination_service
+assert 'remainingStops = #CampusCourierActivity.ROUTE' in destination_service
 assert 'progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE)' in destination_service
 assert 'nextLocationId = firstStop.locationId' in destination_service
 assert 'nextActionLabel = firstStop.actionLabel' in destination_service
@@ -76,6 +78,8 @@ assert cue_definition < cue_use < route_progress, (
 )
 assert 'CampusCourierActivity.buildCompletion(courier, os.time())' in destination_service
 assert 'resolved = courierResponse and courierResponse.resolved or false' in destination_service
+assert 'remainingStops = state.remainingStops' in destination_service
+assert 'remainingStops = courierResponse and courierResponse.remainingStops or nil' in destination_service
 assert 'courierResponse.progressLabel or string.format(' in destination_service
 assert 'nextLocationName = state.nextLocationName' in destination_service
 assert 'nextActionLabel = state.nextActionLabel' in destination_service
@@ -191,6 +195,11 @@ assert expiry_ui < expiry_ui_clear < expiry_ui_return < resolved_ui, (
 )
 assert 'payload.resolved == true' in destination_feedback
 assert 'type(payload.nextActionLabel) == "string"' in destination_feedback
+assert 'type(payload.remainingStops) == "number"' in destination_feedback
+assert 'payload.remainingStops % 1 == 0' in destination_feedback
+assert 'payload.remainingStops <= MAX_COURIER_STOPS' in destination_feedback
+assert 'local function formatRemainingStops(count)' in destination_feedback
+assert '.. formatRemainingStops(payload.remainingStops)' in destination_feedback
 assert 'activeRouteText = "Campus Courier • "' in destination_feedback
 assert '.. payload.nextActionLabel' in destination_feedback
 assert 'label.Text = activeRouteText' in destination_feedback
@@ -206,6 +215,7 @@ assert 'description = "Follow a short four-stop delivery loop around Pip High."'
 assert courier.count('locationId = "lobby"') == 2
 assert 'objective = "Return the signed delivery sheet to the Main Lobby."' in courier
 assert 'progressLabel = formatProgress(activity)' in courier
+assert courier.count('remainingStops = getRemainingStops(activity)') == 2
 assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2
 assert 'CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10' in courier
 for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
