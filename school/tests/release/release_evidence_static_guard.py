@@ -15,6 +15,7 @@ checkout_action = "uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c
 python_action = "uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6"
 upload_action = "uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4"
 candidate_artifact_name = "name: high-school-integration-candidate-${{ env.CANDIDATE_SOURCE_SHA }}"
+candidate_retention = "retention-days: 30"
 
 assert candidate_expression in workflow, "candidate identity must resolve to the PR head SHA"
 assert checkout_expression in workflow, "checkout must use the resolved candidate SHA"
@@ -23,6 +24,15 @@ assert python_action in workflow, "Python setup must use the pinned Node 24 acti
 assert upload_action in workflow, "candidate upload must use the reviewed v4 commit"
 assert candidate_artifact_name in workflow, (
     "uploaded candidate name must bind the artifact to the exact source SHA"
+)
+assert workflow.count(candidate_retention) == 1, (
+    "candidate build and receipt evidence must remain available for a 30-day review window"
+)
+assert "retention-days: 7" not in workflow, (
+    "seven-day retention can expire before composed release and native verification finish"
+)
+assert workflow.index("Upload deterministic candidate") < workflow.index(candidate_retention), (
+    "candidate retention policy must belong to the deterministic upload step"
 )
 assert "\n          name: high-school-integration-candidate\n" not in workflow, (
     "generic candidate artifact names make stale and current builds ambiguous"
