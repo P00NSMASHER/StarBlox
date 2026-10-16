@@ -8,6 +8,9 @@ CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
 CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10
+CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80
+CampusCourierActivity.MIN_ROUTE_STOPS = 3
+CampusCourierActivity.MAX_ROUTE_STOPS = 6
 
 local ROUTE = table.freeze({
     table.freeze({
@@ -36,13 +39,43 @@ local ROUTE = table.freeze({
     }),
 })
 
-for _, stop in ipairs(ROUTE) do
+assert(
+    #ROUTE >= CampusCourierActivity.MIN_ROUTE_STOPS
+        and #ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS,
+    "route must remain a short activity"
+)
+assert(
+    ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby",
+    "route must begin and end in the Main Lobby"
+)
+
+local interiorLocations = {}
+for index, stop in ipairs(ROUTE) do
+    assert(type(stop.locationId) == "string" and stop.locationId:match("^[%w_%-]+$"), "route location id required")
+    assert(type(stop.locationName) == "string" and stop.locationName:match("%S"), "route location name required")
+    if index > 1 then
+        assert(ROUTE[index - 1].locationId ~= stop.locationId, "route cannot repeat adjacent stops")
+    end
+    if index > 1 and index < #ROUTE then
+        assert(stop.locationId ~= "lobby", "route may only return to the lobby at completion")
+        assert(not interiorLocations[stop.locationId], "route interior stops must be unique")
+        interiorLocations[stop.locationId] = true
+    end
+
     assert(type(stop.actionLabel) == "string" and stop.actionLabel ~= "", "route action label required")
     assert(
         #stop.actionLabel <= CampusCourierActivity.MAX_ACTION_LABEL_LENGTH,
         "route action label exceeds compact control limit"
     )
     assert(stop.actionLabel:match("^[A-Z ]+$"), "route action label must be uppercase")
+    assert(
+        type(stop.objective) == "string" and stop.objective:match("%S"),
+        "route objective required"
+    )
+    assert(
+        #stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH,
+        "route objective exceeds mobile copy limit"
+    )
 end
 
 CampusCourierActivity.ROUTE = ROUTE
@@ -98,10 +131,18 @@ function CampusCourierActivity.isCompletionIdFor(completionId, playerId)
         and completionId == "activity:" .. activityInstanceId
 end
 
+local function getCompletedStops(activity)
+    return math.min(activity.stepIndex - 1, #ROUTE)
+end
+
+local function getRemainingStops(activity)
+    return math.max(#ROUTE - getCompletedStops(activity), 0)
+end
+
 local function formatProgress(activity)
     return string.format(
         "%d/%d stops",
-        math.min(activity.stepIndex - 1, #ROUTE),
+        getCompletedStops(activity),
         #ROUTE
     )
 end
@@ -112,7 +153,8 @@ local function makeResponse(activity, accepted, reason, feedback)
         accepted = accepted,
         reason = reason,
         resolved = activity.resolved,
-        completedStops = math.min(activity.stepIndex - 1, #ROUTE),
+        completedStops = getCompletedStops(activity),
+        remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
@@ -154,7 +196,8 @@ function CampusCourierActivity.getPublicState(activity)
         id = CampusCourierActivity.ACTIVITY_ID,
         title = "Campus Courier",
         description = "Follow a short four-stop delivery loop around Pip High.",
-        completedStops = math.min(activity.stepIndex - 1, #ROUTE),
+        completedStops = getCompletedStops(activity),
+        remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,

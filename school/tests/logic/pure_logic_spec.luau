@@ -374,15 +374,55 @@ local courier = CampusCourierActivity.new(firstDayCourierId, 123)
 assert(CampusCourierActivity.isOwnedBy(courier, 123), "courier ownership missing")
 
 local publicCourier = CampusCourierActivity.getPublicState(courier)
+local courierRoute = CampusCourierActivity.ROUTE
+assert(
+    #courierRoute >= CampusCourierActivity.MIN_ROUTE_STOPS
+        and #courierRoute <= CampusCourierActivity.MAX_ROUTE_STOPS,
+    "courier must remain a short campus activity"
+)
+assertEqual(courierRoute[1].locationId, "lobby", "courier must begin in the lobby")
+assertEqual(courierRoute[#courierRoute].locationId, "lobby", "courier must return to the lobby")
+local seenCourierInteriorLocations = {}
 local seenCourierActionLabels = {}
-for _, stop in ipairs(CampusCourierActivity.ROUTE) do
+for index, stop in ipairs(courierRoute) do
+    assert(
+        type(stop.locationId) == "string" and stop.locationId:match("^[%w_%-]+$") ~= nil,
+        "courier location id must be canonical"
+    )
+    assert(
+        type(stop.locationName) == "string" and stop.locationName:match("%S") ~= nil,
+        "courier location name must be nonblank"
+    )
+    if index > 1 then
+        assert(
+            courierRoute[index - 1].locationId ~= stop.locationId,
+            "courier cannot repeat adjacent destinations"
+        )
+    end
+    if index > 1 and index < #courierRoute then
+        assert(stop.locationId ~= "lobby", "courier can only return to lobby at completion")
+        assert(
+            not seenCourierInteriorLocations[stop.locationId],
+            "courier interior destinations must be unique"
+        )
+        seenCourierInteriorLocations[stop.locationId] = true
+    end
     assert(#stop.actionLabel <= 10, "courier action label must fit compact mobile controls")
     assert(stop.actionLabel:match("^[A-Z ]+$") ~= nil, "courier action label must be uppercase")
+    assert(
+        type(stop.objective) == "string" and stop.objective:match("%S") ~= nil,
+        "courier objective must be nonblank"
+    )
+    assert(
+        #stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH,
+        "courier objective must fit persistent mobile guidance"
+    )
     assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
     seenCourierActionLabels[stop.actionLabel] = true
 end
 assertEqual(publicCourier.title, "Campus Courier", "courier title")
 assertEqual(publicCourier.totalStops, 4, "courier stop count")
+assertEqual(publicCourier.remainingStops, 4, "courier initial remaining stops")
 assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
 assertEqual(publicCourier.nextLocationName, "Main Lobby", "courier first stop name")
 assertEqual(publicCourier.nextActionLabel, "PICK UP", "courier first action")
@@ -396,6 +436,7 @@ assertEqual(wrongCourierStop.nextLocationId, "lobby", "wrong stop preserves obje
 assertEqual(wrongCourierStop.nextLocationName, "Main Lobby", "wrong stop preserves destination name")
 assertEqual(wrongCourierStop.nextActionLabel, "PICK UP", "wrong stop preserves action")
 assertEqual(wrongCourierStop.progressLabel, "0/4 stops", "wrong stop progress")
+assertEqual(wrongCourierStop.remainingStops, 4, "wrong stop preserves remaining stops")
 assertEqual(
     wrongCourierStop.feedback,
     "Next stop (0/4 stops complete): Pick up the campus delivery list in the Main Lobby.",
@@ -423,6 +464,7 @@ assertEqual(lobbyStop.nextLocationId, "cafeteria", "courier cafeteria objective"
 assertEqual(lobbyStop.nextLocationName, "Cafeteria", "courier cafeteria name")
 assertEqual(lobbyStop.nextActionLabel, "DELIVER", "courier cafeteria action")
 assertEqual(lobbyStop.progressLabel, "1/4 stops", "courier lobby progress")
+assertEqual(lobbyStop.remainingStops, 3, "courier lobby remaining stops")
 assertEqual(
     lobbyStop.feedback,
     "Delivery confirmed (1/4 stops complete). Deliver the lunch-count note to the Cafeteria.",
@@ -435,12 +477,14 @@ assertEqual(cafeteriaStop.nextLocationId, "science", "courier science objective"
 assertEqual(cafeteriaStop.nextLocationName, "Science Classroom", "courier science name")
 assertEqual(cafeteriaStop.nextActionLabel, "DROP OFF", "courier science action")
 assertEqual(cafeteriaStop.progressLabel, "2/4 stops", "courier cafeteria progress")
+assertEqual(cafeteriaStop.remainingStops, 2, "courier cafeteria remaining stops")
 
 local scienceStop = CampusCourierActivity.checkIn(courier, "courier-science", "science")
 assertEqual(scienceStop.accepted, true, "courier science check-in")
 assertEqual(scienceStop.resolved, false, "science stop must preserve return leg")
 assertEqual(scienceStop.rewardPoints, 0, "science stop must not reward early")
 assertEqual(scienceStop.progressLabel, "3/4 stops", "courier science progress")
+assertEqual(scienceStop.remainingStops, 1, "courier science remaining stop")
 assertEqual(scienceStop.nextLocationId, "lobby", "courier return objective")
 assertEqual(scienceStop.nextLocationName, "Main Lobby", "courier return destination")
 assertEqual(scienceStop.nextActionLabel, "RETURN", "courier return action")
@@ -456,6 +500,7 @@ assertEqual(returnLobbyStop.accepted, true, "courier return check-in")
 assertEqual(returnLobbyStop.resolved, true, "courier completion")
 assertEqual(returnLobbyStop.rewardPoints, 5, "courier completion reward")
 assertEqual(returnLobbyStop.progressLabel, "4/4 stops", "courier completion progress")
+assertEqual(returnLobbyStop.remainingStops, 0, "courier completion clears remaining stops")
 assertEqual(returnLobbyStop.nextLocationName, nil, "completed courier has no next destination")
 assertEqual(returnLobbyStop.nextActionLabel, nil, "completed courier clears next action")
 assertEqual(

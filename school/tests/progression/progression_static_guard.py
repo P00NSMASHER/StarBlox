@@ -105,6 +105,9 @@ assert 'ProgressionReducer.toPublicSnapshot(state, player.UserId)' in service
 
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
+assert 'CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80' in courier
+assert 'CampusCourierActivity.MIN_ROUTE_STOPS = 3' in courier
+assert 'CampusCourierActivity.MAX_ROUTE_STOPS = 6' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
 assert 'function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)' in courier
 assert 'function CampusCourierActivity.isCompletionIdFor(completionId, playerId)' in courier
@@ -114,9 +117,13 @@ assert 'completedAt >= 1' in courier
 assert 'completedAt % 1 == 0' in courier
 assert 'completedAt = tonumber(completedAt) or 0' not in courier
 assert 'completedAt = completedAt' in courier
+assert 'local function getCompletedStops(activity)' in courier
+assert 'local function getRemainingStops(activity)' in courier
+assert 'return math.max(#ROUTE - getCompletedStops(activity), 0)' in courier
 assert 'local function formatProgress(activity)' in courier
 assert courier.count('locationId = "lobby"') == 2
 assert courier.count('progressLabel = formatProgress(activity)') == 2
+assert courier.count('remainingStops = getRemainingStops(activity)') == 2
 assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2
 for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
     assert courier.count(f'actionLabel = "{action_label}"') == 1
@@ -127,6 +134,16 @@ assert all(
     len(label) <= 10 and re.fullmatch(r"[A-Z ]+", label)
     for label in courier_action_labels
 )
+courier_objectives = re.findall(r'objective\s*=\s*"([^"]+)"', courier)
+assert len(courier_objectives) == 4
+assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)
+assert 'type(stop.objective) == "string" and stop.objective:match("%S")' in courier
+assert '#stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH' in courier
+assert '#ROUTE >= CampusCourierActivity.MIN_ROUTE_STOPS' in courier
+assert '#ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS' in courier
+assert 'ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby"' in courier
+assert 'ROUTE[index - 1].locationId ~= stop.locationId' in courier
+assert 'route interior stops must be unique' in courier
 assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
