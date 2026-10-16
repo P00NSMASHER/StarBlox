@@ -131,10 +131,18 @@ function CampusCourierActivity.isCompletionIdFor(completionId, playerId)
         and completionId == "activity:" .. activityInstanceId
 end
 
+local function getCompletedStops(activity)
+    return math.min(activity.stepIndex - 1, #ROUTE)
+end
+
+local function getRemainingStops(activity)
+    return math.max(#ROUTE - getCompletedStops(activity), 0)
+end
+
 local function formatProgress(activity)
     return string.format(
         "%d/%d stops",
-        math.min(activity.stepIndex - 1, #ROUTE),
+        getCompletedStops(activity),
         #ROUTE
     )
 end
@@ -145,7 +153,8 @@ local function makeResponse(activity, accepted, reason, feedback)
         accepted = accepted,
         reason = reason,
         resolved = activity.resolved,
-        completedStops = math.min(activity.stepIndex - 1, #ROUTE),
+        completedStops = getCompletedStops(activity),
+        remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
@@ -187,7 +196,8 @@ function CampusCourierActivity.getPublicState(activity)
         id = CampusCourierActivity.ACTIVITY_ID,
         title = "Campus Courier",
         description = "Follow a short four-stop delivery loop around Pip High.",
-        completedStops = math.min(activity.stepIndex - 1, #ROUTE),
+        completedStops = getCompletedStops(activity),
+        remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
         progressLabel = formatProgress(activity),
         nextLocationId = nextStop and nextStop.locationId or nil,
