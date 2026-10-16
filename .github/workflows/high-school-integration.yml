@@ -19,14 +19,21 @@ jobs:
   integration-static:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      CANDIDATE_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Check out exact integration candidate
-        uses: actions/checkout@v4
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ env.CANDIDATE_SOURCE_SHA }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
+
+      - name: Run release evidence guard
+        run: python school/tests/release/release_evidence_static_guard.py
 
       - name: Run Foundation guard
         run: python school/tests/foundation/foundation_static_guard.py
@@ -47,7 +54,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip" --output luau.zip
+          curl --fail --location --silent --show-error --retry 3 --retry-all-errors --connect-timeout 10 --max-time 120 "https://github.com/luau-lang/luau/releases/download/0.740/luau-ubuntu.zip" --output luau.zip
+          echo "7d4035db01816f977f6e4c42e3d5e8ef4235d95e9afe63a3c38905b42dde60f2  luau.zip" | sha256sum --check --strict -
           unzip -q luau.zip -d luau-bin
           chmod +x luau-bin/luau*
           test -x luau-bin/luau
@@ -59,7 +67,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --silent --show-error "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" --output rojo.zip
+          curl --fail --location --silent --show-error --retry 3 --retry-all-errors --connect-timeout 10 --max-time 120 "https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip" --output rojo.zip
+          echo "22503e5839864f9d7c2171c48b536fc229f2cc4d8774c9cc149f60941d864073  rojo.zip" | sha256sum --check --strict -
           unzip -q rojo.zip -d rojo-bin
           chmod +x rojo-bin/rojo
           rojo-bin/rojo --version
@@ -70,22 +79,41 @@ jobs:
           set -euo pipefail
           rojo-bin/rojo build school/default.project.json -o HighSchool-Integration.rbxlx
           test -s HighSchool-Integration.rbxlx
+          rojo-bin/rojo build school/default.project.json -o HighSchool-Integration-Repeat.rbxlx
+          test -s HighSchool-Integration-Repeat.rbxlx
+          cmp -s HighSchool-Integration.rbxlx HighSchool-Integration-Repeat.rbxlx
+          rm HighSchool-Integration-Repeat.rbxlx
           BYTES="$(stat -c%s HighSchool-Integration.rbxlx)"
           test "$BYTES" -gt 1000
-          sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256
+          BUILD_SHA256="$(sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256 | awk '{print $1}')"
+          test "${#BUILD_SHA256}" -eq 64
           grep -q 'SchoolClockService' HighSchool-Integration.rbxlx
           grep -q 'ClassSessionService' HighSchool-Integration.rbxlx
           grep -q 'ProgressionService' HighSchool-Integration.rbxlx
           grep -q 'SchoolClient' HighSchool-Integration.rbxlx
-          BYTES="$BYTES" python -c 'import json,os; open("high-school-build-receipt.json","w").write(json.dumps({"sourceSha":os.environ["GITHUB_SHA"],"bytes":int(os.environ["BYTES"])},indent=2)+"\\n")'
+          BYTES="$BYTES" BUILD_SHA256="$BUILD_SHA256" python -c 'import json,os; print(json.dumps({"sourceSha":os.environ["CANDIDATE_SOURCE_SHA"],"workflowSha":os.environ["GITHUB_WORKFLOW_SHA"],"repository":os.environ["GITHUB_REPOSITORY"],"workflowRunId":int(os.environ["GITHUB_RUN_ID"]),"workflowRunAttempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),"projectPath":"school/default.project.json","rojoVersion":"7.7.0","sha256":os.environ["BUILD_SHA256"],"bytes":int(os.environ["BYTES"])},indent=2),file=open("high-school-build-receipt.json","w",encoding="utf-8"))'
+
+      - name: Verify build receipt binding
+        run: |
+          python school/tests/release/verify_build_receipt.py \
+            --artifact HighSchool-Integration.rbxlx \
+            --digest high-school-integration.sha256 \
+            --receipt high-school-build-receipt.json \
+            --expected-source-sha "$CANDIDATE_SOURCE_SHA" \
+            --expected-workflow-sha "$GITHUB_WORKFLOW_SHA" \
+            --expected-repository "$GITHUB_REPOSITORY" \
+            --expected-workflow-run-id "$GITHUB_RUN_ID" \
+            --expected-workflow-run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --expected-project-path "school/default.project.json" \
+            --expected-rojo-version "7.7.0"
 
       - name: Upload deterministic candidate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: high-school-integration-candidate
+          name: high-school-integration-candidate-${{ env.CANDIDATE_SOURCE_SHA }}
           path: |
             HighSchool-Integration.rbxlx
             high-school-integration.sha256
             high-school-build-receipt.json
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 30

@@ -9,6 +9,9 @@ service = (ROOT / "src/ServerScriptService/HighSchool/ClassSessionService.server
 
 assert 'correctChoiceId = "c"' in catalog
 assert 'prompt = "What is 7 + 5?"' in catalog
+assert 'ela = table.freeze({' in catalog
+assert 'science = table.freeze({' in catalog
+assert 'function ActivityCatalog.getForClass(classId)' in catalog
 
 public_block_start = session.index("function EducationSession.getPublicActivity")
 public_block_end = session.index("function EducationSession.submit")
@@ -32,7 +35,14 @@ assert 'reason = "TOO_MANY_SUBMISSIONS"' in session
 assert 'and not session.resolved' in session
 
 assert 'FoundationState.getSnapshot()' in service
-assert 'foundation.periodId ~= ACTIVE_CLASS_ID' in service
+assert 'local CLASS_PERIODS = { math = true, ela = true, science = true }' in service
+assert 'if not CLASS_PERIODS[foundation.periodId] then' in service
+assert 'local sessionClassesByUserId = {}' in service
+assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
+assert 'foundation.periodId ~= sessionClassesByUserId[player.UserId]' in service
+assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
+assert 'classId = completedClassId' in service
+assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
 assert service.count('isAtAuthoritativeLocation(player, foundation.locationId)') >= 2, "location must be checked at start and submit"
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
