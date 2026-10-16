@@ -165,6 +165,46 @@ assertEqual(
     "unknown accent fallback"
 )
 
+local expectedWayfinding = {
+    lobby = { code = "LBY", roomType = "COMMONS" },
+    math = { code = "MTH", roomType = "CLASSROOM" },
+    ela = { code = "ELA", roomType = "CLASSROOM" },
+    science = { code = "SCI", roomType = "LAB CLASSROOM" },
+    cafeteria = { code = "CAF", roomType = "DINING" },
+    gym = { code = "GYM", roomType = "ATHLETICS" },
+}
+local seenRuntimeCodes = {}
+local seenRuntimeAccents = {}
+
+for locationId, expected in pairs(expectedWayfinding) do
+    local code = SchoolVisualTheme.getLocationCode(locationId)
+    local roomType = SchoolVisualTheme.getLocationType(locationId)
+    local accent = SchoolVisualTheme.getLocationAccent(locationId)
+
+    assertEqual(code, expected.code, locationId .. " runtime wayfinding code")
+    assertEqual(roomType, expected.roomType, locationId .. " runtime room type")
+    assert(
+        code:match("^[A-Z][A-Z][A-Z]$") ~= nil,
+        locationId .. " runtime code must remain compact uppercase copy"
+    )
+    assert(
+        #roomType <= 14,
+        locationId .. " runtime room type must fit the phone sign line"
+    )
+    assert(
+        accent.R >= 0 and accent.R <= 1
+            and accent.G >= 0 and accent.G <= 1
+            and accent.B >= 0 and accent.B <= 1,
+        locationId .. " runtime accent channels must remain normalized"
+    )
+
+    local accentKey = string.format("%.6f:%.6f:%.6f", accent.R, accent.G, accent.B)
+    assert(seenRuntimeCodes[code] == nil, "duplicate runtime code: " .. code)
+    assert(seenRuntimeAccents[accentKey] == nil, "duplicate runtime accent: " .. accentKey)
+    seenRuntimeCodes[code] = true
+    seenRuntimeAccents[accentKey] = true
+end
+
 assertFrozenMutationRejected("visual theme root", function()
     SchoolVisualTheme.WAYFINDING_ACCENT_MIN_CONTRAST = 0
 end)
