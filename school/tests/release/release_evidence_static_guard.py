@@ -150,7 +150,28 @@ assert 'encoding="utf-8"' in receipt_writer, "receipt writer must use explicit U
 
 assert workflow.index(candidate_expression) < workflow.index(checkout_expression)
 assert workflow.index(checkout_expression) < workflow.index('rojo-bin/rojo build')
-assert workflow.index('rojo-bin/rojo build') < workflow.index(digest_capture)
+primary_build = (
+    "rojo-bin/rojo build school/default.project.json "
+    "-o HighSchool-Integration.rbxlx"
+)
+repeat_build = (
+    "rojo-bin/rojo build school/default.project.json "
+    "-o HighSchool-Integration-Repeat.rbxlx"
+)
+repeat_compare = (
+    "cmp -s HighSchool-Integration.rbxlx "
+    "HighSchool-Integration-Repeat.rbxlx"
+)
+repeat_cleanup = "rm HighSchool-Integration-Repeat.rbxlx"
+assert workflow.count("rojo-bin/rojo build school/default.project.json") == 2, (
+    "release candidate must be built twice from the same source and toolchain"
+)
+for marker in (primary_build, repeat_build, repeat_compare, repeat_cleanup):
+    assert marker in workflow, f"missing reproducibility proof step: {marker}"
+assert workflow.index(primary_build) < workflow.index(repeat_build)
+assert workflow.index(repeat_build) < workflow.index(repeat_compare)
+assert workflow.index(repeat_compare) < workflow.index(repeat_cleanup)
+assert workflow.index(repeat_cleanup) < workflow.index(digest_capture)
 assert workflow.index(digest_capture) < workflow.index(digest_receipt_field)
 verification_step = "Verify build receipt binding"
 verification_command = "python school/tests/release/verify_build_receipt.py"

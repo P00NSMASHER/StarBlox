@@ -79,6 +79,10 @@ jobs:
           set -euo pipefail
           rojo-bin/rojo build school/default.project.json -o HighSchool-Integration.rbxlx
           test -s HighSchool-Integration.rbxlx
+          rojo-bin/rojo build school/default.project.json -o HighSchool-Integration-Repeat.rbxlx
+          test -s HighSchool-Integration-Repeat.rbxlx
+          cmp -s HighSchool-Integration.rbxlx HighSchool-Integration-Repeat.rbxlx
+          rm HighSchool-Integration-Repeat.rbxlx
           BYTES="$(stat -c%s HighSchool-Integration.rbxlx)"
           test "$BYTES" -gt 1000
           BUILD_SHA256="$(sha256sum HighSchool-Integration.rbxlx | tee high-school-integration.sha256 | awk '{print $1}')"
