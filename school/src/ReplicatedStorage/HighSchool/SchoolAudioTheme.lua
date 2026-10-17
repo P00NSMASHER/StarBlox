@@ -5,6 +5,7 @@ SchoolAudioTheme.CUE_CAPTIONS_REQUIRED = true
 SchoolAudioTheme.SAMPLE_RATE_HZ = 48000
 SchoolAudioTheme.PEAK_DB = -3
 SchoolAudioTheme.INTEGRATED_LUFS = -18
+SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE = "InverseTapered"
 
 SchoolAudioTheme.MIX_POLICY = table.freeze({
     maxConcurrentAmbience = 1,
@@ -19,36 +20,42 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     lobby = table.freeze({
         token = "ambience_campus_hub",
         looped = true,
+        minDistance = 16,
         targetVolume = 0.18,
         maxDistance = 48,
     }),
     math = table.freeze({
         token = "ambience_math_focus",
         looped = true,
+        minDistance = 10,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     ela = table.freeze({
         token = "ambience_language_arts_focus",
         looped = true,
+        minDistance = 10,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     science = table.freeze({
         token = "ambience_science_lab",
         looped = true,
+        minDistance = 10,
         targetVolume = 0.12,
         maxDistance = 32,
     }),
     cafeteria = table.freeze({
         token = "ambience_cafeteria_hum",
         looped = true,
+        minDistance = 14,
         targetVolume = 0.16,
         maxDistance = 40,
     }),
     gym = table.freeze({
         token = "ambience_gym_activity",
         looped = true,
+        minDistance = 12,
         targetVolume = 0.14,
         maxDistance = 36,
     }),
