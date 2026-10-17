@@ -206,12 +206,28 @@ ambience_volumes = [
 assert len(ambience_volumes) == len(theme_location_ids) + 4, "unexpected audio mix token count"
 assert all(0 < value <= 0.5 for value in ambience_volumes), "audio target volume outside safe mix range"
 
+min_distances = [
+    int(value)
+    for value in re.findall(r"minDistance\s*=\s*(\d+)", audio_theme)
+]
 max_distances = [
     int(value)
     for value in re.findall(r"maxDistance\s*=\s*(\d+)", audio_theme)
 ]
 assert len(max_distances) == len(theme_location_ids), "every ambience zone needs one max distance"
 assert all(24 <= value <= 64 for value in max_distances), "ambience distance outside campus readability range"
+assert len(min_distances) == len(theme_location_ids), "every ambience zone needs one minimum distance"
+assert all(8 <= value <= 20 for value in min_distances), (
+    "ambience minimum distance outside stable room-scale listening range"
+)
+assert all(
+    minimum < maximum
+    for minimum, maximum in zip(min_distances, max_distances)
+), "every ambience inner radius must remain below its outer radius"
+assert 'AMBIENCE_ROLLOFF_MODE = "InverseTapered"' in audio_theme, (
+    "campus ambience needs one predictable spatial attenuation mode"
+)
+
 
 loop_flags = re.findall(r"looped\s*=\s*(true|false)", audio_theme)
 assert loop_flags == ["true"] * len(theme_location_ids) + ["false"] * 4, (
