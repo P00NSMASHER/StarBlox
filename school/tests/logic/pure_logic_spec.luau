@@ -76,6 +76,56 @@ assertEqual(
     "unknown cue caption duration fallback"
 )
 
+-- The two-cue accessibility budget must keep the most important school
+-- feedback when all four cues contend at once.
+local expectedCuePriorities = {
+    periodBell = 4,
+    classComplete = 3,
+    activityComplete = 2,
+    waypointConfirm = 1,
+}
+local seenCuePriorities = {}
+local overloadedCueIds = {}
+
+for cueId, expectedPriority in pairs(expectedCuePriorities) do
+    local cue = SchoolAudioTheme.getCue(cueId)
+    assert(cue ~= nil, "missing prioritized cue: " .. cueId)
+    assertEqual(cue.priority, expectedPriority, cueId .. " priority")
+    assertEqual(
+        SchoolAudioTheme.getCuePriority(cueId),
+        expectedPriority,
+        cueId .. " priority lookup"
+    )
+    assert(
+        seenCuePriorities[expectedPriority] == nil,
+        "duplicate cue priority: " .. tostring(expectedPriority)
+    )
+    seenCuePriorities[expectedPriority] = cueId
+    table.insert(overloadedCueIds, cueId)
+end
+
+table.sort(overloadedCueIds, function(leftId, rightId)
+    local leftPriority = SchoolAudioTheme.getCuePriority(leftId)
+    local rightPriority = SchoolAudioTheme.getCuePriority(rightId)
+    if leftPriority == rightPriority then
+        return leftId < rightId
+    end
+    return leftPriority > rightPriority
+end)
+
+assertEqual(
+    #overloadedCueIds,
+    4,
+    "all feedback cues participate in overload arbitration"
+)
+assertEqual(overloadedCueIds[1], "periodBell", "first admitted overload cue")
+assertEqual(overloadedCueIds[2], "classComplete", "second admitted overload cue")
+assertEqual(
+    SchoolAudioTheme.getCuePriority("missingCue"),
+    nil,
+    "unknown cue priority fallback"
+)
+
 -- Every canonical destination resolves one bounded, unique ambience identity.
 local expectedAmbienceTokens = {
     lobby = "ambience_campus_hub",
