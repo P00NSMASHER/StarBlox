@@ -12,6 +12,8 @@ SchoolAudioTheme.MIX_POLICY = table.freeze({
     maxConcurrentCues = 2,
     cueRetriggerSeconds = 0.25,
     crossfadeSeconds = 1.25,
+    ambienceEnterHoldSeconds = 0.35,
+    ambienceExitPaddingStuds = 4,
     speechDuckDb = -6,
     reducedSensoryVolumeMultiplier = 0.5,
 })
