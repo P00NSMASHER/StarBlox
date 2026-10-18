@@ -12,6 +12,10 @@ local REPORT_CARD_CLASS_IDS = table.freeze({ "math", "ela", "science" })
 local STATUS_LABEL_HEIGHT = 44
 local FREE_ROAM_PANEL_HEIGHT = 276
 local ACTIVITY_PANEL_HEIGHT = 368
+local REPORT_CARD_HORIZONTAL_MARGIN = 76
+local REPORT_CARD_CENTER_OFFSET = -30
+local REPORT_CARD_MIN_WIDTH = 204
+local REPORT_CARD_MAX_WIDTH = 236
 
 local playerGui = script.Parent
 local existing = playerGui:FindFirstChild("HighSchoolHud")
@@ -44,14 +48,19 @@ reportCardButton.Parent = secondaryRail
 
 local reportCardPanel = Instance.new("Frame")
 reportCardPanel.Name = "ReportCardPanel"
-reportCardPanel.AnchorPoint = Vector2.new(1, 0.5)
-reportCardPanel.Position = UDim2.new(1, -68, 0.5, 0)
-reportCardPanel.Size = UDim2.fromOffset(236, 132)
+reportCardPanel.AnchorPoint = Vector2.new(0.5, 0.5)
+reportCardPanel.Position = UDim2.new(0.5, REPORT_CARD_CENTER_OFFSET, 0.5, 0)
+reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 132)
 reportCardPanel.BackgroundColor3 = Color3.fromRGB(20, 38, 67)
 reportCardPanel.BorderSizePixel = 0
 reportCardPanel.Visible = false
 reportCardPanel.ZIndex = 5
 reportCardPanel.Parent = gui
+
+local reportCardSizeConstraint = Instance.new("UISizeConstraint")
+reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 132)
+reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 132)
+reportCardSizeConstraint.Parent = reportCardPanel
 
 local reportCardCorner = Instance.new("UICorner")
 reportCardCorner.CornerRadius = UDim.new(0, 8)
@@ -77,11 +86,19 @@ for index, classId in ipairs(REPORT_CARD_CLASS_IDS) do
     row.Size = UDim2.new(1, -20, 0, 28)
     row.BackgroundTransparency = 1
     row.TextColor3 = Color3.fromRGB(255, 255, 255)
-    row.TextSize = 15
+    row.Font = Enum.Font.Gotham
+    row.TextScaled = true
+    row.TextWrapped = false
     row.TextXAlignment = Enum.TextXAlignment.Left
     row.Text = CLASS_NAMES[classId] .. " • loading…"
     row.ZIndex = 6
     row.Parent = reportCardPanel
+
+    local rowTextConstraint = Instance.new("UITextSizeConstraint")
+    rowTextConstraint.MinTextSize = 12
+    rowTextConstraint.MaxTextSize = 15
+    rowTextConstraint.Parent = row
+
     reportCardRows[classId] = row
 end
 

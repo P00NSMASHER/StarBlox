@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -23,6 +24,19 @@ assert 'REPORT_CARD_CLASS_IDS = table.freeze({ "math", "ela", "science" })' in c
 assert "local STATUS_LABEL_HEIGHT = 44" in client
 assert "local FREE_ROAM_PANEL_HEIGHT = 276" in client
 assert "local ACTIVITY_PANEL_HEIGHT = 368" in client
+report_card_layout_constants = {
+    name: int(value)
+    for name, value in re.findall(
+        r"local (REPORT_CARD_(?:HORIZONTAL_MARGIN|CENTER_OFFSET|MIN_WIDTH|MAX_WIDTH)) = (-?\d+)",
+        client,
+    )
+}
+assert set(report_card_layout_constants) == {
+    "REPORT_CARD_HORIZONTAL_MARGIN",
+    "REPORT_CARD_CENTER_OFFSET",
+    "REPORT_CARD_MIN_WIDTH",
+    "REPORT_CARD_MAX_WIDTH",
+}, "responsive report-card constants changed"
 assert 'local highSchool\nlocal FoundationConfig\nlocal FoundationState\nlocal SchoolClock' in client
 assert 'local highSchool = ReplicatedStorage:WaitForChild("HighSchool")' not in client
 assert 'local function waitForHighSchool()' in client
@@ -49,7 +63,39 @@ assert 'reportCardButton.Name = "ReportCardButton"' in client
 assert 'reportCardButton.Size = UDim2.fromOffset(48, 44)' in client
 assert 'reportCardButton.Text = "Grades"' in client
 assert 'reportCardPanel.Name = "ReportCardPanel"' in client
-assert 'reportCardPanel.Size = UDim2.fromOffset(236, 132)' in client
+assert 'reportCardPanel.AnchorPoint = Vector2.new(0.5, 0.5)' in client
+assert 'reportCardPanel.Position = UDim2.new(0.5, REPORT_CARD_CENTER_OFFSET, 0.5, 0)' in client
+assert 'reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 132)' in client
+assert 'reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 132)' in client
+assert 'reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 132)' in client
+assert 'reportCardSizeConstraint.Parent = reportCardPanel' in client
+assert 'reportCardPanel.Visible = false' in client
+assert 'row.Font = Enum.Font.Gotham' in client
+assert 'row.TextScaled = true' in client
+assert 'row.TextWrapped = false' in client
+assert 'rowTextConstraint.MinTextSize = 12' in client
+assert 'rowTextConstraint.MaxTextSize = 15' in client
+assert 'rowTextConstraint.Parent = row' in client
+
+supported_phone_width = 280
+rail_left = supported_phone_width - 12 - 48
+report_card_width = min(
+    report_card_layout_constants["REPORT_CARD_MAX_WIDTH"],
+    max(
+        report_card_layout_constants["REPORT_CARD_MIN_WIDTH"],
+        supported_phone_width - report_card_layout_constants["REPORT_CARD_HORIZONTAL_MARGIN"],
+    ),
+)
+report_card_center = (
+    supported_phone_width / 2
+    + report_card_layout_constants["REPORT_CARD_CENTER_OFFSET"]
+)
+report_card_left = report_card_center - report_card_width / 2
+report_card_right = report_card_center + report_card_width / 2
+assert report_card_left >= 8, "report card must preserve an 8px left safe margin at 280px"
+assert rail_left - report_card_right >= 8, (
+    "report card must preserve an 8px gap from the action rail at 280px"
+)
 assert 'reportCardPanel.Visible = false' in client
 assert 'local function setReportCardVisible(visible)' in client
 assert 'reportCardPanel.Visible = visible' in client
