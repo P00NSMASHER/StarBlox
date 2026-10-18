@@ -135,7 +135,21 @@ local expectedAmbienceTokens = {
     cafeteria = "ambience_cafeteria_hum",
     gym = "ambience_gym_activity",
 }
+local expectedAmbienceMinDistances = {
+    lobby = 16,
+    math = 10,
+    ela = 10,
+    science = 10,
+    cafeteria = 14,
+    gym = 12,
+}
 local seenAmbienceTokens = {}
+
+assertEqual(
+    SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE,
+    "InverseTapered",
+    "shared ambience rolloff mode"
+)
 
 for locationId, expectedToken in pairs(expectedAmbienceTokens) do
     local ambience = SchoolAudioTheme.getLocationAmbience(locationId)
@@ -146,9 +160,22 @@ for locationId, expectedToken in pairs(expectedAmbienceTokens) do
         ambience.targetVolume > 0 and ambience.targetVolume <= 0.5,
         locationId .. " ambience volume outside safe range"
     )
+    assertEqual(
+        ambience.minDistance,
+        expectedAmbienceMinDistances[locationId],
+        locationId .. " ambience minimum distance"
+    )
     assert(
         ambience.maxDistance >= 24 and ambience.maxDistance <= 64,
         locationId .. " ambience distance outside bounded range"
+    )
+    assert(
+        ambience.minDistance >= 8 and ambience.minDistance <= 20,
+        locationId .. " ambience minimum distance outside room-scale range"
+    )
+    assert(
+        ambience.minDistance < ambience.maxDistance,
+        locationId .. " ambience inner radius must be below its outer radius"
     )
     assert(
         seenAmbienceTokens[ambience.token] == nil,
@@ -173,6 +200,9 @@ end
 assertFrozenMutationRejected("audio theme root", function()
     SchoolAudioTheme.ORIGINAL_ONLY = false
 end)
+assertFrozenMutationRejected("ambience rolloff mode", function()
+    SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE = "Linear"
+end)
 assertFrozenMutationRejected("mix policy", function()
     SchoolAudioTheme.MIX_POLICY.maxConcurrentCues = 99
 end)
@@ -190,6 +220,11 @@ assertFrozenMutationRejected("cue entry", function()
 end)
 
 assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unchanged")
+assertEqual(
+    SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE,
+    "InverseTapered",
+    "ambience rolloff mode remains unchanged"
+)
 assertEqual(SchoolAudioTheme.MIX_POLICY.maxConcurrentCues, 2, "mix policy remains unchanged")
 assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
 assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
