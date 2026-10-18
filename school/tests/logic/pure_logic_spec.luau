@@ -190,6 +190,26 @@ assertEqual(
     "unknown ambience fallback"
 )
 
+-- Doorway hysteresis must remain short enough to feel responsive while
+-- preventing repeated ambience switches near adjacent room boundaries.
+local ambiencePolicy = SchoolAudioTheme.MIX_POLICY
+assertEqual(ambiencePolicy.ambienceEnterHoldSeconds, 0.35, "ambience entry hold")
+assertEqual(ambiencePolicy.ambienceExitPaddingStuds, 4, "ambience exit padding")
+assert(
+    ambiencePolicy.ambienceEnterHoldSeconds >= 0.25
+        and ambiencePolicy.ambienceEnterHoldSeconds <= 1,
+    "ambience entry hold outside responsive hysteresis range"
+)
+assert(
+    ambiencePolicy.ambienceExitPaddingStuds >= 2
+        and ambiencePolicy.ambienceExitPaddingStuds <= 8,
+    "ambience exit padding outside bounded spatial range"
+)
+assert(
+    ambiencePolicy.crossfadeSeconds >= ambiencePolicy.ambienceEnterHoldSeconds,
+    "ambience crossfade must cover the stabilized transition"
+)
+
 -- Shared sound policy must stay immutable after lookup so one client cannot
 -- silently alter cue priority, looping, or volume for later consumers.
 local function assertFrozenMutationRejected(label, mutate)
@@ -205,6 +225,9 @@ assertFrozenMutationRejected("ambience rolloff mode", function()
 end)
 assertFrozenMutationRejected("mix policy", function()
     SchoolAudioTheme.MIX_POLICY.maxConcurrentCues = 99
+end)
+assertFrozenMutationRejected("ambience transition policy", function()
+    SchoolAudioTheme.MIX_POLICY.ambienceExitPaddingStuds = 0
 end)
 assertFrozenMutationRejected("ambience registry", function()
     SchoolAudioTheme.LOCATION_AMBIENCE.gym = {}
@@ -226,6 +249,16 @@ assertEqual(
     "ambience rolloff mode remains unchanged"
 )
 assertEqual(SchoolAudioTheme.MIX_POLICY.maxConcurrentCues, 2, "mix policy remains unchanged")
+assertEqual(
+    SchoolAudioTheme.MIX_POLICY.ambienceEnterHoldSeconds,
+    0.35,
+    "ambience entry hold remains unchanged"
+)
+assertEqual(
+    SchoolAudioTheme.MIX_POLICY.ambienceExitPaddingStuds,
+    4,
+    "ambience exit padding remains unchanged"
+)
 assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
 assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
 

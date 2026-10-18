@@ -395,6 +395,8 @@ assert set(mix_policy) == {
     "maxConcurrentCues",
     "cueRetriggerSeconds",
     "crossfadeSeconds",
+    "ambienceEnterHoldSeconds",
+    "ambienceExitPaddingStuds",
     "speechDuckDb",
     "reducedSensoryVolumeMultiplier",
 }, "audio mix policy keys changed"
@@ -404,6 +406,15 @@ assert 0.1 <= mix_policy["cueRetriggerSeconds"] <= 0.5, (
     "cue retrigger floor must prevent chatter without delaying responsive feedback"
 )
 assert 0.5 <= mix_policy["crossfadeSeconds"] <= 2, "ambience crossfade outside short-transition range"
+assert 0.25 <= mix_policy["ambienceEnterHoldSeconds"] <= 1, (
+    "ambience entry hold must reject doorway jitter without delaying room feedback"
+)
+assert 2 <= mix_policy["ambienceExitPaddingStuds"] <= 8, (
+    "ambience exit padding must provide bounded spatial hysteresis"
+)
+assert mix_policy["crossfadeSeconds"] >= mix_policy["ambienceEnterHoldSeconds"], (
+    "ambience crossfade must cover the stabilized transition"
+)
 assert -12 <= mix_policy["speechDuckDb"] <= -3, "speech ducking outside intelligibility range"
 assert 0.25 <= mix_policy["reducedSensoryVolumeMultiplier"] <= 0.75, (
     "reduced-sensory volume multiplier outside useful range"
