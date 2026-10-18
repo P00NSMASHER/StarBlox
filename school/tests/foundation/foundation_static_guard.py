@@ -38,7 +38,13 @@ assert 'text.Text = location.name' in builder
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
+assert len(location_ids) == 6, "unexpected location count"
+assert 'id = "gym", name = "Gym & Fitness", position = Vector3.new(-36, 3, -36)' in config, (
+    "canonical gym destination missing"
+)
+assert 'campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)' in builder, (
+    "campus builder must expose the data-driven destination count"
+)
 
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
