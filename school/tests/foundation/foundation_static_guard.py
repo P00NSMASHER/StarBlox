@@ -125,6 +125,16 @@ assert builder.count('roomType.Name = "RoomType"') == 1, (
     "room type label must be constructed once per destination through the bounded location pass"
 )
 
+# Invisible registry markers and decorative floor pads have no gameplay touch or
+# raycast role. Keeping them out of touch/query participation avoids ten needless
+# physics candidates on the current five-destination campus.
+for part_name in ("marker", "pad"):
+    for physics_property in ("CanCollide", "CanTouch", "CanQuery"):
+        assignment = f"{part_name}.{physics_property} = false"
+        assert builder.count(assignment) == 1, (
+            f"{part_name} must disable {physics_property} once in the bounded location pass"
+        )
+
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
 planned_location_ids = {"gym"}

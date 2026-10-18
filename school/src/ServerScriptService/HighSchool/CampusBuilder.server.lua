@@ -50,6 +50,8 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     marker.Name = location.id
     marker.Anchored = true
     marker.CanCollide = false
+    marker.CanTouch = false
+    marker.CanQuery = false
     marker.Transparency = 1
     marker.Size = Vector3.new(4, 4, 4)
     marker.Position = location.position
@@ -67,6 +69,8 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     pad.Name = location.id .. "Pad"
     pad.Anchored = true
     pad.CanCollide = false
+    pad.CanTouch = false
+    pad.CanQuery = false
     pad.Material = Enum.Material.SmoothPlastic
     pad.Color = accent
     pad.Transparency = SchoolVisualTheme.PAD_TRANSPARENCY
