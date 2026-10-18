@@ -36,6 +36,13 @@ assert 'pad.Transparency = 0.35' in builder
 assert 'sign.Name = "LocationLabel"' in builder
 assert 'text.Text = location.name' in builder
 
+for part_name in ("marker", "pad"):
+    for physics_property in ("CanCollide", "CanTouch", "CanQuery"):
+        assignment = f"{part_name}.{physics_property} = false"
+        assert builder.count(assignment) == 1, (
+            f"{part_name} must disable {physics_property} exactly once in the location pass"
+        )
+
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
 assert location_ids, "location registry must not be empty"
 assert len(location_ids) == 6, "unexpected location count"
