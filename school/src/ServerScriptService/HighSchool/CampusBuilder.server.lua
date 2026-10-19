@@ -234,7 +234,7 @@ local eastHallCrossing = createPassivePart(
 )
 eastHallCrossing:SetAttribute(
     "ConnectedRouteIds",
-    "LobbyToMath,LobbyToScience,LanguageArtsToScience"
+    "EntranceToCafeteria,LobbyToMath"
 )
 
 local routeIds = {}

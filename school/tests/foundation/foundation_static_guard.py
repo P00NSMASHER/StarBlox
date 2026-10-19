@@ -158,6 +158,105 @@ route_width = layout_number("ROUTE_WIDTH")
 entrance_pad_size = layout_number("ENTRANCE_PAD_SIZE")
 entrance_edge_margin = layout_number("ENTRANCE_EDGE_MARGIN")
 max_chevron_spacing = layout_number("ROUTE_CHEVRON_MAX_SPACING")
+junction_size = layout_number("JUNCTION_SIZE")
+
+junction_match = re.search(
+    r"JUNCTION_POSITION = Vector3\.new\((-?[0-9.]+), (-?[0-9.]+), (-?[0-9.]+)\)",
+    route_layout,
+)
+assert junction_match, "route crossing position missing"
+junction_position = (
+    float(junction_match.group(1)),
+    float(junction_match.group(3)),
+)
+
+def strict_segment_intersection(first_start, first_finish, second_start, second_finish):
+    first_delta = (
+        first_finish[0] - first_start[0],
+        first_finish[1] - first_start[1],
+    )
+    second_delta = (
+        second_finish[0] - second_start[0],
+        second_finish[1] - second_start[1],
+    )
+    denominator = (
+        first_delta[0] * second_delta[1]
+        - first_delta[1] * second_delta[0]
+    )
+    if abs(denominator) < 1e-9:
+        return None
+    offset = (
+        second_start[0] - first_start[0],
+        second_start[1] - first_start[1],
+    )
+    first_progress = (
+        offset[0] * second_delta[1] - offset[1] * second_delta[0]
+    ) / denominator
+    second_progress = (
+        offset[0] * first_delta[1] - offset[1] * first_delta[0]
+    ) / denominator
+    if not (
+        1e-9 < first_progress < 1 - 1e-9
+        and 1e-9 < second_progress < 1 - 1e-9
+    ):
+        return None
+    return (
+        first_start[0] + first_progress * first_delta[0],
+        first_start[1] + first_progress * first_delta[1],
+    )
+
+crossings = []
+for first_index, (first_id, first_origin, first_destination) in enumerate(segments):
+    for second_id, second_origin, second_destination in segments[first_index + 1:]:
+        if {first_origin, first_destination} & {second_origin, second_destination}:
+            continue
+        crossing = strict_segment_intersection(
+            location_positions[first_origin],
+            location_positions[first_destination],
+            location_positions[second_origin],
+            location_positions[second_destination],
+        )
+        if crossing is not None:
+            crossings.append(({first_id, second_id}, crossing))
+
+assert len(crossings) == 1, f"expected one interior route crossing, found {crossings}"
+crossing_route_ids, derived_junction_position = crossings[0]
+assert crossing_route_ids == {"EntranceToCafeteria", "LobbyToMath"}, (
+    f"unexpected east hall crossing routes: {sorted(crossing_route_ids)}"
+)
+assert math.dist(junction_position, derived_junction_position) <= 0.01, (
+    "east hall crossing plaza must remain centered on the derived route intersection"
+)
+
+junction_routes_match = re.search(
+    r'eastHallCrossing:SetAttribute\(\s*"ConnectedRouteIds",\s*"([^"]+)"\s*\)',
+    builder,
+)
+assert junction_routes_match, "east hall crossing route metadata missing"
+assert set(junction_routes_match.group(1).split(",")) == crossing_route_ids, (
+    "east hall crossing metadata must name exactly the intersecting routes"
+)
+
+first_route = next(segment for segment in segments if segment[0] == "EntranceToCafeteria")
+second_route = next(segment for segment in segments if segment[0] == "LobbyToMath")
+first_delta = (
+    location_positions[first_route[2]][0] - location_positions[first_route[1]][0],
+    location_positions[first_route[2]][1] - location_positions[first_route[1]][1],
+)
+second_delta = (
+    location_positions[second_route[2]][0] - location_positions[second_route[1]][0],
+    location_positions[second_route[2]][1] - location_positions[second_route[1]][1],
+)
+cross_magnitude = abs(
+    first_delta[0] * second_delta[1] - first_delta[1] * second_delta[0]
+)
+sin_angle = cross_magnitude / (
+    math.hypot(*first_delta) * math.hypot(*second_delta)
+)
+required_junction_span = route_width / sin_angle
+assert junction_size >= required_junction_span, (
+    "crossing plaza must cover the full overlap of both mobile-width routes"
+)
 assert route_width >= 10, "routes must remain readable on phone-sized viewports"
 assert entrance_pad_size >= 12, "entrance needs a clear mobile landing target"
 actual_edge_margin = (
