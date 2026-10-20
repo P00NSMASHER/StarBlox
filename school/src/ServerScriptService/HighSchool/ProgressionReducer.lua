@@ -34,8 +34,14 @@ local POINTS_BY_COMPLETION_CLASS = table.freeze({
     [CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS,
 })
 
-local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
+local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner, requireCanonicalTypes)
     if type(record) ~= "table" or not POINTS_BY_COMPLETION_CLASS[record.classId] then
+        return nil
+    end
+
+    if requireCanonicalTypes
+        and (type(record.score) ~= "number" or type(record.completedAt) ~= "number")
+    then
         return nil
     end
 
@@ -96,7 +102,7 @@ local function copyCompleted(source, expectedPlayerId)
     local copy = {}
     if type(source) == "table" then
         for completionId, record in pairs(source) do
-            local normalizedRecord = normalizeCompletionRecord(record, expectedPlayerId, true)
+            local normalizedRecord = normalizeCompletionRecord(record, expectedPlayerId, true, false)
             if normalizedRecord
                 and isStoredCompletionIdValid(
                     completionId,
@@ -156,7 +162,7 @@ function ProgressionReducer.applyCompletion(currentState, completion)
         return state, false, "DUPLICATE_COMPLETION"
     end
 
-    local record = normalizeCompletionRecord(completion, completion.playerId, true)
+    local record = normalizeCompletionRecord(completion, completion.playerId, true, true)
     if not record then
         return state, false, "INVALID_COMPLETION"
     end

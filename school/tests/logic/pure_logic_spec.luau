@@ -194,6 +194,51 @@ assertEqual(inflatedReason, "INVALID_COMPLETION", "inflated score reason")
 assertEqual(inflatedState.points, 20, "inflated score must not add points")
 assert(inflatedState.completed[scienceCompletionId] == nil, "invalid receipt must not enter ledger")
 
+local stringScoreState, stringScoreApplied, stringScoreReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = scienceCompletionId,
+        playerId = 123,
+        classId = "science",
+        score = "1",
+        completedAt = 1002,
+    })
+assertEqual(stringScoreApplied, false, "string score must fail closed")
+assertEqual(stringScoreReason, "INVALID_COMPLETION", "string score reason")
+assertEqual(stringScoreState.points, 20, "string score must not add points")
+assert(stringScoreState.completed[scienceCompletionId] == nil, "string score must not enter ledger")
+
+local stringTimestampState, stringTimestampApplied, stringTimestampReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = scienceCompletionId,
+        playerId = 123,
+        classId = "science",
+        score = 1,
+        completedAt = "1002",
+    })
+assertEqual(stringTimestampApplied, false, "string completion timestamp must fail closed")
+assertEqual(stringTimestampReason, "INVALID_COMPLETION", "string completion timestamp reason")
+assertEqual(stringTimestampState.points, 20, "string timestamp must not add points")
+assert(
+    stringTimestampState.completed[scienceCompletionId] == nil,
+    "string timestamp must not enter ledger"
+)
+
+local legacyStringFields = ProgressionReducer.normalize({
+    version = 1,
+    completed = {
+        legacy_string_fields = {
+            classId = "science",
+            score = "1",
+            completedAt = "1002",
+        },
+    },
+}, 123)
+assertEqual(legacyStringFields.points, 10, "legacy stored numeric strings remain readable")
+assert(
+    legacyStringFields.completed.legacy_string_fields ~= nil,
+    "legacy stored numeric-string receipt must migrate"
+)
+
 local unknownState, unknownApplied = ProgressionReducer.applyCompletion(stateB, {
     completionId = "player:123:schedule:server-a:day:1:period:5:class:gym",
     playerId = 123,

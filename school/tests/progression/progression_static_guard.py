@@ -19,6 +19,14 @@ assert 'local CLASS_IDS = table.freeze({ "math", "ela", "science" })' in reducer
 assert 'local POINTS_BY_COMPLETION_CLASS = table.freeze({' in reducer
 assert '[CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS' in reducer
 assert 'score ~= 1' in reducer, "only resolved, full-credit class completions may earn points"
+assert 'local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner, requireCanonicalTypes)' in reducer
+assert 'type(record.score) ~= "number" or type(record.completedAt) ~= "number"' in reducer
+assert 'normalizeCompletionRecord(record, expectedPlayerId, true, false)' in reducer, (
+    "stored migration may retain legacy numeric strings"
+)
+assert 'normalizeCompletionRecord(completion, completion.playerId, true, true)' in reducer, (
+    "new reward events must use canonical numeric field types"
+)
 assert 'completedAt < 1' in reducer
 assert 'completedAt % 1 ~= 0' in reducer
 assert 'points = pointsFromCompleted(completed)' in reducer, (
@@ -48,7 +56,9 @@ assert 'return completionId:find(":", 1, true) == nil' in reducer, (
 assert 'CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)' in reducer
 binding_pos = reducer.index('if not CompletionGate.isCompletionIdFor(')
 dedupe_pos = reducer.index('if state.completed[completion.completionId] then')
-validation_pos = reducer.index('local record = normalizeCompletionRecord(completion, completion.playerId, true)')
+validation_pos = reducer.index(
+    'local record = normalizeCompletionRecord(completion, completion.playerId, true, true)'
+)
 write_pos = reducer.index('state.completed[completion.completionId] = record')
 reward_pos = reducer.index('state.points += POINTS_BY_COMPLETION_CLASS[record.classId]')
 assert binding_pos < dedupe_pos < validation_pos < write_pos < reward_pos, (
