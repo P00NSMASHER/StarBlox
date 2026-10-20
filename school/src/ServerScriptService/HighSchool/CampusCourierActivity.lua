@@ -263,7 +263,11 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
             activity,
             true,
             nil,
-            "Route complete (" .. formatProgress(activity) .. " complete)! You earned 5 school points."
+            string.format(
+                "Route complete (%s complete)! You earned %d school points.",
+                formatProgress(activity),
+                CampusCourierActivity.REWARD_POINTS
+            )
         )
     else
         response = makeResponse(

@@ -431,6 +431,11 @@ assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
 assertEqual(publicCourier.nextLocationName, "Main Lobby", "courier first stop name")
 assertEqual(publicCourier.nextActionLabel, "PICK UP", "courier first action")
 assertEqual(publicCourier.rewardPoints, 5, "courier advertised reward")
+assertEqual(
+    CampusCourierActivity.REWARD_POINTS,
+    ProgressionReducer.ACTIVITY_POINTS,
+    "courier activity and durable progression reward contract"
+)
 assertEqual(publicCourier.progressLabel, "0/4 stops", "courier initial progress")
 
 local wrongCourierStop = CampusCourierActivity.checkIn(courier, "courier-wrong", "science")
@@ -509,8 +514,11 @@ assertEqual(returnLobbyStop.nextLocationName, nil, "completed courier has no nex
 assertEqual(returnLobbyStop.nextActionLabel, nil, "completed courier clears next action")
 assertEqual(
     returnLobbyStop.feedback,
-    "Route complete (4/4 stops complete)! You earned 5 school points.",
-    "courier completion feedback"
+    string.format(
+        "Route complete (4/4 stops complete)! You earned %d school points.",
+        CampusCourierActivity.REWARD_POINTS
+    ),
+    "courier completion feedback must match the reward contract"
 )
 assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
 

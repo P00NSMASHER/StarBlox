@@ -149,7 +149,20 @@ assert '#ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS' in courier
 assert 'ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby"' in courier
 assert 'ROUTE[index - 1].locationId ~= stop.locationId' in courier
 assert 'route interior stops must be unique' in courier
-assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
+reward_feedback = courier.index(
+    '"Route complete (%s complete)! You earned %d school points."'
+)
+reward_progress_arg = courier.index("formatProgress(activity)", reward_feedback)
+reward_points_arg = courier.index(
+    "CampusCourierActivity.REWARD_POINTS",
+    reward_progress_arg,
+)
+assert reward_feedback < reward_progress_arg < reward_points_arg, (
+    "completion feedback must derive progress and awarded points from authoritative contracts"
+)
+assert '"You earned 5 school points."' not in courier, (
+    "player-facing reward feedback must not hardcode the current balance"
+)
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
 assert cache_pos < closed_pos, "resolved retries must return the cached completion receipt"
