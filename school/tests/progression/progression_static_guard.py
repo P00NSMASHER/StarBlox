@@ -10,6 +10,9 @@ completion_gate = (ROOT / "src/ServerScriptService/HighSchool/CompletionGate.lua
 courier = (ROOT / "src/ServerScriptService/HighSchool/CampusCourierActivity.lua").read_text(encoding="utf-8")
 
 assert 'ProgressionReducer.VERSION = 2' in reducer
+assert 'local function assertStoredVersionSupported(state)' in reducer
+assert 'error("UNSUPPORTED_PROGRESSION_VERSION", 3)' in reducer
+assert 'version > ProgressionReducer.VERSION' in reducer
 assert 'ProgressionReducer.POINTS_PER_COMPLETION = 10' in reducer
 assert 'ProgressionReducer.ACTIVITY_POINTS = 5' in reducer
 assert 'local CLASS_IDS = table.freeze({ "math", "ela", "science" })' in reducer
@@ -29,6 +32,11 @@ assert 'then require(script.Parent.CampusCourierActivity)' in reducer
 assert 'else require("./CampusCourierActivity")' in reducer
 assert 'completion.completionId' in reducer
 assert 'function ProgressionReducer.normalize(state, expectedPlayerId)' in reducer
+version_gate_pos = reducer.index('assertStoredVersionSupported(state)')
+completion_copy_pos = reducer.index('local completed = copyCompleted(state.completed, expectedPlayerId)')
+assert version_gate_pos < completion_copy_pos, (
+    "stored schema version must be validated before receipt migration"
+)
 assert 'ownerPlayerId = ownerPlayerId' in reducer, "stored receipts must retain their DataStore owner"
 assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)' in reducer
 assert 'if not completionId:match("^player:") then' in reducer, (
@@ -60,6 +68,14 @@ assert 'completed = normalized.completed' not in reducer, "public snapshot must 
 
 assert 'dataStore:UpdateAsync' in store, "atomic UpdateAsync persistence required"
 assert 'dataStore:GetAsync' in store, "save/rejoin load path required"
+load_start = store.index('function ProgressionStore.load(playerId)')
+load_pcall = store.index('local ok, state = pcall(function()', load_start)
+load_get = store.index('local data = dataStore:GetAsync(keyForPlayer(playerId))', load_pcall)
+load_normalize = store.index('return ProgressionReducer.normalize(data, playerId)', load_get)
+load_end = store.index('function ProgressionStore.applyCompletion', load_normalize)
+assert load_start < load_pcall < load_get < load_normalize < load_end, (
+    "load-time schema validation must remain inside the protected failure path"
+)
 assert 'SetAsync' not in store, "SetAsync would allow stale-snapshot overwrite"
 assert 'ProgressionReducer.applyCompletion(currentState, completion)' in store
 assert 'ProgressionReducer.normalize(data, playerId)' in store

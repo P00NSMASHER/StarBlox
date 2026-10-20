@@ -11,6 +11,21 @@ ProgressionReducer.VERSION = 2
 ProgressionReducer.POINTS_PER_COMPLETION = 10
 ProgressionReducer.ACTIVITY_POINTS = 5
 
+local function assertStoredVersionSupported(state)
+    if type(state) ~= "table" or state.version == nil then
+        return
+    end
+
+    local version = state.version
+    if type(version) ~= "number"
+        or version < 1
+        or version % 1 ~= 0
+        or version > ProgressionReducer.VERSION
+    then
+        error("UNSUPPORTED_PROGRESSION_VERSION", 3)
+    end
+end
+
 local CLASS_IDS = table.freeze({ "math", "ela", "science" })
 local POINTS_BY_COMPLETION_CLASS = table.freeze({
     math = ProgressionReducer.POINTS_PER_COMPLETION,
@@ -105,6 +120,7 @@ local function pointsFromCompleted(completed)
 end
 
 function ProgressionReducer.normalize(state, expectedPlayerId)
+    assertStoredVersionSupported(state)
     state = state or {}
     local completed = copyCompleted(state.completed, expectedPlayerId)
     return {
