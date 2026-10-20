@@ -14,6 +14,13 @@ def verify_build_receipt(
     digest_path,
     receipt_path,
     expected_source_sha,
+    expected_workflow_sha,
+    expected_workflow_ref,
+    expected_workflow_event,
+    expected_repository,
+    expected_workflow_run_id,
+    expected_workflow_run_attempt,
+    expected_artifact_name,
     expected_project_path,
     expected_rojo_version,
 ):
@@ -23,18 +30,80 @@ def verify_build_receipt(
 
     if not SHA_PATTERN.fullmatch(expected_source_sha):
         raise ValueError("expected source SHA must be a lowercase 40- or 64-character Git object id")
+    if not SHA_PATTERN.fullmatch(expected_workflow_sha):
+        raise ValueError("expected workflow SHA must be a lowercase 40- or 64-character Git object id")
+    if expected_workflow_event not in {"pull_request", "push", "workflow_dispatch"}:
+        raise ValueError("expected workflow event must be pull_request, push, or workflow_dispatch")
+    if not isinstance(expected_repository, str) or not re.fullmatch(
+        r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
+        expected_repository,
+    ):
+        raise ValueError("expected repository must use owner/name format")
+    workflow_ref_pattern = re.compile(
+        rf"^{re.escape(expected_repository)}/\.github/workflows/"
+        r"high-school-integration\.yml@refs/(?:heads|tags|pull)/[A-Za-z0-9._/-]+$"
+    )
+    if not isinstance(expected_workflow_ref, str) or not workflow_ref_pattern.fullmatch(
+        expected_workflow_ref
+    ):
+        raise ValueError(
+            "expected workflow ref must identify the canonical integration workflow and Git ref"
+        )
+    if type(expected_workflow_run_id) is not int or expected_workflow_run_id < 1:
+        raise ValueError("expected workflow run ID must be a positive integer")
+    if type(expected_workflow_run_attempt) is not int or expected_workflow_run_attempt < 1:
+        raise ValueError("expected workflow run attempt must be a positive integer")
+    canonical_artifact_name = (
+        f"high-school-integration-candidate-{expected_source_sha}"
+        f"-run-{expected_workflow_run_id}-attempt-{expected_workflow_run_attempt}"
+    )
+    if expected_artifact_name != canonical_artifact_name:
+        raise ValueError("expected artifact name does not match canonical source/run/attempt identity")
 
     artifact_bytes = artifact_path.read_bytes()
     actual_bytes = len(artifact_bytes)
     actual_digest = hashlib.sha256(artifact_bytes).hexdigest()
 
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    for key in ("sourceSha", "projectPath", "rojoVersion", "sha256", "bytes"):
+    for key in (
+        "sourceSha",
+        "workflowSha",
+        "workflowRef",
+        "workflowEvent",
+        "repository",
+        "workflowRunId",
+        "workflowRunAttempt",
+        "artifactName",
+        "projectPath",
+        "rojoVersion",
+        "sha256",
+        "bytes",
+    ):
         if key not in receipt:
             raise ValueError(f"build receipt missing {key}")
 
     if receipt["sourceSha"] != expected_source_sha:
         raise ValueError("build receipt source SHA does not match the checked-out candidate")
+    if not isinstance(receipt["workflowSha"], str) or not SHA_PATTERN.fullmatch(receipt["workflowSha"]):
+        raise ValueError("build receipt workflow SHA must be lowercase hexadecimal")
+    if receipt["workflowSha"] != expected_workflow_sha:
+        raise ValueError("build receipt workflow SHA does not match the executed workflow revision")
+    if receipt["workflowRef"] != expected_workflow_ref:
+        raise ValueError("build receipt workflow ref does not match the canonical integration workflow")
+    if receipt["workflowEvent"] != expected_workflow_event:
+        raise ValueError("build receipt workflow event does not match the current trigger")
+    if receipt["repository"] != expected_repository:
+        raise ValueError("build receipt repository does not match the workflow repository")
+    if type(receipt["workflowRunId"]) is not int or receipt["workflowRunId"] < 1:
+        raise ValueError("build receipt workflow run ID must be a positive integer")
+    if receipt["workflowRunId"] != expected_workflow_run_id:
+        raise ValueError("build receipt workflow run ID does not match the current run")
+    if type(receipt["workflowRunAttempt"]) is not int or receipt["workflowRunAttempt"] < 1:
+        raise ValueError("build receipt workflow run attempt must be a positive integer")
+    if receipt["workflowRunAttempt"] != expected_workflow_run_attempt:
+        raise ValueError("build receipt workflow run attempt does not match the current attempt")
+    if receipt["artifactName"] != expected_artifact_name:
+        raise ValueError("build receipt artifact name does not match the canonical upload identity")
     if receipt["projectPath"] != expected_project_path:
         raise ValueError("build receipt project path does not match the canonical project")
     if receipt["rojoVersion"] != expected_rojo_version:
@@ -62,6 +131,13 @@ def verify_build_receipt(
 
     return {
         "sourceSha": expected_source_sha,
+        "workflowSha": expected_workflow_sha,
+        "workflowRef": expected_workflow_ref,
+        "workflowEvent": expected_workflow_event,
+        "repository": expected_repository,
+        "workflowRunId": expected_workflow_run_id,
+        "workflowRunAttempt": expected_workflow_run_attempt,
+        "artifactName": expected_artifact_name,
         "projectPath": expected_project_path,
         "rojoVersion": expected_rojo_version,
         "sha256": actual_digest,
@@ -75,6 +151,13 @@ def main():
     parser.add_argument("--digest", required=True)
     parser.add_argument("--receipt", required=True)
     parser.add_argument("--expected-source-sha", required=True)
+    parser.add_argument("--expected-workflow-sha", required=True)
+    parser.add_argument("--expected-workflow-ref", required=True)
+    parser.add_argument("--expected-workflow-event", required=True)
+    parser.add_argument("--expected-repository", required=True)
+    parser.add_argument("--expected-workflow-run-id", required=True, type=int)
+    parser.add_argument("--expected-workflow-run-attempt", required=True, type=int)
+    parser.add_argument("--expected-artifact-name", required=True)
     parser.add_argument("--expected-project-path", required=True)
     parser.add_argument("--expected-rojo-version", required=True)
     args = parser.parse_args()
@@ -84,12 +167,24 @@ def main():
         args.digest,
         args.receipt,
         args.expected_source_sha,
+        args.expected_workflow_sha,
+        args.expected_workflow_ref,
+        args.expected_workflow_event,
+        args.expected_repository,
+        args.expected_workflow_run_id,
+        args.expected_workflow_run_attempt,
+        args.expected_artifact_name,
         args.expected_project_path,
         args.expected_rojo_version,
     )
     print(
         "high-school build receipt verification: PASS "
-        f"{verified['sourceSha']} {verified['sha256']} {verified['bytes']}"
+        f"{verified['repository']} run:{verified['workflowRunId']} "
+        f"attempt:{verified['workflowRunAttempt']} event:{verified['workflowEvent']} "
+        f"artifact:{verified['artifactName']} "
+        f"source:{verified['sourceSha']} workflow:{verified['workflowSha']} "
+        f"workflow-ref:{verified['workflowRef']} "
+        f"{verified['sha256']} {verified['bytes']}"
     )
 
 
