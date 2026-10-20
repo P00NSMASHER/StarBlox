@@ -61,7 +61,6 @@ local transitionReceiptsByUserId = {}
 local function closeSessionForUser(userId, transitionReason)
     local sessionId = sessionsByUserId[userId]
     if not sessionId then
-        transitionReceiptsByUserId[userId] = nil
         return false
     end
 
@@ -123,6 +122,7 @@ end
 
 local function registerPlayer(player)
     player.CharacterAdded:Connect(function()
+        transitionReceiptsByUserId[player.UserId] = nil
         closeSessionForUser(player.UserId)
     end)
 end
@@ -306,4 +306,5 @@ end
 
 Players.PlayerRemoving:Connect(function(player)
     closeSessionForUser(player.UserId)
+    transitionReceiptsByUserId[player.UserId] = nil
 end)

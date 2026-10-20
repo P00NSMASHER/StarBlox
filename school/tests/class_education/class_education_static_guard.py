@@ -106,6 +106,20 @@ assert 'expectedLocationId = expectedLocationId' in service
 assert 'local transitionReceipt = transitionReceiptsByUserId[player.UserId]' in service
 assert 'transitionReceipt.sessionId == sessionId' in service
 assert 'return transitionReceipt.response' in service
+assert 'if not sessionId then\n        return false\n    end' in service, (
+    "an idempotent leave after period closure must preserve the replay receipt"
+)
+register_start = service.index('local function registerPlayer(player)')
+register_end = service.index('end\n\nbeginClass.OnServerInvoke', register_start)
+register_block = service[register_start:register_end]
+assert 'transitionReceiptsByUserId[player.UserId] = nil' in register_block, (
+    "character replacement must explicitly clear stale transition context"
+)
+remove_start = service.index('Players.PlayerRemoving:Connect(function(player)')
+remove_block = service[remove_start:]
+assert 'transitionReceiptsByUserId[player.UserId] = nil' in remove_block, (
+    "player removal must explicitly clear transition context"
+)
 assert service.index('transitionReceiptsByUserId[player.UserId] = nil') < service.index(
     'sessionsByUserId[player.UserId] = sessionId'
 ), "successful attendance must clear stale transition context before registering a new session"
