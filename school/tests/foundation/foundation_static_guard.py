@@ -126,8 +126,8 @@ assert builder.count('roomType.Name = "RoomType"') == 1, (
 )
 
 # Invisible registry markers and decorative floor pads have no gameplay touch or
-# raycast role. Keeping them out of touch/query participation avoids ten needless
-# physics candidates on the current five-destination campus.
+# raycast role. Keeping them out of touch/query participation avoids needless
+# physics candidates as the canonical six-destination campus grows.
 for part_name in ("marker", "pad"):
     for physics_property in ("CanCollide", "CanTouch", "CanQuery"):
         assignment = f"{part_name}.{physics_property} = false"
@@ -136,11 +136,11 @@ for part_name in ("marker", "pad"):
         )
 
 location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
-core_location_ids = {"lobby", "math", "ela", "science", "cafeteria"}
-planned_location_ids = {"gym"}
-theme_location_ids = core_location_ids | planned_location_ids
-assert core_location_ids <= location_ids, "canonical campus location missing"
-assert location_ids <= theme_location_ids, "unexpected location id"
+canonical_location_ids = {"lobby", "math", "ela", "science", "cafeteria", "gym"}
+theme_location_ids = canonical_location_ids
+assert location_ids == canonical_location_ids, (
+    "campus destinations must match the six-location art, sound, and wayfinding contract"
+)
 for location_id in theme_location_ids:
     assert f"{location_id} = Color3.fromRGB" in visual_theme, f"missing visual accent: {location_id}"
 
@@ -152,7 +152,7 @@ code_block = re.search(
 assert code_block, "location wayfinding codes missing"
 location_codes = dict(re.findall(r'([a-z]+)\s*=\s*"([A-Z]+)"', code_block.group(1)))
 assert set(location_codes) == theme_location_ids, (
-    "wayfinding codes must cover current and planned canonical destinations exactly"
+    "wayfinding codes must cover canonical campus destinations exactly"
 )
 assert len(set(location_codes.values())) == len(location_codes), "wayfinding codes must be unique"
 assert all(re.fullmatch(r"[A-Z]{3}", code) for code in location_codes.values()), (
@@ -516,7 +516,7 @@ assert len([token for token in audio_tokens if token.startswith("cue_")]) == 4, 
     "every feedback sound must keep a cue namespace token"
 )
 assert 'token = "ambience_gym_activity"' in audio_theme, (
-    "planned gym must keep its original semantic ambience token"
+    "gym must keep its original semantic ambience token"
 )
 
 periods = re.findall(
