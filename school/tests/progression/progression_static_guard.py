@@ -105,6 +105,7 @@ assert 'ProgressionReducer.toPublicSnapshot(state, player.UserId)' in service
 
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
+assert 'CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24' in courier
 assert 'CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80' in courier
 assert 'CampusCourierActivity.MIN_ROUTE_STOPS = 3' in courier
 assert 'CampusCourierActivity.MAX_ROUTE_STOPS = 6' in courier
@@ -134,6 +135,10 @@ assert all(
     len(label) <= 10 and re.fullmatch(r"[A-Z ]+", label)
     for label in courier_action_labels
 )
+courier_location_names = re.findall(r'locationName\s*=\s*"([^"]+)"', courier)
+assert len(courier_location_names) == 4
+assert all(name.strip() and len(name) <= 24 for name in courier_location_names)
+assert '#stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH' in courier
 courier_objectives = re.findall(r'objective\s*=\s*"([^"]+)"', courier)
 assert len(courier_objectives) == 4
 assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)

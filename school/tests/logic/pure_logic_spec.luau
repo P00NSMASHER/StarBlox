@@ -393,6 +393,10 @@ for index, stop in ipairs(courierRoute) do
         type(stop.locationName) == "string" and stop.locationName:match("%S") ~= nil,
         "courier location name must be nonblank"
     )
+    assert(
+        #stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH,
+        "courier destination name must fit persistent mobile guidance"
+    )
     if index > 1 then
         assert(
             courierRoute[index - 1].locationId ~= stop.locationId,

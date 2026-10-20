@@ -8,6 +8,7 @@ CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
 CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10
+CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24
 CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80
 CampusCourierActivity.MIN_ROUTE_STOPS = 3
 CampusCourierActivity.MAX_ROUTE_STOPS = 6
@@ -53,6 +54,10 @@ local interiorLocations = {}
 for index, stop in ipairs(ROUTE) do
     assert(type(stop.locationId) == "string" and stop.locationId:match("^[%w_%-]+$"), "route location id required")
     assert(type(stop.locationName) == "string" and stop.locationName:match("%S"), "route location name required")
+    assert(
+        #stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH,
+        "route location name exceeds mobile copy limit"
+    )
     if index > 1 then
         assert(ROUTE[index - 1].locationId ~= stop.locationId, "route cannot repeat adjacent stops")
     end
