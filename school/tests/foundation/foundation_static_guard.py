@@ -199,7 +199,7 @@ for cue_id in ("periodBell", "classComplete", "activityComplete", "waypointConfi
         f"missing sound cue specification: {cue_id}"
     )
 
-production_notes = re.findall(r'productionNote\\s*=\\s*"([^"]+)"', audio_theme)
+production_notes = re.findall(r'productionNote\s*=\s*"([^"]+)"', audio_theme)
 expected_sound_spec_count = len(theme_location_ids) + 4
 assert len(production_notes) == expected_sound_spec_count, (
     "every ambience and cue needs one original production note"
@@ -210,7 +210,7 @@ assert len(set(production_notes)) == len(production_notes), (
 assert all(30 <= len(note) <= 90 for note in production_notes), (
     "sound production notes must stay concise and actionable"
 )
-assert all(re.fullmatch(r"[A-Z][A-Za-z, ]+\\.", note) for note in production_notes), (
+assert all(re.fullmatch(r"[A-Z][A-Za-z, ]+\.", note) for note in production_notes), (
     "sound production notes must use plain sentence-style language"
 )
 for forbidden in ("roblox high school", "rhs", "pipsquest", "brookhaven"):
