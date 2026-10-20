@@ -21,6 +21,7 @@ SchoolAudioTheme.MIX_POLICY = table.freeze({
 SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     lobby = table.freeze({
         token = "ambience_campus_hub",
+        productionNote = "Soft footsteps, airy room tone, and distant friendly chatter.",
         looped = true,
         minDistance = 16,
         targetVolume = 0.18,
@@ -28,6 +29,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     }),
     math = table.freeze({
         token = "ambience_math_focus",
+        productionNote = "Quiet pencil taps and a sparse wooden click pulse.",
         looped = true,
         minDistance = 10,
         targetVolume = 0.12,
@@ -35,6 +37,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     }),
     ela = table.freeze({
         token = "ambience_language_arts_focus",
+        productionNote = "Soft page turns with a warm, calm library room tone.",
         looped = true,
         minDistance = 10,
         targetVolume = 0.12,
@@ -42,6 +45,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     }),
     science = table.freeze({
         token = "ambience_science_lab",
+        productionNote = "Gentle ventilation with occasional glass and metal ticks.",
         looped = true,
         minDistance = 10,
         targetVolume = 0.12,
@@ -49,6 +53,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     }),
     cafeteria = table.freeze({
         token = "ambience_cafeteria_hum",
+        productionNote = "Low tray clatter beneath diffuse lunchtime conversation.",
         looped = true,
         minDistance = 14,
         targetVolume = 0.16,
@@ -56,6 +61,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
     }),
     gym = table.freeze({
         token = "ambience_gym_activity",
+        productionNote = "Airy court reflections with soft shoe and ball textures.",
         looped = true,
         minDistance = 12,
         targetVolume = 0.14,
@@ -66,6 +72,7 @@ SchoolAudioTheme.LOCATION_AMBIENCE = table.freeze({
 SchoolAudioTheme.CUES = table.freeze({
     periodBell = table.freeze({
         token = "cue_period_bell",
+        productionNote = "Two warm mallet notes with a quick, clean decay.",
         looped = false,
         priority = 4,
         caption = "School bell rings.",
@@ -75,6 +82,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     classComplete = table.freeze({
         token = "cue_class_complete",
+        productionNote = "Three rising wooden tones ending in a soft sparkle.",
         looped = false,
         priority = 3,
         caption = "Class activity complete.",
@@ -84,6 +92,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     activityComplete = table.freeze({
         token = "cue_activity_complete",
+        productionNote = "Two bright percussion hits followed by a compact tonal lift.",
         looped = false,
         priority = 2,
         caption = "Activity complete.",
@@ -93,6 +102,7 @@ SchoolAudioTheme.CUES = table.freeze({
     }),
     waypointConfirm = table.freeze({
         token = "cue_waypoint_confirm",
+        productionNote = "One rounded wooden click with a short tonal lift.",
         looped = false,
         priority = 1,
         caption = "Destination confirmed.",
