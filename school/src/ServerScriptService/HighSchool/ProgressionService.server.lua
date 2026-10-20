@@ -22,18 +22,34 @@ getProgression.Name = "GetProgression"
 getProgression.Parent = remotes
 
 local cacheByPlayerId = {}
+local cacheRevisionByPlayerId = {}
 local pendingByCompletionId = {}
 local RETRY_DELAYS_SECONDS = table.freeze({ 0, 1, 2, 4, 8 })
 local RETRY_CYCLE_DELAY_SECONDS = 30
 
 local function loadIntoCache(playerId)
+    local revisionBeforeLoad = cacheRevisionByPlayerId[playerId] or 0
     local state, err = ProgressionStore.load(playerId)
     if not state then
         return nil, err
     end
 
+    if (cacheRevisionByPlayerId[playerId] or 0) ~= revisionBeforeLoad then
+        return cacheByPlayerId[playerId] or state
+    end
+
     cacheByPlayerId[playerId] = state
     return state
+end
+
+local function cachePersistedState(playerId, state)
+    cacheRevisionByPlayerId[playerId] = (cacheRevisionByPlayerId[playerId] or 0) + 1
+
+    if Players:GetPlayerByUserId(playerId) then
+        cacheByPlayerId[playerId] = state
+    else
+        cacheByPlayerId[playerId] = nil
+    end
 end
 
 local function persistCompletion(completion)
@@ -50,7 +66,7 @@ local function persistCompletion(completion)
 
         local state = ProgressionStore.applyCompletion(completion)
         if state then
-            cacheByPlayerId[completion.playerId] = state
+            cachePersistedState(completion.playerId, state)
             pendingByCompletionId[completion.completionId] = nil
             return
         end
@@ -73,6 +89,7 @@ Players.PlayerAdded:Connect(function(player)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
+    cacheRevisionByPlayerId[player.UserId] = (cacheRevisionByPlayerId[player.UserId] or 0) + 1
     cacheByPlayerId[player.UserId] = nil
 end)
 
@@ -95,7 +112,7 @@ getProgression.OnServerInvoke = function(player)
 
     return table.freeze({
         ok = true,
-        progression = ProgressionReducer.toPublicSnapshot(state),
+        progression = ProgressionReducer.toPublicSnapshot(state, player.UserId),
     })
 end
 
@@ -103,7 +120,7 @@ game:BindToClose(function()
     for completionId, completion in pairs(pendingByCompletionId) do
         local state = ProgressionStore.applyCompletion(completion)
         if state then
-            cacheByPlayerId[completion.playerId] = state
+            cachePersistedState(completion.playerId, state)
             pendingByCompletionId[completionId] = nil
         end
     end

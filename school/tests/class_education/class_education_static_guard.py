@@ -5,10 +5,45 @@ ROOT = Path(__file__).resolve().parents[2]
 catalog = (ROOT / "src/ServerScriptService/HighSchool/ActivityCatalog.lua").read_text(encoding="utf-8")
 session = (ROOT / "src/ServerScriptService/HighSchool/EducationSession.lua").read_text(encoding="utf-8")
 core = (ROOT / "src/ServerScriptService/HighSchool/EducationCore.lua").read_text(encoding="utf-8")
+gate = (ROOT / "src/ServerScriptService/HighSchool/CompletionGate.lua").read_text(encoding="utf-8")
 service = (ROOT / "src/ServerScriptService/HighSchool/ClassSessionService.server.lua").read_text(encoding="utf-8")
 
 assert 'correctChoiceId = "c"' in catalog
 assert 'prompt = "What is 7 + 5?"' in catalog
+assert 'ela = table.freeze({' in catalog
+assert 'science = table.freeze({' in catalog
+for subject in ("math", "ela", "science"):
+    assert catalog.count(f'subject = "{subject}"') == 3, (
+        f"{subject} must provide exactly three rotating activities"
+    )
+for activity_id in (
+    "math_addition_7_5",
+    "math_subtraction_18_9",
+    "math_equal_groups_03",
+    "ela_main_idea_01",
+    "ela_sequence_01",
+    "ela_context_clues_03",
+    "science_plants_01",
+    "science_melting_01",
+    "science_forces_03",
+):
+    assert f'id = "{activity_id}"' in catalog, f"missing activity: {activity_id}"
+assert 'function ActivityCatalog.getForClass(classId, dayIndex)' in catalog
+assert 'type(dayIndex) ~= "number"' in catalog
+assert 'dayIndex % 1 ~= 0' in catalog
+assert 'local activityIndex = ((dayIndex - 1) % #activitySet) + 1' in catalog
+assert 'function ActivityCatalog.validateActivity(classId, activity)' in catalog
+assert 'activity.subject ~= classId' in catalog
+assert '#activity.choices < 2' in catalog
+assert 'return false, "DUPLICATE_CHOICE_ID"' in catalog
+assert 'return false, "CORRECT_CHOICE_MISSING"' in catalog
+assert 'assert(not seenActivityIds[activity.id]' in catalog
+validation_pos = catalog.index('function ActivityCatalog.validateActivity(classId, activity)')
+catalog_check_pos = catalog.index('local seenActivityIds = {}')
+lookup_pos = catalog.index('function ActivityCatalog.getForClass(classId, dayIndex)')
+assert validation_pos < catalog_check_pos < lookup_pos, (
+    "catalog must fail closed before serving any activity"
+)
 
 public_block_start = session.index("function EducationSession.getPublicActivity")
 public_block_end = session.index("function EducationSession.submit")
@@ -16,6 +51,8 @@ public_block = session[public_block_start:public_block_end]
 assert "correctChoiceId" not in public_block, "client/public activity leaks answer authority"
 
 assert 'HttpService:GenerateGUID(false)' in core, "session IDs must survive server restarts without collision"
+assert 'function EducationCore.startSession(userId, classId, dayIndex)' in core
+assert 'ActivityCatalog.getForClass(classId, dayIndex)' in core
 assert 'EducationSession.new' in core
 assert 'EducationSession.submit' in core
 assert 'EducationSession.close' in core
@@ -31,28 +68,102 @@ assert cap_check < count_increment < receipt_write, "submission cap must precede
 assert 'reason = "TOO_MANY_SUBMISSIONS"' in session
 assert 'and not session.resolved' in session
 
+assert 'function CompletionGate.getOccurrenceId(scheduleNamespace, dayIndex, periodIndex, classId)' in gate
+assert 'type(scheduleNamespace) ~= "string"' in gate
+assert 'scheduleNamespace == ""' in gate
+assert '#scheduleNamespace > 64' in gate
+assert 'not scheduleNamespace:match("^[%w_%-]+$")' in gate
+assert '"schedule:%s:day:%d:period:%d:class:%s"' in gate
+assert 'dayIndex < 1' in gate
+assert 'dayIndex % 1 ~= 0' in gate
+assert 'periodIndex < 1' in gate
+assert 'periodIndex % 1 ~= 0' in gate
+assert 'function CompletionGate.getCompletionId(playerId, occurrenceId)' in gate
+assert 'return string.format("player:%d:%s", playerId, occurrenceId)' in gate
+assert 'function CompletionGate.hasCompleted(completedOccurrences, occurrenceId)' in gate
+assert 'function CompletionGate.markCompleted(completedOccurrences, occurrenceId)' in gate
+assert 'completedOccurrences[occurrenceId] == true' in gate
+assert 'completedOccurrences[occurrenceId] = true' in gate
+
 assert 'FoundationState.getSnapshot()' in service
-assert 'foundation.periodId ~= ACTIVE_CLASS_ID' in service
-assert service.count('isAtAuthoritativeLocation(player, foundation.locationId)') >= 2, "location must be checked at start and submit"
+assert 'foundation.dayIndex' in service
+assert 'EducationCore.startSession(' in service
+assert 'local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })' in service
+assert 'local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]' in service
+assert 'local scheduleNamespace = game.JobId' in service
+assert 'scheduleNamespace = HttpService:GenerateGUID(false)' in service
+assert 'local completedOccurrencesByUserId = {}' in service
+assert 'local sessionClassesByUserId = {}' in service
+assert 'local sessionOccurrencesByUserId = {}' in service
+assert 'CompletionGate.getOccurrenceId(' in service
+occurrence_call = service.index('local occurrenceId = CompletionGate.getOccurrenceId(')
+namespace_arg = service.index('scheduleNamespace', occurrence_call)
+day_arg = service.index('foundation.dayIndex', occurrence_call)
+assert occurrence_call < namespace_arg < day_arg, (
+    "durable completion IDs must include the server schedule lifecycle before its local day"
+)
+assert 'foundation.dayIndex' in service
+assert 'foundation.periodIndex' in service
+assert 'CompletionGate.hasCompleted(completedOccurrences, occurrenceId)' in service
+assert 'reason = "CLASS_ALREADY_COMPLETED"' in service
+assert 'sessionOccurrencesByUserId[player.UserId] = occurrenceId' in service
+assert 'CompletionGate.markCompleted(completedOccurrences, completedOccurrenceId)' in service
+assert 'CompletionGate.getCompletionId(' in service
+assert 'local completedCompletionId = CompletionGate.getCompletionId(' in service
+assert 'completionId = completedCompletionId' in service
+assert 'completionId = sessionId' not in service, (
+    "durable class reward identity must not use an ephemeral session ID"
+)
+assert 'reason = "DUPLICATE_CLASS_COMPLETION"' in service
+assert 'local sessionLocationsByUserId = {}' in service
+assert 'sessionClassesByUserId[player.UserId] = foundation.periodId' in service
+assert 'sessionLocationsByUserId[player.UserId] = expectedLocationId' in service
+assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in service
+assert 'local expectedLocationId = sessionLocationsByUserId[player.UserId]' in service
+assert 'foundation.periodId ~= activeClassId' in service
+assert 'foundation.locationId ~= expectedLocationId' in service
+assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
+assert 'actualLocationId = foundation.locationId' in service
+assert service.count('expectedLocationId = expectedLocationId') >= 4
+assert 'classId = foundation.periodId' in service
+assert service.count('classId = activeClassId') == 3, (
+    "period-ended, location-mismatch, and left-location responses must retain class identity"
+)
+assert service.count('expectedLocationId = expectedLocationId') == 6, (
+    "three attendance and three active-session failures must retain the classroom cue"
+)
+assert 'locationId = expectedLocationId' in service
+assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
+assert 'classId = completedClassId' in service
+assert 'ACTIVE_CLASS_ID' not in service, "single-class gate must not return"
+assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >= 2, (
+    "canonical classroom location must be checked at start and submit"
+)
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
+context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
+period_close = service.index('reason = "CLASS_PERIOD_ENDED"')
+assert context_capture < period_close, (
+    "session class/location context must be captured before transition closure clears it"
+)
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
 assert 'EducationCore.closeSession(sessionId)' in service
 assert 'classCompleted:Fire' in service
-assert 'completionId = sessionId' in service
 
 for forbidden in ("DataStoreService", "SetAsync", "UpdateAsync"):
     assert forbidden not in session
     assert forbidden not in core
+    assert forbidden not in gate
     assert forbidden not in service
 
 for forbidden in ("BrookhavenWorldRuntime", "BHW_", "PipsQuest", "MazeWorld"):
     assert forbidden not in catalog
     assert forbidden not in session
     assert forbidden not in core
+    assert forbidden not in gate
     assert forbidden not in service
 
 print("canonical class & education static guard: PASS")

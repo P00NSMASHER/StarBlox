@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import json
+import math
 import re
+from collections import deque
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +23,7 @@ for rel in mapped_paths:
     assert ROOT.resolve() in target.parents, f"mapped path escapes canonical school root: {rel}"
 
 config = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationConfig.lua").read_text(encoding="utf-8")
+route_layout = (ROOT / "src/ReplicatedStorage/HighSchool/CampusRouteLayout.lua").read_text(encoding="utf-8")
 clock = (ROOT / "src/ReplicatedStorage/HighSchool/SchoolClock.lua").read_text(encoding="utf-8")
 state = (ROOT / "src/ReplicatedStorage/HighSchool/FoundationState.lua").read_text(encoding="utf-8")
 builder = (ROOT / "src/ServerScriptService/HighSchool/CampusBuilder.server.lua").read_text(encoding="utf-8")
@@ -36,9 +39,29 @@ assert 'pad.Transparency = 0.35' in builder
 assert 'sign.Name = "LocationLabel"' in builder
 assert 'text.Text = location.name' in builder
 
-location_ids = set(re.findall(r'id = "([^"]+)", name = ', config))
-assert location_ids, "location registry must not be empty"
-assert len(location_ids) == 5, "unexpected location count"
+for part_name in ("marker", "pad"):
+    for physics_property in ("CanCollide", "CanTouch", "CanQuery"):
+        assignment = f"{part_name}.{physics_property} = false"
+        assert builder.count(assignment) == 1, (
+            f"{part_name} must disable {physics_property} exactly once in the location pass"
+        )
+
+location_rows = re.findall(
+    r'id = "([^"]+)", name = "([^"]+)", position = Vector3\.new\((-?\d+), 3, (-?\d+)\)',
+    config,
+)
+location_positions = {
+    location_id: (float(x), float(z))
+    for location_id, _name, x, z in location_rows
+}
+location_ids = set(location_positions)
+assert len(location_ids) == 6, "unexpected location count"
+assert 'id = "gym", name = "Gym & Fitness", position = Vector3.new(-36, 3, -36)' in config, (
+    "canonical gym destination missing"
+)
+assert 'campus:SetAttribute("LocationCount", #FoundationConfig.LOCATIONS)' in builder, (
+    "campus builder must expose the data-driven destination count"
+)
 
 periods = re.findall(
     r'{ id = "([^"]+)", durationSeconds = (\d+), locationId = "([^"]+)" }',
@@ -58,8 +81,258 @@ assert 'runtime:SetAttribute("PeriodId"' in service
 assert "SetAttribute(" not in state, "FoundationState must be read-only"
 assert "function FoundationState.getSnapshot()" in state
 
-for text in (config, clock, state, builder, service):
+for text in (config, route_layout, clock, state, builder, service):
     for forbidden in ("BrookhavenWorldRuntime", "BrookhavenWorldBaseline", "BHW_", "PipsQuest", "MazeWorld"):
         assert forbidden not in text, f"retired runtime dependency found: {forbidden}"
 
-print("canonical foundation static guard: PASS")
+assert "SchoolVisualTheme" not in route_layout + builder
+assert "SchoolAudioTheme" not in route_layout + builder
+assert "rbxassetid://" not in route_layout + builder.lower(), "route-only slice must not import assets"
+
+entrance_match = re.search(
+    r"ENTRANCE_POSITION = Vector3\.new\((-?\d+), 1, (-?\d+)\)",
+    route_layout,
+)
+assert entrance_match, "entrance position missing"
+entrance_position = (float(entrance_match.group(1)), float(entrance_match.group(2)))
+location_positions["entrance"] = entrance_position
+
+segments = re.findall(
+    r'table\.freeze\(\{ id = "([^"]+)", fromId = "([^"]+)", toId = "([^"]+)" \}\)',
+    route_layout,
+)
+assert len(segments) == 12, f"expected 12 route segments, found {len(segments)}"
+route_ids = [route_id for route_id, _, _ in segments]
+assert len(route_ids) == len(set(route_ids)), "route ids must be unique"
+assert all(origin in location_positions and destination in location_positions for _, origin, destination in segments)
+
+expected_routes = {
+    "EntranceToLobby",
+    "EntranceToMath",
+    "EntranceToScience",
+    "EntranceToCafeteria",
+    "LobbyToMath",
+    "LobbyToLanguageArts",
+    "LobbyToScience",
+    "LanguageArtsToScience",
+    "LobbyToCafeteria",
+    "LobbyToGym",
+    "GymToCafeteria",
+    "LanguageArtsToGym",
+}
+assert set(route_ids) == expected_routes, "route topology changed without a reviewed layout update"
+
+adjacency = {location_id: set() for location_id in location_positions}
+for _route_id, origin, destination in segments:
+    adjacency[origin].add(destination)
+    adjacency[destination].add(origin)
+
+reachable = {"entrance"}
+pending = deque(["entrance"])
+while pending:
+    current = pending.popleft()
+    for neighbor in adjacency[current] - reachable:
+        reachable.add(neighbor)
+        pending.append(neighbor)
+assert reachable == set(location_positions), "every destination must be reachable from the entrance"
+
+for required_cycle in (
+    {"lobby", "cafeteria", "gym"},
+    {"lobby", "ela", "gym"},
+    {"lobby", "ela", "science"},
+):
+    cycle_edges = sum(
+        1
+        for _, origin, destination in segments
+        if origin in required_cycle and destination in required_cycle
+    )
+    assert cycle_edges == 3, f"missing alternate-path cycle for {sorted(required_cycle)}"
+
+def layout_number(name):
+    match = re.search(rf"{name} = ([0-9.]+)", route_layout)
+    assert match, f"missing layout constant: {name}"
+    return float(match.group(1))
+
+floor_half_size = 55
+route_width = layout_number("ROUTE_WIDTH")
+entrance_pad_size = layout_number("ENTRANCE_PAD_SIZE")
+entrance_edge_margin = layout_number("ENTRANCE_EDGE_MARGIN")
+max_chevron_spacing = layout_number("ROUTE_CHEVRON_MAX_SPACING")
+junction_size = layout_number("JUNCTION_SIZE")
+
+junction_match = re.search(
+    r"JUNCTION_POSITION = Vector3\.new\((-?[0-9.]+), (-?[0-9.]+), (-?[0-9.]+)\)",
+    route_layout,
+)
+assert junction_match, "route crossing position missing"
+junction_position = (
+    float(junction_match.group(1)),
+    float(junction_match.group(3)),
+)
+
+def strict_segment_intersection(first_start, first_finish, second_start, second_finish):
+    first_delta = (
+        first_finish[0] - first_start[0],
+        first_finish[1] - first_start[1],
+    )
+    second_delta = (
+        second_finish[0] - second_start[0],
+        second_finish[1] - second_start[1],
+    )
+    denominator = (
+        first_delta[0] * second_delta[1]
+        - first_delta[1] * second_delta[0]
+    )
+    if abs(denominator) < 1e-9:
+        return None
+    offset = (
+        second_start[0] - first_start[0],
+        second_start[1] - first_start[1],
+    )
+    first_progress = (
+        offset[0] * second_delta[1] - offset[1] * second_delta[0]
+    ) / denominator
+    second_progress = (
+        offset[0] * first_delta[1] - offset[1] * first_delta[0]
+    ) / denominator
+    if not (
+        1e-9 < first_progress < 1 - 1e-9
+        and 1e-9 < second_progress < 1 - 1e-9
+    ):
+        return None
+    return (
+        first_start[0] + first_progress * first_delta[0],
+        first_start[1] + first_progress * first_delta[1],
+    )
+
+crossings = []
+for first_index, (first_id, first_origin, first_destination) in enumerate(segments):
+    for second_id, second_origin, second_destination in segments[first_index + 1:]:
+        if {first_origin, first_destination} & {second_origin, second_destination}:
+            continue
+        crossing = strict_segment_intersection(
+            location_positions[first_origin],
+            location_positions[first_destination],
+            location_positions[second_origin],
+            location_positions[second_destination],
+        )
+        if crossing is not None:
+            crossings.append(({first_id, second_id}, crossing))
+
+assert len(crossings) == 1, f"expected one interior route crossing, found {crossings}"
+crossing_route_ids, derived_junction_position = crossings[0]
+assert crossing_route_ids == {"EntranceToCafeteria", "LobbyToMath"}, (
+    f"unexpected east hall crossing routes: {sorted(crossing_route_ids)}"
+)
+assert math.dist(junction_position, derived_junction_position) <= 0.01, (
+    "east hall crossing plaza must remain centered on the derived route intersection"
+)
+
+junction_routes_match = re.search(
+    r'eastHallCrossing:SetAttribute\(\s*"ConnectedRouteIds",\s*"([^"]+)"\s*\)',
+    builder,
+)
+assert junction_routes_match, "east hall crossing route metadata missing"
+assert set(junction_routes_match.group(1).split(",")) == crossing_route_ids, (
+    "east hall crossing metadata must name exactly the intersecting routes"
+)
+
+first_route = next(segment for segment in segments if segment[0] == "EntranceToCafeteria")
+second_route = next(segment for segment in segments if segment[0] == "LobbyToMath")
+first_delta = (
+    location_positions[first_route[2]][0] - location_positions[first_route[1]][0],
+    location_positions[first_route[2]][1] - location_positions[first_route[1]][1],
+)
+second_delta = (
+    location_positions[second_route[2]][0] - location_positions[second_route[1]][0],
+    location_positions[second_route[2]][1] - location_positions[second_route[1]][1],
+)
+cross_magnitude = abs(
+    first_delta[0] * second_delta[1] - first_delta[1] * second_delta[0]
+)
+sin_angle = cross_magnitude / (
+    math.hypot(*first_delta) * math.hypot(*second_delta)
+)
+required_junction_span = route_width / sin_angle
+assert junction_size >= required_junction_span, (
+    "crossing plaza must cover the full overlap of both mobile-width routes"
+)
+assert route_width >= 10, "routes must remain readable on phone-sized viewports"
+assert entrance_pad_size >= 12, "entrance needs a clear mobile landing target"
+actual_edge_margin = (
+    floor_half_size - max(abs(value) for value in entrance_position) - entrance_pad_size / 2
+)
+assert actual_edge_margin >= entrance_edge_margin, "entrance pad extends beyond the campus floor"
+
+route_chevron_count = 0
+for route_id, origin, destination in segments:
+    start = location_positions[origin]
+    finish = location_positions[destination]
+    distance = math.hypot(finish[0] - start[0], finish[1] - start[1])
+    assert distance > 0, f"zero-length route: {route_id}"
+    for endpoint in (start, finish):
+        assert max(abs(value) for value in endpoint) + route_width / 2 <= floor_half_size
+    chevron_count = max(1, math.ceil(distance / max_chevron_spacing) - 1)
+    gap = distance / (chevron_count + 1)
+    assert gap <= max_chevron_spacing + 1e-9, f"chevrons too sparse on {route_id}"
+    route_chevron_count += chevron_count
+assert route_chevron_count == 14, "route chevron budget changed unexpectedly"
+
+outdoor_route_ids = set(re.findall(
+    r"^    ([A-Za-z][A-Za-z0-9]+) = true,$",
+    route_layout,
+    re.MULTILINE,
+))
+entrance_route_ids = {
+    route_id
+    for route_id, origin, destination in segments
+    if "entrance" in (origin, destination)
+}
+assert outdoor_route_ids == entrance_route_ids, (
+    "every route connected to the exterior entrance must be classified outdoor"
+)
+assert len(outdoor_route_ids) == 4, "unexpected outdoor route count"
+assert 'campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)' in builder
+assert 'assert(locationsById.entrance, "entrance location required for gateways")' in builder, (
+    "front entrance must participate in the shared gateway geometry contract"
+)
+assert 'assert(locationsById.lobby, "lobby location required for gateways")' in builder, (
+    "main lobby must participate in the shared gateway geometry contract"
+)
+assert 'for _, location in ipairs(gatewayLocations) do' in builder, (
+    "gateway builder must render the complete navigable location list"
+)
+assert 'if location.id == "lobby" then' in builder
+assert 'gatewayTarget = entrance' in builder, (
+    "lobby gateway must face the entrance instead of normalizing a zero-length vector"
+)
+
+for marker in (
+    'routes.Name = "Routes"',
+    'gateways.Name = "Gateways"',
+    'routeChevrons.Name = "RouteChevrons"',
+    'routeJunctions.Name = "RouteJunctions"',
+    'spawn.Position = CampusRouteLayout.ENTRANCE_POSITION',
+    'route:SetAttribute("FromLocationId", segment.fromId)',
+    'route:SetAttribute("ToLocationId", segment.toId)',
+    'route:SetAttribute("RouteKind", routeKind)',
+    'campus:SetAttribute("RouteCount", #CampusRouteLayout.SEGMENTS)',
+    'campus:SetAttribute("RouteChevronCount", routeChevronCount)',
+    'campus:SetAttribute("GatewayCount", gatewayCount)',
+):
+    assert marker in builder, f"campus builder missing route contract: {marker}"
+
+for part_name in ("part", "spawn", "marker", "pad"):
+    for physics_property in ("CanCollide", "CanTouch", "CanQuery"):
+        assert f"{part_name}.{physics_property} = false" in builder, (
+            f"{part_name} must disable {physics_property}"
+        )
+
+gateway_location_ids = {"entrance"} | location_ids
+gateway_count = len(gateway_location_ids)
+assert gateway_count == 7, "every navigable campus node must have exactly one gateway"
+passive_route_part_budget = 1 + gateway_count * 3 + 1 + len(segments) + route_chevron_count * 2
+assert passive_route_part_budget == 63
+assert passive_route_part_budget < 64, "route guide geometry exceeded the reviewed performance budget"
+
+print("canonical foundation and connected route static guard: PASS")

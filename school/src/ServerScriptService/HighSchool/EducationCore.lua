@@ -7,11 +7,11 @@ local EducationCore = {}
 
 local sessions = {}
 
-function EducationCore.startSession(userId, classId)
+function EducationCore.startSession(userId, classId, dayIndex)
     assert(type(userId) == "number", "userId required")
     assert(type(classId) == "string" and classId ~= "", "classId required")
 
-    local activity = ActivityCatalog.getForClass(classId)
+    local activity = ActivityCatalog.getForClass(classId, dayIndex)
     if not activity then
         return nil, "NO_ACTIVITY"
     end
