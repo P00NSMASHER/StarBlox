@@ -30,6 +30,7 @@ CampusRouteLayout.GATEWAY_HEADER_HEIGHT = 1
 CampusRouteLayout.GATEWAY_OFFSET = 6
 
 CampusRouteLayout.OUTDOOR_ROUTE_IDS = table.freeze({
+    EntranceToLobby = true,
     EntranceToMath = true,
     EntranceToScience = true,
     EntranceToCafeteria = true,

@@ -278,12 +278,21 @@ for route_id, origin, destination in segments:
     route_chevron_count += chevron_count
 assert route_chevron_count == 14, "route chevron budget changed unexpectedly"
 
-outdoor_route_ids = set(re.findall(r"^    (EntranceTo(?:Math|Science|Cafeteria)) = true,$", route_layout, re.MULTILINE))
-assert outdoor_route_ids == {
-    "EntranceToMath",
-    "EntranceToScience",
-    "EntranceToCafeteria",
+outdoor_route_ids = set(re.findall(
+    r"^    ([A-Za-z][A-Za-z0-9]+) = true,$",
+    route_layout,
+    re.MULTILINE,
+))
+entrance_route_ids = {
+    route_id
+    for route_id, origin, destination in segments
+    if "entrance" in (origin, destination)
 }
+assert outdoor_route_ids == entrance_route_ids, (
+    "every route connected to the exterior entrance must be classified outdoor"
+)
+assert len(outdoor_route_ids) == 4, "unexpected outdoor route count"
+assert 'campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)' in builder
 
 for marker in (
     'routes.Name = "Routes"',
