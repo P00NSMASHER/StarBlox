@@ -349,22 +349,36 @@ assertEqual(
 )
 
 -- School clock boundaries and day rollover.
-local arrivalStart = SchoolClock.getState(0)
-assertEqual(arrivalStart.dayIndex, 1, "arrival day")
-assertEqual(arrivalStart.periodId, "arrival", "arrival period")
-assertEqual(arrivalStart.secondsIntoPeriod, 0, "arrival start second")
+local expectedPeriodBoundaries = {
+    { elapsedSeconds = 0, periodId = "arrival", locationId = "lobby", periodIndex = 1 },
+    { elapsedSeconds = 60, periodId = "math", locationId = "math", periodIndex = 2 },
+    { elapsedSeconds = 240, periodId = "ela", locationId = "ela", periodIndex = 3 },
+    { elapsedSeconds = 420, periodId = "science", locationId = "science", periodIndex = 4 },
+    { elapsedSeconds = 600, periodId = "lunch", locationId = "cafeteria", periodIndex = 5 },
+}
 
-local arrivalEnd = SchoolClock.getState(59)
-assertEqual(arrivalEnd.periodId, "arrival", "arrival last second")
-assertEqual(arrivalEnd.secondsRemaining, 1, "arrival seconds remaining")
+for _, expected in ipairs(expectedPeriodBoundaries) do
+    local state = SchoolClock.getState(expected.elapsedSeconds)
+    assertEqual(state.dayIndex, 1, expected.periodId .. " day")
+    assertEqual(state.periodIndex, expected.periodIndex, expected.periodId .. " index")
+    assertEqual(state.periodId, expected.periodId, expected.periodId .. " boundary")
+    assertEqual(state.locationId, expected.locationId, expected.periodId .. " location")
+    assertEqual(state.secondsIntoPeriod, 0, expected.periodId .. " start second")
+end
 
-local mathStart = SchoolClock.getState(60)
-assertEqual(mathStart.periodId, "math", "math boundary")
-assertEqual(mathStart.locationId, "math", "math location")
-assertEqual(mathStart.secondsIntoPeriod, 0, "math start second")
+for index = 1, #expectedPeriodBoundaries - 1 do
+    local current = expectedPeriodBoundaries[index]
+    local nextPeriod = expectedPeriodBoundaries[index + 1]
+    local state = SchoolClock.getState(nextPeriod.elapsedSeconds - 1)
+    assertEqual(state.periodId, current.periodId, current.periodId .. " last second")
+    assertEqual(state.locationId, current.locationId, current.periodId .. " last-second location")
+    assertEqual(state.secondsRemaining, 1, current.periodId .. " seconds remaining")
+end
 
-local elaStart = SchoolClock.getState(240)
-assertEqual(elaStart.periodId, "ela", "ela boundary")
+local dayEnd = SchoolClock.getState(SchoolClock.DAY_LENGTH_SECONDS - 1)
+assertEqual(dayEnd.periodId, "lunch", "lunch last second")
+assertEqual(dayEnd.locationId, "cafeteria", "lunch last-second location")
+assertEqual(dayEnd.secondsRemaining, 1, "lunch seconds remaining")
 
 local secondDay = SchoolClock.getState(SchoolClock.DAY_LENGTH_SECONDS)
 assertEqual(secondDay.dayIndex, 2, "day rollover")
