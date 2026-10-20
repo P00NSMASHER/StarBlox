@@ -293,11 +293,18 @@ assert outdoor_route_ids == entrance_route_ids, (
 )
 assert len(outdoor_route_ids) == 4, "unexpected outdoor route count"
 assert 'campus:SetAttribute("OutdoorRouteCount", outdoorRouteCount)' in builder
-assert 'assert(locationsById.entrance, "entrance location required for gateway")' in builder, (
+assert 'assert(locationsById.entrance, "entrance location required for gateways")' in builder, (
     "front entrance must participate in the shared gateway geometry contract"
 )
+assert 'assert(locationsById.lobby, "lobby location required for gateways")' in builder, (
+    "main lobby must participate in the shared gateway geometry contract"
+)
 assert 'for _, location in ipairs(gatewayLocations) do' in builder, (
-    "gateway builder must render the complete destination list, including the entrance"
+    "gateway builder must render the complete navigable location list"
+)
+assert 'if location.id == "lobby" then' in builder
+assert 'gatewayTarget = entrance' in builder, (
+    "lobby gateway must face the entrance instead of normalizing a zero-length vector"
 )
 
 for marker in (
@@ -321,9 +328,11 @@ for part_name in ("part", "spawn", "marker", "pad"):
             f"{part_name} must disable {physics_property}"
         )
 
-gateway_count = 1 + len(location_ids - {"lobby"})
+gateway_location_ids = {"entrance"} | location_ids
+gateway_count = len(gateway_location_ids)
+assert gateway_count == 7, "every navigable campus node must have exactly one gateway"
 passive_route_part_budget = 1 + gateway_count * 3 + 1 + len(segments) + route_chevron_count * 2
-assert passive_route_part_budget == 60
+assert passive_route_part_budget == 63
 assert passive_route_part_budget < 64, "route guide geometry exceeded the reviewed performance budget"
 
 print("canonical foundation and connected route static guard: PASS")

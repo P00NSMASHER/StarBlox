@@ -152,9 +152,11 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
     text.Parent = sign
 end
 
+local entrance = assert(locationsById.entrance, "entrance location required for gateways")
 local lobby = assert(locationsById.lobby, "lobby location required for gateways")
 local gatewayLocations = {
-    assert(locationsById.entrance, "entrance location required for gateway"),
+    entrance,
+    lobby,
 }
 for _, location in ipairs(FoundationConfig.LOCATIONS) do
     if location.id ~= "lobby" then
@@ -164,15 +166,20 @@ end
 
 local gatewayCount = 0
 for _, location in ipairs(gatewayLocations) do
-    local towardLobby = Vector3.new(
-        lobby.position.X - location.position.X,
+    local gatewayTarget = lobby
+    if location.id == "lobby" then
+        gatewayTarget = entrance
+    end
+
+    local towardGatewayTarget = Vector3.new(
+        gatewayTarget.position.X - location.position.X,
         0,
-        lobby.position.Z - location.position.Z
+        gatewayTarget.position.Z - location.position.Z
     ).Unit
-    local right = Vector3.new(-towardLobby.Z, 0, towardLobby.X)
+    local right = Vector3.new(-towardGatewayTarget.Z, 0, towardGatewayTarget.X)
     local center = Vector3.new(location.position.X, 0, location.position.Z)
-        + towardLobby * CampusRouteLayout.GATEWAY_OFFSET
-    local frame = CFrame.lookAt(center, center + towardLobby)
+        + towardGatewayTarget * CampusRouteLayout.GATEWAY_OFFSET
+    local frame = CFrame.lookAt(center, center + towardGatewayTarget)
     local halfSpan = (
         CampusRouteLayout.GATEWAY_OPENING_WIDTH + CampusRouteLayout.GATEWAY_POST_WIDTH
     ) / 2
