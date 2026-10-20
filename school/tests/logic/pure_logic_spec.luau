@@ -32,10 +32,48 @@ local expectedCueCaptionDurations = {
     waypointConfirm = 2,
 }
 
+local expectedCueProductionNotes = {
+    periodBell = "Two warm mallet notes with a quick, clean decay.",
+    classComplete = "Three rising wooden tones ending in a soft sparkle.",
+    activityComplete = "Two bright percussion hits followed by a compact tonal lift.",
+    waypointConfirm = "One rounded wooden click with a short tonal lift.",
+}
+
+local forbiddenProductionNoteReferences = {
+    "roblox high school",
+    "rhs",
+    "pipsquest",
+    "brookhaven",
+}
+local seenProductionNotes = {}
+local productionNoteCount = 0
+
+local function verifyProductionNote(label, actual, expected)
+    assertEqual(actual, expected, label .. " production note")
+    assert(#actual >= 30 and #actual <= 90, label .. " production note must remain concise")
+    assert(
+        actual:match("^[A-Z][A-Za-z, ]+%.$") ~= nil,
+        label .. " production note must use plain sentence-style language"
+    )
+    assert(seenProductionNotes[actual] == nil, "duplicate production note: " .. actual)
+
+    local lowered = string.lower(actual)
+    for _, forbidden in ipairs(forbiddenProductionNoteReferences) do
+        assert(
+            string.find(lowered, forbidden, 1, true) == nil,
+            label .. " production note contains forbidden reference: " .. forbidden
+        )
+    end
+
+    seenProductionNotes[actual] = true
+    productionNoteCount += 1
+end
+
 for cueId, expectedCaption in pairs(expectedCueCaptions) do
     local cue = SchoolAudioTheme.getCue(cueId)
     assert(cue ~= nil, "missing cue: " .. cueId)
     assertEqual(cue.looped, false, cueId .. " must remain a one-shot feedback cue")
+    verifyProductionNote(cueId, cue.productionNote, expectedCueProductionNotes[cueId])
     assertEqual(cue.caption, expectedCaption, cueId .. " caption")
     assertEqual(
         SchoolAudioTheme.getCueCaption(cueId),
@@ -135,6 +173,14 @@ local expectedAmbienceTokens = {
     cafeteria = "ambience_cafeteria_hum",
     gym = "ambience_gym_activity",
 }
+local expectedAmbienceProductionNotes = {
+    lobby = "Soft footsteps, airy room tone, and distant friendly chatter.",
+    math = "Quiet pencil taps and a sparse wooden click pulse.",
+    ela = "Soft page turns with a warm, calm library room tone.",
+    science = "Gentle ventilation with occasional glass and metal ticks.",
+    cafeteria = "Low tray clatter beneath diffuse lunchtime conversation.",
+    gym = "Airy court reflections with soft shoe and ball textures.",
+}
 local expectedAmbienceMinDistances = {
     lobby = 16,
     math = 10,
@@ -156,6 +202,11 @@ for locationId, expectedToken in pairs(expectedAmbienceTokens) do
     assert(ambience ~= nil, "missing ambience lookup: " .. locationId)
     assertEqual(ambience.looped, true, locationId .. " ambience must continue until transition")
     assertEqual(ambience.token, expectedToken, locationId .. " ambience token")
+    verifyProductionNote(
+        locationId,
+        ambience.productionNote,
+        expectedAmbienceProductionNotes[locationId]
+    )
     assert(
         ambience.targetVolume > 0 and ambience.targetVolume <= 0.5,
         locationId .. " ambience volume outside safe range"
@@ -189,6 +240,8 @@ assertEqual(
     nil,
     "unknown ambience fallback"
 )
+
+assertEqual(productionNoteCount, 10, "all ambience and cue production notes verified")
 
 -- Doorway hysteresis must remain short enough to feel responsive while
 -- preventing repeated ambience switches near adjacent room boundaries.
@@ -235,11 +288,17 @@ end)
 assertFrozenMutationRejected("ambience entry", function()
     SchoolAudioTheme.getLocationAmbience("gym").targetVolume = 1
 end)
+assertFrozenMutationRejected("ambience production note", function()
+    SchoolAudioTheme.getLocationAmbience("gym").productionNote = "Changed."
+end)
 assertFrozenMutationRejected("cue registry", function()
     SchoolAudioTheme.CUES.periodBell = {}
 end)
 assertFrozenMutationRejected("cue entry", function()
     SchoolAudioTheme.getCue("periodBell").looped = true
+end)
+assertFrozenMutationRejected("cue production note", function()
+    SchoolAudioTheme.getCue("periodBell").productionNote = "Changed."
 end)
 
 assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unchanged")
@@ -261,6 +320,16 @@ assertEqual(
 )
 assertEqual(SchoolAudioTheme.getLocationAmbience("gym").targetVolume, 0.14, "ambience remains unchanged")
 assertEqual(SchoolAudioTheme.getCue("periodBell").looped, false, "cue remains unchanged")
+assertEqual(
+    SchoolAudioTheme.getLocationAmbience("gym").productionNote,
+    expectedAmbienceProductionNotes.gym,
+    "ambience production note remains unchanged"
+)
+assertEqual(
+    SchoolAudioTheme.getCue("periodBell").productionNote,
+    expectedCueProductionNotes.periodBell,
+    "cue production note remains unchanged"
+)
 
 -- Shared wayfinding policy must stay immutable so one consumer cannot silently
 -- relabel destinations or weaken palette contrast for later consumers.
