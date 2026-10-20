@@ -1,20 +1,27 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local template = ReplicatedStorage
+local mobile = ReplicatedStorage
     :WaitForChild("HighSchool")
     :WaitForChild("Mobile")
-    :WaitForChild("SchoolClient")
+
+local templates = table.freeze({
+    mobile:WaitForChild("SchoolClient"),
+    mobile:WaitForChild("DestinationFeedback"),
+})
 
 local function install(player)
     local playerGui = player:WaitForChild("PlayerGui")
-    local existing = playerGui:FindFirstChild(template.Name)
-    if existing then
-        existing:Destroy()
-    end
 
-    local clone = template:Clone()
-    clone.Parent = playerGui
+    for _, template in ipairs(templates) do
+        local existing = playerGui:FindFirstChild(template.Name)
+        if existing then
+            existing:Destroy()
+        end
+
+        local clone = template:Clone()
+        clone.Parent = playerGui
+    end
 end
 
 Players.PlayerAdded:Connect(install)

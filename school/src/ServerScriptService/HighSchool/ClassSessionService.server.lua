@@ -1,3 +1,4 @@
+local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
@@ -6,6 +7,7 @@ local Workspace = game:GetService("Workspace")
 local highSchool = ReplicatedStorage:WaitForChild("HighSchool")
 local FoundationConfig = require(highSchool:WaitForChild("FoundationConfig"))
 local FoundationState = require(highSchool:WaitForChild("FoundationState"))
+local CompletionGate = require(script.Parent:WaitForChild("CompletionGate"))
 local EducationCore = require(script.Parent:WaitForChild("EducationCore"))
 local foundationRuntime = highSchool:WaitForChild("FoundationRuntime")
 
@@ -45,8 +47,15 @@ end
 
 local sessionsByUserId = {}
 local ATTENDANCE_RADIUS = 16
-local CLASS_PERIODS = { math = true, ela = true, science = true }
+local CLASS_LOCATIONS = table.freeze({ math = "math", ela = "ela", science = "science" })
+local scheduleNamespace = game.JobId
+if scheduleNamespace == "" then
+    scheduleNamespace = HttpService:GenerateGUID(false)
+end
+local completedOccurrencesByUserId = {}
 local sessionClassesByUserId = {}
+local sessionLocationsByUserId = {}
+local sessionOccurrencesByUserId = {}
 
 local function closeSessionForUser(userId)
     local sessionId = sessionsByUserId[userId]
@@ -57,6 +66,8 @@ local function closeSessionForUser(userId)
     EducationCore.closeSession(sessionId)
     sessionsByUserId[userId] = nil
     sessionClassesByUserId[userId] = nil
+    sessionLocationsByUserId[userId] = nil
+    sessionOccurrencesByUserId[userId] = nil
     return true
 end
 
@@ -104,25 +115,73 @@ beginClass.OnServerInvoke = function(player)
     end
 
     local foundation = FoundationState.getSnapshot()
-    if not CLASS_PERIODS[foundation.periodId] then
+    local expectedLocationId = CLASS_LOCATIONS[foundation.periodId]
+    if not expectedLocationId then
         return table.freeze({ ok = false, reason = "NOT_CLASS_PERIOD" })
     end
 
-    if not isAtAuthoritativeLocation(player, foundation.locationId) then
-        return table.freeze({ ok = false, reason = "NOT_AT_CLASS_LOCATION" })
+    if foundation.locationId ~= expectedLocationId then
+        return table.freeze({
+            ok = false,
+            reason = "CLASS_LOCATION_MISMATCH",
+            classId = foundation.periodId,
+            expectedLocationId = expectedLocationId,
+            actualLocationId = foundation.locationId,
+        })
     end
 
-    local sessionId, err = EducationCore.startSession(player.UserId, foundation.periodId)
+    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+        return table.freeze({
+            ok = false,
+            reason = "NOT_AT_CLASS_LOCATION",
+            classId = foundation.periodId,
+            expectedLocationId = expectedLocationId,
+        })
+    end
+
+    local occurrenceId = CompletionGate.getOccurrenceId(
+        scheduleNamespace,
+        foundation.dayIndex,
+        foundation.periodIndex,
+        foundation.periodId
+    )
+    if not occurrenceId then
+        return table.freeze({ ok = false, reason = "SESSION_START_FAILED" })
+    end
+
+    local completedOccurrences = completedOccurrencesByUserId[player.UserId]
+    if not completedOccurrences then
+        completedOccurrences = {}
+        completedOccurrencesByUserId[player.UserId] = completedOccurrences
+    end
+    if CompletionGate.hasCompleted(completedOccurrences, occurrenceId) then
+        return table.freeze({
+            ok = false,
+            reason = "CLASS_ALREADY_COMPLETED",
+            classId = foundation.periodId,
+            expectedLocationId = expectedLocationId,
+        })
+    end
+
+    local sessionId, err = EducationCore.startSession(
+        player.UserId,
+        foundation.periodId,
+        foundation.dayIndex
+    )
     if not sessionId then
         return table.freeze({ ok = false, reason = err or "SESSION_START_FAILED" })
     end
 
     sessionsByUserId[player.UserId] = sessionId
     sessionClassesByUserId[player.UserId] = foundation.periodId
+    sessionLocationsByUserId[player.UserId] = expectedLocationId
+    sessionOccurrencesByUserId[player.UserId] = occurrenceId
 
     return table.freeze({
         ok = true,
         sessionId = sessionId,
+        classId = foundation.periodId,
+        locationId = expectedLocationId,
         activity = EducationCore.getPublicActivity(sessionId),
     })
 end
@@ -134,14 +193,37 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     end
 
     local foundation = FoundationState.getSnapshot()
-    if foundation.periodId ~= sessionClassesByUserId[player.UserId] then
+    local activeClassId = sessionClassesByUserId[player.UserId]
+    local expectedLocationId = sessionLocationsByUserId[player.UserId]
+    if foundation.periodId ~= activeClassId then
         closeSessionForUser(player.UserId)
-        return table.freeze({ accepted = false, reason = "CLASS_PERIOD_ENDED" })
+        return table.freeze({
+            accepted = false,
+            reason = "CLASS_PERIOD_ENDED",
+            classId = activeClassId,
+            expectedLocationId = expectedLocationId,
+        })
     end
 
-    if not isAtAuthoritativeLocation(player, foundation.locationId) then
+    if foundation.locationId ~= expectedLocationId then
         closeSessionForUser(player.UserId)
-        return table.freeze({ accepted = false, reason = "LEFT_CLASS_LOCATION" })
+        return table.freeze({
+            accepted = false,
+            reason = "CLASS_LOCATION_MISMATCH",
+            classId = activeClassId,
+            expectedLocationId = expectedLocationId,
+            actualLocationId = foundation.locationId,
+        })
+    end
+
+    if not isAtAuthoritativeLocation(player, expectedLocationId) then
+        closeSessionForUser(player.UserId)
+        return table.freeze({
+            accepted = false,
+            reason = "LEFT_CLASS_LOCATION",
+            classId = activeClassId,
+            expectedLocationId = expectedLocationId,
+        })
     end
 
     if not EducationCore.isOwnedBy(sessionId, player.UserId) then
@@ -154,9 +236,28 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     if response.accepted and response.resolved then
         sessionsByUserId[player.UserId] = nil
         local completedClassId = sessionClassesByUserId[player.UserId]
+        local completedOccurrenceId = sessionOccurrencesByUserId[player.UserId]
         sessionClassesByUserId[player.UserId] = nil
+        sessionLocationsByUserId[player.UserId] = nil
+        sessionOccurrencesByUserId[player.UserId] = nil
+
+        local completedCompletionId = CompletionGate.getCompletionId(
+            player.UserId,
+            completedOccurrenceId
+        )
+        if not completedCompletionId then
+            EducationCore.closeSession(sessionId)
+            return table.freeze({ accepted = false, reason = "INVALID_CLASS_COMPLETION" })
+        end
+
+        local completedOccurrences = completedOccurrencesByUserId[player.UserId]
+        if not CompletionGate.markCompleted(completedOccurrences, completedOccurrenceId) then
+            EducationCore.closeSession(sessionId)
+            return table.freeze({ accepted = false, reason = "DUPLICATE_CLASS_COMPLETION" })
+        end
+
         classCompleted:Fire(table.freeze({
-            completionId = sessionId,
+            completionId = completedCompletionId,
             playerId = player.UserId,
             classId = completedClassId,
             score = response.score,
