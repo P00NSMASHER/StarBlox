@@ -95,6 +95,33 @@ assert 'scheduleNamespace = HttpService:GenerateGUID(false)' in service
 assert 'local completedOccurrencesByUserId = {}' in service
 assert 'local sessionClassesByUserId = {}' in service
 assert 'local sessionOccurrencesByUserId = {}' in service
+assert 'local transitionReceiptsByUserId = {}' in service
+assert 'closeSessionForUser(userId, "CLASS_PERIOD_ENDED")' in service
+assert 'transitionReason == "CLASS_PERIOD_ENDED"' in service
+assert 'transitionReceiptsByUserId[userId] = table.freeze({' in service
+assert 'sessionId = sessionId' in service
+assert 'response = table.freeze({' in service
+assert 'classId = classId' in service
+assert 'expectedLocationId = expectedLocationId' in service
+assert 'local transitionReceipt = transitionReceiptsByUserId[player.UserId]' in service
+assert 'transitionReceipt.sessionId == sessionId' in service
+assert 'return transitionReceipt.response' in service
+assert service.index('transitionReceiptsByUserId[player.UserId] = nil') < service.index(
+    'sessionsByUserId[player.UserId] = sessionId'
+), "successful attendance must clear stale transition context before registering a new session"
+transition_lookup = service.index('local transitionReceipt = transitionReceiptsByUserId[player.UserId]')
+generic_inactive = service.index(
+    'return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })',
+    transition_lookup,
+)
+assert transition_lookup < generic_inactive, (
+    "period-transition receipt must be checked before the generic inactive-session fallback"
+)
+transition_return = service.index('return transitionReceipt.response', transition_lookup)
+transition_branch = service[transition_lookup:transition_return]
+assert 'transitionReceiptsByUserId[player.UserId] = nil' not in transition_branch, (
+    "period-transition receipt must remain replayable until successful new attendance"
+)
 assert 'CompletionGate.getOccurrenceId(' in service
 occurrence_call = service.index('local occurrenceId = CompletionGate.getOccurrenceId(')
 namespace_arg = service.index('scheduleNamespace', occurrence_call)
@@ -129,8 +156,8 @@ assert 'classId = foundation.periodId' in service
 assert service.count('classId = activeClassId') == 3, (
     "period-ended, location-mismatch, and left-location responses must retain class identity"
 )
-assert service.count('expectedLocationId = expectedLocationId') == 6, (
-    "three attendance and three active-session failures must retain the classroom cue"
+assert service.count('expectedLocationId = expectedLocationId') == 7, (
+    "transition receipt plus three attendance and three active-session failures must retain the classroom cue"
 )
 assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
@@ -144,9 +171,14 @@ assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
 assert 'reason = "CLASS_PERIOD_ENDED"' in service
 context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
-period_close = service.index('reason = "CLASS_PERIOD_ENDED"')
-assert context_capture < period_close, (
-    "session class/location context must be captured before transition closure clears it"
+period_mismatch = service.index('if foundation.periodId ~= activeClassId then')
+period_receipt_close = service.index(
+    'closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")',
+    period_mismatch,
+)
+period_response = service.index('reason = "CLASS_PERIOD_ENDED"', period_receipt_close)
+assert context_capture < period_mismatch < period_receipt_close < period_response, (
+    "submit-time period mismatch must retain class context and record a replayable receipt before responding"
 )
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service
