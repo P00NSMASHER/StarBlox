@@ -153,73 +153,79 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
 end
 
 local lobby = assert(locationsById.lobby, "lobby location required for gateways")
-local gatewayCount = 0
+local gatewayLocations = {
+    assert(locationsById.entrance, "entrance location required for gateway"),
+}
 for _, location in ipairs(FoundationConfig.LOCATIONS) do
     if location.id ~= "lobby" then
-        local towardLobby = Vector3.new(
-            lobby.position.X - location.position.X,
-            0,
-            lobby.position.Z - location.position.Z
-        ).Unit
-        local right = Vector3.new(-towardLobby.Z, 0, towardLobby.X)
-        local center = Vector3.new(location.position.X, 0, location.position.Z)
-            + towardLobby * CampusRouteLayout.GATEWAY_OFFSET
-        local frame = CFrame.lookAt(center, center + towardLobby)
-        local halfSpan = (
-            CampusRouteLayout.GATEWAY_OPENING_WIDTH + CampusRouteLayout.GATEWAY_POST_WIDTH
-        ) / 2
-
-        local gateway = Instance.new("Model")
-        gateway.Name = location.id .. "Gateway"
-        gateway:SetAttribute("LocationId", location.id)
-        gateway:SetAttribute("DisplayName", location.name)
-        gateway.Parent = gateways
-
-        createPassivePart(
-            "LeftPost",
-            Vector3.new(
-                CampusRouteLayout.GATEWAY_POST_WIDTH,
-                CampusRouteLayout.GATEWAY_HEIGHT,
-                CampusRouteLayout.GATEWAY_DEPTH
-            ),
-            frame + right * halfSpan + Vector3.new(0, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0),
-            CampusRouteLayout.ROUTE_COLOR,
-            0.08,
-            gateway
-        )
-        createPassivePart(
-            "RightPost",
-            Vector3.new(
-                CampusRouteLayout.GATEWAY_POST_WIDTH,
-                CampusRouteLayout.GATEWAY_HEIGHT,
-                CampusRouteLayout.GATEWAY_DEPTH
-            ),
-            frame - right * halfSpan + Vector3.new(0, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0),
-            CampusRouteLayout.ROUTE_COLOR,
-            0.08,
-            gateway
-        )
-        createPassivePart(
-            "Header",
-            Vector3.new(
-                CampusRouteLayout.GATEWAY_OPENING_WIDTH
-                    + CampusRouteLayout.GATEWAY_POST_WIDTH * 2,
-                CampusRouteLayout.GATEWAY_HEADER_HEIGHT,
-                CampusRouteLayout.GATEWAY_DEPTH
-            ),
-            frame + Vector3.new(
-                0,
-                CampusRouteLayout.GATEWAY_HEIGHT - CampusRouteLayout.GATEWAY_HEADER_HEIGHT / 2,
-                0
-            ),
-            CampusRouteLayout.ROUTE_COLOR,
-            0.08,
-            gateway
-        )
-        gatewayCount += 1
+        table.insert(gatewayLocations, location)
     end
 end
 
+local gatewayCount = 0
+for _, location in ipairs(gatewayLocations) do
+    local towardLobby = Vector3.new(
+        lobby.position.X - location.position.X,
+        0,
+        lobby.position.Z - location.position.Z
+    ).Unit
+    local right = Vector3.new(-towardLobby.Z, 0, towardLobby.X)
+    local center = Vector3.new(location.position.X, 0, location.position.Z)
+        + towardLobby * CampusRouteLayout.GATEWAY_OFFSET
+    local frame = CFrame.lookAt(center, center + towardLobby)
+    local halfSpan = (
+        CampusRouteLayout.GATEWAY_OPENING_WIDTH + CampusRouteLayout.GATEWAY_POST_WIDTH
+    ) / 2
+
+    local gateway = Instance.new("Model")
+    gateway.Name = location.id .. "Gateway"
+    gateway:SetAttribute("LocationId", location.id)
+    gateway:SetAttribute("DisplayName", location.name)
+    gateway.Parent = gateways
+
+    createPassivePart(
+        "LeftPost",
+        Vector3.new(
+            CampusRouteLayout.GATEWAY_POST_WIDTH,
+            CampusRouteLayout.GATEWAY_HEIGHT,
+            CampusRouteLayout.GATEWAY_DEPTH
+        ),
+        frame + right * halfSpan + Vector3.new(0, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0),
+        CampusRouteLayout.ROUTE_COLOR,
+        0.08,
+        gateway
+    )
+    createPassivePart(
+        "RightPost",
+        Vector3.new(
+            CampusRouteLayout.GATEWAY_POST_WIDTH,
+            CampusRouteLayout.GATEWAY_HEIGHT,
+            CampusRouteLayout.GATEWAY_DEPTH
+        ),
+        frame - right * halfSpan + Vector3.new(0, CampusRouteLayout.GATEWAY_HEIGHT / 2, 0),
+        CampusRouteLayout.ROUTE_COLOR,
+        0.08,
+        gateway
+    )
+    createPassivePart(
+        "Header",
+        Vector3.new(
+            CampusRouteLayout.GATEWAY_OPENING_WIDTH
+                + CampusRouteLayout.GATEWAY_POST_WIDTH * 2,
+            CampusRouteLayout.GATEWAY_HEADER_HEIGHT,
+            CampusRouteLayout.GATEWAY_DEPTH
+        ),
+        frame + Vector3.new(
+            0,
+            CampusRouteLayout.GATEWAY_HEIGHT - CampusRouteLayout.GATEWAY_HEADER_HEIGHT / 2,
+            0
+        ),
+        CampusRouteLayout.ROUTE_COLOR,
+        0.08,
+        gateway
+    )
+    gatewayCount += 1
+end
 local eastHallCrossing = createPassivePart(
     "EastHallCrossing",
     Vector3.new(
