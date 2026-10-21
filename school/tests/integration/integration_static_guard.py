@@ -69,6 +69,13 @@ assert 'progressLabel = string.format("0/%d stops", #CampusCourierActivity.ROUTE
 assert 'nextLocationId = firstStop.locationId' in destination_service
 assert 'nextActionLabel = firstStop.actionLabel' in destination_service
 assert 'objective = firstStop.objective' in destination_service
+assert 'availableRewardPoints = state.rewardPoints' in destination_service
+assert 'availableRewardPoints = CampusCourierActivity.REWARD_POINTS' in destination_service
+assert 'availableRewardPoints = courierResponse and CampusCourierActivity.REWARD_POINTS or 0' in destination_service
+assert 'rewardPoints = 0' in destination_service, (
+    "advertised reward must not be confused with earned reward before completion"
+)
+assert 'rewardPoints = courierResponse and courierResponse.rewardPoints or 0' in destination_service
 assert 'courierStartCue()' in destination_service
 cue_definition = destination_service.index('local function courierStartCue()')
 cue_use = destination_service.index('courierStartCue()', cue_definition + 1)
@@ -198,6 +205,13 @@ assert 'type(payload.nextActionLabel) == "string"' in destination_feedback
 assert 'type(payload.remainingStops) == "number"' in destination_feedback
 assert 'payload.remainingStops % 1 == 0' in destination_feedback
 assert 'payload.remainingStops <= MAX_COURIER_STOPS' in destination_feedback
+assert 'local MAX_COURIER_REWARD_POINTS = 10' in destination_feedback
+assert 'type(payload.availableRewardPoints) == "number"' in destination_feedback
+assert 'payload.availableRewardPoints >= 1' in destination_feedback
+assert 'payload.availableRewardPoints % 1 == 0' in destination_feedback
+assert 'payload.availableRewardPoints <= MAX_COURIER_REWARD_POINTS' in destination_feedback
+assert '.. tostring(payload.availableRewardPoints)' in destination_feedback
+assert '.. " pts"' in destination_feedback
 assert 'local function formatRemainingStops(count)' in destination_feedback
 assert '.. formatRemainingStops(payload.remainingStops)' in destination_feedback
 assert 'activeRouteText = "Campus Courier • "' in destination_feedback
