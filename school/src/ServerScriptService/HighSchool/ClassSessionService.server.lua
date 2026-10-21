@@ -293,7 +293,16 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
 end
 
 leaveClass.OnServerInvoke = function(player)
-    local left = closeSessionForUser(player.UserId)
+    local transitionReason = nil
+    local activeClassId = sessionClassesByUserId[player.UserId]
+    if activeClassId then
+        local foundation = FoundationState.getSnapshot()
+        if activeClassId ~= foundation.periodId then
+            transitionReason = "CLASS_PERIOD_ENDED"
+        end
+    end
+
+    local left = closeSessionForUser(player.UserId, transitionReason)
     return table.freeze({ ok = true, left = left })
 end
 

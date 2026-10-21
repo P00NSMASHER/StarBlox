@@ -109,6 +109,16 @@ assert 'return transitionReceipt.response' in service
 assert 'if not sessionId then\n        return false\n    end' in service, (
     "an idempotent leave after period closure must preserve the replay receipt"
 )
+leave_start = service.index('leaveClass.OnServerInvoke = function(player)')
+leave_end = service.index('end\n\nfoundationRuntime:GetAttributeChangedSignal', leave_start)
+leave_block = service[leave_start:leave_end]
+assert 'local activeClassId = sessionClassesByUserId[player.UserId]' in leave_block
+assert 'local foundation = FoundationState.getSnapshot()' in leave_block
+assert 'if activeClassId ~= foundation.periodId then' in leave_block
+assert 'transitionReason = "CLASS_PERIOD_ENDED"' in leave_block
+assert 'closeSessionForUser(player.UserId, transitionReason)' in leave_block, (
+    "a rollover auto-leave that wins the server callback race must preserve transition context"
+)
 register_start = service.index('local function registerPlayer(player)')
 register_end = service.index('end\n\nbeginClass.OnServerInvoke', register_start)
 register_block = service[register_start:register_end]
