@@ -10,12 +10,24 @@ completion_gate = (ROOT / "src/ServerScriptService/HighSchool/CompletionGate.lua
 courier = (ROOT / "src/ServerScriptService/HighSchool/CampusCourierActivity.lua").read_text(encoding="utf-8")
 
 assert 'ProgressionReducer.VERSION = 2' in reducer
+assert 'local function assertStoredVersionSupported(state)' in reducer
+assert 'error("UNSUPPORTED_PROGRESSION_VERSION", 3)' in reducer
+assert 'version > ProgressionReducer.VERSION' in reducer
 assert 'ProgressionReducer.POINTS_PER_COMPLETION = 10' in reducer
 assert 'ProgressionReducer.ACTIVITY_POINTS = 5' in reducer
+assert 'ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH = 128' in reducer
 assert 'local CLASS_IDS = table.freeze({ "math", "ela", "science" })' in reducer
 assert 'local POINTS_BY_COMPLETION_CLASS = table.freeze({' in reducer
 assert '[CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS' in reducer
 assert 'score ~= 1' in reducer, "only resolved, full-credit class completions may earn points"
+assert 'local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner, requireCanonicalTypes)' in reducer
+assert 'type(record.score) ~= "number" or type(record.completedAt) ~= "number"' in reducer
+assert 'normalizeCompletionRecord(record, expectedPlayerId, true, false)' in reducer, (
+    "stored migration may retain legacy numeric strings"
+)
+assert 'normalizeCompletionRecord(completion, completion.playerId, true, true)' in reducer, (
+    "new reward events must use canonical numeric field types"
+)
 assert 'completedAt < 1' in reducer
 assert 'completedAt % 1 ~= 0' in reducer
 assert 'points = pointsFromCompleted(completed)' in reducer, (
@@ -29,18 +41,32 @@ assert 'then require(script.Parent.CampusCourierActivity)' in reducer
 assert 'else require("./CampusCourierActivity")' in reducer
 assert 'completion.completionId' in reducer
 assert 'function ProgressionReducer.normalize(state, expectedPlayerId)' in reducer
+version_gate_pos = reducer.index('assertStoredVersionSupported(state)')
+completion_copy_pos = reducer.index('local completed = copyCompleted(state.completed, expectedPlayerId)')
+assert version_gate_pos < completion_copy_pos, (
+    "stored schema version must be validated before receipt migration"
+)
 assert 'ownerPlayerId = ownerPlayerId' in reducer, "stored receipts must retain their DataStore owner"
 assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)' in reducer
 assert 'if not completionId:match("^player:") then' in reducer, (
     "opaque legacy receipts must remain readable during migration"
 )
-assert 'return completionId:find(":", 1, true) == nil' in reducer, (
-    "unknown namespaced rewards must not migrate as ten-point class receipts"
+assert (
+    'return completionId:find(":", 1, true) == nil\n'
+    '            and isLegacyCompletionIdValid(completionId)'
+) in reducer, "legacy migration must require namespace and bounded-format checks"
+assert 'local function isLegacyCompletionIdValid(completionId)' in reducer
+assert '#completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH' in reducer
+assert 'completionId:match("^[%w_%-]+$") ~= nil' in reducer
+assert 'and isLegacyCompletionIdValid(completionId)' in reducer, (
+    "unknown, malformed, or overlong receipts must not migrate as class rewards"
 )
 assert 'CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)' in reducer
 binding_pos = reducer.index('if not CompletionGate.isCompletionIdFor(')
 dedupe_pos = reducer.index('if state.completed[completion.completionId] then')
-validation_pos = reducer.index('local record = normalizeCompletionRecord(completion, completion.playerId, true)')
+validation_pos = reducer.index(
+    'local record = normalizeCompletionRecord(completion, completion.playerId, true, true)'
+)
 write_pos = reducer.index('state.completed[completion.completionId] = record')
 reward_pos = reducer.index('state.points += POINTS_BY_COMPLETION_CLASS[record.classId]')
 assert binding_pos < dedupe_pos < validation_pos < write_pos < reward_pos, (
@@ -54,12 +80,28 @@ assert 'return state, false, "INVALID_COMPLETION"' in reducer
 assert 'reportCard = table.freeze(publicReportCard)' in reducer
 assert 'if subject then' in reducer, "activity completions must not index missing report-card subjects"
 assert 'activityCompletedCount = activityCompletedCount' in reducer
+assert 'classPoints = classPoints' in reducer
+assert 'activityPoints = activityPoints' in reducer
+class_points_pos = reducer.index('classPoints += POINTS_BY_COMPLETION_CLASS[record.classId]')
+activity_points_pos = reducer.index('activityPoints += POINTS_BY_COMPLETION_CLASS[record.classId]')
+public_class_points_pos = reducer.index('classPoints = classPoints', class_points_pos)
+public_activity_points_pos = reducer.index('activityPoints = activityPoints', activity_points_pos)
+assert class_points_pos < public_class_points_pos
+assert activity_points_pos < public_activity_points_pos
 for field in ("completedCount", "points", "bestScore", "lastCompletedAt"):
     assert f"{field} =" in reducer, f"report card missing {field}"
 assert 'completed = normalized.completed' not in reducer, "public snapshot must not expose receipt IDs"
 
 assert 'dataStore:UpdateAsync' in store, "atomic UpdateAsync persistence required"
 assert 'dataStore:GetAsync' in store, "save/rejoin load path required"
+load_start = store.index('function ProgressionStore.load(playerId)')
+load_pcall = store.index('local ok, state = pcall(function()', load_start)
+load_get = store.index('local data = dataStore:GetAsync(keyForPlayer(playerId))', load_pcall)
+load_normalize = store.index('return ProgressionReducer.normalize(data, playerId)', load_get)
+load_end = store.index('function ProgressionStore.applyCompletion', load_normalize)
+assert load_start < load_pcall < load_get < load_normalize < load_end, (
+    "load-time schema validation must remain inside the protected failure path"
+)
 assert 'SetAsync' not in store, "SetAsync would allow stale-snapshot overwrite"
 assert 'ProgressionReducer.applyCompletion(currentState, completion)' in store
 assert 'ProgressionReducer.normalize(data, playerId)' in store

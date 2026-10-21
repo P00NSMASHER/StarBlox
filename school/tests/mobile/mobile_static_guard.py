@@ -65,9 +65,9 @@ assert 'reportCardButton.Text = "Grades"' in client
 assert 'reportCardPanel.Name = "ReportCardPanel"' in client
 assert 'reportCardPanel.AnchorPoint = Vector2.new(0.5, 0.5)' in client
 assert 'reportCardPanel.Position = UDim2.new(0.5, REPORT_CARD_CENTER_OFFSET, 0.5, 0)' in client
-assert 'reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 132)' in client
-assert 'reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 132)' in client
-assert 'reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 132)' in client
+assert 'reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 162)' in client
+assert 'reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 162)' in client
+assert 'reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 162)' in client
 assert 'reportCardSizeConstraint.Parent = reportCardPanel' in client
 assert 'reportCardPanel.Visible = false' in client
 assert 'row.Font = Enum.Font.Gotham' in client
@@ -76,6 +76,13 @@ assert 'row.TextWrapped = false' in client
 assert 'rowTextConstraint.MinTextSize = 12' in client
 assert 'rowTextConstraint.MaxTextSize = 15' in client
 assert 'rowTextConstraint.Parent = row' in client
+assert 'activityRow.Name = "ActivitiesRow"' in client
+assert 'activityRow.Position = UDim2.fromOffset(10, 124)' in client
+assert 'activityRow.Size = UDim2.new(1, -20, 0, 28)' in client
+assert 'activityRow.Text = "Activities • loading…"' in client
+assert 'activityRowTextConstraint.MinTextSize = 12' in client
+assert 'activityRowTextConstraint.MaxTextSize = 15' in client
+assert 'activityRowTextConstraint.Parent = activityRow' in client
 
 supported_phone_width = 280
 rail_left = supported_phone_width - 12 - 48
@@ -157,6 +164,12 @@ assert 'finishSession("Back to free roam.", false)' in client
 assert 'waitForProgressionAdvance' in client
 assert 'local function updateReportCard(reportCard)' in client
 assert 'updateReportCard(result.progression.reportCard)' in client
+assert '"%d pts • Class %d • Activity %d"' in client
+assert 'result.progression.classPoints or 0' in client
+assert 'tonumber(result.progression.activityCompletedCount)' in client
+assert 'tonumber(result.progression.activityPoints)' in client
+assert '"Activities • %d complete • %d pts"' in client
+assert 'activityRow.Text = "Activities • unavailable"' in client
 assert 'type(reportCard) == "table" and reportCard[classId] or nil' in client
 assert 'tonumber(subject.completedCount)' in client
 assert 'tonumber(subject.points)' in client

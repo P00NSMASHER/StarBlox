@@ -50,7 +50,7 @@ local reportCardPanel = Instance.new("Frame")
 reportCardPanel.Name = "ReportCardPanel"
 reportCardPanel.AnchorPoint = Vector2.new(0.5, 0.5)
 reportCardPanel.Position = UDim2.new(0.5, REPORT_CARD_CENTER_OFFSET, 0.5, 0)
-reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 132)
+reportCardPanel.Size = UDim2.new(1, -REPORT_CARD_HORIZONTAL_MARGIN, 0, 162)
 reportCardPanel.BackgroundColor3 = Color3.fromRGB(20, 38, 67)
 reportCardPanel.BorderSizePixel = 0
 reportCardPanel.Visible = false
@@ -58,8 +58,8 @@ reportCardPanel.ZIndex = 5
 reportCardPanel.Parent = gui
 
 local reportCardSizeConstraint = Instance.new("UISizeConstraint")
-reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 132)
-reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 132)
+reportCardSizeConstraint.MinSize = Vector2.new(REPORT_CARD_MIN_WIDTH, 162)
+reportCardSizeConstraint.MaxSize = Vector2.new(REPORT_CARD_MAX_WIDTH, 162)
 reportCardSizeConstraint.Parent = reportCardPanel
 
 local reportCardCorner = Instance.new("UICorner")
@@ -101,6 +101,25 @@ for index, classId in ipairs(REPORT_CARD_CLASS_IDS) do
 
     reportCardRows[classId] = row
 end
+
+local activityRow = Instance.new("TextLabel")
+activityRow.Name = "ActivitiesRow"
+activityRow.Position = UDim2.fromOffset(10, 124)
+activityRow.Size = UDim2.new(1, -20, 0, 28)
+activityRow.BackgroundTransparency = 1
+activityRow.TextColor3 = Color3.fromRGB(255, 255, 255)
+activityRow.Font = Enum.Font.Gotham
+activityRow.TextScaled = true
+activityRow.TextWrapped = false
+activityRow.TextXAlignment = Enum.TextXAlignment.Left
+activityRow.Text = "Activities • loading…"
+activityRow.ZIndex = 6
+activityRow.Parent = reportCardPanel
+
+local activityRowTextConstraint = Instance.new("UITextSizeConstraint")
+activityRowTextConstraint.MinTextSize = 12
+activityRowTextConstraint.MaxTextSize = 15
+activityRowTextConstraint.Parent = activityRow
 
 local function setReportCardVisible(visible)
     reportCardPanel.Visible = visible
@@ -363,16 +382,31 @@ local function refreshProgression()
     if result and result.ok and result.progression then
         lastCompletedCount = result.progression.completedCount or 0
         updateReportCard(result.progression.reportCard)
+        local activityCompletedCount = math.max(
+            0,
+            math.floor(tonumber(result.progression.activityCompletedCount) or 0)
+        )
+        local activityPoints = math.max(
+            0,
+            math.floor(tonumber(result.progression.activityPoints) or 0)
+        )
+        activityRow.Text = string.format(
+            "Activities • %d complete • %d pts",
+            activityCompletedCount,
+            activityPoints
+        )
         progressionLabel.Text = string.format(
-            "Points: %d • Completed: %d",
+            "%d pts • Class %d • Activity %d",
             result.progression.points or 0,
-            lastCompletedCount
+            result.progression.classPoints or 0,
+            activityPoints
         )
         return true
     end
 
     progressionLabel.Text = "Points: unavailable"
     updateReportCard(nil)
+    activityRow.Text = "Activities • unavailable"
     return false
 end
 

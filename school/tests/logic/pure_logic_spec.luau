@@ -194,6 +194,51 @@ assertEqual(inflatedReason, "INVALID_COMPLETION", "inflated score reason")
 assertEqual(inflatedState.points, 20, "inflated score must not add points")
 assert(inflatedState.completed[scienceCompletionId] == nil, "invalid receipt must not enter ledger")
 
+local stringScoreState, stringScoreApplied, stringScoreReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = scienceCompletionId,
+        playerId = 123,
+        classId = "science",
+        score = "1",
+        completedAt = 1002,
+    })
+assertEqual(stringScoreApplied, false, "string score must fail closed")
+assertEqual(stringScoreReason, "INVALID_COMPLETION", "string score reason")
+assertEqual(stringScoreState.points, 20, "string score must not add points")
+assert(stringScoreState.completed[scienceCompletionId] == nil, "string score must not enter ledger")
+
+local stringTimestampState, stringTimestampApplied, stringTimestampReason =
+    ProgressionReducer.applyCompletion(stateB, {
+        completionId = scienceCompletionId,
+        playerId = 123,
+        classId = "science",
+        score = 1,
+        completedAt = "1002",
+    })
+assertEqual(stringTimestampApplied, false, "string completion timestamp must fail closed")
+assertEqual(stringTimestampReason, "INVALID_COMPLETION", "string completion timestamp reason")
+assertEqual(stringTimestampState.points, 20, "string timestamp must not add points")
+assert(
+    stringTimestampState.completed[scienceCompletionId] == nil,
+    "string timestamp must not enter ledger"
+)
+
+local legacyStringFields = ProgressionReducer.normalize({
+    version = 1,
+    completed = {
+        legacy_string_fields = {
+            classId = "science",
+            score = "1",
+            completedAt = "1002",
+        },
+    },
+}, 123)
+assertEqual(legacyStringFields.points, 10, "legacy stored numeric strings remain readable")
+assert(
+    legacyStringFields.completed.legacy_string_fields ~= nil,
+    "legacy stored numeric-string receipt must migrate"
+)
+
 local unknownState, unknownApplied = ProgressionReducer.applyCompletion(stateB, {
     completionId = "player:123:schedule:server-a:day:1:period:5:class:gym",
     playerId = 123,
@@ -246,6 +291,10 @@ assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must
 assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
 assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
 
+local overlongLegacyReceipt = string.rep(
+    "x",
+    ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH + 1
+)
 local normalizedNamespacedReceipt = ProgressionReducer.normalize({
     version = 2,
     points = 9999,
@@ -265,6 +314,21 @@ local normalizedNamespacedReceipt = ProgressionReducer.normalize({
             score = 1,
             completedAt = 1010,
         },
+        ["   "] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1011,
+        },
+        ["legacy/reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1012,
+        },
+        [overlongLegacyReceipt] = {
+            classId = "science",
+            score = 1,
+            completedAt = 1013,
+        },
     },
 }, 123)
 assert(
@@ -279,15 +343,56 @@ assert(
     normalizedNamespacedReceipt.completed.legacy_opaque_receipt ~= nil,
     "truly opaque legacy receipt must remain readable"
 )
+assert(
+    normalizedNamespacedReceipt.completed["   "] == nil,
+    "whitespace-only legacy receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed["legacy/reward"] == nil,
+    "unsafe legacy receipt characters must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed[overlongLegacyReceipt] == nil,
+    "overlong legacy receipt must fail closed"
+)
 assertEqual(
     normalizedNamespacedReceipt.points,
     10,
     "only the opaque legacy class receipt may contribute points"
 )
 
+local futureVersionState = {
+    version = ProgressionReducer.VERSION + 1,
+    points = 9999,
+    completed = {
+        future_receipt = {
+            classId = "math",
+            score = 1,
+            completedAt = 1011,
+        },
+    },
+}
+local futureVersionOk, futureVersionError = pcall(function()
+    ProgressionReducer.normalize(futureVersionState, 123)
+end)
+assertEqual(futureVersionOk, false, "future progression schema must fail closed")
+assert(
+    tostring(futureVersionError):find("UNSUPPORTED_PROGRESSION_VERSION", 1, true) ~= nil,
+    "future progression schema needs a stable failure reason"
+)
+assertEqual(futureVersionState.version, 3, "future schema source must remain untouched")
+assertEqual(futureVersionState.points, 9999, "future schema points must not be rewritten")
+
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
+assertEqual(publicProgression.classPoints, 20, "public class points")
+assertEqual(publicProgression.activityPoints, 0, "public activity points")
+assertEqual(
+    publicProgression.points,
+    publicProgression.classPoints + publicProgression.activityPoints,
+    "public point breakdown"
+)
 assertEqual(publicProgression.completedCount, 2, "public completed count")
 assertEqual(publicProgression.reportCard.math.completedCount, 1, "math completed count")
 assertEqual(publicProgression.reportCard.math.points, 10, "math points")
@@ -556,6 +661,13 @@ assertEqual(duplicateCourierState.points, 25, "duplicate courier points")
 local publicCourierProgression = ProgressionReducer.toPublicSnapshot(courierState, 123)
 assertEqual(publicCourierProgression.completedCount, 2, "class completion count excludes activities")
 assertEqual(publicCourierProgression.activityCompletedCount, 1, "activity completion count")
+assertEqual(publicCourierProgression.classPoints, 20, "courier preserves class point subtotal")
+assertEqual(publicCourierProgression.activityPoints, 5, "courier activity point subtotal")
+assertEqual(
+    publicCourierProgression.points,
+    publicCourierProgression.classPoints + publicCourierProgression.activityPoints,
+    "courier point breakdown must reconcile to total"
+)
 assertEqual(publicCourierProgression.reportCard.math.completedCount, 1, "courier must not alter math")
 assertEqual(publicCourierProgression.reportCard.ela.completedCount, 1, "courier must not alter ELA")
 assertEqual(publicCourierProgression.reportCard.science.completedCount, 0, "courier must not alter science")
