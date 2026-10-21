@@ -103,6 +103,14 @@ assert 'sessionId = sessionId' in service
 assert 'response = table.freeze({' in service
 assert 'classId = classId' in service
 assert 'expectedLocationId = expectedLocationId' in service
+close_start = service.index('local function closeSessionForUser(userId, transitionReason)')
+close_end = service.index('local function getRootPart(player)', close_start)
+close_block = service[close_start:close_end]
+assert 'local currentFoundation = FoundationState.getSnapshot()' in close_block, (
+    "period-end receipt must snapshot the authoritative destination at closure"
+)
+assert 'currentPeriodId = currentFoundation.periodId' in close_block
+assert 'currentLocationId = currentFoundation.locationId' in close_block
 assert 'local transitionReceipt = transitionReceiptsByUserId[player.UserId]' in service
 assert 'transitionReceipt.sessionId == sessionId' in service
 assert 'return transitionReceipt.response' in service
@@ -177,11 +185,11 @@ assert service.count('reason = "CLASS_LOCATION_MISMATCH"') == 2
 assert 'actualLocationId = foundation.locationId' in service
 assert service.count('expectedLocationId = expectedLocationId') >= 4
 assert 'classId = foundation.periodId' in service
-assert service.count('classId = activeClassId') == 3, (
-    "period-ended, location-mismatch, and left-location responses must retain class identity"
+assert service.count('classId = activeClassId') == 2, (
+    "location-mismatch and left-location responses must retain class identity"
 )
-assert service.count('expectedLocationId = expectedLocationId') == 7, (
-    "transition receipt plus three attendance and three active-session failures must retain the classroom cue"
+assert service.count('expectedLocationId = expectedLocationId') == 6, (
+    "stored transition receipt plus attendance and active-session failures must retain the classroom cue"
 )
 assert 'locationId = expectedLocationId' in service
 assert 'local completedClassId = sessionClassesByUserId[player.UserId]' in service
@@ -200,9 +208,15 @@ period_receipt_close = service.index(
     'closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")',
     period_mismatch,
 )
-period_response = service.index('reason = "CLASS_PERIOD_ENDED"', period_receipt_close)
+period_response = service.index(
+    'return transitionReceiptsByUserId[player.UserId].response',
+    period_receipt_close,
+)
 assert context_capture < period_mismatch < period_receipt_close < period_response, (
-    "submit-time period mismatch must retain class context and record a replayable receipt before responding"
+    "submit-time period mismatch must return the stored receipt with authoritative destination cues"
+)
+assert service.count('return transitionReceiptsByUserId[player.UserId].response') == 1, (
+    "the first period-end response must use the same stored receipt as later retries"
 )
 assert 'player.CharacterAdded:Connect' in service
 assert 'closeSessionForUser(player.UserId)' in service

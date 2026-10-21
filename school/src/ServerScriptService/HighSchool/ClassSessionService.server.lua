@@ -73,6 +73,7 @@ local function closeSessionForUser(userId, transitionReason)
     sessionOccurrencesByUserId[userId] = nil
 
     if transitionReason == "CLASS_PERIOD_ENDED" then
+        local currentFoundation = FoundationState.getSnapshot()
         transitionReceiptsByUserId[userId] = table.freeze({
             sessionId = sessionId,
             response = table.freeze({
@@ -80,6 +81,8 @@ local function closeSessionForUser(userId, transitionReason)
                 reason = transitionReason,
                 classId = classId,
                 expectedLocationId = expectedLocationId,
+                currentPeriodId = currentFoundation.periodId,
+                currentLocationId = currentFoundation.locationId,
             }),
         })
     else
@@ -220,12 +223,7 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     local expectedLocationId = sessionLocationsByUserId[player.UserId]
     if foundation.periodId ~= activeClassId then
         closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")
-        return table.freeze({
-            accepted = false,
-            reason = "CLASS_PERIOD_ENDED",
-            classId = activeClassId,
-            expectedLocationId = expectedLocationId,
-        })
+        return transitionReceiptsByUserId[player.UserId].response
     end
 
     if foundation.locationId ~= expectedLocationId then
