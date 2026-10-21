@@ -291,6 +291,10 @@ assert(normalizedWrongOwner.completed.legacy ~= nil, "legacy opaque receipt must
 assertEqual(normalizedWrongOwner.completed.legacy.ownerPlayerId, 123, "legacy owner migration")
 assertEqual(normalizedWrongOwner.points, 10, "wrong-owner saved receipt must not grant points")
 
+local overlongLegacyReceipt = string.rep(
+    "x",
+    ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH + 1
+)
 local normalizedNamespacedReceipt = ProgressionReducer.normalize({
     version = 2,
     points = 9999,
@@ -310,6 +314,21 @@ local normalizedNamespacedReceipt = ProgressionReducer.normalize({
             score = 1,
             completedAt = 1010,
         },
+        ["   "] = {
+            classId = "math",
+            score = 1,
+            completedAt = 1011,
+        },
+        ["legacy/reward"] = {
+            classId = "ela",
+            score = 1,
+            completedAt = 1012,
+        },
+        [overlongLegacyReceipt] = {
+            classId = "science",
+            score = 1,
+            completedAt = 1013,
+        },
     },
 }, 123)
 assert(
@@ -323,6 +342,18 @@ assert(
 assert(
     normalizedNamespacedReceipt.completed.legacy_opaque_receipt ~= nil,
     "truly opaque legacy receipt must remain readable"
+)
+assert(
+    normalizedNamespacedReceipt.completed["   "] == nil,
+    "whitespace-only legacy receipt must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed["legacy/reward"] == nil,
+    "unsafe legacy receipt characters must fail closed"
+)
+assert(
+    normalizedNamespacedReceipt.completed[overlongLegacyReceipt] == nil,
+    "overlong legacy receipt must fail closed"
 )
 assertEqual(
     normalizedNamespacedReceipt.points,

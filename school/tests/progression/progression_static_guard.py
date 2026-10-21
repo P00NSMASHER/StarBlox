@@ -15,6 +15,7 @@ assert 'error("UNSUPPORTED_PROGRESSION_VERSION", 3)' in reducer
 assert 'version > ProgressionReducer.VERSION' in reducer
 assert 'ProgressionReducer.POINTS_PER_COMPLETION = 10' in reducer
 assert 'ProgressionReducer.ACTIVITY_POINTS = 5' in reducer
+assert 'ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH = 128' in reducer
 assert 'local CLASS_IDS = table.freeze({ "math", "ela", "science" })' in reducer
 assert 'local POINTS_BY_COMPLETION_CLASS = table.freeze({' in reducer
 assert '[CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS' in reducer
@@ -50,8 +51,15 @@ assert 'function isStoredCompletionIdValid(completionId, expectedPlayerId, class
 assert 'if not completionId:match("^player:") then' in reducer, (
     "opaque legacy receipts must remain readable during migration"
 )
-assert 'return completionId:find(":", 1, true) == nil' in reducer, (
-    "unknown namespaced rewards must not migrate as ten-point class receipts"
+assert (
+    'return completionId:find(":", 1, true) == nil\n'
+    '            and isLegacyCompletionIdValid(completionId)'
+) in reducer, "legacy migration must require namespace and bounded-format checks"
+assert 'local function isLegacyCompletionIdValid(completionId)' in reducer
+assert '#completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH' in reducer
+assert 'completionId:match("^[%w_%-]+$") ~= nil' in reducer
+assert 'and isLegacyCompletionIdValid(completionId)' in reducer, (
+    "unknown, malformed, or overlong receipts must not migrate as class rewards"
 )
 assert 'CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)' in reducer
 binding_pos = reducer.index('if not CompletionGate.isCompletionIdFor(')
