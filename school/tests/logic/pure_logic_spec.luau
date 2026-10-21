@@ -15,6 +15,30 @@ local function assertEqual(actual, expected, message)
     end
 end
 
+-- Every delivered source must stay lossless, spatially safe, and tied to the
+-- canonical mix targets that production and runtime QA share.
+local sourceDelivery = SchoolAudioTheme.SOURCE_DELIVERY
+assert(sourceDelivery ~= nil, "audio source-delivery contract missing")
+assertEqual(sourceDelivery.container, "WAV", "audio delivery container")
+assertEqual(sourceDelivery.bitDepth, 24, "audio delivery bit depth")
+assertEqual(sourceDelivery.channelCount, 1, "audio delivery channel count")
+assertEqual(
+    sourceDelivery.sampleRateHz,
+    SchoolAudioTheme.SAMPLE_RATE_HZ,
+    "audio delivery sample-rate linkage"
+)
+assertEqual(sourceDelivery.peakDb, SchoolAudioTheme.PEAK_DB, "audio delivery peak linkage")
+assertEqual(
+    sourceDelivery.integratedLufs,
+    SchoolAudioTheme.INTEGRATED_LUFS,
+    "audio delivery loudness linkage"
+)
+assertEqual(sourceDelivery.sampleRateHz, 48000, "audio delivery sample rate")
+assertEqual(sourceDelivery.peakDb, -3, "audio delivery peak")
+assertEqual(sourceDelivery.integratedLufs, -18, "audio delivery loudness")
+assert(sourceDelivery.bitDepth >= 16 and sourceDelivery.bitDepth <= 32, "audio bit depth outside lossless production range")
+assert(sourceDelivery.channelCount == 1, "spatial campus sources must remain mono")
+
 -- Every audible feedback cue has a concise non-audio equivalent.
 assertEqual(SchoolAudioTheme.CUE_CAPTIONS_REQUIRED, true, "cue captions contract")
 
@@ -273,6 +297,9 @@ end
 assertFrozenMutationRejected("audio theme root", function()
     SchoolAudioTheme.ORIGINAL_ONLY = false
 end)
+assertFrozenMutationRejected("audio source-delivery policy", function()
+    SchoolAudioTheme.SOURCE_DELIVERY.bitDepth = 16
+end)
 assertFrozenMutationRejected("ambience rolloff mode", function()
     SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE = "Linear"
 end)
@@ -302,6 +329,11 @@ assertFrozenMutationRejected("cue production note", function()
 end)
 
 assertEqual(SchoolAudioTheme.ORIGINAL_ONLY, true, "audio theme root remains unchanged")
+assertEqual(
+    SchoolAudioTheme.SOURCE_DELIVERY.bitDepth,
+    24,
+    "audio source-delivery policy remains unchanged"
+)
 assertEqual(
     SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE,
     "InverseTapered",
