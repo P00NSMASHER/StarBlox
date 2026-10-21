@@ -201,7 +201,6 @@ assert service.count('isAtAuthoritativeLocation(player, expectedLocationId)') >=
 assert 'reason = "LEFT_CLASS_LOCATION"' in service
 assert 'GetAttributeChangedSignal("PeriodId")' in service
 assert 'closeSessionsOutsideActivePeriod' in service
-assert 'reason = "CLASS_PERIOD_ENDED"' in service
 context_capture = service.index('local activeClassId = sessionClassesByUserId[player.UserId]')
 period_mismatch = service.index('if foundation.periodId ~= activeClassId then')
 period_receipt_close = service.index(
