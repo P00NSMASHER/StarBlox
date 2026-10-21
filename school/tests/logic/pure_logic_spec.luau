@@ -424,6 +424,7 @@ for index, stop in ipairs(courierRoute) do
     assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
     seenCourierActionLabels[stop.actionLabel] = true
 end
+assertEqual(CampusCourierActivity.MAX_FEEDBACK_LENGTH, 128, "courier feedback copy budget")
 assertEqual(publicCourier.title, "Campus Courier", "courier title")
 assertEqual(publicCourier.totalStops, 4, "courier stop count")
 assertEqual(publicCourier.remainingStops, 4, "courier initial remaining stops")
@@ -450,6 +451,10 @@ assertEqual(
     wrongCourierStop.feedback,
     "Next stop (0/4 stops complete): Pick up the campus delivery list in the Main Lobby.",
     "wrong stop feedback includes progress and objective"
+)
+assert(
+    #wrongCourierStop.feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+    "wrong-stop recovery must fit persistent mobile guidance"
 )
 
 for index = 1, CampusCourierActivity.MAX_UNIQUE_CHECK_INS + 2 do
@@ -519,6 +524,10 @@ assertEqual(
         CampusCourierActivity.REWARD_POINTS
     ),
     "courier completion feedback must match the reward contract"
+)
+assert(
+    #returnLobbyStop.feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+    "completion feedback must fit persistent mobile guidance"
 )
 assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
 

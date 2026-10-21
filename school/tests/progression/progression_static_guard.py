@@ -107,6 +107,7 @@ assert 'ProgressionReducer.toPublicSnapshot(state, player.UserId)' in service
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
 assert 'CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24' in courier
 assert 'CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80' in courier
+assert 'CampusCourierActivity.MAX_FEEDBACK_LENGTH = 128' in courier
 assert 'CampusCourierActivity.MIN_ROUTE_STOPS = 3' in courier
 assert 'CampusCourierActivity.MAX_ROUTE_STOPS = 6' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
@@ -144,6 +145,11 @@ assert len(courier_objectives) == 4
 assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)
 assert 'type(stop.objective) == "string" and stop.objective:match("%S")' in courier
 assert '#stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH' in courier
+feedback_guard = courier.index('and #feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH')
+response_freeze = courier.index('return table.freeze({', feedback_guard)
+assert feedback_guard < response_freeze, (
+    "all route responses must validate mobile feedback before exposure"
+)
 assert '#ROUTE >= CampusCourierActivity.MIN_ROUTE_STOPS' in courier
 assert '#ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS' in courier
 assert 'ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby"' in courier

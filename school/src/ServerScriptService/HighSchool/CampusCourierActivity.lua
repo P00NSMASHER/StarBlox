@@ -10,6 +10,7 @@ CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10
 CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24
 CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80
+CampusCourierActivity.MAX_FEEDBACK_LENGTH = 128
 CampusCourierActivity.MIN_ROUTE_STOPS = 3
 CampusCourierActivity.MAX_ROUTE_STOPS = 6
 
@@ -153,6 +154,13 @@ local function formatProgress(activity)
 end
 
 local function makeResponse(activity, accepted, reason, feedback)
+    assert(
+        type(feedback) == "string"
+            and feedback:match("%S")
+            and #feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+        "route feedback must fit persistent mobile guidance"
+    )
+
     local nextStop = ROUTE[activity.stepIndex]
     return table.freeze({
         accepted = accepted,
