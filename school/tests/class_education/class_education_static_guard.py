@@ -104,7 +104,7 @@ assert 'response = table.freeze({' in service
 assert 'classId = classId' in service
 assert 'expectedLocationId = expectedLocationId' in service
 close_start = service.index('local function closeSessionForUser(userId, transitionReason)')
-close_end = service.index('local function getRootPart(player)', close_start)
+close_end = service.index('local function getLocationMarker(locationId)', close_start)
 close_block = service[close_start:close_end]
 assert 'local currentFoundation = FoundationState.getSnapshot()' in close_block, (
     "period-end receipt must snapshot the authoritative destination at closure"
