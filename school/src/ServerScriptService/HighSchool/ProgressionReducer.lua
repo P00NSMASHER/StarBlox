@@ -194,16 +194,20 @@ function ProgressionReducer.toPublicSnapshot(state, playerId)
 
     local completedCount = 0
     local activityCompletedCount = 0
+    local classPoints = 0
+    local activityPoints = 0
     for _, record in pairs(normalized.completed) do
         local subject = reportCard[record.classId]
         if subject then
             completedCount += 1
             subject.completedCount += 1
             subject.points += POINTS_BY_COMPLETION_CLASS[record.classId]
+            classPoints += POINTS_BY_COMPLETION_CLASS[record.classId]
             subject.bestScore = math.max(subject.bestScore, record.score)
             subject.lastCompletedAt = math.max(subject.lastCompletedAt, record.completedAt)
         else
             activityCompletedCount += 1
+            activityPoints += POINTS_BY_COMPLETION_CLASS[record.classId]
         end
     end
 
@@ -217,6 +221,8 @@ function ProgressionReducer.toPublicSnapshot(state, playerId)
         points = normalized.points,
         completedCount = completedCount,
         activityCompletedCount = activityCompletedCount,
+        classPoints = classPoints,
+        activityPoints = activityPoints,
         reportCard = table.freeze(publicReportCard),
     })
 end

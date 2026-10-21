@@ -157,6 +157,9 @@ assert 'finishSession("Back to free roam.", false)' in client
 assert 'waitForProgressionAdvance' in client
 assert 'local function updateReportCard(reportCard)' in client
 assert 'updateReportCard(result.progression.reportCard)' in client
+assert '"%d pts • Class %d • Activity %d"' in client
+assert 'result.progression.classPoints or 0' in client
+assert 'result.progression.activityPoints or 0' in client
 assert 'type(reportCard) == "table" and reportCard[classId] or nil' in client
 assert 'tonumber(subject.completedCount)' in client
 assert 'tonumber(subject.points)' in client

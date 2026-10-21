@@ -386,6 +386,13 @@ assertEqual(futureVersionState.points, 9999, "future schema points must not be r
 local publicProgression = ProgressionReducer.toPublicSnapshot(stateB, 123)
 assertEqual(publicProgression.version, 2, "public progression version")
 assertEqual(publicProgression.points, 20, "public points")
+assertEqual(publicProgression.classPoints, 20, "public class points")
+assertEqual(publicProgression.activityPoints, 0, "public activity points")
+assertEqual(
+    publicProgression.points,
+    publicProgression.classPoints + publicProgression.activityPoints,
+    "public point breakdown"
+)
 assertEqual(publicProgression.completedCount, 2, "public completed count")
 assertEqual(publicProgression.reportCard.math.completedCount, 1, "math completed count")
 assertEqual(publicProgression.reportCard.math.points, 10, "math points")
@@ -654,6 +661,13 @@ assertEqual(duplicateCourierState.points, 25, "duplicate courier points")
 local publicCourierProgression = ProgressionReducer.toPublicSnapshot(courierState, 123)
 assertEqual(publicCourierProgression.completedCount, 2, "class completion count excludes activities")
 assertEqual(publicCourierProgression.activityCompletedCount, 1, "activity completion count")
+assertEqual(publicCourierProgression.classPoints, 20, "courier preserves class point subtotal")
+assertEqual(publicCourierProgression.activityPoints, 5, "courier activity point subtotal")
+assertEqual(
+    publicCourierProgression.points,
+    publicCourierProgression.classPoints + publicCourierProgression.activityPoints,
+    "courier point breakdown must reconcile to total"
+)
 assertEqual(publicCourierProgression.reportCard.math.completedCount, 1, "courier must not alter math")
 assertEqual(publicCourierProgression.reportCard.ela.completedCount, 1, "courier must not alter ELA")
 assertEqual(publicCourierProgression.reportCard.science.completedCount, 0, "courier must not alter science")

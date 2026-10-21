@@ -80,6 +80,14 @@ assert 'return state, false, "INVALID_COMPLETION"' in reducer
 assert 'reportCard = table.freeze(publicReportCard)' in reducer
 assert 'if subject then' in reducer, "activity completions must not index missing report-card subjects"
 assert 'activityCompletedCount = activityCompletedCount' in reducer
+assert 'classPoints = classPoints' in reducer
+assert 'activityPoints = activityPoints' in reducer
+class_points_pos = reducer.index('classPoints += POINTS_BY_COMPLETION_CLASS[record.classId]')
+activity_points_pos = reducer.index('activityPoints += POINTS_BY_COMPLETION_CLASS[record.classId]')
+public_class_points_pos = reducer.index('classPoints = classPoints', class_points_pos)
+public_activity_points_pos = reducer.index('activityPoints = activityPoints', activity_points_pos)
+assert class_points_pos < public_class_points_pos
+assert activity_points_pos < public_activity_points_pos
 for field in ("completedCount", "points", "bestScore", "lastCompletedAt"):
     assert f"{field} =" in reducer, f"report card missing {field}"
 assert 'completed = normalized.completed' not in reducer, "public snapshot must not expose receipt IDs"

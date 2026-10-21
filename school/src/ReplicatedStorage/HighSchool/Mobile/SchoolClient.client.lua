@@ -364,9 +364,10 @@ local function refreshProgression()
         lastCompletedCount = result.progression.completedCount or 0
         updateReportCard(result.progression.reportCard)
         progressionLabel.Text = string.format(
-            "Points: %d • Completed: %d",
+            "%d pts • Class %d • Activity %d",
             result.progression.points or 0,
-            lastCompletedCount
+            result.progression.classPoints or 0,
+            result.progression.activityPoints or 0
         )
         return true
     end
