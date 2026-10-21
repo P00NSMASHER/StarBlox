@@ -56,18 +56,38 @@ local completedOccurrencesByUserId = {}
 local sessionClassesByUserId = {}
 local sessionLocationsByUserId = {}
 local sessionOccurrencesByUserId = {}
+local transitionReceiptsByUserId = {}
 
-local function closeSessionForUser(userId)
+local function closeSessionForUser(userId, transitionReason)
     local sessionId = sessionsByUserId[userId]
     if not sessionId then
         return false
     end
 
+    local classId = sessionClassesByUserId[userId]
+    local expectedLocationId = sessionLocationsByUserId[userId]
     EducationCore.closeSession(sessionId)
     sessionsByUserId[userId] = nil
     sessionClassesByUserId[userId] = nil
     sessionLocationsByUserId[userId] = nil
     sessionOccurrencesByUserId[userId] = nil
+
+    if transitionReason == "CLASS_PERIOD_ENDED" then
+        local currentFoundation = FoundationState.getSnapshot()
+        transitionReceiptsByUserId[userId] = table.freeze({
+            sessionId = sessionId,
+            response = table.freeze({
+                accepted = false,
+                reason = transitionReason,
+                classId = classId,
+                expectedLocationId = expectedLocationId,
+                currentPeriodId = currentFoundation.periodId,
+                currentLocationId = currentFoundation.locationId,
+            }),
+        })
+    else
+        transitionReceiptsByUserId[userId] = nil
+    end
     return true
 end
 
@@ -98,13 +118,14 @@ local function closeSessionsOutsideActivePeriod()
 
     for _, userId in ipairs(userIds) do
         if sessionClassesByUserId[userId] ~= foundation.periodId then
-            closeSessionForUser(userId)
+            closeSessionForUser(userId, "CLASS_PERIOD_ENDED")
         end
     end
 end
 
 local function registerPlayer(player)
     player.CharacterAdded:Connect(function()
+        transitionReceiptsByUserId[player.UserId] = nil
         closeSessionForUser(player.UserId)
     end)
 end
@@ -172,6 +193,7 @@ beginClass.OnServerInvoke = function(player)
         return table.freeze({ ok = false, reason = err or "SESSION_START_FAILED" })
     end
 
+    transitionReceiptsByUserId[player.UserId] = nil
     sessionsByUserId[player.UserId] = sessionId
     sessionClassesByUserId[player.UserId] = foundation.periodId
     sessionLocationsByUserId[player.UserId] = expectedLocationId
@@ -189,6 +211,10 @@ end
 submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId)
     local activeSessionId = sessionsByUserId[player.UserId]
     if not activeSessionId or activeSessionId ~= sessionId then
+        local transitionReceipt = transitionReceiptsByUserId[player.UserId]
+        if transitionReceipt and transitionReceipt.sessionId == sessionId then
+            return transitionReceipt.response
+        end
         return table.freeze({ accepted = false, reason = "SESSION_NOT_ACTIVE" })
     end
 
@@ -196,13 +222,8 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
     local activeClassId = sessionClassesByUserId[player.UserId]
     local expectedLocationId = sessionLocationsByUserId[player.UserId]
     if foundation.periodId ~= activeClassId then
-        closeSessionForUser(player.UserId)
-        return table.freeze({
-            accepted = false,
-            reason = "CLASS_PERIOD_ENDED",
-            classId = activeClassId,
-            expectedLocationId = expectedLocationId,
-        })
+        closeSessionForUser(player.UserId, "CLASS_PERIOD_ENDED")
+        return transitionReceiptsByUserId[player.UserId].response
     end
 
     if foundation.locationId ~= expectedLocationId then
@@ -270,7 +291,16 @@ submitAnswer.OnServerInvoke = function(player, sessionId, submissionId, choiceId
 end
 
 leaveClass.OnServerInvoke = function(player)
-    local left = closeSessionForUser(player.UserId)
+    local transitionReason = nil
+    local activeClassId = sessionClassesByUserId[player.UserId]
+    if activeClassId then
+        local foundation = FoundationState.getSnapshot()
+        if activeClassId ~= foundation.periodId then
+            transitionReason = "CLASS_PERIOD_ENDED"
+        end
+    end
+
+    local left = closeSessionForUser(player.UserId, transitionReason)
     return table.freeze({ ok = true, left = left })
 end
 
@@ -283,4 +313,5 @@ end
 
 Players.PlayerRemoving:Connect(function(player)
     closeSessionForUser(player.UserId)
+    transitionReceiptsByUserId[player.UserId] = nil
 end)
