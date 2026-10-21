@@ -5,6 +5,14 @@ SchoolAudioTheme.CUE_CAPTIONS_REQUIRED = true
 SchoolAudioTheme.SAMPLE_RATE_HZ = 48000
 SchoolAudioTheme.PEAK_DB = -3
 SchoolAudioTheme.INTEGRATED_LUFS = -18
+SchoolAudioTheme.SOURCE_DELIVERY = table.freeze({
+    container = "WAV",
+    bitDepth = 24,
+    channelCount = 1,
+    sampleRateHz = SchoolAudioTheme.SAMPLE_RATE_HZ,
+    peakDb = SchoolAudioTheme.PEAK_DB,
+    integratedLufs = SchoolAudioTheme.INTEGRATED_LUFS,
+})
 SchoolAudioTheme.AMBIENCE_ROLLOFF_MODE = "InverseTapered"
 
 SchoolAudioTheme.MIX_POLICY = table.freeze({

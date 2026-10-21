@@ -316,6 +316,20 @@ assert "SAMPLE_RATE_HZ = 48000" in audio_theme
 assert "PEAK_DB = -3" in audio_theme
 assert "INTEGRATED_LUFS = -18" in audio_theme
 
+delivery_spec_match = re.search(
+    r"SchoolAudioTheme\.SOURCE_DELIVERY\s*=\s*table\.freeze\(\{(.*?)\}\)",
+    audio_theme,
+    re.DOTALL,
+)
+assert delivery_spec_match, "audio source-delivery specification missing"
+delivery_spec = delivery_spec_match.group(1)
+assert 'container = "WAV"' in delivery_spec, "production source must use a lossless WAV container"
+assert "bitDepth = 24" in delivery_spec, "production source must preserve 24-bit headroom"
+assert "channelCount = 1" in delivery_spec, "spatial campus sources must remain mono"
+assert "sampleRateHz = SchoolAudioTheme.SAMPLE_RATE_HZ" in delivery_spec
+assert "peakDb = SchoolAudioTheme.PEAK_DB" in delivery_spec
+assert "integratedLufs = SchoolAudioTheme.INTEGRATED_LUFS" in delivery_spec
+
 mix_policy_match = re.search(
     r"SchoolAudioTheme\.MIX_POLICY\s*=\s*table\.freeze\(\{(.*?)\}\)",
     audio_theme,
