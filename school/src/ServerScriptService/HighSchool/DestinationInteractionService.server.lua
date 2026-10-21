@@ -86,6 +86,15 @@ local function expireStaleCouriers()
             destinationVisited:FireClient(player, routeExpiredPayload())
         end
     end
+
+    for userId, courierInstanceId in pairs(discoveredCourierByUserId) do
+        local player = Players:GetPlayerByUserId(userId)
+        local currentCourierInstanceId = player and getCourierInstanceId(player) or nil
+        if currentCourierInstanceId and courierInstanceId ~= currentCourierInstanceId then
+            discoveredCourierByUserId[userId] = nil
+            destinationVisited:FireClient(player, routeExpiredPayload())
+        end
+    end
 end
 
 runtime:GetAttributeChangedSignal("DayIndex"):Connect(expireStaleCouriers)
@@ -259,8 +268,7 @@ local function checkIn(player, marker, location)
     destinationVisited:FireClient(player, payload)
 end
 
-for _, location in ipairs(FoundationConfig.LOCATIONS) do
-    local marker = registry:WaitForChild(location.id)
+local function connectDestinationPrompt(marker, location)
     local existing = marker:FindFirstChild("DestinationPrompt")
     if existing then
         existing:Destroy()
@@ -281,6 +289,18 @@ for _, location in ipairs(FoundationConfig.LOCATIONS) do
         checkIn(player, marker, location)
     end)
 end
+
+for _, location in ipairs(FoundationConfig.LOCATIONS) do
+    connectDestinationPrompt(registry:WaitForChild(location.id), location)
+end
+
+connectDestinationPrompt(
+    campus:WaitForChild(FoundationConfig.SPAWN_NAME),
+    table.freeze({
+        id = "entrance",
+        name = "Front Entrance",
+    })
+)
 
 Players.PlayerRemoving:Connect(function(player)
     activeCourierByUserId[player.UserId] = nil
