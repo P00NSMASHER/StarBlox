@@ -127,21 +127,21 @@ assert courier.count('locationId = "lobby"') == 2
 assert courier.count('progressLabel = formatProgress(activity)') == 2
 assert courier.count('remainingStops = getRemainingStops(activity)') == 2
 assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2
-for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
+for action_label in ("PICK UP", "STAMP", "DELIVER", "DROP OFF", "RETURN"):
     assert courier.count(f'actionLabel = "{action_label}"') == 1
 courier_action_labels = re.findall(r'actionLabel\s*=\s*"([^"]+)"', courier)
-assert len(courier_action_labels) == 4
-assert len(set(courier_action_labels)) == 4
+assert len(courier_action_labels) == 5
+assert len(set(courier_action_labels)) == 5
 assert all(
     len(label) <= 10 and re.fullmatch(r"[A-Z ]+", label)
     for label in courier_action_labels
 )
 courier_location_names = re.findall(r'locationName\s*=\s*"([^"]+)"', courier)
-assert len(courier_location_names) == 4
+assert len(courier_location_names) == 5
 assert all(name.strip() and len(name) <= 24 for name in courier_location_names)
 assert '#stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH' in courier
 courier_objectives = re.findall(r'objective\s*=\s*"([^"]+)"', courier)
-assert len(courier_objectives) == 4
+assert len(courier_objectives) == 5
 assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)
 assert 'type(stop.objective) == "string" and stop.objective:match("%S")' in courier
 assert '#stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH' in courier
