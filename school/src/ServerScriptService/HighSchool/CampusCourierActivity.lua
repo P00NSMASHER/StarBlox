@@ -8,7 +8,9 @@ CampusCourierActivity.MAX_CHECK_IN_ID_LENGTH = 64
 CampusCourierActivity.MAX_SCHEDULE_NAMESPACE_LENGTH = 64
 CampusCourierActivity.MAX_UNIQUE_CHECK_INS = 8
 CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10
+CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24
 CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80
+CampusCourierActivity.MAX_FEEDBACK_LENGTH = 128
 CampusCourierActivity.MIN_ROUTE_STOPS = 3
 CampusCourierActivity.MAX_ROUTE_STOPS = 6
 
@@ -20,16 +22,22 @@ local ROUTE = table.freeze({
         objective = "Pick up the campus delivery list in the Main Lobby.",
     }),
     table.freeze({
+        locationId = "entrance",
+        locationName = "Front Entrance",
+        actionLabel = "STAMP",
+        objective = "Stamp the route card at the Front Entrance welcome gate.",
+    }),
+    table.freeze({
         locationId = "cafeteria",
         locationName = "Cafeteria",
         actionLabel = "DELIVER",
         objective = "Deliver the lunch-count note to the Cafeteria.",
     }),
     table.freeze({
-        locationId = "science",
-        locationName = "Science Classroom",
+        locationId = "gym",
+        locationName = "Gym & Fitness",
         actionLabel = "DROP OFF",
-        objective = "Drop off the supply note in the Science Classroom.",
+        objective = "Drop off the practice roster at Gym & Fitness.",
     }),
     table.freeze({
         locationId = "lobby",
@@ -53,6 +61,10 @@ local interiorLocations = {}
 for index, stop in ipairs(ROUTE) do
     assert(type(stop.locationId) == "string" and stop.locationId:match("^[%w_%-]+$"), "route location id required")
     assert(type(stop.locationName) == "string" and stop.locationName:match("%S"), "route location name required")
+    assert(
+        #stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH,
+        "route location name exceeds mobile copy limit"
+    )
     if index > 1 then
         assert(ROUTE[index - 1].locationId ~= stop.locationId, "route cannot repeat adjacent stops")
     end
@@ -148,6 +160,12 @@ local function formatProgress(activity)
 end
 
 local function makeResponse(activity, accepted, reason, feedback)
+    assert(
+        type(feedback) == "string"
+            and feedback:match("%S")
+            and #feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+        "route feedback must fit persistent mobile guidance"
+    )
     local nextStop = ROUTE[activity.stepIndex]
     return table.freeze({
         accepted = accepted,
@@ -195,7 +213,7 @@ function CampusCourierActivity.getPublicState(activity)
     return table.freeze({
         id = CampusCourierActivity.ACTIVITY_ID,
         title = "Campus Courier",
-        description = "Follow a short four-stop delivery loop around Pip High.",
+        description = "Follow a short five-stop delivery loop through Pip High and its entrance.",
         completedStops = getCompletedStops(activity),
         remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
@@ -258,7 +276,11 @@ function CampusCourierActivity.checkIn(activity, checkInId, locationId)
             activity,
             true,
             nil,
-            "Route complete (" .. formatProgress(activity) .. " complete)! You earned 5 school points."
+            string.format(
+                "Route complete (%s complete)! You earned %d school points.",
+                formatProgress(activity),
+                CampusCourierActivity.REWARD_POINTS
+            )
         )
     else
         response = makeResponse(
