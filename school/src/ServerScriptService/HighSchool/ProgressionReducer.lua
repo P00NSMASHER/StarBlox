@@ -10,6 +10,22 @@ local ProgressionReducer = {}
 ProgressionReducer.VERSION = 2
 ProgressionReducer.POINTS_PER_COMPLETION = 10
 ProgressionReducer.ACTIVITY_POINTS = 5
+ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH = 128
+
+local function assertStoredVersionSupported(state)
+    if type(state) ~= "table" or state.version == nil then
+        return
+    end
+
+    local version = state.version
+    if type(version) ~= "number"
+        or version < 1
+        or version % 1 ~= 0
+        or version > ProgressionReducer.VERSION
+    then
+        error("UNSUPPORTED_PROGRESSION_VERSION", 3)
+    end
+end
 
 local CLASS_IDS = table.freeze({ "math", "ela", "science" })
 local POINTS_BY_COMPLETION_CLASS = table.freeze({
@@ -19,8 +35,14 @@ local POINTS_BY_COMPLETION_CLASS = table.freeze({
     [CampusCourierActivity.COMPLETION_CLASS_ID] = ProgressionReducer.ACTIVITY_POINTS,
 })
 
-local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
+local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner, requireCanonicalTypes)
     if type(record) ~= "table" or not POINTS_BY_COMPLETION_CLASS[record.classId] then
+        return nil
+    end
+
+    if requireCanonicalTypes
+        and (type(record.score) ~= "number" or type(record.completedAt) ~= "number")
+    then
         return nil
     end
 
@@ -59,6 +81,11 @@ local function normalizeCompletionRecord(record, expectedPlayerId, attachOwner)
     }
 end
 
+local function isLegacyCompletionIdValid(completionId)
+    return #completionId <= ProgressionReducer.LEGACY_COMPLETION_ID_MAX_LENGTH
+        and completionId:match("^[%w_%-]+$") ~= nil
+end
+
 local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId)
     if type(completionId) ~= "string" or completionId == "" then
         return false
@@ -72,6 +99,7 @@ local function isStoredCompletionIdValid(completionId, expectedPlayerId, classId
     -- migration, but never reinterpret another namespaced reward as a class receipt.
     if not completionId:match("^player:") then
         return completionId:find(":", 1, true) == nil
+            and isLegacyCompletionIdValid(completionId)
     end
 
     return CompletionGate.isCompletionIdFor(completionId, expectedPlayerId, classId)
@@ -81,7 +109,7 @@ local function copyCompleted(source, expectedPlayerId)
     local copy = {}
     if type(source) == "table" then
         for completionId, record in pairs(source) do
-            local normalizedRecord = normalizeCompletionRecord(record, expectedPlayerId, true)
+            local normalizedRecord = normalizeCompletionRecord(record, expectedPlayerId, true, false)
             if normalizedRecord
                 and isStoredCompletionIdValid(
                     completionId,
@@ -105,6 +133,7 @@ local function pointsFromCompleted(completed)
 end
 
 function ProgressionReducer.normalize(state, expectedPlayerId)
+    assertStoredVersionSupported(state)
     state = state or {}
     local completed = copyCompleted(state.completed, expectedPlayerId)
     return {
@@ -140,7 +169,7 @@ function ProgressionReducer.applyCompletion(currentState, completion)
         return state, false, "DUPLICATE_COMPLETION"
     end
 
-    local record = normalizeCompletionRecord(completion, completion.playerId, true)
+    local record = normalizeCompletionRecord(completion, completion.playerId, true, true)
     if not record then
         return state, false, "INVALID_COMPLETION"
     end
@@ -165,16 +194,20 @@ function ProgressionReducer.toPublicSnapshot(state, playerId)
 
     local completedCount = 0
     local activityCompletedCount = 0
+    local classPoints = 0
+    local activityPoints = 0
     for _, record in pairs(normalized.completed) do
         local subject = reportCard[record.classId]
         if subject then
             completedCount += 1
             subject.completedCount += 1
             subject.points += POINTS_BY_COMPLETION_CLASS[record.classId]
+            classPoints += POINTS_BY_COMPLETION_CLASS[record.classId]
             subject.bestScore = math.max(subject.bestScore, record.score)
             subject.lastCompletedAt = math.max(subject.lastCompletedAt, record.completedAt)
         else
             activityCompletedCount += 1
+            activityPoints += POINTS_BY_COMPLETION_CLASS[record.classId]
         end
     end
 
@@ -188,6 +221,8 @@ function ProgressionReducer.toPublicSnapshot(state, playerId)
         points = normalized.points,
         completedCount = completedCount,
         activityCompletedCount = activityCompletedCount,
+        classPoints = classPoints,
+        activityPoints = activityPoints,
         reportCard = table.freeze(publicReportCard),
     })
 end
