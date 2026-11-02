@@ -105,7 +105,9 @@ assert 'ProgressionReducer.toPublicSnapshot(state, player.UserId)' in service
 
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
+assert 'CampusCourierActivity.MAX_LOCATION_NAME_LENGTH = 24' in courier
 assert 'CampusCourierActivity.MAX_OBJECTIVE_LENGTH = 80' in courier
+assert 'CampusCourierActivity.MAX_FEEDBACK_LENGTH = 128' in courier
 assert 'CampusCourierActivity.MIN_ROUTE_STOPS = 3' in courier
 assert 'CampusCourierActivity.MAX_ROUTE_STOPS = 6' in courier
 assert 'CampusCourierActivity.COMPLETION_CLASS_ID = "activity:campus_courier"' in courier
@@ -134,17 +136,39 @@ assert all(
     len(label) <= 10 and re.fullmatch(r"[A-Z ]+", label)
     for label in courier_action_labels
 )
+courier_location_names = re.findall(r'locationName\s*=\s*"([^"]+)"', courier)
+assert len(courier_location_names) == 4
+assert all(name.strip() and len(name) <= 24 for name in courier_location_names)
+assert '#stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH' in courier
 courier_objectives = re.findall(r'objective\s*=\s*"([^"]+)"', courier)
 assert len(courier_objectives) == 4
 assert all(objective.strip() and len(objective) <= 80 for objective in courier_objectives)
 assert 'type(stop.objective) == "string" and stop.objective:match("%S")' in courier
 assert '#stop.objective <= CampusCourierActivity.MAX_OBJECTIVE_LENGTH' in courier
+feedback_guard = courier.index('and #feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH')
+response_freeze = courier.index('return table.freeze({', feedback_guard)
+assert feedback_guard < response_freeze, (
+    "all route responses must validate mobile feedback before exposure"
+)
 assert '#ROUTE >= CampusCourierActivity.MIN_ROUTE_STOPS' in courier
 assert '#ROUTE <= CampusCourierActivity.MAX_ROUTE_STOPS' in courier
 assert 'ROUTE[1].locationId == "lobby" and ROUTE[#ROUTE].locationId == "lobby"' in courier
 assert 'ROUTE[index - 1].locationId ~= stop.locationId' in courier
 assert 'route interior stops must be unique' in courier
-assert '"Route complete (" .. formatProgress(activity) .. " complete)!' in courier
+reward_feedback = courier.index(
+    '"Route complete (%s complete)! You earned %d school points."'
+)
+reward_progress_arg = courier.index("formatProgress(activity)", reward_feedback)
+reward_points_arg = courier.index(
+    "CampusCourierActivity.REWARD_POINTS",
+    reward_progress_arg,
+)
+assert reward_feedback < reward_progress_arg < reward_points_arg, (
+    "completion feedback must derive progress and awarded points from authoritative contracts"
+)
+assert '"You earned 5 school points."' not in courier, (
+    "player-facing reward feedback must not hardcode the current balance"
+)
 cache_pos = courier.index('local cached = activity.receipts[checkInId]')
 closed_pos = courier.index('if activity.closed or activity.resolved then')
 assert cache_pos < closed_pos, "resolved retries must return the cached completion receipt"

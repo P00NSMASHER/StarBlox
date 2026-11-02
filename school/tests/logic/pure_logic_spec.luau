@@ -393,6 +393,10 @@ for index, stop in ipairs(courierRoute) do
         type(stop.locationName) == "string" and stop.locationName:match("%S") ~= nil,
         "courier location name must be nonblank"
     )
+    assert(
+        #stop.locationName <= CampusCourierActivity.MAX_LOCATION_NAME_LENGTH,
+        "courier destination name must fit persistent mobile guidance"
+    )
     if index > 1 then
         assert(
             courierRoute[index - 1].locationId ~= stop.locationId,
@@ -420,6 +424,7 @@ for index, stop in ipairs(courierRoute) do
     assert(not seenCourierActionLabels[stop.actionLabel], "courier action labels must be unique")
     seenCourierActionLabels[stop.actionLabel] = true
 end
+assertEqual(CampusCourierActivity.MAX_FEEDBACK_LENGTH, 128, "courier feedback copy budget")
 assertEqual(publicCourier.title, "Campus Courier", "courier title")
 assertEqual(publicCourier.totalStops, 4, "courier stop count")
 assertEqual(publicCourier.remainingStops, 4, "courier initial remaining stops")
@@ -427,6 +432,11 @@ assertEqual(publicCourier.nextLocationId, "lobby", "courier first stop")
 assertEqual(publicCourier.nextLocationName, "Main Lobby", "courier first stop name")
 assertEqual(publicCourier.nextActionLabel, "PICK UP", "courier first action")
 assertEqual(publicCourier.rewardPoints, 5, "courier advertised reward")
+assertEqual(
+    CampusCourierActivity.REWARD_POINTS,
+    ProgressionReducer.ACTIVITY_POINTS,
+    "courier activity and durable progression reward contract"
+)
 assertEqual(publicCourier.progressLabel, "0/4 stops", "courier initial progress")
 
 local wrongCourierStop = CampusCourierActivity.checkIn(courier, "courier-wrong", "science")
@@ -441,6 +451,10 @@ assertEqual(
     wrongCourierStop.feedback,
     "Next stop (0/4 stops complete): Pick up the campus delivery list in the Main Lobby.",
     "wrong stop feedback includes progress and objective"
+)
+assert(
+    #wrongCourierStop.feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+    "wrong-stop recovery must fit persistent mobile guidance"
 )
 
 for index = 1, CampusCourierActivity.MAX_UNIQUE_CHECK_INS + 2 do
@@ -505,8 +519,15 @@ assertEqual(returnLobbyStop.nextLocationName, nil, "completed courier has no nex
 assertEqual(returnLobbyStop.nextActionLabel, nil, "completed courier clears next action")
 assertEqual(
     returnLobbyStop.feedback,
-    "Route complete (4/4 stops complete)! You earned 5 school points.",
-    "courier completion feedback"
+    string.format(
+        "Route complete (4/4 stops complete)! You earned %d school points.",
+        CampusCourierActivity.REWARD_POINTS
+    ),
+    "courier completion feedback must match the reward contract"
+)
+assert(
+    #returnLobbyStop.feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
+    "completion feedback must fit persistent mobile guidance"
 )
 assertEqual(CampusCourierActivity.isOwnedBy(courier, 123), false, "resolved courier ownership")
 

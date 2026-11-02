@@ -52,6 +52,7 @@ local displaySequence = 0
 local activeRouteText = nil
 local COURIER_ACTIVITY_ID = "campus_courier"
 local MAX_COURIER_STOPS = 6
+local MAX_COURIER_REWARD_POINTS = 10
 
 local function formatRemainingStops(count)
     return string.format("%d %s left", count, count == 1 and "stop" or "stops")
@@ -76,11 +77,18 @@ local function applyCourierState(payload)
         and payload.remainingStops >= 1
         and payload.remainingStops % 1 == 0
         and payload.remainingStops <= MAX_COURIER_STOPS
+        and type(payload.availableRewardPoints) == "number"
+        and payload.availableRewardPoints >= 1
+        and payload.availableRewardPoints % 1 == 0
+        and payload.availableRewardPoints <= MAX_COURIER_REWARD_POINTS
     then
         activeRouteText = "Campus Courier • "
             .. formatRemainingStops(payload.remainingStops)
             .. " • "
             .. payload.nextActionLabel
+            .. " • "
+            .. tostring(payload.availableRewardPoints)
+            .. " pts"
             .. "\n"
             .. payload.objective
     end
