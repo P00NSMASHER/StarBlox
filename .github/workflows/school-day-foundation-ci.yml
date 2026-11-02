@@ -1,0 +1,63 @@
+name: School Day Foundation CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pipsquest/src/client/SchoolDay*.luau'
+      - 'pipsquest/src/server/SchoolDay*.luau'
+      - 'pipsquest/src/shared/SchoolDay*.luau'
+      - 'pipsquest/tests/SchoolDay*.spec.luau'
+      - 'scripts/verify-school-day-*.mjs'
+      - '.github/workflows/school-day-foundation-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'pipsquest/src/client/SchoolDay*.luau'
+      - 'pipsquest/src/server/SchoolDay*.luau'
+      - 'pipsquest/src/shared/SchoolDay*.luau'
+      - 'pipsquest/tests/SchoolDay*.spec.luau'
+      - 'scripts/verify-school-day-*.mjs'
+      - '.github/workflows/school-day-foundation-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: school-day-source-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verified-source-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Check out exact candidate without credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Set up pinned Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.23.4'
+      - name: Verify every deterministic school-day model and source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/verify-school-day-state-machine.mjs
+          node scripts/verify-school-day-coordinator.mjs
+          node scripts/verify-school-day-transition-journal.mjs
+          node scripts/verify-school-day-replica.mjs
+          node scripts/verify-school-day-sync-controller.mjs
+      - name: Maintain honest engine acceptance boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f pipsquest/tests/SchoolDayStateMachine.spec.luau
+          test -f pipsquest/tests/SchoolDayCoordinator.spec.luau
+          test -f pipsquest/tests/SchoolDayTransitionJournal.spec.luau
+          test -f pipsquest/tests/SchoolDayReplica.spec.luau
+          test -f pipsquest/tests/SchoolDaySyncController.spec.luau
+          echo 'Source and deterministic JS/model checks only; native Roblox Studio/TestEZ and mobile device behavior are NOT certified.'
