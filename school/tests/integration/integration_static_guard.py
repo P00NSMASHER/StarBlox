@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +22,7 @@ client = (client_root / "Mobile/SchoolClient.client.lua").read_text(encoding="ut
 destination_service = (server_root / "DestinationInteractionService.server.lua").read_text(encoding="utf-8")
 destination_feedback = (client_root / "Mobile/DestinationFeedback.client.lua").read_text(encoding="utf-8")
 courier = (server_root / "CampusCourierActivity.lua").read_text(encoding="utf-8")
+route_layout = (client_root / "CampusRouteLayout.lua").read_text(encoding="utf-8")
 
 assert len(list((ROOT / "src").rglob("SchoolClockService.server.lua"))) == 1
 assert len(list((ROOT / "src").rglob("ClassSessionService.server.lua"))) == 1
@@ -43,6 +45,10 @@ assert 'WaitForChild("DestinationFeedback")' in bootstrap
 
 assert 'for _, location in ipairs(FoundationConfig.LOCATIONS)' in destination_service
 assert 'registry:WaitForChild(location.id)' in destination_service
+assert 'local function connectDestinationPrompt(marker, location)' in destination_service
+assert 'campus:WaitForChild(FoundationConfig.SPAWN_NAME)' in destination_service
+assert 'id = "entrance"' in destination_service
+assert 'name = "Front Entrance"' in destination_service
 assert 'prompt.ActionText = "Check In"' in destination_service
 assert 'prompt.HoldDuration = 0' in destination_service
 assert 'prompt.MaxActivationDistance = 12' in destination_service
@@ -138,6 +144,43 @@ day_signal = destination_service.index(
 assert expiry_start < expiry_lookup < expiry_identity < expiry_close < expiry_clear < expiry_notify < day_signal, (
     "day rollover must close and clear stale routes before notifying the client"
 )
+discovery_expiry_loop = destination_service.index(
+    "for userId, courierInstanceId in pairs(discoveredCourierByUserId) do",
+    expiry_notify,
+)
+discovery_expiry_lookup = destination_service.index(
+    "Players:GetPlayerByUserId(userId)",
+    discovery_expiry_loop,
+)
+discovery_expiry_current = destination_service.index(
+    "local currentCourierInstanceId = player and getCourierInstanceId(player) or nil",
+    discovery_expiry_loop,
+)
+discovery_expiry_check = destination_service.index(
+    "if currentCourierInstanceId and courierInstanceId ~= currentCourierInstanceId then",
+    discovery_expiry_loop,
+)
+discovery_expiry_clear = destination_service.index(
+    "discoveredCourierByUserId[userId] = nil",
+    discovery_expiry_loop,
+)
+discovery_expiry_notify = destination_service.index(
+    "destinationVisited:FireClient(player, routeExpiredPayload())",
+    discovery_expiry_loop,
+)
+assert (
+    expiry_notify
+    < discovery_expiry_loop
+    < discovery_expiry_lookup
+    < discovery_expiry_current
+    < discovery_expiry_check
+    < discovery_expiry_clear
+    < discovery_expiry_notify
+    < day_signal
+), "day rollover must clear and notify discovery-only courier guidance"
+assert destination_service.count(
+    "destinationVisited:FireClient(player, routeExpiredPayload())"
+) == 2, "active and discovery-only rollover paths must both notify mobile guidance"
 assert 'completedCourierByUserId[player.UserId] = courier.activityInstanceId' in destination_service
 assert 'classCompleted:Fire(completion)' in destination_service
 assert 'activeCourierByUserId[player.UserId] = nil' in destination_service
@@ -205,13 +248,6 @@ assert 'type(payload.nextActionLabel) == "string"' in destination_feedback
 assert 'type(payload.remainingStops) == "number"' in destination_feedback
 assert 'payload.remainingStops % 1 == 0' in destination_feedback
 assert 'payload.remainingStops <= MAX_COURIER_STOPS' in destination_feedback
-assert 'local MAX_COURIER_REWARD_POINTS = 10' in destination_feedback
-assert 'type(payload.availableRewardPoints) == "number"' in destination_feedback
-assert 'payload.availableRewardPoints >= 1' in destination_feedback
-assert 'payload.availableRewardPoints % 1 == 0' in destination_feedback
-assert 'payload.availableRewardPoints <= MAX_COURIER_REWARD_POINTS' in destination_feedback
-assert '.. tostring(payload.availableRewardPoints)' in destination_feedback
-assert '.. " pts"' in destination_feedback
 assert 'local function formatRemainingStops(count)' in destination_feedback
 assert '.. formatRemainingStops(payload.remainingStops)' in destination_feedback
 assert 'activeRouteText = "Campus Courier • "' in destination_feedback
@@ -221,18 +257,40 @@ assert 'task.delay(2.5' in destination_feedback
 assert 'getDestinationState:InvokeServer()' in destination_feedback
 assert 'displaySequence ~= sequenceAtRequest' in destination_feedback
 assert destination_feedback.count("InvokeServer") == 1
+assert 'local MAX_COURIER_REWARD_POINTS = 10' in destination_feedback
+assert 'type(payload.availableRewardPoints) == "number"' in destination_feedback
+assert 'payload.availableRewardPoints >= 1' in destination_feedback
+assert 'payload.availableRewardPoints % 1 == 0' in destination_feedback
+assert 'payload.availableRewardPoints <= MAX_COURIER_REWARD_POINTS' in destination_feedback
+assert '.. tostring(payload.availableRewardPoints)' in destination_feedback
+assert '.. " pts"' in destination_feedback
 for forbidden in ("FireServer", "DataStoreService", "SetAsync", "UpdateAsync"):
     assert forbidden not in destination_feedback, f"destination feedback contains forbidden authority: {forbidden}"
 
 assert 'CampusCourierActivity.REWARD_POINTS = 5' in courier
-assert 'description = "Follow a short four-stop delivery loop around Pip High."' in courier
+assert 'description = "Follow a short five-stop delivery loop through Pip High and its entrance."' in courier
 assert courier.count('locationId = "lobby"') == 2
 assert 'objective = "Return the signed delivery sheet to the Main Lobby."' in courier
+courier_location_ids = re.findall(r'locationId\s*=\s*"([^"]+)"', courier)
+campus_edges = {
+    frozenset((origin, destination))
+    for origin, destination in re.findall(
+        r'fromId\s*=\s*"([^"]+)",\s*toId\s*=\s*"([^"]+)"',
+        route_layout,
+    )
+}
+assert courier_location_ids == ["lobby", "entrance", "cafeteria", "gym", "lobby"], (
+    "courier route must use the reviewed connected-campus loop"
+)
+assert all(
+    frozenset((origin, destination)) in campus_edges
+    for origin, destination in zip(courier_location_ids, courier_location_ids[1:])
+), "every courier leg must follow a directly marked campus route"
 assert 'progressLabel = formatProgress(activity)' in courier
 assert courier.count('remainingStops = getRemainingStops(activity)') == 2
 assert courier.count('nextActionLabel = nextStop and nextStop.actionLabel or nil') == 2
 assert 'CampusCourierActivity.MAX_ACTION_LABEL_LENGTH = 10' in courier
-for action_label in ("PICK UP", "DELIVER", "DROP OFF", "RETURN"):
+for action_label in ("PICK UP", "STAMP", "DELIVER", "DROP OFF", "RETURN"):
     assert courier.count(f'actionLabel = "{action_label}"') == 1
 assert 'function CampusCourierActivity.getDailyInstanceId(playerId, scheduleNamespace, dayIndex)' in courier
 assert '"player:%d:schedule:%s:day:%d:%s"' in courier
