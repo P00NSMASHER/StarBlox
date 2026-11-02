@@ -22,16 +22,22 @@ local ROUTE = table.freeze({
         objective = "Pick up the campus delivery list in the Main Lobby.",
     }),
     table.freeze({
+        locationId = "entrance",
+        locationName = "Front Entrance",
+        actionLabel = "STAMP",
+        objective = "Stamp the route card at the Front Entrance welcome gate.",
+    }),
+    table.freeze({
         locationId = "cafeteria",
         locationName = "Cafeteria",
         actionLabel = "DELIVER",
         objective = "Deliver the lunch-count note to the Cafeteria.",
     }),
     table.freeze({
-        locationId = "science",
-        locationName = "Science Classroom",
+        locationId = "gym",
+        locationName = "Gym & Fitness",
         actionLabel = "DROP OFF",
-        objective = "Drop off the supply note in the Science Classroom.",
+        objective = "Drop off the practice roster at Gym & Fitness.",
     }),
     table.freeze({
         locationId = "lobby",
@@ -160,7 +166,6 @@ local function makeResponse(activity, accepted, reason, feedback)
             and #feedback <= CampusCourierActivity.MAX_FEEDBACK_LENGTH,
         "route feedback must fit persistent mobile guidance"
     )
-
     local nextStop = ROUTE[activity.stepIndex]
     return table.freeze({
         accepted = accepted,
@@ -208,7 +213,7 @@ function CampusCourierActivity.getPublicState(activity)
     return table.freeze({
         id = CampusCourierActivity.ACTIVITY_ID,
         title = "Campus Courier",
-        description = "Follow a short four-stop delivery loop around Pip High.",
+        description = "Follow a short five-stop delivery loop through Pip High and its entrance.",
         completedStops = getCompletedStops(activity),
         remainingStops = getRemainingStops(activity),
         totalStops = #ROUTE,
