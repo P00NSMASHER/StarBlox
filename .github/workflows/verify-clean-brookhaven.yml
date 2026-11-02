@@ -1,86 +1,20 @@
-name: Verify Clean Brookhaven Baseline
+# Retired StarBlox Roblox workflow (historical source preserved in Git).
+# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.
+name: Retired Roblox audit - verify-clean-brookhaven.yml
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/verify-clean-brookhaven.yml"
 
 permissions:
   contents: read
 
 jobs:
-  verify:
+  retirement-status:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 2
     steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - name: Verify published v50 StarterGui runtime and vehicles
-        env:
-          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
-          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
-          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+      - name: Confirm retired route remains inert
         shell: bash
         run: |
-          node <<'NODE'
-          const key=process.env.ROBLOX_OPEN_CLOUD_API_KEY;
-          const universe=process.env.ROBLOX_UNIVERSE_ID;
-          const place=process.env.ROBLOX_PLACE_ID;
-          async function parse(r,label){
-            const text=await r.text(); let payload={};
-            try{payload=text?JSON.parse(text):{};}catch{throw new Error(label+" non-JSON "+r.status);}
-            if(!r.ok) throw new Error(label+" "+r.status+" "+JSON.stringify(payload).slice(0,1600));
-            return payload;
-          }
-          const script=[
-            'assert(game.PlaceVersion==50,"expected version 50")',
-            'local W=game:GetService("Workspace")',
-            'local SG=game:GetService("StarterGui")',
-            'local SS=game:GetService("ServerScriptService")',
-            'local RS=game:GetService("ReplicatedStorage")',
-            'local descendants=#W:GetDescendants()',
-            'assert(descendants==24348,"workspace descendants changed "..tostring(descendants))',
-            'local geometry=0',
-            'for _,x in ipairs(W:GetDescendants()) do local c=x.ClassName; if c=="Part" or c=="MeshPart" or c=="WedgePart" or c=="CornerWedgePart" or c=="UnionOperation" or c=="TrussPart" or c=="Seat" or c=="VehicleSeat" then geometry+=1 end end',
-            'assert(geometry==14459,"geometry changed "..tostring(geometry))',
-            'local client=SG:FindFirstChild("BrookhavenCompat")',
-            'assert(client and client:IsA("LocalScript"),"StarterGui BrookhavenCompat missing")',
-            'assert(client.Disabled==false,"StarterGui BrookhavenCompat disabled")',
-            'assert(string.find(client.Source,"STARBLOX_AVATAR_SHOP_CLIENT_READY",1,true),"avatar shop marker missing")',
-            'assert(string.find(client.Source,"STARBLOX_VEHICLE_CLIENT_READY",1,true),"vehicle client marker missing")',
-            'assert(string.find(client.Source,"STUDY FOR COINS",1,true),"study shop UI missing")',
-            'assert(string.find(client.Source,"StarBloxVehicleCompat",1,true),"vehicle remote client missing")',
-            'local server=SS:FindFirstChild("BrookhavenHouseCompat")',
-            'assert(server and server:IsA("Script"),"server compat missing")',
-            'assert(string.find(server.Source,"STARBLOX_VEHICLE_COMPAT_READY",1,true),"vehicle server marker missing")',
-            'assert(string.find(server.Source,"StarBloxVehicleCompat",1,true),"vehicle remote server missing")',
-            'assert(string.find(server.Source,"STARBLOX_LEARNING_ECONOMY_READY",1,true),"economy missing")',
-            'local backup=RS:FindFirstChild("003_CarBackup")',
-            'assert(backup and #backup:GetChildren()==16,"expected 16 car templates")',
-            'local menu=SG.MainGUIHandler.MainVehicleMenu.Catalog.Container.ScrollingFrame',
-            'local motor=0',
-            'for _,x in ipairs(menu:GetChildren()) do if x:IsA("GuiButton") and backup:FindFirstChild(x.Name) then motor+=1 end end',
-            'assert(motor==16,"vehicle menu/template mismatch "..tostring(motor))',
-            'local lots=W:FindFirstChild("001_Lots"); local buyLots=0; local preloaded=0',
-            'for _,lot in ipairs(lots:GetChildren()) do local buy=lot:FindFirstChild("BuyHouse",true); if buy and buy:IsA("BasePart") then buyLots+=1; local h=lot:FindFirstChild("HousePickedByPlayer"); if h and h:IsA("Model") then preloaded+=1 end end end',
-            'assert(buyLots==19 and preloaded==5,"house baseline changed")',
-            'print("STARBLOX_V50_STRUCTURE_OK version="..tostring(game.PlaceVersion).." descendants="..tostring(descendants).." geometry="..tostring(geometry).." motorTemplates="..tostring(motor).." preloaded="..tostring(preloaded))'
-          ].join("\n");
-          let response;
-          for(let attempt=0;attempt<8;attempt++){
-            response=await fetch(`https://apis.roblox.com/cloud/v2/universes/${universe}/places/${place}/luau-execution-session-tasks`,{method:"POST",headers:{"x-api-key":key,"content-type":"application/json"},body:JSON.stringify({script,timeout:"30s"})});
-            if(response.status!==429 && response.status!==500) break;
-            await new Promise(r=>setTimeout(r,2500*(attempt+1)));
-          }
-          let task=await parse(response,"create");
-          const raw=String(task.path||""),url="https://apis.roblox.com/cloud/v2/"+raw.replace(/^https:\/\/apis\.roblox\.com\/cloud\/v2\//,"").replace(/^\/?cloud\/v2\//,"").replace(/^\//,"");
-          while(String(task.state||"")==="PROCESSING"){await new Promise(r=>setTimeout(r,1000));task=await parse(await fetch(url,{headers:{"x-api-key":key}}),"status");}
-          const logs=await parse(await fetch(url+"/logs",{headers:{"x-api-key":key}}),"logs");
-          const text=JSON.stringify(logs);
-          if(task.error||/FAIL|ERROR|CANCEL/i.test(String(task.state||""))) throw new Error("task failed "+JSON.stringify(task).slice(0,1800));
-          if(!text.includes("STARBLOX_V50_STRUCTURE_OK")) throw new Error("v50 sentinel missing");
-          console.log(text);
-          NODE
+          printf '%s\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-clean-brookhaven.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'
