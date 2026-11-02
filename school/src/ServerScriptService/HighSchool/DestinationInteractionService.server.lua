@@ -107,6 +107,7 @@ local function courierStatePayload(courier)
         nextLocationName = state.nextLocationName,
         nextActionLabel = state.nextActionLabel,
         objective = state.objective,
+        availableRewardPoints = state.rewardPoints,
         rewardPoints = state.rewardPoints,
     })
 end
@@ -124,6 +125,7 @@ local function courierStartCue()
         nextLocationName = firstStop.locationName,
         nextActionLabel = firstStop.actionLabel,
         objective = firstStop.objective,
+        availableRewardPoints = CampusCourierActivity.REWARD_POINTS,
         rewardPoints = 0,
     })
 end
@@ -168,6 +170,7 @@ local function visitPayload(location, message, courierResponse)
         nextLocationName = courierResponse and courierResponse.nextLocationName or nil,
         nextActionLabel = courierResponse and courierResponse.nextActionLabel or nil,
         objective = courierResponse and courierResponse.objective or nil,
+        availableRewardPoints = courierResponse and CampusCourierActivity.REWARD_POINTS or 0,
         rewardPoints = courierResponse and courierResponse.rewardPoints or 0,
     })
 end
