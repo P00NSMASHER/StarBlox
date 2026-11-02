@@ -112,6 +112,15 @@ assert close_index < show_index, "Grades overlay must close before activity cont
 assert client.count('Color3.fromRGB(20, 38, 67)') >= 2, "compact menu needs accessible navy surfaces"
 assert client.count('Color3.fromRGB(255, 255, 255)') >= 2, "compact menu needs high-contrast text"
 assert '0, 44' in client, "touch targets must be at least 44px high"
+make_button_match = re.search(
+    r'local function makeButton\(parent, name, text\)(.*?)\nend',
+    client,
+    re.DOTALL,
+)
+assert make_button_match, "shared action-button builder missing"
+make_button_block = make_button_match.group(1)
+assert 'button.BackgroundColor3 = Color3.fromRGB(20, 38, 67)' in make_button_block
+assert 'button.TextColor3 = Color3.fromRGB(255, 255, 255)' in make_button_block
 assert 'local choicesLayout = Instance.new("UIGridLayout")' in client
 assert 'choicesLayout.CellSize = UDim2.new(0.5, -3, 0, 56)' in client
 assert 'choicesLayout.CellPadding = UDim2.fromOffset(6, 4)' in client
@@ -158,7 +167,17 @@ assert 'Progress is still saving.' in client
 assert 'local function answerFailureMessage(response, invokeError)' in client
 assert 'Could not submit answer. Check your connection and try again.' in client
 assert 'Class ended. Back to free roam.' in client
+assert 'if reason == "CLASS_PERIOD_ENDED" then' in client
+assert 'local endedClassName = CLASS_NAMES[response.classId] or "Class"' in client
+assert 'local endedLocationName = locationDisplayName(response.expectedLocationId or response.classId)' in client
+assert 'return endedClassName .. " ended at " .. endedLocationName .. ". Check Up next."' in client
 assert 'local expectedLocationName = locationDisplayName(response.expectedLocationId)' in client
+longest_transition_message = (
+    "Language Arts ended at Language Arts Classroom. Check Up next."
+)
+assert len(longest_transition_message) <= 80, (
+    "period-transition feedback must fit the reviewed two-line mobile status budget"
+)
 assert 'You left " .. expectedLocationName .. distanceHint(response) .. ". Back to free roam.' in client
 assert 'Classroom directions changed. Go to " .. expectedLocationName' in client
 assert 'That answer could not be sent. Try again.' in client
@@ -186,6 +205,20 @@ assert 'local classIsAvailable = CLASS_PERIODS[periodId] == true' in client
 assert 'local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil' in client
 assert 'attendButton.Active = canAttend' in client
 assert 'attendButton.AutoButtonColor = canAttend' in client
+assert 'attendButton.BackgroundTransparency = canAttend and 0 or 0.35' in client
+assert 'local canLeave = currentSessionId ~= nil and leaveClass ~= nil' in client
+assert 'leaveButton.Active = canLeave' in client
+assert 'leaveButton.AutoButtonColor = canLeave' in client
+assert 'leaveButton.BackgroundTransparency = canLeave and 0 or 0.35' in client
+assert 'leaveButton.Text = "Connecting…"' in client
+assert 'leaveButton.Text = "Leave Class"' in client
+assert 'leaveButton.Text = "Free Roam"' in client
+leave_handler_index = client.index('leaveButton.Activated:Connect(function()')
+leave_guard_index = client.index('if not currentSessionId then', leave_handler_index)
+leave_invoke_index = client.index('safeInvoke(leaveClass)', leave_handler_index)
+assert leave_handler_index < leave_guard_index < leave_invoke_index, (
+    "leave action must reject inactive sessions before invoking the server"
+)
 assert 'if classIsAvailable and beginClass == nil then' in client
 assert 'attendButton.Text = "Connecting…"' in client
 assert 'attendButton.Text = "Attend " .. CLASS_NAMES[periodId]' in client

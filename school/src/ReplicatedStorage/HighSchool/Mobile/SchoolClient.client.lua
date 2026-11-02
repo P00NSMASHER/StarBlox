@@ -174,6 +174,8 @@ local function makeButton(parent, name, text)
     local button = Instance.new("TextButton")
     button.Name = name
     button.Size = UDim2.new(0.48, 0, 0, 44)
+    button.BackgroundColor3 = Color3.fromRGB(20, 38, 67)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.TextSize = 18
     button.Text = text
     button.Parent = parent
@@ -280,10 +282,14 @@ local function answerFailureMessage(response, invokeError)
     end
 
     local reason = response.reason
+    if reason == "CLASS_PERIOD_ENDED" then
+        local endedClassName = CLASS_NAMES[response.classId] or "Class"
+        local endedLocationName = locationDisplayName(response.expectedLocationId or response.classId)
+        return endedClassName .. " ended at " .. endedLocationName .. ". Check Up next."
+    end
     if reason == "SESSION_NOT_ACTIVE"
         or reason == "UNKNOWN_SESSION"
         or reason == "SESSION_CLOSED"
-        or reason == "CLASS_PERIOD_ENDED"
     then
         return "Class ended. Back to free roam."
     end
@@ -509,6 +515,11 @@ attendButton.Activated:Connect(function()
 end)
 
 leaveButton.Activated:Connect(function()
+    if not currentSessionId then
+        statusLabel.Text = "No class session is active."
+        return
+    end
+
     local result = safeInvoke(leaveClass)
     if result and result.ok then
         finishSession("Back to free roam.", false)
@@ -541,12 +552,25 @@ task.spawn(function()
         local canAttend = classIsAvailable and currentSessionId == nil and beginClass ~= nil
         attendButton.Active = canAttend
         attendButton.AutoButtonColor = canAttend
+        attendButton.BackgroundTransparency = canAttend and 0 or 0.35
         if classIsAvailable and beginClass == nil then
             attendButton.Text = "Connecting…"
         elseif classIsAvailable then
             attendButton.Text = "Attend " .. CLASS_NAMES[periodId]
         else
             attendButton.Text = "Class Unavailable"
+        end
+
+        local canLeave = currentSessionId ~= nil and leaveClass ~= nil
+        leaveButton.Active = canLeave
+        leaveButton.AutoButtonColor = canLeave
+        leaveButton.BackgroundTransparency = canLeave and 0 or 0.35
+        if currentSessionId and leaveClass == nil then
+            leaveButton.Text = "Connecting…"
+        elseif currentSessionId then
+            leaveButton.Text = "Leave Class"
+        else
+            leaveButton.Text = "Free Roam"
         end
 
         local canOpenReportCard = currentSessionId == nil
