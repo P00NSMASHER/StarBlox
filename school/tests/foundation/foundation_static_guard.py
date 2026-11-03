@@ -575,4 +575,12 @@ for text in (config, clock, state, visual_theme, audio_theme, builder, service):
     for forbidden in ("BrookhavenWorldRuntime", "BrookhavenWorldBaseline", "BHW_", "PipsQuest", "MazeWorld"):
         assert forbidden not in text, f"retired runtime dependency found: {forbidden}"
 
+# Independently execute the full, already-merged PH08 Foundation guard.
+# The PH09 structural tests are additive, never a substitute for existing
+# accessibility, source-provenance or audio-priority checks.
+import runpy
+ph08_guard = ROOT / "tests" / "foundation" / "foundation_static_guard_ph08.py"
+assert ph08_guard.is_file(), "PH08 source guard must be preserved"
+runpy.run_path(str(ph08_guard), run_name="__main__")
+
 print("canonical foundation static guard: PASS")

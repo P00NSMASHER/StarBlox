@@ -481,6 +481,24 @@ assertEqual(dayEnd.periodId, "lunch", "lunch last second")
 assertEqual(dayEnd.locationId, "cafeteria", "lunch last-second location")
 assertEqual(dayEnd.secondsRemaining, 1, "lunch seconds remaining")
 
+-- Preserve PH01 original boundary assertions alongside PH09 audio tests.
+local arrivalStart = SchoolClock.getState(0)
+assertEqual(arrivalStart.dayIndex, 1, "arrival day")
+assertEqual(arrivalStart.periodId, "arrival", "arrival period")
+assertEqual(arrivalStart.secondsIntoPeriod, 0, "arrival start second")
+
+local arrivalEnd = SchoolClock.getState(59)
+assertEqual(arrivalEnd.periodId, "arrival", "arrival last second")
+assertEqual(arrivalEnd.secondsRemaining, 1, "arrival seconds remaining")
+
+local mathStart = SchoolClock.getState(60)
+assertEqual(mathStart.periodId, "math", "math boundary")
+assertEqual(mathStart.locationId, "math", "math location")
+assertEqual(mathStart.secondsIntoPeriod, 0, "math start second")
+
+local elaStart = SchoolClock.getState(240)
+assertEqual(elaStart.periodId, "ela", "ela boundary")
+
 local secondDay = SchoolClock.getState(SchoolClock.DAY_LENGTH_SECONDS)
 assertEqual(secondDay.dayIndex, 2, "day rollover")
 assertEqual(secondDay.periodId, "arrival", "day rollover period")
