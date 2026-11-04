@@ -1,34 +1,73 @@
+// StarBlox is retired. Guard against any accidental revival of Roblox publishers.
+// Historical publisher workflows remain available in Git at 74224d497b50be60c0530035b83ab7bd42b3d92d.
 import {strict as assert} from 'node:assert';
-import {readFileSync} from 'node:fs';
-const approved = {
-  "build-publish-full-maze-world.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - build-publish-full-maze-world.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=build-publish-full-maze-world.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "inspect-maze-world-live.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - inspect-maze-world-live.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=inspect-maze-world-live.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "publish-clean-brookhaven.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - publish-clean-brookhaven.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=publish-clean-brookhaven.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "publish-pip-high.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - publish-pip-high.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=publish-pip-high.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "publish-pips-quest.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - publish-pips-quest.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=publish-pips-quest.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "publish-pristine-maze-world.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - publish-pristine-maze-world.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=publish-pristine-maze-world.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "publish-rhs-exact.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - publish-rhs-exact.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=publish-rhs-exact.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "restart-pips-quest.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - restart-pips-quest.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=restart-pips-quest.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "verify-clean-brookhaven.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - verify-clean-brookhaven.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-clean-brookhaven.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "verify-maze-v133.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - verify-maze-v133.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-maze-v133.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "verify-pips-quest.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - verify-pips-quest.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-pips-quest.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "verify-restart-pips-quest.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - verify-restart-pips-quest.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-restart-pips-quest.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n",
-  "verify-rhs-exact-live-v5.yml": "# Retired StarBlox Roblox workflow (historical source preserved in Git).\n# This read-only audit entry cannot publish, restart servers, or use Roblox credentials.\nname: Retired Roblox audit - verify-rhs-exact-live-v5.yml\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  retirement-status:\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    timeout-minutes: 2\n    steps:\n      - name: Confirm retired route remains inert\n        shell: bash\n        run: |\n          printf '%s\\n' 'ROBLOX_PUBLICATION_DISABLED=TRUE' 'RETIRED_WORKFLOW=verify-rhs-exact-live-v5.yml' 'NO_EXTERNAL_ACTION_PERMITTED=TRUE'\n"
-};
-let negative = 0;
-for (const [filename, exact] of Object.entries(approved)) {
-  const actual = readFileSync(new URL('../.github/workflows/'+filename, import.meta.url), 'utf8');
-  assert.equal(actual, exact, 'Retired workflow changed from approved inert source: '+filename);
-  assert.match(actual, /permissions:\n  contents: read/);
-  assert.doesNotMatch(actual, /secrets\.|ROBLOX_OPEN_CLOUD_API_KEY|apis\.roblox\.com|\bpush:|\bschedule:|\bcurl\b|\bPOST\b|restartServers|\buses:/);
-  for (const mutated of [
-    actual.replace('workflow_dispatch:', 'push:'),
-    actual.replace('contents: read', 'contents: write'),
-    actual.replace('timeout-minutes: 2', 'timeout-minutes: 20'),
-    actual + '\n  secret: hidden\n',
-    actual + '\n  run: curl -X POST https://apis.roblox.com/\n'
-  ]) { assert.notEqual(mutated, exact); negative++; }
+import {readdirSync,readFileSync,existsSync,lstatSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {dirname,join} from 'node:path';
+
+const root=dirname(dirname(fileURLToPath(import.meta.url)));
+const workflowDir=join(root,'.github','workflows');
+const allowed=new Set(['retired-roblox-quarantine.yml','school-day-foundation-ci.yml']);
+const oldPublishers=new Set([
+  'build-brookhaven-compat.yml',
+  'build-publish-full-maze-world.yml',
+  'inspect-maze-world-live.yml',
+  'publish-clean-brookhaven.yml',
+  'publish-pip-high.yml',
+  'publish-pips-quest.yml',
+  'publish-pristine-maze-world.yml',
+  'publish-rhs-exact.yml',
+  'restart-pips-quest.yml',
+  'verify-clean-brookhaven.yml',
+  'verify-maze-v133.yml',
+  'verify-pips-quest.yml',
+  'verify-restart-pips-quest.yml',
+  'verify-rhs-exact-live-v5.yml'
+]);
+
+function verify(files) {
+  assert.deepEqual([...Object.keys(files)].sort(),[...allowed].sort(),
+    'Retired StarBlox may retain only its retirement quarantine and read-only source CI.');
+  for(const [filename,actual] of Object.entries(files)){
+    assert.match(actual,/^permissions:\s*\n\s{2}contents:\s*read\s*$/m,filename+': require read-only GitHub token');
+    assert.doesNotMatch(actual,/\b(contents|actions|deployments|packages|id-token|pull-requests):\s*write\b/i,
+      filename+': write capability prohibited');
+    assert.doesNotMatch(actual,/^\s{2}schedule\s*:/m,filename+': schedule prohibited');
+    assert.doesNotMatch(actual,/\bsecrets\s*\.\s*[A-Za-z_]|ROBLOX_OPEN_CLOUD_API_KEY|apis\.roblox\.com|restartServers|uploadPlace|publishPlace/i,
+      filename+': Roblox publisher/credential path prohibited');
+    assert.doesNotMatch(actual,/(?:curl|wget)\s+.{0,100}(?:POST|PUT|PATCH|DELETE)\b/i,
+      filename+': external mutation prohibited');
+  }
+  assert.match(files['retired-roblox-quarantine.yml'],/node scripts\/assert-retired-roblox-workflows\.mjs/,
+    'retirement guard must execute this checker');
+  assert.match(files['retired-roblox-quarantine.yml'],/github\.event\.pull_request\.head\.sha/,
+    'retirement guard must inspect exact PR-head source');
+  assert.match(files['school-day-foundation-ci.yml'],/persist-credentials:\s*false/,
+    'historical read-only School Day CI cannot persist credentials');
 }
-assert.equal(Object.keys(approved).length, 13);
-assert.equal(negative, 65);
-console.log('PASS: 13 retired secret-bearing Roblox workflows inert; 65 negative mutations rejected; history retained');
+
+const sourceFiles={};
+for(const filename of readdirSync(workflowDir)){
+  const file=join(workflowDir,filename);
+  assert(lstatSync(file).isFile()&&!lstatSync(file).isSymbolicLink(),
+    'Workflow symlink or non-file is forbidden');
+  sourceFiles[filename]=readFileSync(file,'utf8');
+}
+for(const old of oldPublishers)assert(!existsSync(join(workflowDir,old)),
+  'Retired publisher file reappeared: '+old);
+verify(sourceFiles);
+let negative=0;
+const reject=(modified)=>{
+  assert.throws(()=>verify(modified));
+  negative++;
+};
+for(const old of oldPublishers){
+  reject({...sourceFiles,[old]:'name: reactivated\non:\n  workflow_dispatch:\n'});
+}
+for(const name of allowed){
+  reject({...sourceFiles,[name]:sourceFiles[name].replace('contents: read','contents: write')});
+  reject({...sourceFiles,[name]:sourceFiles[name]+'\non:\n  schedule:\n    - cron: "* * * * *"\n'});
+  reject({...sourceFiles,[name]:sourceFiles[name]+'\nrun: curl -X POST https://apis.roblox.com\n'});
+}
+assert.equal(negative,20);
+console.log('PASS: 14 retired workflow definitions absent; 2 read-only guards retained; 20 adversarial reactivation attempts rejected.');
